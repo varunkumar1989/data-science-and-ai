@@ -1,0 +1,200 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost · Stats &amp; ML Lesson 19 · Data Science &amp; AI Handbook</title><meta name="description" content="The algorithm family that wins most tabular-data problems. Boosting intuition (AdaBoost to gradient boosting), fitting trees to residuals by hand, learning rate and number of trees, early stopping, scikit-learn&#x27;s HistGradientBoosting, XGBoost and LightGBM APIs and key hyperparameters, categorical features and CatBoost, and a tuned comparison on churn and house prices."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 19</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class="on"><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-19">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 19 of 19</div><h1>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</h1>
+<p class="sum">The algorithm family that wins most tabular-data problems. Boosting intuition (AdaBoost to gradient boosting), fitting trees to residuals by hand, learning rate and number of trees, early stopping, scikit-learn's HistGradientBoosting, XGBoost and LightGBM APIs and key hyperparameters, categorical features and CatBoost, and a tuned comparison on churn and house prices.</p><div class="tags"><span class="tag live">● ML track (added)</span><span class="tag new">✦ XGBoost 3.x · LightGBM 4.x · scikit-learn 1.7+</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_19_Ensembles_II_Gradient_Boosting_XGBoost_LightGBM_and_CatBoost.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-19">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain sequential boosting and how gradient boosting fits trees to residuals (gradients)</li><li>Implement a few boosting rounds by hand to see the mechanism</li><li>Tune learning rate, number of trees, depth, subsampling and regularisation with early stopping</li><li>Use HistGradientBoosting, XGBoost and LightGBM with native categorical handling</li><li>Decide when boosting is worth its extra complexity</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/telecom_churn.csv" download>telecom_churn.csv</a><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a></div></div></div>
+<div class="content"><h2 id="boosting-learn-from-mistakes">Boosting: learn from mistakes</h2>
+<p>Bagging trains trees <strong>independently</strong> and averages them (reduces variance). <strong>Boosting</strong> trains small trees <strong>sequentially</strong>: each new tree focuses on what the current ensemble gets wrong (reduces bias).</p>
+<figure class="fig"><img src="../img/ml-19-01.png" alt="Gradient boosting adds trees one at a time, each correcting the remaining error." loading="lazy"><figcaption>Gradient boosting adds trees one at a time, each correcting the remaining error.</figcaption></figure>
+<ul>
+<li><strong>AdaBoost</strong> (1995) reweights misclassified rows so the next learner focuses on them.</li>
+<li><strong>Gradient boosting</strong> (Friedman, 2001) fits each new tree to the <strong>negative gradient of the loss</strong>; for squared error, that is simply the residual.</li>
+</ul>
+<figure class="math"><img src="../img/ml-19-math-3ad91ae2.png" alt="F_m(x) = F_{m-1}(x) + \nu \, h_m(x), \qquad h_m \approx -\frac{\partial L(y, F_{m-1})}{\partial F_{m-1}}" loading="lazy"></figure>
+<h2 id="boosting-by-hand">Boosting by hand</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> sklearn.tree <span class="hl-k">import</span> DecisionTreeRegressor
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_absolute_error
+h = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;house_prices.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;area_sqft&quot;</span>]); h = h[<span class="hl-f">h.price_lakh.between</span>(<span class="hl-n">5</span>, <span class="hl-n">300</span>)]
+Xh = <span class="hl-f">pd.get_dummies</span>(<span class="hl-f">h.drop</span>(columns=[<span class="hl-s">&quot;house_id&quot;</span>, <span class="hl-s">&quot;price_lakh&quot;</span>]), drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float); yh = h.price_lakh
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(Xh, yh, test_size=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>)
+lr, pred_tr, pred_te = <span class="hl-n">0.3</span>, <span class="hl-f">np.full</span>(<span class="hl-f">len</span>(ytr), <span class="hl-f">ytr.mean</span>()), <span class="hl-f">np.full</span>(<span class="hl-f">len</span>(yte), <span class="hl-f">ytr.mean</span>())
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;round 0 (mean only): test MAE {mean_absolute_error(yte, pred_te):.2f}&quot;</span>)
+<span class="hl-k">for</span> m <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">31</span>):
+    resid = ytr - pred_tr                                      <span class="hl-c"># negative gradient of squared error</span>
+    tree = <span class="hl-f">DecisionTreeRegressor</span>(max_depth=<span class="hl-n">3</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, resid)
+    pred_tr += lr * <span class="hl-f">tree.predict</span>(Xtr); pred_te += lr * <span class="hl-f">tree.predict</span>(Xte)
+    <span class="hl-k">if</span> m <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>, <span class="hl-n">10</span>, <span class="hl-n">30</span>): <span class="hl-f">print</span>(<span class="hl-s">f&quot;round {m:2d}: test MAE {mean_absolute_error(yte, pred_te):.2f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">round 0 (mean only): test MAE 25.00
+round  1: test MAE 19.07
+round  2: test MAE 15.39
+round  5: test MAE 10.61
+round 10: test MAE 8.01
+round 30: test MAE 6.95</pre></div>
+<p>Thirty shallow trees, each correcting the last, beat a single deep tree.</p>
+<h2 id="the-learning-rate-and-number-of-trees">The learning rate and number of trees</h2>
+<figure class="fig"><img src="../img/ml-19-02.png" alt="Validation error by boosting round for different learning rates: small rates need more trees but often reach lower error; too many rounds can overfit." loading="lazy"><figcaption>Validation error by boosting round for different learning rates: small rates need more trees but often reach lower error; too many rounds can overfit.</figcaption></figure>
+<p>Unlike random forests, boosting <strong>can overfit</strong> with too many rounds. Use a small learning rate (0.01–0.1) with <strong>early stopping</strong> on a validation set.</p>
+<h2 id="scikit-learn-histgradientboosting">scikit-learn HistGradientBoosting</h2>
+<p>The fast, modern implementation in scikit-learn (inspired by LightGBM): bins features into histograms, handles missing values and categorical features natively, supports early stopping.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> HistGradientBoostingClassifier
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> roc_auc_score
+tc = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;telecom_churn.csv&quot;</span>)
+Xc = <span class="hl-f">tc.drop</span>(columns=[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;churn&quot;</span>, <span class="hl-s">&quot;total_charges&quot;</span>]); yc = (tc.churn == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-k">for</span> col <span class="hl-k">in</span> [<span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;internet_service&quot;</span>, <span class="hl-s">&quot;payment_method&quot;</span>]: Xc[col] = Xc[col].<span class="hl-f">astype</span>(<span class="hl-s">&quot;category&quot;</span>)
+Xa, Xb, ya, yb = <span class="hl-f">train_test_split</span>(Xc, yc, test_size=<span class="hl-n">0.3</span>, stratify=yc, random_state=<span class="hl-n">1</span>)
+hgb = <span class="hl-f">HistGradientBoostingClassifier</span>(learning_rate=<span class="hl-n">0.05</span>, max_iter=<span class="hl-n">1000</span>, max_depth=<span class="hl-k">None</span>, max_leaf_nodes=<span class="hl-n">15</span>, min_samples_leaf=<span class="hl-n">40</span>, l2_regularization=<span class="hl-n">1.0</span>,
+                                     categorical_features=<span class="hl-s">&quot;from_dtype&quot;</span>, early_stopping=<span class="hl-k">True</span>, validation_fraction=<span class="hl-n">0.15</span>, n_iter_no_change=<span class="hl-n">30</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xa, ya)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;HistGradientBoosting: stopped after {hgb.n_iter_} trees | test AUC {roc_auc_score(yb, hgb.predict_proba(Xb)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">HistGradientBoosting: stopped after 87 trees | test AUC 0.806</pre></div>
+<h2 id="xgboost">XGBoost</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> xgboost <span class="hl-k">as</span> xgb
+Xa_tr, Xa_va, ya_tr, ya_va = <span class="hl-f">train_test_split</span>(Xa, ya, test_size=<span class="hl-n">0.2</span>, stratify=ya, random_state=<span class="hl-n">0</span>)
+xg = <span class="hl-f">xgb.XGBClassifier</span>(n_estimators=<span class="hl-n">2000</span>, learning_rate=<span class="hl-n">0.03</span>, max_depth=<span class="hl-n">3</span>, subsample=<span class="hl-n">0.8</span>, colsample_bytree=<span class="hl-n">0.8</span>, min_child_weight=<span class="hl-n">5</span>, reg_lambda=<span class="hl-n">1.0</span>,
+                       enable_categorical=<span class="hl-k">True</span>, tree_method=<span class="hl-s">&quot;hist&quot;</span>, eval_metric=<span class="hl-s">&quot;auc&quot;</span>, early_stopping_rounds=<span class="hl-n">100</span>, random_state=<span class="hl-n">0</span>)
+<span class="hl-f">xg.fit</span>(Xa_tr, ya_tr, eval_set=[(Xa_va, ya_va)], verbose=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;XGBoost {xgb.__version__}: best iteration {xg.best_iteration} | test AUC {roc_auc_score(yb, xg.predict_proba(Xb)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">XGBoost 3.4.1: best iteration 6 | test AUC 0.806</pre></div>
+<h2 id="lightgbm">LightGBM</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> lightgbm <span class="hl-k">as</span> lgb
+lg = <span class="hl-f">lgb.LGBMClassifier</span>(n_estimators=<span class="hl-n">2000</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">15</span>, min_child_samples=<span class="hl-n">40</span>, subsample=<span class="hl-n">0.8</span>, subsample_freq=<span class="hl-n">1</span>, colsample_bytree=<span class="hl-n">0.8</span>, reg_lambda=<span class="hl-n">1.0</span>, random_state=<span class="hl-n">0</span>, verbose=-<span class="hl-n">1</span>)
+<span class="hl-f">lg.fit</span>(Xa_tr, ya_tr, eval_set=[(Xa_va, ya_va)], eval_metric=<span class="hl-s">&quot;auc&quot;</span>, callbacks=[<span class="hl-f">lgb.early_stopping</span>(<span class="hl-n">100</span>, verbose=<span class="hl-k">False</span>)])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;LightGBM {lgb.__version__}: best iteration {lg.best_iteration_} | test AUC {roc_auc_score(yb, lg.predict_proba(Xb)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">LightGBM 4.7.0: best iteration 11 | test AUC 0.809</pre></div>
+<p>Early stopping chose very few trees for XGBoost and LightGBM here: with 2,000 training rows and a simple signal, validation AUC peaks early. On larger datasets the best iteration is typically in the hundreds or thousands.</p>
+<p>LightGBM grows trees <strong>leaf-wise</strong> (it splits the leaf with the biggest gain), which is fast and accurate on large data; control complexity with <code>num_leaves</code> and <code>min_child_samples</code>. <strong>CatBoost</strong> uses ordered target statistics for categorical features and symmetric trees; it is often the best choice when there are many high-cardinality categories (<code>pip install catboost</code>).</p>
+<h2 id="key-hyperparameters-cheat-sheet">Key hyperparameters (cheat sheet)</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Idea</th>
+<th>XGBoost</th>
+<th>LightGBM</th>
+<th>HistGradientBoosting</th>
+<th>Typical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number of trees</td>
+<td><code>n_estimators</code></td>
+<td><code>n_estimators</code></td>
+<td><code>max_iter</code></td>
+<td>Large + early stopping</td>
+</tr>
+<tr>
+<td>Step size</td>
+<td><code>learning_rate</code></td>
+<td><code>learning_rate</code></td>
+<td><code>learning_rate</code></td>
+<td>0.01–0.1</td>
+</tr>
+<tr>
+<td>Tree size</td>
+<td><code>max_depth</code></td>
+<td><code>num_leaves</code>, <code>max_depth</code></td>
+<td><code>max_leaf_nodes</code>, <code>max_depth</code></td>
+<td>depth 3–8 / 15–63 leaves</td>
+</tr>
+<tr>
+<td>Leaf size</td>
+<td><code>min_child_weight</code></td>
+<td><code>min_child_samples</code></td>
+<td><code>min_samples_leaf</code></td>
+<td>5–100</td>
+</tr>
+<tr>
+<td>Row sampling</td>
+<td><code>subsample</code></td>
+<td><code>subsample</code> (+ <code>subsample_freq</code>)</td>
+<td>—</td>
+<td>0.6–0.9</td>
+</tr>
+<tr>
+<td>Column sampling</td>
+<td><code>colsample_bytree</code></td>
+<td><code>colsample_bytree</code></td>
+<td><code>max_features</code></td>
+<td>0.5–0.9</td>
+</tr>
+<tr>
+<td>Regularisation</td>
+<td><code>reg_lambda</code>, <code>reg_alpha</code>, <code>gamma</code></td>
+<td><code>reg_lambda</code>, <code>reg_alpha</code></td>
+<td><code>l2_regularization</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Imbalance</td>
+<td><code>scale_pos_weight</code></td>
+<td><code>is_unbalance</code>, <code>scale_pos_weight</code></td>
+<td><code>class_weight</code></td>
+<td>ratio of negatives to positives</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tuning recipe: fix a learning rate (0.05), early-stop the number of trees, tune tree size and leaf size, then sampling and regularisation (Optuna works well), and finally lower the learning rate and raise trees for a last bit of accuracy.</p>
+<h2 id="comparison-on-two-problems">Comparison on two problems</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> cross_val_score, StratifiedKFold, KFold
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression, Ridge
+<span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> RandomForestClassifier, RandomForestRegressor, HistGradientBoostingRegressor
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler
+Xd = <span class="hl-f">pd.get_dummies</span>(Xc, drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float)
+cv = <span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>)
+cls = {<span class="hl-s">&quot;logistic regression&quot;</span>: <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>)), <span class="hl-s">&quot;random forest&quot;</span>: <span class="hl-f">RandomForestClassifier</span>(<span class="hl-n">400</span>, min_samples_leaf=<span class="hl-n">20</span>, random_state=<span class="hl-n">0</span>, n_jobs=-<span class="hl-n">1</span>),
+       <span class="hl-s">&quot;HistGradientBoosting&quot;</span>: <span class="hl-f">HistGradientBoostingClassifier</span>(learning_rate=<span class="hl-n">0.05</span>, max_iter=<span class="hl-n">200</span>, max_leaf_nodes=<span class="hl-n">15</span>, min_samples_leaf=<span class="hl-n">40</span>, random_state=<span class="hl-n">0</span>),
+       <span class="hl-s">&quot;XGBoost&quot;</span>: <span class="hl-f">xgb.XGBClassifier</span>(n_estimators=<span class="hl-n">300</span>, learning_rate=<span class="hl-n">0.03</span>, max_depth=<span class="hl-n">3</span>, subsample=<span class="hl-n">0.8</span>, colsample_bytree=<span class="hl-n">0.8</span>, random_state=<span class="hl-n">0</span>),
+       <span class="hl-s">&quot;LightGBM&quot;</span>: <span class="hl-f">lgb.LGBMClassifier</span>(n_estimators=<span class="hl-n">300</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">15</span>, min_child_samples=<span class="hl-n">40</span>, random_state=<span class="hl-n">0</span>, verbose=-<span class="hl-n">1</span>)}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Churn (5-fold ROC-AUC):&quot;</span>)
+<span class="hl-k">for</span> n, m <span class="hl-k">in</span> <span class="hl-f">cls.items</span>(): s = <span class="hl-f">cross_val_score</span>(m, Xd, yc, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>); <span class="hl-f">print</span>(<span class="hl-s">f&quot;  {n:22s} {s.mean():.3f} ± {s.std():.3f}&quot;</span>)
+reg = {<span class="hl-s">&quot;ridge&quot;</span>: <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">Ridge</span>()), <span class="hl-s">&quot;random forest&quot;</span>: <span class="hl-f">RandomForestRegressor</span>(<span class="hl-n">400</span>, min_samples_leaf=<span class="hl-n">2</span>, max_features=<span class="hl-n">0.6</span>, random_state=<span class="hl-n">0</span>, n_jobs=-<span class="hl-n">1</span>),
+       <span class="hl-s">&quot;HistGradientBoosting&quot;</span>: <span class="hl-f">HistGradientBoostingRegressor</span>(learning_rate=<span class="hl-n">0.05</span>, max_iter=<span class="hl-n">500</span>, random_state=<span class="hl-n">0</span>),
+       <span class="hl-s">&quot;XGBoost&quot;</span>: <span class="hl-f">xgb.XGBRegressor</span>(n_estimators=<span class="hl-n">600</span>, learning_rate=<span class="hl-n">0.05</span>, max_depth=<span class="hl-n">4</span>, subsample=<span class="hl-n">0.8</span>, colsample_bytree=<span class="hl-n">0.8</span>, random_state=<span class="hl-n">0</span>),
+       <span class="hl-s">&quot;LightGBM&quot;</span>: <span class="hl-f">lgb.LGBMRegressor</span>(n_estimators=<span class="hl-n">600</span>, learning_rate=<span class="hl-n">0.05</span>, num_leaves=<span class="hl-n">15</span>, random_state=<span class="hl-n">0</span>, verbose=-<span class="hl-n">1</span>)}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;House prices (5-fold MAE, ₹ lakh):&quot;</span>)
+<span class="hl-k">for</span> n, m <span class="hl-k">in</span> <span class="hl-f">reg.items</span>(): s = -<span class="hl-f">cross_val_score</span>(m, Xh, yh, cv=<span class="hl-f">KFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>), scoring=<span class="hl-s">&quot;neg_mean_absolute_error&quot;</span>); <span class="hl-f">print</span>(<span class="hl-s">f&quot;  {n:22s} {s.mean():.2f} ± {s.std():.2f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Churn (5-fold ROC-AUC):
+  logistic regression    0.812 ± 0.015
+  random forest          0.798 ± 0.014
+  HistGradientBoosting   0.790 ± 0.016
+  XGBoost                0.804 ± 0.012
+  LightGBM               0.791 ± 0.010
+House prices (5-fold MAE, ₹ lakh):
+  ridge                  6.12 ± 0.25
+  random forest          6.95 ± 0.36
+  HistGradientBoosting   6.79 ± 0.25
+  XGBoost                6.48 ± 0.31
+  LightGBM               6.73 ± 0.26</pre></div>
+<p>Read results honestly: on these clean, mostly additive datasets, linear models are competitive. Boosting's advantage grows with more data, more features, interactions, missing values and messy real-world signals, which is why it dominates tabular competitions and industry credit, fraud, pricing and ranking models.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Boosting adds shallow trees sequentially; gradient boosting fits each tree to the negative gradient (residuals for squared error).</li>
+<li>The learning rate scales each tree; small rates need more trees; use early stopping because boosting can overfit.</li>
+<li>HistGradientBoosting, XGBoost and LightGBM are fast histogram-based implementations with native missing-value and categorical support; CatBoost excels with many categories.</li>
+<li>Tune trees (via early stopping), tree/leaf size, sampling and regularisation.</li>
+<li>Always compare with simple baselines; boosting shines on large, messy, interaction-rich tabular data.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-19-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> How does boosting differ from bagging?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Boosting trains models sequentially, each fixing the previous errors; bagging trains them independently</button><button type="button" class="opt" data-ok="0"><i>B</i>Boosting uses bigger trees</button><button type="button" class="opt" data-ok="0"><i>C</i>Bagging cannot do regression</button><button type="button" class="opt" data-ok="0"><i>D</i>They are the same</button></div><div class="qexp"><b>Answer: A.</b> Boosting reduces bias; bagging reduces variance.</div></div><div class="qq"><p class="qtext"><b>2.</b> For squared error, what does each new tree in gradient boosting fit?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The residuals of the current ensemble</button><button type="button" class="opt" data-ok="0"><i>B</i>The original target</button><button type="button" class="opt" data-ok="0"><i>C</i>Random noise</button><button type="button" class="opt" data-ok="0"><i>D</i>The features</button></div><div class="qexp"><b>Answer: A.</b> Residuals are the negative gradient.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does a smaller learning rate require?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>More trees, often with better final accuracy</button><button type="button" class="opt" data-ok="0"><i>B</i>Fewer trees</button><button type="button" class="opt" data-ok="0"><i>C</i>No early stopping</button><button type="button" class="opt" data-ok="0"><i>D</i>Deeper trees only</button></div><div class="qexp"><b>Answer: A.</b> Typical rates are 0.01–0.1.</div></div><div class="qq"><p class="qtext"><b>4.</b> Can gradient boosting overfit by adding too many trees?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Yes; use early stopping on validation data</button><button type="button" class="opt" data-ok="0"><i>B</i>No, never</button><button type="button" class="opt" data-ok="0"><i>C</i>Only for classification</button><button type="button" class="opt" data-ok="0"><i>D</i>Only with small learning rates</button></div><div class="qexp"><b>Answer: A.</b> Unlike random forests.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does LightGBM's <code>num_leaves</code> control?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The complexity of each leaf-wise tree</button><button type="button" class="opt" data-ok="0"><i>B</i>The number of trees</button><button type="button" class="opt" data-ok="0"><i>C</i>The learning rate</button><button type="button" class="opt" data-ok="0"><i>D</i>Row sampling</button></div><div class="qexp"><b>Answer: A.</b> Larger = more complex.</div></div><div class="qq"><p class="qtext"><b>6.</b> When is CatBoost particularly useful?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Many high-cardinality categorical features</button><button type="button" class="opt" data-ok="0"><i>B</i>Images</button><button type="button" class="opt" data-ok="0"><i>C</i>Tiny datasets only</button><button type="button" class="opt" data-ok="0"><i>D</i>Linear relationships</button></div><div class="qexp"><b>Answer: A.</b> Ordered target statistics handle categories well.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Tune LightGBM on the bank loans data with early stopping; compare with logistic regression. (2) Use <code>scale_pos_weight</code> in XGBoost for the churn data and report recall at 0.5. (3) Plot validation AUC against boosting rounds from <code>xg.evals_result()</code>.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">b = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;bank_loans.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;default&quot;</span>]); fb = [<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;ed&quot;</span>, <span class="hl-s">&quot;employ&quot;</span>, <span class="hl-s">&quot;address&quot;</span>, <span class="hl-s">&quot;income&quot;</span>, <span class="hl-s">&quot;debtinc&quot;</span>, <span class="hl-s">&quot;creddebt&quot;</span>, <span class="hl-s">&quot;othdebt&quot;</span>]
+<span class="hl-f">print</span>(<span class="hl-f">cross_val_score</span>(<span class="hl-f">lgb.LGBMClassifier</span>(n_estimators=<span class="hl-n">300</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">7</span>, min_child_samples=<span class="hl-n">30</span>, verbose=-<span class="hl-n">1</span>), b[fb], <span class="hl-f">b.default.astype</span>(int), cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">mean</span>())
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> recall_score
+w = (ya == <span class="hl-n">0</span>).<span class="hl-f">sum</span>() / (ya == <span class="hl-n">1</span>).<span class="hl-f">sum</span>()
+xw = <span class="hl-f">xgb.XGBClassifier</span>(n_estimators=<span class="hl-n">300</span>, learning_rate=<span class="hl-n">0.03</span>, max_depth=<span class="hl-n">3</span>, scale_pos_weight=w, enable_categorical=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(Xa, ya)
+<span class="hl-f">print</span>(<span class="hl-f">recall_score</span>(yb, <span class="hl-f">xw.predict</span>(Xb)))
+<span class="hl-f">plt.plot</span>(<span class="hl-f">xg.evals_result</span>()[<span class="hl-s">&quot;validation_0&quot;</span>][<span class="hl-s">&quot;auc&quot;</span>])</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain gradient boosting in simple terms.</strong>
+Start with a simple prediction, look at the errors, train a small tree to predict those errors, add a fraction of it, and repeat; the ensemble gradually corrects itself.</p>
+<p><strong>Q: XGBoost vs LightGBM vs random forest?</strong>
+Random forests average independent deep trees (robust, little tuning); XGBoost and LightGBM build trees sequentially with regularisation and histogram speed-ups; LightGBM grows leaf-wise and is usually fastest on large data.</p>
+<p><strong>Q: How do you prevent overfitting in boosting?</strong>
+Lower learning rate with early stopping, shallow trees, minimum leaf size, row and column subsampling, and L1/L2 regularisation.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-18-ensembles-i-bagging-and-random-forests.html"><small>← Previous</small><b>Ensembles I: Bagging and Random Forests</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#boosting-learn-from-mistakes">Boosting: learn from mistakes</a><a href="#boosting-by-hand">Boosting by hand</a><a href="#the-learning-rate-and-number-of-trees">The learning rate and number of trees</a><a href="#scikit-learn-histgradientboosting">scikit-learn HistGradientBoosting</a><a href="#xgboost">XGBoost</a><a href="#lightgbm">LightGBM</a><a href="#key-hyperparameters-cheat-sheet">Key hyperparameters (cheat sheet)</a><a href="#comparison-on-two-problems">Comparison on two problems</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
