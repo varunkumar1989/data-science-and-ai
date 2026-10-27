@@ -1,0 +1,216 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neural Networks and Deep Learning: From a Neuron to Transformers · Stats &amp; ML Lesson 26 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand the models behind modern AI. Neurons, weights and activation functions, forward pass and backpropagation, a two-layer network written from scratch in NumPy, multilayer perceptrons in scikit-learn on images and tabular data, training practice (learning rate, batches, epochs, early stopping, dropout), and a map of CNNs, RNNs, transformers and LLMs with PyTorch and Keras code."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 26</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class="on"><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-26">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 26 of 26</div><h1>Neural Networks and Deep Learning: From a Neuron to Transformers</h1>
+<p class="sum">Understand the models behind modern AI. Neurons, weights and activation functions, forward pass and backpropagation, a two-layer network written from scratch in NumPy, multilayer perceptrons in scikit-learn on images and tabular data, training practice (learning rate, batches, epochs, early stopping, dropout), and a map of CNNs, RNNs, transformers and LLMs with PyTorch and Keras code.</p><div class="tags"><span class="tag live">● ML track (added) · GenAI bridge</span><span class="tag new">✦ scikit-learn 1.7+ · PyTorch 2.x · Keras 3</span><span class="tag">Advanced</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_26_Neural_Networks_and_Deep_Learning_From_a_Neuron_to_Transformers.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-26">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain a neuron, layers, activation functions and the forward pass</li><li>Explain loss, gradients and backpropagation, and train a small network from scratch</li><li>Train and tune MLPs with scikit-learn and compare them with classical models</li><li>Apply practical training techniques: scaling, learning rate, batching, early stopping, regularisation</li><li>Describe CNNs, RNNs and transformers and where each is used</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/telecom_churn.csv" download>telecom_churn.csv</a></div></div></div>
+<div class="content"><h2 id="a-neuron">A neuron</h2>
+<p>An artificial <strong>neuron</strong> computes a weighted sum of its inputs plus a bias, then applies an <strong>activation function</strong>:</p>
+<figure class="math"><img src="../img/ml-26-math-bd081b55.png" alt="a = f\left(\sum_j w_j x_j + b\right)" loading="lazy"></figure>
+<p>With the sigmoid activation, one neuron <strong>is</strong> logistic regression. Stacking neurons in <strong>layers</strong> lets the network learn non-linear patterns.</p>
+<figure class="fig"><img src="../img/ml-26-01.png" alt="A multilayer perceptron: inputs, two hidden layers and an output. Every connection has a weight learned from data." loading="lazy"><figcaption>A multilayer perceptron: inputs, two hidden layers and an output. Every connection has a weight learned from data.</figcaption></figure>
+<h2 id="activation-functions">Activation functions</h2>
+<figure class="fig"><img src="../img/ml-26-02.png" alt="Common activation functions. ReLU is the default for hidden layers; sigmoid and softmax are used for outputs." loading="lazy"><figcaption>Common activation functions. ReLU is the default for hidden layers; sigmoid and softmax are used for outputs.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Activation</th>
+<th>Where</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ReLU (max(0, z))</td>
+<td>Hidden layers</td>
+<td>Simple, fast, avoids vanishing gradients</td>
+</tr>
+<tr>
+<td>GELU, SiLU</td>
+<td>Hidden layers of transformers</td>
+<td>Smooth variants of ReLU</td>
+</tr>
+<tr>
+<td>Sigmoid</td>
+<td>Binary output</td>
+<td>Probability between 0 and 1</td>
+</tr>
+<tr>
+<td>Softmax</td>
+<td>Multiclass output</td>
+<td>Probabilities that sum to 1</td>
+</tr>
+<tr>
+<td>None (linear)</td>
+<td>Regression output</td>
+<td>Any real value</td>
+</tr>
+</tbody>
+</table></div>
+<p>Without non-linear activations, any stack of layers collapses into a single linear model.</p>
+<h2 id="how-networks-learn-backpropagation">How networks learn: backpropagation</h2>
+<ol>
+<li><strong>Forward pass:</strong> compute predictions layer by layer.</li>
+<li><strong>Loss:</strong> measure the error (cross-entropy for classification, MSE for regression).</li>
+<li><strong>Backward pass:</strong> use the chain rule to compute the gradient of the loss with respect to every weight (<strong>backpropagation</strong>).</li>
+<li><strong>Update:</strong> gradient descent step on every weight (lesson 11), usually with the <strong>Adam</strong> optimiser on mini-batches.</li>
+<li>Repeat for many <strong>epochs</strong> (passes over the data).</li>
+</ol>
+<h3 id="a-network-from-scratch">A network from scratch</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.datasets <span class="hl-k">import</span> make_moons
+X, y = <span class="hl-f">make_moons</span>(<span class="hl-n">600</span>, noise=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>); y = <span class="hl-f">y.reshape</span>(-<span class="hl-n">1</span>, <span class="hl-n">1</span>)
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+W1, b1 = <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span>, (<span class="hl-n">2</span>, <span class="hl-n">16</span>)) * <span class="hl-f">np.sqrt</span>(<span class="hl-n">2</span> / <span class="hl-n">2</span>), <span class="hl-f">np.zeros</span>((<span class="hl-n">1</span>, <span class="hl-n">16</span>))          <span class="hl-c"># He initialisation</span>
+W2, b2 = <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span>, (<span class="hl-n">16</span>, <span class="hl-n">1</span>)) * <span class="hl-f">np.sqrt</span>(<span class="hl-n">2</span> / <span class="hl-n">16</span>), <span class="hl-f">np.zeros</span>((<span class="hl-n">1</span>, <span class="hl-n">1</span>))
+sigmoid = <span class="hl-k">lambda</span> z: <span class="hl-n">1</span> / (<span class="hl-n">1</span> + <span class="hl-f">np.exp</span>(-z))
+lr, losses = <span class="hl-n">0.5</span>, []
+<span class="hl-k">for</span> epoch <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">2000</span>):
+    z1 = X @ W1 + b1; a1 = <span class="hl-f">np.maximum</span>(<span class="hl-n">0</span>, z1)                    <span class="hl-c"># forward: hidden layer (ReLU)</span>
+    p = <span class="hl-f">sigmoid</span>(a1 @ W2 + b2)                                    <span class="hl-c"># forward: output (sigmoid)</span>
+    loss = -<span class="hl-f">np.mean</span>(y * <span class="hl-f">np.log</span>(p + 1e-<span class="hl-n">9</span>) + (<span class="hl-n">1</span> - y) * <span class="hl-f">np.log</span>(<span class="hl-n">1</span> - p + 1e-<span class="hl-n">9</span>)); <span class="hl-f">losses.append</span>(loss)
+    dz2 = (p - y) / <span class="hl-f">len</span>(X)                                       <span class="hl-c"># backward: output gradient</span>
+    dW2, db2 = a1.T @ dz2, <span class="hl-f">dz2.sum</span>(<span class="hl-n">0</span>, keepdims=<span class="hl-k">True</span>)
+    dz1 = (dz2 @ W2.T) * (z1 &gt; <span class="hl-n">0</span>)                                <span class="hl-c"># chain rule through ReLU</span>
+    dW1, db1 = X.T @ dz1, <span class="hl-f">dz1.sum</span>(<span class="hl-n">0</span>, keepdims=<span class="hl-k">True</span>)
+    W1 -= lr * dW1; b1 -= lr * db1; W2 -= lr * dW2; b2 -= lr * db2
+acc = ((p &gt; <span class="hl-n">0.5</span>) == y).<span class="hl-f">mean</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;loss: epoch 0 {losses[0]:.3f} → epoch 200 {losses[200]:.3f} → epoch 2000 {losses[-1]:.3f} | training accuracy {acc:.3f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;parameters:&quot;</span>, W1.size + b1.size + W2.size + b2.size)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">loss: epoch 0 0.719 → epoch 200 0.196 → epoch 2000 0.063 | training accuracy 0.977
+parameters: 65</pre></div>
+<figure class="fig"><img src="../img/ml-26-03.png" alt="Decision boundary learned by the 16-neuron network written above: a curved boundary that a linear model cannot draw." loading="lazy"><figcaption>Decision boundary learned by the 16-neuron network written above: a curved boundary that a linear model cannot draw.</figcaption></figure>
+<p>These 30 lines are the core of every deep-learning library; frameworks add automatic differentiation, GPUs, better optimisers and building blocks.</p>
+<h2 id="mlps-in-scikit-learn">MLPs in scikit-learn</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.neural_network <span class="hl-k">import</span> MLPClassifier
+<span class="hl-k">from</span> sklearn.datasets <span class="hl-k">import</span> load_digits
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split, cross_val_score
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+digits = <span class="hl-f">load_digits</span>()
+Xa, Xb, ya, yb = <span class="hl-f">train_test_split</span>(digits.data, digits.target, test_size=<span class="hl-n">0.3</span>, stratify=digits.target, random_state=<span class="hl-n">0</span>)
+<span class="hl-k">for</span> name, m <span class="hl-k">in</span> [(<span class="hl-s">&quot;logistic regression&quot;</span>, <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">3000</span>))),
+                (<span class="hl-s">&quot;MLP (64)&quot;</span>, <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">MLPClassifier</span>((<span class="hl-n">64</span>,), max_iter=<span class="hl-n">500</span>, random_state=<span class="hl-n">0</span>))),
+                (<span class="hl-s">&quot;MLP (128, 64), early stopping&quot;</span>, <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">MLPClassifier</span>((<span class="hl-n">128</span>, <span class="hl-n">64</span>), alpha=1e-<span class="hl-n">3</span>, early_stopping=<span class="hl-k">True</span>, max_iter=<span class="hl-n">500</span>, random_state=<span class="hl-n">0</span>)))]:
+    <span class="hl-f">m.fit</span>(Xa, ya); <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:32s} test accuracy {m.score(Xb, yb):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">logistic regression              test accuracy 0.972
+MLP (64)                         test accuracy 0.974
+MLP (128, 64), early stopping    test accuracy 0.974</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> sklearn.compose <span class="hl-k">import</span> ColumnTransformer
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> OneHotEncoder
+<span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> HistGradientBoostingClassifier
+tc = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;telecom_churn.csv&quot;</span>); Xc = <span class="hl-f">tc.drop</span>(columns=[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;churn&quot;</span>, <span class="hl-s">&quot;total_charges&quot;</span>]); yc = (tc.churn == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+pre = <span class="hl-f">ColumnTransformer</span>([(<span class="hl-s">&quot;n&quot;</span>, <span class="hl-f">StandardScaler</span>(), [<span class="hl-s">&quot;senior_citizen&quot;</span>, <span class="hl-s">&quot;tenure_months&quot;</span>, <span class="hl-s">&quot;monthly_charges&quot;</span>, <span class="hl-s">&quot;support_calls&quot;</span>]), (<span class="hl-s">&quot;c&quot;</span>, <span class="hl-f">OneHotEncoder</span>(), [<span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;internet_service&quot;</span>, <span class="hl-s">&quot;payment_method&quot;</span>])])
+<span class="hl-k">for</span> name, est <span class="hl-k">in</span> [(<span class="hl-s">&quot;logistic regression&quot;</span>, <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>)), (<span class="hl-s">&quot;MLP (32, 16)&quot;</span>, <span class="hl-f">MLPClassifier</span>((<span class="hl-n">32</span>, <span class="hl-n">16</span>), alpha=1e-<span class="hl-n">2</span>, early_stopping=<span class="hl-k">True</span>, max_iter=<span class="hl-n">1000</span>, random_state=<span class="hl-n">0</span>)),
+                  (<span class="hl-s">&quot;gradient boosting&quot;</span>, <span class="hl-f">HistGradientBoostingClassifier</span>(max_iter=<span class="hl-n">200</span>, learning_rate=<span class="hl-n">0.05</span>, random_state=<span class="hl-n">0</span>))]:
+    s = <span class="hl-f">cross_val_score</span>(<span class="hl-f">make_pipeline</span>(pre, est), Xc, yc, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>); <span class="hl-f">print</span>(<span class="hl-s">f&quot;churn {name:20s} AUC {s.mean():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">churn logistic regression  AUC 0.815
+churn MLP (32, 16)         AUC 0.802
+churn gradient boosting    AUC 0.782</pre></div>
+<p>Neural networks win on <strong>unstructured data</strong> (images, text, audio). On small tabular data, logistic regression and gradient boosting usually match or beat them with less tuning.</p>
+<h2 id="training-practice">Training practice</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Technique</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scale inputs</td>
+<td>Stable, fast optimisation</td>
+</tr>
+<tr>
+<td>Learning rate (and schedules)</td>
+<td>The single most important setting</td>
+</tr>
+<tr>
+<td>Mini-batches (32–512)</td>
+<td>Efficient GPU use, regularising noise</td>
+</tr>
+<tr>
+<td>Epochs + <strong>early stopping</strong></td>
+<td>Stop when validation loss stops improving</td>
+</tr>
+<tr>
+<td><strong>Dropout</strong></td>
+<td>Randomly switch off neurons in training: reduces overfitting</td>
+</tr>
+<tr>
+<td>Weight decay (L2)</td>
+<td>Penalise large weights (<code>alpha</code> in scikit-learn)</td>
+</tr>
+<tr>
+<td>Batch / layer normalisation</td>
+<td>Stabilise activations, allow higher learning rates</td>
+</tr>
+<tr>
+<td>Data augmentation</td>
+<td>Flip/crop images, paraphrase text: more data for free</td>
+</tr>
+<tr>
+<td>Transfer learning</td>
+<td>Start from a pre-trained model and fine-tune: the default today</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/ml-26-04.png" alt="Training vs validation loss: when validation loss starts rising the network is overfitting; early stopping keeps the best epoch." loading="lazy"><figcaption>Training vs validation loss: when validation loss starts rising the network is overfitting; early stopping keeps the best epoch.</figcaption></figure>
+<h2 id="deep-learning-architectures">Deep-learning architectures</h2>
+<figure class="fig"><img src="../img/ml-26-05.png" alt="The main architecture families and their typical data." loading="lazy"><figcaption>The main architecture families and their typical data.</figcaption></figure>
+<p><strong>Transformers</strong> (Vaswani et al., 2017, "Attention Is All You Need") let every token look at every other token through <strong>self-attention</strong>, train in parallel on GPUs and scale to billions of parameters. Pre-trained on huge text corpora to predict the next token, then instruction-tuned and aligned with human feedback, they became <strong>large language models</strong> (GenAI track).</p>
+<h2 id="pytorch-and-keras">PyTorch and Keras</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># PyTorch (pip install torch): the research and industry standard</span>
+<span class="hl-k">import</span> torch, torch.nn <span class="hl-k">as</span> nn
+model = <span class="hl-f">nn.Sequential</span>(<span class="hl-f">nn.Linear</span>(<span class="hl-n">64</span>, <span class="hl-n">128</span>), <span class="hl-f">nn.ReLU</span>(), <span class="hl-f">nn.Dropout</span>(<span class="hl-n">0.2</span>), <span class="hl-f">nn.Linear</span>(<span class="hl-n">128</span>, <span class="hl-n">10</span>))
+opt = <span class="hl-f">torch.optim.AdamW</span>(<span class="hl-f">model.parameters</span>(), lr=1e-<span class="hl-n">3</span>, weight_decay=1e-<span class="hl-n">4</span>)
+loss_fn = <span class="hl-f">nn.CrossEntropyLoss</span>()
+<span class="hl-k">for</span> epoch <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">20</span>):
+    <span class="hl-k">for</span> xb, yb <span class="hl-k">in</span> train_loader:                 <span class="hl-c"># mini-batches</span>
+        <span class="hl-f">opt.zero_grad</span>()
+        loss = <span class="hl-f">loss_fn</span>(<span class="hl-f">model</span>(xb), yb)
+        <span class="hl-f">loss.backward</span>()                          <span class="hl-c"># backpropagation (autograd)</span>
+        <span class="hl-f">opt.step</span>()                               <span class="hl-c"># Adam update</span></code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Keras 3 (pip install keras): high-level API on TensorFlow, JAX or PyTorch</span>
+<span class="hl-k">import</span> keras
+model = <span class="hl-f">keras.Sequential</span>([<span class="hl-f">keras.layers.Dense</span>(<span class="hl-n">128</span>, activation=<span class="hl-s">&quot;relu&quot;</span>), <span class="hl-f">keras.layers.Dropout</span>(<span class="hl-n">0.2</span>), <span class="hl-f">keras.layers.Dense</span>(<span class="hl-n">10</span>, activation=<span class="hl-s">&quot;softmax&quot;</span>)])
+<span class="hl-f">model.compile</span>(optimizer=<span class="hl-s">&quot;adam&quot;</span>, loss=<span class="hl-s">&quot;sparse_categorical_crossentropy&quot;</span>, metrics=[<span class="hl-s">&quot;accuracy&quot;</span>])
+<span class="hl-f">model.fit</span>(X_train, y_train, validation_split=<span class="hl-n">0.2</span>, epochs=<span class="hl-n">50</span>, callbacks=[<span class="hl-f">keras.callbacks.EarlyStopping</span>(patience=<span class="hl-n">5</span>, restore_best_weights=<span class="hl-k">True</span>)])</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Transfer learning with Hugging Face (pip install transformers): fine-tune a pre-trained model for sentiment</span>
+<span class="hl-k">from</span> transformers <span class="hl-k">import</span> pipeline
+clf = <span class="hl-f">pipeline</span>(<span class="hl-s">&quot;sentiment-analysis&quot;</span>, model=<span class="hl-s">&quot;distilbert-base-uncased-finetuned-sst-2-english&quot;</span>)
+<span class="hl-f">clf</span>([<span class="hl-s">&quot;Battery barely lasts half a day&quot;</span>, <span class="hl-s">&quot;Display is bright and sharp&quot;</span>])</code></pre></div>
+<p>Free GPUs for practice: Google Colab and Kaggle notebooks.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A neuron = weighted sum + activation; layers of neurons with non-linear activations learn complex functions.</li>
+<li>Training = forward pass, loss, backpropagation (chain rule), gradient-descent updates (Adam) over epochs and mini-batches.</li>
+<li>Use ReLU/GELU in hidden layers, sigmoid/softmax outputs for classification; scale inputs; regularise with early stopping, dropout and weight decay.</li>
+<li>Neural networks excel on images, text and audio; on small tabular data, gradient boosting and logistic regression are strong competitors.</li>
+<li>CNNs for images, transformers for sequences and language (LLMs); PyTorch, Keras and Hugging Face are the main tools; transfer learning is the default.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-26-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What happens without non-linear activation functions?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The whole network collapses to a linear model</button><button type="button" class="opt" data-ok="0"><i>B</i>It trains faster with better accuracy</button><button type="button" class="opt" data-ok="0"><i>C</i>It becomes a decision tree</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing changes</button></div><div class="qexp"><b>Answer: A.</b> Non-linearity is what gives depth its power.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does backpropagation compute?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Gradients of the loss with respect to every weight, using the chain rule</button><button type="button" class="opt" data-ok="0"><i>B</i>The predictions</button><button type="button" class="opt" data-ok="0"><i>C</i>The learning rate</button><button type="button" class="opt" data-ok="0"><i>D</i>The number of layers</button></div><div class="qexp"><b>Answer: A.</b> Gradient descent then updates the weights.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which output activation for a 10-class problem?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>ReLU</button><button type="button" class="opt" data-ok="1"><i>B</i>Softmax</button><button type="button" class="opt" data-ok="0"><i>C</i>None</button><button type="button" class="opt" data-ok="0"><i>D</i>tanh</button></div><div class="qexp"><b>Answer: B.</b> Probabilities that sum to 1.</div></div><div class="qq"><p class="qtext"><b>4.</b> Validation loss starts rising while training loss keeps falling. What is happening?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Overfitting; stop early or add regularisation</button><button type="button" class="opt" data-ok="0"><i>B</i>Underfitting</button><button type="button" class="opt" data-ok="0"><i>C</i>The learning rate is perfect</button><button type="button" class="opt" data-ok="0"><i>D</i>Data leakage for sure</button></div><div class="qexp"><b>Answer: A.</b> Early stopping keeps the best epoch.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which architecture is the basis of LLMs?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>CNN</button><button type="button" class="opt" data-ok="0"><i>B</i>RNN</button><button type="button" class="opt" data-ok="1"><i>C</i>Transformer</button><button type="button" class="opt" data-ok="0"><i>D</i>K-means</button></div><div class="qexp"><b>Answer: C.</b> Self-attention over tokens.</div></div><div class="qq"><p class="qtext"><b>6.</b> For a 2,000-row tabular churn dataset, which is usually a strong first choice?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Logistic regression or gradient boosting</button><button type="button" class="opt" data-ok="0"><i>B</i>A 50-layer CNN</button><button type="button" class="opt" data-ok="0"><i>C</i>An LLM fine-tune</button><button type="button" class="opt" data-ok="0"><i>D</i>An autoencoder</button></div><div class="qexp"><b>Answer: A.</b> Deep learning shines on unstructured data.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Change the hidden layer size of the NumPy network to 4 and 64: how do loss and boundary change? (2) Train an <code>MLPRegressor</code> on house prices and compare MAE with gradient boosting. (3) In Colab, train the PyTorch model above on the digits data.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.neural_network <span class="hl-k">import</span> MLPRegressor
+<span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> HistGradientBoostingRegressor
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_absolute_error
+h = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;house_prices.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;area_sqft&quot;</span>]); h = h[<span class="hl-f">h.price_lakh.between</span>(<span class="hl-n">5</span>, <span class="hl-n">300</span>)]
+Xh = <span class="hl-f">pd.get_dummies</span>(<span class="hl-f">h.drop</span>(columns=[<span class="hl-s">&quot;house_id&quot;</span>, <span class="hl-s">&quot;price_lakh&quot;</span>]), drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float)
+a, b, c, d = <span class="hl-f">train_test_split</span>(Xh, h.price_lakh, test_size=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>)
+mlp_r = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">MLPRegressor</span>((<span class="hl-n">64</span>, <span class="hl-n">32</span>), alpha=1e-<span class="hl-n">3</span>, max_iter=<span class="hl-n">3000</span>, early_stopping=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>)).<span class="hl-f">fit</span>(a, c)
+<span class="hl-f">print</span>(<span class="hl-f">mean_absolute_error</span>(d, <span class="hl-f">mlp_r.predict</span>(b)), <span class="hl-f">mean_absolute_error</span>(d, <span class="hl-f">HistGradientBoostingRegressor</span>().<span class="hl-f">fit</span>(a, c).<span class="hl-f">predict</span>(b)))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain how a neural network learns.</strong>
+It makes predictions with its current weights, measures the error with a loss function, computes how each weight affected the error through backpropagation, and adjusts the weights slightly in the direction that reduces the error, repeating over many batches and epochs.</p>
+<p><strong>Q: What is the vanishing gradient problem?</strong>
+In deep networks with sigmoid/tanh, gradients shrink as they pass backward through layers, so early layers learn very slowly; ReLU, residual connections and normalisation fix it.</p>
+<p><strong>Q: What is transfer learning?</strong>
+Reusing a model pre-trained on a large dataset as the starting point for a new task, fine-tuning some or all layers with much less data.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html"><small>← Previous</small><b>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#a-neuron">A neuron</a><a href="#activation-functions">Activation functions</a><a href="#how-networks-learn-backpropagation">How networks learn: backpropagation</a><a href="#mlps-in-scikit-learn">MLPs in scikit-learn</a><a href="#training-practice">Training practice</a><a href="#deep-learning-architectures">Deep-learning architectures</a><a href="#pytorch-and-keras">PyTorch and Keras</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
