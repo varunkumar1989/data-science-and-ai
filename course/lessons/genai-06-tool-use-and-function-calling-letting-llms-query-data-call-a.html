@@ -1,0 +1,244 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions · GenAI &amp; Agents Lesson 6 · Data Science &amp; AI Handbook</title><meta name="description" content="Connect a model to the outside world. How function calling works (tool definitions, JSON schemas, tool_use and tool_result blocks), the request–execute–respond loop, writing good tool descriptions, strict schemas and validation, parallel calls, error handling, server-side tools (web search, code execution), and safety controls, with a runnable sales-analytics assistant that answers questions by calling SQL and calculator tools."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 6</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class=""><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li class=""><a href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html" data-lid="genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li class=""><a href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html" data-lid="genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li class="on"><a href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html" data-lid="genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li class=""><a href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html" data-lid="genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-06">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 6 of 7</div><h1>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</h1>
+<p class="sum">Connect a model to the outside world. How function calling works (tool definitions, JSON schemas, tool_use and tool_result blocks), the request–execute–respond loop, writing good tool descriptions, strict schemas and validation, parallel calls, error handling, server-side tools (web search, code execution), and safety controls, with a runnable sales-analytics assistant that answers questions by calling SQL and calculator tools.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ Anthropic tool use, tool runner and strict schemas (2026)</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_06_Tool_Use_and_Function_Calling_Letting_LLMs_Query_Data_Call_APIs_and_Ta.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-06">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Define tools with names, descriptions and JSON input schemas</li><li>Implement the tool-use loop and return tool results (including errors) correctly</li><li>Use the SDK tool runner, strict schemas and parallel tool calls</li><li>Combine client tools with server tools such as web search and code execution</li><li>Apply safety controls: least privilege, validation, confirmation and audit logs</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-tools">Why tools?</h2>
+<p>LLMs cannot see your database, today's exchange rate or your calendar, and they are unreliable at arithmetic. <strong>Tool use</strong> (function calling) lets the model ask <em>your code</em> to do these things: the model decides <strong>which tool</strong> to call with <strong>which arguments</strong>; your code runs it and returns the result; the model uses the result to answer.</p>
+<figure class="fig"><img src="../img/genai-06-01.png" alt="The tool-use loop: the model requests a tool, your application executes it, and the result goes back to the model until it can answer." loading="lazy"><figcaption>The tool-use loop: the model requests a tool, your application executes it, and the result goes back to the model until it can answer.</figcaption></figure>
+<h2 id="defining-tools">Defining tools</h2>
+<p>A tool is a name, a <strong>description</strong> (the model reads it to decide when to use the tool) and a <strong>JSON Schema</strong> for the input.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json, re, duckdb, pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+con = <span class="hl-f">duckdb.connect</span>(); <span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+TOOLS = [
+    {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;run_sql&quot;</span>,
+     <span class="hl-s">&quot;description&quot;</span>: <span class="hl-s">&quot;Run a read-only DuckDB SQL query on table `sales` (one row per order line) and return up to 20 rows as JSON. &quot;</span>
+                    <span class="hl-s">&quot;Columns: order_id, order_date (DATE), ship_date, ship_mode, customer_id, segment, city, state, region, category, sub_category, &quot;</span>
+                    <span class="hl-s">&quot;product_name, sales (INR), quantity, discount (0-1), profit (INR). Use this for any question about sales data.&quot;</span>,
+     <span class="hl-s">&quot;input_schema&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;object&quot;</span>, <span class="hl-s">&quot;properties&quot;</span>: {<span class="hl-s">&quot;sql&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;string&quot;</span>, <span class="hl-s">&quot;description&quot;</span>: <span class="hl-s">&quot;A single SELECT statement&quot;</span>}}, <span class="hl-s">&quot;required&quot;</span>: [<span class="hl-s">&quot;sql&quot;</span>], <span class="hl-s">&quot;additionalProperties&quot;</span>: <span class="hl-k">False</span>}},
+    {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;calculator&quot;</span>,
+     <span class="hl-s">&quot;description&quot;</span>: <span class="hl-s">&quot;Evaluate an arithmetic expression exactly, e.g. &#x27;(78.38 - 65.40) / 65.40 * 100&#x27;. Use for growth rates and percentages.&quot;</span>,
+     <span class="hl-s">&quot;input_schema&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;object&quot;</span>, <span class="hl-s">&quot;properties&quot;</span>: {<span class="hl-s">&quot;expression&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;string&quot;</span>}}, <span class="hl-s">&quot;required&quot;</span>: [<span class="hl-s">&quot;expression&quot;</span>], <span class="hl-s">&quot;additionalProperties&quot;</span>: <span class="hl-k">False</span>}},
+    {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;convert_currency&quot;</span>,
+     <span class="hl-s">&quot;description&quot;</span>: <span class="hl-s">&quot;Convert an amount from INR to USD, EUR or AED using today&#x27;s reference rate.&quot;</span>,
+     <span class="hl-s">&quot;input_schema&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;object&quot;</span>, <span class="hl-s">&quot;properties&quot;</span>: {<span class="hl-s">&quot;amount_inr&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;number&quot;</span>}, <span class="hl-s">&quot;to&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;string&quot;</span>, <span class="hl-s">&quot;enum&quot;</span>: [<span class="hl-s">&quot;USD&quot;</span>, <span class="hl-s">&quot;EUR&quot;</span>, <span class="hl-s">&quot;AED&quot;</span>]}}, <span class="hl-s">&quot;required&quot;</span>: [<span class="hl-s">&quot;amount_inr&quot;</span>, <span class="hl-s">&quot;to&quot;</span>], <span class="hl-s">&quot;additionalProperties&quot;</span>: <span class="hl-k">False</span>}},
+]
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>(TOOLS[<span class="hl-n">1</span>], indent=<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{
+ &quot;name&quot;: &quot;calculator&quot;,
+ &quot;description&quot;: &quot;Evaluate an arithmetic expression exactly, e.g. &#x27;(78.38 - 65.40) / 65.40 * 100&#x27;. Use for growth rates and percentages.&quot;,
+ &quot;input_schema&quot;: {
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;properties&quot;: {
+   &quot;expression&quot;: {
+    &quot;type&quot;: &quot;string&quot;
+   }
+  },
+  &quot;required&quot;: [
+   &quot;expression&quot;
+  ],
+  &quot;additionalProperties&quot;: false
+ }
+}</pre></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Write tool descriptions like documentation for a new colleague</b></div><p>Say what the tool does, when to use it (and when not to), what each parameter means with formats and examples, and what it returns. Most tool-use failures come from vague descriptions, not from the model.</p></div>
+<h2 id="implementing-the-tools-safely">Implementing the tools safely</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> ast, operator <span class="hl-k">as</span> op
+<span class="hl-k">def</span> <span class="hl-f">run_sql</span>(sql: str):
+    <span class="hl-k">if</span> <span class="hl-k">not</span> <span class="hl-f">re.match</span>(r<span class="hl-s">&quot;^\s*(with|select)\b&quot;</span>, sql, re.I) <span class="hl-k">or</span> <span class="hl-f">re.search</span>(r<span class="hl-s">&quot;\b(insert|update|delete|drop|alter|create|copy|attach|pragma)\b&quot;</span>, sql, re.I):
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;only read-only SELECT queries are allowed&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(sql).<span class="hl-f">df</span>().<span class="hl-f">head</span>(<span class="hl-n">20</span>).<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">to_dict</span>(<span class="hl-s">&quot;records&quot;</span>)
+OPS = {ast.Add: op.add, ast.Sub: op.sub, ast.Mult: op.mul, ast.Div: op.truediv, ast.Pow: op.pow, ast.USub: op.neg}
+<span class="hl-k">def</span> <span class="hl-f">calculator</span>(expression: str):                     <span class="hl-c"># safe arithmetic: no eval()</span>
+    <span class="hl-k">def</span> <span class="hl-f">ev</span>(n):
+        <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(n, ast.Constant) <span class="hl-k">and</span> <span class="hl-f">isinstance</span>(n.value, (int, float)): <span class="hl-k">return</span> n.value
+        <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(n, ast.BinOp) <span class="hl-k">and</span> <span class="hl-f">type</span>(n.op) <span class="hl-k">in</span> OPS: <span class="hl-k">return</span> OPS[<span class="hl-f">type</span>(n.op)](<span class="hl-f">ev</span>(n.left), <span class="hl-f">ev</span>(n.right))
+        <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(n, ast.UnaryOp) <span class="hl-k">and</span> <span class="hl-f">type</span>(n.op) <span class="hl-k">in</span> OPS: <span class="hl-k">return</span> OPS[<span class="hl-f">type</span>(n.op)](<span class="hl-f">ev</span>(n.operand))
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;unsupported expression&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-f">round</span>(<span class="hl-f">ev</span>(<span class="hl-f">ast.parse</span>(expression, mode=<span class="hl-s">&quot;eval&quot;</span>).body), <span class="hl-n">4</span>)
+RATES = {<span class="hl-s">&quot;USD&quot;</span>: <span class="hl-n">1</span> / <span class="hl-n">88.0</span>, <span class="hl-s">&quot;EUR&quot;</span>: <span class="hl-n">1</span> / <span class="hl-n">102.0</span>, <span class="hl-s">&quot;AED&quot;</span>: <span class="hl-n">1</span> / <span class="hl-n">24.0</span>}      <span class="hl-c"># illustrative reference rates</span>
+<span class="hl-k">def</span> <span class="hl-f">convert_currency</span>(amount_inr: float, to: str): <span class="hl-k">return</span> {<span class="hl-s">&quot;amount&quot;</span>: <span class="hl-f">round</span>(amount_inr * RATES[to], <span class="hl-n">2</span>), <span class="hl-s">&quot;currency&quot;</span>: to}
+REGISTRY = {<span class="hl-s">&quot;run_sql&quot;</span>: run_sql, <span class="hl-s">&quot;calculator&quot;</span>: calculator, <span class="hl-s">&quot;convert_currency&quot;</span>: convert_currency}
+<span class="hl-k">def</span> <span class="hl-f">execute_tool</span>(name, tool_input):
+    <span class="hl-k">try</span>: <span class="hl-k">return</span> {<span class="hl-s">&quot;content&quot;</span>: <span class="hl-f">json.dumps</span>(REGISTRY[name](**tool_input), default=str)}
+    <span class="hl-k">except</span> Exception <span class="hl-k">as</span> e: <span class="hl-k">return</span> {<span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">f&quot;Error: {e}&quot;</span>, <span class="hl-s">&quot;is_error&quot;</span>: <span class="hl-k">True</span>}       <span class="hl-c"># errors go back to the model, which can fix its call</span>
+<span class="hl-f">print</span>(<span class="hl-f">execute_tool</span>(<span class="hl-s">&quot;run_sql&quot;</span>, {<span class="hl-s">&quot;sql&quot;</span>: <span class="hl-s">&quot;SELECT region, ROUND(SUM(sales)/1e6, 2) AS sales_m FROM sales GROUP BY region ORDER BY sales_m DESC&quot;</span>}))
+<span class="hl-f">print</span>(<span class="hl-f">execute_tool</span>(<span class="hl-s">&quot;run_sql&quot;</span>, {<span class="hl-s">&quot;sql&quot;</span>: <span class="hl-s">&quot;DROP TABLE sales&quot;</span>}))
+<span class="hl-f">print</span>(<span class="hl-f">execute_tool</span>(<span class="hl-s">&quot;calculator&quot;</span>, {<span class="hl-s">&quot;expression&quot;</span>: <span class="hl-s">&quot;__import__(&#x27;os&#x27;).system(&#x27;ls&#x27;)&quot;</span>}))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;content&#x27;: &#x27;[{&quot;region&quot;: &quot;South&quot;, &quot;sales_m&quot;: 53.95}, {&quot;region&quot;: &quot;West&quot;, &quot;sales_m&quot;: 51.96}, {&quot;region&quot;: &quot;North&quot;, &quot;sales_m&quot;: 49.02}, {&quot;region&quot;: &quot;East&quot;, &quot;sales_m&quot;: 46.48}]&#x27;}
+{&#x27;content&#x27;: &#x27;Error: only read-only SELECT queries are allowed&#x27;, &#x27;is_error&#x27;: True}
+{&#x27;content&#x27;: &#x27;Error: unsupported expression&#x27;, &#x27;is_error&#x27;: True}</pre></div>
+<p>Never <code>eval()</code> model output, never give a tool more power than it needs (read-only database user, allow-listed endpoints), and return errors as <code>tool_result</code> with <code>is_error: true</code> instead of crashing.</p>
+<h2 id="the-loop-with-a-simulated-model">The loop (with a simulated model)</h2>
+<p>A real model decides tool calls itself. To run offline, a scripted "model" below emits the same block structure Claude returns, so you can see exactly what flows through the loop.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> types
+<span class="hl-k">def</span> <span class="hl-f">block</span>(**kw): <span class="hl-k">return</span> <span class="hl-f">types.SimpleNamespace</span>(**kw)
+<span class="hl-k">class</span> ScriptedModel:
+    <span class="hl-s">&quot;&quot;&quot;Emits Anthropic-style responses: tool_use blocks first, then a final text answer that uses the tool results.&quot;&quot;&quot;</span>
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, plan): self.plan, self.step = plan, <span class="hl-n">0</span>
+    <span class="hl-k">def</span> <span class="hl-f">create</span>(self, messages, tools, **kw):
+        <span class="hl-k">if</span> self.step &lt; <span class="hl-f">len</span>(self.plan):
+            calls = self.plan[self.step](messages); self.step += <span class="hl-n">1</span>
+            <span class="hl-k">return</span> <span class="hl-f">block</span>(stop_reason=<span class="hl-s">&quot;tool_use&quot;</span>, content=[<span class="hl-f">block</span>(type=<span class="hl-s">&quot;text&quot;</span>, text=<span class="hl-s">&quot;Let me check the data.&quot;</span>)] +
+                         [<span class="hl-f">block</span>(type=<span class="hl-s">&quot;tool_use&quot;</span>, id=<span class="hl-s">f&quot;toolu_{self.step}_{i}&quot;</span>, name=n, input=a) <span class="hl-k">for</span> i, (n, a) <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(calls)])
+        results = [<span class="hl-f">json.loads</span>(c[<span class="hl-s">&quot;content&quot;</span>]) <span class="hl-k">for</span> m <span class="hl-k">in</span> messages <span class="hl-k">if</span> m[<span class="hl-s">&quot;role&quot;</span>] == <span class="hl-s">&quot;user&quot;</span> <span class="hl-k">and</span> <span class="hl-f">isinstance</span>(m[<span class="hl-s">&quot;content&quot;</span>], list) <span class="hl-k">for</span> c <span class="hl-k">in</span> m[<span class="hl-s">&quot;content&quot;</span>] <span class="hl-k">if</span> <span class="hl-f">c.get</span>(<span class="hl-s">&quot;type&quot;</span>) == <span class="hl-s">&quot;tool_result&quot;</span> <span class="hl-k">and</span> <span class="hl-k">not</span> <span class="hl-f">c.get</span>(<span class="hl-s">&quot;is_error&quot;</span>)]
+        <span class="hl-k">return</span> <span class="hl-f">block</span>(stop_reason=<span class="hl-s">&quot;end_turn&quot;</span>, content=[<span class="hl-f">block</span>(type=<span class="hl-s">&quot;text&quot;</span>, text=<span class="hl-f">FINAL</span>(results))])
+
+question = <span class="hl-s">&quot;How much did 2025 sales grow over 2024, and what is 2025 sales in US dollars?&quot;</span>
+plan = [<span class="hl-k">lambda</span> m: [(<span class="hl-s">&quot;run_sql&quot;</span>, {<span class="hl-s">&quot;sql&quot;</span>: <span class="hl-s">&quot;SELECT YEAR(order_date) AS yr, ROUND(SUM(sales)/1e6, 2) AS sales_m FROM sales WHERE YEAR(order_date) IN (2024, 2025) GROUP BY yr ORDER BY yr&quot;</span>})],
+        <span class="hl-k">lambda</span> m: (<span class="hl-k">lambda</span> r: [(<span class="hl-s">&quot;calculator&quot;</span>, {<span class="hl-s">&quot;expression&quot;</span>: <span class="hl-s">f&quot;({r[1][&#x27;sales_m&#x27;]} - {r[0][&#x27;sales_m&#x27;]}) / {r[0][&#x27;sales_m&#x27;]} * 100&quot;</span>}),          <span class="hl-c"># two tool calls in parallel</span>
+                              (<span class="hl-s">&quot;convert_currency&quot;</span>, {<span class="hl-s">&quot;amount_inr&quot;</span>: r[<span class="hl-n">1</span>][<span class="hl-s">&quot;sales_m&quot;</span>] * 1e6, <span class="hl-s">&quot;to&quot;</span>: <span class="hl-s">&quot;USD&quot;</span>})])(<span class="hl-f">json.loads</span>(m[-<span class="hl-n">1</span>][<span class="hl-s">&quot;content&quot;</span>][<span class="hl-n">0</span>][<span class="hl-s">&quot;content&quot;</span>]))]
+FINAL = <span class="hl-k">lambda</span> res: (<span class="hl-s">f&quot;2025 sales were ₹{res[0][1][&#x27;sales_m&#x27;]}M against ₹{res[0][0][&#x27;sales_m&#x27;]}M in 2024, growth of {res[1]:.1f}%. &quot;</span>
+                     <span class="hl-s">f&quot;That is about ${res[2][&#x27;amount&#x27;] / 1e6:.2f}M at the reference rate.&quot;</span>)
+model = <span class="hl-f">ScriptedModel</span>(plan)
+messages = [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: question}]
+<span class="hl-k">while</span> <span class="hl-k">True</span>:
+    resp = <span class="hl-f">model.create</span>(messages=messages, tools=TOOLS)
+    <span class="hl-f">messages.append</span>({<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;assistant&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: resp.content})
+    <span class="hl-k">if</span> resp.stop_reason != <span class="hl-s">&quot;tool_use&quot;</span>: <span class="hl-k">break</span>
+    results = []
+    <span class="hl-k">for</span> b <span class="hl-k">in</span> resp.content:
+        <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;tool_use&quot;</span>:
+            out = <span class="hl-f">execute_tool</span>(b.name, b.input); <span class="hl-f">print</span>(<span class="hl-s">f&quot;→ {b.name}({json.dumps(b.input)[:90]}) = {out[&#x27;content&#x27;][:90]}&quot;</span>)
+            <span class="hl-f">results.append</span>({<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;tool_result&quot;</span>, <span class="hl-s">&quot;tool_use_id&quot;</span>: b.id, **out})
+    <span class="hl-f">messages.append</span>({<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: results})                 <span class="hl-c"># ALL results of a turn go back in ONE user message</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nAnswer:&quot;</span>, <span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> resp.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">→ run_sql({&quot;sql&quot;: &quot;SELECT YEAR(order_date) AS yr, ROUND(SUM(sales)/1e6, 2) AS sales_m FROM sales WHE) = [{&quot;yr&quot;: 2024, &quot;sales_m&quot;: 65.4}, {&quot;yr&quot;: 2025, &quot;sales_m&quot;: 78.38}]
+→ calculator({&quot;expression&quot;: &quot;(78.38 - 65.4) / 65.4 * 100&quot;}) = 19.8471
+→ convert_currency({&quot;amount_inr&quot;: 78380000.0, &quot;to&quot;: &quot;USD&quot;}) = {&quot;amount&quot;: 890681.82, &quot;currency&quot;: &quot;USD&quot;}
+
+Answer: 2025 sales were ₹78.38M against ₹65.4M in 2024, growth of 19.8%. That is about $0.89M at the reference rate.</pre></div>
+<p>The numbers in the answer come from the database and the calculator, not from the model's memory: that is the point of tools.</p>
+<h2 id="with-the-real-claude-api">With the real Claude API</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> anthropic
+client = <span class="hl-f">anthropic.Anthropic</span>()
+messages = [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: question}]
+<span class="hl-k">while</span> <span class="hl-k">True</span>:
+    response = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>, tools=TOOLS, messages=messages)
+    <span class="hl-f">messages.append</span>({<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;assistant&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: response.content})      <span class="hl-c"># keep the full content, including tool_use blocks</span>
+    <span class="hl-k">if</span> response.stop_reason != <span class="hl-s">&quot;tool_use&quot;</span>:
+        <span class="hl-k">break</span>
+    results = []
+    <span class="hl-k">for</span> b <span class="hl-k">in</span> response.content:
+        <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;tool_use&quot;</span>:
+            <span class="hl-f">results.append</span>({<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;tool_result&quot;</span>, <span class="hl-s">&quot;tool_use_id&quot;</span>: b.id, **<span class="hl-f">execute_tool</span>(b.name, b.input)})
+    <span class="hl-f">messages.append</span>({<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: results})
+<span class="hl-f">print</span>(<span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> response.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>))</code></pre></div>
+<p>The SDK's <strong>tool runner</strong> writes this loop for you: decorate Python functions and their type hints and docstrings become the schema.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> anthropic <span class="hl-k">import</span> beta_tool
+
+@beta_tool
+<span class="hl-k">def</span> <span class="hl-f">calculator</span>(expression: str) -&gt; str:
+    <span class="hl-s">&quot;&quot;&quot;Evaluate an arithmetic expression exactly.
+
+    Args:
+        expression: e.g. &#x27;(78.38 - 65.40) / 65.40 * 100&#x27;
+    &quot;&quot;&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-f">str</span>(<span class="hl-f">safe_eval</span>(expression))
+
+runner = <span class="hl-f">client.beta.messages.tool_runner</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>, tools=[calculator, run_sql_tool],
+                                          messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: question}])
+<span class="hl-k">for</span> message <span class="hl-k">in</span> runner:          <span class="hl-c"># iterates until Claude stops calling tools</span>
+    <span class="hl-f">print</span>(message.content[-<span class="hl-n">1</span>])</code></pre></div>
+<h2 id="making-tool-calls-reliable">Making tool calls reliable</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Technique</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Strict schemas</strong></td>
+<td>Add <code>"strict": true</code> to a tool (with <code>additionalProperties: false</code> and <code>required</code>) so inputs always match the schema</td>
+</tr>
+<tr>
+<td>Clear, distinct tools</td>
+<td>Few tools with non-overlapping purposes; consistent naming (<code>get_</code>, <code>search_</code>, <code>create_</code>)</td>
+</tr>
+<tr>
+<td>Validate inputs anyway</td>
+<td>Check types, ranges and permissions before executing</td>
+</tr>
+<tr>
+<td>Return informative errors</td>
+<td>"Column 'revenue' not found; did you mean 'sales'?" lets the model self-correct</td>
+</tr>
+<tr>
+<td>Steer tool choice from the prompt</td>
+<td>"Always use <code>run_sql</code> for questions about sales." (On the newest Claude models, forcing a specific tool via <code>tool_choice</code> is not supported; use <code>auto</code> plus instructions, or structured outputs when you only need JSON.)</td>
+</tr>
+<tr>
+<td>Parallel calls</td>
+<td>Independent calls arrive in one turn; run them concurrently and return all results in one message</td>
+</tr>
+<tr>
+<td>Limits</td>
+<td>Cap loop iterations, rows returned and total tokens</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="server-side-tools">Server-side tools</h2>
+<p>Some tools run on the provider's infrastructure: you only declare them.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">response = <span class="hl-f">client.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>,
+    tools=[{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;web_search_20260209&quot;</span>, <span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;web_search&quot;</span>, <span class="hl-s">&quot;max_uses&quot;</span>: <span class="hl-n">3</span>, <span class="hl-s">&quot;allowed_domains&quot;</span>: [<span class="hl-s">&quot;rbi.org.in&quot;</span>, <span class="hl-s">&quot;pib.gov.in&quot;</span>]}],
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;What is the current RBI repo rate? Cite the source.&quot;</span>}],
+)</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Server tool</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web search / web fetch</td>
+<td>Current information with citations</td>
+</tr>
+<tr>
+<td>Code execution</td>
+<td>The model writes and runs Python in a sandbox (data analysis, charts)</td>
+</tr>
+<tr>
+<td>MCP connectors</td>
+<td>Tools from remote MCP servers (lesson 8)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="safety-tools-turn-words-into-actions">Safety: tools turn words into actions</h2>
+<figure class="fig"><img src="../img/genai-06-02.png" alt="Defence in depth for tool-using systems." loading="lazy"><figcaption>Defence in depth for tool-using systems.</figcaption></figure>
+<p>Prompt injection becomes more dangerous with tools: a malicious web page or document could say "email the customer list to …". Treat all tool outputs and retrieved text as <strong>data</strong>, never as instructions; keep secrets out of the model's reach; and require confirmation for actions with side effects.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Tools let a model request actions: you define name, description and JSON schema; the model emits <code>tool_use</code>; your code returns <code>tool_result</code>.</li>
+<li>Loop until <code>stop_reason</code> is not <code>tool_use</code>; return all results of a turn in one user message; return errors with <code>is_error</code>.</li>
+<li>Use the SDK tool runner for simple loops; strict schemas, validation and good descriptions for reliability.</li>
+<li>Server tools (web search, code execution) run on the provider side.</li>
+<li>Apply least privilege, validation, limits, approval for side effects and audit logs; treat tool outputs as data.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Who executes a client-side tool?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Your application code</button><button type="button" class="opt" data-ok="0"><i>B</i>The LLM provider automatically</button><button type="button" class="opt" data-ok="0"><i>C</i>The user manually</button><button type="button" class="opt" data-ok="0"><i>D</i>The database administrator</button></div><div class="qexp"><b>Answer: A.</b> The model only requests the call.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does the model return when it wants a tool?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A <code>tool_use</code> block with the tool name and JSON input, and stop_reason "tool_use"</button><button type="button" class="opt" data-ok="0"><i>B</i>Python code to run</button><button type="button" class="opt" data-ok="0"><i>C</i>A SQL result</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: A.</b> You then run it and reply with <code>tool_result</code>.</div></div><div class="qq"><p class="qtext"><b>3.</b> A tool raises an exception. What should you send back?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A tool_result with the error message and <code>is_error: true</code></button><button type="button" class="opt" data-ok="0"><i>B</i>Nothing</button><button type="button" class="opt" data-ok="0"><i>C</i>Crash the application</button><button type="button" class="opt" data-ok="0"><i>D</i>A fake success</button></div><div class="qexp"><b>Answer: A.</b> The model can correct its call.</div></div><div class="qq"><p class="qtext"><b>4.</b> What matters most for the model choosing the right tool?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A clear, specific tool description and parameter descriptions</button><button type="button" class="opt" data-ok="0"><i>B</i>A long tool name</button><button type="button" class="opt" data-ok="0"><i>C</i>Many overlapping tools</button><button type="button" class="opt" data-ok="0"><i>D</i>High temperature</button></div><div class="qexp"><b>Answer: A.</b> Write descriptions like documentation.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why give the SQL tool read-only access?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Least privilege limits damage from mistakes or prompt injection</button><button type="button" class="opt" data-ok="0"><i>B</i>It is faster</button><button type="button" class="opt" data-ok="0"><i>C</i>Models cannot write SQL</button><button type="button" class="opt" data-ok="0"><i>D</i>DuckDB requires it</button></div><div class="qexp"><b>Answer: A.</b> Never trust generated code blindly.</div></div><div class="qq"><p class="qtext"><b>6.</b> How do you return results for three parallel tool calls?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>All three tool_result blocks in a single user message</button><button type="button" class="opt" data-ok="0"><i>B</i>Three separate user messages</button><button type="button" class="opt" data-ok="0"><i>C</i>Only the first result</button><button type="button" class="opt" data-ok="0"><i>D</i>As assistant text</button></div><div class="qexp"><b>Answer: A.</b> Keeps parallel calling working well.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Add a <code>top_products(category, n)</code> tool and a scripted plan that uses it. (2) Make <code>run_sql</code> return a helpful error when a column does not exist (list valid columns). (3) Add a loop limit of 5 iterations and a total-rows limit. (4) With a real API key, ask Claude three analytics questions through this loop and check every number against your own SQL.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">top_products</span>(category: str, n: int = <span class="hl-n">5</span>):
+    <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT product_name, ROUND(SUM(profit)) AS profit FROM sales WHERE category = ? GROUP BY 1 ORDER BY 2 DESC LIMIT ?&quot;</span>, [category, n]).<span class="hl-f">df</span>().<span class="hl-f">to_dict</span>(<span class="hl-s">&quot;records&quot;</span>)
+REGISTRY[<span class="hl-s">&quot;top_products&quot;</span>] = top_products
+<span class="hl-k">def</span> <span class="hl-f">run_sql</span>(sql):
+    <span class="hl-k">try</span>: <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(sql).<span class="hl-f">df</span>().<span class="hl-f">head</span>(<span class="hl-n">20</span>).<span class="hl-f">to_dict</span>(<span class="hl-s">&quot;records&quot;</span>)
+    <span class="hl-k">except</span> duckdb.BinderException <span class="hl-k">as</span> e: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">f&quot;{e}. Valid columns: {list(sales.columns)}&quot;</span>)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How does function calling work?</strong>
+You describe tools with JSON schemas; the model returns a structured tool call instead of text when it needs one; your code executes it and sends the result back; the model continues until it can answer.</p>
+<p><strong>Q: How do you stop an LLM agent from doing something harmful with tools?</strong>
+Least-privilege credentials, input validation and allow-lists, amount/rate limits, human approval for side effects, sandboxing, audit logs, and treating retrieved content as untrusted data.</p>
+<p><strong>Q: Tool use vs RAG?</strong>
+RAG retrieves text to read; tool use performs computations or actions and fetches live structured data. Many assistants combine both, with retrieval itself exposed as a tool.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html"><small>← Previous</small><b>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</b></a><a class="next" href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html"><small>Next →</small><b>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-tools">Why tools?</a><a href="#defining-tools">Defining tools</a><a href="#implementing-the-tools-safely">Implementing the tools safely</a><a href="#the-loop-with-a-simulated-model">The loop (with a simulated model)</a><a href="#with-the-real-claude-api">With the real Claude API</a><a href="#making-tool-calls-reliable">Making tool calls reliable</a><a href="#server-side-tools">Server-side tools</a><a href="#safety-tools-turn-words-into-actions">Safety: tools turn words into actions</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
