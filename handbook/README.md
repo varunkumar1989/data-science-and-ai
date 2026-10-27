@@ -31,3 +31,5 @@ S1 Advanced Excel · S2 SQL · S3 Power BI · S4 Tableau · S5 Python · S6 Mach
 - Case-study questions are summarised in our own words and solved independently; no LMS recordings, attachments or login links are included.
 - Sample data in the Excel workbook is fictional.
 - Video links (Simplilearn and others) are YouTube searches so they stay valid as channels update.
+
+**Interactive version (Claude artifact):** https://claude.ai/artifact/GtUBqgmq7C6gvyYa7LjhEw

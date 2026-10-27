@@ -33,3 +33,5 @@ The resource appendix links to official product documentation and selected publi
 ## Data Science & AI Handbook
 
 The [`handbook/`](handbook/) folder holds the Data Science & AI Handbook: course notes class by class (Building Blocks · Class 1 onwards), 12 learning sessions, solved case studies, a 22-sheet Excel practice workbook and 17 PDFs with clickable contents. See [`handbook/README.md`](handbook/README.md).
+
+**Interactive version (Claude artifact):** https://claude.ai/artifact/GtUBqgmq7C6gvyYa7LjhEw
