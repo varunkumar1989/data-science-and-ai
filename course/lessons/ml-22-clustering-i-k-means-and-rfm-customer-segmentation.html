@@ -1,0 +1,222 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clustering I: K-Means and RFM Customer Segmentation · Stats &amp; ML Lesson 22 · Data Science &amp; AI Handbook</title><meta name="description" content="Find groups without labels. Heuristic RFM segmentation (recency, frequency, monetary scores and named segments) as taught in class, then K-means clustering, scaling and log transforms, choosing k with the elbow method and silhouette score, profiling and naming clusters, and turning segments into marketing actions, on 4,500 retail transactions."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 22</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class="on"><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-22">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 22 of 23</div><h1>Clustering I: K-Means and RFM Customer Segmentation</h1>
+<p class="sum">Find groups without labels. Heuristic RFM segmentation (recency, frequency, monetary scores and named segments) as taught in class, then K-means clustering, scaling and log transforms, choosing k with the elbow method and silhouette score, profiling and naming clusters, and turning segments into marketing actions, on 4,500 retail transactions.</p><div class="tags"><span class="tag live">● ML class 6</span><span class="tag new">✦ scikit-learn 1.7+</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_22_Clustering_I_K_Means_and_RFM_Customer_Segmentation.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-22">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Compute recency, frequency and monetary value per customer from transactions</li><li>Build heuristic RFM scores and named segments (Champions, At risk, Hibernating…)</li><li>Run K-means, explain its algorithm and its assumptions, and scale features properly</li><li>Choose k with the elbow method and silhouette scores, and profile the clusters</li><li>Translate segments into actions and measure them</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/retail_transactions.csv" download>retail_transactions.csv</a></div></div></div>
+<div class="content"><h2 id="why-segment-customers">Why segment customers?</h2>
+<p>Treating every customer the same wastes money: loyal customers get discounts they did not need, while slipping customers get nothing. <strong>Segmentation</strong> groups similar customers so each group gets the right message.</p>
+<figure class="fig"><img src="../img/ml-22-01.png" alt="Two ways to segment: business rules (RFM) and algorithms (clustering)." loading="lazy"><figcaption>Two ways to segment: business rules (RFM) and algorithms (clustering).</figcaption></figure>
+<h2 id="step-1-rfm-table">Step 1: RFM table</h2>
+<p><strong>Recency</strong>: days since the last purchase (lower is better). <strong>Frequency</strong>: number of purchases. <strong>Monetary</strong>: total spend.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.max_columns&quot;</span>, <span class="hl-n">20</span>); <span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>)
+tx = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;retail_transactions.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;invoice_date&quot;</span>])
+<span class="hl-f">print</span>(tx.shape, <span class="hl-f">tx.customer_id.nunique</span>(), <span class="hl-s">&quot;customers |&quot;</span>, <span class="hl-f">tx.invoice_date.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">tx.invoice_date.max</span>().<span class="hl-f">date</span>())
+snapshot = <span class="hl-f">tx.invoice_date.max</span>() + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">1</span>)
+rfm = <span class="hl-f">tx.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">agg</span>(recency=(<span class="hl-s">&quot;invoice_date&quot;</span>, <span class="hl-k">lambda</span> d: (snapshot - <span class="hl-f">d.max</span>()).days), frequency=(<span class="hl-s">&quot;invoice_no&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), monetary=(<span class="hl-s">&quot;amount&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+rfm[<span class="hl-s">&quot;monetary&quot;</span>] = <span class="hl-f">rfm.monetary.round</span>(<span class="hl-n">0</span>)
+<span class="hl-f">print</span>(<span class="hl-f">rfm.describe</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>).T[[<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;50%&quot;</span>, <span class="hl-s">&quot;min&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]])
+<span class="hl-f">print</span>(<span class="hl-f">rfm.head</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(4548, 4) 500 customers | 2024-01-01 to 2025-12-22
+              mean     50%    min      max
+recency      217.0   144.0    1.0    722.0
+frequency      9.1     6.0    1.0     39.0
+monetary   11058.9  5122.0  196.0  76170.0
+             recency  frequency  monetary
+customer_id                              
+R0001             53         33   54906.0
+R0002            224          7    5426.0
+R0003             26         33   56031.0
+R0004            320          3    2017.0
+R0005            109         35   49225.0</pre></div>
+<h2 id="step-2-heuristic-rfm-scores">Step 2: heuristic RFM scores</h2>
+<p>Score each dimension 1–5 by quintile (5 = best), then combine.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rfm[<span class="hl-s">&quot;R&quot;</span>] = <span class="hl-f">pd.qcut</span>(rfm.recency, <span class="hl-n">5</span>, labels=[<span class="hl-n">5</span>, <span class="hl-n">4</span>, <span class="hl-n">3</span>, <span class="hl-n">2</span>, <span class="hl-n">1</span>]).<span class="hl-f">astype</span>(int)            <span class="hl-c"># recent = high score</span>
+rfm[<span class="hl-s">&quot;F&quot;</span>] = <span class="hl-f">pd.qcut</span>(<span class="hl-f">rfm.frequency.rank</span>(method=<span class="hl-s">&quot;first&quot;</span>), <span class="hl-n">5</span>, labels=[<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>]).<span class="hl-f">astype</span>(int)
+rfm[<span class="hl-s">&quot;M&quot;</span>] = <span class="hl-f">pd.qcut</span>(rfm.monetary, <span class="hl-n">5</span>, labels=[<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>]).<span class="hl-f">astype</span>(int)
+rfm[<span class="hl-s">&quot;RFM_code&quot;</span>] = <span class="hl-f">rfm.R.astype</span>(str) + <span class="hl-f">rfm.F.astype</span>(str) + <span class="hl-f">rfm.M.astype</span>(str)
+rfm[<span class="hl-s">&quot;RFM_score&quot;</span>] = rfm[[<span class="hl-s">&quot;R&quot;</span>, <span class="hl-s">&quot;F&quot;</span>, <span class="hl-s">&quot;M&quot;</span>]].<span class="hl-f">sum</span>(axis=<span class="hl-n">1</span>)
+<span class="hl-k">def</span> <span class="hl-f">segment</span>(r):
+    <span class="hl-k">if</span> r.R &gt;= <span class="hl-n">4</span> <span class="hl-k">and</span> r.F &gt;= <span class="hl-n">4</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;Champions&quot;</span>
+    <span class="hl-k">if</span> r.R &gt;= <span class="hl-n">3</span> <span class="hl-k">and</span> r.F &gt;= <span class="hl-n">3</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;Loyal&quot;</span>
+    <span class="hl-k">if</span> r.R &gt;= <span class="hl-n">4</span> <span class="hl-k">and</span> r.F &lt;= <span class="hl-n">2</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;New / promising&quot;</span>
+    <span class="hl-k">if</span> r.R &lt;= <span class="hl-n">2</span> <span class="hl-k">and</span> r.F &gt;= <span class="hl-n">4</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;At risk (were loyal)&quot;</span>
+    <span class="hl-k">if</span> r.R &lt;= <span class="hl-n">2</span> <span class="hl-k">and</span> r.F &lt;= <span class="hl-n">2</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;Hibernating / lost&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-s">&quot;Need attention&quot;</span>
+rfm[<span class="hl-s">&quot;segment&quot;</span>] = <span class="hl-f">rfm.apply</span>(segment, axis=<span class="hl-n">1</span>)
+seg = <span class="hl-f">rfm.groupby</span>(<span class="hl-s">&quot;segment&quot;</span>).<span class="hl-f">agg</span>(customers=(<span class="hl-s">&quot;R&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), recency=(<span class="hl-s">&quot;recency&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), frequency=(<span class="hl-s">&quot;frequency&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), monetary=(<span class="hl-s">&quot;monetary&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), revenue=(<span class="hl-s">&quot;monetary&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+seg[<span class="hl-s">&quot;revenue_%&quot;</span>] = (<span class="hl-n">100</span> * seg.revenue / <span class="hl-f">seg.revenue.sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-f">seg.sort_values</span>(<span class="hl-s">&quot;revenue&quot;</span>, ascending=<span class="hl-k">False</span>).<span class="hl-f">drop</span>(columns=<span class="hl-s">&quot;revenue&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                      customers  recency  frequency  monetary  revenue_%
+segment                                                                 
+Champions                   135     69.0       13.0   18414.0       62.4
+Loyal                        93    135.0        9.0    7844.0       22.0
+Need attention               85    279.0        5.0    4236.0        6.6
+Hibernating / lost          128    414.5        2.0    1836.5        4.6
+At risk (were loyal)         14    235.5        9.0    7797.0        2.5
+New / promising              45     80.0        3.0    2521.0        1.9</pre></div>
+<figure class="fig"><img src="../img/ml-22-02.png" alt="Revenue share vs customer share by RFM segment." loading="lazy"><figcaption>Revenue share vs customer share by RFM segment.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Segment</th>
+<th>Typical action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Champions</td>
+<td>Reward, early access, referrals; do not over-discount</td>
+</tr>
+<tr>
+<td>Loyal</td>
+<td>Upsell, loyalty points</td>
+</tr>
+<tr>
+<td>New / promising</td>
+<td>Onboarding, second-purchase offer</td>
+</tr>
+<tr>
+<td>At risk (were loyal)</td>
+<td>Win-back call or personalised offer <strong>now</strong></td>
+</tr>
+<tr>
+<td>Hibernating / lost</td>
+<td>Low-cost reactivation; accept some loss</td>
+</tr>
+<tr>
+<td>Need attention</td>
+<td>Targeted reminders</td>
+</tr>
+</tbody>
+</table></div>
+<p>RFM is transparent and works well, which is why the live class starts there. Its limits: fixed rules, only three variables, and quintile cut-offs that may not match natural groups.</p>
+<h2 id="step-3-k-means-clustering">Step 3: K-means clustering</h2>
+<p><strong>K-means</strong> partitions data into <em>k</em> clusters so that each point belongs to the cluster with the nearest <strong>centroid</strong> (mean), minimising the within-cluster sum of squares (<strong>inertia</strong>).</p>
+<figure class="fig"><img src="../img/ml-22-03.png" alt="The K-means loop: assign points to the nearest centroid, move centroids to the mean of their points, repeat until nothing changes." loading="lazy"><figcaption>The K-means loop: assign points to the nearest centroid, move centroids to the mean of their points, repeat until nothing changes.</figcaption></figure>
+<h3 id="prepare-features-log-and-scale">Prepare features: log and scale</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler
+<span class="hl-k">from</span> sklearn.cluster <span class="hl-k">import</span> KMeans
+feat = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;log_recency&quot;</span>: <span class="hl-f">np.log1p</span>(rfm.recency), <span class="hl-s">&quot;log_frequency&quot;</span>: <span class="hl-f">np.log1p</span>(rfm.frequency), <span class="hl-s">&quot;log_monetary&quot;</span>: <span class="hl-f">np.log1p</span>(rfm.monetary)})
+<span class="hl-f">print</span>(<span class="hl-s">&quot;skew before log:&quot;</span>, rfm[[<span class="hl-s">&quot;recency&quot;</span>, <span class="hl-s">&quot;frequency&quot;</span>, <span class="hl-s">&quot;monetary&quot;</span>]].<span class="hl-f">skew</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">to_dict</span>(), <span class="hl-s">&quot;| after:&quot;</span>, <span class="hl-f">feat.skew</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">to_dict</span>())
+Z = <span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(feat)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">skew before log: {&#x27;recency&#x27;: 1.01, &#x27;frequency&#x27;: 1.73, &#x27;monetary&#x27;: 2.09} | after: {&#x27;log_recency&#x27;: -0.71, &#x27;log_frequency&#x27;: 0.29, &#x27;log_monetary&#x27;: 0.12}</pre></div>
+<p>K-means uses Euclidean distance, so (1) <strong>scale</strong> features or the largest one (monetary) dominates, and (2) <strong>log-transform</strong> skewed variables so a few big spenders do not form their own clusters.</p>
+<h3 id="choosing-k">Choosing k</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> silhouette_score, davies_bouldin_score
+rows = []
+<span class="hl-k">for</span> k <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">2</span>, <span class="hl-n">9</span>):
+    km = <span class="hl-f">KMeans</span>(n_clusters=k, n_init=<span class="hl-n">20</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Z)
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;k&quot;</span>: k, <span class="hl-s">&quot;inertia&quot;</span>: <span class="hl-f">round</span>(km.inertia_, <span class="hl-n">1</span>), <span class="hl-s">&quot;silhouette&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">silhouette_score</span>(Z, km.labels_), <span class="hl-n">3</span>), <span class="hl-s">&quot;davies_bouldin&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">davies_bouldin_score</span>(Z, km.labels_), <span class="hl-n">3</span>)})
+kt = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">kt.to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout"> k  inertia  silhouette  davies_bouldin
+ 2    681.7       0.460           0.813
+ 3    495.8       0.390           0.889
+ 4    394.6       0.375           0.907
+ 5    300.4       0.386           0.832
+ 6    249.1       0.390           0.838
+ 7    220.2       0.374           0.865
+ 8    192.1       0.372           0.853</pre></div>
+<figure class="fig"><img src="../img/ml-22-04.png" alt="Elbow curve (inertia) and silhouette score by number of clusters." loading="lazy"><figcaption>Elbow curve (inertia) and silhouette score by number of clusters.</figcaption></figure>
+<ul>
+<li><strong>Elbow method:</strong> inertia always falls as k grows; look for the bend where extra clusters stop helping much.</li>
+<li><strong>Silhouette score</strong> (−1 to 1): how close each point is to its own cluster compared with the next one; higher is better.</li>
+<li><strong>Davies-Bouldin</strong> (lower is better).</li>
+<li><strong>Business sense:</strong> the number of segments the team can actually act on (often 3–6).</li>
+</ul>
+<p>Here the silhouette is highest at k = 2 (it simply splits active from lapsed customers), with no clear elbow afterwards. We choose <strong>k = 4</strong>: the scores are close, and four groups give the marketing team more useful distinctions. Statistics guide the choice; the business decides.</p>
+<h3 id="fit-and-profile">Fit and profile</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">k = <span class="hl-n">4</span>
+km = <span class="hl-f">KMeans</span>(n_clusters=k, n_init=<span class="hl-n">20</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Z)
+rfm[<span class="hl-s">&quot;cluster&quot;</span>] = km.labels_
+prof = <span class="hl-f">rfm.groupby</span>(<span class="hl-s">&quot;cluster&quot;</span>).<span class="hl-f">agg</span>(customers=(<span class="hl-s">&quot;R&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), recency=(<span class="hl-s">&quot;recency&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), frequency=(<span class="hl-s">&quot;frequency&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), monetary=(<span class="hl-s">&quot;monetary&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), revenue=(<span class="hl-s">&quot;monetary&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+prof[<span class="hl-s">&quot;revenue_%&quot;</span>] = (<span class="hl-n">100</span> * prof.revenue / <span class="hl-f">prof.revenue.sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+prof = <span class="hl-f">prof.sort_values</span>(<span class="hl-s">&quot;monetary&quot;</span>, ascending=<span class="hl-k">False</span>); <span class="hl-f">print</span>(<span class="hl-f">prof.drop</span>(columns=<span class="hl-s">&quot;revenue&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">         customers  recency  frequency  monetary  revenue_%
+cluster                                                    
+2              117     68.0       20.0   32923.0       69.3
+0              164    165.5        8.0    6643.0       21.2
+3               79     84.0        4.0    2836.0        4.5
+1              140    406.0        2.0    1880.5        5.0</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">order = <span class="hl-f">prof.index.tolist</span>()
+names = <span class="hl-f">dict</span>(<span class="hl-f">zip</span>(order, [<span class="hl-s">&quot;High-value regulars&quot;</span>, <span class="hl-s">&quot;Steady mid-value&quot;</span>, <span class="hl-s">&quot;Recent occasional buyers&quot;</span>, <span class="hl-s">&quot;Lapsed low-value&quot;</span>]))
+rfm[<span class="hl-s">&quot;cluster_name&quot;</span>] = <span class="hl-f">rfm.cluster.map</span>(names)
+<span class="hl-f">print</span>(<span class="hl-f">pd.crosstab</span>(rfm.cluster_name, rfm.segment))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">segment                   At risk (were loyal)  Champions  Hibernating / lost  Loyal  Need attention  New / promising
+cluster_name                                                                                                         
+High-value regulars                          1        101                   0     15               0                0
+Lapsed low-value                             0          0                 125      0              15                0
+Recent occasional buyers                     0          4                   0     14              16               45
+Steady mid-value                            13         30                   3     64              54                0</pre></div>
+<p>Name clusters from their <strong>profiles</strong> (median recency, frequency, spend), not from the cluster number. The cross-tab shows how the data-driven clusters line up with the rule-based RFM segments.</p>
+<figure class="fig"><img src="../img/ml-22-05.png" alt="Customers by log frequency and log spend, coloured by K-means cluster (centroids marked)." loading="lazy"><figcaption>Customers by log frequency and log spend, coloured by K-means cluster (centroids marked).</figcaption></figure>
+<h2 id="k-means-assumptions-and-limits">K-means assumptions and limits</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>K-means assumes / needs</th>
+<th>If not</th>
+<th>Alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Roughly spherical, similar-size clusters</td>
+<td>Elongated or uneven clusters split badly</td>
+<td>Gaussian mixtures, DBSCAN (next lesson)</td>
+</tr>
+<tr>
+<td>Numeric, scaled features</td>
+<td>Categories distort distances</td>
+<td>K-prototypes, Gower distance</td>
+</tr>
+<tr>
+<td>k chosen in advance</td>
+<td></td>
+<td>Silhouette, business needs, hierarchical dendrogram</td>
+</tr>
+<tr>
+<td>Sensitive to outliers and initialisation</td>
+<td></td>
+<td>Log/robust scaling, <code>n_init</code>, k-means++ (default)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="from-segments-to-action">From segments to action</h2>
+<ol>
+<li>Write a one-line profile and a goal for each segment (e.g. "At risk: bought often, silent for 4+ months → win back").</li>
+<li>Design an offer or message per segment.</li>
+<li><strong>Test</strong> it: randomly hold out part of each segment as control (lesson 6) and measure incremental revenue.</li>
+<li>Refresh the segmentation monthly and track how customers move between segments.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>RFM turns transactions into recency, frequency and monetary value; quintile scores and rules give transparent named segments.</li>
+<li>K-means assigns points to the nearest of k centroids, minimising inertia; log-transform skewed variables and scale features first.</li>
+<li>Choose k with the elbow, silhouette and Davies-Bouldin scores plus business sense; profile and name clusters by their medians.</li>
+<li>K-means prefers spherical clusters and numeric data; use other methods for odd shapes or categorical data.</li>
+<li>Segments are only valuable when they drive tested actions.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-22-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does "recency" measure in RFM?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Days since the customer's last purchase</button><button type="button" class="opt" data-ok="0"><i>B</i>Number of purchases</button><button type="button" class="opt" data-ok="0"><i>C</i>Total spend</button><button type="button" class="opt" data-ok="0"><i>D</i>Days since first purchase</button></div><div class="qexp"><b>Answer: A.</b> Lower recency = more recently active.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why scale features before K-means?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Distances would otherwise be dominated by the feature with the largest range</button><button type="button" class="opt" data-ok="0"><i>B</i>K-means needs normal data</button><button type="button" class="opt" data-ok="0"><i>C</i>To remove outliers</button><button type="button" class="opt" data-ok="0"><i>D</i>It is optional</button></div><div class="qexp"><b>Answer: A.</b> Spend in rupees would dwarf frequency.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does inertia measure?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Within-cluster sum of squared distances to centroids</button><button type="button" class="opt" data-ok="0"><i>B</i>Distance between clusters</button><button type="button" class="opt" data-ok="0"><i>C</i>Number of clusters</button><button type="button" class="opt" data-ok="0"><i>D</i>Accuracy</button></div><div class="qexp"><b>Answer: A.</b> It always decreases as k grows.</div></div><div class="qq"><p class="qtext"><b>4.</b> A silhouette score near 0 means…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Points lie between clusters; clusters overlap</button><button type="button" class="opt" data-ok="0"><i>B</i>Perfect clusters</button><button type="button" class="opt" data-ok="0"><i>C</i>Wrong labels</button><button type="button" class="opt" data-ok="0"><i>D</i>One cluster only</button></div><div class="qexp"><b>Answer: A.</b> Closer to 1 is better separation.</div></div><div class="qq"><p class="qtext"><b>5.</b> A segment "bought often but not for 5 months" is best called…</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Champions</button><button type="button" class="opt" data-ok="1"><i>B</i>At risk</button><button type="button" class="opt" data-ok="0"><i>C</i>New customers</button><button type="button" class="opt" data-ok="0"><i>D</i>Loyal</button></div><div class="qexp"><b>Answer: B.</b> Action: win-back now.</div></div><div class="qq"><p class="qtext"><b>6.</b> How should you name clusters?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>From their profiles (median recency, frequency, spend and other traits)</button><button type="button" class="opt" data-ok="0"><i>B</i>By cluster number</button><button type="button" class="opt" data-ok="0"><i>C</i>Randomly</button><button type="button" class="opt" data-ok="0"><i>D</i>By the largest customer</button></div><div class="qexp"><b>Answer: A.</b> Names should describe behaviour.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Add <code>avg_order_value</code> and <code>tenure_days</code> (days since first purchase) to the features and re-cluster: does the silhouette improve? (2) Compare K-means with k = 3 and k = 5 profiles: which is more actionable? (3) Compute RFM on the Superstore data for 2025 and list the top 10 Champions.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">first = <span class="hl-f">tx.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">invoice_date.min</span>()
+f2 = <span class="hl-f">feat.assign</span>(log_aov=<span class="hl-f">np.log1p</span>(rfm.monetary / rfm.frequency), log_tenure=<span class="hl-f">np.log1p</span>((snapshot - first).dt.days))
+Z2 = <span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(f2)
+<span class="hl-k">for</span> k <span class="hl-k">in</span> (<span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>): <span class="hl-f">print</span>(k, <span class="hl-f">silhouette_score</span>(Z2, <span class="hl-f">KMeans</span>(k, n_init=<span class="hl-n">20</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit_predict</span>(Z2)))
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>]); s = s[s.order_date.dt.year == <span class="hl-n">2025</span>]
+snap = <span class="hl-f">s.order_date.max</span>() + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">1</span>)
+r2 = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">agg</span>(recency=(<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-k">lambda</span> d: (snap - <span class="hl-f">d.max</span>()).days), frequency=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), monetary=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+r2[<span class="hl-s">&quot;score&quot;</span>] = <span class="hl-f">pd.qcut</span>(-r2.recency, <span class="hl-n">5</span>, labels=<span class="hl-k">False</span>) + <span class="hl-f">pd.qcut</span>(<span class="hl-f">r2.frequency.rank</span>(method=<span class="hl-s">&quot;first&quot;</span>), <span class="hl-n">5</span>, labels=<span class="hl-k">False</span>) + <span class="hl-f">pd.qcut</span>(r2.monetary, <span class="hl-n">5</span>, labels=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-f">r2.sort_values</span>([<span class="hl-s">&quot;score&quot;</span>, <span class="hl-s">&quot;monetary&quot;</span>], ascending=<span class="hl-k">False</span>).<span class="hl-f">head</span>(<span class="hl-n">10</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you choose the number of clusters?</strong>
+Elbow plot of inertia, silhouette and Davies-Bouldin scores, stability across random seeds, and above all whether the segments are distinct and actionable.</p>
+<p><strong>Q: What are the limitations of K-means?</strong>
+k must be chosen; it assumes spherical, similar-sized clusters; it is sensitive to scaling, outliers and initialisation; it handles only numeric distances.</p>
+<p><strong>Q: Explain RFM segmentation.</strong>
+Score customers on recency, frequency and monetary value (usually by quintiles), combine the scores, and map combinations to named segments with tailored actions.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html"><small>← Previous</small><b>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</b></a><a class="next" href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html"><small>Next →</small><b>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-segment-customers">Why segment customers?</a><a href="#step-1-rfm-table">Step 1: RFM table</a><a href="#step-2-heuristic-rfm-scores">Step 2: heuristic RFM scores</a><a href="#step-3-k-means-clustering">Step 3: K-means clustering</a><a href="#k-means-assumptions-and-limits">K-means assumptions and limits</a><a href="#from-segments-to-action">From segments to action</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>

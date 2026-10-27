@@ -1,0 +1,231 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP · Stats &amp; ML Lesson 23 · Data Science &amp; AI Handbook</title><meta name="description" content="Go beyond K-means. Agglomerative hierarchical clustering with dendrograms and linkage choices, density-based DBSCAN for irregular shapes and outliers, Gaussian mixture models with soft assignments, and dimensionality reduction with PCA (explained variance, loadings, compression), plus t-SNE and UMAP for visualisation, applied to video-game sales and HR data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 23</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class="on"><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-23">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 23 of 23</div><h1>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</h1>
+<p class="sum">Go beyond K-means. Agglomerative hierarchical clustering with dendrograms and linkage choices, density-based DBSCAN for irregular shapes and outliers, Gaussian mixture models with soft assignments, and dimensionality reduction with PCA (explained variance, loadings, compression), plus t-SNE and UMAP for visualisation, applied to video-game sales and HR data.</p><div class="tags"><span class="tag live">● ML track (added)</span><span class="tag new">✦ scikit-learn 1.7+</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_23_Clustering_II_and_Dimensionality_Reduction_Hierarchical_DBSCAN_Gaussia.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-23">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build and read a dendrogram and choose a linkage method</li><li>Use DBSCAN to find irregular clusters and noise points, and tune eps and min_samples</li><li>Fit Gaussian mixture models and use soft cluster probabilities and BIC</li><li>Apply PCA, read explained variance and loadings, and use PCA before modelling</li><li>Know when to use t-SNE or UMAP and their pitfalls</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/video_game_sales.csv" download>video_game_sales.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="hierarchical-clustering">Hierarchical clustering</h2>
+<p><strong>Agglomerative</strong> clustering starts with every point as its own cluster and repeatedly merges the two closest clusters. The full merge history is a tree, the <strong>dendrogram</strong>: cut it at a height to get clusters, with no need to fix k in advance.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np, matplotlib.pyplot <span class="hl-k">as</span> plt
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>); <span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.max_columns&quot;</span>, <span class="hl-n">20</span>)
+vg = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;video_game_sales.csv&quot;</span>)
+pub = <span class="hl-f">vg.groupby</span>(<span class="hl-s">&quot;genre&quot;</span>).<span class="hl-f">agg</span>(titles=(<span class="hl-s">&quot;name&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), na=(<span class="hl-s">&quot;na_sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), eu=(<span class="hl-s">&quot;eu_sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), jp=(<span class="hl-s">&quot;jp_sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), other=(<span class="hl-s">&quot;other_sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), total=(<span class="hl-s">&quot;global_sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+shares = pub[[<span class="hl-s">&quot;na&quot;</span>, <span class="hl-s">&quot;eu&quot;</span>, <span class="hl-s">&quot;jp&quot;</span>, <span class="hl-s">&quot;other&quot;</span>]].<span class="hl-f">div</span>(pub.total, axis=<span class="hl-n">0</span>).<span class="hl-f">round</span>(<span class="hl-n">3</span>)                 <span class="hl-c"># regional mix per genre</span>
+<span class="hl-f">print</span>(<span class="hl-f">shares.join</span>(pub[[<span class="hl-s">&quot;titles&quot;</span>, <span class="hl-s">&quot;total&quot;</span>]].<span class="hl-f">round</span>(<span class="hl-n">1</span>)).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;total&quot;</span>, ascending=<span class="hl-k">False</span>).<span class="hl-f">head</span>(<span class="hl-n">6</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">               na     eu     jp  other  titles  total
+genre                                                
+Adventure   0.401  0.308  0.153  0.137     186  136.7
+Sports      0.430  0.348  0.063  0.160     181  133.8
+Action      0.413  0.308  0.145  0.135     174  116.3
+Racing      0.389  0.321  0.146  0.144     159  113.6
+Strategy    0.395  0.320  0.147  0.138     182  111.5
+Simulation  0.400  0.313  0.149  0.138     169  108.4</pre></div>
+<figure class="fig"><img src="../img/ml-23-01.png" alt="Dendrogram of game genres by regional sales mix (Ward linkage). Cutting where the vertical gaps are largest suggests the number of clusters." loading="lazy"><figcaption>Dendrogram of game genres by regional sales mix (Ward linkage). Cutting where the vertical gaps are largest suggests the number of clusters.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">shares[<span class="hl-s">&quot;cluster&quot;</span>] = <span class="hl-f">fcluster</span>(L, t=<span class="hl-n">3</span>, criterion=<span class="hl-s">&quot;maxclust&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">shares.groupby</span>(<span class="hl-s">&quot;cluster&quot;</span>)[[<span class="hl-s">&quot;na&quot;</span>, <span class="hl-s">&quot;eu&quot;</span>, <span class="hl-s">&quot;jp&quot;</span>, <span class="hl-s">&quot;other&quot;</span>]].<span class="hl-f">mean</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>), <span class="hl-s">&quot;\n&quot;</span>, <span class="hl-f">shares.groupby</span>(<span class="hl-s">&quot;cluster&quot;</span>).<span class="hl-f">apply</span>(<span class="hl-k">lambda</span> g: <span class="hl-f">g.index.tolist</span>(), include_groups=<span class="hl-k">False</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">           na    eu    jp  other
+cluster                         
+1        0.41  0.32  0.13   0.14
+2        0.32  0.29  0.27   0.11
+3        0.28  0.24  0.40   0.08 
+ {1: [&#x27;Action&#x27;, &#x27;Adventure&#x27;, &#x27;Misc&#x27;, &#x27;Platform&#x27;, &#x27;Racing&#x27;, &#x27;Shooter&#x27;, &#x27;Simulation&#x27;, &#x27;Sports&#x27;, &#x27;Strategy&#x27;], 2: [&#x27;Fighting&#x27;, &#x27;Puzzle&#x27;], 3: [&#x27;Role-Playing&#x27;]}</pre></div>
+<p>Three clear groups appear: role-playing games sell about 40% of units in Japan, fighting and puzzle games about 27%, and the other genres are driven by North America and Europe with only 13–15% in Japan. A publisher could use this to plan regional launches and marketing budgets.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Linkage</th>
+<th>Merges clusters with…</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ward</td>
+<td>Smallest increase in within-cluster variance</td>
+<td>Compact, similar-size clusters (default choice)</td>
+</tr>
+<tr>
+<td>Complete</td>
+<td>Smallest maximum pairwise distance</td>
+<td>Compact clusters, sensitive to outliers</td>
+</tr>
+<tr>
+<td>Average</td>
+<td>Smallest average distance</td>
+<td>Balanced</td>
+</tr>
+<tr>
+<td>Single</td>
+<td>Smallest minimum distance</td>
+<td>Long "chains"; finds odd shapes but chains noise</td>
+</tr>
+</tbody>
+</table></div>
+<p>Hierarchical clustering is ideal for small datasets (hundreds to a few thousand items) where the tree itself is informative: product taxonomies, store groupings, gene families. It is O(n²) in memory, so not for millions of rows.</p>
+<h2 id="dbscan-density-based-clusters-and-noise">DBSCAN: density-based clusters and noise</h2>
+<p><strong>DBSCAN</strong> groups points that are densely packed (at least <code>min_samples</code> neighbours within distance <code>eps</code>) and labels isolated points as <strong>noise</strong> (−1). It finds clusters of any shape and does not need k.</p>
+<figure class="fig"><img src="../img/ml-23-02.png" alt="K-means vs DBSCAN on non-spherical data with outliers: DBSCAN follows the shapes and marks outliers (grey)." loading="lazy"><figcaption>K-means vs DBSCAN on non-spherical data with outliers: DBSCAN follows the shapes and marks outliers (grey).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.neighbors <span class="hl-k">import</span> NearestNeighbors
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> silhouette_score
+d8 = <span class="hl-f">np.sort</span>(<span class="hl-f">NearestNeighbors</span>(n_neighbors=<span class="hl-n">8</span>).<span class="hl-f">fit</span>(Xm).<span class="hl-f">kneighbors</span>(Xm)[<span class="hl-n">0</span>][:, -<span class="hl-n">1</span>])
+<span class="hl-f">print</span>(<span class="hl-s">&quot;8th-neighbour distance percentiles (pick eps near the &#x27;knee&#x27;):&quot;</span>, <span class="hl-f">np.percentile</span>(d8, [<span class="hl-n">50</span>, <span class="hl-n">80</span>, <span class="hl-n">90</span>, <span class="hl-n">95</span>]).<span class="hl-f">round</span>(<span class="hl-n">3</span>))
+<span class="hl-k">for</span> eps <span class="hl-k">in</span> (<span class="hl-n">0.08</span>, <span class="hl-n">0.12</span>, <span class="hl-n">0.15</span>, <span class="hl-n">0.25</span>):
+    lab = <span class="hl-f">DBSCAN</span>(eps=eps, min_samples=<span class="hl-n">8</span>).<span class="hl-f">fit_predict</span>(Xm)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;eps {eps}: clusters {len(set(lab)) - (-1 in lab)} | noise points {(lab == -1).sum()}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">8th-neighbour distance percentiles (pick eps near the &#x27;knee&#x27;): [0.091 0.116 0.139 0.193]
+eps 0.08: clusters 25 | noise points 120
+eps 0.12: clusters 3 | noise points 24
+eps 0.15: clusters 2 | noise points 16
+eps 0.25: clusters 1 | noise points 11</pre></div>
+<p>Tuning: set <code>min_samples</code> ≈ 2 × number of features (or more for noisy data); choose <code>eps</code> from the "knee" of the sorted k-nearest-neighbour distance plot. DBSCAN struggles when clusters have very different densities (HDBSCAN, available as <code>sklearn.cluster.HDBSCAN</code>, handles that).</p>
+<p><strong>Uses:</strong> geographic hotspots (delivery addresses, crime), anomaly detection (noise points), sensor data, irregular customer groups.</p>
+<h2 id="gaussian-mixture-models">Gaussian mixture models</h2>
+<p>A <strong>GMM</strong> assumes the data come from a mix of k Gaussian (bell-shaped) clusters, which may be elongated and of different sizes. Each point gets a <strong>probability</strong> of belonging to each cluster (soft clustering).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.mixture <span class="hl-k">import</span> GaussianMixture
+hr = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;hr_employees.csv&quot;</span>)
+Xh = <span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(np.c_[hr.age, <span class="hl-f">np.log</span>(hr.monthly_income), hr.years_at_company])
+bics = {k: <span class="hl-f">round</span>(<span class="hl-f">GaussianMixture</span>(k, covariance_type=<span class="hl-s">&quot;full&quot;</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xh).<span class="hl-f">bic</span>(Xh), <span class="hl-n">1</span>) <span class="hl-k">for</span> k <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">7</span>)}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;BIC by k (lower is better):&quot;</span>, bics)
+g = <span class="hl-f">GaussianMixture</span>(<span class="hl-f">min</span>(bics, key=bics.get), covariance_type=<span class="hl-s">&quot;full&quot;</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xh)
+probs = <span class="hl-f">g.predict_proba</span>(Xh)
+hr[<span class="hl-s">&quot;gmm&quot;</span>] = <span class="hl-f">probs.argmax</span>(<span class="hl-n">1</span>); hr[<span class="hl-s">&quot;certainty&quot;</span>] = <span class="hl-f">probs.max</span>(<span class="hl-n">1</span>).<span class="hl-f">round</span>(<span class="hl-n">2</span>)
+<span class="hl-f">print</span>(<span class="hl-f">hr.groupby</span>(<span class="hl-s">&quot;gmm&quot;</span>).<span class="hl-f">agg</span>(n=(<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), age=(<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), income=(<span class="hl-s">&quot;monthly_income&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), years=(<span class="hl-s">&quot;years_at_company&quot;</span>, <span class="hl-s">&quot;median&quot;</span>), attrition=(<span class="hl-s">&quot;attrition&quot;</span>, <span class="hl-k">lambda</span> s: <span class="hl-f">round</span>((s == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">mean</span>(), <span class="hl-n">3</span>))))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;share of employees assigned with &lt; 70% certainty:&quot;</span>, <span class="hl-f">round</span>((hr.certainty &lt; <span class="hl-n">0.7</span>).<span class="hl-f">mean</span>(), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">BIC by k (lower is better): {1: 11991.6, 2: 11322.1, 3: 10937.7, 4: 11010.3, 5: 9212.8, 6: 9231.8}
+       n   age    income  years  attrition
+gmm                                       
+0    436  35.5   65000.0    4.0      0.271
+1    271  34.0   95833.0    1.0      0.273
+2    328  34.0   51833.0    0.0      0.320
+3    183  25.0   90833.0    5.0      0.246
+4    282  38.0  119541.5    8.0      0.167
+share of employees assigned with &lt; 70% certainty: 0.075</pre></div>
+<p>GMMs choose k with <strong>BIC/AIC</strong>, give uncertainty for borderline points, and are also used for anomaly detection (low likelihood = unusual).</p>
+<h2 id="dimensionality-reduction-pca">Dimensionality reduction: PCA</h2>
+<p><strong>Principal component analysis</strong> finds new axes (principal components) that are uncorrelated linear combinations of the original features, ordered by how much variance they explain. Keeping the first few compresses the data with minimal information loss.</p>
+<figure class="fig"><img src="../img/ml-23-03.png" alt="PCA finds the direction of greatest variance (PC1) and the next orthogonal direction (PC2)." loading="lazy"><figcaption>PCA finds the direction of greatest variance (PC1) and the next orthogonal direction (PC2).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">num = hr[[<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;years_at_company&quot;</span>, <span class="hl-s">&quot;monthly_income&quot;</span>, <span class="hl-s">&quot;job_satisfaction&quot;</span>, <span class="hl-s">&quot;distance_from_home_km&quot;</span>, <span class="hl-s">&quot;performance_rating&quot;</span>]].<span class="hl-f">assign</span>(monthly_income=<span class="hl-f">np.log</span>(hr.monthly_income))
+pca = <span class="hl-f">PCA</span>().<span class="hl-f">fit</span>(<span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(num))
+ev = <span class="hl-f">pd.Series</span>(pca.explained_variance_ratio_, index=[<span class="hl-s">f&quot;PC{i + 1}&quot;</span> <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(num.columns))])
+<span class="hl-f">print</span>(<span class="hl-s">&quot;explained variance:&quot;</span>, <span class="hl-f">ev.round</span>(<span class="hl-n">3</span>).<span class="hl-f">to_dict</span>(), <span class="hl-s">&quot;| cumulative:&quot;</span>, <span class="hl-f">ev.cumsum</span>().<span class="hl-f">round</span>(<span class="hl-n">3</span>).<span class="hl-f">tolist</span>())
+load = <span class="hl-f">pd.DataFrame</span>(pca.components_[:<span class="hl-n">3</span>].T, index=num.columns, columns=[<span class="hl-s">&quot;PC1&quot;</span>, <span class="hl-s">&quot;PC2&quot;</span>, <span class="hl-s">&quot;PC3&quot;</span>]).<span class="hl-f">round</span>(<span class="hl-n">2</span>)
+<span class="hl-f">print</span>(load)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">explained variance: {&#x27;PC1&#x27;: 0.286, &#x27;PC2&#x27;: 0.172, &#x27;PC3&#x27;: 0.167, &#x27;PC4&#x27;: 0.164, &#x27;PC5&#x27;: 0.152, &#x27;PC6&#x27;: 0.059} | cumulative: [0.286, 0.458, 0.625, 0.789, 0.941, 1.0]
+                        PC1   PC2   PC3
+age                    0.29 -0.34  0.28
+years_at_company       0.68  0.08  0.04
+monthly_income         0.66  0.06 -0.03
+job_satisfaction       0.04  0.76  0.17
+distance_from_home_km -0.11 -0.00  0.94
+performance_rating    -0.04  0.54 -0.06</pre></div>
+<p><strong>Reading loadings:</strong> PC1 loads heavily on years at company and income (and partly age), so it is a "seniority" axis. Later components capture what is left (satisfaction, distance, rating), which are nearly uncorrelated with each other, so each needs its own component.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.datasets <span class="hl-k">import</span> load_digits
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> cross_val_score
+digits = <span class="hl-f">load_digits</span>()
+p = <span class="hl-f">PCA</span>().<span class="hl-f">fit</span>(digits.data); k95 = <span class="hl-f">int</span>(<span class="hl-f">np.searchsorted</span>(<span class="hl-f">np.cumsum</span>(p.explained_variance_ratio_), <span class="hl-n">0.95</span>) + <span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;digits: {digits.data.shape[1]} pixel features → {k95} components keep 95% of the variance&quot;</span>)
+<span class="hl-k">for</span> n <span class="hl-k">in</span> (<span class="hl-n">5</span>, <span class="hl-n">15</span>, k95, <span class="hl-n">64</span>):
+    s = <span class="hl-f">cross_val_score</span>(<span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">PCA</span>(n), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">3000</span>)), digits.data, digits.target, cv=<span class="hl-n">5</span>).<span class="hl-f">mean</span>()
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;  {n:2d} components → logistic regression accuracy {s:.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">digits: 64 pixel features → 29 components keep 95% of the variance
+   5 components → logistic regression accuracy 0.771
+  15 components → logistic regression accuracy 0.892
+  29 components → logistic regression accuracy 0.905
+  64 components → logistic regression accuracy 0.920</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>PCA is useful for</th>
+<th>Caution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compressing many correlated features</td>
+<td>Scale features first</td>
+</tr>
+<tr>
+<td>Removing multicollinearity before linear models</td>
+<td>Components are harder to explain</td>
+</tr>
+<tr>
+<td>Visualising high-dimensional data in 2-D</td>
+<td>Linear only; captures variance, not class separation</td>
+</tr>
+<tr>
+<td>Speeding up distance-based models</td>
+<td>Fit PCA on training data only (inside the pipeline)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="t-sne-and-umap-for-visualisation">t-SNE and UMAP for visualisation</h2>
+<p><strong>t-SNE</strong> and <strong>UMAP</strong> are non-linear methods that place similar points close together in 2-D. They make beautiful maps of embeddings, images and text.</p>
+<figure class="fig"><img src="../img/ml-23-04.png" alt="Handwritten digits (64 features) projected to 2-D by PCA and by t-SNE. t-SNE separates the digit groups much more clearly." loading="lazy"><figcaption>Handwritten digits (64 features) projected to 2-D by PCA and by t-SNE. t-SNE separates the digit groups much more clearly.</figcaption></figure>
+<p>Pitfalls: distances between far-apart groups and cluster sizes in t-SNE plots are not meaningful; results change with perplexity and random seed; do not cluster on t-SNE output. UMAP (<code>pip install umap-learn</code>) is faster and preserves more global structure. Both are mainly for <strong>looking</strong>, not for features in production models.</p>
+<h2 id="choosing-a-method">Choosing a method</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Data / goal</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Numeric, roughly round clusters, large n</td>
+<td>K-means (MiniBatchKMeans for very large)</td>
+</tr>
+<tr>
+<td>Small n, want a hierarchy</td>
+<td>Agglomerative + dendrogram</td>
+</tr>
+<tr>
+<td>Odd shapes, outliers, unknown k</td>
+<td>DBSCAN / HDBSCAN</td>
+</tr>
+<tr>
+<td>Overlapping, elliptical clusters, need probabilities</td>
+<td>Gaussian mixture</td>
+</tr>
+<tr>
+<td>Mixed numeric + categorical</td>
+<td>K-prototypes, Gower distance + hierarchical</td>
+</tr>
+<tr>
+<td>Too many correlated features</td>
+<td>PCA first</td>
+</tr>
+<tr>
+<td>Visualise embeddings</td>
+<td>UMAP, t-SNE</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Agglomerative clustering merges closest clusters; the dendrogram shows structure at every level; Ward linkage is the usual default.</li>
+<li>DBSCAN finds dense regions of any shape and labels noise; tune eps with a k-distance plot.</li>
+<li>Gaussian mixtures give soft, probabilistic clusters of different shapes; choose k with BIC.</li>
+<li>PCA creates uncorrelated components ordered by explained variance; read loadings to name them; fit inside pipelines.</li>
+<li>t-SNE and UMAP are for visualisation; distances and sizes in their plots can mislead.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-23-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does a dendrogram show?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The order and distance at which clusters merge</button><button type="button" class="opt" data-ok="0"><i>B</i>Feature importance</button><button type="button" class="opt" data-ok="0"><i>C</i>The elbow curve</button><button type="button" class="opt" data-ok="0"><i>D</i>Class probabilities</button></div><div class="qexp"><b>Answer: A.</b> Cut it to choose clusters.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which method labels outliers as noise?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>K-means</button><button type="button" class="opt" data-ok="1"><i>B</i>DBSCAN</button><button type="button" class="opt" data-ok="0"><i>C</i>PCA</button><button type="button" class="opt" data-ok="0"><i>D</i>Ward linkage</button></div><div class="qexp"><b>Answer: B.</b> Label −1.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does a Gaussian mixture give that K-means does not?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Probabilities of belonging to each cluster and elliptical cluster shapes</button><button type="button" class="opt" data-ok="0"><i>B</i>Faster training</button><button type="button" class="opt" data-ok="0"><i>C</i>A dendrogram</button><button type="button" class="opt" data-ok="0"><i>D</i>No need to scale</button></div><div class="qexp"><b>Answer: A.</b> Soft assignments.</div></div><div class="qq"><p class="qtext"><b>4.</b> PC1 explains 45% of the variance. What does that mean?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The first component captures 45% of the total variance in the (scaled) features</button><button type="button" class="opt" data-ok="0"><i>B</i>45% accuracy</button><button type="button" class="opt" data-ok="0"><i>C</i>45% of rows</button><button type="button" class="opt" data-ok="0"><i>D</i>45% of features are removed</button></div><div class="qexp"><b>Answer: A.</b> Components are ordered by variance explained.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why scale features before PCA?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Otherwise features with large units dominate the components</button><button type="button" class="opt" data-ok="0"><i>B</i>PCA requires normal data</button><button type="button" class="opt" data-ok="0"><i>C</i>To remove outliers</button><button type="button" class="opt" data-ok="0"><i>D</i>It is not needed</button></div><div class="qexp"><b>Answer: A.</b> Variance depends on units.</div></div><div class="qq"><p class="qtext"><b>6.</b> Can you trust the distance between two far-apart clusters in a t-SNE plot?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Yes</button><button type="button" class="opt" data-ok="1"><i>B</i>No, global distances and cluster sizes are not reliable in t-SNE</button><button type="button" class="opt" data-ok="0"><i>C</i>Only with perplexity 5</button><button type="button" class="opt" data-ok="0"><i>D</i>Only for text</button></div><div class="qexp"><b>Answer: B.</b> Use it to look, not to measure.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Cluster video-game platforms by regional mix with hierarchical clustering. (2) Run DBSCAN on standardised RFM features from the previous lesson: how many customers are noise? (3) Use PCA to reduce the telecom churn features to 3 components and compare logistic-regression AUC before and after.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">gen = <span class="hl-f">vg.groupby</span>(<span class="hl-s">&quot;platform&quot;</span>)[[<span class="hl-s">&quot;na_sales&quot;</span>, <span class="hl-s">&quot;eu_sales&quot;</span>, <span class="hl-s">&quot;jp_sales&quot;</span>, <span class="hl-s">&quot;other_sales&quot;</span>]].<span class="hl-f">sum</span>(); gs = <span class="hl-f">gen.div</span>(<span class="hl-f">gen.sum</span>(<span class="hl-n">1</span>), axis=<span class="hl-n">0</span>)
+<span class="hl-f">print</span>(<span class="hl-f">dict</span>(<span class="hl-f">zip</span>(gs.index, <span class="hl-f">fcluster</span>(<span class="hl-f">linkage</span>(<span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(gs), <span class="hl-s">&quot;ward&quot;</span>), <span class="hl-n">3</span>, <span class="hl-s">&quot;maxclust&quot;</span>))))
+tx = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;retail_transactions.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;invoice_date&quot;</span>]); snap = <span class="hl-f">tx.invoice_date.max</span>() + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">1</span>)
+rf = <span class="hl-f">tx.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">agg</span>(r=(<span class="hl-s">&quot;invoice_date&quot;</span>, <span class="hl-k">lambda</span> d: (snap - <span class="hl-f">d.max</span>()).days), f=(<span class="hl-s">&quot;invoice_no&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), m=(<span class="hl-s">&quot;amount&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+lab = <span class="hl-f">DBSCAN</span>(eps=<span class="hl-n">0.5</span>, min_samples=<span class="hl-n">8</span>).<span class="hl-f">fit_predict</span>(<span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(<span class="hl-f">np.log1p</span>(rf))); <span class="hl-f">print</span>((lab == -<span class="hl-n">1</span>).<span class="hl-f">sum</span>())</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: K-means vs hierarchical vs DBSCAN?</strong>
+K-means: fast, needs k, round clusters. Hierarchical: no k upfront, a full tree, small data. DBSCAN: arbitrary shapes and noise detection, needs density parameters and struggles with varying densities.</p>
+<p><strong>Q: What is PCA and when would you use it?</strong>
+A linear transformation to uncorrelated components ordered by variance; used to compress correlated features, remove multicollinearity, speed up models and visualise data.</p>
+<p><strong>Q: How do you interpret principal components?</strong>
+Through their loadings: the weight of each original feature in the component, naming it after the features with the largest absolute weights.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html"><small>← Previous</small><b>Clustering I: K-Means and RFM Customer Segmentation</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#hierarchical-clustering">Hierarchical clustering</a><a href="#dbscan-density-based-clusters-and-noise">DBSCAN: density-based clusters and noise</a><a href="#gaussian-mixture-models">Gaussian mixture models</a><a href="#dimensionality-reduction-pca">Dimensionality reduction: PCA</a><a href="#t-sne-and-umap-for-visualisation">t-SNE and UMAP for visualisation</a><a href="#choosing-a-method">Choosing a method</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
