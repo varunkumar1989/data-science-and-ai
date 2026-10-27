@@ -689,6 +689,7 @@ def render_lesson(L):
             h = (f'<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>{html.escape(title)}</b></div>{fill(md(prob))}'
                  + (f'<details class="sol"><summary>Show solution</summary>{fill(md(sol))}</details>' if sol.strip() else "") + "</div>")
             blocks.append(h); return f"\n\nXQBLOCK{len(blocks) - 1}Z\n\n"
+        kind = {"warning": "warn"}.get(kind, kind)
         lab = CALLOUT.get(kind, kind.title())
         h = f'<div class="co co-{kind}"><div class="co-h"><span class="pill">{lab}</span>{"<b>" + html.escape(title) + "</b>" if title else ""}</div>{fill(md(inner))}</div>'
         blocks.append(h); return f"\n\nXQBLOCK{len(blocks) - 1}Z\n\n"
