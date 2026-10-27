@@ -2,13 +2,13 @@
 <title>Joins and a Retail Case Study · SQL Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Combine tables with INNER, LEFT, RIGHT, FULL OUTER, CROSS and SELF joins, find missing matches with anti-joins, avoid the classic join mistakes (row explosion, filters in ON vs WHERE), and answer a full set of business questions on the retail database."><link rel="icon" href="../assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<link rel="stylesheet" href="../assets/course.css?v=v12"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
 <nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
 <button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
 <div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
-<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class="on"><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li></ol></div></aside>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class="on"><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
 <main class="main" id="top"><article class="lesson-art" data-lid="sql-08">
-<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 8 of 10</div><h1>Joins and a Retail Case Study</h1>
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 8 of 15</div><h1>Joins and a Retail Case Study</h1>
 <p class="sum">Combine tables with INNER, LEFT, RIGHT, FULL OUTER, CROSS and SELF joins, find missing matches with anti-joins, avoid the classic join mistakes (row explosion, filters in ON vs WHERE), and answer a full set of business questions on the retail database.</p><div class="tags"><span class="tag live">● SQL class 4</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
 <div class="lacts"><a class="btn" href="../pdf/sql/SQL_08_Joins_and_a_Retail_Case_Study.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-08">☐ Mark as complete</button></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain each join type with a Venn picture and predict how many rows it returns</li><li>Write INNER, LEFT, RIGHT, FULL OUTER, CROSS and SELF joins with table aliases</li><li>Find unmatched rows with LEFT JOIN … IS NULL (anti-join)</li><li>Avoid row explosion, ambiguous columns, and the ON-vs-WHERE trap in outer joins</li><li>Join three or four tables to answer business questions</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a><a class="chip" href="../datasets/products.csv" download>products.csv</a></div></div></div>
@@ -172,31 +172,31 @@ Commands completed successfully.
   </thead>
   <tbody>
     <tr>
-      <td>1.0</td>
+      <td>1</td>
       <td>Asha</td>
-      <td>1.0</td>
+      <td>1</td>
       <td>Python</td>
     </tr>
     <tr>
-      <td>1.0</td>
+      <td>1</td>
       <td>Asha</td>
-      <td>1.0</td>
+      <td>1</td>
       <td>SQL</td>
     </tr>
     <tr>
-      <td>2.0</td>
+      <td>2</td>
       <td>Ravi</td>
-      <td>2.0</td>
+      <td>2</td>
       <td>Excel</td>
     </tr>
     <tr>
-      <td>3.0</td>
+      <td>3</td>
       <td>Meera</td>
       <td>NULL</td>
       <td>NULL</td>
     </tr>
     <tr>
-      <td>4.0</td>
+      <td>4</td>
       <td>Kabir</td>
       <td>NULL</td>
       <td>NULL</td>
@@ -204,7 +204,7 @@ Commands completed successfully.
     <tr>
       <td>NULL</td>
       <td>NULL</td>
-      <td>5.0</td>
+      <td>5</td>
       <td>Power BI</td>
     </tr>
   </tbody>
@@ -971,4 +971,4 @@ In ON it only limits which right rows match (all left rows stay); in WHERE it fi
 <section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
 <div class="pn"><a class="prev" href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html"><small>← Previous</small><b>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</b></a><a class="next" href="sql-09-set-operators-union-union-all-intersect-and-except.html"><small>Next →</small><b>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-joins">Why joins?</a><a href="#a-tiny-example-first">A tiny example first</a><a href="#joins-on-the-retail-database">Joins on the retail database</a><a href="#case-study-questions-for-the-head-of-sales">Case study: questions for the Head of Sales</a><a href="#common-join-mistakes">Common join mistakes</a><a href="#older-join-syntax-you-may-see">Older join syntax you may see</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
 <footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
-<script src="../assets/search-index.js?v=v10"></script><script src="../assets/course.js?v=v10"></script></body></html>
+<script src="../assets/search-index.js?v=v12"></script><script src="../assets/course.js?v=v12"></script></body></html>

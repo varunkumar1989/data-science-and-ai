@@ -1,0 +1,806 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking · SQL Lesson 11 · Data Science &amp; AI Handbook</title><meta name="description" content="Page through results with OFFSET and FETCH, then learn window functions, the most powerful analytics feature in SQL. Understand OVER and PARTITION BY, rank rows with ROW_NUMBER, RANK, DENSE_RANK and NTILE, solve top-N-per-group and de-duplication problems, and compare aggregate windows with GROUP BY."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v12"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 11</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class="on"><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-11">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 11 of 15</div><h1>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</h1>
+<p class="sum">Page through results with OFFSET and FETCH, then learn window functions, the most powerful analytics feature in SQL. Understand OVER and PARTITION BY, rank rows with ROW_NUMBER, RANK, DENSE_RANK and NTILE, solve top-N-per-group and de-duplication problems, and compare aggregate windows with GROUP BY.</p><div class="tags"><span class="tag live">● SQL class 5</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Intermediate–Advanced</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_11_OFFSET_FETCH_and_Window_Functions_I_OVER_PARTITION_BY_Ranking.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-11">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Paginate with ORDER BY … OFFSET … ROWS FETCH NEXT … ROWS ONLY</li><li>Explain what a window function is and how OVER, PARTITION BY and ORDER BY define the window</li><li>Use ROW_NUMBER, RANK, DENSE_RANK and NTILE and explain how ties behave</li><li>Solve top-N per group, Nth highest value and duplicate-removal problems</li><li>Use aggregate window functions to show totals and shares beside detail rows</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="offset-and-fetch-pagination">OFFSET and FETCH: pagination</h2>
+<p><code>OFFSET n ROWS FETCH NEXT m ROWS ONLY</code> skips n rows and returns the next m. It requires <code>ORDER BY</code>. It is the standard (ANSI) way to page results, used for "page 3 of results" in applications and for "rows 11 to 20" questions.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> customer_name, city, segment
+<span class="hl-k">FROM</span> customers
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> customer_id
+<span class="hl-k">OFFSET</span> <span class="hl-n">10</span> <span class="hl-k">ROWS</span> <span class="hl-k">FETCH</span> <span class="hl-k">NEXT</span> <span class="hl-n">5</span> <span class="hl-k">ROWS</span> <span class="hl-k">ONLY</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_name</th>
+      <th>city</th>
+      <th>segment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sai Iyer</td>
+      <td>Indore</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>Neha Kulkarni</td>
+      <td>Bengaluru</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>Diya Khan</td>
+      <td>Bhubaneswar</td>
+      <td>Home Office</td>
+    </tr>
+    <tr>
+      <td>Kabir Das</td>
+      <td>Kolkata</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>Reyansh Joshi</td>
+      <td>Mumbai</td>
+      <td>Corporate</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 3 columns</div></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Page</th>
+<th>OFFSET</th>
+<th>FETCH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>page size</td>
+</tr>
+<tr>
+<td>2</td>
+<td>page size</td>
+<td>page size</td>
+</tr>
+<tr>
+<td>page p</td>
+<td>(p − 1) × page size</td>
+<td>page size</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>TOP n</code> cannot skip rows; OFFSET-FETCH can. PostgreSQL/MySQL write <code>LIMIT m OFFSET n</code>. On very deep pages (OFFSET 1,000,000) databases still read and discard all skipped rows, so large systems use <strong>keyset pagination</strong> (<code>WHERE id &gt; last_seen_id ORDER BY id</code>).</p>
+<p>The "Nth highest value" question can be answered with it too: the second-highest line value is <code>ORDER BY sales DESC OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY</code> on distinct values:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> sales <span class="hl-k">AS</span> second_highest_sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>
+<span class="hl-k">OFFSET</span> <span class="hl-n">1</span> <span class="hl-k">ROWS</span> <span class="hl-k">FETCH</span> <span class="hl-k">NEXT</span> <span class="hl-n">1</span> <span class="hl-k">ROWS</span> <span class="hl-k">ONLY</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>second_highest_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>551,530</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h2 id="what-is-a-window-function">What is a window function?</h2>
+<p>A <strong>window function</strong> computes a value for <strong>each row</strong> using a set of related rows (its <strong>window</strong>), <strong>without collapsing the rows</strong> like <code>GROUP BY</code> does.</p>
+<figure class="fig"><img src="../img/sql-11-01.png" alt="GROUP BY collapses rows into one per group. A window function keeps every row and adds the group&#x27;s result beside it." loading="lazy"><figcaption>GROUP BY collapses rows into one per group. A window function keeps every row and adds the group's result beside it.</figcaption></figure>
+<h3 id="the-over-clause">The OVER clause</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-f">function_name</span>(expression) <span class="hl-k">OVER</span> (
+    <span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> column_list      <span class="hl-c">-- split rows into groups (optional)</span>
+    <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> column_list          <span class="hl-c">-- order inside each group (needed for ranking, running totals)</span>
+    <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> … <span class="hl-k">AND</span> …          <span class="hl-c">-- optional frame (Lesson 12)</span>
+)</code></pre></div>
+<ul>
+<li><strong><code>PARTITION BY</code></strong> is like GROUP BY for the window: the function restarts for every partition. Without it, the whole result is one partition.</li>
+<li><strong><code>ORDER BY</code></strong> inside OVER orders rows <em>within the partition</em> (it does not sort the final output; use the normal ORDER BY for that).</li>
+</ul>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region, city, order_id, sales,
+       <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region)                          <span class="hl-k">AS</span> region_total,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * sales / <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region), <span class="hl-n">4</span>) <span class="hl-k">AS</span> pct_of_region,
+       <span class="hl-f">AVG</span>(sales) <span class="hl-k">OVER</span> ()                                             <span class="hl-k">AS</span> overall_avg
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region, sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>city</th>
+      <th>order_id</th>
+      <th>sales</th>
+      <th>region_total</th>
+      <th>pct_of_region</th>
+      <th>overall_avg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+      <td>Kolkata</td>
+      <td>IN-2025-03160</td>
+      <td>472,740</td>
+      <td>46,484,119</td>
+      <td>1.02</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Kolkata</td>
+      <td>IN-2025-02134</td>
+      <td>442,350</td>
+      <td>46,484,119</td>
+      <td>0.95</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Kolkata</td>
+      <td>IN-2025-02822</td>
+      <td>422,640</td>
+      <td>46,484,119</td>
+      <td>0.91</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Guwahati</td>
+      <td>IN-2025-02562</td>
+      <td>413,040</td>
+      <td>46,484,119</td>
+      <td>0.89</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Patna</td>
+      <td>IN-2023-00171</td>
+      <td>393,950</td>
+      <td>46,484,119</td>
+      <td>0.85</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Patna</td>
+      <td>IN-2025-02317</td>
+      <td>388,320</td>
+      <td>46,484,119</td>
+      <td>0.84</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Bhubaneswar</td>
+      <td>IN-2025-02981</td>
+      <td>372,720</td>
+      <td>46,484,119</td>
+      <td>0.80</td>
+      <td>31,854</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Patna</td>
+      <td>IN-2024-01792</td>
+      <td>372,720</td>
+      <td>46,484,119</td>
+      <td>0.80</td>
+      <td>31,854</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6,323 rows × 7 columns (first 8 shown)</div></div>
+<p>Each row keeps its own detail but now also shows its region total, its share of the region, and the overall average. With GROUP BY you would need a join to get this.</p>
+<h2 id="ranking-functions">Ranking functions</h2>
+<p>All four need <code>ORDER BY</code> inside <code>OVER</code>.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Behaviour with ties</th>
+<th>Example values 90, 80, 80, 70</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ROW_NUMBER()</code></td>
+<td>Unique numbers; ties broken arbitrarily</td>
+<td>1, 2, 3, 4</td>
+</tr>
+<tr>
+<td><code>RANK()</code></td>
+<td>Ties share a rank; <strong>gaps</strong> follow</td>
+<td>1, 2, 2, 4</td>
+</tr>
+<tr>
+<td><code>DENSE_RANK()</code></td>
+<td>Ties share a rank; <strong>no gaps</strong></td>
+<td>1, 2, 2, 3</td>
+</tr>
+<tr>
+<td><code>NTILE(n)</code></td>
+<td>Splits rows into n equal buckets</td>
+<td>4 rows, NTILE(2): 1, 1, 2, 2</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> scores <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Asha&#x27;</span> <span class="hl-k">AS</span> name, <span class="hl-n">90</span> <span class="hl-k">AS</span> score <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Ravi&#x27;</span>, <span class="hl-n">80</span> <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Meera&#x27;</span>, <span class="hl-n">80</span> <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Kabir&#x27;</span>, <span class="hl-n">70</span>
+)
+<span class="hl-k">SELECT</span> name, score,
+       <span class="hl-f">ROW_NUMBER</span>() <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> score <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> row_number,
+       <span class="hl-f">RANK</span>()       <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> score <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rank,
+       <span class="hl-f">DENSE_RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> score <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> dense_rank,
+       <span class="hl-f">NTILE</span>(<span class="hl-n">2</span>)     <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> score <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> half
+<span class="hl-k">FROM</span> scores;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>score</th>
+      <th>row_number</th>
+      <th>rank</th>
+      <th>dense_rank</th>
+      <th>half</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Asha</td>
+      <td>90</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Ravi</td>
+      <td>80</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Meera</td>
+      <td>80</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Kabir</td>
+      <td>70</td>
+      <td>4</td>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 6 columns</div></div>
+<p>Ravi and Meera tie at 80: <code>RANK</code> gives both 2 and skips 3; <code>DENSE_RANK</code> gives both 2 and continues with 3; <code>ROW_NUMBER</code> gives 2 and 3 in arbitrary order (add a tie-breaker column to make it deterministic).</p>
+<h3 id="ranking-within-groups">Ranking within groups</h3>
+<p>"Rank each sub-category by sales within its category":</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> category, sub_category,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                                              <span class="hl-k">AS</span> sales,
+       <span class="hl-f">RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> category <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-f">SUM</span>(sales) <span class="hl-k">DESC</span>)      <span class="hl-k">AS</span> rank_in_category
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> category, sub_category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> category, rank_in_category;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>sub_category</th>
+      <th>sales</th>
+      <th>rank_in_category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>Tables</td>
+      <td>14,046,224</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Bookcases</td>
+      <td>11,274,849</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Chairs</td>
+      <td>8,091,474</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Furnishings</td>
+      <td>1,429,307</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Appliances</td>
+      <td>6,333,529</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Storage</td>
+      <td>2,659,340</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Paper</td>
+      <td>493,232</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Binders</td>
+      <td>401,219</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Art</td>
+      <td>245,985</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Copiers</td>
+      <td>78,749,926</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Machines</td>
+      <td>42,590,335</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Phones</td>
+      <td>31,919,223</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">13 rows × 4 columns (first 12 shown)</div></div>
+<p>Note the order: <code>GROUP BY</code> runs first, then the window function ranks the grouped rows. That is why <code>SUM(sales)</code> can appear inside <code>OVER</code>.</p>
+<h2 id="top-n-per-group">Top-N per group</h2>
+<p>You cannot filter on a window function in <code>WHERE</code> (windows are computed in the SELECT step, after WHERE). Wrap the query in a CTE or derived table, then filter the rank.</p>
+<p>"Top 2 cities by sales in each region":</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> city_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> region, city, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region, city
+), ranked <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> region, city, sales,
+           <span class="hl-f">DENSE_RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rnk
+    <span class="hl-k">FROM</span> city_sales
+)
+<span class="hl-k">SELECT</span> region, city, <span class="hl-f">ROUND</span>(sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales, rnk
+<span class="hl-k">FROM</span> ranked
+<span class="hl-k">WHERE</span> rnk &lt;= <span class="hl-n">2</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region, rnk;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>city</th>
+      <th>sales</th>
+      <th>rnk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+      <td>Kolkata</td>
+      <td>13,888,466</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Patna</td>
+      <td>12,444,393</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Delhi</td>
+      <td>15,657,610</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Chandigarh</td>
+      <td>11,541,792</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Kochi</td>
+      <td>14,713,126</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Bengaluru</td>
+      <td>13,625,216</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Pune</td>
+      <td>17,357,038</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Indore</td>
+      <td>14,408,485</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 4 columns</div></div>
+<p>"Each customer's most recent order" (use ROW_NUMBER to get exactly one row per customer even with ties):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> ranked <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, order_id, order_date,
+           <span class="hl-f">ROW_NUMBER</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> customer_id <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_date <span class="hl-k">DESC</span>, order_id <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rn
+    <span class="hl-k">FROM</span> orders
+)
+<span class="hl-k">SELECT</span> customer_id, order_id, order_date
+<span class="hl-k">FROM</span> ranked
+<span class="hl-k">WHERE</span> rn = <span class="hl-n">1</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> customer_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>order_id</th>
+      <th>order_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0001</td>
+      <td>IN-2025-02263</td>
+      <td>2025-04-09</td>
+    </tr>
+    <tr>
+      <td>C0002</td>
+      <td>IN-2025-02871</td>
+      <td>2025-10-21</td>
+    </tr>
+    <tr>
+      <td>C0003</td>
+      <td>IN-2025-02642</td>
+      <td>2025-08-18</td>
+    </tr>
+    <tr>
+      <td>C0004</td>
+      <td>IN-2025-02344</td>
+      <td>2025-05-10</td>
+    </tr>
+    <tr>
+      <td>C0005</td>
+      <td>IN-2025-02982</td>
+      <td>2025-11-12</td>
+    </tr>
+    <tr>
+      <td>C0006</td>
+      <td>IN-2025-02960</td>
+      <td>2025-11-08</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">785 rows × 3 columns (first 6 shown)</div></div>
+<h3 id="nth-highest-per-group">Nth highest per group</h3>
+<p>"Second-highest paid employee in each department" (a top interview question):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> r <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> department, emp_id, monthly_income,
+           <span class="hl-f">DENSE_RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> monthly_income <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rnk
+    <span class="hl-k">FROM</span> employees
+)
+<span class="hl-k">SELECT</span> department, emp_id, monthly_income
+<span class="hl-k">FROM</span> r
+<span class="hl-k">WHERE</span> rnk = <span class="hl-n">2</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> department;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>department</th>
+      <th>emp_id</th>
+      <th>monthly_income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Finance</td>
+      <td>E00145</td>
+      <td>185500</td>
+    </tr>
+    <tr>
+      <td>HR</td>
+      <td>E00450</td>
+      <td>175750</td>
+    </tr>
+    <tr>
+      <td>IT</td>
+      <td>E01473</td>
+      <td>194500</td>
+    </tr>
+    <tr>
+      <td>Operations</td>
+      <td>E00378</td>
+      <td>184167</td>
+    </tr>
+    <tr>
+      <td>R&amp;D</td>
+      <td>E00580</td>
+      <td>188083</td>
+    </tr>
+    <tr>
+      <td>Sales</td>
+      <td>E01218</td>
+      <td>184833</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 3 columns</div></div>
+<p>Use <code>DENSE_RANK</code> for "Nth highest <strong>value</strong>" (ties share a position, no gaps) and <code>ROW_NUMBER</code> for "Nth <strong>row</strong>".</p>
+<h2 id="removing-duplicates-with-row_number">Removing duplicates with ROW_NUMBER</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> d <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> *, <span class="hl-f">ROW_NUMBER</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> customer_id, order_date, product_id <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> item_id) <span class="hl-k">AS</span> rn
+    <span class="hl-k">FROM</span> order_items_raw
+)
+<span class="hl-k">DELETE</span> <span class="hl-k">FROM</span> d <span class="hl-k">WHERE</span> rn &gt; <span class="hl-n">1</span>;            <span class="hl-c">-- SQL Server lets you DELETE through a CTE</span></code></pre></div>
+<p>Rows with the same business key get numbers 1, 2, 3…; keeping <code>rn = 1</code> keeps one copy. Always check with a <code>SELECT … WHERE rn &gt; 1</code> first.</p>
+<p>Let's count how many lines in our data repeat the same product in the same order (what a de-duplication would touch):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> d <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> order_id, product_id,
+           <span class="hl-f">ROW_NUMBER</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> order_id, product_id <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> row_id) <span class="hl-k">AS</span> rn
+    <span class="hl-k">FROM</span> superstore
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> repeated_lines <span class="hl-k">FROM</span> d <span class="hl-k">WHERE</span> rn &gt; <span class="hl-n">1</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>repeated_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>(These are legitimate repeat lines, not errors; the point is the pattern.)</p>
+<h2 id="ntile-buckets-and-percentiles">NTILE: buckets and percentiles</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> cust <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+), q <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, sales, <span class="hl-f">NTILE</span>(<span class="hl-n">4</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> quartile <span class="hl-k">FROM</span> cust
+)
+<span class="hl-k">SELECT</span> quartile,
+       <span class="hl-f">COUNT</span>(*)               <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)   <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(sales) / <span class="hl-f">SUM</span>(<span class="hl-f">SUM</span>(sales)) <span class="hl-k">OVER</span> (), <span class="hl-n">1</span>) <span class="hl-k">AS</span> pct_of_total_sales
+<span class="hl-k">FROM</span> q
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> quartile
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> quartile;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>quartile</th>
+      <th>customers</th>
+      <th>sales</th>
+      <th>pct_of_total_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>197</td>
+      <td>111,100,409</td>
+      <td>55.2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>196</td>
+      <td>54,386,341</td>
+      <td>27.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>196</td>
+      <td>28,080,117</td>
+      <td>13.9</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>196</td>
+      <td>7,846,704</td>
+      <td>3.9</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 4 columns</div></div>
+<p>Quartile 1 (the top 25% of customers) generates a disproportionate share of sales: the <strong>Pareto principle</strong> from the Excel charts lesson, now computed in SQL. NTILE is also how RFM scoring is done (ML track).</p>
+<h2 id="aggregate-window-functions">Aggregate window functions</h2>
+<p>Any aggregate (<code>SUM</code>, <code>AVG</code>, <code>COUNT</code>, <code>MIN</code>, <code>MAX</code>) becomes a window function with <code>OVER</code>. Without <code>ORDER BY</code> in the window, it uses the whole partition: perfect for totals, shares and comparisons with the group average.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> department, emp_id, monthly_income,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(monthly_income) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department), <span class="hl-n">0</span>)           <span class="hl-k">AS</span> dept_avg,
+       monthly_income - <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(monthly_income) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department), <span class="hl-n">0</span>) <span class="hl-k">AS</span> vs_dept_avg,
+       <span class="hl-f">COUNT</span>(*) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department)                                <span class="hl-k">AS</span> dept_headcount,
+       <span class="hl-f">MAX</span>(monthly_income) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department)                     <span class="hl-k">AS</span> dept_max
+<span class="hl-k">FROM</span> employees
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> department, monthly_income <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>department</th>
+      <th>emp_id</th>
+      <th>monthly_income</th>
+      <th>dept_avg</th>
+      <th>vs_dept_avg</th>
+      <th>dept_headcount</th>
+      <th>dept_max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Finance</td>
+      <td>E00519</td>
+      <td>209833</td>
+      <td>83,681</td>
+      <td>126,152</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00145</td>
+      <td>185500</td>
+      <td>83,681</td>
+      <td>101,819</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00336</td>
+      <td>174417</td>
+      <td>83,681</td>
+      <td>90,736</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00201</td>
+      <td>169500</td>
+      <td>83,681</td>
+      <td>85,819</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E01172</td>
+      <td>168167</td>
+      <td>83,681</td>
+      <td>84,486</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E01151</td>
+      <td>155167</td>
+      <td>83,681</td>
+      <td>71,486</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00759</td>
+      <td>152083</td>
+      <td>83,681</td>
+      <td>68,402</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E01004</td>
+      <td>144667</td>
+      <td>83,681</td>
+      <td>60,986</td>
+      <td>154</td>
+      <td>209833</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1,500 rows × 7 columns (first 8 shown)</div></div>
+<p>This replaces the correlated subquery from Lesson 10 ("earns more than the department average") with one pass over the data.</p>
+<h3 id="group-by-vs-window-functions">GROUP BY vs window functions</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>GROUP BY</th>
+<th>Window function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rows returned</td>
+<td>One per group</td>
+<td>Same as input</td>
+</tr>
+<tr>
+<td>Detail columns</td>
+<td>Only grouped columns</td>
+<td>All columns</td>
+</tr>
+<tr>
+<td>Use for</td>
+<td>Summary reports</td>
+<td>Rankings, running totals, shares, comparisons with group values</td>
+</tr>
+<tr>
+<td>Filter the result</td>
+<td><code>HAVING</code></td>
+<td>Wrap in CTE/subquery and <code>WHERE</code></td>
+</tr>
+<tr>
+<td>Can combine</td>
+<td>Yes: group first, then window over the groups</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>OFFSET n ROWS FETCH NEXT m ROWS ONLY</code> (with <code>ORDER BY</code>) paginates; it can skip rows, unlike <code>TOP</code>.</li>
+<li>A <strong>window function</strong> adds a calculation over a set of related rows to each row, without collapsing them. <code>OVER (PARTITION BY … ORDER BY …)</code> defines the window.</li>
+<li><code>ROW_NUMBER</code> (unique), <code>RANK</code> (ties, gaps), <code>DENSE_RANK</code> (ties, no gaps), <code>NTILE(n)</code> (equal buckets).</li>
+<li>To filter on a window result, compute it in a CTE or derived table, then use <code>WHERE</code>.</li>
+<li>Top-N per group and Nth highest per group: <code>DENSE_RANK</code>/<code>ROW_NUMBER</code> partitioned by group; de-duplicate with <code>ROW_NUMBER … WHERE rn &gt; 1</code>.</li>
+<li>Aggregate windows (<code>SUM() OVER (PARTITION BY …)</code>) show totals, shares and group averages beside each row.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-11-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Scores 100, 90, 90, 80. What does DENSE_RANK() OVER (ORDER BY score DESC) return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>1, 2, 3, 4</button><button type="button" class="opt" data-ok="0"><i>B</i>1, 2, 2, 4</button><button type="button" class="opt" data-ok="1"><i>C</i>1, 2, 2, 3</button><button type="button" class="opt" data-ok="0"><i>D</i>1, 1, 2, 3</button></div><div class="qexp"><b>Answer: C.</b> DENSE_RANK gives tied rows the same rank and continues without gaps.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why can't you write <code>WHERE ROW_NUMBER() OVER (...) = 1</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>ROW_NUMBER needs GROUP BY</button><button type="button" class="opt" data-ok="1"><i>B</i>Window functions are evaluated after WHERE, so you must filter in an outer query or CTE</button><button type="button" class="opt" data-ok="0"><i>C</i>OVER cannot contain ORDER BY</button><button type="button" class="opt" data-ok="0"><i>D</i>It is allowed in SQL Server</button></div><div class="qexp"><b>Answer: B.</b> Logical processing order: WHERE runs before SELECT, where windows are computed.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is the difference between PARTITION BY and GROUP BY?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>None</button><button type="button" class="opt" data-ok="1"><i>B</i>PARTITION BY defines the window groups but keeps every row; GROUP BY collapses rows</button><button type="button" class="opt" data-ok="0"><i>C</i>PARTITION BY only works with RANK</button><button type="button" class="opt" data-ok="0"><i>D</i>GROUP BY keeps all rows</button></div><div class="qexp"><b>Answer: B.</b> Partitions restart the calculation for each group without reducing the number of rows.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which returns the 3rd highest distinct salary overall?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>DENSE_RANK() OVER (ORDER BY salary DESC) = 3</button><button type="button" class="opt" data-ok="0"><i>B</i>ROW_NUMBER() OVER (ORDER BY salary DESC) = 3</button><button type="button" class="opt" data-ok="0"><i>C</i>TOP 3 salary</button><button type="button" class="opt" data-ok="0"><i>D</i>RANK() OVER (ORDER BY salary) = 3</button></div><div class="qexp"><b>Answer: A.</b> DENSE_RANK counts distinct values; ROW_NUMBER would count rows even if values repeat.</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>SUM(sales) OVER (PARTITION BY region)</code> returns:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>One row per region</button><button type="button" class="opt" data-ok="1"><i>B</i>On every row, the total sales of that row's region</button><button type="button" class="opt" data-ok="0"><i>C</i>The overall total on every row</button><button type="button" class="opt" data-ok="0"><i>D</i>A running total</button></div><div class="qexp"><b>Answer: B.</b> Without ORDER BY in the window, it sums the whole partition.</div></div><div class="qq"><p class="qtext"><b>6.</b> To fetch rows 21–30 of a sorted result you write:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>TOP 30</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>ORDER BY … OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>LIMIT 10, 20</code> in T-SQL</button><button type="button" class="opt" data-ok="0"><i>D</i><code>WHERE ROW 21 TO 30</code></button></div><div class="qexp"><b>Answer: B.</b> Skip 20, take 10.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Window practice</b></div><p>(1) For each customer segment, rank customers by total sales and show the top 3. (2) For each order line, show its sales as a percentage of its order's total. (3) For each department, list employees whose income is within the top 5% of their department (use NTILE(20)). (4) Show products whose total sales rank in the top 10% of their category.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">WITH</span> t <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> c.segment, c.customer_name, <span class="hl-f">SUM</span>(oi.sales) <span class="hl-k">AS</span> sales
+           <span class="hl-k">FROM</span> order_items oi <span class="hl-k">JOIN</span> orders o <span class="hl-k">ON</span> o.order_id = oi.order_id <span class="hl-k">JOIN</span> customers c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+           <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.segment, c.customer_id, c.customer_name),
+     r <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> *, <span class="hl-f">DENSE_RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> segment <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rnk <span class="hl-k">FROM</span> t)
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> r <span class="hl-k">WHERE</span> rnk &lt;= <span class="hl-n">3</span> <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> segment, rnk;
+<span class="hl-c">-- (2)</span>
+<span class="hl-k">SELECT</span> item_id, order_id, sales, <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * sales / <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> order_id), <span class="hl-n">1</span>) <span class="hl-k">AS</span> pct_of_order <span class="hl-k">FROM</span> order_items;
+<span class="hl-c">-- (3)</span>
+<span class="hl-k">WITH</span> x <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> department, emp_id, monthly_income, <span class="hl-f">NTILE</span>(<span class="hl-n">20</span>) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> monthly_income <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> bucket <span class="hl-k">FROM</span> employees)
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> x <span class="hl-k">WHERE</span> bucket = <span class="hl-n">1</span>;
+<span class="hl-c">-- (4)</span>
+<span class="hl-k">WITH</span> p <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> pr.category, pr.product_id, <span class="hl-f">SUM</span>(oi.sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> order_items oi <span class="hl-k">JOIN</span> products pr <span class="hl-k">ON</span> pr.product_id = oi.product_id <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> pr.category, pr.product_id),
+     n <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> *, <span class="hl-f">NTILE</span>(<span class="hl-n">10</span>) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> category <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> decile <span class="hl-k">FROM</span> p)
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> n <span class="hl-k">WHERE</span> decile = <span class="hl-n">1</span>;</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: RANK vs DENSE_RANK vs ROW_NUMBER?</strong>
+ROW_NUMBER numbers rows uniquely; RANK gives ties the same rank and skips following ranks; DENSE_RANK gives ties the same rank without gaps.</p>
+<p><strong>Q: Find the second-highest salary in each department.</strong>
+CTE with <code>DENSE_RANK() OVER (PARTITION BY dept ORDER BY salary DESC)</code>, filter <code>= 2</code>.</p>
+<p><strong>Q: How do you remove duplicate rows keeping one?</strong>
+<code>ROW_NUMBER() OVER (PARTITION BY business_key ORDER BY …)</code> and delete rows where it is greater than 1.</p>
+<p><strong>Q: Window function vs GROUP BY?</strong>
+Windows keep detail rows and add group-level values; GROUP BY returns one row per group.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-10-subqueries-derived-tables-and-exists.html"><small>← Previous</small><b>Subqueries, Derived Tables &amp; EXISTS</b></a><a class="next" href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html"><small>Next →</small><b>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#offset-and-fetch-pagination">OFFSET and FETCH: pagination</a><a href="#what-is-a-window-function">What is a window function?</a><a href="#ranking-functions">Ranking functions</a><a href="#top-n-per-group">Top-N per group</a><a href="#removing-duplicates-with-row_number">Removing duplicates with ROW_NUMBER</a><a href="#ntile-buckets-and-percentiles">NTILE: buckets and percentiles</a><a href="#aggregate-window-functions">Aggregate window functions</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v12"></script><script src="../assets/course.js?v=v12"></script></body></html>

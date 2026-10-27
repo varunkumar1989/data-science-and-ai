@@ -63,7 +63,7 @@ TRACKS = [
                    ("StrataScratch data interview questions", "https://www.stratascratch.com/")]),
 ]
 TRACK = {t["id"]: t for t in TRACKS}
-BUILD_VER = "v10"
+BUILD_VER = "v12"
 
 # ====================================================================== code highlighting
 KW = {
@@ -236,12 +236,18 @@ def tsql_to_duck(q):
     s = re.sub(r"\bVAR\s*\(", "var_samp(", s, flags=re.I)
     s = re.sub(r"\bCEILING\s*\(", "ceil(", s, flags=re.I)
     s = re.sub(r"\bSTRING_AGG\s*\(", "string_agg(", s, flags=re.I)
+    s = re.sub(r"\bPERCENTILE_(CONT|DISC)\s*\(\s*([\d.]+)\s*\)\s*WITHIN\s+GROUP\s*\(\s*ORDER\s+BY\s+([^)]+?)\s*\)", lambda m: f"quantile_{m.group(1).lower()}({m.group(3)}, {m.group(2)})", s, flags=re.I)
     s = re.sub(r"\bWITHIN\s+GROUP\s*\(\s*ORDER\s+BY[^)]*\)", "", s, flags=re.I)
     s = re.sub(r"\bINT\s+IDENTITY\s*\(\s*\d+\s*,\s*\d+\s*\)", "INTEGER", s, flags=re.I)
     s = re.sub(r"\bDATEFROMPARTS\s*\(", "make_date(", s, flags=re.I)
     s = re.sub(r"\bCONVERT\s*\(\s*DATE\s*,\s*([^)]+)\)", r"CAST(\1 AS DATE)", s, flags=re.I)
     s = re.sub(r"\bIIF\s*\(", "if(", s, flags=re.I)
     s = re.sub(r"\bSQUARE\s*\(", "pow2(", s, flags=re.I)
+    s = re.sub(r"\bREPLICATE\s*\(", "repeat(", s, flags=re.I)
+    m = re.match(r"\s*WITH\s+(\w+)\s*(?:\([^)]*\))?\s+AS\s*\(", s, re.I)
+    if m and re.search(rf"\b(?:FROM|JOIN)\s+{m.group(1)}\b", s, re.I) and re.search(r"UNION\s+ALL", s, re.I) and not re.match(r"\s*WITH\s+RECURSIVE", s, re.I):
+        s = re.sub(r"^\s*WITH\b", "WITH RECURSIVE", s, count=1, flags=re.I)
+    s = re.sub(r"\bOPTION\s*\(\s*MAXRECURSION\s+\d+\s*\)", "", s, flags=re.I)
     s = re.sub(r"\bPRINT\b[^\n]*", "", s, flags=re.I)
     s = re.sub(r"\bUSE\s+\w+\s*;?", "", s, flags=re.I)
     return s
@@ -253,7 +259,7 @@ class SQLRunner:
         self.lid = lid; self.errors = []
         self.con = duckdb.connect()
         for nm, f in [("superstore", "superstore_sales.csv"), ("customers", "customers.csv"), ("products", "products.csv"), ("employees", "hr_employees.csv"),
-                      ("video_games", "video_game_sales.csv"), ("emp", "employees_small.csv"), ("houses", "house_prices.csv")]:
+                      ("video_games", "video_game_sales.csv"), ("emp", "employees_small.csv"), ("houses", "house_prices.csv"), ("daily_sales", "daily_sales.csv")]:
             self.con.execute(f"CREATE TABLE {nm} AS SELECT * FROM read_csv_auto('{os.path.join(DATA, f)}')")
         self.con.execute("CREATE TABLE orders AS SELECT DISTINCT order_id, order_date, ship_date, ship_mode, customer_id FROM superstore ORDER BY order_date, order_id")
         self.con.execute("CREATE TABLE order_items AS SELECT row_id AS item_id, order_id, product_id, quantity, discount, sales, profit FROM superstore ORDER BY row_id")
@@ -263,7 +269,7 @@ class SQLRunner:
     def run(self, code, show_code=True, maxrows=12):
         parts = [codeblock(code.strip("\n"), "sql")] if show_code else []
         stmts = [s for s in split_sql(code) if s.strip()]
-        res = None; err = None; msg = []
+        res = None; err = None; msg = []; results = []
         for st in stmts:
             q = tsql_to_duck(st)
             if not q.strip().strip(";").strip(): continue
@@ -276,19 +282,21 @@ class SQLRunner:
                         d = r.df(); n = int(d.iloc[0, 0]) if len(d) else 0
                     except Exception: pass
                     msg.append(f"({n} row{'s' if n != 1 else ''} affected)" if n is not None else "Rows affected.")
+                elif kind in ("BEGIN", "COMMIT", "ROLLBACK", "SAVE", "SET"):
+                    msg.append("Commands completed successfully.")
                 elif kind in ("CREATE", "ALTER", "DROP", "TRUNCATE"):
                     msg.append("Commands completed successfully.")
                 elif r.description:
-                    res = r.df()
+                    res = r.df(); results.append(res)
             except Exception as e:
                 err = str(e).split("\n")[0]
                 self.errors.append(f"{self.lid}: {err}\n---\n{q[:500]}")
                 break
         outs = []
-        if res is not None:
-            if "count_star()" in res.columns: res = res.rename(columns={"count_star()": "(No column name)"})
-            outs.append(df_html(res, maxrows=maxrows, index=False, na="NULL"))
-        if msg and not err and (res is None or any("affected" in m for m in msg)):
+        for k, res_k in enumerate(results):
+            if "count_star()" in res_k.columns: res_k = res_k.rename(columns={"count_star()": "(No column name)"})
+            outs.append((f'<div class="rs-n">Result set {k + 1}</div>' if len(results) > 1 else "") + df_html(res_k, maxrows=maxrows, index=False, na="NULL"))
+        if msg and not err and (not results or any("affected" in m for m in msg)):
             outs.insert(0, f'<pre class="stdout msgs">{html.escape(chr(10).join(msg))}</pre>')
         if err:
             outs.append(f'<pre class="err">{html.escape(err)}</pre>')

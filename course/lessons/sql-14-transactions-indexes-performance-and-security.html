@@ -1,0 +1,454 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transactions, Indexes, Performance &amp; Security · SQL Lesson 14 · Data Science &amp; AI Handbook</title><meta name="description" content="Make SQL safe and fast. Understand transactions and ACID (BEGIN, COMMIT, ROLLBACK, SAVE), isolation and locking, indexes (clustered, non-clustered, covering), how to read an execution plan, a checklist for writing fast queries, and permissions with GRANT, REVOKE and roles (DCL)."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v12"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 14</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class="on"><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-14">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 14 of 15</div><h1>Transactions, Indexes, Performance &amp; Security</h1>
+<p class="sum">Make SQL safe and fast. Understand transactions and ACID (BEGIN, COMMIT, ROLLBACK, SAVE), isolation and locking, indexes (clustered, non-clustered, covering), how to read an execution plan, a checklist for writing fast queries, and permissions with GRANT, REVOKE and roles (DCL).</p><div class="tags"><span class="tag live">● SQL class 6 (extended)</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_14_Transactions_Indexes_Performance_Security.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-14">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain ACID and group statements into transactions that commit or roll back together</li><li>Describe isolation levels, locks, blocking and deadlocks at an analyst level</li><li>Choose between clustered and non-clustered indexes and recognise queries that can or cannot use them</li><li>Read the basics of an execution plan and apply a performance checklist</li><li>Grant and revoke permissions with roles, and apply least privilege</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="transactions-and-acid">Transactions and ACID</h2>
+<p>A <strong>transaction</strong> is a group of statements treated as one unit of work: <strong>all succeed (commit) or none do (rollback)</strong>. Moving ₹5,000 between two accounts is two updates; if the server crashes between them, money would vanish without a transaction.</p>
+<figure class="fig"><img src="../img/sql-14-01.png" alt="A bank transfer as a transaction. Either both updates are saved, or both are undone." loading="lazy"><figcaption>A bank transfer as a transaction. Either both updates are saved, or both are undone.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Property</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong>tomicity</td>
+<td>All or nothing</td>
+<td>Both account updates happen, or neither</td>
+</tr>
+<tr>
+<td><strong>C</strong>onsistency</td>
+<td>Data stays valid (constraints hold)</td>
+<td>Total money before = total after; no negative balance if a CHECK forbids it</td>
+</tr>
+<tr>
+<td><strong>I</strong>solation</td>
+<td>Concurrent transactions do not see each other's half-finished work</td>
+<td>Another user does not see the debit without the credit</td>
+</tr>
+<tr>
+<td><strong>D</strong>urability</td>
+<td>Once committed, it survives a crash</td>
+<td>Transaction log is written to disk first</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="transaction-commands">Transaction commands</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BEGIN TRANSACTION</code> (<code>BEGIN TRAN</code>)</td>
+<td>Start a transaction</td>
+</tr>
+<tr>
+<td><code>COMMIT</code></td>
+<td>Make all changes permanent</td>
+</tr>
+<tr>
+<td><code>ROLLBACK</code></td>
+<td>Undo everything since BEGIN (or since a savepoint)</td>
+</tr>
+<tr>
+<td><code>SAVE TRANSACTION name</code></td>
+<td>Create a savepoint inside the transaction</td>
+</tr>
+<tr>
+<td><code>ROLLBACK TRANSACTION name</code></td>
+<td>Undo back to the savepoint only</td>
+</tr>
+<tr>
+<td><code>@@TRANCOUNT</code></td>
+<td>How many transactions are open (should be 0 when you leave)</td>
+</tr>
+</tbody>
+</table></div>
+<p>By default SQL Server runs in <strong>autocommit</strong> mode: every single statement is its own transaction. Wrap several statements in <code>BEGIN TRAN … COMMIT</code> to group them.</p>
+<h3 id="seeing-a-rollback">Seeing a rollback</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> accounts (acct_id <span class="hl-k">INT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>, holder <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>), balance <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>,<span class="hl-n">2</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> accounts <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Asha&#x27;</span>, <span class="hl-n">20000</span>), (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Ravi&#x27;</span>, <span class="hl-n">5000</span>);
+
+<span class="hl-k">BEGIN</span> <span class="hl-k">TRANSACTION</span>;
+<span class="hl-k">UPDATE</span> accounts <span class="hl-k">SET</span> balance = balance - <span class="hl-n">5000</span> <span class="hl-k">WHERE</span> acct_id = <span class="hl-n">1</span>;
+<span class="hl-k">UPDATE</span> accounts <span class="hl-k">SET</span> balance = balance + <span class="hl-n">5000</span> <span class="hl-k">WHERE</span> acct_id = <span class="hl-n">2</span>;
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> accounts <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> acct_id;      <span class="hl-c">-- inside the transaction: changes visible to us</span>
+<span class="hl-k">ROLLBACK</span>;                                     <span class="hl-c">-- something went wrong: undo both updates</span>
+
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> accounts <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> acct_id;      <span class="hl-c">-- balances are back to the originals</span></code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(2 rows affected)
+Commands completed successfully.
+(1 row affected)
+(1 row affected)
+Commands completed successfully.</pre><div class="rs-n">Result set 1</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>acct_id</th>
+      <th>holder</th>
+      <th>balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>15,000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Ravi</td>
+      <td>10,000</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 3 columns</div><div class="rs-n">Result set 2</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>acct_id</th>
+      <th>holder</th>
+      <th>balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>20,000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Ravi</td>
+      <td>5,000</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 3 columns</div></div>
+<h3 id="the-safe-update-pattern">The safe-update pattern</h3>
+<p>The pattern that protects you from the "UPDATE without WHERE" disaster (Lesson 4):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">BEGIN</span> <span class="hl-k">TRAN</span>;
+
+<span class="hl-k">UPDATE</span> dbo.staff <span class="hl-k">SET</span> salary = salary * <span class="hl-n">1.05</span> <span class="hl-k">WHERE</span> dept_id = <span class="hl-n">10</span>;
+
+<span class="hl-k">SELECT</span> @@ROWCOUNT <span class="hl-k">AS</span> rows_changed;                    <span class="hl-c">-- expected: 2?</span>
+<span class="hl-k">SELECT</span> emp_id, salary <span class="hl-k">FROM</span> dbo.staff <span class="hl-k">WHERE</span> dept_id = <span class="hl-n">10</span>;     <span class="hl-c">-- sanity-check</span>
+
+<span class="hl-c">-- If everything looks right:</span>
+<span class="hl-k">COMMIT</span>;
+<span class="hl-c">-- Otherwise:</span>
+<span class="hl-c">-- ROLLBACK;</span></code></pre></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Never leave a transaction open</b></div><p>An open transaction holds locks that block other users and keeps the log from truncating. Always end with COMMIT or ROLLBACK; check <code>SELECT @@TRANCOUNT;</code> if a query window seems "stuck".</p></div>
+<h2 id="concurrency-isolation-locks-and-deadlocks">Concurrency: isolation, locks and deadlocks</h2>
+<p>When many users work at once, the database uses <strong>locks</strong> to keep transactions isolated. <strong>Isolation levels</strong> trade consistency for concurrency:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Level</th>
+<th>Prevents</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>READ UNCOMMITTED</code></td>
+<td>Nothing (allows dirty reads; <code>NOLOCK</code> hint)</td>
+<td>Can read data that is later rolled back; avoid for reports needing accuracy</td>
+</tr>
+<tr>
+<td><code>READ COMMITTED</code> (default)</td>
+<td>Dirty reads</td>
+<td>A row you read can change before you read it again</td>
+</tr>
+<tr>
+<td><code>REPEATABLE READ</code></td>
+<td>Dirty and non-repeatable reads</td>
+<td>Holds read locks longer</td>
+</tr>
+<tr>
+<td><code>SERIALIZABLE</code></td>
+<td>Also phantom rows</td>
+<td>Safest, least concurrent</td>
+</tr>
+<tr>
+<td><code>SNAPSHOT</code> / RCSI</td>
+<td>Readers do not block writers (row versions)</td>
+<td>Common in modern systems, uses tempdb</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Blocking</strong>: one session waits for a lock held by another. Fix: shorter transactions, indexes, row versioning.</li>
+<li><strong>Deadlock</strong>: two sessions each hold a lock the other needs; SQL Server kills one (the "victim", error 1205). Fix: access tables in the same order, keep transactions short, retry on error 1205.</li>
+</ul>
+<h2 id="indexes-how-databases-find-rows-fast">Indexes: how databases find rows fast</h2>
+<p>Without an index, a query like <code>WHERE customer_id = 'C0042'</code> scans <strong>every row</strong> (table scan). An <strong>index</strong> is a sorted structure (a B-tree) that lets the database jump straight to matching rows, like the index of a book.</p>
+<figure class="fig"><img src="../img/sql-14-02.png" alt="A table scan reads every row. An index seek follows a short path through a B-tree." loading="lazy"><figcaption>A table scan reads every row. An index seek follows a short path through a B-tree.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Index type</th>
+<th>What it is</th>
+<th>How many per table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clustered</strong></td>
+<td>Defines the physical order of the table's rows; the table <em>is</em> the index. Created by default with a PRIMARY KEY</td>
+<td><strong>One</strong></td>
+</tr>
+<tr>
+<td><strong>Non-clustered</strong></td>
+<td>A separate sorted copy of selected columns with pointers to the rows</td>
+<td>Many (up to 999)</td>
+</tr>
+<tr>
+<td><strong>Unique</strong></td>
+<td>Enforces uniqueness (created for UNIQUE constraints)</td>
+<td>Many</td>
+</tr>
+<tr>
+<td><strong>Covering</strong> (<code>INCLUDE</code>)</td>
+<td>A non-clustered index that contains every column a query needs, so the table is never touched</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Filtered</strong></td>
+<td>Indexes only rows matching a condition</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Columnstore</strong></td>
+<td>Column-wise compressed storage for analytics on huge tables</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">CLUSTERED</span> <span class="hl-k">INDEX</span> cx_orders_date <span class="hl-k">ON</span> dbo.orders (order_date);           <span class="hl-c">-- if not already clustered by the PK</span>
+
+<span class="hl-k">CREATE</span> <span class="hl-k">NONCLUSTERED</span> <span class="hl-k">INDEX</span> ix_orders_customer
+    <span class="hl-k">ON</span> dbo.orders (customer_id)
+    INCLUDE (order_date, ship_mode);                                          <span class="hl-c">-- covering index for &quot;orders per customer&quot; queries</span>
+
+<span class="hl-k">CREATE</span> <span class="hl-k">NONCLUSTERED</span> <span class="hl-k">INDEX</span> ix_items_product <span class="hl-k">ON</span> dbo.order_items (product_id);   <span class="hl-c">-- foreign keys deserve indexes</span>
+
+<span class="hl-k">DROP</span> <span class="hl-k">INDEX</span> ix_orders_customer <span class="hl-k">ON</span> dbo.orders;</code></pre></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">INDEX</span> ix_super_city <span class="hl-k">ON</span> superstore (city);
+<span class="hl-k">SELECT</span> index_name, table_name <span class="hl-k">FROM</span> <span class="hl-f">duckdb_indexes</span>() <span class="hl-k">WHERE</span> table_name = <span class="hl-s">&#x27;superstore&#x27;</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>index_name</th>
+      <th>table_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ix_super_city</td>
+      <td>superstore</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<h3 id="which-queries-can-use-an-index">Which queries can use an index?</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Uses an index?</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WHERE customer_id = 'C0042'</code></td>
+<td><strong>Yes</strong> (seek)</td>
+<td>Equality on the leading column</td>
+</tr>
+<tr>
+<td><code>WHERE order_date &gt;= '2025-01-01' AND order_date &lt; '2026-01-01'</code></td>
+<td><strong>Yes</strong></td>
+<td>Range on an indexed column</td>
+</tr>
+<tr>
+<td><code>WHERE YEAR(order_date) = 2025</code></td>
+<td><strong>No</strong> (scan)</td>
+<td>The function must run on every row: <strong>non-SARGable</strong></td>
+</tr>
+<tr>
+<td><code>WHERE customer_name LIKE 'Ra%'</code></td>
+<td>Yes</td>
+<td>Prefix match</td>
+</tr>
+<tr>
+<td><code>WHERE customer_name LIKE '%Rao'</code></td>
+<td>No</td>
+<td>Leading wildcard</td>
+</tr>
+<tr>
+<td><code>WHERE UPPER(city) = 'PUNE'</code></td>
+<td>No</td>
+<td>Function on the column (the default collation is already case-insensitive)</td>
+</tr>
+<tr>
+<td><code>WHERE city = 'Pune' OR product_id = 'P0012'</code></td>
+<td>Often no</td>
+<td>OR across different columns</td>
+</tr>
+<tr>
+<td><code>WHERE CAST(order_id AS VARCHAR) = '1001'</code></td>
+<td>No</td>
+<td>Type conversion on the column</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>SARGable predicates</b></div><p><strong>SARG</strong> = Search ARGument able. Keep the <strong>column bare</strong> on one side of the comparison and do the maths on the other side: use <code>order_date &gt;= '2025-01-01' AND order_date &lt; '2026-01-01'</code> instead of <code>YEAR(order_date) = 2025</code>, and <code>sales &gt; 100 / 1.18</code> instead of <code>sales * 1.18 &gt; 100</code>.</p></div>
+<h3 id="index-trade-offs">Index trade-offs</h3>
+<p>Indexes speed up <strong>reads</strong> but slow down <strong>writes</strong> (every INSERT/UPDATE/DELETE must also update each index) and use disk space. Index columns used in <code>WHERE</code>, <code>JOIN</code>, <code>ORDER BY</code> and <code>GROUP BY</code>, and foreign keys; do not index everything. Analytic warehouses (Snowflake, BigQuery) use different techniques (partitioning, clustering, columnar storage) instead of manual indexes.</p>
+<h2 id="execution-plans">Execution plans</h2>
+<p>In SSMS press <code>Ctrl + L</code> (estimated plan) or <code>Ctrl + M</code> then run (actual plan). The plan is a diagram of operators read <strong>right to left</strong>. Things to look for:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Concern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Index Seek</td>
+<td>Direct lookup</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>Index / Clustered Index Scan</td>
+<td>Reads many rows</td>
+<td>Fine for big reports, suspicious for single-row lookups</td>
+</tr>
+<tr>
+<td>Table Scan</td>
+<td>Reads the heap</td>
+<td>Usually add an index</td>
+</tr>
+<tr>
+<td>Key Lookup</td>
+<td>Fetches extra columns from the table per row</td>
+<td>Consider a covering index (<code>INCLUDE</code>)</td>
+</tr>
+<tr>
+<td>Hash / Merge / Nested Loops Join</td>
+<td>Join algorithms</td>
+<td>Hash for big unsorted inputs; nested loops for small; merge for sorted</td>
+</tr>
+<tr>
+<td>Sort</td>
+<td>Sorting rows</td>
+<td>Expensive; an index in the right order avoids it</td>
+</tr>
+<tr>
+<td>Thick arrows, big estimated vs actual row differences</td>
+<td>Bad estimates</td>
+<td>Update statistics</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>SET STATISTICS IO, TIME ON;</code> shows logical reads (the best measure of work) and CPU time for each query.</p>
+<h2 id="performance-checklist-for-analysts">Performance checklist for analysts</h2>
+<ol>
+<li><strong>Select only the columns and rows you need</strong>: avoid <code>SELECT *</code>; filter early.</li>
+<li><strong>Make filters SARGable</strong> (no functions on columns; use ranges for dates).</li>
+<li><strong>Join on indexed keys</strong> with matching data types (an <code>INT</code> joined to a <code>VARCHAR</code> forces conversions).</li>
+<li><strong>Aggregate before joining</strong> when joining big tables (reduce rows first, avoids row explosion).</li>
+<li><strong>UNION ALL</strong> instead of UNION; <strong>EXISTS</strong> instead of <code>IN (huge list)</code>; avoid <code>DISTINCT</code> as a bandage for join duplicates.</li>
+<li><strong>Avoid row-by-row logic</strong> (cursors, scalar UDF in WHERE); think in sets.</li>
+<li><strong>Test on realistic data</strong>; look at the actual plan; keep statistics updated.</li>
+<li><strong>Pull less data into BI tools</strong>: summarise in SQL, or create views and aggregate tables.</li>
+<li><strong>Limit while developing</strong>: <code>SELECT TOP 100</code> or <code>WHERE</code> on a date range, then remove it.</li>
+</ol>
+<h2 id="security-dcl">Security: DCL</h2>
+<p>Data Control Language gives and removes permissions. Follow the <strong>principle of least privilege</strong>: grant only what each person or application needs.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Logins (server level) and users (database level)</span>
+<span class="hl-k">CREATE</span> LOGIN priya_analyst <span class="hl-k">WITH</span> PASSWORD = <span class="hl-s">&#x27;Use-A-Strong-Passphrase-1!&#x27;</span>;
+<span class="hl-k">CREATE</span> USER  priya_analyst <span class="hl-k">FOR</span> LOGIN priya_analyst;
+
+<span class="hl-c">-- Roles group permissions</span>
+<span class="hl-k">CREATE</span> ROLE analyst_role;
+<span class="hl-k">GRANT</span> <span class="hl-k">SELECT</span> <span class="hl-k">ON</span> <span class="hl-k">SCHEMA</span>::dbo        TO analyst_role;          <span class="hl-c">-- read all tables in dbo</span>
+DENY  <span class="hl-k">SELECT</span> <span class="hl-k">ON</span> dbo.customers (phone, email) TO analyst_role;     <span class="hl-c">-- but hide personal columns</span>
+<span class="hl-k">GRANT</span> <span class="hl-k">EXECUTE</span> <span class="hl-k">ON</span> dbo.usp_sales_by_region TO analyst_role;
+
+<span class="hl-k">ALTER</span> ROLE analyst_role <span class="hl-k">ADD</span> MEMBER priya_analyst;            <span class="hl-c">-- SQL Server 2012+: ALTER ROLE … ADD MEMBER</span>
+
+<span class="hl-k">REVOKE</span> <span class="hl-k">SELECT</span> <span class="hl-k">ON</span> dbo.orders <span class="hl-k">FROM</span> analyst_role;                <span class="hl-c">-- take back a permission</span></code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Statement</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GRANT</code></td>
+<td>Gives a permission</td>
+</tr>
+<tr>
+<td><code>REVOKE</code></td>
+<td>Removes a previously granted (or denied) permission</td>
+</tr>
+<tr>
+<td><code>DENY</code></td>
+<td>Explicitly blocks a permission (overrides grants)</td>
+</tr>
+<tr>
+<td>Fixed roles</td>
+<td><code>db_datareader</code> (read all), <code>db_datawriter</code>, <code>db_owner</code> (full control: avoid)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Other protections: <strong>Row-Level Security</strong> (a region manager sees only their rows), <strong>Dynamic Data Masking</strong> (show <code>XXXX-1234</code>), <strong>Always Encrypted</strong> and <strong>TDE</strong> (encryption), <strong>auditing</strong>, and never embedding passwords in scripts (use Windows/Entra ID authentication or a secret store). In India, personal data handling also falls under the <strong>DPDP Act 2023</strong>: collect only what you need and restrict who can see it.</p>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Paste a slow query and its actual execution plan (as XML or text) into an assistant: <em>"Explain what this plan is doing and suggest indexes or rewrites. Do not invent columns."</em> AI can spot scans, key lookups and non-SARGable filters quickly, but test every suggestion; an index that helps one query can hurt a hundred writes.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A <strong>transaction</strong> groups statements to commit or roll back together; <strong>ACID</strong> = atomicity, consistency, isolation, durability. Use <code>BEGIN TRAN … COMMIT/ROLLBACK</code>, check <code>@@ROWCOUNT</code>, never leave transactions open.</li>
+<li>Isolation levels and locks keep concurrent users consistent; blocking and deadlocks are managed with short transactions and consistent access order.</li>
+<li><strong>Indexes</strong> (clustered = row order, one per table; non-clustered = separate structure; covering = <code>INCLUDE</code>) speed up reads and slow writes. <strong>SARGable</strong> filters keep the column bare.</li>
+<li>Read execution plans for scans, key lookups and bad estimates; use <code>SET STATISTICS IO, TIME ON</code>.</li>
+<li><strong>DCL</strong>: <code>GRANT</code>, <code>REVOKE</code>, <code>DENY</code>, roles, least privilege; protect personal data.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-14-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which ACID property says that a committed transaction survives a power failure?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Atomicity</button><button type="button" class="opt" data-ok="0"><i>B</i>Consistency</button><button type="button" class="opt" data-ok="0"><i>C</i>Isolation</button><button type="button" class="opt" data-ok="1"><i>D</i>Durability</button></div><div class="qexp"><b>Answer: D.</b> Durability: committed changes are written to the log/disk.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which filter can use an index on order_date?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>WHERE YEAR(order_date) = 2025</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>WHERE order_date &gt;= '2025-01-01' AND order_date &lt; '2026-01-01'</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>WHERE CONVERT(VARCHAR, order_date, 23) LIKE '2025%'</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>WHERE DATEPART(year, order_date) = 2025</code></button></div><div class="qexp"><b>Answer: B.</b> The column must be bare (SARGable); functions on the column force a scan.</div></div><div class="qq"><p class="qtext"><b>3.</b> How many clustered indexes can a table have?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>None</button><button type="button" class="opt" data-ok="1"><i>B</i>One</button><button type="button" class="opt" data-ok="0"><i>C</i>One per column</button><button type="button" class="opt" data-ok="0"><i>D</i>Unlimited</button></div><div class="qexp"><b>Answer: B.</b> The clustered index defines the physical order, so there can be only one.</div></div><div class="qq"><p class="qtext"><b>4.</b> You ran <code>BEGIN TRAN; UPDATE …;</code> and closed the window. What is the risk?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The transaction stays open, holding locks and blocking other users</button><button type="button" class="opt" data-ok="0"><i>B</i>The update is committed automatically</button><button type="button" class="opt" data-ok="0"><i>C</i>The table is dropped</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: A.</b> Open transactions keep locks until committed or rolled back.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does DENY do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Removes a permission like REVOKE</button><button type="button" class="opt" data-ok="1"><i>B</i>Explicitly blocks a permission, overriding grants</button><button type="button" class="opt" data-ok="0"><i>C</i>Deletes a login</button><button type="button" class="opt" data-ok="0"><i>D</i>Grants read-only access</button></div><div class="qexp"><b>Answer: B.</b> DENY takes precedence over GRANT.</div></div><div class="qq"><p class="qtext"><b>6.</b> In an execution plan, a "Key Lookup" repeated for many rows suggests:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The table is empty</button><button type="button" class="opt" data-ok="1"><i>B</i>Adding the needed columns to the index with INCLUDE (a covering index)</button><button type="button" class="opt" data-ok="0"><i>C</i>Using UNION instead of UNION ALL</button><button type="button" class="opt" data-ok="0"><i>D</i>Dropping the clustered index</button></div><div class="qexp"><b>Answer: B.</b> Key lookups fetch missing columns from the table row by row; covering the query avoids them.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Make it faster</b></div><p>This query is slow on 50 million order lines:
+<code>SELECT * FROM order_items WHERE YEAR(order_date) = 2025 AND UPPER(region) = 'WEST' ORDER BY sales DESC;</code> Rewrite it and suggest an index.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> item_id, order_id, product_id, quantity, sales, profit      <span class="hl-c">-- only the needed columns</span>
+<span class="hl-k">FROM</span> dbo.order_items
+<span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-s">&#x27;2026-01-01&#x27;</span>    <span class="hl-c">-- SARGable range instead of YEAR()</span>
+  <span class="hl-k">AND</span> region = <span class="hl-s">&#x27;West&#x27;</span>                                              <span class="hl-c">-- default collation is case-insensitive; no UPPER needed</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;
+
+<span class="hl-k">CREATE</span> <span class="hl-k">NONCLUSTERED</span> <span class="hl-k">INDEX</span> ix_items_date_region
+<span class="hl-k">ON</span> dbo.order_items (order_date, region) INCLUDE (order_id, product_id, quantity, sales, profit);</code></pre></div>
+<p>Check the actual plan for a seek, compare logical reads with <code>SET STATISTICS IO ON</code>, and consider whether the extra index slows nightly loads.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is ACID?</strong>
+Atomicity (all or nothing), Consistency (valid state), Isolation (concurrent transactions do not interfere), Durability (committed data persists).</p>
+<p><strong>Q: Clustered vs non-clustered index?</strong>
+A clustered index sorts and stores the table rows in index order (one per table). A non-clustered index is a separate structure with pointers to rows (many per table).</p>
+<p><strong>Q: Why is <code>WHERE YEAR(date) = 2025</code> slow?</strong>
+It applies a function to every row, so the index on date cannot be used (non-SARGable). Use a date range.</p>
+<p><strong>Q: How do you find and fix a slow query?</strong>
+Look at the actual execution plan and I/O statistics, find scans/lookups/bad estimates, make predicates SARGable, add or adjust indexes, reduce columns/rows early, and re-test.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html"><small>← Previous</small><b>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</b></a><a class="next" href="sql-15-end-to-end-sql-case-study-and-interview-practice.html"><small>Next →</small><b>End-to-End SQL Case Study &amp; Interview Practice</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#transactions-and-acid">Transactions and ACID</a><a href="#concurrency-isolation-locks-and-deadlocks">Concurrency: isolation, locks and deadlocks</a><a href="#indexes-how-databases-find-rows-fast">Indexes: how databases find rows fast</a><a href="#execution-plans">Execution plans</a><a href="#performance-checklist-for-analysts">Performance checklist for analysts</a><a href="#security-dcl">Security: DCL</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v12"></script><script src="../assets/course.js?v=v12"></script></body></html>
