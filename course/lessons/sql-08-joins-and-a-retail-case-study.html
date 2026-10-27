@@ -1,0 +1,974 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Joins and a Retail Case Study · SQL Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Combine tables with INNER, LEFT, RIGHT, FULL OUTER, CROSS and SELF joins, find missing matches with anti-joins, avoid the classic join mistakes (row explosion, filters in ON vs WHERE), and answer a full set of business questions on the retail database."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class="on"><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-08">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 8 of 10</div><h1>Joins and a Retail Case Study</h1>
+<p class="sum">Combine tables with INNER, LEFT, RIGHT, FULL OUTER, CROSS and SELF joins, find missing matches with anti-joins, avoid the classic join mistakes (row explosion, filters in ON vs WHERE), and answer a full set of business questions on the retail database.</p><div class="tags"><span class="tag live">● SQL class 4</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_08_Joins_and_a_Retail_Case_Study.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-08">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain each join type with a Venn picture and predict how many rows it returns</li><li>Write INNER, LEFT, RIGHT, FULL OUTER, CROSS and SELF joins with table aliases</li><li>Find unmatched rows with LEFT JOIN … IS NULL (anti-join)</li><li>Avoid row explosion, ambiguous columns, and the ON-vs-WHERE trap in outer joins</li><li>Join three or four tables to answer business questions</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a><a class="chip" href="../datasets/products.csv" download>products.csv</a></div></div></div>
+<div class="content"><h2 id="why-joins">Why joins?</h2>
+<p>In a normalised database (Lesson 2) customer details live in <code>customers</code>, products in <code>products</code>, and orders in <code>orders</code> and <code>order_items</code>. To answer "sales by customer segment and product category" you must <strong>join</strong> them back together on their keys. A join is SQL's version of XLOOKUP (Excel Lesson 7) and pandas <code>merge()</code>.</p>
+<h2 id="a-tiny-example-first">A tiny example first</h2>
+<p>Two small tables make every join type easy to see:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> students (student_id <span class="hl-k">INT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>, name <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> students <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Asha&#x27;</span>), (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Ravi&#x27;</span>), (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Meera&#x27;</span>), (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Kabir&#x27;</span>);
+
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> enrolments (student_id <span class="hl-k">INT</span>, course <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> enrolments <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>, <span class="hl-s">&#x27;SQL&#x27;</span>), (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Python&#x27;</span>), (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Excel&#x27;</span>), (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Power BI&#x27;</span>);
+
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;students&#x27;</span> <span class="hl-k">AS</span> t, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> n <span class="hl-k">FROM</span> students <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;enrolments&#x27;</span>, <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> enrolments;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(4 rows affected)
+Commands completed successfully.
+(4 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>t</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>students</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>enrolments</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 2 columns</div></div>
+<p>Asha (1) has two enrolments, Ravi (2) has one, Meera (3) and Kabir (4) have none, and enrolment for student 5 has no matching student (an "orphan" row).</p>
+<figure class="fig"><img src="../img/sql-08-01.png" alt="The join types as Venn diagrams. Shaded areas are the rows returned (A = left table, B = right table)." loading="lazy"><figcaption>The join types as Venn diagrams. Shaded areas are the rows returned (A = left table, B = right table).</figcaption></figure>
+<h3 id="inner-join-only-matches">INNER JOIN: only matches</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> s.student_id, s.name, e.course
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">INNER</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e
+        <span class="hl-k">ON</span> e.student_id = s.student_id
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> s.student_id, e.course;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>student_id</th>
+      <th>name</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>Python</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>SQL</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Ravi</td>
+      <td>Excel</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<p>Asha appears <strong>twice</strong> because she has two matching enrolments. Meera, Kabir and the orphan enrolment disappear.</p>
+<h3 id="left-outer-join-everything-from-the-left">LEFT (OUTER) JOIN: everything from the left</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> s.student_id, s.name, e.course
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e
+       <span class="hl-k">ON</span> e.student_id = s.student_id
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> s.student_id, e.course;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>student_id</th>
+      <th>name</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>Python</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>SQL</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Ravi</td>
+      <td>Excel</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Meera</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Kabir</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 3 columns</div></div>
+<p>Every student is kept; where there is no match, the right-hand columns are <strong>NULL</strong>.</p>
+<h3 id="right-join-everything-from-the-right">RIGHT JOIN: everything from the right</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> e.student_id, s.name, e.course
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">RIGHT</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e
+        <span class="hl-k">ON</span> e.student_id = s.student_id
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> e.student_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>student_id</th>
+      <th>name</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>SQL</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>Python</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Ravi</td>
+      <td>Excel</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>NULL</td>
+      <td>Power BI</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<p>Every enrolment is kept, including student 5 who has no name. A RIGHT JOIN is just a LEFT JOIN with the tables swapped; most people write LEFT JOINs for consistency.</p>
+<h3 id="full-outer-join-everything-from-both">FULL OUTER JOIN: everything from both</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> s.student_id <span class="hl-k">AS</span> s_id, s.name, e.student_id <span class="hl-k">AS</span> e_id, e.course
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">FULL</span> <span class="hl-k">OUTER</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e
+             <span class="hl-k">ON</span> e.student_id = s.student_id
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-f">COALESCE</span>(s.student_id, e.student_id), e.course;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>s_id</th>
+      <th>name</th>
+      <th>e_id</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.0</td>
+      <td>Asha</td>
+      <td>1.0</td>
+      <td>Python</td>
+    </tr>
+    <tr>
+      <td>1.0</td>
+      <td>Asha</td>
+      <td>1.0</td>
+      <td>SQL</td>
+    </tr>
+    <tr>
+      <td>2.0</td>
+      <td>Ravi</td>
+      <td>2.0</td>
+      <td>Excel</td>
+    </tr>
+    <tr>
+      <td>3.0</td>
+      <td>Meera</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>4.0</td>
+      <td>Kabir</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>5.0</td>
+      <td>Power BI</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 4 columns</div></div>
+<p>Matched rows, plus unmatched students, plus unmatched enrolments. Useful for <strong>reconciliation</strong>: comparing two systems' lists to see what is missing on each side.</p>
+<h3 id="anti-join-rows-with-no-match">Anti-join: rows with no match</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> s.student_id, s.name
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e <span class="hl-k">ON</span> e.student_id = s.student_id
+<span class="hl-k">WHERE</span> e.student_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>student_id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>Meera</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Kabir</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 2 columns</div></div>
+<p>"Students not enrolled in anything." The same result with <code>NOT EXISTS</code> is shown in Lesson 10.</p>
+<h3 id="cross-join-every-combination">CROSS JOIN: every combination</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> sizes (size <span class="hl-k">VARCHAR</span>(<span class="hl-n">5</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> sizes <span class="hl-k">VALUES</span> (<span class="hl-s">&#x27;S&#x27;</span>), (<span class="hl-s">&#x27;M&#x27;</span>), (<span class="hl-s">&#x27;L&#x27;</span>);
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> colours (colour <span class="hl-k">VARCHAR</span>(<span class="hl-n">10</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> colours <span class="hl-k">VALUES</span> (<span class="hl-s">&#x27;Black&#x27;</span>), (<span class="hl-s">&#x27;White&#x27;</span>);
+
+<span class="hl-k">SELECT</span> c.colour, z.size
+<span class="hl-k">FROM</span> colours <span class="hl-k">AS</span> c
+<span class="hl-k">CROSS</span> <span class="hl-k">JOIN</span> sizes <span class="hl-k">AS</span> z
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> c.colour, z.size;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(3 rows affected)
+Commands completed successfully.
+(2 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>colour</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Black</td>
+      <td>L</td>
+    </tr>
+    <tr>
+      <td>Black</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <td>Black</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <td>White</td>
+      <td>L</td>
+    </tr>
+    <tr>
+      <td>White</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <td>White</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 2 columns</div></div>
+<p>2 colours × 3 sizes = 6 rows: a <strong>Cartesian product</strong>. Use it on purpose (all product–month combinations for a report grid, a calendar × store table); never by accident.</p>
+<h3 id="self-join-a-table-joined-to-itself">SELF JOIN: a table joined to itself</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> team (emp_id <span class="hl-k">INT</span>, name <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>), manager_id <span class="hl-k">INT</span>);
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> team <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Varun&#x27;</span>, <span class="hl-k">NULL</span>), (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Asha&#x27;</span>, <span class="hl-n">1</span>), (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Ravi&#x27;</span>, <span class="hl-n">1</span>), (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Meera&#x27;</span>, <span class="hl-n">2</span>), (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Kabir&#x27;</span>, <span class="hl-n">2</span>);
+
+<span class="hl-k">SELECT</span> e.name <span class="hl-k">AS</span> employee, m.name <span class="hl-k">AS</span> manager
+<span class="hl-k">FROM</span> team <span class="hl-k">AS</span> e
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> team <span class="hl-k">AS</span> m <span class="hl-k">ON</span> m.emp_id = e.manager_id
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> e.emp_id;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(5 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>employee</th>
+      <th>manager</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Varun</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>Asha</td>
+      <td>Varun</td>
+    </tr>
+    <tr>
+      <td>Ravi</td>
+      <td>Varun</td>
+    </tr>
+    <tr>
+      <td>Meera</td>
+      <td>Asha</td>
+    </tr>
+    <tr>
+      <td>Kabir</td>
+      <td>Asha</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 2 columns</div></div>
+<p>The same table appears twice with different aliases (<code>e</code> for employee, <code>m</code> for manager). LEFT JOIN keeps Varun, who has no manager.</p>
+<h3 id="how-many-rows-will-a-join-return">How many rows will a join return?</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Join</th>
+<th>Rows returned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INNER</td>
+<td>Sum over matches; a key matching m rows on the left and n on the right produces m × n rows</td>
+</tr>
+<tr>
+<td>LEFT</td>
+<td>Every left row at least once (more if it matches several right rows)</td>
+</tr>
+<tr>
+<td>RIGHT</td>
+<td>Every right row at least once</td>
+</tr>
+<tr>
+<td>FULL</td>
+<td>Matches + unmatched left + unmatched right</td>
+</tr>
+<tr>
+<td>CROSS</td>
+<td>Left rows × right rows</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="joins-on-the-retail-database">Joins on the retail database</h2>
+<figure class="fig"><img src="../img/sql-08-02.png" alt="Join paths in RetailDB. Follow the keys: customers → orders → order_items → products." loading="lazy"><figcaption>Join paths in RetailDB. Follow the keys: customers → orders → order_items → products.</figcaption></figure>
+<h3 id="two-tables">Two tables</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> o.order_id, o.order_date, c.customer_name, c.segment, c.city
+<span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o
+<span class="hl-k">INNER</span> <span class="hl-k">JOIN</span> customers <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> o.order_date <span class="hl-k">DESC</span>, o.order_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>customer_name</th>
+      <th>segment</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2025-03197</td>
+      <td>2025-12-31</td>
+      <td>Vivaan Patel</td>
+      <td>Home Office</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03198</td>
+      <td>2025-12-31</td>
+      <td>Neha Fernandes</td>
+      <td>Consumer</td>
+      <td>Bhubaneswar</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03199</td>
+      <td>2025-12-31</td>
+      <td>Aarav Patel</td>
+      <td>Home Office</td>
+      <td>Jaipur</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03200</td>
+      <td>2025-12-31</td>
+      <td>Kabir Rao</td>
+      <td>Home Office</td>
+      <td>Pune</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03192</td>
+      <td>2025-12-30</td>
+      <td>Ananya Bose</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03193</td>
+      <td>2025-12-30</td>
+      <td>Ananya Nair</td>
+      <td>Consumer</td>
+      <td>Ahmedabad</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03194</td>
+      <td>2025-12-30</td>
+      <td>Krishna Iyer</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03195</td>
+      <td>2025-12-30</td>
+      <td>Ishaan Shah</td>
+      <td>Corporate</td>
+      <td>Bhubaneswar</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3,200 rows × 5 columns (first 8 shown)</div></div>
+<h3 id="four-tables">Four tables</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> c.segment,
+       p.category,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id)  <span class="hl-k">AS</span> orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.profit), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> order_items <span class="hl-k">AS</span> oi
+<span class="hl-k">JOIN</span> orders      <span class="hl-k">AS</span> o <span class="hl-k">ON</span> o.order_id    = oi.order_id
+<span class="hl-k">JOIN</span> customers   <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+<span class="hl-k">JOIN</span> products    <span class="hl-k">AS</span> p <span class="hl-k">ON</span> p.product_id  = oi.product_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.segment, p.category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> c.segment, sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>segment</th>
+      <th>category</th>
+      <th>orders</th>
+      <th>sales</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Consumer</td>
+      <td>Technology</td>
+      <td>727</td>
+      <td>76,891,232</td>
+      <td>9,074,795</td>
+    </tr>
+    <tr>
+      <td>Consumer</td>
+      <td>Furniture</td>
+      <td>749</td>
+      <td>17,031,585</td>
+      <td>-279,832</td>
+    </tr>
+    <tr>
+      <td>Consumer</td>
+      <td>Office Supplies</td>
+      <td>909</td>
+      <td>4,680,475</td>
+      <td>704,297</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>Technology</td>
+      <td>452</td>
+      <td>45,607,235</td>
+      <td>5,223,370</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>Furniture</td>
+      <td>443</td>
+      <td>10,323,095</td>
+      <td>-285,209</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>Office Supplies</td>
+      <td>570</td>
+      <td>3,183,289</td>
+      <td>488,994</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>Technology</td>
+      <td>339</td>
+      <td>33,939,946</td>
+      <td>3,357,358</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>Furniture</td>
+      <td>319</td>
+      <td>7,487,173</td>
+      <td>-253,113</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>Office Supplies</td>
+      <td>391</td>
+      <td>2,269,540</td>
+      <td>321,503</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">9 rows × 5 columns</div></div>
+<p><code>JOIN</code> on its own means <code>INNER JOIN</code>. Start from the table at the most detailed level (the <strong>grain</strong>: here, one row per order item) and join outward to the lookup tables.</p>
+<h2 id="case-study-questions-for-the-head-of-sales">Case study: questions for the Head of Sales</h2>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Q1. Which customers have never placed an order?</b></div><p>Marketing wants to send them a welcome-back offer.</p></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> c.customer_id, c.customer_name, c.city, c.segment
+<span class="hl-k">FROM</span> customers <span class="hl-k">AS</span> c
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> orders <span class="hl-k">AS</span> o <span class="hl-k">ON</span> o.customer_id = c.customer_id
+<span class="hl-k">WHERE</span> o.order_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> c.customer_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>customer_name</th>
+      <th>city</th>
+      <th>segment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0057</td>
+      <td>Meera Patel</td>
+      <td>Bhubaneswar</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>C0113</td>
+      <td>Sneha Shah</td>
+      <td>Guwahati</td>
+      <td>Home Office</td>
+    </tr>
+    <tr>
+      <td>C0153</td>
+      <td>Nikhil Das</td>
+      <td>Delhi</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>C0316</td>
+      <td>Joseph Mehta</td>
+      <td>Patna</td>
+      <td>Corporate</td>
+    </tr>
+    <tr>
+      <td>C0376</td>
+      <td>Sneha Kulkarni</td>
+      <td>Kolkata</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>C0401</td>
+      <td>Neha Kulkarni</td>
+      <td>Kolkata</td>
+      <td>Corporate</td>
+    </tr>
+    <tr>
+      <td>C0404</td>
+      <td>Nikhil Fernandes</td>
+      <td>Lucknow</td>
+      <td>Corporate</td>
+    </tr>
+    <tr>
+      <td>C0507</td>
+      <td>Ananya Singh</td>
+      <td>Hyderabad</td>
+      <td>Home Office</td>
+    </tr>
+    <tr>
+      <td>C0524</td>
+      <td>Sai Mehta</td>
+      <td>Pune</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>C0539</td>
+      <td>Harpreet Sharma</td>
+      <td>Jaipur</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>C0704</td>
+      <td>Zoya Patel</td>
+      <td>Mumbai</td>
+      <td>Consumer</td>
+    </tr>
+    <tr>
+      <td>C0711</td>
+      <td>Vikram Reddy</td>
+      <td>Bhubaneswar</td>
+      <td>Consumer</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">15 rows × 4 columns (first 12 shown)</div></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Q2. Which products have never been sold?</b></div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> products_never_sold
+<span class="hl-k">FROM</span> products <span class="hl-k">AS</span> p
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> order_items <span class="hl-k">AS</span> oi <span class="hl-k">ON</span> oi.product_id = p.product_id
+<span class="hl-k">WHERE</span> oi.item_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>products_never_sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Q3. Top 10 customers by 2025 sales, with their city and segment</b></div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">10</span>
+       c.customer_name, c.city, c.segment,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id) <span class="hl-k">AS</span> orders_2025,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.sales), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> sales_2025
+<span class="hl-k">FROM</span> customers <span class="hl-k">AS</span> c
+<span class="hl-k">JOIN</span> orders <span class="hl-k">AS</span> o       <span class="hl-k">ON</span> o.customer_id = c.customer_id
+<span class="hl-k">JOIN</span> order_items <span class="hl-k">AS</span> oi <span class="hl-k">ON</span> oi.order_id   = o.order_id
+<span class="hl-k">WHERE</span> o.order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span> <span class="hl-k">AND</span> o.order_date &lt; <span class="hl-s">&#x27;2026-01-01&#x27;</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.customer_id, c.customer_name, c.city, c.segment
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales_2025 <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_name</th>
+      <th>city</th>
+      <th>segment</th>
+      <th>orders_2025</th>
+      <th>sales_2025</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Joseph Shah</td>
+      <td>Pune</td>
+      <td>Consumer</td>
+      <td>5</td>
+      <td>872,896</td>
+    </tr>
+    <tr>
+      <td>Aarav Mehta</td>
+      <td>Bengaluru</td>
+      <td>Consumer</td>
+      <td>6</td>
+      <td>835,933</td>
+    </tr>
+    <tr>
+      <td>Kavya Iyer</td>
+      <td>Delhi</td>
+      <td>Consumer</td>
+      <td>3</td>
+      <td>821,696</td>
+    </tr>
+    <tr>
+      <td>Vivaan Verma</td>
+      <td>Mumbai</td>
+      <td>Home Office</td>
+      <td>2</td>
+      <td>757,989</td>
+    </tr>
+    <tr>
+      <td>Sneha Khan</td>
+      <td>Ahmedabad</td>
+      <td>Consumer</td>
+      <td>3</td>
+      <td>756,586</td>
+    </tr>
+    <tr>
+      <td>Pooja Nair</td>
+      <td>Pune</td>
+      <td>Consumer</td>
+      <td>4</td>
+      <td>700,790</td>
+    </tr>
+    <tr>
+      <td>Farhan Khan</td>
+      <td>Kochi</td>
+      <td>Corporate</td>
+      <td>2</td>
+      <td>648,834</td>
+    </tr>
+    <tr>
+      <td>Ananya Iyer</td>
+      <td>Chennai</td>
+      <td>Consumer</td>
+      <td>4</td>
+      <td>636,502</td>
+    </tr>
+    <tr>
+      <td>Meera Fernandes</td>
+      <td>Chennai</td>
+      <td>Consumer</td>
+      <td>4</td>
+      <td>614,306</td>
+    </tr>
+    <tr>
+      <td>Neha Fernandes</td>
+      <td>Pune</td>
+      <td>Consumer</td>
+      <td>2</td>
+      <td>588,041</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">10 rows × 5 columns</div></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Q4. Which region × category combinations lose money on discounted Furniture?</b></div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> c.region,
+       p.sub_category,
+       <span class="hl-f">COUNT</span>(*)                    <span class="hl-k">AS</span> lines,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(oi.discount), <span class="hl-n">2</span>)  <span class="hl-k">AS</span> avg_discount,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.profit), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> order_items <span class="hl-k">AS</span> oi
+<span class="hl-k">JOIN</span> orders    <span class="hl-k">AS</span> o <span class="hl-k">ON</span> o.order_id    = oi.order_id
+<span class="hl-k">JOIN</span> customers <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+<span class="hl-k">JOIN</span> products  <span class="hl-k">AS</span> p <span class="hl-k">ON</span> p.product_id  = oi.product_id
+<span class="hl-k">WHERE</span> p.category = <span class="hl-s">&#x27;Furniture&#x27;</span> <span class="hl-k">AND</span> oi.discount &gt; <span class="hl-n">0</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.region, p.sub_category
+<span class="hl-k">HAVING</span> <span class="hl-f">SUM</span>(oi.profit) &lt; <span class="hl-n">0</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>sub_category</th>
+      <th>lines</th>
+      <th>avg_discount</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>South</td>
+      <td>Tables</td>
+      <td>100</td>
+      <td>0.25</td>
+      <td>-407,431</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Tables</td>
+      <td>90</td>
+      <td>0.26</td>
+      <td>-369,074</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Tables</td>
+      <td>73</td>
+      <td>0.27</td>
+      <td>-318,641</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Tables</td>
+      <td>74</td>
+      <td>0.28</td>
+      <td>-301,656</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Bookcases</td>
+      <td>82</td>
+      <td>0.28</td>
+      <td>-283,651</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Bookcases</td>
+      <td>81</td>
+      <td>0.27</td>
+      <td>-263,943</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Bookcases</td>
+      <td>80</td>
+      <td>0.27</td>
+      <td>-248,275</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Bookcases</td>
+      <td>80</td>
+      <td>0.26</td>
+      <td>-216,090</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Chairs</td>
+      <td>53</td>
+      <td>0.21</td>
+      <td>-76,380</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Chairs</td>
+      <td>60</td>
+      <td>0.19</td>
+      <td>-71,006</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Chairs</td>
+      <td>58</td>
+      <td>0.19</td>
+      <td>-60,298</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Chairs</td>
+      <td>46</td>
+      <td>0.17</td>
+      <td>-31,667</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">16 rows × 5 columns (first 12 shown)</div></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Q5. How does actual selling price compare with the list price?</b></div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> p.category,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.sales), <span class="hl-n">0</span>)                                   <span class="hl-k">AS</span> actual_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.quantity * p.list_price), <span class="hl-n">0</span>)                 <span class="hl-k">AS</span> list_value,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * (<span class="hl-n">1</span> - <span class="hl-f">SUM</span>(oi.sales) / <span class="hl-f">SUM</span>(oi.quantity * p.list_price)), <span class="hl-n">1</span>) <span class="hl-k">AS</span> avg_discount_given_pct
+<span class="hl-k">FROM</span> order_items <span class="hl-k">AS</span> oi
+<span class="hl-k">JOIN</span> products <span class="hl-k">AS</span> p <span class="hl-k">ON</span> p.product_id = oi.product_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> p.category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> avg_discount_given_pct <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>actual_sales</th>
+      <th>list_value</th>
+      <th>avg_discount_given_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>34,841,853</td>
+      <td>41,094,510</td>
+      <td>15.2</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>10,133,304</td>
+      <td>10,963,700</td>
+      <td>7.6</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>156,438,413</td>
+      <td>168,811,900</td>
+      <td>7.3</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 4 columns</div></div>
+<h2 id="common-join-mistakes">Common join mistakes</h2>
+<h3 id="1-row-explosion-fan-out">1. Row explosion (fan-out)</h3>
+<p>Joining two "many" tables on a shared key multiplies rows. If you join <code>order_items</code> to another table with several rows per order (for example a <code>payments</code> table with instalments), each item is repeated for each payment and <code>SUM(sales)</code> is inflated. Always ask: <em>what is one row of each table, and is the key unique on one side?</em> Check with <code>COUNT(*)</code> before and after the join, or aggregate each table to the same grain first (Lesson 10).</p>
+<h3 id="2-ambiguous-column-names">2. Ambiguous column names</h3>
+<p><code>SELECT order_id FROM orders JOIN order_items ON …</code> fails: "Ambiguous column name 'order_id'". Prefix columns with the table alias (<code>o.order_id</code>). Do it for every column in multi-table queries.</p>
+<h3 id="3-filtering-an-outer-join-in-where">3. Filtering an outer join in WHERE</h3>
+<p>A condition on the <strong>right</strong> table placed in <code>WHERE</code> removes the NULL rows and silently turns a LEFT JOIN into an INNER JOIN:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Intended: all students, with their SQL course if any</span>
+<span class="hl-k">SELECT</span> s.name, e.course
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e <span class="hl-k">ON</span> e.student_id = s.student_id
+<span class="hl-k">WHERE</span> e.course = <span class="hl-s">&#x27;SQL&#x27;</span>;            <span class="hl-c">-- wrong: drops students without SQL</span></code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Asha</td>
+      <td>SQL</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> s.name, e.course
+<span class="hl-k">FROM</span> students <span class="hl-k">AS</span> s
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> enrolments <span class="hl-k">AS</span> e
+       <span class="hl-k">ON</span> e.student_id = s.student_id
+      <span class="hl-k">AND</span> e.course = <span class="hl-s">&#x27;SQL&#x27;</span>         <span class="hl-c">-- right: condition in ON keeps every student</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> s.student_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Asha</td>
+      <td>SQL</td>
+    </tr>
+    <tr>
+      <td>Ravi</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>Meera</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>Kabir</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<h3 id="4-joining-on-the-wrong-or-non-unique-key">4. Joining on the wrong or non-unique key</h3>
+<p>Joining customers to orders on <code>city</code> instead of <code>customer_id</code> creates nonsense matches. Join on keys, and check the relationship (1:1, 1:N) you expect.</p>
+<h3 id="5-null-keys-never-match">5. NULL keys never match</h3>
+<p><code>NULL = NULL</code> is UNKNOWN, so rows with a NULL key never match in any join. Clean or default keys first if that matters.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Join check-list</b></div><ol>
+<li>What is the grain (one row = ?) of each table? 2. Which key connects them, and is it unique on one side? 3. Do I need unmatched rows (LEFT/FULL) or only matches (INNER)? 4. Did the row count change as expected? 5. Are filters on outer-joined tables in ON or WHERE on purpose?</li>
+</ol></div>
+<h2 id="older-join-syntax-you-may-see">Older join syntax you may see</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Implicit join (comma join), pre-1992 style: works but avoid</span>
+<span class="hl-k">SELECT</span> o.order_id, c.customer_name
+<span class="hl-k">FROM</span> orders o, customers c
+<span class="hl-k">WHERE</span> o.customer_id = c.customer_id;</code></pre></div>
+<p>Forgetting the WHERE turns it into a CROSS JOIN. Use explicit <code>JOIN … ON</code>.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>INNER</strong>: only matching rows. <strong>LEFT</strong>: all left rows + matches (NULLs where none). <strong>RIGHT</strong>: the mirror. <strong>FULL</strong>: everything. <strong>CROSS</strong>: every combination. <strong>SELF</strong>: a table with itself (aliases).</li>
+<li><strong>Anti-join</strong>: <code>LEFT JOIN … WHERE right.key IS NULL</code> finds rows with no match.</li>
+<li>Join from the most detailed table outward, on keys, with aliases on every column.</li>
+<li>Watch for row explosion, ambiguous columns, and filters on the right table in WHERE (move them to ON).</li>
+<li>Joins = XLOOKUP / Power Query Merge / pandas merge / Power BI relationships.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-08-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Table A has 4 rows, B has 3. A CROSS JOIN returns:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>3 rows</button><button type="button" class="opt" data-ok="0"><i>B</i>4 rows</button><button type="button" class="opt" data-ok="0"><i>C</i>7 rows</button><button type="button" class="opt" data-ok="1"><i>D</i>12 rows</button></div><div class="qexp"><b>Answer: D.</b> A Cartesian product returns 4 × 3 rows.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which join lists every customer, including those with no orders?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>customers INNER JOIN orders</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>customers LEFT JOIN orders</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>customers RIGHT JOIN orders</code> with orders on the right</button><button type="button" class="opt" data-ok="0"><i>D</i><code>customers CROSS JOIN orders</code></button></div><div class="qexp"><b>Answer: B.</b> LEFT JOIN keeps every row from the left table.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you find products that were never ordered?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>products INNER JOIN order_items WHERE item_id IS NULL</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>products LEFT JOIN order_items … WHERE order_items.item_id IS NULL</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>products FULL JOIN order_items</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>SELECT DISTINCT product_id FROM order_items</code></button></div><div class="qexp"><b>Answer: B.</b> A left anti-join returns left rows with no match.</div></div><div class="qq"><p class="qtext"><b>4.</b> <code>FROM students s LEFT JOIN enrolments e ON … WHERE e.course = 'SQL'</code> behaves like:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A LEFT JOIN</button><button type="button" class="opt" data-ok="1"><i>B</i>An INNER JOIN, because rows with NULL course are removed</button><button type="button" class="opt" data-ok="0"><i>C</i>A FULL JOIN</button><button type="button" class="opt" data-ok="0"><i>D</i>A CROSS JOIN</button></div><div class="qexp"><b>Answer: B.</b> The WHERE condition on the right table discards the unmatched (NULL) rows.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is a self join used for?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Relating rows of the same table, such as employees and their managers</button><button type="button" class="opt" data-ok="0"><i>B</i>Joining a table to a copy in another database</button><button type="button" class="opt" data-ok="0"><i>C</i>Removing duplicates</button><button type="button" class="opt" data-ok="0"><i>D</i>Joining without a key</button></div><div class="qexp"><b>Answer: A.</b> The same table is used twice with different aliases.</div></div><div class="qq"><p class="qtext"><b>6.</b> After joining order_items to a payments table with 2 instalments per order, SUM(sales) doubled. What happened?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A NULL key</button><button type="button" class="opt" data-ok="1"><i>B</i>Row explosion: each item was repeated once per payment row</button><button type="button" class="opt" data-ok="0"><i>C</i>Integer division</button><button type="button" class="opt" data-ok="0"><i>D</i>A wrong data type</button></div><div class="qexp"><b>Answer: B.</b> Joining two many-sided tables multiplies rows; aggregate to the same grain first.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Join practice</b></div><p>(1) List each order with customer name, city and the number of items in the order. (2) For each customer segment, show the share of sales from each category (%). (3) Find customers who bought Technology but never Furniture. (4) Using <code>team</code>, show each manager with the number of direct reports.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">SELECT</span> o.order_id, c.customer_name, c.city, <span class="hl-f">COUNT</span>(oi.item_id) <span class="hl-k">AS</span> items
+<span class="hl-k">FROM</span> orders o <span class="hl-k">JOIN</span> customers c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+<span class="hl-k">JOIN</span> order_items oi <span class="hl-k">ON</span> oi.order_id = o.order_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> o.order_id, c.customer_name, c.city;
+<span class="hl-c">-- (2)</span>
+<span class="hl-k">SELECT</span> c.segment, p.category,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(oi.sales) / <span class="hl-f">SUM</span>(<span class="hl-f">SUM</span>(oi.sales)) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> c.segment), <span class="hl-n">1</span>) <span class="hl-k">AS</span> pct_of_segment
+<span class="hl-k">FROM</span> order_items oi <span class="hl-k">JOIN</span> orders o <span class="hl-k">ON</span> o.order_id = oi.order_id
+<span class="hl-k">JOIN</span> customers c <span class="hl-k">ON</span> c.customer_id = o.customer_id <span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = oi.product_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.segment, p.category;            <span class="hl-c">-- the window function is explained in Lesson 12</span>
+<span class="hl-c">-- (3)</span>
+<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> c.customer_id, c.customer_name
+<span class="hl-k">FROM</span> customers c <span class="hl-k">JOIN</span> orders o <span class="hl-k">ON</span> o.customer_id = c.customer_id
+<span class="hl-k">JOIN</span> order_items oi <span class="hl-k">ON</span> oi.order_id = o.order_id <span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = oi.product_id
+<span class="hl-k">WHERE</span> p.category = <span class="hl-s">&#x27;Technology&#x27;</span>
+  <span class="hl-k">AND</span> c.customer_id <span class="hl-k">NOT</span> <span class="hl-k">IN</span> (<span class="hl-k">SELECT</span> o2.customer_id <span class="hl-k">FROM</span> orders o2 <span class="hl-k">JOIN</span> order_items oi2 <span class="hl-k">ON</span> oi2.order_id = o2.order_id
+                            <span class="hl-k">JOIN</span> products p2 <span class="hl-k">ON</span> p2.product_id = oi2.product_id <span class="hl-k">WHERE</span> p2.category = <span class="hl-s">&#x27;Furniture&#x27;</span>);
+<span class="hl-c">-- (4)</span>
+<span class="hl-k">SELECT</span> m.name <span class="hl-k">AS</span> manager, <span class="hl-f">COUNT</span>(e.emp_id) <span class="hl-k">AS</span> direct_reports
+<span class="hl-k">FROM</span> team m <span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> team e <span class="hl-k">ON</span> e.manager_id = m.emp_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> m.emp_id, m.name <span class="hl-k">HAVING</span> <span class="hl-f">COUNT</span>(e.emp_id) &gt; <span class="hl-n">0</span>;</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain the different types of joins.</strong>
+INNER returns matches; LEFT/RIGHT keep all rows from one side with NULLs where unmatched; FULL keeps all rows from both; CROSS returns every combination; SELF joins a table to itself.</p>
+<p><strong>Q: Table A has 5 rows with id 1 repeated twice, B has 3 rows with id 1 repeated three times. How many rows does an inner join on id return (other ids unmatched)?</strong>
+2 × 3 = 6 rows.</p>
+<p><strong>Q: How do you find records in one table but not another?</strong>
+LEFT JOIN … WHERE right.key IS NULL, NOT EXISTS, or EXCEPT (Lesson 9).</p>
+<p><strong>Q: What is the difference between putting a condition in ON vs WHERE for a LEFT JOIN?</strong>
+In ON it only limits which right rows match (all left rows stay); in WHERE it filters the final result and removes unmatched left rows.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html"><small>← Previous</small><b>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</b></a><a class="next" href="sql-09-set-operators-union-union-all-intersect-and-except.html"><small>Next →</small><b>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-joins">Why joins?</a><a href="#a-tiny-example-first">A tiny example first</a><a href="#joins-on-the-retail-database">Joins on the retail database</a><a href="#case-study-questions-for-the-head-of-sales">Case study: questions for the Head of Sales</a><a href="#common-join-mistakes">Common join mistakes</a><a href="#older-join-syntax-you-may-see">Older join syntax you may see</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v10"></script><script src="../assets/course.js?v=v10"></script></body></html>

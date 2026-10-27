@@ -57,7 +57,7 @@ h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
 .stdout{margin:6px 0;white-space:pre-wrap;font-size:13px;color:var(--ink);background:none;padding:0}.err{color:#B42318;background:#FEF3F2;padding:8px;border-radius:8px;font-size:12.5px;white-space:pre-wrap}
 .tblwrap{overflow-x:auto;margin:10px 0}.tbl{border-collapse:collapse;font-size:13.5px;min-width:40%;background:var(--surface)}
 .tbl th{background:var(--soft);color:var(--ink);text-align:left;padding:7px 11px;border-bottom:2px solid var(--line);font-weight:700;white-space:nowrap}
-.tbl td{padding:6px 11px;border-bottom:1px solid var(--line);vertical-align:top}.tbl.md{width:100%;border:1px solid var(--line);border-radius:10px}
+.tbl td{font-variant-numeric:tabular-nums;padding:6px 11px;border-bottom:1px solid var(--line);vertical-align:top}.tbl.md{width:100%;border:1px solid var(--line);border-radius:10px}
 .tbl.md th{background:var(--ink);color:#fff;border:0}.tbl.md tr:nth-child(even) td{background:color-mix(in srgb,var(--soft) 50%,transparent)}
 .shape{font-size:12px;color:var(--mu);margin-top:2px}
 .fig{margin:20px 0;text-align:center}.fig img{border-radius:12px;border:1px solid var(--line);background:#fff;max-height:560px}.fig figcaption{font-size:13.5px;color:var(--mu);margin-top:8px}

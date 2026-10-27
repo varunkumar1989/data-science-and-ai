@@ -2,7 +2,7 @@
 <title>Pivot Tables from Basic to Advanced · Excel Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Summarise thousands of rows in seconds. Build pivot tables, understand the pivot cache and the four areas, change value field settings, show values as % of total, MoM and YoY change and running totals, group dates and numbers into bins, add calculated fields, slicers and timelines, and solve the Video Game Sales case study."><link rel="icon" href="../assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/course.css?v=v7"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
 <nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
 <button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
 <div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
@@ -213,51 +213,51 @@ m.index = <span class="hl-f">m.index.strftime</span>(<span class="hl-s">&quot;%b
   <tbody>
     <tr>
       <th>May-2025</th>
-      <td>6,421,273.50</td>
-      <td>-4.20</td>
-      <td>22.20</td>
+      <td>6,421,274</td>
+      <td>-4.2</td>
+      <td>22.2</td>
     </tr>
     <tr>
       <th>Jun-2025</th>
       <td>3,968,572</td>
-      <td>-38.20</td>
-      <td>-1.10</td>
+      <td>-38.2</td>
+      <td>-1.1</td>
     </tr>
     <tr>
       <th>Jul-2025</th>
       <td>7,190,087</td>
-      <td>81.20</td>
-      <td>49.20</td>
+      <td>81.2</td>
+      <td>49.2</td>
     </tr>
     <tr>
       <th>Aug-2025</th>
       <td>5,802,184</td>
-      <td>-19.30</td>
-      <td>0.80</td>
+      <td>-19.3</td>
+      <td>0.8</td>
     </tr>
     <tr>
       <th>Sep-2025</th>
       <td>8,468,060</td>
-      <td>45.90</td>
-      <td>58.90</td>
+      <td>45.9</td>
+      <td>58.9</td>
     </tr>
     <tr>
       <th>Oct-2025</th>
       <td>6,140,290</td>
-      <td>-27.50</td>
-      <td>-15.40</td>
+      <td>-27.5</td>
+      <td>-15.4</td>
     </tr>
     <tr>
       <th>Nov-2025</th>
-      <td>10,284,515.50</td>
-      <td>67.50</td>
-      <td>41.20</td>
+      <td>10,284,516</td>
+      <td>67.5</td>
+      <td>41.2</td>
     </tr>
     <tr>
       <th>Dec-2025</th>
-      <td>7,652,266.50</td>
-      <td>-25.60</td>
-      <td>15.30</td>
+      <td>7,652,266</td>
+      <td>-25.6</td>
+      <td>15.3</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">8 rows × 3 columns</div></div>
@@ -551,33 +551,33 @@ q1[<span class="hl-s">&quot;% of total&quot;</span>] = (q1.global_sales / <span 
   <tbody>
     <tr>
       <th>Adventure</th>
-      <td>136.70</td>
-      <td>10.60</td>
+      <td>136.7</td>
+      <td>10.6</td>
     </tr>
     <tr>
       <th>Sports</th>
-      <td>133.80</td>
-      <td>10.40</td>
+      <td>133.8</td>
+      <td>10.4</td>
     </tr>
     <tr>
       <th>Action</th>
-      <td>116.30</td>
+      <td>116.3</td>
       <td>9.0</td>
     </tr>
     <tr>
       <th>Racing</th>
-      <td>113.60</td>
-      <td>8.80</td>
+      <td>113.6</td>
+      <td>8.8</td>
     </tr>
     <tr>
       <th>Strategy</th>
-      <td>111.50</td>
-      <td>8.60</td>
+      <td>111.5</td>
+      <td>8.6</td>
     </tr>
     <tr>
       <th>Simulation</th>
-      <td>108.40</td>
-      <td>8.40</td>
+      <td>108.4</td>
+      <td>8.4</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">6 rows × 2 columns</div></div>
@@ -604,31 +604,31 @@ q2[<span class="hl-s">&quot;sales per title&quot;</span>] = (q2.global_sales / q
       <th>Starforge Interactive</th>
       <td>168.0</td>
       <td>295</td>
-      <td>0.60</td>
+      <td>0.6</td>
     </tr>
     <tr>
       <th>Blue Comet Games</th>
-      <td>161.40</td>
+      <td>161.4</td>
       <td>316</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
     <tr>
       <th>Northwind Play</th>
-      <td>144.60</td>
+      <td>144.6</td>
       <td>266</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
     <tr>
       <th>Red Lantern Studios</th>
-      <td>144.50</td>
+      <td>144.5</td>
       <td>268</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
     <tr>
       <th>Pixel Harbor</th>
-      <td>143.10</td>
+      <td>143.1</td>
       <td>267</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">5 rows × 3 columns</div></div>
@@ -657,44 +657,44 @@ q3 = (<span class="hl-f">q3.div</span>(<span class="hl-f">q3.sum</span>(axis=<sp
     <tr>
       <th>Role-Playing</th>
       <td>28.0</td>
-      <td>24.20</td>
-      <td>39.80</td>
-      <td>8.10</td>
+      <td>24.2</td>
+      <td>39.8</td>
+      <td>8.1</td>
     </tr>
     <tr>
       <th>Puzzle</th>
       <td>29.0</td>
-      <td>28.70</td>
-      <td>28.90</td>
-      <td>13.40</td>
+      <td>28.7</td>
+      <td>28.9</td>
+      <td>13.4</td>
     </tr>
     <tr>
       <th>Fighting</th>
       <td>36.0</td>
-      <td>29.60</td>
-      <td>25.10</td>
-      <td>9.30</td>
+      <td>29.6</td>
+      <td>25.1</td>
+      <td>9.3</td>
     </tr>
     <tr>
       <th>Misc</th>
-      <td>39.60</td>
-      <td>30.60</td>
-      <td>16.60</td>
-      <td>13.20</td>
+      <td>39.6</td>
+      <td>30.6</td>
+      <td>16.6</td>
+      <td>13.2</td>
     </tr>
     <tr>
       <th>Adventure</th>
-      <td>40.10</td>
-      <td>30.80</td>
-      <td>15.30</td>
-      <td>13.70</td>
+      <td>40.1</td>
+      <td>30.8</td>
+      <td>15.3</td>
+      <td>13.7</td>
     </tr>
     <tr>
       <th>Simulation</th>
       <td>40.0</td>
-      <td>31.30</td>
-      <td>14.90</td>
-      <td>13.80</td>
+      <td>31.3</td>
+      <td>14.9</td>
+      <td>13.8</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">6 rows × 4 columns</div></div>
@@ -718,43 +718,43 @@ q4[<span class="hl-s">&quot;YoY %&quot;</span>] = (<span class="hl-f">q4.global_
   <tbody>
     <tr>
       <th>2018</th>
-      <td>87.20</td>
+      <td>87.2</td>
       <td>19.0</td>
     </tr>
     <tr>
       <th>2019</th>
-      <td>59.40</td>
-      <td>-31.90</td>
+      <td>59.4</td>
+      <td>-31.9</td>
     </tr>
     <tr>
       <th>2020</th>
-      <td>89.20</td>
-      <td>50.20</td>
+      <td>89.2</td>
+      <td>50.2</td>
     </tr>
     <tr>
       <th>2021</th>
       <td>78.0</td>
-      <td>-12.60</td>
+      <td>-12.6</td>
     </tr>
     <tr>
       <th>2022</th>
-      <td>71.90</td>
-      <td>-7.90</td>
+      <td>71.9</td>
+      <td>-7.9</td>
     </tr>
     <tr>
       <th>2023</th>
-      <td>76.40</td>
-      <td>6.30</td>
+      <td>76.4</td>
+      <td>6.3</td>
     </tr>
     <tr>
       <th>2024</th>
-      <td>80.90</td>
-      <td>5.90</td>
+      <td>80.9</td>
+      <td>5.9</td>
     </tr>
     <tr>
       <th>2025</th>
       <td>87.0</td>
-      <td>7.40</td>
+      <td>7.4</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">8 rows × 2 columns</div></div>
@@ -885,4 +885,4 @@ When the report needs a fixed layout, mixes data from several sources, or must u
 <section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
 <div class="pn"><a class="prev" href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html"><small>← Previous</small><b>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</b></a><a class="next" href="excel-09-date-time-and-number-functions-and-named-ranges.html"><small>Next →</small><b>Date, Time &amp; Number Functions and Named Ranges</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-a-pivot-table-does">What a pivot table does</a><a href="#creating-a-pivot-table">Creating a pivot table</a><a href="#the-pivot-cache-refresh-and-refresh-all">The pivot cache, Refresh and Refresh All</a><a href="#value-field-settings">Value field settings</a><a href="#mom-and-yoy">MoM and YoY</a><a href="#grouping">Grouping</a><a href="#layout-subtotals-and-grand-totals">Layout, subtotals and grand totals</a><a href="#sorting-and-filtering-inside-a-pivot">Sorting and filtering inside a pivot</a><a href="#calculated-fields">Calculated fields</a><a href="#getpivotdata-and-pivot-charts">GETPIVOTDATA and pivot charts</a><a href="#case-study-video-game-sales-regional-sales-trends">Case study: Video Game Sales (regional sales trends)</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
 <footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
-<script src="../assets/search-index.js?v=v7"></script><script src="../assets/course.js?v=v7"></script></body></html>
+<script src="../assets/search-index.js?v=v10"></script><script src="../assets/course.js?v=v10"></script></body></html>

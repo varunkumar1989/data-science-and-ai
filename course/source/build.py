@@ -63,7 +63,7 @@ TRACKS = [
                    ("StrataScratch data interview questions", "https://www.stratascratch.com/")]),
 ]
 TRACK = {t["id"]: t for t in TRACKS}
-BUILD_VER = "v7"
+BUILD_VER = "v10"
 
 # ====================================================================== code highlighting
 KW = {
@@ -103,7 +103,7 @@ def codeblock(code, lang, label=None):
 def fmt_cell(x):
     if isinstance(x, (float, np.floating)):
         if np.isnan(x): return "NaN"
-        if float(x).is_integer() and abs(x) < 1e15: return f"{x:,.1f}" if abs(x) < 1e4 else f"{x:,.0f}"
+        if float(x).is_integer() and abs(x) < 1e15: return f"{x:,.0f}"
         return f"{x:,.2f}" if abs(x) >= .01 else f"{x:.4g}"
     if isinstance(x, (pd.Timestamp, datetime.datetime)):
         return x.strftime("%Y-%m-%d") if (x.hour, x.minute, x.second) == (0, 0, 0) else x.strftime("%Y-%m-%d %H:%M")
@@ -111,7 +111,7 @@ def fmt_cell(x):
     return x
 
 
-def df_html(o, maxrows=12, index=True):
+def df_html(o, maxrows=12, index=True, na="NaN"):
     if isinstance(o, pd.Series):
         o = o.to_frame()
     n, m = o.shape
@@ -121,15 +121,15 @@ def df_html(o, maxrows=12, index=True):
         if pd.api.types.is_float_dtype(col):
             v = col.dropna().astype(float)
             if len(v) and (v.abs() < 0.01).all() and (v != 0).any():
-                d[c] = col.map(lambda x: "NaN" if pd.isna(x) else f"{x:.4g}")
+                d[c] = col.map(lambda x: na if pd.isna(x) else f"{x:.4g}")
                 continue
             dec = 2
             for k in (0, 1, 2):
                 if len(v) == 0 or np.allclose(v, v.round(k), atol=1e-9): dec = k; break
             if dec == 0 and len(v) and v.abs().max() < 1e4 and (v != v.round(0)).any(): dec = 1
-            d[c] = col.map(lambda x, dd=dec: "NaN" if pd.isna(x) else f"{x:,.{dd}f}")
+            d[c] = col.map(lambda x, dd=dec: na if pd.isna(x) else f"{x:,.{dd}f}")
         else:
-            d[c] = col.map(fmt_cell)
+            d[c] = col.map(lambda x: na if (x is None or x is pd.NA or x is pd.NaT or (isinstance(x, float) and np.isnan(x))) else fmt_cell(x))
     h = d.to_html(classes="tbl", border=0, escape=True, index=index, na_rep="NaN")
     foot = f'<div class="shape">{n:,} rows × {m} columns{" (first %d shown)" % maxrows if n > maxrows else ""}</div>'
     return f'<div class="tblwrap">{h}</div>{foot}'
@@ -253,7 +253,7 @@ class SQLRunner:
         self.lid = lid; self.errors = []
         self.con = duckdb.connect()
         for nm, f in [("superstore", "superstore_sales.csv"), ("customers", "customers.csv"), ("products", "products.csv"), ("employees", "hr_employees.csv"),
-                      ("video_games", "video_game_sales.csv"), ("emp", "employees_small.csv")]:
+                      ("video_games", "video_game_sales.csv"), ("emp", "employees_small.csv"), ("houses", "house_prices.csv")]:
             self.con.execute(f"CREATE TABLE {nm} AS SELECT * FROM read_csv_auto('{os.path.join(DATA, f)}')")
         self.con.execute("CREATE TABLE orders AS SELECT DISTINCT order_id, order_date, ship_date, ship_mode, customer_id FROM superstore ORDER BY order_date, order_id")
         self.con.execute("CREATE TABLE order_items AS SELECT row_id AS item_id, order_id, product_id, quantity, discount, sales, profit FROM superstore ORDER BY row_id")
@@ -268,12 +268,18 @@ class SQLRunner:
             q = tsql_to_duck(st)
             if not q.strip().strip(";").strip(): continue
             try:
+                kind = re.sub(r"--[^\n]*", "", st).strip().split()[0].upper()
                 r = self.con.execute(q)
-                if r.description:
+                if kind in ("INSERT", "UPDATE", "DELETE", "MERGE"):
+                    n = None
+                    try:
+                        d = r.df(); n = int(d.iloc[0, 0]) if len(d) else 0
+                    except Exception: pass
+                    msg.append(f"({n} row{'s' if n != 1 else ''} affected)" if n is not None else "Rows affected.")
+                elif kind in ("CREATE", "ALTER", "DROP", "TRUNCATE"):
+                    msg.append("Commands completed successfully.")
+                elif r.description:
                     res = r.df()
-                else:
-                    kind = st.strip().split()[0].upper()
-                    msg.append({"CREATE": "Commands completed successfully.", "ALTER": "Commands completed successfully.", "DROP": "Commands completed successfully.", "TRUNCATE": "Commands completed successfully."}.get(kind, "Statement executed."))
             except Exception as e:
                 err = str(e).split("\n")[0]
                 self.errors.append(f"{self.lid}: {err}\n---\n{q[:500]}")
@@ -281,10 +287,9 @@ class SQLRunner:
         outs = []
         if res is not None:
             if "count_star()" in res.columns: res = res.rename(columns={"count_star()": "(No column name)"})
-            outs.append(df_html(res, maxrows=maxrows, index=False))
-        elif msg and not err:
-            ins = sum(1 for st in stmts if st.strip().upper().startswith(("INSERT", "UPDATE", "DELETE")))
-            outs.append(f'<pre class="stdout">{html.escape(msg[-1] if not ins else "Rows affected. Commands completed successfully.")}</pre>')
+            outs.append(df_html(res, maxrows=maxrows, index=False, na="NULL"))
+        if msg and not err and (res is None or any("affected" in m for m in msg)):
+            outs.insert(0, f'<pre class="stdout msgs">{html.escape(chr(10).join(msg))}</pre>')
         if err:
             outs.append(f'<pre class="err">{html.escape(err)}</pre>')
         if outs:

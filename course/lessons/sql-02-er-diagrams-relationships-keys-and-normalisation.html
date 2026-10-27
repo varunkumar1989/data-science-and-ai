@@ -1,0 +1,477 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ER Diagrams, Relationships, Keys &amp; Normalisation · SQL Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Design databases the way professionals do. Draw ER diagrams, read crow&#x27;s-foot notation, model one-to-one, one-to-many and many-to-many relationships, master every type of key (super, candidate, primary, alternate, composite, foreign, surrogate) and normalise tables to 3NF."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class="on"><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-02">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 2 of 10</div><h1>ER Diagrams, Relationships, Keys &amp; Normalisation</h1>
+<p class="sum">Design databases the way professionals do. Draw ER diagrams, read crow's-foot notation, model one-to-one, one-to-many and many-to-many relationships, master every type of key (super, candidate, primary, alternate, composite, foreign, surrogate) and normalise tables to 3NF.</p><div class="tags"><span class="tag live">● SQL class 1</span><span class="tag new">✦ 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_02_ER_Diagrams_Relationships_Keys_Normalisation.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Read and draw an ER diagram with entities, attributes and relationships</li><li>Identify 1:1, 1:N and M:N relationships and resolve M:N with a junction table</li><li>Define super, candidate, primary, alternate, composite, foreign, surrogate and unique keys, with examples</li><li>Explain referential integrity and what happens on delete/update of a parent row</li><li>Normalise a flat table into 1NF, 2NF and 3NF, and know when to denormalise</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-design-matters">Why design matters</h2>
+<p>A database that is designed badly is slow, wastes space and, worst of all, lets data contradict itself. Imagine the customer's city stored in every order row: if the customer moves, you must update thousands of rows, and missing one creates two different "truths". Good design stores <strong>each fact once</strong> and connects tables with <strong>keys</strong>.</p>
+<h2 id="entityrelationship-er-diagrams">Entity–Relationship (ER) diagrams</h2>
+<p>An <strong>ER diagram</strong> is a picture of the data model before any table is created.</p>
+<div class="co co-def"><div class="co-h"><span class="pill">Definition</span><b>Building blocks</b></div><p><strong>Entity</strong>: a real-world thing you store data about: Customer, Order, Product, Employee. Becomes a <strong>table</strong>.
+<strong>Attribute</strong>: a property of an entity: name, city, price. Becomes a <strong>column</strong>.
+<strong>Relationship</strong>: how entities are associated: a Customer <em>places</em> Orders. Implemented with <strong>foreign keys</strong>.
+<strong>Cardinality</strong>: how many of one entity relate to another: one-to-one, one-to-many, many-to-many.
+<strong>Participation (optionality)</strong>: whether the relationship is mandatory (every order must have a customer) or optional (a customer may have zero orders).</p></div>
+<h3 id="crows-foot-notation">Crow's-foot notation</h3>
+<p>The most common notation in industry draws symbols at the ends of each relationship line:</p>
+<figure class="fig"><img src="../img/sql-02-01.png" alt="Crow&#x27;s-foot symbols. Read each end as &quot;minimum … maximum&quot;." loading="lazy"><figcaption>Crow's-foot symbols. Read each end as "minimum … maximum".</figcaption></figure>
+<p>Reading example: Customer <code>||——o&lt;</code> Order means "each order belongs to <strong>exactly one</strong> customer; each customer places <strong>zero or many</strong> orders".</p>
+<h2 id="types-of-relationships">Types of relationships</h2>
+<h3 id="one-to-one-11">One-to-one (1:1)</h3>
+<p>Each row in A matches at most one row in B. Example: Employee ↔ Employee_Bank_Details. Often used to split sensitive or rarely used columns into a separate, more protected table. Implemented with a foreign key that is also <strong>unique</strong> (often the same as the primary key).</p>
+<h3 id="one-to-many-1n-the-most-common">One-to-many (1:N) — the most common</h3>
+<p>One row in A matches many rows in B; each B row matches one A row. Examples: Customer → Orders, Department → Employees, Category → Products. The <strong>foreign key goes on the "many" side</strong> (<code>orders.customer_id</code>).</p>
+<h3 id="many-to-many-mn">Many-to-many (M:N)</h3>
+<p>Many rows in A match many in B: Students ↔ Courses, Orders ↔ Products, Actors ↔ Movies. Relational tables cannot store this directly, so we add a <strong>junction (bridge, associative) table</strong> that holds a pair of foreign keys, turning one M:N into two 1:N relationships.</p>
+<figure class="fig"><img src="../img/sql-02-02.png" alt="An order contains many products and a product appears in many orders. The junction table order_items resolves the many-to-many relationship and stores facts about each pair (quantity, discount)." loading="lazy"><figcaption>An order contains many products and a product appears in many orders. The junction table order_items resolves the many-to-many relationship and stores facts about each pair (quantity, discount).</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Relationship</th>
+<th>Example</th>
+<th>Where the foreign key goes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 : 1</td>
+<td>Employee – Passport</td>
+<td>Either side, marked UNIQUE</td>
+</tr>
+<tr>
+<td>1 : N</td>
+<td>Department – Employees</td>
+<td>On the N side (<code>employees.dept_id</code>)</td>
+</tr>
+<tr>
+<td>M : N</td>
+<td>Students – Courses</td>
+<td>In a junction table <code>enrolments(student_id, course_id)</code></td>
+</tr>
+<tr>
+<td>Self (recursive)</td>
+<td>Employee – Manager</td>
+<td>In the same table: <code>employees.manager_id</code> → <code>employees.emp_id</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Let's check the real cardinalities in our retail data with SQL. How many orders does each customer have, and how many items does each order have?</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">MIN</span>(n_orders) <span class="hl-k">AS</span> min_orders_per_customer,
+       <span class="hl-f">MAX</span>(n_orders) <span class="hl-k">AS</span> max_orders_per_customer,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(n_orders * <span class="hl-n">1.0</span>), <span class="hl-n">2</span>) <span class="hl-k">AS</span> avg_orders_per_customer
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> customer_id, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> n_orders <span class="hl-k">FROM</span> orders <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id) <span class="hl-k">AS</span> t;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>min_orders_per_customer</th>
+      <th>max_orders_per_customer</th>
+      <th>avg_orders_per_customer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>10</td>
+      <td>4.08</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 3 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> items_in_order, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> number_of_orders
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> order_id, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> items_in_order <span class="hl-k">FROM</span> order_items <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> order_id) <span class="hl-k">AS</span> t
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> items_in_order
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> items_in_order;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>items_in_order</th>
+      <th>number_of_orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1394</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>920</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>455</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>431</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<p>So Customer → Orders is 1:N, and Order → Order items is 1:N (1 to 4 items per order here).</p>
+<h2 id="keys">Keys</h2>
+<p>Keys are columns (or sets of columns) with special meaning. They are among the most frequently asked interview topics.</p>
+<figure class="fig"><img src="../img/sql-02-03.png" alt="How the main key types relate: every candidate key is a minimal super key; one candidate is chosen as the primary key and the rest become alternate keys." loading="lazy"><figcaption>How the main key types relate: every candidate key is a minimal super key; one candidate is chosen as the primary key and the rest become alternate keys.</figcaption></figure>
+<p>Example table <code>employees(emp_id, email, pan_number, name, dept_id, phone)</code>, where <code>emp_id</code>, <code>email</code> and <code>pan_number</code> are each unique:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Key type</th>
+<th>Definition</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Super key</strong></td>
+<td>Any set of columns that uniquely identifies a row (may include extra columns)</td>
+<td><code>{emp_id}</code>, <code>{emp_id, name}</code>, <code>{email, dept_id}</code></td>
+</tr>
+<tr>
+<td><strong>Candidate key</strong></td>
+<td>A <strong>minimal</strong> super key: remove any column and it stops being unique</td>
+<td><code>{emp_id}</code>, <code>{email}</code>, <code>{pan_number}</code></td>
+</tr>
+<tr>
+<td><strong>Primary key (PK)</strong></td>
+<td>The candidate key chosen to identify rows. Unique, <strong>not NULL</strong>, one per table</td>
+<td><code>emp_id</code></td>
+</tr>
+<tr>
+<td><strong>Alternate key</strong></td>
+<td>Candidate keys not chosen as primary; enforce them with <code>UNIQUE</code></td>
+<td><code>email</code>, <code>pan_number</code></td>
+</tr>
+<tr>
+<td><strong>Composite key</strong></td>
+<td>A key made of two or more columns</td>
+<td><code>(order_id, product_id)</code> in order_items; <code>(student_id, course_id)</code> in enrolments</td>
+</tr>
+<tr>
+<td><strong>Foreign key (FK)</strong></td>
+<td>A column that refers to a PK (or unique key) in another table</td>
+<td><code>employees.dept_id</code> → <code>departments.dept_id</code></td>
+</tr>
+<tr>
+<td><strong>Unique key</strong></td>
+<td>A UNIQUE constraint: no duplicates, but (in SQL Server) one NULL is allowed</td>
+<td><code>phone</code></td>
+</tr>
+<tr>
+<td><strong>Surrogate key</strong></td>
+<td>An artificial key with no business meaning, often an auto-number</td>
+<td><code>customer_key INT IDENTITY(1,1)</code></td>
+</tr>
+<tr>
+<td><strong>Natural key</strong></td>
+<td>A key with business meaning</td>
+<td>PAN number, GSTIN, ISBN, email</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Surrogate or natural?</b></div><p>Natural keys can change (people change email, products get recoded) and can be long. Most warehouses and Power BI models use <strong>surrogate integer keys</strong> for joins, and keep natural keys as alternate (unique) keys.</p></div>
+<h3 id="primary-key-vs-unique-key">Primary key vs unique key</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Primary key</th>
+<th>Unique key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Duplicates allowed</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>NULL allowed</td>
+<td>No</td>
+<td>Yes (SQL Server allows one NULL; PostgreSQL allows many)</td>
+</tr>
+<tr>
+<td>Per table</td>
+<td>Exactly one</td>
+<td>Many</td>
+</tr>
+<tr>
+<td>Default index (SQL Server)</td>
+<td>Clustered</td>
+<td>Non-clustered</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="referential-integrity">Referential integrity</h2>
+<p>A foreign key guarantees that every child row points to a parent that exists: you cannot insert an order for customer <code>C9999</code> if that customer does not exist. What happens when a <strong>parent</strong> row is deleted or its key is updated is controlled by the FK's actions:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Action</th>
+<th>On DELETE of the parent</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NO ACTION</code> (default)</td>
+<td>The delete is blocked if children exist</td>
+<td>Most business data</td>
+</tr>
+<tr>
+<td><code>CASCADE</code></td>
+<td>Children are deleted too</td>
+<td>Order → order items</td>
+</tr>
+<tr>
+<td><code>SET NULL</code></td>
+<td>Children's FK becomes NULL</td>
+<td>Employee → manager who leaves</td>
+</tr>
+<tr>
+<td><code>SET DEFAULT</code></td>
+<td>Children get the column's default</td>
+<td>Rare</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> departments (
+    dept_id   <span class="hl-k">INT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>,
+    dept_name <span class="hl-k">VARCHAR</span>(<span class="hl-n">50</span>) <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">UNIQUE</span>
+);
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> employees (
+    emp_id     <span class="hl-k">INT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>,
+    email      <span class="hl-k">VARCHAR</span>(<span class="hl-n">100</span>) <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">UNIQUE</span>,          <span class="hl-c">-- alternate key</span>
+    name       <span class="hl-k">VARCHAR</span>(<span class="hl-n">100</span>) <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    dept_id    <span class="hl-k">INT</span> <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">REFERENCES</span> <span class="hl-f">departments</span>(dept_id),   <span class="hl-c">-- foreign key</span>
+    manager_id <span class="hl-k">INT</span> <span class="hl-k">NULL</span> <span class="hl-k">REFERENCES</span> <span class="hl-f">employees</span>(emp_id)           <span class="hl-c">-- self-referencing FK</span>
+);</code></pre></div>
+<p>Lesson 4 shows these constraints in action.</p>
+<h2 id="normalisation">Normalisation</h2>
+<p><strong>Normalisation</strong> organises columns and tables to reduce redundancy and avoid <strong>anomalies</strong>:</p>
+<ul>
+<li><strong>Update anomaly</strong>: the same fact stored in many rows gets changed in some but not others.</li>
+<li><strong>Insert anomaly</strong>: you cannot add a fact without another fact (cannot add a new product until someone orders it).</li>
+<li><strong>Delete anomaly</strong>: deleting one fact removes another (deleting the only order of a product deletes the product's information).</li>
+</ul>
+<p>Start with the flat Superstore file, which repeats customer and product details on every order line:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">5</span> order_id, order_date, customer_id, customer_name, city, product_id, product_name, category, quantity, sales
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>customer_id</th>
+      <th>customer_name</th>
+      <th>city</th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category</th>
+      <th>quantity</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Bengaluru</td>
+      <td>P0059</td>
+      <td>Nova Phone 223</td>
+      <td>Technology</td>
+      <td>2</td>
+      <td>36,000</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Bengaluru</td>
+      <td>P0050</td>
+      <td>Orbit Appliance 798</td>
+      <td>Office Supplies</td>
+      <td>1</td>
+      <td>3,850</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Bengaluru</td>
+      <td>P0011</td>
+      <td>Orbit Table 248</td>
+      <td>Furniture</td>
+      <td>4</td>
+      <td>62,080</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00002</td>
+      <td>2023-01-03</td>
+      <td>C0791</td>
+      <td>Kabir Singh</td>
+      <td>Ahmedabad</td>
+      <td>P0037</td>
+      <td>Crest Storage 946</td>
+      <td>Office Supplies</td>
+      <td>2</td>
+      <td>5,216</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>2023-01-03</td>
+      <td>C0049</td>
+      <td>Sneha Khan</td>
+      <td>Ahmedabad</td>
+      <td>P0018</td>
+      <td>Crest Bookcase 170</td>
+      <td>Furniture</td>
+      <td>3</td>
+      <td>24,591</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 10 columns</div></div>
+<h3 id="first-normal-form-1nf">First normal form (1NF)</h3>
+<ul>
+<li>Each cell holds <strong>one atomic value</strong> (no lists like <code>"Chair, Table"</code>).</li>
+<li>No repeating groups of columns (<code>product1</code>, <code>product2</code>, <code>product3</code>).</li>
+<li>Each row is unique (a key exists).</li>
+</ul>
+<p>The flat file is already in 1NF: one product per row, and every row has a unique <code>row_id</code>. The natural key would be <code>(order_id, product_id)</code>, but 70 lines repeat the same product within the same order, which is exactly why real systems add a surrogate key such as <code>row_id</code> or <code>item_id</code>.</p>
+<h3 id="second-normal-form-2nf">Second normal form (2NF)</h3>
+<p>1NF <strong>and</strong> every non-key column depends on the <strong>whole</strong> key, not part of it (this matters only with composite keys). With key <code>(order_id, product_id)</code>:</p>
+<ul>
+<li><code>quantity</code>, <code>discount</code>, <code>sales</code> depend on both: they stay.</li>
+<li><code>order_date</code>, <code>customer_id</code>, <code>ship_mode</code> depend only on <code>order_id</code> → move to an <code>orders</code> table.</li>
+<li><code>product_name</code>, <code>category</code> depend only on <code>product_id</code> → move to a <code>products</code> table.</li>
+</ul>
+<h3 id="third-normal-form-3nf">Third normal form (3NF)</h3>
+<p>2NF <strong>and</strong> no <strong>transitive</strong> dependency: non-key columns must depend only on the key, not on other non-key columns. In <code>orders</code>, <code>customer_name</code>, <code>city</code> and <code>region</code> depend on <code>customer_id</code>, not on <code>order_id</code> → move them to a <code>customers</code> table.</p>
+<blockquote>
+<p>"Every non-key attribute must provide a fact about the key, the whole key, and nothing but the key." (Bill Kent)</p>
+</blockquote>
+<figure class="fig"><img src="../img/sql-02-04.png" alt="Normalising the flat Superstore file to 3NF gives the four-table RetailDB design." loading="lazy"><figcaption>Normalising the flat Superstore file to 3NF gives the four-table RetailDB design.</figcaption></figure>
+<p>How much repetition did normalisation remove? Count the distinct customers and products versus rows:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                     <span class="hl-k">AS</span> order_lines,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id)     <span class="hl-k">AS</span> orders,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> customer_id)  <span class="hl-k">AS</span> customers,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> product_id)   <span class="hl-k">AS</span> products
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_lines</th>
+      <th>orders</th>
+      <th>customers</th>
+      <th>products</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6323</td>
+      <td>3200</td>
+      <td>785</td>
+      <td>78</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 4 columns</div></div>
+<p>The flat file stores customer details 6,323 times; the normalised design stores them once per customer (fewer than 800 rows).</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Normal form</th>
+<th>Rule in plain words</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1NF</td>
+<td>One value per cell; no repeating columns; a key exists</td>
+</tr>
+<tr>
+<td>2NF</td>
+<td>No column depends on only part of a composite key</td>
+</tr>
+<tr>
+<td>3NF</td>
+<td>No column depends on another non-key column</td>
+</tr>
+<tr>
+<td>BCNF</td>
+<td>Every determinant is a candidate key (stricter 3NF)</td>
+</tr>
+<tr>
+<td>4NF / 5NF</td>
+<td>Remove multi-valued and join dependencies (rare in practice)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="denormalisation-and-the-star-schema">Denormalisation and the star schema</h3>
+<p>Transactional systems (OLTP) are normalised for safe, fast writes. Analytical systems (OLAP, data warehouses, Power BI) are often <strong>denormalised</strong> into a <strong>star schema</strong>: one central <strong>fact table</strong> (sales events with numbers) surrounded by <strong>dimension tables</strong> (customer, product, date, region) to make reading and aggregating fast and simple. You will build one in the Power BI track (Lesson 3).</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>OLTP (normalised)</th>
+<th>OLAP / warehouse (star schema)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Run the business: place orders, update stock</td>
+<td>Analyse the business</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td>Many small inserts and updates</td>
+<td>Large reads and aggregations</td>
+</tr>
+<tr>
+<td>Design</td>
+<td>3NF, many tables</td>
+<td>Fact + dimension tables</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>App database in SQL Server/PostgreSQL</td>
+<td>Snowflake, BigQuery, Fabric, Power BI model</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>ER diagrams show <strong>entities</strong> (tables), <strong>attributes</strong> (columns) and <strong>relationships</strong> with <strong>cardinality</strong> (1:1, 1:N, M:N).</li>
+<li>The foreign key sits on the <strong>many</strong> side; M:N needs a <strong>junction table</strong> with a composite key.</li>
+<li>Super key ⊇ candidate keys (minimal); one candidate becomes the <strong>primary key</strong> (unique, not NULL), the others are <strong>alternate keys</strong> (UNIQUE).</li>
+<li>Composite keys combine columns; surrogate keys are artificial integers; natural keys carry business meaning.</li>
+<li>Foreign keys enforce <strong>referential integrity</strong>; ON DELETE CASCADE / SET NULL / NO ACTION decide what happens to children.</li>
+<li>Normalise to <strong>3NF</strong> to remove redundancy and anomalies; denormalise into a <strong>star schema</strong> for analytics.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Students can enrol in many courses and courses have many students. How do you model this?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Put course_id in the students table</button><button type="button" class="opt" data-ok="0"><i>B</i>Put student_id in the courses table</button><button type="button" class="opt" data-ok="1"><i>C</i>Create a junction table enrolments(student_id, course_id)</button><button type="button" class="opt" data-ok="0"><i>D</i>Use one table with a column per course</button></div><div class="qexp"><b>Answer: C.</b> A junction table resolves M:N into two 1:N relationships.</div></div><div class="qq"><p class="qtext"><b>2.</b> In a 1:N relationship between departments and employees, where does the foreign key go?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In departments</button><button type="button" class="opt" data-ok="1"><i>B</i>In employees</button><button type="button" class="opt" data-ok="0"><i>C</i>In both tables</button><button type="button" class="opt" data-ok="0"><i>D</i>In a third table</button></div><div class="qexp"><b>Answer: B.</b> The FK goes on the "many" side: employees.dept_id.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which statement about a primary key is FALSE?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It must be unique</button><button type="button" class="opt" data-ok="0"><i>B</i>It cannot be NULL</button><button type="button" class="opt" data-ok="1"><i>C</i>A table can have several primary keys</button><button type="button" class="opt" data-ok="0"><i>D</i>It can consist of more than one column</button></div><div class="qexp"><b>Answer: C.</b> A table has one primary key, which may be composite.</div></div><div class="qq"><p class="qtext"><b>4.</b> <code>email</code> is unique in the employees table but <code>emp_id</code> was chosen as the primary key. What is email?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A foreign key</button><button type="button" class="opt" data-ok="1"><i>B</i>An alternate (candidate) key</button><button type="button" class="opt" data-ok="0"><i>C</i>A surrogate key</button><button type="button" class="opt" data-ok="0"><i>D</i>A super key only</button></div><div class="qexp"><b>Answer: B.</b> Unchosen candidate keys are alternate keys, enforced with UNIQUE.</div></div><div class="qq"><p class="qtext"><b>5.</b> In <code>orders(order_id, customer_id, customer_city)</code>, customer_city depends on customer_id. Which normal form is violated?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>1NF</button><button type="button" class="opt" data-ok="0"><i>B</i>2NF</button><button type="button" class="opt" data-ok="1"><i>C</i>3NF</button><button type="button" class="opt" data-ok="0"><i>D</i>None</button></div><div class="qexp"><b>Answer: C.</b> A non-key column depending on another non-key column is a transitive dependency, violating 3NF.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does ON DELETE CASCADE on order_items.order_id do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Deleting an order also deletes its order items</button><button type="button" class="opt" data-ok="0"><i>B</i>Deleting an order is blocked if it has items</button><button type="button" class="opt" data-ok="0"><i>C</i>Order items get a NULL order_id</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: A.</b> CASCADE propagates the delete to child rows.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Design a library database</b></div><p>A library has members, books and loans. A member can borrow many books over time; a book (copy) can be borrowed many times; each loan has a borrow date, due date and return date. Books have an ISBN, title and author; authors can write many books and a book can have several authors. Draw the entities, keys and relationships.</p><details class="sol"><summary>Show solution</summary><ul>
+<li><code>members(member_id PK, name, email UNIQUE, phone)</code></li>
+<li><code>books(book_id PK, isbn UNIQUE, title, publisher, year)</code></li>
+<li><code>authors(author_id PK, name)</code></li>
+<li><code>book_authors(book_id FK, author_id FK, PRIMARY KEY (book_id, author_id))</code>: junction for M:N.</li>
+<li><code>copies(copy_id PK, book_id FK, shelf)</code>: one book has many physical copies.</li>
+<li><code>loans(loan_id PK, copy_id FK, member_id FK, borrow_date, due_date, return_date NULL)</code>.
+Relationships: members 1:N loans; copies 1:N loans; books 1:N copies; books M:N authors (via book_authors).</li>
+</ul></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between primary key, unique key and foreign key?</strong>
+PK uniquely identifies rows, no NULLs, one per table. A unique key also prevents duplicates but allows a NULL (one in SQL Server) and a table can have many. A foreign key references a PK/unique key in another table to enforce relationships.</p>
+<p><strong>Q: What is a candidate key? A composite key?</strong>
+A candidate key is a minimal set of columns that uniquely identifies rows; one is chosen as the PK. A composite key uses two or more columns together, such as (order_id, product_id).</p>
+<p><strong>Q: What is normalisation and why denormalise?</strong>
+Normalisation removes redundancy and anomalies (1NF–3NF). Data warehouses denormalise into star schemas to make analytical queries simpler and faster.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-01-databases-rdbms-and-sql-basics.html"><small>← Previous</small><b>Databases, RDBMS &amp; SQL Basics</b></a><a class="next" href="sql-03-data-types-operators-nulls-variables-and-comments.html"><small>Next →</small><b>Data Types, Operators, NULLs, Variables &amp; Comments</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-design-matters">Why design matters</a><a href="#entityrelationship-er-diagrams">Entity–Relationship (ER) diagrams</a><a href="#types-of-relationships">Types of relationships</a><a href="#keys">Keys</a><a href="#referential-integrity">Referential integrity</a><a href="#normalisation">Normalisation</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v10"></script><script src="../assets/course.js?v=v10"></script></body></html>

@@ -1,0 +1,819 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SELECT, WHERE, ORDER BY &amp; Filtering Operators · SQL Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Retrieve exactly the rows and columns you need. Master SELECT, aliases with AS, DISTINCT, TOP, WHERE with comparison and logical operators, IN, BETWEEN, LIKE wildcards, IS NULL, ORDER BY, and the logical order in which SQL processes a query."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class="on"><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-05">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 5 of 10</div><h1>SELECT, WHERE, ORDER BY &amp; Filtering Operators</h1>
+<p class="sum">Retrieve exactly the rows and columns you need. Master SELECT, aliases with AS, DISTINCT, TOP, WHERE with comparison and logical operators, IN, BETWEEN, LIKE wildcards, IS NULL, ORDER BY, and the logical order in which SQL processes a query.</p><div class="tags"><span class="tag live">● SQL class 3</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_05_SELECT_WHERE_ORDER_BY_Filtering_Operators.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Select columns, calculated expressions and aliases, and remove duplicates with DISTINCT</li><li>Filter rows with comparison, logical, IN, NOT IN, BETWEEN, LIKE, NOT LIKE, IS NULL and IS NOT NULL</li><li>Sort results by one or more columns, expressions and positions; limit rows with TOP</li><li>Explain the logical processing order of a query and why it matters for aliases</li><li>Translate business questions into correct SELECT statements</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="the-shape-of-a-select-statement">The shape of a SELECT statement</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span>   column_list            <span class="hl-c">-- what to show</span>
+<span class="hl-k">FROM</span>     table_name             <span class="hl-c">-- where it comes from</span>
+<span class="hl-k">WHERE</span>    row_conditions         <span class="hl-c">-- which rows to keep</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> grouping_columns       <span class="hl-c">-- (Lesson 7)</span>
+<span class="hl-k">HAVING</span>   group_conditions       <span class="hl-c">-- (Lesson 7)</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sort_columns;          <span class="hl-c">-- how to sort the result</span></code></pre></div>
+<p>Only <code>SELECT</code> is required (<code>SELECT 1 + 1;</code> works). Everything else is optional but must appear in this order.</p>
+<h2 id="select-columns-expressions-and-aliases">SELECT: columns, expressions and aliases</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">5</span>
+       order_id,
+       order_date,
+       customer_name,
+       sales,
+       profit,
+       sales - profit                     <span class="hl-k">AS</span> cost,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * profit / sales, <span class="hl-n">1</span>)   <span class="hl-k">AS</span> margin_pct,
+       <span class="hl-s">&#x27;INR&#x27;</span>                              <span class="hl-k">AS</span> currency
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>customer_name</th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>cost</th>
+      <th>margin_pct</th>
+      <th>currency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>Ishaan Gupta</td>
+      <td>36,000</td>
+      <td>3,472.55</td>
+      <td>32,527.45</td>
+      <td>9.6</td>
+      <td>INR</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>Ishaan Gupta</td>
+      <td>3,850</td>
+      <td>1,169.54</td>
+      <td>2,680.46</td>
+      <td>30.4</td>
+      <td>INR</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>Ishaan Gupta</td>
+      <td>62,080</td>
+      <td>6,044.47</td>
+      <td>56,035.53</td>
+      <td>9.7</td>
+      <td>INR</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00002</td>
+      <td>2023-01-03</td>
+      <td>Kabir Singh</td>
+      <td>5,216</td>
+      <td>450.16</td>
+      <td>4,765.84</td>
+      <td>8.6</td>
+      <td>INR</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>2023-01-03</td>
+      <td>Sneha Khan</td>
+      <td>24,591</td>
+      <td>-5,512.33</td>
+      <td>30,103.33</td>
+      <td>-22.4</td>
+      <td>INR</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 8 columns</div></div>
+<ul>
+<li><code>SELECT *</code> returns every column. Use it to explore, never in production code (it breaks when columns change and reads more data than needed).</li>
+<li>An <strong>alias</strong> renames a column or table in the result: <code>AS margin_pct</code>. <code>AS</code> is optional (<code>sales - profit cost</code>) but makes code clearer. Aliases with spaces need brackets or quotes: <code>AS [Margin %]</code>.</li>
+<li>Expressions can use operators, functions and literals.</li>
+</ul>
+<h3 id="table-aliases">Table aliases</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> s.order_id, s.sales
+<span class="hl-k">FROM</span> superstore <span class="hl-k">AS</span> s;          <span class="hl-c">-- &#x27;s&#x27; is a short name for the table</span></code></pre></div>
+<p>Table aliases become essential with joins (Lesson 8).</p>
+<h2 id="distinct-unique-values">DISTINCT: unique values</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> region
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+    </tr>
+    <tr>
+      <td>North</td>
+    </tr>
+    <tr>
+      <td>South</td>
+    </tr>
+    <tr>
+      <td>West</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> category, sub_category
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> category, sub_category;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>sub_category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>Bookcases</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Chairs</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Furnishings</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Tables</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Appliances</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Art</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Binders</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Paper</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Storage</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Accessories</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Copiers</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Machines</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">13 rows × 2 columns (first 12 shown)</div></div>
+<p><code>DISTINCT</code> applies to the <strong>whole row</strong> of selected columns: the second query returns each category–sub-category combination once. To count unique values: <code>COUNT(DISTINCT customer_id)</code>.</p>
+<h2 id="top-limit-the-rows">TOP: limit the rows</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">5</span> order_id, customer_name, city, sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>customer_name</th>
+      <th>city</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2024-01857</td>
+      <td>Arjun Fernandes</td>
+      <td>Delhi</td>
+      <td>619,290</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00564</td>
+      <td>Krishna Reddy</td>
+      <td>Hyderabad</td>
+      <td>551,530</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01040</td>
+      <td>Aditya Kulkarni</td>
+      <td>Chennai</td>
+      <td>551,530</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02880</td>
+      <td>Farhan Khan</td>
+      <td>Kochi</td>
+      <td>530,820</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00809</td>
+      <td>Rohan Singh</td>
+      <td>Jaipur</td>
+      <td>526,396</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 4 columns</div></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Dialect</th>
+<th>Syntax for "first 5 rows"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL Server</td>
+<td><code>SELECT TOP 5 … ORDER BY …</code> (also <code>TOP 10 PERCENT</code>, <code>TOP 5 WITH TIES</code>)</td>
+</tr>
+<tr>
+<td>SQL Server 2012+, ANSI</td>
+<td><code>ORDER BY … OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY</code> (Lesson 11)</td>
+</tr>
+<tr>
+<td>PostgreSQL, MySQL, SQLite, DuckDB</td>
+<td><code>… ORDER BY … LIMIT 5</code></td>
+</tr>
+<tr>
+<td>Oracle</td>
+<td><code>FETCH FIRST 5 ROWS ONLY</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>TOP without ORDER BY</b></div><p>Without <code>ORDER BY</code>, the database returns rows in no guaranteed order, so "top 5" may differ between runs. Always sort when you use TOP.</p></div>
+<h2 id="where-filtering-rows">WHERE: filtering rows</h2>
+<h3 id="comparison-operators">Comparison operators</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines_over_50k
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> sales &gt; <span class="hl-n">50000</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>lines_over_50k</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1126</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> order_id, city, category, sales, discount
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> region = <span class="hl-s">&#x27;West&#x27;</span>
+  <span class="hl-k">AND</span> category = <span class="hl-s">&#x27;Furniture&#x27;</span>
+  <span class="hl-k">AND</span> discount &gt;= <span class="hl-n">0.3</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>city</th>
+      <th>category</th>
+      <th>sales</th>
+      <th>discount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2025-02904</td>
+      <td>Ahmedabad</td>
+      <td>Furniture</td>
+      <td>76,048</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02783</td>
+      <td>Pune</td>
+      <td>Furniture</td>
+      <td>69,762</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01002</td>
+      <td>Indore</td>
+      <td>Furniture</td>
+      <td>58,135</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00431</td>
+      <td>Ahmedabad</td>
+      <td>Furniture</td>
+      <td>54,474</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02016</td>
+      <td>Ahmedabad</td>
+      <td>Furniture</td>
+      <td>54,138</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01490</td>
+      <td>Indore</td>
+      <td>Furniture</td>
+      <td>49,728</td>
+      <td>0.3</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">139 rows × 5 columns (first 6 shown)</div></div>
+<p>Text values go in <strong>single quotes</strong> (<code>'West'</code>). Double quotes are for identifiers in standard SQL. Dates are written as text in ISO format: <code>order_date &gt;= '2025-01-01'</code>.</p>
+<h3 id="in-and-not-in">IN and NOT IN</h3>
+<p><code>IN</code> is shorthand for several <code>OR</code> conditions on the same column.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> city, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> order_lines
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> city <span class="hl-k">IN</span> (<span class="hl-s">&#x27;Pune&#x27;</span>, <span class="hl-s">&#x27;Mumbai&#x27;</span>, <span class="hl-s">&#x27;Ahmedabad&#x27;</span>)
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> city;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>city</th>
+      <th>order_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ahmedabad</td>
+      <td>373</td>
+    </tr>
+    <tr>
+      <td>Mumbai</td>
+      <td>283</td>
+    </tr>
+    <tr>
+      <td>Pune</td>
+      <td>529</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 2 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> non_metro_lines
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> city <span class="hl-k">NOT</span> <span class="hl-k">IN</span> (<span class="hl-s">&#x27;Delhi&#x27;</span>, <span class="hl-s">&#x27;Mumbai&#x27;</span>, <span class="hl-s">&#x27;Bengaluru&#x27;</span>, <span class="hl-s">&#x27;Chennai&#x27;</span>, <span class="hl-s">&#x27;Kolkata&#x27;</span>, <span class="hl-s">&#x27;Hyderabad&#x27;</span>);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>non_metro_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3918</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>NOT IN with a NULL</b></div><p>If the list (or subquery) inside <code>NOT IN</code> contains a NULL, <code>NOT IN</code> returns <strong>no rows at all</strong>, because <code>x &lt;&gt; NULL</code> is UNKNOWN. Use <code>NOT EXISTS</code> (Lesson 10) or filter NULLs out of the subquery.</p></div>
+<h3 id="between">BETWEEN</h3>
+<p><code>BETWEEN a AND b</code> is <strong>inclusive</strong> of both ends.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines_between_10k_and_20k
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> sales <span class="hl-k">BETWEEN</span> <span class="hl-n">10000</span> <span class="hl-k">AND</span> <span class="hl-n">20000</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>lines_between_10k_and_20k</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>896</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>For dates, prefer a <strong>half-open range</strong>: <code>order_date &gt;= '2025-01-01' AND order_date &lt; '2026-01-01'</code>. It works whether the column is <code>DATE</code> or <code>DATETIME2</code>; <code>BETWEEN '2025-01-01' AND '2025-12-31'</code> silently misses orders placed after midnight on 31-Dec when the column has times.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders_in_2025
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-s">&#x27;2026-01-01&#x27;</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>orders_in_2025</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1232</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="like-pattern-matching">LIKE: pattern matching</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Wildcard</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%</code></td>
+<td>Any sequence of characters (including none)</td>
+<td><code>'Apex%'</code></td>
+<td>Apex Chair 412, Apex Phone 118</td>
+</tr>
+<tr>
+<td><code>_</code></td>
+<td>Exactly one character</td>
+<td><code>'C00_1'</code></td>
+<td>C0011, C0021 …</td>
+</tr>
+<tr>
+<td><code>[ ]</code> (SQL Server)</td>
+<td>One character from a set or range</td>
+<td><code>'[A-C]%'</code></td>
+<td>starts with A, B or C</td>
+</tr>
+<tr>
+<td><code>[^ ]</code> (SQL Server)</td>
+<td>One character not in the set</td>
+<td><code>'[^A-M]%'</code></td>
+<td>starts with N–Z</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> product_name
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> product_name <span class="hl-k">LIKE</span> <span class="hl-s">&#x27;Apex Ch%&#x27;</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> product_name;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>product_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apex Chair 969</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> customer_id) <span class="hl-k">AS</span> customers_named_with_khan
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> customer_name <span class="hl-k">LIKE</span> <span class="hl-s">&#x27;%Khan%&#x27;</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers_named_with_khan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>44</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> city
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> city <span class="hl-k">NOT</span> <span class="hl-k">LIKE</span> <span class="hl-s">&#x27;%a%&#x27;</span>          <span class="hl-c">-- city names without a lowercase &#x27;a&#x27;</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> city;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Delhi</td>
+    </tr>
+    <tr>
+      <td>Indore</td>
+    </tr>
+    <tr>
+      <td>Kochi</td>
+    </tr>
+    <tr>
+      <td>Lucknow</td>
+    </tr>
+    <tr>
+      <td>Pune</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 1 columns</div></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Case sensitivity</b></div><p>SQL Server's default collation is <strong>case-insensitive</strong>, so <code>LIKE 'apex%'</code> also matches "Apex…". PostgreSQL is case-sensitive (use <code>ILIKE</code>), and so is the practice engine used for the outputs in this handbook. Write patterns in the same case as the data to be safe everywhere.</p></div>
+<p>Leading wildcards (<code>'%Khan'</code>) cannot use an index and scan the whole table; fine for analysis, slow for apps on big tables.</p>
+<h3 id="is-null-and-is-not-null">IS NULL and IS NOT NULL</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> homes_missing_area
+<span class="hl-k">FROM</span> houses
+<span class="hl-k">WHERE</span> area_sqft <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>homes_missing_area</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>25</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>(The <code>houses</code> table is loaded from <code>house_prices.csv</code>; 25 houses have a missing area, which you will clean in the Python track.)</p>
+<h3 id="combining-conditions">Combining conditions</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> order_id, region, category, ship_mode, sales, profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> (region = <span class="hl-s">&#x27;North&#x27;</span> <span class="hl-k">OR</span> region = <span class="hl-s">&#x27;East&#x27;</span>)
+  <span class="hl-k">AND</span> category &lt;&gt; <span class="hl-s">&#x27;Office Supplies&#x27;</span>
+  <span class="hl-k">AND</span> ship_mode <span class="hl-k">IN</span> (<span class="hl-s">&#x27;First Class&#x27;</span>, <span class="hl-s">&#x27;Same Day&#x27;</span>)
+  <span class="hl-k">AND</span> profit &lt; <span class="hl-n">0</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>region</th>
+      <th>category</th>
+      <th>ship_mode</th>
+      <th>sales</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2023-00320</td>
+      <td>North</td>
+      <td>Technology</td>
+      <td>Same Day</td>
+      <td>337,316</td>
+      <td>-67,392.8</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01213</td>
+      <td>East</td>
+      <td>Technology</td>
+      <td>Same Day</td>
+      <td>317,128</td>
+      <td>-35,733.2</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01808</td>
+      <td>North</td>
+      <td>Technology</td>
+      <td>First Class</td>
+      <td>155,328</td>
+      <td>-31,737.4</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00406</td>
+      <td>North</td>
+      <td>Technology</td>
+      <td>First Class</td>
+      <td>159,390</td>
+      <td>-27,928.8</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00358</td>
+      <td>North</td>
+      <td>Technology</td>
+      <td>Same Day</td>
+      <td>77,664</td>
+      <td>-18,678.2</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01289</td>
+      <td>East</td>
+      <td>Technology</td>
+      <td>First Class</td>
+      <td>149,088</td>
+      <td>-18,075.8</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02849</td>
+      <td>East</td>
+      <td>Technology</td>
+      <td>First Class</td>
+      <td>81,522</td>
+      <td>-17,598.3</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01055</td>
+      <td>East</td>
+      <td>Technology</td>
+      <td>First Class</td>
+      <td>86,968</td>
+      <td>-16,505.7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">128 rows × 6 columns (first 8 shown)</div></div>
+<h2 id="order-by-sorting">ORDER BY: sorting</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region, city, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region, city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region <span class="hl-k">ASC</span>, sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>city</th>
+      <th>lines</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+      <td>Kolkata</td>
+      <td>430</td>
+      <td>13,888,466</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Patna</td>
+      <td>375</td>
+      <td>12,444,393</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Bhubaneswar</td>
+      <td>383</td>
+      <td>10,482,685</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Guwahati</td>
+      <td>335</td>
+      <td>9,668,576</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Delhi</td>
+      <td>453</td>
+      <td>15,657,610</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Chandigarh</td>
+      <td>361</td>
+      <td>11,541,792</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Lucknow</td>
+      <td>422</td>
+      <td>11,328,882</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Jaipur</td>
+      <td>294</td>
+      <td>10,489,878</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">16 rows × 4 columns (first 8 shown)</div></div>
+<ul>
+<li><code>ASC</code> (default) or <code>DESC</code> for each column separately.</li>
+<li>Sort by an expression or alias: <code>ORDER BY sales - profit DESC</code>, <code>ORDER BY margin_pct</code>.</li>
+<li>Sort by column position (<code>ORDER BY 2 DESC</code>) works but is fragile; avoid it in saved code.</li>
+<li>NULLs sort <strong>first</strong> in ascending order in SQL Server (last in PostgreSQL/Oracle by default).</li>
+<li>Custom order with CASE: <code>ORDER BY CASE ship_mode WHEN 'Same Day' THEN 1 WHEN 'First Class' THEN 2 ELSE 3 END</code>.</li>
+</ul>
+<h2 id="the-logical-processing-order">The logical processing order</h2>
+<p>You <em>write</em> <code>SELECT</code> first, but SQL <em>processes</em> the clauses in a different order. This explains several common errors.</p>
+<figure class="fig"><img src="../img/sql-05-01.png" alt="Logical processing order of a SELECT statement. Each step works on the output of the previous one." loading="lazy"><figcaption>Logical processing order of a SELECT statement. Each step works on the output of the previous one.</figcaption></figure>
+<p>Consequences:</p>
+<ul>
+<li>You <strong>cannot</strong> use a column alias in <code>WHERE</code>, because WHERE runs before SELECT: <code>WHERE margin_pct &gt; 10</code> fails. Repeat the expression, or use a subquery/CTE.</li>
+<li>You <strong>can</strong> use an alias in <code>ORDER BY</code>, because it runs after SELECT.</li>
+<li><code>WHERE</code> cannot contain aggregate functions (<code>WHERE SUM(sales) &gt; 100</code>); use <code>HAVING</code> (Lesson 7).</li>
+</ul>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Fails: Invalid column name &#x27;margin_pct&#x27;</span>
+<span class="hl-k">SELECT</span> order_id, <span class="hl-n">100.0</span> * profit / sales <span class="hl-k">AS</span> margin_pct
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> margin_pct &gt; <span class="hl-n">10</span>;
+
+<span class="hl-c">-- Works: repeat the expression in WHERE, use the alias in ORDER BY</span>
+<span class="hl-k">SELECT</span> order_id, <span class="hl-n">100.0</span> * profit / sales <span class="hl-k">AS</span> margin_pct
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> <span class="hl-n">100.0</span> * profit / sales &gt; <span class="hl-n">10</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> margin_pct <span class="hl-k">DESC</span>;</code></pre></div>
+<h2 id="from-business-question-to-query">From business question to query</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Translate a question</b></div><p>Question: <em>"Which Technology orders in the South had a discount but still made more than ₹10,000 profit in 2025? Show the biggest first."</em>
+1. <strong>Table</strong>: superstore.
+2. <strong>Rows</strong> (WHERE): category = Technology, region = South, discount &gt; 0, profit &gt; 10000, order date in 2025.
+3. <strong>Columns</strong> (SELECT): order_id, order_date, city, sub_category, discount, profit.
+4. <strong>Order</strong>: profit descending.</p></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> order_id, order_date, city, sub_category, discount, profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> category = <span class="hl-s">&#x27;Technology&#x27;</span>
+  <span class="hl-k">AND</span> region = <span class="hl-s">&#x27;South&#x27;</span>
+  <span class="hl-k">AND</span> discount &gt; <span class="hl-n">0</span>
+  <span class="hl-k">AND</span> profit &gt; <span class="hl-n">10000</span>
+  <span class="hl-k">AND</span> order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-s">&#x27;2026-01-01&#x27;</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>city</th>
+      <th>sub_category</th>
+      <th>discount</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2025-02318</td>
+      <td>2025-04-26</td>
+      <td>Kochi</td>
+      <td>Machines</td>
+      <td>0.1</td>
+      <td>21,209.4</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02908</td>
+      <td>2025-10-29</td>
+      <td>Bengaluru</td>
+      <td>Phones</td>
+      <td>0.1</td>
+      <td>16,734.2</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02157</td>
+      <td>2025-03-08</td>
+      <td>Bengaluru</td>
+      <td>Copiers</td>
+      <td>0.1</td>
+      <td>12,678.4</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03094</td>
+      <td>2025-12-08</td>
+      <td>Bengaluru</td>
+      <td>Machines</td>
+      <td>0.1</td>
+      <td>11,292.0</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02514</td>
+      <td>2025-07-09</td>
+      <td>Bengaluru</td>
+      <td>Machines</td>
+      <td>0.1</td>
+      <td>10,891.9</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03146</td>
+      <td>2025-12-20</td>
+      <td>Bengaluru</td>
+      <td>Copiers</td>
+      <td>0.1</td>
+      <td>10,679.1</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02547</td>
+      <td>2025-07-20</td>
+      <td>Kochi</td>
+      <td>Phones</td>
+      <td>0.1</td>
+      <td>10,558.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 6 columns</div></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Give an assistant your table's column list and a question, and ask for SQL Server syntax: <em>"Table superstore(order_id, order_date, region, city, category, sub_category, sales, discount, profit). Write a T-SQL query for: Furniture orders in Kolkata or Patna in 2024 with negative profit, sorted by profit."</em> Read the query before running it: check the date range, the brackets around OR, and that it uses the column names you gave.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>SELECT</code> columns and expressions; name them with <code>AS</code>; avoid <code>SELECT *</code> in saved queries.</li>
+<li><code>DISTINCT</code> removes duplicate rows of the selected columns; <code>TOP n</code> with <code>ORDER BY</code> limits results.</li>
+<li>Filter with <code>=, &lt;&gt;, &gt;, &lt;, &gt;=, &lt;=</code>, <code>AND/OR/NOT</code> (use brackets), <code>IN</code>, <code>BETWEEN</code> (inclusive), <code>LIKE</code> with <code>%</code> and <code>_</code>, and <code>IS NULL</code>.</li>
+<li>For dates use half-open ranges: <code>&gt;= start AND &lt; next_start</code>.</li>
+<li><code>ORDER BY</code> sorts ascending by default; can use aliases.</li>
+<li>Logical order: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → TOP. That is why aliases fail in WHERE.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which query returns each distinct region exactly once?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>SELECT region FROM superstore</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>SELECT DISTINCT region FROM superstore</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>SELECT UNIQUE(region) FROM superstore</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>SELECT TOP 1 region FROM superstore</code></button></div><div class="qexp"><b>Answer: B.</b> DISTINCT removes duplicate rows from the result.</div></div><div class="qq"><p class="qtext"><b>2.</b> <code>WHERE sales BETWEEN 100 AND 200</code> includes which values?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>101 to 199</button><button type="button" class="opt" data-ok="1"><i>B</i>100 to 200, both included</button><button type="button" class="opt" data-ok="0"><i>C</i>100 to 199</button><button type="button" class="opt" data-ok="0"><i>D</i>101 to 200</button></div><div class="qexp"><b>Answer: B.</b> BETWEEN is inclusive of both boundaries.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which pattern finds product names that contain "Desk" anywhere?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>LIKE 'Desk%'</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>LIKE '%Desk'</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>LIKE '%Desk%'</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>LIKE '_Desk_'</code></button></div><div class="qexp"><b>Answer: C.</b> % on both sides matches any characters before and after.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why does <code>WHERE margin_pct &gt; 10</code> fail when margin_pct is an alias defined in SELECT?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>WHERE is processed before SELECT, so the alias does not exist yet</button><button type="button" class="opt" data-ok="0"><i>B</i>Aliases can only be used with GROUP BY</button><button type="button" class="opt" data-ok="0"><i>C</i>margin_pct must be in brackets</button><button type="button" class="opt" data-ok="0"><i>D</i>You must use HAVING for all aliases</button></div><div class="qexp"><b>Answer: A.</b> Logical order: WHERE comes before SELECT.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is wrong with <code>WHERE order_date BETWEEN '2025-01-01' AND '2025-12-31'</code> on a DATETIME2 column?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing</button><button type="button" class="opt" data-ok="1"><i>B</i>It misses rows on 31-Dec after 00:00:00</button><button type="button" class="opt" data-ok="0"><i>C</i>It includes 2026 dates</button><button type="button" class="opt" data-ok="0"><i>D</i>BETWEEN does not work with dates</button></div><div class="qexp"><b>Answer: B.</b> '2025-12-31' means midnight; later times that day are excluded. Use &lt; '2026-01-01'.</div></div><div class="qq"><p class="qtext"><b>6.</b> <code>SELECT TOP 3 * FROM orders</code> without ORDER BY returns:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The 3 newest orders</button><button type="button" class="opt" data-ok="0"><i>B</i>The 3 largest orders</button><button type="button" class="opt" data-ok="1"><i>C</i>Any 3 rows, in no guaranteed order</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: C.</b> Without ORDER BY, row order is not defined.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Superstore filters</b></div><p>Write queries for: (1) all Same Day orders in the West with sales over ₹50,000; (2) customers whose names start with A, B or C (distinct, sorted); (3) order lines with a 40% discount in the Furniture category, showing the 10 biggest losses; (4) the number of order lines in 2024 for the Corporate segment in Pune or Indore.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">SELECT</span> order_id, order_date, city, sales <span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> ship_mode = <span class="hl-s">&#x27;Same Day&#x27;</span> <span class="hl-k">AND</span> region = <span class="hl-s">&#x27;West&#x27;</span> <span class="hl-k">AND</span> sales &gt; <span class="hl-n">50000</span> <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;
+<span class="hl-c">-- (2) SQL Server</span>
+<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> customer_name <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> customer_name <span class="hl-k">LIKE</span> <span class="hl-s">&#x27;[A-C]%&#x27;</span> <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> customer_name;
+<span class="hl-c">-- (3)</span>
+<span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">10</span> order_id, product_name, sales, profit <span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> discount = <span class="hl-n">0.4</span> <span class="hl-k">AND</span> category = <span class="hl-s">&#x27;Furniture&#x27;</span> <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">ASC</span>;
+<span class="hl-c">-- (4)</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines <span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> segment = <span class="hl-s">&#x27;Corporate&#x27;</span> <span class="hl-k">AND</span> city <span class="hl-k">IN</span> (<span class="hl-s">&#x27;Pune&#x27;</span>, <span class="hl-s">&#x27;Indore&#x27;</span>)
+  <span class="hl-k">AND</span> order_date &gt;= <span class="hl-s">&#x27;2024-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-s">&#x27;2025-01-01&#x27;</span>;</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the order of execution of a SQL query?</strong>
+FROM/JOIN, WHERE, GROUP BY, HAVING, SELECT, DISTINCT, ORDER BY, then TOP/OFFSET-FETCH.</p>
+<p><strong>Q: Difference between WHERE and HAVING?</strong>
+WHERE filters rows before grouping and cannot use aggregates; HAVING filters groups after aggregation.</p>
+<p><strong>Q: How do you find employees whose name's second letter is "a"?</strong>
+<code>WHERE name LIKE '_a%'</code>.</p>
+<p><strong>Q: IN vs EXISTS?</strong>
+IN compares a value with a list or subquery result; EXISTS checks whether a correlated subquery returns any row. EXISTS is safer with NULLs and often efficient for large subqueries (Lesson 10).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html"><small>← Previous</small><b>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</b></a><a class="next" href="sql-06-sql-functions-aggregate-text-date-and-number.html"><small>Next →</small><b>SQL Functions: Aggregate, Text, Date &amp; Number</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-shape-of-a-select-statement">The shape of a SELECT statement</a><a href="#select-columns-expressions-and-aliases">SELECT: columns, expressions and aliases</a><a href="#distinct-unique-values">DISTINCT: unique values</a><a href="#top-limit-the-rows">TOP: limit the rows</a><a href="#where-filtering-rows">WHERE: filtering rows</a><a href="#order-by-sorting">ORDER BY: sorting</a><a href="#the-logical-processing-order">The logical processing order</a><a href="#from-business-question-to-query">From business question to query</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v10"></script><script src="../assets/course.js?v=v10"></script></body></html>

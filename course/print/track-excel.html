@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Advanced Excel · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v7"></head><body class="book">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Advanced Excel · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="book">
 <section class="cover" style="--tc:#1E8E5A"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 1</div><h1>Advanced Excel</h1><p>From the Excel window to dashboards: formatting, 100+ functions, lookups, pivot tables, advanced charts, Power Query, Power Pivot and AI in Excel.</p>
 <div class="cv-m"><span>12 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
 <section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li><a href="#L-excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li><a href="#L-excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li><a href="#L-excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li><a href="#L-excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li><a href="#L-excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li><a href="#L-excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li><a href="#L-excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li><a href="#L-excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li><a href="#L-excel-10"><span>10</span>Charts and Advanced Charts</a></li><li><a href="#L-excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li><a href="#L-excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></section><article class="lesson-art bk" id="L-excel-01"><div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 1</div><h1>Getting Started with Excel for Data Analysis</h1>
@@ -200,7 +200,7 @@
 <li>The <strong>date</strong> in row 5 is a number. Excel stores 27-04-2026 as the serial number 46139, which is why you can subtract one date from another to get days.</li>
 <li><code>'1500</code> in row 7 is <strong>text</strong>, even though it looks like a number. <code>SUM</code> ignores it. Imported data often has "numbers stored as text"; Excel flags them with a small green triangle.</li>
 </ul>
-<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Dates are numbers underneath</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Date</td><td class="c-h">Same cell shown as a number</td><td class="c-h">Days until 31-Dec-2026</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="fx" title="=A2">27-04-2026</td><td class="fx num" title="=DATE(2026,12,31)-A2">248</td></tr><tr><th>3</th><td class="">01-01-2026</td><td class="fx" title="=A3">01-01-2026</td><td class="fx num" title="=DATE(2026,12,31)-A3">364</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=A2</code></li><li><b>C2</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">12</span>,<span class="hl-n">31</span>)-A2</code></li><li><b>B3</b><code>=A3</code></li><li><b>C3</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">12</span>,<span class="hl-n">31</span>)-A3</code></li></ul></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Dates are numbers underneath</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Date</td><td class="c-h">Same cell shown as a number</td><td class="c-h">Days until 31-Dec-2026</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="fx" title="=A2">46139</td><td class="fx num" title="=DATE(2026,12,31)-A2">248</td></tr><tr><th>3</th><td class="">01-01-2026</td><td class="fx" title="=A3">46023</td><td class="fx num" title="=DATE(2026,12,31)-A3">364</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=A2</code></li><li><b>C2</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">12</span>,<span class="hl-n">31</span>)-A2</code></li><li><b>B3</b><code>=A3</code></li><li><b>C3</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">12</span>,<span class="hl-n">31</span>)-A3</code></li></ul></div>
 <div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Fixing numbers stored as text</b></div><ul>
 <li>Select the cells, click the yellow warning icon, choose <strong>Convert to Number</strong>.</li>
 <li>Or use <strong>Data → Text to Columns → Finish</strong> on the column.</li>
@@ -1930,7 +1930,7 @@ s[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;orde
       <td>2023</td>
       <td>Crest Storage 946</td>
       <td>Crest</td>
-      <td>0.20</td>
+      <td>0.2</td>
       <td>Up to 20%</td>
       <td>450.16</td>
       <td>Profit</td>
@@ -1941,7 +1941,7 @@ s[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;orde
       <td>2023</td>
       <td>Crest Bookcase 170</td>
       <td>Crest</td>
-      <td>0.30</td>
+      <td>0.3</td>
       <td>Above 20%</td>
       <td>-5,512.33</td>
       <td>Loss</td>
@@ -1952,7 +1952,7 @@ s[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;orde
       <td>2023</td>
       <td>Zenith Table 111</td>
       <td>Zenith</td>
-      <td>0.30</td>
+      <td>0.3</td>
       <td>Above 20%</td>
       <td>-1,598.43</td>
       <td>Loss</td>
@@ -2160,7 +2160,7 @@ f[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;city
       <td>Mumbai</td>
       <td>Phones</td>
       <td>23,904</td>
-      <td>0.40</td>
+      <td>0.4</td>
       <td>-4,153.37</td>
     </tr>
     <tr>
@@ -2168,8 +2168,8 @@ f[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;city
       <td>IN-2023-00021</td>
       <td>Ahmedabad</td>
       <td>Accessories</td>
-      <td>2,821.0</td>
-      <td>0.30</td>
+      <td>2,821</td>
+      <td>0.3</td>
       <td>-281.53</td>
     </tr>
     <tr>
@@ -2177,8 +2177,8 @@ f[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;city
       <td>IN-2023-00037</td>
       <td>Ahmedabad</td>
       <td>Accessories</td>
-      <td>4,668.0</td>
-      <td>0.40</td>
+      <td>4,668</td>
+      <td>0.4</td>
       <td>-1,569.18</td>
     </tr>
     <tr>
@@ -2187,7 +2187,7 @@ f[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;city
       <td>Ahmedabad</td>
       <td>Copiers</td>
       <td>53,082</td>
-      <td>0.40</td>
+      <td>0.4</td>
       <td>-11,596.45</td>
     </tr>
     <tr>
@@ -2196,7 +2196,7 @@ f[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;city
       <td>Pune</td>
       <td>Machines</td>
       <td>22,155</td>
-      <td>0.30</td>
+      <td>0.3</td>
       <td>-4,687.77</td>
     </tr>
   </tbody>
@@ -2844,51 +2844,51 @@ m.index = <span class="hl-f">m.index.strftime</span>(<span class="hl-s">&quot;%b
   <tbody>
     <tr>
       <th>May-2025</th>
-      <td>6,421,273.50</td>
-      <td>-4.20</td>
-      <td>22.20</td>
+      <td>6,421,274</td>
+      <td>-4.2</td>
+      <td>22.2</td>
     </tr>
     <tr>
       <th>Jun-2025</th>
       <td>3,968,572</td>
-      <td>-38.20</td>
-      <td>-1.10</td>
+      <td>-38.2</td>
+      <td>-1.1</td>
     </tr>
     <tr>
       <th>Jul-2025</th>
       <td>7,190,087</td>
-      <td>81.20</td>
-      <td>49.20</td>
+      <td>81.2</td>
+      <td>49.2</td>
     </tr>
     <tr>
       <th>Aug-2025</th>
       <td>5,802,184</td>
-      <td>-19.30</td>
-      <td>0.80</td>
+      <td>-19.3</td>
+      <td>0.8</td>
     </tr>
     <tr>
       <th>Sep-2025</th>
       <td>8,468,060</td>
-      <td>45.90</td>
-      <td>58.90</td>
+      <td>45.9</td>
+      <td>58.9</td>
     </tr>
     <tr>
       <th>Oct-2025</th>
       <td>6,140,290</td>
-      <td>-27.50</td>
-      <td>-15.40</td>
+      <td>-27.5</td>
+      <td>-15.4</td>
     </tr>
     <tr>
       <th>Nov-2025</th>
-      <td>10,284,515.50</td>
-      <td>67.50</td>
-      <td>41.20</td>
+      <td>10,284,516</td>
+      <td>67.5</td>
+      <td>41.2</td>
     </tr>
     <tr>
       <th>Dec-2025</th>
-      <td>7,652,266.50</td>
-      <td>-25.60</td>
-      <td>15.30</td>
+      <td>7,652,266</td>
+      <td>-25.6</td>
+      <td>15.3</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">8 rows × 3 columns</div></div>
@@ -3182,33 +3182,33 @@ q1[<span class="hl-s">&quot;% of total&quot;</span>] = (q1.global_sales / <span 
   <tbody>
     <tr>
       <th>Adventure</th>
-      <td>136.70</td>
-      <td>10.60</td>
+      <td>136.7</td>
+      <td>10.6</td>
     </tr>
     <tr>
       <th>Sports</th>
-      <td>133.80</td>
-      <td>10.40</td>
+      <td>133.8</td>
+      <td>10.4</td>
     </tr>
     <tr>
       <th>Action</th>
-      <td>116.30</td>
+      <td>116.3</td>
       <td>9.0</td>
     </tr>
     <tr>
       <th>Racing</th>
-      <td>113.60</td>
-      <td>8.80</td>
+      <td>113.6</td>
+      <td>8.8</td>
     </tr>
     <tr>
       <th>Strategy</th>
-      <td>111.50</td>
-      <td>8.60</td>
+      <td>111.5</td>
+      <td>8.6</td>
     </tr>
     <tr>
       <th>Simulation</th>
-      <td>108.40</td>
-      <td>8.40</td>
+      <td>108.4</td>
+      <td>8.4</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">6 rows × 2 columns</div></div>
@@ -3235,31 +3235,31 @@ q2[<span class="hl-s">&quot;sales per title&quot;</span>] = (q2.global_sales / q
       <th>Starforge Interactive</th>
       <td>168.0</td>
       <td>295</td>
-      <td>0.60</td>
+      <td>0.6</td>
     </tr>
     <tr>
       <th>Blue Comet Games</th>
-      <td>161.40</td>
+      <td>161.4</td>
       <td>316</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
     <tr>
       <th>Northwind Play</th>
-      <td>144.60</td>
+      <td>144.6</td>
       <td>266</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
     <tr>
       <th>Red Lantern Studios</th>
-      <td>144.50</td>
+      <td>144.5</td>
       <td>268</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
     <tr>
       <th>Pixel Harbor</th>
-      <td>143.10</td>
+      <td>143.1</td>
       <td>267</td>
-      <td>0.50</td>
+      <td>0.5</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">5 rows × 3 columns</div></div>
@@ -3288,44 +3288,44 @@ q3 = (<span class="hl-f">q3.div</span>(<span class="hl-f">q3.sum</span>(axis=<sp
     <tr>
       <th>Role-Playing</th>
       <td>28.0</td>
-      <td>24.20</td>
-      <td>39.80</td>
-      <td>8.10</td>
+      <td>24.2</td>
+      <td>39.8</td>
+      <td>8.1</td>
     </tr>
     <tr>
       <th>Puzzle</th>
       <td>29.0</td>
-      <td>28.70</td>
-      <td>28.90</td>
-      <td>13.40</td>
+      <td>28.7</td>
+      <td>28.9</td>
+      <td>13.4</td>
     </tr>
     <tr>
       <th>Fighting</th>
       <td>36.0</td>
-      <td>29.60</td>
-      <td>25.10</td>
-      <td>9.30</td>
+      <td>29.6</td>
+      <td>25.1</td>
+      <td>9.3</td>
     </tr>
     <tr>
       <th>Misc</th>
-      <td>39.60</td>
-      <td>30.60</td>
-      <td>16.60</td>
-      <td>13.20</td>
+      <td>39.6</td>
+      <td>30.6</td>
+      <td>16.6</td>
+      <td>13.2</td>
     </tr>
     <tr>
       <th>Adventure</th>
-      <td>40.10</td>
-      <td>30.80</td>
-      <td>15.30</td>
-      <td>13.70</td>
+      <td>40.1</td>
+      <td>30.8</td>
+      <td>15.3</td>
+      <td>13.7</td>
     </tr>
     <tr>
       <th>Simulation</th>
       <td>40.0</td>
-      <td>31.30</td>
-      <td>14.90</td>
-      <td>13.80</td>
+      <td>31.3</td>
+      <td>14.9</td>
+      <td>13.8</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">6 rows × 4 columns</div></div>
@@ -3349,43 +3349,43 @@ q4[<span class="hl-s">&quot;YoY %&quot;</span>] = (<span class="hl-f">q4.global_
   <tbody>
     <tr>
       <th>2018</th>
-      <td>87.20</td>
+      <td>87.2</td>
       <td>19.0</td>
     </tr>
     <tr>
       <th>2019</th>
-      <td>59.40</td>
-      <td>-31.90</td>
+      <td>59.4</td>
+      <td>-31.9</td>
     </tr>
     <tr>
       <th>2020</th>
-      <td>89.20</td>
-      <td>50.20</td>
+      <td>89.2</td>
+      <td>50.2</td>
     </tr>
     <tr>
       <th>2021</th>
       <td>78.0</td>
-      <td>-12.60</td>
+      <td>-12.6</td>
     </tr>
     <tr>
       <th>2022</th>
-      <td>71.90</td>
-      <td>-7.90</td>
+      <td>71.9</td>
+      <td>-7.9</td>
     </tr>
     <tr>
       <th>2023</th>
-      <td>76.40</td>
-      <td>6.30</td>
+      <td>76.4</td>
+      <td>6.3</td>
     </tr>
     <tr>
       <th>2024</th>
-      <td>80.90</td>
-      <td>5.90</td>
+      <td>80.9</td>
+      <td>5.9</td>
     </tr>
     <tr>
       <th>2025</th>
       <td>87.0</td>
-      <td>7.40</td>
+      <td>7.4</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">8 rows × 2 columns</div></div>
@@ -3516,7 +3516,7 @@ When the report needs a fixed layout, mixes data from several sources, or must u
 <p class="sum">Work confidently with dates and times (DATE, EOMONTH, EDATE, WORKDAY, NETWORKDAYS, WEEKDAY, WEEKNUM, DATEDIF, fiscal quarters), clean up numbers with INT, MOD, ROUND, CEILING and FLOOR, and make formulas readable with static and dynamic named ranges and LET.</p><div class="tags"><span class="tag live">● Live classes 7–8</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain how Excel stores dates and times, and do date arithmetic correctly</li><li>Extract parts of dates, find month ends, add months, and count working days with holidays</li><li>Calculate age, tenure and fiscal-year quarters (Indian April–March and US October–September)</li><li>Use INT, MOD, ROUND, ROUNDUP, ROUNDDOWN, MROUND, CEILING.MATH, FLOOR.MATH, SQRT, POWER and ABS</li><li>Create static and dynamic named ranges and simplify long formulas with LET</li></ul></div></div><div class="content"><h2 id="excel-09-dates-and-times-are-numbers">Dates and times are numbers</h2>
 <p>Excel stores a date as the number of days since <strong>1 January 1900</strong> (that day is 1). A time is a <strong>fraction of a day</strong>: 12:00 noon is 0.5 and 06:00 is 0.25. A date with a time is simply a whole number plus a fraction.</p>
-<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>What is really stored</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">You see</td><td class="c-h">Stored as</td><td class="c-h">Explanation</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="fx" title="=A2">46139</td><td class="">Days since 1-Jan-1900</td></tr><tr><th>3</th><td class="">12:00</td><td class="fx" title="=TIME(12,0,0)">12:00</td><td class="">Half a day</td></tr><tr><th>4</th><td class="">06:30</td><td class="fx" title="=TIME(6,30,0)">0.2708</td><td class="">6.5 hours ÷ 24</td></tr><tr><th>5</th><td class="">27-04-2026 18:00</td><td class="fx" title="=DATE(2026,4,27)+TIME(18,0,0)">46139.75</td><td class="">Date + time</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=A2</code></li><li><b>B3</b><code>=<span class="hl-f">TIME</span>(<span class="hl-n">12</span>,<span class="hl-n">0</span>,<span class="hl-n">0</span>)</code></li><li><b>B4</b><code>=<span class="hl-f">TIME</span>(<span class="hl-n">6</span>,<span class="hl-n">30</span>,<span class="hl-n">0</span>)</code></li><li><b>B5</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">4</span>,<span class="hl-n">27</span>)+<span class="hl-f">TIME</span>(<span class="hl-n">18</span>,<span class="hl-n">0</span>,<span class="hl-n">0</span>)</code></li></ul></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>What is really stored</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">You see</td><td class="c-h">Stored as</td><td class="c-h">Explanation</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="fx" title="=A2">46139</td><td class="">Days since 1-Jan-1900</td></tr><tr><th>3</th><td class="">12:00</td><td class="fx" title="=TIME(12,0,0)">0.5</td><td class="">Half a day</td></tr><tr><th>4</th><td class="">06:30</td><td class="fx" title="=TIME(6,30,0)">0.2708</td><td class="">6.5 hours ÷ 24</td></tr><tr><th>5</th><td class="">27-04-2026 18:00</td><td class="fx" title="=DATE(2026,4,27)+TIME(18,0,0)">46139.75</td><td class="">Date + time</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=A2</code></li><li><b>B3</b><code>=<span class="hl-f">TIME</span>(<span class="hl-n">12</span>,<span class="hl-n">0</span>,<span class="hl-n">0</span>)</code></li><li><b>B4</b><code>=<span class="hl-f">TIME</span>(<span class="hl-n">6</span>,<span class="hl-n">30</span>,<span class="hl-n">0</span>)</code></li><li><b>B5</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">4</span>,<span class="hl-n">27</span>)+<span class="hl-f">TIME</span>(<span class="hl-n">18</span>,<span class="hl-n">0</span>,<span class="hl-n">0</span>)</code></li></ul></div>
 <p>This is why date arithmetic works:</p>
 <div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Date arithmetic</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Order date</td><td class="c-h">Ship date</td><td class="c-h">Days to ship =B2-A2</td><td class="c-h">Due date (+30 days)</td><td class="c-h">Overdue? (as of 15-Jun-2026)</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="">02-05-2026</td><td class="fx num" title="=B2-A2">5</td><td class="fx" title="=A2+30">27-05-2026</td><td class="fx" title="=IF(DATE(2026,6,15)&gt;D2,&quot;Overdue&quot;,&quot;OK&quot;)">Overdue</td></tr><tr><th>3</th><td class="">20-05-2026</td><td class="">21-05-2026</td><td class="fx num" title="=B3-A3">1</td><td class="fx" title="=A3+30">19-06-2026</td><td class="fx" title="=IF(DATE(2026,6,15)&gt;D3,&quot;Overdue&quot;,&quot;OK&quot;)">OK</td></tr><tr><th>4</th><td class="">01-06-2026</td><td class="">08-06-2026</td><td class="fx num" title="=B4-A4">7</td><td class="fx" title="=A4+30">01-07-2026</td><td class="fx" title="=IF(DATE(2026,6,15)&gt;D4,&quot;Overdue&quot;,&quot;OK&quot;)">OK</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=B2-A2</code></li><li><b>D2</b><code>=A2+<span class="hl-n">30</span></code></li><li><b>E2</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">6</span>,<span class="hl-n">15</span>)&gt;D2,<span class="hl-s">&quot;Overdue&quot;</span>,<span class="hl-s">&quot;OK&quot;</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
 <div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>TODAY() and NOW()</b></div><p><code>=TODAY()</code> returns today's date and <code>=NOW()</code> the date and time. They are <strong>volatile</strong>: they recalculate every time the workbook changes, so results move every day. For reports that must not change, type the "as of" date into a cell and refer to it, as in the overdue example above. Shortcuts: <code>Ctrl + ;</code> types today's date as a fixed value.</p></div>
@@ -3650,7 +3650,7 @@ When the report needs a fixed layout, mixes data from several sources, or must u
 </tr>
 </tbody>
 </table></div>
-<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Tenure as of 31-Mar-2026 (in E1)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Employee</td><td class="c-h">Join date</td><td class="c-h">Years</td><td class="c-h">Months after years</td><td class="c-h">Tenure label</td><td class="c-y">31-03-2026</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="">28-02-2016</td><td class="fx num" title="=DATEDIF(B2,$F$1,&quot;y&quot;)">10</td><td class="fx num" title="=DATEDIF(B2,$F$1,&quot;ym&quot;)">1</td><td class="fx" title="=C2&amp;&quot; yrs &quot;&amp;D2&amp;&quot; mths&quot;">10 yrs 1 mths</td><td class=""></td></tr><tr><th>3</th><td class="">Imran Reddy</td><td class="">14-12-2019</td><td class="fx num" title="=DATEDIF(B3,$F$1,&quot;y&quot;)">6</td><td class="fx num" title="=DATEDIF(B3,$F$1,&quot;ym&quot;)">3</td><td class="fx" title="=C3&amp;&quot; yrs &quot;&amp;D3&amp;&quot; mths&quot;">6 yrs 3 mths</td><td class=""></td></tr><tr><th>4</th><td class="">Saanvi Rao</td><td class="">18-02-2025</td><td class="fx num" title="=DATEDIF(B4,$F$1,&quot;y&quot;)">1</td><td class="fx num" title="=DATEDIF(B4,$F$1,&quot;ym&quot;)">1</td><td class="fx" title="=C4&amp;&quot; yrs &quot;&amp;D4&amp;&quot; mths&quot;">1 yrs 1 mths</td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">DATEDIF</span>(B2,$F$<span class="hl-n">1</span>,<span class="hl-s">&quot;y&quot;</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">DATEDIF</span>(B2,$F$<span class="hl-n">1</span>,<span class="hl-s">&quot;ym&quot;</span>)</code></li><li><b>E2</b><code>=C2&amp;<span class="hl-s">&quot; yrs &quot;</span>&amp;D2&amp;<span class="hl-s">&quot; mths&quot;</span></code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Tenure as of 31-Mar-2026 (in F1)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Employee</td><td class="c-h">Join date</td><td class="c-h">Years</td><td class="c-h">Months after years</td><td class="c-h">Tenure label</td><td class="c-y">31-03-2026</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="">28-02-2016</td><td class="fx num" title="=DATEDIF(B2,$F$1,&quot;y&quot;)">10</td><td class="fx num" title="=DATEDIF(B2,$F$1,&quot;ym&quot;)">1</td><td class="fx" title="=C2&amp;&quot; yrs &quot;&amp;D2&amp;&quot; mths&quot;">10 yrs 1 mths</td><td class=""></td></tr><tr><th>3</th><td class="">Imran Reddy</td><td class="">14-12-2019</td><td class="fx num" title="=DATEDIF(B3,$F$1,&quot;y&quot;)">6</td><td class="fx num" title="=DATEDIF(B3,$F$1,&quot;ym&quot;)">3</td><td class="fx" title="=C3&amp;&quot; yrs &quot;&amp;D3&amp;&quot; mths&quot;">6 yrs 3 mths</td><td class=""></td></tr><tr><th>4</th><td class="">Saanvi Rao</td><td class="">18-02-2025</td><td class="fx num" title="=DATEDIF(B4,$F$1,&quot;y&quot;)">1</td><td class="fx num" title="=DATEDIF(B4,$F$1,&quot;ym&quot;)">1</td><td class="fx" title="=C4&amp;&quot; yrs &quot;&amp;D4&amp;&quot; mths&quot;">1 yrs 1 mths</td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">DATEDIF</span>(B2,$F$<span class="hl-n">1</span>,<span class="hl-s">&quot;y&quot;</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">DATEDIF</span>(B2,$F$<span class="hl-n">1</span>,<span class="hl-s">&quot;ym&quot;</span>)</code></li><li><b>E2</b><code>=C2&amp;<span class="hl-s">&quot; yrs &quot;</span>&amp;D2&amp;<span class="hl-s">&quot; mths&quot;</span></code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
 <p>(Cell F1 holds the date 31-03-2026.) For fractional years use <code>=YEARFRAC(B2,$F$1)</code>, for example 10.09 years.</p>
 <h2 id="excel-09-fiscal-years-and-quarters">Fiscal years and quarters</h2>
 <p>Calendar quarter: <code>="Q"&amp;ROUNDUP(MONTH(A2)/3,0)</code>. Many organisations use a different financial year:</p>
@@ -4175,7 +4175,7 @@ pareto[<span class="hl-s">&quot;sales&quot;</span>] = (pareto.sales / 1e5).<span
 <li>Set the secondary axis maximum to 100%. Optionally add a horizontal 80% reference line.</li>
 <li>Excel 2016+ also has a built-in <strong>Insert → Statistical → Pareto</strong> chart that sorts and accumulates for you from raw data.</li>
 </ol></div>
-<figure class="fig"><img src="../img/excel-10-05.png" alt="Pareto chart of sales by sub-category. Four sub-categories (Machines, Copiers, Phones, Tables) make up about 80% of sales." loading="lazy"><figcaption>Pareto chart of sales by sub-category. Four sub-categories (Machines, Copiers, Phones, Tables) make up about 80% of sales.</figcaption></figure>
+<figure class="fig"><img src="../img/excel-10-05.png" alt="Pareto chart of sales by sub-category. Copiers, Machines and Phones alone make up 76% of sales; adding Tables passes the 80% line." loading="lazy"><figcaption>Pareto chart of sales by sub-category. Copiers, Machines and Phones alone make up 76% of sales; adding Tables passes the 80% line.</figcaption></figure>
 <h2 id="excel-10-population-pyramid">Population pyramid</h2>
 <p>A population pyramid compares two groups (typically male and female) across age bands, with one group's bars going left and the other's going right. In business it works for any two-sided comparison: this year vs last year by product, or two regions by age band.</p>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">hr = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;hr_employees.csv&quot;</span>)
@@ -5094,7 +5094,7 @@ out = <span class="hl-f">pd.Series</span>({
     </tr>
   </tbody>
 </table></div></div><div class="shape">13 rows × 1 columns (first 12 shown)</div></div>
-<p>How to read it: the mean (about 31,900) is far above the median (about 7,300), and skewness is strongly positive, so a few very large orders pull the average up. Report the <strong>median</strong> as the typical order line.</p>
+<p>How to read it: the mean (about 31,900) is far above the median (about 8,400), and skewness is strongly positive, so a few very large orders pull the average up. Report the <strong>median</strong> as the typical order line.</p>
 <p>The same numbers with Excel functions: <code>AVERAGE</code>, <code>MEDIAN</code>, <code>MODE.SNGL</code>, <code>STDEV.S</code>, <code>VAR.S</code>, <code>KURT</code>, <code>SKEW</code>, <code>MIN</code>, <code>MAX</code>, <code>SUM</code>, <code>COUNT</code>.</p>
 <div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>ToolPak output is static</b></div><p>The Analysis ToolPak writes numbers, not formulas. If the data changes, run the tool again. For live results use the equivalent functions.</p></div>
 <h2 id="excel-12-what-if-analysis">What-if analysis</h2>
@@ -5219,7 +5219,7 @@ grid</code></pre></div><div class="output"><div class="out-h">Output</div><div c
 <li><strong>What-if</strong>: Goal Seek (one input, target output), Data Tables (grid of scenarios), Scenario Manager (named sets), Solver (optimisation with constraints).</li>
 <li><strong>LAMBDA</strong> creates custom functions; <strong>Python in Excel</strong> brings pandas into cells; macros/VBA and Office Scripts automate.</li>
 </ul></div>
-<div class="quiz" id="quiz-excel-12-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which Power Query command turns columns Jan, Feb, Mar into rows with Month and Sales columns?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pivot Column</button><button type="button" class="opt" data-ok="1"><i>B</i>Unpivot Other Columns (with Region selected)</button><button type="button" class="opt" data-ok="0"><i>C</i>Transpose</button><button type="button" class="opt" data-ok="0"><i>D</i>Group By</button></div><div class="qexp"><b>Answer: B.</b> Unpivot converts wide columns into attribute/value rows; "Other Columns" keeps working when new months are added.</div></div><div class="qq"><p class="qtext"><b>2.</b> Merge Queries in Power Query is equivalent to:</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A SQL JOIN or an XLOOKUP for every row</button><button type="button" class="opt" data-ok="0"><i>B</i>A SQL UNION</button><button type="button" class="opt" data-ok="0"><i>C</i>A pivot table</button><button type="button" class="opt" data-ok="0"><i>D</i>Remove Duplicates</button></div><div class="qexp"><b>Answer: A.</b> Merge joins two tables on matching key columns. Append is the UNION.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is the main benefit of Power Query over manual cleaning?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is the only way to remove duplicates</button><button type="button" class="opt" data-ok="1"><i>B</i>Steps are recorded and repeated automatically on Refresh</button><button type="button" class="opt" data-ok="0"><i>C</i>It uses VBA</button><button type="button" class="opt" data-ok="0"><i>D</i>It works only with CSV files</button></div><div class="qexp"><b>Answer: B.</b> The recorded steps make the process repeatable and auditable.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which tool finds the input value that produces a given result for one formula?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Goal Seek</button><button type="button" class="opt" data-ok="0"><i>B</i>Scenario Manager</button><button type="button" class="opt" data-ok="0"><i>C</i>Data Table</button><button type="button" class="opt" data-ok="0"><i>D</i>Descriptive Statistics</button></div><div class="qexp"><b>Answer: A.</b> Goal Seek works backwards from a target output to one input.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why is a DAX measure <code>DIVIDE([Total Profit],[Total Sales])</code> better than a pivot calculated field for margin?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is faster to type</button><button type="button" class="opt" data-ok="1"><i>B</i>It is evaluated correctly in the current filter context at every level and handles division by zero</button><button type="button" class="opt" data-ok="0"><i>C</i>Calculated fields cannot divide</button><button type="button" class="opt" data-ok="0"><i>D</i>DAX works without a data model</button></div><div class="qexp"><b>Answer: B.</b> Measures are context-aware and DIVIDE returns blank instead of an error for zero denominators.</div></div><div class="qq"><p class="qtext"><b>6.</b> The Analysis ToolPak reports mean 31,900 and median 7,300 for order values. What does this suggest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The data is symmetric</button><button type="button" class="opt" data-ok="1"><i>B</i>The distribution is right-skewed by a few large orders</button><button type="button" class="opt" data-ok="0"><i>C</i>There is an error in the data</button><button type="button" class="opt" data-ok="0"><i>D</i>The mode is larger than the mean</button></div><div class="qexp"><b>Answer: B.</b> When the mean is much larger than the median, a long right tail is pulling the mean up.</div></div></div>
+<div class="quiz" id="quiz-excel-12-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which Power Query command turns columns Jan, Feb, Mar into rows with Month and Sales columns?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pivot Column</button><button type="button" class="opt" data-ok="1"><i>B</i>Unpivot Other Columns (with Region selected)</button><button type="button" class="opt" data-ok="0"><i>C</i>Transpose</button><button type="button" class="opt" data-ok="0"><i>D</i>Group By</button></div><div class="qexp"><b>Answer: B.</b> Unpivot converts wide columns into attribute/value rows; "Other Columns" keeps working when new months are added.</div></div><div class="qq"><p class="qtext"><b>2.</b> Merge Queries in Power Query is equivalent to:</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A SQL JOIN or an XLOOKUP for every row</button><button type="button" class="opt" data-ok="0"><i>B</i>A SQL UNION</button><button type="button" class="opt" data-ok="0"><i>C</i>A pivot table</button><button type="button" class="opt" data-ok="0"><i>D</i>Remove Duplicates</button></div><div class="qexp"><b>Answer: A.</b> Merge joins two tables on matching key columns. Append is the UNION.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is the main benefit of Power Query over manual cleaning?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is the only way to remove duplicates</button><button type="button" class="opt" data-ok="1"><i>B</i>Steps are recorded and repeated automatically on Refresh</button><button type="button" class="opt" data-ok="0"><i>C</i>It uses VBA</button><button type="button" class="opt" data-ok="0"><i>D</i>It works only with CSV files</button></div><div class="qexp"><b>Answer: B.</b> The recorded steps make the process repeatable and auditable.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which tool finds the input value that produces a given result for one formula?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Goal Seek</button><button type="button" class="opt" data-ok="0"><i>B</i>Scenario Manager</button><button type="button" class="opt" data-ok="0"><i>C</i>Data Table</button><button type="button" class="opt" data-ok="0"><i>D</i>Descriptive Statistics</button></div><div class="qexp"><b>Answer: A.</b> Goal Seek works backwards from a target output to one input.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why is a DAX measure <code>DIVIDE([Total Profit],[Total Sales])</code> better than a pivot calculated field for margin?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is faster to type</button><button type="button" class="opt" data-ok="1"><i>B</i>It is evaluated correctly in the current filter context at every level and handles division by zero</button><button type="button" class="opt" data-ok="0"><i>C</i>Calculated fields cannot divide</button><button type="button" class="opt" data-ok="0"><i>D</i>DAX works without a data model</button></div><div class="qexp"><b>Answer: B.</b> Measures are context-aware and DIVIDE returns blank instead of an error for zero denominators.</div></div><div class="qq"><p class="qtext"><b>6.</b> The Analysis ToolPak reports mean 31,900 and median 8,400 for order values. What does this suggest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The data is symmetric</button><button type="button" class="opt" data-ok="1"><i>B</i>The distribution is right-skewed by a few large orders</button><button type="button" class="opt" data-ok="0"><i>C</i>There is an error in the data</button><button type="button" class="opt" data-ok="0"><i>D</i>The mode is larger than the mean</button></div><div class="qexp"><b>Answer: B.</b> When the mean is much larger than the median, a long right tail is pulling the mean up.</div></div></div>
 <div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Power Query practice</b></div><p>Using <code>video_game_sales.csv</code>: (1) load it with Power Query and set the correct types; (2) unpivot the four regional sales columns into <code>Region</code> and <code>Sales</code>; (3) group by Genre and Region to get total sales; (4) load the result to a pivot table and show % of row total.</p><details class="sol"><summary>Show solution</summary><p>(1) Data → From Text/CSV → Transform Data; check that year is whole number and sales are decimal.
 (2) Select every column except na_sales, eu_sales, jp_sales and other_sales (or select those four and choose Unpivot Columns); rename Attribute → Region, Value → Sales; remove the global_sales column first so it is not unpivoted.
 (3) Home → Group By → Advanced: group by genre and Region, new column Sales = Sum of Sales.

@@ -1,0 +1,894 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SQL Functions: Aggregate, Text, Date &amp; Number · SQL Lesson 6 · Data Science &amp; AI Handbook</title><meta name="description" content="Use SQL Server&#x27;s built-in functions to summarise, clean and reshape data. Aggregate functions (COUNT, SUM, AVG, MIN, MAX, STRING_AGG), text functions (LEN, LEFT, RIGHT, SUBSTRING, CHARINDEX, REPLACE, TRIM, UPPER, CONCAT), date functions (GETDATE, YEAR, MONTH, DATEPART, DATENAME, DATEADD, DATEDIFF, EOMONTH) and number functions (ROUND, CEILING, FLOOR, ABS, POWER, SQRT), plus CAST and CONVERT."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v10"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 6</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class="on"><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-06">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 6 of 10</div><h1>SQL Functions: Aggregate, Text, Date &amp; Number</h1>
+<p class="sum">Use SQL Server's built-in functions to summarise, clean and reshape data. Aggregate functions (COUNT, SUM, AVG, MIN, MAX, STRING_AGG), text functions (LEN, LEFT, RIGHT, SUBSTRING, CHARINDEX, REPLACE, TRIM, UPPER, CONCAT), date functions (GETDATE, YEAR, MONTH, DATEPART, DATENAME, DATEADD, DATEDIFF, EOMONTH) and number functions (ROUND, CEILING, FLOOR, ABS, POWER, SQRT), plus CAST and CONVERT.</p><div class="tags"><span class="tag live">● SQL class 4</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Beginner–Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_06_SQL_Functions_Aggregate_Text_Date_Number.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-06">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Distinguish scalar functions (one value per row) from aggregate functions (one value per group)</li><li>Summarise data with COUNT(*), COUNT(column), COUNT(DISTINCT), SUM, AVG, MIN, MAX and STRING_AGG</li><li>Clean and extract text with LEN, LEFT, RIGHT, SUBSTRING, CHARINDEX, REPLACE, TRIM, UPPER, LOWER and CONCAT</li><li>Work with dates using YEAR, MONTH, DATEPART, DATENAME, DATEADD, DATEDIFF, EOMONTH and DATEFROMPARTS</li><li>Round and convert numbers with ROUND, CEILING, FLOOR, ABS, POWER, SQRT, CAST, CONVERT and TRY_CAST</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="two-kinds-of-functions">Two kinds of functions</h2>
+<figure class="fig"><img src="../img/sql-06-01.png" alt="Scalar functions return one value per row. Aggregate functions collapse many rows into one value (per group)." loading="lazy"><figcaption>Scalar functions return one value per row. Aggregate functions collapse many rows into one value (per group).</figcaption></figure>
+<h2 id="aggregate-functions">Aggregate functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>NULL handling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COUNT(*)</code></td>
+<td>Number of rows</td>
+<td>Counts every row</td>
+</tr>
+<tr>
+<td><code>COUNT(col)</code></td>
+<td>Number of non-NULL values</td>
+<td>Skips NULLs</td>
+</tr>
+<tr>
+<td><code>COUNT(DISTINCT col)</code></td>
+<td>Number of distinct non-NULL values</td>
+<td>Skips NULLs</td>
+</tr>
+<tr>
+<td><code>SUM(col)</code></td>
+<td>Total</td>
+<td>Skips NULLs</td>
+</tr>
+<tr>
+<td><code>AVG(col)</code></td>
+<td>Average of non-NULL values</td>
+<td>Skips NULLs (they are not treated as 0)</td>
+</tr>
+<tr>
+<td><code>MIN(col)</code>, <code>MAX(col)</code></td>
+<td>Smallest / largest (numbers, text, dates)</td>
+<td>Skips NULLs</td>
+</tr>
+<tr>
+<td><code>STDEV(col)</code>, <code>VAR(col)</code></td>
+<td>Sample standard deviation / variance</td>
+<td>Skips NULLs</td>
+</tr>
+<tr>
+<td><code>STRING_AGG(col, sep)</code></td>
+<td>Values joined into one string</td>
+<td>Skips NULLs</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                         <span class="hl-k">AS</span> order_lines,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id)         <span class="hl-k">AS</span> orders,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> customer_id)      <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)             <span class="hl-k">AS</span> total_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(sales), <span class="hl-n">0</span>)             <span class="hl-k">AS</span> avg_line_sales,
+       <span class="hl-f">MIN</span>(order_date)                  <span class="hl-k">AS</span> first_order,
+       <span class="hl-f">MAX</span>(order_date)                  <span class="hl-k">AS</span> last_order,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">STDEV</span>(sales), <span class="hl-n">0</span>)           <span class="hl-k">AS</span> sd_sales
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_lines</th>
+      <th>orders</th>
+      <th>customers</th>
+      <th>total_sales</th>
+      <th>avg_line_sales</th>
+      <th>first_order</th>
+      <th>last_order</th>
+      <th>sd_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6323</td>
+      <td>3200</td>
+      <td>785</td>
+      <td>201,413,569</td>
+      <td>31,854</td>
+      <td>2023-01-01</td>
+      <td>2025-12-31</td>
+      <td>60,414</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 8 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> category,
+       <span class="hl-f">STRING_AGG</span>(sub_category, <span class="hl-s">&#x27;, &#x27;</span>) <span class="hl-k">AS</span> sub_categories
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> category, sub_category <span class="hl-k">FROM</span> superstore) <span class="hl-k">AS</span> t
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> category;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>sub_categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>Bookcases, Chairs, Tables, Furnishings</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Paper, Storage, Appliances, Art, Binders</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Accessories, Phones, Machines, Copiers</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 2 columns</div></div>
+<p>In SQL Server add <code>WITHIN GROUP (ORDER BY sub_category)</code> after <code>STRING_AGG(...)</code> to control the order of the joined values.</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>AVG of integers</b></div><p><code>AVG</code> on an <code>INT</code> column returns an integer in SQL Server (<code>AVG</code> of 1, 2 = 1). Use <code>AVG(quantity * 1.0)</code> or <code>AVG(CAST(quantity AS DECIMAL(10,2)))</code> for decimals.</p></div>
+<h2 id="text-string-functions">Text (string) functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LEN(s)</code></td>
+<td><code>LEN('Pune  ')</code></td>
+<td>4 (trailing spaces not counted)</td>
+</tr>
+<tr>
+<td><code>UPPER(s)</code>, <code>LOWER(s)</code></td>
+<td><code>UPPER('pune')</code></td>
+<td>PUNE</td>
+</tr>
+<tr>
+<td><code>LEFT(s, n)</code>, <code>RIGHT(s, n)</code></td>
+<td><code>LEFT('IN-2025-00042', 2)</code></td>
+<td>IN</td>
+</tr>
+<tr>
+<td><code>SUBSTRING(s, start, n)</code></td>
+<td><code>SUBSTRING('IN-2025-00042', 4, 4)</code></td>
+<td>2025</td>
+</tr>
+<tr>
+<td><code>CHARINDEX(find, s)</code></td>
+<td><code>CHARINDEX('-', 'IN-2025-00042')</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>REPLACE(s, old, new)</code></td>
+<td><code>REPLACE('2025-04-27', '-', '/')</code></td>
+<td>2025/04/27</td>
+</tr>
+<tr>
+<td><code>TRIM(s)</code>, <code>LTRIM</code>, <code>RTRIM</code></td>
+<td><code>TRIM('  Delhi ')</code></td>
+<td>Delhi</td>
+</tr>
+<tr>
+<td><code>CONCAT(a, b, …)</code></td>
+<td><code>CONCAT(city, ', ', state)</code></td>
+<td>Pune, Maharashtra</td>
+</tr>
+<tr>
+<td><code>REVERSE(s)</code></td>
+<td><code>REVERSE('abc')</code></td>
+<td>cba</td>
+</tr>
+<tr>
+<td><code>REPLICATE(s, n)</code></td>
+<td><code>REPLICATE('*', 3)</code></td>
+<td>***</td>
+</tr>
+<tr>
+<td><code>STRING_SPLIT(s, sep)</code></td>
+<td><code>SELECT value FROM STRING_SPLIT('a,b,c', ',')</code></td>
+<td>3 rows</td>
+</tr>
+<tr>
+<td><code>FORMAT(value, fmt)</code></td>
+<td><code>FORMAT(1234567, 'N0', 'en-IN')</code></td>
+<td>12,34,567</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">6</span>
+       order_id,
+       <span class="hl-k">LEFT</span>(order_id, <span class="hl-n">2</span>)                                   <span class="hl-k">AS</span> country,
+       <span class="hl-f">SUBSTRING</span>(order_id, <span class="hl-n">4</span>, <span class="hl-n">4</span>)                           <span class="hl-k">AS</span> order_year,
+       <span class="hl-k">RIGHT</span>(order_id, <span class="hl-n">5</span>)                                  <span class="hl-k">AS</span> order_no,
+       product_name,
+       <span class="hl-k">LEFT</span>(product_name, <span class="hl-f">CHARINDEX</span>(<span class="hl-s">&#x27; &#x27;</span>, product_name) - <span class="hl-n">1</span>) <span class="hl-k">AS</span> brand,
+       <span class="hl-f">UPPER</span>(city)                                         <span class="hl-k">AS</span> city_upper,
+       <span class="hl-f">LEN</span>(customer_name)                                  <span class="hl-k">AS</span> name_length
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> row_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>country</th>
+      <th>order_year</th>
+      <th>order_no</th>
+      <th>product_name</th>
+      <th>brand</th>
+      <th>city_upper</th>
+      <th>name_length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>IN</td>
+      <td>2023</td>
+      <td>00001</td>
+      <td>Nova Phone 223</td>
+      <td>Nova</td>
+      <td>BENGALURU</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>IN</td>
+      <td>2023</td>
+      <td>00001</td>
+      <td>Orbit Appliance 798</td>
+      <td>Orbit</td>
+      <td>BENGALURU</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>IN</td>
+      <td>2023</td>
+      <td>00001</td>
+      <td>Orbit Table 248</td>
+      <td>Orbit</td>
+      <td>BENGALURU</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00002</td>
+      <td>IN</td>
+      <td>2023</td>
+      <td>00002</td>
+      <td>Crest Storage 946</td>
+      <td>Crest</td>
+      <td>AHMEDABAD</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>IN</td>
+      <td>2023</td>
+      <td>00003</td>
+      <td>Crest Bookcase 170</td>
+      <td>Crest</td>
+      <td>AHMEDABAD</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>IN</td>
+      <td>2023</td>
+      <td>00003</td>
+      <td>Zenith Table 111</td>
+      <td>Zenith</td>
+      <td>AHMEDABAD</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 8 columns</div></div>
+<p>The brand is everything before the first space: <code>CHARINDEX(' ', product_name)</code> finds the space position, and <code>LEFT(…, position − 1)</code> cuts there. This is the SQL version of Excel's <code>LEFT(A2, FIND(" ", A2) - 1)</code> from Excel Lesson 5.</p>
+<h3 id="cleaning-text">Cleaning text</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> raw <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;  bengaluru &#x27;</span> <span class="hl-k">AS</span> city <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;BENGALURU&#x27;</span>          <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Bangalore&#x27;</span>          <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Bengaluru&#x27;</span>
+)
+<span class="hl-k">SELECT</span> city                                                          <span class="hl-k">AS</span> raw_value,
+       <span class="hl-f">CONCAT</span>(<span class="hl-f">UPPER</span>(<span class="hl-k">LEFT</span>(<span class="hl-f">TRIM</span>(city), <span class="hl-n">1</span>)), <span class="hl-f">LOWER</span>(<span class="hl-f">SUBSTRING</span>(<span class="hl-f">TRIM</span>(city), <span class="hl-n">2</span>, <span class="hl-n">100</span>))) <span class="hl-k">AS</span> proper_case,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> <span class="hl-f">LOWER</span>(<span class="hl-f">TRIM</span>(city)) <span class="hl-k">IN</span> (<span class="hl-s">&#x27;bangalore&#x27;</span>, <span class="hl-s">&#x27;bengaluru&#x27;</span>) <span class="hl-k">THEN</span> <span class="hl-s">&#x27;Bengaluru&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-f">TRIM</span>(city) <span class="hl-k">END</span> <span class="hl-k">AS</span> standardised
+<span class="hl-k">FROM</span> raw;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>raw_value</th>
+      <th>proper_case</th>
+      <th>standardised</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bengaluru</td>
+      <td>Bengaluru</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>BENGALURU</td>
+      <td>Bengaluru</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>Bangalore</td>
+      <td>Bangalore</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>Bengaluru</td>
+      <td>Bengaluru</td>
+      <td>Bengaluru</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<p>(SQL Server has no <code>PROPER</code> function; joining <code>UPPER(LEFT(…,1))</code> and <code>LOWER(SUBSTRING(…,2,…))</code> capitalises the first letter of a single word. Standardising spellings is best done with <code>CASE</code> or a mapping table joined in.)</p>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>`+` vs CONCAT for text</b></div><p>In SQL Server <code>'a' + 'b'</code> joins text, but <code>'a' + NULL</code> is NULL and <code>'Q' + 2</code> fails (it tries to convert 'Q' to a number). <code>CONCAT('Q', 2)</code> gives Q2 and treats NULL as empty. Prefer <code>CONCAT</code>.</p></div>
+<h2 id="date-and-time-functions">Date and time functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example (d = '2026-04-27')</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GETDATE()</code>, <code>SYSDATETIME()</code></td>
+<td></td>
+<td>Current date and time</td>
+</tr>
+<tr>
+<td><code>CAST(GETDATE() AS DATE)</code></td>
+<td></td>
+<td>Today's date</td>
+</tr>
+<tr>
+<td><code>YEAR(d)</code>, <code>MONTH(d)</code>, <code>DAY(d)</code></td>
+<td><code>MONTH(d)</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>DATEPART(part, d)</code></td>
+<td><code>DATEPART(quarter, d)</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>DATENAME(part, d)</code></td>
+<td><code>DATENAME(month, d)</code>, <code>DATENAME(weekday, d)</code></td>
+<td>April, Monday</td>
+</tr>
+<tr>
+<td><code>DATEADD(part, n, d)</code></td>
+<td><code>DATEADD(month, 3, d)</code></td>
+<td>2026-07-27</td>
+</tr>
+<tr>
+<td><code>DATEDIFF(part, start, end)</code></td>
+<td><code>DATEDIFF(day, '2026-04-01', d)</code></td>
+<td>26</td>
+</tr>
+<tr>
+<td><code>EOMONTH(d, [n])</code></td>
+<td><code>EOMONTH(d)</code></td>
+<td>2026-04-30</td>
+</tr>
+<tr>
+<td><code>DATEFROMPARTS(y, m, d)</code></td>
+<td><code>DATEFROMPARTS(2026, 4, 1)</code></td>
+<td>2026-04-01</td>
+</tr>
+<tr>
+<td><code>DATETRUNC(part, d)</code> (2022+)</td>
+<td><code>DATETRUNC(month, d)</code></td>
+<td>2026-04-01</td>
+</tr>
+<tr>
+<td><code>FORMAT(d, 'MMM-yyyy')</code></td>
+<td></td>
+<td>Apr-2026</td>
+</tr>
+</tbody>
+</table></div>
+<p>Date parts you can use: <code>year</code>, <code>quarter</code>, <code>month</code>, <code>dayofyear</code>, <code>day</code>, <code>week</code>, <code>weekday</code>, <code>hour</code>, <code>minute</code>, <code>second</code>.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">6</span>
+       order_id,
+       order_date,
+       ship_date,
+       <span class="hl-f">YEAR</span>(order_date)                      <span class="hl-k">AS</span> yr,
+       <span class="hl-f">DATEPART</span>(quarter, order_date)         <span class="hl-k">AS</span> qtr,
+       <span class="hl-f">DATENAME</span>(month, order_date)           <span class="hl-k">AS</span> month_name,
+       <span class="hl-f">DATENAME</span>(weekday, order_date)         <span class="hl-k">AS</span> weekday_name,
+       <span class="hl-f">DATEDIFF</span>(day, order_date, ship_date)  <span class="hl-k">AS</span> days_to_ship,
+       <span class="hl-f">EOMONTH</span>(order_date)                   <span class="hl-k">AS</span> month_end
+<span class="hl-k">FROM</span> orders
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_date <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>ship_date</th>
+      <th>yr</th>
+      <th>qtr</th>
+      <th>month_name</th>
+      <th>weekday_name</th>
+      <th>days_to_ship</th>
+      <th>month_end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2025-03197</td>
+      <td>2025-12-31</td>
+      <td>2026-01-04</td>
+      <td>2025</td>
+      <td>4</td>
+      <td>December</td>
+      <td>Wednesday</td>
+      <td>4</td>
+      <td>2025-12-31</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03198</td>
+      <td>2025-12-31</td>
+      <td>2026-01-04</td>
+      <td>2025</td>
+      <td>4</td>
+      <td>December</td>
+      <td>Wednesday</td>
+      <td>4</td>
+      <td>2025-12-31</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03199</td>
+      <td>2025-12-31</td>
+      <td>2026-01-02</td>
+      <td>2025</td>
+      <td>4</td>
+      <td>December</td>
+      <td>Wednesday</td>
+      <td>2</td>
+      <td>2025-12-31</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03200</td>
+      <td>2025-12-31</td>
+      <td>2026-01-06</td>
+      <td>2025</td>
+      <td>4</td>
+      <td>December</td>
+      <td>Wednesday</td>
+      <td>6</td>
+      <td>2025-12-31</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03194</td>
+      <td>2025-12-30</td>
+      <td>2026-01-03</td>
+      <td>2025</td>
+      <td>4</td>
+      <td>December</td>
+      <td>Tuesday</td>
+      <td>4</td>
+      <td>2025-12-31</td>
+    </tr>
+    <tr>
+      <td>IN-2025-03195</td>
+      <td>2025-12-30</td>
+      <td>2026-01-06</td>
+      <td>2025</td>
+      <td>4</td>
+      <td>December</td>
+      <td>Tuesday</td>
+      <td>7</td>
+      <td>2025-12-31</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 9 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> ship_mode,
+       <span class="hl-f">COUNT</span>(*)                                         <span class="hl-k">AS</span> orders,
+       <span class="hl-f">AVG</span>(<span class="hl-f">DATEDIFF</span>(day, order_date, ship_date) * <span class="hl-n">1.0</span>)  <span class="hl-k">AS</span> avg_days_to_ship,
+       <span class="hl-f">MAX</span>(<span class="hl-f">DATEDIFF</span>(day, order_date, ship_date))        <span class="hl-k">AS</span> max_days
+<span class="hl-k">FROM</span> orders
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> ship_mode
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> avg_days_to_ship;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>ship_mode</th>
+      <th>orders</th>
+      <th>avg_days_to_ship</th>
+      <th>max_days</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Same Day</td>
+      <td>176</td>
+      <td>0.00</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>First Class</td>
+      <td>467</td>
+      <td>1.53</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Second Class</td>
+      <td>621</td>
+      <td>3.00</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Standard Class</td>
+      <td>1936</td>
+      <td>5.54</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 4 columns</div></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>DATEDIFF counts boundaries</b></div><p><code>DATEDIFF(year, '2025-12-31', '2026-01-01')</code> returns <strong>1</strong>, because one year boundary is crossed, even though only one day passed. For exact age use <code>DATEDIFF(day, …)/365.25</code> or compare month and day as well.</p></div>
+<h3 id="useful-date-patterns">Useful date patterns</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Orders in the last 30 days</span>
+<span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-f">DATEADD</span>(day, -<span class="hl-n">30</span>, <span class="hl-f">CAST</span>(<span class="hl-f">GETDATE</span>() <span class="hl-k">AS</span> <span class="hl-k">DATE</span>))
+
+<span class="hl-c">-- First day of the month</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">DATEFROMPARTS</span>(<span class="hl-f">YEAR</span>(order_date), <span class="hl-f">MONTH</span>(order_date), <span class="hl-n">1</span>)   <span class="hl-c">-- or DATETRUNC(month, order_date)</span>
+
+<span class="hl-c">-- Indian financial year (April–March)</span>
+<span class="hl-k">SELECT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> <span class="hl-f">MONTH</span>(order_date) &gt;= <span class="hl-n">4</span> <span class="hl-k">THEN</span> <span class="hl-f">YEAR</span>(order_date) + <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-f">YEAR</span>(order_date) <span class="hl-k">END</span> <span class="hl-k">AS</span> fy
+
+<span class="hl-c">-- Month label for reports</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">FORMAT</span>(order_date, <span class="hl-s">&#x27;MMM-yyyy&#x27;</span>) <span class="hl-k">AS</span> month_label</code></pre></div>
+<h2 id="number-functions">Number functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ROUND(n, d)</code></td>
+<td><code>ROUND(1234.567, 1)</code></td>
+<td>1234.600</td>
+</tr>
+<tr>
+<td><code>ROUND(n, -2)</code></td>
+<td><code>ROUND(1234.567, -2)</code></td>
+<td>1200.000</td>
+</tr>
+<tr>
+<td><code>CEILING(n)</code></td>
+<td><code>CEILING(4.1)</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>FLOOR(n)</code></td>
+<td><code>FLOOR(4.9)</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>ABS(n)</code></td>
+<td><code>ABS(-250)</code></td>
+<td>250</td>
+</tr>
+<tr>
+<td><code>POWER(n, p)</code></td>
+<td><code>POWER(2, 10)</code></td>
+<td>1024</td>
+</tr>
+<tr>
+<td><code>SQRT(n)</code>, <code>SQUARE(n)</code></td>
+<td><code>SQRT(144)</code></td>
+<td>12</td>
+</tr>
+<tr>
+<td><code>SIGN(n)</code></td>
+<td><code>SIGN(-3)</code></td>
+<td>−1</td>
+</tr>
+<tr>
+<td><code>n % m</code></td>
+<td><code>17 % 5</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>RAND()</code></td>
+<td></td>
+<td>Random float 0–1</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> sub_category,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), -<span class="hl-n">3</span>)                <span class="hl-k">AS</span> sales_to_thousand,
+       <span class="hl-f">CEILING</span>(<span class="hl-f">SUM</span>(quantity) / <span class="hl-n">12.0</span>)        <span class="hl-k">AS</span> boxes_of_12,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales), <span class="hl-n">2</span>) <span class="hl-k">AS</span> margin_pct,
+       <span class="hl-f">ABS</span>(<span class="hl-f">SUM</span>(profit))                     <span class="hl-k">AS</span> abs_profit,
+       <span class="hl-f">SIGN</span>(<span class="hl-f">SUM</span>(profit))                    <span class="hl-k">AS</span> profit_sign
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> sub_category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> margin_pct;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>sub_category</th>
+      <th>sales_to_thousand</th>
+      <th>boxes_of_12</th>
+      <th>margin_pct</th>
+      <th>abs_profit</th>
+      <th>profit_sign</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tables</td>
+      <td>14,046,000</td>
+      <td>103</td>
+      <td>-5.81</td>
+      <td>816,042</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td>Bookcases</td>
+      <td>11,275,000</td>
+      <td>101</td>
+      <td>-3.75</td>
+      <td>422,786</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td>Chairs</td>
+      <td>8,091,000</td>
+      <td>110</td>
+      <td>4.23</td>
+      <td>342,043</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Furnishings</td>
+      <td>1,429,000</td>
+      <td>94</td>
+      <td>5.50</td>
+      <td>78,632</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Copiers</td>
+      <td>78,750,000</td>
+      <td>99</td>
+      <td>10.71</td>
+      <td>8,436,141</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Phones</td>
+      <td>31,919,000</td>
+      <td>110</td>
+      <td>11.48</td>
+      <td>3,663,117</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Accessories</td>
+      <td>3,179,000</td>
+      <td>98</td>
+      <td>11.63</td>
+      <td>369,554</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Machines</td>
+      <td>42,590,000</td>
+      <td>106</td>
+      <td>12.18</td>
+      <td>5,186,711</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Art</td>
+      <td>246,000</td>
+      <td>103</td>
+      <td>14.85</td>
+      <td>36,526</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Appliances</td>
+      <td>6,334,000</td>
+      <td>106</td>
+      <td>14.92</td>
+      <td>944,927</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Storage</td>
+      <td>2,659,000</td>
+      <td>107</td>
+      <td>14.94</td>
+      <td>397,228</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Paper</td>
+      <td>493,000</td>
+      <td>124</td>
+      <td>15.21</td>
+      <td>75,040</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">13 rows × 6 columns (first 12 shown)</div></div>
+<h2 id="converting-types-cast-convert-try_cast">Converting types: CAST, CONVERT, TRY_CAST</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CAST(x AS type)</code></td>
+<td><code>CAST('2026-04-27' AS DATE)</code></td>
+<td>ANSI standard</td>
+</tr>
+<tr>
+<td><code>CONVERT(type, x, style)</code></td>
+<td><code>CONVERT(VARCHAR(10), order_date, 103)</code> → 27/04/2026</td>
+<td>SQL Server; style codes format dates (103 = dd/mm/yyyy, 23 = yyyy-mm-dd)</td>
+</tr>
+<tr>
+<td><code>TRY_CAST(x AS type)</code></td>
+<td><code>TRY_CAST('abc' AS INT)</code> → NULL</td>
+<td>Returns NULL instead of an error: great for dirty data</td>
+</tr>
+<tr>
+<td><code>TRY_CONVERT</code>, <code>TRY_PARSE</code></td>
+<td></td>
+<td>Same idea</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Find rows where a text column does not contain a valid number</span>
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> staging_sales <span class="hl-k">WHERE</span> amount_text <span class="hl-k">IS</span> <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">AND</span> <span class="hl-f">TRY_CAST</span>(amount_text <span class="hl-k">AS</span> <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>,<span class="hl-n">2</span>)) <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div>
+<h2 id="conditional-functions-preview">Conditional functions (preview)</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COALESCE(a, b, …)</code></td>
+<td><code>COALESCE(phone, email, 'no contact')</code></td>
+</tr>
+<tr>
+<td><code>ISNULL(a, b)</code></td>
+<td><code>ISNULL(discount, 0)</code></td>
+</tr>
+<tr>
+<td><code>NULLIF(a, b)</code></td>
+<td><code>profit / NULLIF(sales, 0)</code></td>
+</tr>
+<tr>
+<td><code>IIF(cond, a, b)</code></td>
+<td><code>IIF(profit &lt; 0, 'Loss', 'Profit')</code></td>
+</tr>
+<tr>
+<td><code>CASE WHEN … END</code></td>
+<td>Multi-branch logic (Lesson 7)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">6</span> order_id, sales, profit,
+       <span class="hl-f">IIF</span>(profit &lt; <span class="hl-n">0</span>, <span class="hl-s">&#x27;Loss&#x27;</span>, <span class="hl-s">&#x27;Profit&#x27;</span>)          <span class="hl-k">AS</span> result,
+       <span class="hl-f">ROUND</span>(profit / <span class="hl-f">NULLIF</span>(sales, <span class="hl-n">0</span>) * <span class="hl-n">100</span>, <span class="hl-n">1</span>)  <span class="hl-k">AS</span> margin_pct
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>result</th>
+      <th>margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2025-03027</td>
+      <td>318,492</td>
+      <td>-75,874</td>
+      <td>Loss</td>
+      <td>-23.8</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00320</td>
+      <td>337,316</td>
+      <td>-67,393</td>
+      <td>Loss</td>
+      <td>-20.0</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00372</td>
+      <td>378,192</td>
+      <td>-59,796</td>
+      <td>Loss</td>
+      <td>-15.8</td>
+    </tr>
+    <tr>
+      <td>IN-2024-01335</td>
+      <td>194,160</td>
+      <td>-56,392</td>
+      <td>Loss</td>
+      <td>-29.0</td>
+    </tr>
+    <tr>
+      <td>IN-2025-02299</td>
+      <td>202,475</td>
+      <td>-46,375</td>
+      <td>Loss</td>
+      <td>-22.9</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00077</td>
+      <td>240,940</td>
+      <td>-45,712</td>
+      <td>Loss</td>
+      <td>-19.0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 5 columns</div></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Prompt: <em>"In SQL Server, write a query on superstore(order_id, order_date, ship_date, ship_mode) that returns the average and 90th percentile of days to ship by ship mode and quarter."</em> Expect it to use <code>DATEDIFF</code>, <code>DATEPART(quarter, …)</code> and <code>PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY …) OVER (PARTITION BY …)</code>, which you will meet with window functions in Lesson 12.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>Scalar</strong> functions work per row; <strong>aggregate</strong> functions summarise many rows.</li>
+<li><code>COUNT(*)</code> counts rows; <code>COUNT(col)</code> skips NULLs; <code>COUNT(DISTINCT col)</code> counts unique values; AVG ignores NULLs.</li>
+<li>Text: <code>LEN</code>, <code>LEFT/RIGHT/SUBSTRING</code>, <code>CHARINDEX</code>, <code>REPLACE</code>, <code>TRIM</code>, <code>UPPER/LOWER</code>, <code>CONCAT</code>, <code>STRING_AGG</code>, <code>STRING_SPLIT</code>.</li>
+<li>Dates: <code>YEAR/MONTH/DAY</code>, <code>DATEPART</code>, <code>DATENAME</code>, <code>DATEADD</code>, <code>DATEDIFF</code> (counts boundaries), <code>EOMONTH</code>, <code>DATEFROMPARTS</code>, <code>DATETRUNC</code>.</li>
+<li>Numbers: <code>ROUND</code> (negative digits round to tens/hundreds), <code>CEILING</code>, <code>FLOOR</code>, <code>ABS</code>, <code>POWER</code>, <code>SQRT</code>, <code>%</code>.</li>
+<li>Convert with <code>CAST</code>/<code>CONVERT</code>; use <code>TRY_CAST</code> on dirty data.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A column has values 10, NULL, 20. What does <code>AVG(col)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>10</button><button type="button" class="opt" data-ok="1"><i>B</i>15</button><button type="button" class="opt" data-ok="0"><i>C</i>30</button><button type="button" class="opt" data-ok="0"><i>D</i>NULL</button></div><div class="qexp"><b>Answer: B.</b> AVG ignores NULLs: (10 + 20) / 2 = 15.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>SUBSTRING('IN-2025-00042', 4, 4)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>IN-2</button><button type="button" class="opt" data-ok="1"><i>B</i>2025</button><button type="button" class="opt" data-ok="0"><i>C</i>0004</button><button type="button" class="opt" data-ok="0"><i>D</i>5-00</button></div><div class="qexp"><b>Answer: B.</b> Starting at position 4, take 4 characters.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which returns the number of days between order and ship dates?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>DATEPART(day, ship_date - order_date)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>DATEDIFF(day, order_date, ship_date)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>DATEADD(day, order_date, ship_date)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>DAY(ship_date) - DAY(order_date)</code></button></div><div class="qexp"><b>Answer: B.</b> DATEDIFF(datepart, start, end) counts the boundaries between the two dates.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>ROUND(45678.9, -3)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>45678.000</button><button type="button" class="opt" data-ok="0"><i>B</i>45679</button><button type="button" class="opt" data-ok="1"><i>C</i>46000.0</button><button type="button" class="opt" data-ok="0"><i>D</i>45000</button></div><div class="qexp"><b>Answer: C.</b> −3 rounds to the nearest thousand.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which function returns NULL instead of an error when text cannot be converted?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>CAST</button><button type="button" class="opt" data-ok="0"><i>B</i>CONVERT</button><button type="button" class="opt" data-ok="1"><i>C</i>TRY_CAST</button><button type="button" class="opt" data-ok="0"><i>D</i>ISNULL</button></div><div class="qexp"><b>Answer: C.</b> TRY_CAST and TRY_CONVERT return NULL on conversion failure.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which counts unique customers?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>COUNT(customer_id)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>COUNT(DISTINCT customer_id)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>SUM(DISTINCT customer_id)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>DISTINCT COUNT(customer_id)</code></button></div><div class="qexp"><b>Answer: B.</b> COUNT(DISTINCT …) counts distinct non-NULL values.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Function practice on Superstore</b></div><p>Write one query that returns, for each order year: the number of orders, the number of distinct customers, total sales rounded to the nearest lakh (100,000), the average days to ship, and a comma-separated list of the ship modes used.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> modes <span class="hl-k">AS</span> (                                   <span class="hl-c">-- one row per year and ship mode</span>
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> <span class="hl-f">YEAR</span>(order_date) <span class="hl-k">AS</span> order_year, ship_mode <span class="hl-k">FROM</span> orders
+),
+mode_list <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> order_year, <span class="hl-f">STRING_AGG</span>(ship_mode, <span class="hl-s">&#x27;, &#x27;</span>) <span class="hl-k">AS</span> ship_modes <span class="hl-k">FROM</span> modes <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> order_year
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">YEAR</span>(o.order_date)                                   <span class="hl-k">AS</span> order_year,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id)                           <span class="hl-k">AS</span> orders,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.customer_id)                        <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.sales), -<span class="hl-n">5</span>)                             <span class="hl-k">AS</span> sales_nearest_lakh,
+       <span class="hl-f">AVG</span>(<span class="hl-f">DATEDIFF</span>(day, o.order_date, o.ship_date) * <span class="hl-n">1.0</span>)  <span class="hl-k">AS</span> avg_days_to_ship,
+       <span class="hl-f">MAX</span>(m.ship_modes)                                    <span class="hl-k">AS</span> ship_modes
+<span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o
+<span class="hl-k">JOIN</span> order_items <span class="hl-k">AS</span> oi <span class="hl-k">ON</span> oi.order_id = o.order_id
+<span class="hl-k">JOIN</span> mode_list   <span class="hl-k">AS</span> m  <span class="hl-k">ON</span> m.order_year = <span class="hl-f">YEAR</span>(o.order_date)
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-f">YEAR</span>(o.order_date)
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_year;</code></pre></div>
+<p><code>STRING_AGG(DISTINCT …)</code> is not allowed in SQL Server, so the distinct ship modes are collected in a CTE first (CTEs are covered in Lesson 13). Note that averaging days to ship over order <em>lines</em> weights orders with more items more heavily; average over <code>orders</code> alone if each order should count once.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><em><em>Q: COUNT(<em>) vs COUNT(column) vs COUNT(DISTINCT column)?</em></em>
+COUNT(</em>) counts rows; COUNT(column) counts non-NULL values; COUNT(DISTINCT column) counts unique non-NULL values.</p>
+<p><strong>Q: How do you extract the domain from an email in SQL Server?</strong>
+<code>SUBSTRING(email, CHARINDEX('@', email) + 1, LEN(email))</code> or <code>RIGHT(email, LEN(email) - CHARINDEX('@', email))</code>.</p>
+<p><strong>Q: How do you get the last day of the previous month?</strong>
+<code>EOMONTH(GETDATE(), -1)</code>.</p>
+<p><strong>Q: Difference between CAST and CONVERT?</strong>
+CAST is ANSI standard; CONVERT is SQL Server-specific and accepts a style argument for date/number formatting.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-05-select-where-order-by-and-filtering-operators.html"><small>← Previous</small><b>SELECT, WHERE, ORDER BY &amp; Filtering Operators</b></a><a class="next" href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html"><small>Next →</small><b>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#two-kinds-of-functions">Two kinds of functions</a><a href="#aggregate-functions">Aggregate functions</a><a href="#text-string-functions">Text (string) functions</a><a href="#date-and-time-functions">Date and time functions</a><a href="#number-functions">Number functions</a><a href="#converting-types-cast-convert-try_cast">Converting types: CAST, CONVERT, TRY_CAST</a><a href="#conditional-functions-preview">Conditional functions (preview)</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v10"></script><script src="../assets/course.js?v=v10"></script></body></html>
