@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Statistics &amp; Machine Learning · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#0E9F8E"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 6</div><h1>Statistics &amp; Machine Learning</h1><p>Probability, CLT, hypothesis tests, the ML lifecycle, regression, classification, trees, ensembles, clustering, PCA, time series, NLP, deep learning basics, evaluation, explainability and deployment.</p>
-<div class="cv-m"><span>23 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li><a href="#L-ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li><a href="#L-ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li><a href="#L-ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li><a href="#L-ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li><a href="#L-ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li><a href="#L-ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li><a href="#L-ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li><a href="#L-ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li><a href="#L-ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li><a href="#L-ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li><a href="#L-ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li><a href="#L-ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li><a href="#L-ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li><a href="#L-ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li><a href="#L-ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li><a href="#L-ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li><a href="#L-ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li><a href="#L-ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li><a href="#L-ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li><a href="#L-ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li><a href="#L-ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li><a href="#L-ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li></ol></section><article class="lesson-art bk" id="L-ml-01"><div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 1</div><h1>Descriptive Statistics: Centre, Spread, Shape and Relationships</h1>
+<div class="cv-m"><span>24 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li><a href="#L-ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li><a href="#L-ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li><a href="#L-ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li><a href="#L-ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li><a href="#L-ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li><a href="#L-ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li><a href="#L-ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li><a href="#L-ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li><a href="#L-ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li><a href="#L-ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li><a href="#L-ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li><a href="#L-ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li><a href="#L-ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li><a href="#L-ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li><a href="#L-ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li><a href="#L-ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li><a href="#L-ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li><a href="#L-ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li><a href="#L-ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li><a href="#L-ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li><a href="#L-ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li><a href="#L-ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li><a href="#L-ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li></ol></section><article class="lesson-art bk" id="L-ml-01"><div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 1</div><h1>Descriptive Statistics: Centre, Spread, Shape and Relationships</h1>
 <p class="sum">Describe data with numbers before modelling it. Types of data and measurement scales, mean, median and mode, range, variance, standard deviation, IQR and coefficient of variation, percentiles and z-scores, skewness and kurtosis, covariance and correlation (Pearson and Spearman), all on the house-price and HR datasets.</p><div class="tags"><span class="tag live">● Python class 14</span><span class="tag new">✦ pandas 3 · SciPy 1.1x</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Classify variables as categorical (nominal, ordinal) or numeric (discrete, continuous; interval, ratio)</li><li>Compute and interpret mean, median, mode, weighted mean and trimmed mean</li><li>Compute and interpret range, IQR, variance, standard deviation and coefficient of variation</li><li>Use percentiles and z-scores and describe skewness and kurtosis</li><li>Measure association with covariance, Pearson and Spearman correlation, and explain why correlation is not causation</li></ul></div></div><div class="content"><h2 id="ml-01-statistics-in-data-science">Statistics in data science</h2>
 <p><strong>Descriptive statistics</strong> summarise the data you have. <strong>Inferential statistics</strong> use a sample to draw conclusions about a larger population (next lessons). Machine learning builds on both.</p>
@@ -4411,4 +4411,222 @@ K-means: fast, needs k, round clusters. Hierarchical: no k upfront, a full tree,
 <p><strong>Q: What is PCA and when would you use it?</strong>
 A linear transformation to uncorrelated components ordered by variance; used to compress correlated features, remove multicollinearity, speed up models and visualise data.</p>
 <p><strong>Q: How do you interpret principal components?</strong>
-Through their loadings: the weight of each original feature in the component, naming it after the features with the largest absolute weights.</p></div></div></article></body></html>
+Through their loadings: the weight of each original feature in the component, naming it after the features with the largest absolute weights.</p></div></div></article><article class="lesson-art bk" id="L-ml-24"><div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 24</div><h1>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</h1>
+<p class="sum">Forecast demand properly. Components of a time series (trend, seasonality, noise), decomposition with STL, stationarity and autocorrelation (ADF, ACF/PACF), honest baselines (naive, seasonal naive, moving average), exponential smoothing (Holt-Winters), SARIMA, machine learning with lag and calendar features, backtesting with forecast metrics (MAE, RMSE, MAPE, WAPE), prediction intervals, and a guide to Prophet, statsforecast and foundation models.</p><div class="tags"><span class="tag live">● ML track (added) · Power BI forecasting</span><span class="tag new">✦ statsmodels 0.1x · LightGBM 4</span><span class="tag">Advanced</span><span class="tag">⏱ 130 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Decompose a series into trend, seasonality and remainder and test stationarity</li><li>Read ACF and PACF plots and difference a series</li><li>Build and evaluate naive, seasonal naive, Holt-Winters and SARIMA forecasts</li><li>Engineer lag, rolling and calendar features and forecast with gradient boosting</li><li>Backtest with a time-ordered holdout, compare models with WAPE/MAPE and report intervals</li></ul></div></div><div class="content"><h2 id="ml-24-the-data">The data</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np, matplotlib.pyplot <span class="hl-k">as</span> plt, warnings
+<span class="hl-f">warnings.filterwarnings</span>(<span class="hl-s">&quot;ignore&quot;</span>)
+d = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;daily_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;date&quot;</span>]).<span class="hl-f">set_index</span>(<span class="hl-s">&quot;date&quot;</span>).<span class="hl-f">asfreq</span>(<span class="hl-s">&quot;D&quot;</span>)
+y = d.units_sold
+<span class="hl-f">print</span>(y.shape, <span class="hl-f">y.index.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">y.index.max</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;| missing days:&quot;</span>, <span class="hl-f">y.isna</span>().<span class="hl-f">sum</span>())
+<span class="hl-f">print</span>(<span class="hl-f">y.resample</span>(<span class="hl-s">&quot;YE&quot;</span>).<span class="hl-f">sum</span>().<span class="hl-f">to_dict</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;mean units by weekday:&quot;</span>, <span class="hl-f">y.groupby</span>(<span class="hl-f">y.index.day_name</span>()).<span class="hl-f">mean</span>().<span class="hl-f">round</span>(<span class="hl-n">0</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(1461,) 2022-01-01 to 2025-12-31 | missing days: 0
+{Timestamp(&#x27;2022-12-31 00:00:00&#x27;): 85031, Timestamp(&#x27;2023-12-31 00:00:00&#x27;): 100536, Timestamp(&#x27;2024-12-31 00:00:00&#x27;): 116798, Timestamp(&#x27;2025-12-31 00:00:00&#x27;): 132920}
+mean units by weekday: {&#x27;Friday&#x27;: 289.0, &#x27;Monday&#x27;: 288.0, &#x27;Saturday&#x27;: 320.0, &#x27;Sunday&#x27;: 323.0, &#x27;Thursday&#x27;: 288.0, &#x27;Tuesday&#x27;: 289.0, &#x27;Wednesday&#x27;: 287.0}</pre></div>
+<h2 id="ml-24-components-of-a-time-series">Components of a time series</h2>
+<figure class="fig"><img src="../img/ml-24-01.png" alt="STL decomposition of daily units into trend, weekly seasonality and remainder." loading="lazy"><figcaption>STL decomposition of daily units into trend, weekly seasonality and remainder.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Component</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trend</strong></td>
+<td>Long-term direction</td>
+<td>Sales growing about 15% a year</td>
+</tr>
+<tr>
+<td><strong>Seasonality</strong></td>
+<td>Repeating pattern with a fixed period</td>
+<td>Weekends higher; December peak; Diwali</td>
+</tr>
+<tr>
+<td><strong>Cycle</strong></td>
+<td>Longer, irregular rises and falls</td>
+<td>Economic cycles</td>
+</tr>
+<tr>
+<td><strong>Remainder / noise</strong></td>
+<td>What is left</td>
+<td>Random variation, one-off events</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">strength_trend = <span class="hl-f">max</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span> - <span class="hl-f">res.resid.var</span>() / (res.trend + res.resid).<span class="hl-f">var</span>())
+strength_season = <span class="hl-f">max</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span> - <span class="hl-f">res.resid.var</span>() / (res.seasonal + res.resid).<span class="hl-f">var</span>())
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;strength of trend {strength_trend:.2f} | strength of weekly seasonality {strength_season:.2f} (0 = none, 1 = very strong)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">strength of trend 0.95 | strength of weekly seasonality 0.64 (0 = none, 1 = very strong)</pre></div>
+<h2 id="ml-24-stationarity-and-autocorrelation">Stationarity and autocorrelation</h2>
+<p>Many classical models (ARIMA) need a <strong>stationary</strong> series: constant mean and variance over time. Trends and seasonality break that; <strong>differencing</strong> removes them.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> statsmodels.tsa.stattools <span class="hl-k">import</span> adfuller
+<span class="hl-k">for</span> name, s <span class="hl-k">in</span> [(<span class="hl-s">&quot;original&quot;</span>, y), (<span class="hl-s">&quot;first difference&quot;</span>, <span class="hl-f">y.diff</span>()), (<span class="hl-s">&quot;first + weekly difference&quot;</span>, <span class="hl-f">y.diff</span>().<span class="hl-f">diff</span>(<span class="hl-n">7</span>))]:
+    stat, p = <span class="hl-f">adfuller</span>(<span class="hl-f">s.dropna</span>())[:<span class="hl-n">2</span>]
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:26s} ADF p-value {p:.4f} → {&#x27;stationary&#x27; if p &lt; 0.05 else &#x27;NOT stationary&#x27;}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">original                   ADF p-value 0.4455 → NOT stationary
+first difference           ADF p-value 0.0000 → stationary
+first + weekly difference  ADF p-value 0.0000 → stationary</pre></div>
+<figure class="fig"><img src="../img/ml-24-02.png" alt="Autocorrelation (ACF) and partial autocorrelation (PACF) of the differenced series. Spikes at lags 7, 14, 21 reveal weekly seasonality." loading="lazy"><figcaption>Autocorrelation (ACF) and partial autocorrelation (PACF) of the differenced series. Spikes at lags 7, 14, 21 reveal weekly seasonality.</figcaption></figure>
+<p><strong>ACF</strong> shows correlation with past values at each lag; <strong>PACF</strong> shows the direct effect of each lag after removing shorter ones. They guide the AR and MA orders of ARIMA models.</p>
+<h2 id="ml-24-traintest-split-in-time">Train/test split in time</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">h = <span class="hl-n">90</span>                                                     <span class="hl-c"># forecast horizon: the last 90 days</span>
+train, test = y.iloc[:-h], y.iloc[-h:]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;train {train.index.min().date()}–{train.index.max().date()} ({len(train)} days) | test {test.index.min().date()}–{test.index.max().date()}&quot;</span>)
+<span class="hl-k">def</span> <span class="hl-f">metrics</span>(actual, fc):
+    e = actual - fc
+    <span class="hl-k">return</span> {<span class="hl-s">&quot;MAE&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-f">e.abs</span>().<span class="hl-f">mean</span>()), <span class="hl-n">1</span>), <span class="hl-s">&quot;RMSE&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>((e ** <span class="hl-n">2</span>).<span class="hl-f">mean</span>() ** .<span class="hl-n">5</span>), <span class="hl-n">1</span>), <span class="hl-s">&quot;MAPE_%&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-n">100</span> * (<span class="hl-f">e.abs</span>() / actual).<span class="hl-f">mean</span>()), <span class="hl-n">2</span>),
+            <span class="hl-s">&quot;WAPE_%&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-n">100</span> * <span class="hl-f">e.abs</span>().<span class="hl-f">sum</span>() / <span class="hl-f">actual.sum</span>()), <span class="hl-n">2</span>), <span class="hl-s">&quot;bias_%&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-n">100</span> * -<span class="hl-f">e.sum</span>() / <span class="hl-f">actual.sum</span>()), <span class="hl-n">2</span>)}      <span class="hl-c"># bias &gt; 0 = over-forecast</span>
+results, forecasts = {}, {}</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">train 2022-01-01–2025-10-02 (1371 days) | test 2025-10-03–2025-12-31</pre></div>
+<p>Never shuffle time series: always train on the past and test on the future.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAE / RMSE</td>
+<td>Error in units; RMSE punishes big misses</td>
+</tr>
+<tr>
+<td>MAPE</td>
+<td>Percentage error; breaks when actuals are near zero</td>
+</tr>
+<tr>
+<td><strong>WAPE</strong></td>
+<td>Total absolute error ÷ total actuals; robust, preferred in retail</td>
+</tr>
+<tr>
+<td>Bias</td>
+<td>Systematic over- or under-forecasting (stock-outs vs excess inventory)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="ml-24-baselines">Baselines</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">forecasts[<span class="hl-s">&quot;naive&quot;</span>] = <span class="hl-f">pd.Series</span>(train.iloc[-<span class="hl-n">1</span>], index=test.index)
+forecasts[<span class="hl-s">&quot;seasonal naive (last week)&quot;</span>] = <span class="hl-f">pd.Series</span>(<span class="hl-f">np.tile</span>(train.iloc[-<span class="hl-n">7</span>:].values, h // <span class="hl-n">7</span> + <span class="hl-n">1</span>)[:h], index=test.index)
+forecasts[<span class="hl-s">&quot;moving average (28 days)&quot;</span>] = <span class="hl-f">pd.Series</span>(train.iloc[-<span class="hl-n">28</span>:].<span class="hl-f">mean</span>(), index=test.index)
+<span class="hl-k">for</span> k, f <span class="hl-k">in</span> <span class="hl-f">forecasts.items</span>(): results[k] = <span class="hl-f">metrics</span>(test, f)
+<span class="hl-f">print</span>(<span class="hl-f">pd.DataFrame</span>(results).T)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                             MAE  RMSE  MAPE_%  WAPE_%  bias_%
+naive                       19.1  22.4    5.36    5.31    1.79
+seasonal naive (last week)  14.9  19.1    4.23    4.14    2.35
+moving average (28 days)    20.9  23.9    5.92    5.81    2.96</pre></div>
+<p>The <strong>seasonal naive</strong> forecast ("same as last week") is the baseline every serious model must beat.</p>
+<h2 id="ml-24-exponential-smoothing-holt-winters-ets">Exponential smoothing (Holt-Winters / ETS)</h2>
+<p>ETS forecasts are weighted averages of past observations, with weights decaying exponentially, plus components for <strong>level, trend and seasonality</strong>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> statsmodels.tsa.holtwinters <span class="hl-k">import</span> ExponentialSmoothing
+ets = <span class="hl-f">ExponentialSmoothing</span>(train, trend=<span class="hl-s">&quot;add&quot;</span>, damped_trend=<span class="hl-k">True</span>, seasonal=<span class="hl-s">&quot;mul&quot;</span>, seasonal_periods=<span class="hl-n">7</span>).<span class="hl-f">fit</span>(optimized=<span class="hl-k">True</span>)
+forecasts[<span class="hl-s">&quot;Holt-Winters (ETS)&quot;</span>] = <span class="hl-f">ets.forecast</span>(h); results[<span class="hl-s">&quot;Holt-Winters (ETS)&quot;</span>] = <span class="hl-f">metrics</span>(test, forecasts[<span class="hl-s">&quot;Holt-Winters (ETS)&quot;</span>])
+<span class="hl-f">print</span>({k: <span class="hl-f">round</span>(<span class="hl-f">float</span>(v), <span class="hl-n">3</span>) <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">ets.params.items</span>() <span class="hl-k">if</span> k <span class="hl-k">in</span> (<span class="hl-s">&quot;smoothing_level&quot;</span>, <span class="hl-s">&quot;smoothing_trend&quot;</span>, <span class="hl-s">&quot;smoothing_seasonal&quot;</span>, <span class="hl-s">&quot;damping_trend&quot;</span>)})
+<span class="hl-f">print</span>(results[<span class="hl-s">&quot;Holt-Winters (ETS)&quot;</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;smoothing_level&#x27;: 0.054, &#x27;smoothing_trend&#x27;: 0.054, &#x27;smoothing_seasonal&#x27;: 0.036, &#x27;damping_trend&#x27;: 0.989}
+{&#x27;MAE&#x27;: 10.4, &#x27;RMSE&#x27;: 12.8, &#x27;MAPE_%&#x27;: 2.92, &#x27;WAPE_%&#x27;: 2.88, &#x27;bias_%&#x27;: 0.34}</pre></div>
+<h2 id="ml-24-sarima">SARIMA</h2>
+<p><strong>ARIMA(p, d, q)</strong> combines autoregression (p past values), differencing (d) and moving average of past errors (q). <strong>SARIMA</strong> adds seasonal terms (P, D, Q, s).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> statsmodels.tsa.statespace.sarimax <span class="hl-k">import</span> SARIMAX
+sar = <span class="hl-f">SARIMAX</span>(train, order=(<span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>), seasonal_order=(<span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">7</span>)).<span class="hl-f">fit</span>(disp=<span class="hl-k">False</span>)
+fc = <span class="hl-f">sar.get_forecast</span>(h); forecasts[<span class="hl-s">&quot;SARIMA(1,1,1)(1,1,1,7)&quot;</span>] = fc.predicted_mean; ci = <span class="hl-f">fc.conf_int</span>(alpha=<span class="hl-n">0.05</span>)
+results[<span class="hl-s">&quot;SARIMA(1,1,1)(1,1,1,7)&quot;</span>] = <span class="hl-f">metrics</span>(test, forecasts[<span class="hl-s">&quot;SARIMA(1,1,1)(1,1,1,7)&quot;</span>])
+inside = ((test &gt;= ci.iloc[:, <span class="hl-n">0</span>]) &amp; (test &lt;= ci.iloc[:, <span class="hl-n">1</span>])).<span class="hl-f">mean</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;AIC {sar.aic:.0f} | {results[&#x27;SARIMA(1,1,1)(1,1,1,7)&#x27;]} | 95% interval covers {inside:.0%} of test days&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">AIC 11298 | {&#x27;MAE&#x27;: 16.9, &#x27;RMSE&#x27;: 20.2, &#x27;MAPE_%&#x27;: 4.82, &#x27;WAPE_%&#x27;: 4.69, &#x27;bias_%&#x27;: 4.06} | 95% interval covers 96% of test days</pre></div>
+<p>Use <code>pmdarima.auto_arima</code> or <code>statsforecast.AutoARIMA</code> to search orders automatically by AIC.</p>
+<h2 id="ml-24-machine-learning-with-lag-features">Machine learning with lag features</h2>
+<p>Turn forecasting into regression: predict today's value from <strong>lags</strong> (same day last week), <strong>rolling statistics</strong> and <strong>calendar</strong> features.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> lightgbm <span class="hl-k">as</span> lgb
+<span class="hl-k">def</span> <span class="hl-f">make_features</span>(s):
+    f = <span class="hl-f">pd.DataFrame</span>(index=s.index)
+    f[<span class="hl-s">&quot;dow&quot;</span>] = s.index.dayofweek; f[<span class="hl-s">&quot;month&quot;</span>] = s.index.month; f[<span class="hl-s">&quot;dayofyear&quot;</span>] = s.index.dayofyear; f[<span class="hl-s">&quot;t&quot;</span>] = <span class="hl-f">np.arange</span>(<span class="hl-f">len</span>(s))
+    <span class="hl-k">for</span> lag <span class="hl-k">in</span> (<span class="hl-n">7</span>, <span class="hl-n">14</span>, <span class="hl-n">21</span>, <span class="hl-n">28</span>, <span class="hl-n">364</span>): f[<span class="hl-s">f&quot;lag_{lag}&quot;</span>] = <span class="hl-f">s.shift</span>(lag)
+    f[<span class="hl-s">&quot;roll_mean_28_lag7&quot;</span>] = <span class="hl-f">s.shift</span>(<span class="hl-n">7</span>).<span class="hl-f">rolling</span>(<span class="hl-n">28</span>).<span class="hl-f">mean</span>(); f[<span class="hl-s">&quot;roll_std_28_lag7&quot;</span>] = <span class="hl-f">s.shift</span>(<span class="hl-n">7</span>).<span class="hl-f">rolling</span>(<span class="hl-n">28</span>).<span class="hl-f">std</span>()
+    <span class="hl-k">return</span> f
+F = <span class="hl-f">make_features</span>(y)
+Xtr, ytr = F.loc[train.index].<span class="hl-f">dropna</span>(), train.loc[F.loc[train.index].<span class="hl-f">dropna</span>().index]
+model = <span class="hl-f">lgb.LGBMRegressor</span>(n_estimators=<span class="hl-n">600</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">15</span>, min_child_samples=<span class="hl-n">20</span>, verbose=-<span class="hl-n">1</span>, random_state=<span class="hl-n">0</span>, linear_tree=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(Xtr, ytr)</code></pre></div>
+<p>Lags are at least 7 days, so the model can forecast up to a week ahead without knowing the in-between values. For a 90-day horizon we forecast <strong>recursively</strong>: predict a week, feed predictions back as lags, repeat.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">hist = <span class="hl-f">train.copy</span>()
+<span class="hl-k">for</span> day <span class="hl-k">in</span> test.index:
+    s = <span class="hl-f">pd.concat</span>([hist, <span class="hl-f">pd.Series</span>([np.nan], index=[day])])
+    hist.loc[day] = <span class="hl-f">model.predict</span>(<span class="hl-f">make_features</span>(s).iloc[[-<span class="hl-n">1</span>]])[<span class="hl-n">0</span>]
+forecasts[<span class="hl-s">&quot;LightGBM (lags, recursive)&quot;</span>] = hist.loc[test.index]; results[<span class="hl-s">&quot;LightGBM (lags, recursive)&quot;</span>] = <span class="hl-f">metrics</span>(test, forecasts[<span class="hl-s">&quot;LightGBM (lags, recursive)&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-f">pd.DataFrame</span>(results).<span class="hl-f">T.sort_values</span>(<span class="hl-s">&quot;WAPE_%&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                             MAE  RMSE  MAPE_%  WAPE_%  bias_%
+Holt-Winters (ETS)          10.4  12.8    2.92    2.88    0.34
+seasonal naive (last week)  14.9  19.1    4.23    4.14    2.35
+SARIMA(1,1,1)(1,1,1,7)      16.9  20.2    4.82    4.69    4.06
+naive                       19.1  22.4    5.36    5.31    1.79
+moving average (28 days)    20.9  23.9    5.92    5.81    2.96
+LightGBM (lags, recursive)  21.1  27.4    6.01    5.86    4.53</pre></div>
+<p>Holt-Winters wins clearly here (WAPE under 3%, almost no bias), while this LightGBM set-up does worse than the seasonal naive baseline. Two reasons: errors <strong>accumulate</strong> when 90 days are forecast recursively from the model's own predictions, and with a single, smooth series there is little for a tree model to learn that ETS does not already capture. ML models shine with <strong>many related series</strong> and <strong>external drivers</strong> (prices, promotions, weather, holidays). The lesson: always benchmark against simple models.</p>
+<figure class="fig"><img src="../img/ml-24-03.png" alt="The last 120 days of training data, the 90-day test period and three forecasts." loading="lazy"><figcaption>The last 120 days of training data, the 90-day test period and three forecasts.</figcaption></figure>
+<h2 id="ml-24-backtesting">Backtesting</h2>
+<p>One holdout can be lucky. <strong>Rolling-origin backtests</strong> repeat the exercise from several start dates.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">origins = [<span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-03-31&quot;</span>), <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-06-30&quot;</span>), <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-09-30&quot;</span>)]
+rows = []
+<span class="hl-k">for</span> o <span class="hl-k">in</span> origins:
+    tr, te = y.loc[:o], y.loc[o + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">1</span>): o + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">28</span>)]
+    snaive = <span class="hl-f">pd.Series</span>(<span class="hl-f">np.tile</span>(tr.iloc[-<span class="hl-n">7</span>:].values, <span class="hl-n">5</span>)[:<span class="hl-f">len</span>(te)], index=te.index)
+    ets_o = <span class="hl-f">ExponentialSmoothing</span>(tr, trend=<span class="hl-s">&quot;add&quot;</span>, damped_trend=<span class="hl-k">True</span>, seasonal=<span class="hl-s">&quot;mul&quot;</span>, seasonal_periods=<span class="hl-n">7</span>).<span class="hl-f">fit</span>().<span class="hl-f">forecast</span>(<span class="hl-f">len</span>(te))
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;origin&quot;</span>: <span class="hl-f">o.date</span>(), <span class="hl-s">&quot;seasonal naive WAPE&quot;</span>: <span class="hl-f">metrics</span>(te, snaive)[<span class="hl-s">&quot;WAPE_%&quot;</span>], <span class="hl-s">&quot;ETS WAPE&quot;</span>: <span class="hl-f">metrics</span>(te, ets_o)[<span class="hl-s">&quot;WAPE_%&quot;</span>]})
+bt = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">bt.to_string</span>(index=<span class="hl-k">False</span>)); <span class="hl-f">print</span>(<span class="hl-s">&quot;mean:&quot;</span>, <span class="hl-f">bt.drop</span>(columns=<span class="hl-s">&quot;origin&quot;</span>).<span class="hl-f">mean</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">    origin  seasonal naive WAPE  ETS WAPE
+2025-03-31                 4.44      3.21
+2025-06-30                 4.04      4.23
+2025-09-30                 3.08      2.92
+mean: {&#x27;seasonal naive WAPE&#x27;: 3.85, &#x27;ETS WAPE&#x27;: 3.45}</pre></div>
+<h2 id="ml-24-tools-and-practice">Tools and practice</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Tool</th>
+<th>Strength</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>statsmodels</td>
+<td>ETS, SARIMA(X), decomposition, diagnostics</td>
+</tr>
+<tr>
+<td>statsforecast (Nixtla)</td>
+<td>Very fast AutoARIMA/AutoETS for thousands of series</td>
+</tr>
+<tr>
+<td>Prophet</td>
+<td>Trend + seasonality + holidays with intuitive settings</td>
+</tr>
+<tr>
+<td>LightGBM / XGBoost with lags</td>
+<td>Many related series, external drivers (price, promotions, weather)</td>
+</tr>
+<tr>
+<td>Deep learning (N-BEATS, TFT) and foundation models (TimeGPT, Chronos, TimesFM)</td>
+<td>Large collections of series, zero-shot forecasts</td>
+</tr>
+<tr>
+<td>Excel / Power BI forecast</td>
+<td>Quick ETS forecasts for business users</td>
+</tr>
+</tbody>
+</table></div>
+<p>Practical tips: forecast at the level decisions are made (store × product × week), add known future drivers (holidays, promotions, prices), forecast intervals not just points, monitor bias, and combine forecasts (an average of ETS and ML often beats both).</p>
+<h2 id="ml-24-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Decompose series into trend, seasonality and remainder (STL); difference to make them stationary (ADF test); read ACF/PACF.</li>
+<li>Split by time; evaluate with MAE, RMSE, MAPE, WAPE and bias; always beat the seasonal naive baseline.</li>
+<li>Holt-Winters (ETS) models level, trend and seasonality; SARIMA models autocorrelation and seasonal differences, with prediction intervals.</li>
+<li>Gradient boosting with lag, rolling and calendar features is a strong approach, especially with many series and external drivers; forecast recursively for long horizons.</li>
+<li>Backtest from several origins and choose by business metrics.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-24-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which baseline must every daily retail forecast beat?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The overall mean</button><button type="button" class="opt" data-ok="1"><i>B</i>Seasonal naive: the same day last week</button><button type="button" class="opt" data-ok="0"><i>C</i>A random forecast</button><button type="button" class="opt" data-ok="0"><i>D</i>Zero</button></div><div class="qexp"><b>Answer: B.</b> It captures weekly seasonality for free.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does differencing do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Removes trend (and with a seasonal lag, seasonality) to make the series stationary</button><button type="button" class="opt" data-ok="0"><i>B</i>Smooths noise</button><button type="button" class="opt" data-ok="0"><i>C</i>Adds seasonality</button><button type="button" class="opt" data-ok="0"><i>D</i>Scales values</button></div><div class="qexp"><b>Answer: A.</b> y_t − y_(t−1).</div></div><div class="qq"><p class="qtext"><b>3.</b> Why is WAPE often preferred to MAPE?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It does not explode when individual actuals are near zero and weights by volume</button><button type="button" class="opt" data-ok="0"><i>B</i>It is always smaller</button><button type="button" class="opt" data-ok="0"><i>C</i>It ignores errors</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required by statsmodels</button></div><div class="qexp"><b>Answer: A.</b> Total absolute error / total actuals.</div></div><div class="qq"><p class="qtext"><b>4.</b> In SARIMA(1,1,1)(1,1,1,7), what is 7?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The seasonal period (weekly seasonality on daily data)</button><button type="button" class="opt" data-ok="0"><i>B</i>The number of lags</button><button type="button" class="opt" data-ok="0"><i>C</i>The horizon</button><button type="button" class="opt" data-ok="0"><i>D</i>The number of models</button></div><div class="qexp"><b>Answer: A.</b> s = 7.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why shouldn't you shuffle data when validating forecasts?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It would train on the future and give over-optimistic results</button><button type="button" class="opt" data-ok="0"><i>B</i>It is slower</button><button type="button" class="opt" data-ok="0"><i>C</i>It changes the target</button><button type="button" class="opt" data-ok="0"><i>D</i>It breaks pandas</button></div><div class="qexp"><b>Answer: A.</b> Always validate forward in time.</div></div><div class="qq"><p class="qtext"><b>6.</b> A lag-7 feature allows a model to forecast how many days ahead directly?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Up to 7 days</button><button type="button" class="opt" data-ok="0"><i>B</i>1 day only</button><button type="button" class="opt" data-ok="0"><i>C</i>90 days</button><button type="button" class="opt" data-ok="0"><i>D</i>Any horizon</button></div><div class="qexp"><b>Answer: A.</b> Beyond that, forecast recursively or use direct models.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Aggregate to weekly totals and forecast 12 weeks with Holt-Winters (seasonal period 52 needs 2+ years of data). (2) Add a Diwali/holiday flag feature to the LightGBM model. (3) Average the ETS and SARIMA forecasts: does the WAPE improve?</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">wk = <span class="hl-f">y.resample</span>(<span class="hl-s">&quot;W-SUN&quot;</span>).<span class="hl-f">sum</span>().iloc[<span class="hl-n">1</span>:-<span class="hl-n">1</span>]
+ewk = <span class="hl-f">ExponentialSmoothing</span>(wk.iloc[:-<span class="hl-n">12</span>], trend=<span class="hl-s">&quot;add&quot;</span>, seasonal=<span class="hl-s">&quot;add&quot;</span>, seasonal_periods=<span class="hl-n">52</span>).<span class="hl-f">fit</span>().<span class="hl-f">forecast</span>(<span class="hl-n">12</span>)
+<span class="hl-f">print</span>(<span class="hl-f">metrics</span>(wk.iloc[-<span class="hl-n">12</span>:], ewk))
+combo = (forecasts[<span class="hl-s">&quot;Holt-Winters (ETS)&quot;</span>] + forecasts[<span class="hl-s">&quot;SARIMA(1,1,1)(1,1,1,7)&quot;</span>]) / <span class="hl-n">2</span>; <span class="hl-f">print</span>(<span class="hl-f">metrics</span>(test, combo))
+diwali = <span class="hl-f">pd.to_datetime</span>([<span class="hl-s">&quot;2022-10-24&quot;</span>, <span class="hl-s">&quot;2023-11-12&quot;</span>, <span class="hl-s">&quot;2024-11-01&quot;</span>, <span class="hl-s">&quot;2025-10-20&quot;</span>])
+F[<span class="hl-s">&quot;festive&quot;</span>] = [<span class="hl-f">int</span>(<span class="hl-f">any</span>(<span class="hl-f">abs</span>((d - x).days) &lt;= <span class="hl-n">3</span> <span class="hl-k">for</span> x <span class="hl-k">in</span> diwali)) <span class="hl-k">for</span> d <span class="hl-k">in</span> F.index]</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you forecast sales for 5,000 products in 200 stores?</strong>
+Hierarchical, automated approach: a global gradient-boosting model with lags, calendar, price and promotion features (or fast AutoETS per series), backtesting by store-product, reconciliation across levels, and monitoring of bias and accuracy.</p>
+<p><strong>Q: What is stationarity and why does it matter?</strong>
+Constant statistical properties over time; ARIMA-type models assume it, so we difference or transform the series first.</p>
+<p><strong>Q: How do you evaluate a forecasting model?</strong>
+Time-ordered holdout or rolling-origin backtests with MAE/WAPE and bias, comparison with a seasonal naive baseline, and checking prediction-interval coverage.</p></div></div></article></body></html>
