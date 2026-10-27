@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Statistics &amp; Machine Learning · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#0E9F8E"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 6</div><h1>Statistics &amp; Machine Learning</h1><p>Probability, CLT, hypothesis tests, the ML lifecycle, regression, classification, trees, ensembles, clustering, PCA, time series, NLP, deep learning basics, evaluation, explainability and deployment.</p>
-<div class="cv-m"><span>20 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li><a href="#L-ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li><a href="#L-ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li><a href="#L-ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li><a href="#L-ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li><a href="#L-ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li><a href="#L-ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li><a href="#L-ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li><a href="#L-ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li><a href="#L-ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li><a href="#L-ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li><a href="#L-ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li><a href="#L-ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li><a href="#L-ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li><a href="#L-ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li><a href="#L-ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li><a href="#L-ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li><a href="#L-ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li><a href="#L-ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li><a href="#L-ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li></ol></section><article class="lesson-art bk" id="L-ml-01"><div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 1</div><h1>Descriptive Statistics: Centre, Spread, Shape and Relationships</h1>
+<div class="cv-m"><span>21 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li><a href="#L-ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li><a href="#L-ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li><a href="#L-ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li><a href="#L-ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li><a href="#L-ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li><a href="#L-ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li><a href="#L-ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li><a href="#L-ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li><a href="#L-ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li><a href="#L-ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li><a href="#L-ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li><a href="#L-ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li><a href="#L-ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li><a href="#L-ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li><a href="#L-ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li><a href="#L-ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li><a href="#L-ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li><a href="#L-ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li><a href="#L-ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li><a href="#L-ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li></ol></section><article class="lesson-art bk" id="L-ml-01"><div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 1</div><h1>Descriptive Statistics: Centre, Spread, Shape and Relationships</h1>
 <p class="sum">Describe data with numbers before modelling it. Types of data and measurement scales, mean, median and mode, range, variance, standard deviation, IQR and coefficient of variation, percentiles and z-scores, skewness and kurtosis, covariance and correlation (Pearson and Spearman), all on the house-price and HR datasets.</p><div class="tags"><span class="tag live">● Python class 14</span><span class="tag new">✦ pandas 3 · SciPy 1.1x</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Classify variables as categorical (nominal, ordinal) or numeric (discrete, continuous; interval, ratio)</li><li>Compute and interpret mean, median, mode, weighted mean and trimmed mean</li><li>Compute and interpret range, IQR, variance, standard deviation and coefficient of variation</li><li>Use percentiles and z-scores and describe skewness and kurtosis</li><li>Measure association with covariance, Pearson and Spearman correlation, and explain why correlation is not causation</li></ul></div></div><div class="content"><h2 id="ml-01-statistics-in-data-science">Statistics in data science</h2>
 <p><strong>Descriptive statistics</strong> summarise the data you have. <strong>Inferential statistics</strong> use a sample to draw conclusions about a larger population (next lessons). Machine learning builds on both.</p>
@@ -3816,4 +3816,180 @@ It lets an algorithm that depends only on dot products work in a high-dimensiona
 <p><strong>Q: SVM vs logistic regression?</strong>
 Both can learn linear boundaries; logistic regression gives probabilities and optimises log loss; SVMs maximise the margin with hinge loss and extend to non-linear boundaries with kernels, but scale worse to large datasets.</p>
 <p><strong>Q: Why does Naive Bayes work well for spam detection despite its assumption?</strong>
-Classification only needs the correct class to have the highest score; with many weakly informative words, the independence errors largely cancel out, and the model is fast and robust with little data.</p></div></div></article></body></html>
+Classification only needs the correct class to have the highest score; with many weakly informative words, the independence errors largely cancel out, and the model is fast and robust with little data.</p></div></div></article><article class="lesson-art bk" id="L-ml-21"><div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 21</div><h1>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</h1>
+<p class="sum">Most valuable classification problems are rare-event problems (fraud, defaults, churn, failures). Learn why accuracy and naive training fail, the right metrics (PR-AUC, recall at fixed precision, cost), class weights, undersampling, oversampling and SMOTE inside pipelines, threshold moving, and anomaly-detection alternatives, on a synthetic card-fraud dataset with about 1.4% fraud.</p><div class="tags"><span class="tag live">● ML track (added)</span><span class="tag new">✦ scikit-learn 1.7+ · imbalanced-learn 0.1x</span><span class="tag">Advanced</span><span class="tag">⏱ 110 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Recognise imbalanced problems and the metrics that work for them</li><li>Apply class_weight and scale_pos_weight to make models pay attention to the rare class</li><li>Use random undersampling, oversampling and SMOTE correctly inside cross-validation</li><li>Move the decision threshold to meet a business constraint (alert capacity, cost, minimum precision)</li><li>Use Isolation Forest when labels are scarce</li></ul></div></div><div class="content"><h2 id="ml-21-a-rare-event-problem">A rare-event problem</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">7</span>); n = <span class="hl-n">20000</span>
+df = <span class="hl-f">pd.DataFrame</span>({
+    <span class="hl-s">&quot;amount&quot;</span>: <span class="hl-f">np.round</span>(<span class="hl-f">rng.lognormal</span>(<span class="hl-n">7</span>, <span class="hl-n">1.1</span>, n), <span class="hl-n">0</span>),                      <span class="hl-c"># rupees</span>
+    <span class="hl-s">&quot;hour&quot;</span>: <span class="hl-f">rng.integers</span>(<span class="hl-n">0</span>, <span class="hl-n">24</span>, n),
+    <span class="hl-s">&quot;km_from_home&quot;</span>: <span class="hl-f">np.round</span>(<span class="hl-f">rng.exponential</span>(<span class="hl-n">8</span>, n), <span class="hl-n">1</span>),
+    <span class="hl-s">&quot;new_merchant&quot;</span>: <span class="hl-f">rng.random</span>(n) &lt; <span class="hl-n">0.15</span>,
+    <span class="hl-s">&quot;online&quot;</span>: <span class="hl-f">rng.random</span>(n) &lt; <span class="hl-n">0.45</span>,
+    <span class="hl-s">&quot;txns_last_24h&quot;</span>: <span class="hl-f">rng.poisson</span>(<span class="hl-n">2</span>, n),
+    <span class="hl-s">&quot;card_age_days&quot;</span>: <span class="hl-f">rng.integers</span>(<span class="hl-n">10</span>, <span class="hl-n">3000</span>, n),
+})
+night = <span class="hl-f">df.hour.isin</span>([<span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>])
+score = (-<span class="hl-n">8.4</span> + <span class="hl-n">1.35</span> * <span class="hl-f">np.log1p</span>(df.amount / <span class="hl-n">1000</span>) + <span class="hl-n">1.5</span> * night + <span class="hl-n">0.075</span> * df.km_from_home + <span class="hl-n">1.5</span> * df.new_merchant + <span class="hl-n">0.75</span> * df.online
+         + <span class="hl-n">0.5</span> * df.txns_last_24h - <span class="hl-n">0.00135</span> * df.card_age_days + <span class="hl-n">3.3</span> * (night &amp; (df.online == <span class="hl-n">1</span>) &amp; (df.new_merchant == <span class="hl-n">1</span>))      <span class="hl-c"># risky combination</span>
+         + <span class="hl-n">2.2</span> * (df.txns_last_24h &gt;= <span class="hl-n">6</span>) + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">4</span>, n))
+df[<span class="hl-s">&quot;fraud&quot;</span>] = (<span class="hl-f">rng.random</span>(n) &lt; <span class="hl-n">1</span> / (<span class="hl-n">1</span> + <span class="hl-f">np.exp</span>(-score))).<span class="hl-f">astype</span>(int)
+df[[<span class="hl-s">&quot;new_merchant&quot;</span>, <span class="hl-s">&quot;online&quot;</span>]] = df[[<span class="hl-s">&quot;new_merchant&quot;</span>, <span class="hl-s">&quot;online&quot;</span>]].<span class="hl-f">astype</span>(int)
+<span class="hl-f">print</span>(df.shape, <span class="hl-s">f&quot;fraud rate {df.fraud.mean():.2%} ({df.fraud.sum()} frauds)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;fraud&quot;</span>)[[<span class="hl-s">&quot;amount&quot;</span>, <span class="hl-s">&quot;km_from_home&quot;</span>, <span class="hl-s">&quot;new_merchant&quot;</span>, <span class="hl-s">&quot;online&quot;</span>, <span class="hl-s">&quot;txns_last_24h&quot;</span>, <span class="hl-s">&quot;card_age_days&quot;</span>]].<span class="hl-f">median</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(20000, 8) fraud rate 1.38% (276 frauds)
+       amount  km_from_home  new_merchant  online  txns_last_24h  card_age_days
+fraud                                                                          
+0      1074.5          5.50           0.0     0.0            2.0         1524.0
+1      2118.0          8.85           1.0     1.0            3.0          744.5</pre></div>
+<p>With about 1.4% fraud, a model that <strong>never</strong> flags fraud is 98.6% accurate and completely useless.</p>
+<h2 id="ml-21-the-right-metrics">The right metrics</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split, StratifiedKFold, cross_val_score
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> accuracy_score, recall_score, precision_score, roc_auc_score, average_precision_score, confusion_matrix
+X, y = <span class="hl-f">df.drop</span>(columns=<span class="hl-s">&quot;fraud&quot;</span>), df.fraud
+X[<span class="hl-s">&quot;log_amount&quot;</span>] = <span class="hl-f">np.log1p</span>(X.amount); X[<span class="hl-s">&quot;night&quot;</span>] = <span class="hl-f">X.hour.isin</span>([<span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>]).<span class="hl-f">astype</span>(int)
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(X, y, test_size=<span class="hl-n">0.3</span>, stratify=y, random_state=<span class="hl-n">0</span>)
+<span class="hl-k">def</span> <span class="hl-f">report</span>(name, model, t=<span class="hl-n">0.5</span>):
+    p = <span class="hl-f">model.predict_proba</span>(Xte)[:, <span class="hl-n">1</span>]; pred = p &gt;= t
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:34s} acc {accuracy_score(yte, pred):.3f} | recall {recall_score(yte, pred):.3f} | precision {precision_score(yte, pred, zero_division=0):.3f} | ROC-AUC {roc_auc_score(yte, p):.3f} | PR-AUC {average_precision_score(yte, p):.3f}&quot;</span>)
+    <span class="hl-k">return</span> p
+plain = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>)).<span class="hl-f">fit</span>(Xtr, ytr)
+p_plain = <span class="hl-f">report</span>(<span class="hl-s">&quot;logistic (no adjustment)&quot;</span>, plain)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;random baseline PR-AUC = fraud rate =&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">yte.mean</span>(), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">logistic (no adjustment)           acc 0.986 | recall 0.072 | precision 0.545 | ROC-AUC 0.942 | PR-AUC 0.321
+random baseline PR-AUC = fraud rate = 0.014</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Use</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PR-AUC (average precision), recall at fixed precision, precision at k, expected cost</td>
+<td>Accuracy</td>
+</tr>
+<tr>
+<td>Confusion matrix at the chosen threshold</td>
+<td>ROC-AUC alone (looks good even when precision is poor)</td>
+</tr>
+<tr>
+<td>Stratified splits and CV</td>
+<td>Random splits that leave few positives in validation</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="ml-21-fix-1-class-weights">Fix 1: class weights</h2>
+<p>Tell the loss function that each fraud matters more: errors on the rare class are multiplied by its weight.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">weighted = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>, class_weight=<span class="hl-s">&quot;balanced&quot;</span>)).<span class="hl-f">fit</span>(Xtr, ytr)
+p_w = <span class="hl-f">report</span>(<span class="hl-s">&quot;logistic, class_weight=&#x27;balanced&#x27;&quot;</span>, weighted)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;balanced weights:&quot;</span>, {<span class="hl-n">0</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-f">len</span>(ytr) / (<span class="hl-n">2</span> * (ytr == <span class="hl-n">0</span>).<span class="hl-f">sum</span>())), <span class="hl-n">2</span>), <span class="hl-n">1</span>: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-f">len</span>(ytr) / (<span class="hl-n">2</span> * (ytr == <span class="hl-n">1</span>).<span class="hl-f">sum</span>())), <span class="hl-n">2</span>)})</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">logistic, class_weight=&#x27;balanced&#x27;  acc 0.867 | recall 0.904 | precision 0.087 | ROC-AUC 0.944 | PR-AUC 0.274
+balanced weights: {0: 0.51, 1: 36.27}</pre></div>
+<p>Weighting raises recall a lot (more frauds caught) at the price of precision (more false alarms). The <strong>ranking</strong> (AUC) hardly changes: weights mostly shift the probabilities, which is equivalent to moving the threshold. XGBoost and LightGBM use <code>scale_pos_weight</code> ≈ negatives ÷ positives.</p>
+<h2 id="ml-21-fix-2-resampling">Fix 2: resampling</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>How</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random undersampling</td>
+<td>Drop majority rows</td>
+<td>Throws away information</td>
+</tr>
+<tr>
+<td>Random oversampling</td>
+<td>Duplicate minority rows</td>
+<td>Overfitting to duplicates</td>
+</tr>
+<tr>
+<td>SMOTE</td>
+<td>Create synthetic minority rows by interpolating between neighbours</td>
+<td>Synthetic points in wrong places; only for numeric features (SMOTENC for categorical)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> imblearn.pipeline <span class="hl-k">import</span> make_pipeline <span class="hl-k">as</span> imb_pipeline
+<span class="hl-k">from</span> imblearn.under_sampling <span class="hl-k">import</span> RandomUnderSampler
+<span class="hl-k">from</span> imblearn.over_sampling <span class="hl-k">import</span> RandomOverSampler, SMOTE
+<span class="hl-k">for</span> name, sampler <span class="hl-k">in</span> [(<span class="hl-s">&quot;undersample&quot;</span>, <span class="hl-f">RandomUnderSampler</span>(random_state=<span class="hl-n">0</span>)), (<span class="hl-s">&quot;oversample&quot;</span>, <span class="hl-f">RandomOverSampler</span>(random_state=<span class="hl-n">0</span>)), (<span class="hl-s">&quot;SMOTE&quot;</span>, <span class="hl-f">SMOTE</span>(random_state=<span class="hl-n">0</span>))]:
+    m = <span class="hl-f">imb_pipeline</span>(<span class="hl-f">StandardScaler</span>(), sampler, <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>)).<span class="hl-f">fit</span>(Xtr, ytr)
+    _ = <span class="hl-f">report</span>(<span class="hl-s">f&quot;logistic + {name}&quot;</span>, m)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">logistic + undersample             acc 0.869 | recall 0.892 | precision 0.087 | ROC-AUC 0.939 | PR-AUC 0.237
+logistic + oversample              acc 0.870 | recall 0.904 | precision 0.088 | ROC-AUC 0.943 | PR-AUC 0.272
+logistic + SMOTE                   acc 0.874 | recall 0.892 | precision 0.090 | ROC-AUC 0.943 | PR-AUC 0.268</pre></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Resample only the training folds</b></div><p>Resampling before the train/test split (or before cross-validation) puts copies or synthetic neighbours of test frauds into training: a classic leak. Use <code>imblearn.pipeline.Pipeline</code>, which resamples only during <code>fit</code>. Resampling also distorts predicted probabilities; recalibrate if you need true probabilities.</p></div>
+<h2 id="ml-21-stronger-model-gradient-boosting">Stronger model: gradient boosting</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> lightgbm <span class="hl-k">as</span> lgb
+pos_w = (ytr == <span class="hl-n">0</span>).<span class="hl-f">sum</span>() / (ytr == <span class="hl-n">1</span>).<span class="hl-f">sum</span>()
+gbm = <span class="hl-f">lgb.LGBMClassifier</span>(n_estimators=<span class="hl-n">400</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">15</span>, min_child_samples=<span class="hl-n">50</span>, subsample=<span class="hl-n">0.8</span>, subsample_freq=<span class="hl-n">1</span>, colsample_bytree=<span class="hl-n">0.8</span>, verbose=-<span class="hl-n">1</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+p_g = <span class="hl-f">report</span>(<span class="hl-s">&quot;LightGBM&quot;</span>, gbm)
+gbm_w = <span class="hl-f">lgb.LGBMClassifier</span>(n_estimators=<span class="hl-n">400</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">15</span>, min_child_samples=<span class="hl-n">50</span>, scale_pos_weight=pos_w, verbose=-<span class="hl-n">1</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+_ = <span class="hl-f">report</span>(<span class="hl-s">&quot;LightGBM, scale_pos_weight&quot;</span>, gbm_w)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">LightGBM                           acc 0.987 | recall 0.169 | precision 0.560 | ROC-AUC 0.947 | PR-AUC 0.346
+LightGBM, scale_pos_weight         acc 0.963 | recall 0.651 | precision 0.218 | ROC-AUC 0.937 | PR-AUC 0.348</pre></div>
+<h2 id="ml-21-fix-3-move-the-threshold-usually-the-best-lever">Fix 3: move the threshold (usually the best lever)</h2>
+<p>The fraud team can review <strong>200 alerts a day</strong> (out of about 6,000 test transactions per period here, scaled). Choose the threshold that fits the capacity, or the one that meets a minimum precision.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> precision_recall_curve
+best_p = p_g
+<span class="hl-k">for</span> k <span class="hl-k">in</span> (<span class="hl-n">50</span>, <span class="hl-n">100</span>, <span class="hl-n">200</span>, <span class="hl-n">400</span>):
+    t = <span class="hl-f">np.sort</span>(best_p)[-k]; pred = best_p &gt;= t
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;top {k:3d} alerts: threshold {t:.3f} | frauds caught {int((pred &amp; (yte == 1)).sum()):3d} of {yte.sum()} (recall {recall_score(yte, pred):.2f}) | precision {precision_score(yte, pred):.2f}&quot;</span>)
+prec, rec, thr = <span class="hl-f">precision_recall_curve</span>(yte, best_p)
+ok = <span class="hl-f">np.where</span>(prec[:-<span class="hl-n">1</span>] &gt;= <span class="hl-n">0.5</span>)[<span class="hl-n">0</span>]
+<span class="hl-k">if</span> <span class="hl-f">len</span>(ok): <span class="hl-f">print</span>(<span class="hl-s">f&quot;highest recall with precision ≥ 50%: recall {rec[ok[0]]:.2f} at threshold {thr[ok[0]]:.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">top  50 alerts: threshold 0.335 | frauds caught  23 of 83 (recall 0.28) | precision 0.46
+top 100 alerts: threshold 0.153 | frauds caught  36 of 83 (recall 0.43) | precision 0.36
+top 200 alerts: threshold 0.057 | frauds caught  51 of 83 (recall 0.61) | precision 0.26
+top 400 alerts: threshold 0.019 | frauds caught  62 of 83 (recall 0.75) | precision 0.15
+highest recall with precision ≥ 50%: recall 0.22 at threshold 0.394</pre></div>
+<figure class="fig"><img src="../img/ml-21-01.png" alt="Precision-recall curves: the plain and weighted logistic models rank almost identically (weights shift probabilities, not the ranking); LightGBM is slightly better at most recall levels." loading="lazy"><figcaption>Precision-recall curves: the plain and weighted logistic models rank almost identically (weights shift probabilities, not the ranking); LightGBM is slightly better at most recall levels.</figcaption></figure>
+<h3 id="ml-21-expected-cost">Expected cost</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">fraud_loss, review_cost = <span class="hl-n">25000</span>, <span class="hl-n">150</span>                         <span class="hl-c"># average fraud amount lost vs cost of reviewing one alert</span>
+ts = <span class="hl-f">np.linspace</span>(<span class="hl-n">0.002</span>, <span class="hl-n">0.6</span>, <span class="hl-n">300</span>)
+cost = [((best_p &lt; t) &amp; (yte == <span class="hl-n">1</span>)).<span class="hl-f">sum</span>() * fraud_loss + (best_p &gt;= t).<span class="hl-f">sum</span>() * review_cost <span class="hl-k">for</span> t <span class="hl-k">in</span> ts]
+i = <span class="hl-f">int</span>(<span class="hl-f">np.argmin</span>(cost)); none = <span class="hl-f">yte.sum</span>() * fraud_loss
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;cost-minimising threshold {ts[i]:.3f} (theory for calibrated probabilities: review cost ÷ fraud loss = {review_cost / fraud_loss:.3f}) | alerts {(best_p &gt;= ts[i]).sum()} | total cost ₹{cost[i] / 1e5:.1f} lakh vs ₹{none / 1e5:.1f} lakh with no model ({1 - cost[i] / none:.0%} saved)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">cost-minimising threshold 0.002 (theory for calibrated probabilities: review cost ÷ fraud loss = 0.006) | alerts 1480 | total cost ₹3.2 lakh vs ₹20.8 lakh with no model (84% saved)</pre></div>
+<p>When reviewing is cheap compared with a missed fraud, the best threshold is very low: flag everything with even a small chance of fraud, as long as the team has capacity. The capacity constraint above then decides.</p>
+<h2 id="ml-21-when-labels-are-scarce-anomaly-detection">When labels are scarce: anomaly detection</h2>
+<p>If confirmed fraud labels are few or arrive late, unsupervised <strong>anomaly detection</strong> flags unusual transactions.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> IsolationForest
+iso = <span class="hl-f">IsolationForest</span>(n_estimators=<span class="hl-n">300</span>, contamination=<span class="hl-n">0.02</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr)
+anom = -<span class="hl-f">iso.score_samples</span>(Xte)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Isolation Forest (no labels used): ROC-AUC {roc_auc_score(yte, anom):.3f} | PR-AUC {average_precision_score(yte, anom):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Isolation Forest (no labels used): ROC-AUC 0.898 | PR-AUC 0.124</pre></div>
+<p>It is weaker than a supervised model but useful for cold starts, new fraud patterns, and as an extra feature. In production, fraud systems combine rules, supervised models, anomaly scores and graph features (shared devices, cards, addresses).</p>
+<h2 id="ml-21-checklist-for-imbalanced-problems">Checklist for imbalanced problems</h2>
+<ol>
+<li>Stratify splits; consider time-based validation (fraud patterns drift).</li>
+<li>Report PR-AUC, recall at the operating precision or capacity, and expected cost.</li>
+<li>Start with class weights or <code>scale_pos_weight</code>; try resampling inside the pipeline.</li>
+<li>Choose the threshold from business constraints.</li>
+<li>Recalibrate probabilities if you changed weights or resampled.</li>
+<li>Monitor: base rates and fraud tactics change.</li>
+</ol>
+<h2 id="ml-21-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>With rare positives, accuracy is meaningless; use PR-AUC, recall/precision at the operating point and cost.</li>
+<li>Class weights and <code>scale_pos_weight</code> make the loss care about the rare class; they shift probabilities more than rankings.</li>
+<li>Undersampling, oversampling and SMOTE must happen inside the training folds (imblearn pipelines).</li>
+<li>Threshold moving to fit capacity, precision targets or cost is usually the most effective lever.</li>
+<li>Isolation Forest and other anomaly detectors help when labels are scarce.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-21-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Fraud is 1.4% of transactions. Which metric is most informative?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Accuracy</button><button type="button" class="opt" data-ok="1"><i>B</i>PR-AUC / recall at a fixed precision</button><button type="button" class="opt" data-ok="0"><i>C</i>R²</button><button type="button" class="opt" data-ok="0"><i>D</i>MAE</button></div><div class="qexp"><b>Answer: B.</b> Focus on the rare positive class.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>class_weight="balanced"</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Weights errors on each class inversely to its frequency</button><button type="button" class="opt" data-ok="0"><i>B</i>Duplicates the minority class</button><button type="button" class="opt" data-ok="0"><i>C</i>Deletes majority rows</button><button type="button" class="opt" data-ok="0"><i>D</i>Changes the features</button></div><div class="qexp"><b>Answer: A.</b> The rare class counts more in the loss.</div></div><div class="qq"><p class="qtext"><b>3.</b> When should SMOTE be applied?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Only to the training data within each CV fold (inside an imblearn pipeline)</button><button type="button" class="opt" data-ok="0"><i>B</i>To the full dataset before splitting</button><button type="button" class="opt" data-ok="0"><i>C</i>To the test set</button><button type="button" class="opt" data-ok="0"><i>D</i>After deployment</button></div><div class="qexp"><b>Answer: A.</b> Otherwise you leak test information.</div></div><div class="qq"><p class="qtext"><b>4.</b> The fraud team can review 100 alerts per day. How do you set the threshold?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Take the score of the 100th-highest transaction as the cut-off</button><button type="button" class="opt" data-ok="0"><i>B</i>Use 0.5</button><button type="button" class="opt" data-ok="0"><i>C</i>Use the fraud rate</button><button type="button" class="opt" data-ok="0"><i>D</i>Maximise accuracy</button></div><div class="qexp"><b>Answer: A.</b> Capacity-based thresholding.</div></div><div class="qq"><p class="qtext"><b>5.</b> Class weighting changes recall a lot but ROC-AUC hardly at all. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Weighting mostly shifts predicted probabilities rather than the ranking of cases</button><button type="button" class="opt" data-ok="0"><i>B</i>ROC-AUC is broken</button><button type="button" class="opt" data-ok="0"><i>C</i>Weights remove features</button><button type="button" class="opt" data-ok="0"><i>D</i>Recall is not a real metric</button></div><div class="qexp"><b>Answer: A.</b> Similar to moving the threshold.</div></div><div class="qq"><p class="qtext"><b>6.</b> When is Isolation Forest useful?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When few or no fraud labels are available</button><button type="button" class="opt" data-ok="0"><i>B</i>When labels are perfect</button><button type="button" class="opt" data-ok="0"><i>C</i>For regression</button><button type="button" class="opt" data-ok="0"><i>D</i>For text only</button></div><div class="qexp"><b>Answer: A.</b> It scores how unusual a record is.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Use <code>BalancedRandomForestClassifier</code> from imbalanced-learn and compare PR-AUC. (2) Calibrate the weighted logistic model with <code>CalibratedClassifierCV</code> and compare Brier scores. (3) Make a time-based split by adding a transaction date and check whether PR-AUC changes.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> imblearn.ensemble <span class="hl-k">import</span> BalancedRandomForestClassifier
+<span class="hl-k">from</span> sklearn.calibration <span class="hl-k">import</span> CalibratedClassifierCV
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> brier_score_loss
+brf = <span class="hl-f">BalancedRandomForestClassifier</span>(<span class="hl-n">300</span>, random_state=<span class="hl-n">0</span>, sampling_strategy=<span class="hl-s">&quot;all&quot;</span>, replacement=<span class="hl-k">True</span>, bootstrap=<span class="hl-k">False</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-f">average_precision_score</span>(yte, <span class="hl-f">brf.predict_proba</span>(Xte)[:, <span class="hl-n">1</span>]))
+cal = <span class="hl-f">CalibratedClassifierCV</span>(<span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>, class_weight=<span class="hl-s">&quot;balanced&quot;</span>)), cv=<span class="hl-n">5</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-f">brier_score_loss</span>(yte, p_w), <span class="hl-f">brier_score_loss</span>(yte, <span class="hl-f">cal.predict_proba</span>(Xte)[:, <span class="hl-n">1</span>]))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you handle imbalanced classes?</strong>
+Use suitable metrics (PR-AUC, recall at precision), stratified validation, class weights or resampling inside the pipeline, strong models (boosting), and a business-driven threshold; collect more positive examples if possible.</p>
+<p><strong>Q: Is SMOTE always a good idea?</strong>
+No. It can create unrealistic samples, it does not help tree ensembles much, and it distorts probabilities; class weights plus threshold tuning are often enough.</p>
+<p><strong>Q: Your fraud model has 99% accuracy. Is it good?</strong>
+Not necessarily: with 1% fraud, predicting "no fraud" always gives 99%. Check recall, precision, PR-AUC and the cost at the chosen threshold.</p></div></div></article></body></html>
