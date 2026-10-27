@@ -1,0 +1,334 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Entry, Data Validation &amp; Data Cleaning · Excel Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Stop bad data at the door with data validation and drop-down lists, then clean what already exists with Flash Fill, Text to Columns, Find &amp; Replace, Go To Special, Remove Duplicates, Paste Special and Excel Tables."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v7"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class="on"><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-02">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 2 of 12</div><h1>Data Entry, Data Validation &amp; Data Cleaning</h1>
+<p class="sum">Stop bad data at the door with data validation and drop-down lists, then clean what already exists with Flash Fill, Text to Columns, Find &amp; Replace, Go To Special, Remove Duplicates, Paste Special and Excel Tables.</p><div class="tags"><span class="tag live">● Live class 2</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_02_Data_Entry_Data_Validation_Data_Cleaning.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-02.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Enter data quickly and consistently with AutoFill, Flash Fill and custom lists</li><li>Build drop-down lists, number and date limits and custom-formula rules with Data Validation</li><li>Create dependent (cascading) drop-downs</li><li>Clean messy text, split and combine columns, and remove duplicates safely</li><li>Use Paste Special and Excel Tables as everyday cleaning tools</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="garbage-in-garbage-out">Garbage in, garbage out</h2>
+<p>Most time in real analytics is not spent on fancy charts; it is spent fixing data: extra spaces, inconsistent spellings (<code>Bangalore</code>, <code>Bengaluru</code>, <code>bengaluru</code>), numbers stored as text, duplicates and blanks. Surveys of data teams regularly report that cleaning and preparing data takes well over half of an analyst's time.</p>
+<p>There are two ways to win this fight:</p>
+<figure class="fig"><img src="../img/excel-02-01.png" alt="Prevent problems at entry time, and clean whatever slips through. Both are needed." loading="lazy"><figcaption>Prevent problems at entry time, and clean whatever slips through. Both are needed.</figcaption></figure>
+<h2 id="fast-consistent-data-entry">Fast, consistent data entry</h2>
+<h3 id="autofill-and-the-fill-handle">AutoFill and the fill handle</h3>
+<p>Select a cell and drag the small square at its bottom-right corner (the <strong>fill handle</strong>). Excel continues the pattern it recognises.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>You type</th>
+<th>Drag gives you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Jan</code></td>
+<td>Feb, Mar, Apr …</td>
+</tr>
+<tr>
+<td><code>Monday</code></td>
+<td>Tuesday, Wednesday …</td>
+</tr>
+<tr>
+<td><code>1</code>, <code>2</code> (select both)</td>
+<td>3, 4, 5 …</td>
+</tr>
+<tr>
+<td><code>Q1</code></td>
+<td>Q2, Q3, Q4, Q1 …</td>
+</tr>
+<tr>
+<td><code>01-04-2026</code></td>
+<td>02-04-2026, 03-04-2026 … (right-drag for months or years)</td>
+</tr>
+<tr>
+<td><code>Item 1</code></td>
+<td>Item 2, Item 3 …</td>
+</tr>
+<tr>
+<td><code>=B2*12</code></td>
+<td><code>=B3*12</code>, <code>=B4*12</code> …</td>
+</tr>
+</tbody>
+</table></div>
+<p>Double-click the fill handle to fill a formula down as far as the column next to it has data. This is the fastest way to copy a formula to 10,000 rows.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Custom lists</b></div><p>File → Options → Advanced → <strong>Edit Custom Lists</strong> lets you add your own sequences, for example <code>North, South, East, West</code> or your company's department order. AutoFill and custom sort then follow that order.</p></div>
+<h3 id="flash-fill-ctrl-e">Flash Fill (Ctrl + E)</h3>
+<p>Flash Fill learns a pattern from one or two examples you type. It is perfect for splitting names, extracting codes or reformatting text.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Flash Fill: type the first answer in each column, then press Ctrl + E</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Full name</td><td class="c-h">Email</td><td class="c-h">First name</td><td class="c-h">Last name</td><td class="c-h">Username</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="">kavya.iyer@abc.in</td><td class="c-p">Kavya</td><td class="c-p">Iyer</td><td class="c-p">kiyer</td></tr><tr><th>3</th><td class="">Imran Reddy</td><td class="">imran.reddy@abc.in</td><td class="c-s">Imran</td><td class="c-s">Reddy</td><td class="c-s">ireddy</td></tr><tr><th>4</th><td class="">Harpreet Kulkarni</td><td class="">harpreet.k@abc.in</td><td class="c-s">Harpreet</td><td class="c-s">Kulkarni</td><td class="c-s">hkulkarni</td></tr><tr><th>5</th><td class="">Diya Iyer</td><td class="">diya.iyer@abc.in</td><td class="c-s">Diya</td><td class="c-s">Iyer</td><td class="c-s">diyer</td></tr></table></div></div></div>
+<p>Purple cells are typed by you; green cells are filled by Flash Fill.</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Flash Fill is not a formula</b></div><p>Flash Fill writes <strong>static values</strong>. If the source changes, the results do not update. Use formulas (Lesson 5) or Power Query (Lesson 12) when the data will be refreshed.</p></div>
+<h2 id="data-validation-rules-for-what-can-be-typed">Data Validation: rules for what can be typed</h2>
+<p><strong>Data → Data Validation</strong> (shortcut <code>Alt, A, V, V</code>) attaches a rule to cells. Anyone who types something that breaks the rule is stopped or warned.</p>
+<figure class="fig"><img src="../img/excel-02-02.png" alt="The three tabs of the Data Validation dialog." loading="lazy"><figcaption>The three tabs of the Data Validation dialog.</figcaption></figure>
+<h3 id="the-validation-types-you-will-use-most">The validation types you will use most</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Allow</th>
+<th>Example rule</th>
+<th>Business use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Whole number</strong></td>
+<td>between 18 and 65</td>
+<td>Age of an employee</td>
+</tr>
+<tr>
+<td><strong>Decimal</strong></td>
+<td>between 0 and 0.5</td>
+<td>Discount rate</td>
+</tr>
+<tr>
+<td><strong>List</strong></td>
+<td><code>Sales,Finance,IT,HR,Operations</code></td>
+<td>Department drop-down</td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>between 01-04-2026 and 31-03-2027</td>
+<td>Entries inside the financial year</td>
+</tr>
+<tr>
+<td><strong>Time</strong></td>
+<td>between 09:00 and 18:00</td>
+<td>Office hours</td>
+</tr>
+<tr>
+<td><strong>Text length</strong></td>
+<td>equal to 6</td>
+<td>PIN code, employee code</td>
+</tr>
+<tr>
+<td><strong>Custom</strong></td>
+<td><code>=COUNTIF($A$2:$A$500,A2)=1</code></td>
+<td>No duplicate IDs</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="building-a-drop-down-list-step-by-step">Building a drop-down list, step by step</h3>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Department drop-down</b></div><ol>
+<li>On a sheet called <code>Lists</code>, type the allowed values in a column (<code>Sales</code>, <code>Finance</code>, <code>IT</code>, <code>HR</code>, <code>Operations</code>) and convert it to a Table (<code>Ctrl + T</code>) named <code>tblDept</code>. A Table grows automatically when you add a department.</li>
+<li>Select the cells where people will enter a department (for example <code>C2:C500</code>).</li>
+<li>Data → Data Validation → Allow: <strong>List</strong>.</li>
+<li>Source: <code>=INDIRECT("tblDept[Department]")</code> or simply select the range <code>=Lists!$A$2:$A$6</code>.</li>
+<li>Keep <strong>In-cell dropdown</strong> ticked. Add an Input Message ("Choose a department") and an Error Alert (Stop, "Please pick a department from the list").</li>
+</ol></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Data entry sheet with validation rules (rules shown in row 2)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr><tr><th>1</th><td class="c-h">Emp ID</td><td class="c-h">Name</td><td class="c-h">Department</td><td class="c-h">Age</td><td class="c-h">Join date</td><td class="c-h">Discount</td><td class="c-h">PIN code</td></tr><tr><th>2</th><td class="c-i">Text length = 4</td><td class="c-i">Any text</td><td class="c-i">List: tblDept</td><td class="c-i">Whole 18–65</td><td class="c-i">Date ≥ 01-01-2000</td><td class="c-i">Decimal 0–0.5</td><td class="c-i">Text length = 6</td></tr><tr><th>3</th><td class="">E101</td><td class="">Kavya Iyer</td><td class="c-g">HR</td><td class="c-g num">29</td><td class="c-g">28-02-2016</td><td class="c-g num">0.1</td><td class="c-g num">400001</td></tr><tr><th>4</th><td class="">E102</td><td class="">Imran Reddy</td><td class="c-r">Fin</td><td class="c-r num">17</td><td class="c-g">14-12-2019</td><td class="c-r num">0.75</td><td class="c-r num">11002</td></tr></table></div></div></div>
+<p>Row 3 passes every rule (green). In row 4, <code>Fin</code> is not in the list, 17 is under the minimum age, 0.75 is above the maximum discount and <code>11002</code> has only 5 characters, so Excel would block each of these entries (red).</p>
+<h3 id="custom-formula-rules">Custom formula rules</h3>
+<p>The <strong>Custom</strong> option accepts any formula that returns TRUE (allow) or FALSE (block). Write the formula for the <strong>first</strong> selected cell; Excel adjusts it for the others.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Rule</th>
+<th>Custom formula (cells A2:A500 selected)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No duplicates</td>
+<td><code>=COUNTIF($A$2:$A$500,A2)=1</code></td>
+</tr>
+<tr>
+<td>Must start with "E" and be 4 characters</td>
+<td><code>=AND(LEFT(A2,1)="E",LEN(A2)=4)</code></td>
+</tr>
+<tr>
+<td>Numbers only (for a text-formatted column)</td>
+<td><code>=ISNUMBER(--A2)</code></td>
+</tr>
+<tr>
+<td>No spaces</td>
+<td><code>=ISERROR(FIND(" ",A2))</code></td>
+</tr>
+<tr>
+<td>Weekdays only (dates)</td>
+<td><code>=WEEKDAY(A2,2)&lt;6</code></td>
+</tr>
+<tr>
+<td>Total of a budget column cannot exceed 1,00,000</td>
+<td><code>=SUM($B$2:$B$50)&lt;=100000</code></td>
+</tr>
+<tr>
+<td>Email must contain "@" and "."</td>
+<td><code>=AND(ISNUMBER(FIND("@",A2)),ISNUMBER(FIND(".",A2)))</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="dependent-cascading-drop-downs">Dependent (cascading) drop-downs</h3>
+<p>A second list that changes with the first: choose a <strong>Category</strong>, and the <strong>Sub-category</strong> list shows only matching items.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Lists sheet: each column is a named range (Formulas → Create from Selection → Top row)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Furniture</td><td class="c-h">Office_Supplies</td><td class="c-h">Technology</td></tr><tr><th>2</th><td class="">Chairs</td><td class="">Binders</td><td class="">Phones</td></tr><tr><th>3</th><td class="">Tables</td><td class="">Paper</td><td class="">Accessories</td></tr><tr><th>4</th><td class="">Bookcases</td><td class="">Storage</td><td class="">Machines</td></tr><tr><th>5</th><td class="">Furnishings</td><td class="">Art</td><td class="">Copiers</td></tr><tr><th>6</th><td class=""></td><td class="">Appliances</td><td class=""></td></tr></table></div></div></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Make it work</b></div><ol>
+<li>Select the lists (with headers) → Formulas → <strong>Create from Selection</strong> → Top row. Excel creates the names <code>Furniture</code>, <code>Office_Supplies</code> and <code>Technology</code>.</li>
+<li>Category cell <code>A2</code>: Data Validation → List → Source: <code>Furniture,Office_Supplies,Technology</code>.</li>
+<li>Sub-category cell <code>B2</code>: Data Validation → List → Source: <code>=INDIRECT(A2)</code>.</li>
+<li><code>INDIRECT</code> turns the text in A2 into a reference to the named range with that name.</li>
+</ol></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Dynamic-array version (Microsoft 365)</b></div><p>With a two-column mapping table (<code>Category</code>, <code>SubCategory</code>), put <code>=FILTER(Map[SubCategory],Map[Category]=A2)</code> in a helper cell and point the validation source to it with the spill operator, for example <code>=$H$2#</code>. No named ranges are needed, and new items appear automatically.</p></div>
+<h3 id="finding-data-that-already-breaks-the-rules">Finding data that already breaks the rules</h3>
+<p>Validation only checks <strong>new</strong> typing. Data pasted in, or entered before the rule existed, is not checked. Use <strong>Data → Data Validation → Circle Invalid Data</strong> to draw red circles around existing violations.</p>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Validation is not security</b></div><p>Pasting over a validated cell replaces the rule. Use Paste Special → Values when pasting into validated areas, and protect the sheet (Lesson 11) if people must not change rules.</p></div>
+<h2 id="cleaning-text-with-formulas">Cleaning text with formulas</h2>
+<p>These functions fix most text problems. Each formula below is written for row 2 and copied down.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Common text-cleaning formulas</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Raw value</td><td class="c-h">=TRIM(A2)</td><td class="c-h">=PROPER(TRIM(A2))</td><td class="c-h">=SUBSTITUTE(A2,&quot;-&quot;,&quot;&quot;)</td><td class="c-h">=UPPER(A2)</td></tr><tr><th>2</th><td class="">  bengaluru  </td><td class="fx" title="=TRIM(A2)">bengaluru</td><td class="fx" title="=PROPER(TRIM(A2))">Bengaluru</td><td class="fx" title="=SUBSTITUTE(A2,&quot;-&quot;,&quot;&quot;)">  bengaluru  </td><td class="fx" title="=UPPER(A2)">  BENGALURU  </td></tr><tr><th>3</th><td class="">NEW   DELHI</td><td class="fx" title="=TRIM(A3)">NEW DELHI</td><td class="fx" title="=PROPER(TRIM(A3))">New Delhi</td><td class="fx" title="=SUBSTITUTE(A3,&quot;-&quot;,&quot;&quot;)">NEW   DELHI</td><td class="fx" title="=UPPER(A3)">NEW   DELHI</td></tr><tr><th>4</th><td class="">pune-411001</td><td class="fx" title="=TRIM(A4)">pune-411001</td><td class="fx" title="=PROPER(TRIM(A4))">Pune-411001</td><td class="fx" title="=SUBSTITUTE(A4,&quot;-&quot;,&quot;&quot;)">pune411001</td><td class="fx" title="=UPPER(A4)">PUNE-411001</td></tr><tr><th>5</th><td class="">mUMBAI</td><td class="fx" title="=TRIM(A5)">mUMBAI</td><td class="fx" title="=PROPER(TRIM(A5))">Mumbai</td><td class="fx" title="=SUBSTITUTE(A5,&quot;-&quot;,&quot;&quot;)">mUMBAI</td><td class="fx" title="=UPPER(A5)">MUMBAI</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">TRIM</span>(A2)</code></li><li><b>C2</b><code>=<span class="hl-f">PROPER</span>(<span class="hl-f">TRIM</span>(A2))</code></li><li><b>D2</b><code>=<span class="hl-f">SUBSTITUTE</span>(A2,<span class="hl-s">&quot;-&quot;</span>,<span class="hl-s">&quot;&quot;</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">UPPER</span>(A2)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<ul>
+<li><code>TRIM</code> removes spaces at the start and end and squeezes repeated inner spaces to one.</li>
+<li><code>PROPER</code> capitalises the first letter of each word; <code>UPPER</code> and <code>LOWER</code> change the case of everything.</li>
+<li><code>SUBSTITUTE(text, old, new)</code> replaces every occurrence of <code>old</code>.</li>
+<li><code>CLEAN</code> removes non-printing characters such as line breaks from copied web data.</li>
+<li>The non-breaking space (character 160) from websites is not removed by TRIM. Use <code>=TRIM(SUBSTITUTE(A2,CHAR(160)," "))</code>.</li>
+</ul>
+<h2 id="text-to-columns">Text to Columns</h2>
+<p><strong>Data → Text to Columns</strong> splits one column into several, either by a <strong>delimiter</strong> (comma, space, <code>-</code>, <code>|</code>) or by <strong>fixed width</strong>.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Before: one column with a delimiter</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Order info</td><td class=""></td><td class=""></td></tr><tr><th>2</th><td class="">IN-2025-00042</td><td class="">Pune</td><td class="">Technology</td></tr><tr><th>3</th><td class="">IN-2025-00043</td><td class="">Delhi</td><td class="">Furniture</td></tr></table></div></div></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Split by a delimiter</b></div><ol>
+<li>Select the column. Data → Text to Columns.</li>
+<li>Choose <strong>Delimited</strong> → Next → tick <strong>Other</strong> and type <code>|</code> (or comma, tab, space).</li>
+<li>In step 3, set each column's type: keep IDs and codes as <strong>Text</strong> to protect leading zeros; set dates to <strong>Date: DMY</strong>.</li>
+<li>Choose the destination cell (so the original is not overwritten) → Finish.</li>
+</ol></div>
+<p>Text to Columns is also a quick fix for numbers stored as text: select the column, Text to Columns, and click <strong>Finish</strong> immediately. Excel re-reads every value as a number.</p>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>TEXTSPLIT, TEXTBEFORE, TEXTAFTER (Microsoft 365)</b></div><p>Formula versions that update automatically:
+<code>=TEXTSPLIT(A2,"|")</code> spills the parts across columns; <code>=TEXTBEFORE(A2,"-")</code> and <code>=TEXTAFTER(A2,"-",-1)</code> return the text before the first or after the last hyphen. See Lesson 5.</p></div>
+<h2 id="find-replace-and-wildcards">Find &amp; Replace and wildcards</h2>
+<p><code>Ctrl + H</code> replaces text in the selection (or the whole sheet). Click <strong>Options</strong> to match case, match the entire cell, or search in formulas versus values.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Wildcard</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>Any number of characters</td>
+<td><code>Bang*</code> finds Bangalore, Bangaluru</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>Exactly one character</td>
+<td><code>E10?</code> finds E101 to E109</td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td>Treat the next character literally</td>
+<td><code>~*</code> finds a real asterisk</td>
+</tr>
+</tbody>
+</table></div>
+<p>Example: replace <code>Bang*</code> with <code>Bengaluru</code> (with <strong>Match entire cell contents</strong> ticked) to standardise every spelling in one step.</p>
+<h2 id="go-to-special-select-blanks-constants-formulas-errors">Go To Special: select blanks, constants, formulas, errors</h2>
+<p><code>F5 → Special</code> (or <code>Ctrl + G → Special</code>) selects cells by type. The most useful trick in data cleaning is <strong>filling blanks with the value above</strong>:</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Before: category written only once per block</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Category</td><td class="c-h">Product</td><td class="c-h">Sales</td></tr><tr><th>2</th><td class="">Furniture</td><td class="">Chair A</td><td class="num">12000</td></tr><tr><th>3</th><td class=""></td><td class="">Table B</td><td class="num">18500</td></tr><tr><th>4</th><td class=""></td><td class="">Bookcase C</td><td class="num">9400</td></tr><tr><th>5</th><td class="">Technology</td><td class="">Phone X</td><td class="num">25200</td></tr><tr><th>6</th><td class=""></td><td class="">Router Y</td><td class="num">4300</td></tr></table></div></div></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Fill blanks with the value above</b></div><ol>
+<li>Select <code>A2:A6</code>. Press <code>F5 → Special → Blanks → OK</code>. Only the empty cells are selected (yellow).</li>
+<li>Type <code>=</code> and press the <strong>Up arrow</strong> (the formula becomes <code>=A2</code>).</li>
+<li>Press <code>Ctrl + Enter</code> to put the formula in every selected blank at once.</li>
+<li>Select the column, copy, and Paste Special → <strong>Values</strong> to freeze the result.</li>
+</ol></div>
+<p>Other Go To Special options: <strong>Constants</strong> (typed values only, great for clearing inputs but keeping formulas), <strong>Formulas</strong> (to check or protect them), <strong>Errors</strong>, <strong>Visible cells only</strong> (copy a filtered list without hidden rows; shortcut <code>Alt + ;</code>), <strong>Row differences</strong>.</p>
+<h2 id="removing-duplicates">Removing duplicates</h2>
+<p><strong>Data → Remove Duplicates</strong> deletes rows that repeat in the columns you choose and keeps the <strong>first</strong> occurrence.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Duplicate check before removing</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Emp ID</td><td class="c-h">Name</td><td class="c-h">City</td><td class="c-h">Is duplicate?</td></tr><tr><th>2</th><td class="">E101</td><td class="">Kavya Iyer</td><td class="">Mumbai</td><td class="fx" title="=IF(COUNTIF($A$2:A2,A2)&gt;1,&quot;Duplicate&quot;,&quot;First&quot;)">First</td></tr><tr><th>3</th><td class="">E102</td><td class="">Imran Reddy</td><td class="">Delhi</td><td class="fx" title="=IF(COUNTIF($A$2:A3,A3)&gt;1,&quot;Duplicate&quot;,&quot;First&quot;)">First</td></tr><tr><th>4</th><td class="">E101</td><td class="">Kavya Iyer</td><td class="">Mumbai</td><td class="fx" title="=IF(COUNTIF($A$2:A4,A4)&gt;1,&quot;Duplicate&quot;,&quot;First&quot;)">Duplicate</td></tr><tr><th>5</th><td class="">E103</td><td class="">Harpreet Kulkarni</td><td class="">Mumbai</td><td class="fx" title="=IF(COUNTIF($A$2:A5,A5)&gt;1,&quot;Duplicate&quot;,&quot;First&quot;)">First</td></tr><tr><th>6</th><td class="">E102</td><td class="">Imran Reddy</td><td class="">Delhi</td><td class="fx" title="=IF(COUNTIF($A$2:A6,A6)&gt;1,&quot;Duplicate&quot;,&quot;First&quot;)">Duplicate</td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">COUNTIF</span>($A$<span class="hl-n">2</span>:A2,A2)&gt;<span class="hl-n">1</span>,<span class="hl-s">&quot;Duplicate&quot;</span>,<span class="hl-s">&quot;First&quot;</span>)</code></li><li><b>D3</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">COUNTIF</span>($A$<span class="hl-n">2</span>:A3,A3)&gt;<span class="hl-n">1</span>,<span class="hl-s">&quot;Duplicate&quot;</span>,<span class="hl-s">&quot;First&quot;</span>)</code></li><li><b>D4</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">COUNTIF</span>($A$<span class="hl-n">2</span>:A4,A4)&gt;<span class="hl-n">1</span>,<span class="hl-s">&quot;Duplicate&quot;</span>,<span class="hl-s">&quot;First&quot;</span>)</code></li><li><b>D5</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">COUNTIF</span>($A$<span class="hl-n">2</span>:A5,A5)&gt;<span class="hl-n">1</span>,<span class="hl-s">&quot;Duplicate&quot;</span>,<span class="hl-s">&quot;First&quot;</span>)</code></li><li><b>D6</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">COUNTIF</span>($A$<span class="hl-n">2</span>:A6,A6)&gt;<span class="hl-n">1</span>,<span class="hl-s">&quot;Duplicate&quot;</span>,<span class="hl-s">&quot;First&quot;</span>)</code></li></ul></div>
+<p>The expanding range <code>$A$2:A2</code> counts how many times the ID has appeared <strong>so far</strong>, so the first appearance says "First" and later ones say "Duplicate". This lets you review duplicates before deleting anything.</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Always work on a copy</b></div><p>Remove Duplicates permanently deletes rows. Copy the sheet first, or use the formula above, conditional formatting (Home → Conditional Formatting → Highlight Duplicate Values) or <code>=UNIQUE()</code> (Lesson 6) to inspect duplicates without losing data.</p></div>
+<h2 id="paste-special-the-cleaning-swiss-army-knife">Paste Special: the cleaning Swiss-army knife</h2>
+<p><code>Ctrl + Alt + V</code> opens Paste Special.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Option</th>
+<th>What it does</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Values</strong> (<code>V</code>)</td>
+<td>Pastes results, not formulas</td>
+<td>Freeze formula results; break links to other files</td>
+</tr>
+<tr>
+<td><strong>Formats</strong> (<code>T</code>)</td>
+<td>Copies only formatting</td>
+<td>Apply a header style to another table</td>
+</tr>
+<tr>
+<td><strong>Transpose</strong> (<code>E</code>)</td>
+<td>Rows become columns</td>
+<td>Turn a wide header row into a list</td>
+</tr>
+<tr>
+<td><strong>Multiply / Divide / Add / Subtract</strong></td>
+<td>Combines the copied number with each target cell</td>
+<td>Convert rupees to lakhs: copy <code>100000</code>, select the amounts, Paste Special → Divide</td>
+</tr>
+<tr>
+<td><strong>Skip blanks</strong></td>
+<td>Empty copied cells do not overwrite targets</td>
+<td>Merge two partially filled columns</td>
+</tr>
+<tr>
+<td><strong>Paste Link</strong></td>
+<td>Creates <code>=Sheet1!A1</code> references</td>
+<td>Live link to a source cell</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="excel-tables-structure-that-maintains-itself">Excel Tables: structure that maintains itself</h2>
+<p>Convert any clean range with <code>Ctrl + T</code>. Tables are the best habit you can build in Excel:</p>
+<ul>
+<li><strong>Auto-expand</strong>: new rows and columns join the table, so formulas, charts, pivot tables and validation lists include them automatically.</li>
+<li><strong>Structured references</strong>: formulas read like English, for example <code>=SUM(tblSales[Amount])</code> or <code>=[@Price]*[@Qty]</code>.</li>
+<li><strong>Calculated columns</strong>: type a formula once and it fills the whole column.</li>
+<li><strong>Total Row</strong>: Table Design → Total Row adds a row with drop-down summaries that respect filters (they use <code>SUBTOTAL</code>).</li>
+<li><strong>Banded rows, filter buttons and a frozen header</strong> come for free.</li>
+</ul>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>An Excel Table named tblOrders with a calculated column and Total Row</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">OrderID</td><td class="c-h">Product</td><td class="c-h">Price</td><td class="c-h">Qty</td><td class="c-h">Amount</td></tr><tr><th>2</th><td class="num">1001</td><td class="">Chair</td><td class="num">3500</td><td class="num">4</td><td class="fx num" title="=C2*D2">14,000</td></tr><tr><th>3</th><td class="num">1002</td><td class="">Desk</td><td class="num">12500</td><td class="num">1</td><td class="fx num" title="=C3*D3">12,500</td></tr><tr><th>4</th><td class="num">1003</td><td class="">Lamp</td><td class="num">1200</td><td class="num">6</td><td class="fx num" title="=C4*D4">7,200</td></tr><tr><th>5</th><td class="num">1004</td><td class="">Shelf</td><td class="num">5400</td><td class="num">2</td><td class="fx num" title="=C5*D5">10,800</td></tr><tr><th>6</th><td class="c-b">Total</td><td class=""></td><td class=""></td><td class="fx num" title="=SUBTOTAL(109,D2:D5)">13</td><td class="fx num" title="=SUBTOTAL(109,E2:E5)">44,500</td></tr></table></div></div><ul class="xl-f"><li><b>E2</b><code>=C2*D2</code></li><li><b>E3</b><code>=C3*D3</code></li><li><b>E4</b><code>=C4*D4</code></li><li><b>E5</b><code>=C5*D5</code></li><li><b>D6</b><code>=<span class="hl-f">SUBTOTAL</span>(<span class="hl-n">109</span>,D2:D5)</code></li><li><b>E6</b><code>=<span class="hl-f">SUBTOTAL</span>(<span class="hl-n">109</span>,E2:E5)</code></li></ul></div>
+<p>In a real Table, the Amount formula appears as <code>=[@Price]*[@Qty]</code>. The Total Row uses <code>SUBTOTAL(109, …)</code>, which sums only visible rows, so totals change when you filter.</p>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Copilot in Excel or any chat assistant can draft cleaning steps. A good prompt: <em>"I have a column of Indian city names with inconsistent spelling, extra spaces and mixed case (examples: '  bengaluru', 'BANGALORE', 'Bengaluru '). Give me an Excel formula to standardise them to proper case, and a list of Find &amp; Replace steps to map old names to new ones."</em> Always test the answer on a copy of your data.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>Prevent</strong> bad data with Data Validation (lists, limits, custom formulas) and <strong>cure</strong> the rest with cleaning tools.</li>
+<li>Validation lists should point to a Table so they grow automatically; use <code>INDIRECT</code> or <code>FILTER</code> for dependent drop-downs.</li>
+<li>Validation does not check pasted or old data: use <strong>Circle Invalid Data</strong>.</li>
+<li><code>TRIM</code>, <code>CLEAN</code>, <code>PROPER</code>, <code>SUBSTITUTE</code> fix most text; Text to Columns and Flash Fill split data.</li>
+<li><strong>Go To Special → Blanks</strong> then <code>=↑</code> and <code>Ctrl + Enter</code> fills blank cells with the value above.</li>
+<li>Inspect duplicates with <code>COUNTIF</code> before using Remove Duplicates; always keep a copy.</li>
+<li>Turn every dataset into an <strong>Excel Table</strong> (<code>Ctrl + T</code>).</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which validation setting stops users entering a duplicate employee ID in A2:A500?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>List with source A2:A500</button><button type="button" class="opt" data-ok="1"><i>B</i>Custom: <code>=COUNTIF($A$2:$A$500,A2)=1</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Text length equal to 4</button><button type="button" class="opt" data-ok="0"><i>D</i>Whole number between 1 and 500</button></div><div class="qexp"><b>Answer: B.</b> COUNTIF counts how many times the value appears; allowing only a count of 1 blocks duplicates.</div></div><div class="qq"><p class="qtext"><b>2.</b> You pasted 2,000 rows into a validated column. How do you find values that break the rule?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Re-create the validation rule</button><button type="button" class="opt" data-ok="1"><i>B</i>Data Validation → Circle Invalid Data</button><button type="button" class="opt" data-ok="0"><i>C</i>Press F9</button><button type="button" class="opt" data-ok="0"><i>D</i>Use Remove Duplicates</button></div><div class="qexp"><b>Answer: B.</b> Validation only checks typing. Circle Invalid Data marks existing violations.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>=TRIM("  New    Delhi ")</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>"New    Delhi"</button><button type="button" class="opt" data-ok="1"><i>B</i>"New Delhi"</button><button type="button" class="opt" data-ok="0"><i>C</i>"NewDelhi"</button><button type="button" class="opt" data-ok="0"><i>D</i>" New Delhi "</button></div><div class="qexp"><b>Answer: B.</b> TRIM removes leading and trailing spaces and reduces repeated inner spaces to one.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which feature fills blank cells in a column with the value from the cell above in a few keystrokes?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Flash Fill</button><button type="button" class="opt" data-ok="0"><i>B</i>Remove Duplicates</button><button type="button" class="opt" data-ok="1"><i>C</i>Go To Special → Blanks, then <code>=</code> + Up arrow + Ctrl + Enter</button><button type="button" class="opt" data-ok="0"><i>D</i>Text to Columns</button></div><div class="qexp"><b>Answer: C.</b> Go To Special selects only the blanks; Ctrl + Enter writes the relative formula into all of them.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is the main downside of Flash Fill?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It only works on numbers</button><button type="button" class="opt" data-ok="1"><i>B</i>Results are static values that do not update when the source changes</button><button type="button" class="opt" data-ok="0"><i>C</i>It needs a macro</button><button type="button" class="opt" data-ok="0"><i>D</i>It cannot split text</button></div><div class="qexp"><b>Answer: B.</b> Use formulas or Power Query for refreshable cleaning.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why should a drop-down list's source be an Excel Table?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The list grows automatically when new items are added</button><button type="button" class="opt" data-ok="0"><i>B</i>Tables are required for validation</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the drop-down faster</button><button type="button" class="opt" data-ok="0"><i>D</i>It prevents duplicates</button></div><div class="qexp"><b>Answer: A.</b> Tables expand automatically, so new departments appear in the drop-down without editing the rule.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Validation set-up</b></div><p>Using <code>employees_small.csv</code>, add validation so that: department must be one of Sales, Finance, IT, HR, Operations; rating must be a whole number from 1 to 5; join date cannot be in the future; and employee IDs are unique.</p><details class="sol"><summary>Show solution</summary><ul>
+<li>Department (C2:C21): List, source <code>Sales,Finance,IT,HR,Operations</code>.</li>
+<li>Rating (G2:G21): Whole number, between 1 and 5.</li>
+<li>Join date (E2:E21): Date, less than or equal to <code>=TODAY()</code>.</li>
+<li>Emp ID (A2:A21): Custom, <code>=COUNTIF($A$2:$A$21,A2)=1</code>.
+Add an Error Alert (Stop) for each with a helpful message, then run Circle Invalid Data to check the existing rows.</li>
+</ul></details></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Clean the city column</b></div><p>A column contains: <code>mumbai</code>, <code>MUMBAI</code>, <code>Bombay</code>, <code>Mumbai</code>, <code>mumbai city</code>. Produce one clean value, <code>Mumbai</code>, for all five.</p><details class="sol"><summary>Show solution</summary><ol>
+<li>Helper formula <code>=PROPER(TRIM(A2))</code> gives <code>Mumbai</code>, <code>Mumbai</code>, <code>Bombay</code>, <code>Mumbai</code>, <code>Mumbai City</code>.</li>
+<li>Paste Special → Values over the original.</li>
+<li>Find &amp; Replace with Match entire cell contents: <code>Bombay</code> → <code>Mumbai</code>, <code>Mumbai City</code> → <code>Mumbai</code>.
+For data that refreshes every week, build the same steps in Power Query so they repeat automatically.</li>
+</ol></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you stop users from entering invalid data in a shared tracker?</strong>
+Use Data Validation (drop-down lists from a Table, number and date limits, custom formulas for uniqueness), add input messages, set error alerts to Stop, and protect the sheet so the rules cannot be removed. Check older data with Circle Invalid Data.</p>
+<p><strong>Q: How do you remove duplicates without losing information?</strong>
+First flag them with <code>COUNTIF</code> or conditional formatting and review which record to keep; decide the key columns that define a duplicate; work on a copy; then use Remove Duplicates (or <code>UNIQUE</code>) on those columns.</p>
+<p><strong>Q: What is the difference between TRIM and CLEAN?</strong>
+TRIM removes extra spaces; CLEAN removes non-printing characters such as line breaks. Web data often needs both, plus <code>SUBSTITUTE(…,CHAR(160)," ")</code> for non-breaking spaces.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-01-getting-started-with-excel-for-data-analysis.html"><small>← Previous</small><b>Getting Started with Excel for Data Analysis</b></a><a class="next" href="excel-03-number-custom-and-conditional-formatting.html"><small>Next →</small><b>Number, Custom &amp; Conditional Formatting</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#garbage-in-garbage-out">Garbage in, garbage out</a><a href="#fast-consistent-data-entry">Fast, consistent data entry</a><a href="#data-validation-rules-for-what-can-be-typed">Data Validation: rules for what can be typed</a><a href="#cleaning-text-with-formulas">Cleaning text with formulas</a><a href="#text-to-columns">Text to Columns</a><a href="#find-replace-and-wildcards">Find &amp;amp; Replace and wildcards</a><a href="#go-to-special-select-blanks-constants-formulas-errors">Go To Special: select blanks, constants, formulas, errors</a><a href="#removing-duplicates">Removing duplicates</a><a href="#paste-special-the-cleaning-swiss-army-knife">Paste Special: the cleaning Swiss-army knife</a><a href="#excel-tables-structure-that-maintains-itself">Excel Tables: structure that maintains itself</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v7"></script><script src="../assets/course.js?v=v7"></script></body></html>

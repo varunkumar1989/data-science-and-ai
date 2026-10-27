@@ -1,0 +1,388 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Number, Custom &amp; Conditional Formatting · Excel Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Make numbers readable and insights jump out. Learn cell and number formats, write your own custom number formats (including lakhs and crores, K and M, and colour codes), and use conditional formatting with built-in rules and your own formulas."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v7"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class="on"><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-03">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 3 of 12</div><h1>Number, Custom &amp; Conditional Formatting</h1>
+<p class="sum">Make numbers readable and insights jump out. Learn cell and number formats, write your own custom number formats (including lakhs and crores, K and M, and colour codes), and use conditional formatting with built-in rules and your own formulas.</p><div class="tags"><span class="tag live">● Live class 2</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_03_Number_Custom_Conditional_Formatting.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-03.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Apply cell formatting (fonts, alignment, borders, wrap, merge alternatives) the professional way</li><li>Choose the right built-in number format and know that formatting never changes the stored value</li><li>Write custom number formats with sections, conditions, colours, text and scaling</li><li>Highlight insights with conditional formatting: rules, Top/Bottom, data bars, colour scales and icon sets</li><li>Write custom-formula conditional formatting, such as highlighting whole rows</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="formatting-changes-how-a-value-looks-not-what-it-is">Formatting changes how a value looks, not what it is</h2>
+<p>This is the most important idea in this lesson. When you format <code>0.256</code> as <code>26%</code>, the cell still contains <code>0.256</code>. Every formula that uses the cell sees <code>0.256</code>.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Same stored value, different formats</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Stored value</td><td class="c-h">Format applied</td><td class="c-h">What you see</td></tr><tr><th>2</th><td class="num">0.256</td><td class="">Percentage, 0 decimals</td><td class="fx" title="=TEXT(A2,&quot;0%&quot;)">26%</td></tr><tr><th>3</th><td class="num">0.256</td><td class="">Percentage, 1 decimal</td><td class="fx" title="=TEXT(A3,&quot;0.0%&quot;)">25.6%</td></tr><tr><th>4</th><td class="num">1,234,568</td><td class="">Number with separator</td><td class="fx" title="=TEXT(A4,&quot;#,##0.00&quot;)">1,234,567.89</td></tr><tr><th>5</th><td class="num">46139</td><td class="">Date</td><td class="fx" title="=TEXT(A5,&quot;dd-mmm-yyyy&quot;)">27-Apr-2026</td></tr><tr><th>6</th><td class="num">46139</td><td class="">Long date</td><td class="fx" title="=TEXT(A6,&quot;dddd, d mmmm yyyy&quot;)">Monday, 27 April 2026</td></tr><tr><th>7</th><td class="num">0.6875</td><td class="">Time</td><td class="fx" title="=TEXT(A7,&quot;hh:mm&quot;)">16:30</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">TEXT</span>(A2,<span class="hl-s">&quot;0%&quot;</span>)</code></li><li><b>C3</b><code>=<span class="hl-f">TEXT</span>(A3,<span class="hl-s">&quot;0.0%&quot;</span>)</code></li><li><b>C4</b><code>=<span class="hl-f">TEXT</span>(A4,<span class="hl-s">&quot;#,##0.00&quot;</span>)</code></li><li><b>C5</b><code>=<span class="hl-f">TEXT</span>(A5,<span class="hl-s">&quot;dd-mmm-yyyy&quot;</span>)</code></li><li><b>C6</b><code>=<span class="hl-f">TEXT</span>(A6,<span class="hl-s">&quot;dddd, d mmmm yyyy&quot;</span>)</code></li><li><b>C7</b><code>=<span class="hl-f">TEXT</span>(A7,<span class="hl-s">&quot;hh:mm&quot;</span>)</code></li></ul></div>
+<p>Column C uses the <code>TEXT</code> function to show exactly what each format produces. (<code>TEXT</code> returns text, so use it for labels, not for numbers you still need to calculate with.)</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Rounding by format vs rounding by formula</b></div><p>Formatting <code>2.456</code> with 1 decimal <em>shows</em> <code>2.5</code> but keeps <code>2.456</code>. Adding three such cells can show <code>7.4</code> while the visible numbers add up to <code>7.5</code>. If the rounded value must be used in calculations (invoices, tax), round it with a formula: <code>=ROUND(A2,1)</code>.</p></div>
+<h2 id="cell-formatting-the-professional-way">Cell formatting the professional way</h2>
+<p>Open <strong>Format Cells</strong> with <code>Ctrl + 1</code>. It has six tabs: Number, Alignment, Font, Border, Fill, Protection.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Goal</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bold header with fill colour</td>
+<td>Home → Bold (<code>Ctrl + B</code>) and Fill Color, or Cell Styles → Heading</td>
+</tr>
+<tr>
+<td>Wrap long text</td>
+<td>Home → Wrap Text (<code>Alt + H, W</code>)</td>
+</tr>
+<tr>
+<td>Centre a title across columns <strong>without merging</strong></td>
+<td><code>Ctrl + 1</code> → Alignment → Horizontal: <strong>Center Across Selection</strong></td>
+</tr>
+<tr>
+<td>Rotate header text</td>
+<td>Alignment → Orientation</td>
+</tr>
+<tr>
+<td>Thin borders around a table</td>
+<td>Home → Borders → All Borders</td>
+</tr>
+<tr>
+<td>Copy formatting</td>
+<td>Format Painter (double-click it to paint many places)</td>
+</tr>
+<tr>
+<td>Clear only formatting</td>
+<td>Home → Clear → Clear Formats</td>
+</tr>
+<tr>
+<td>Consistent look across a workbook</td>
+<td>Page Layout → Themes, and Cell Styles</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Avoid merged cells</b></div><p>Merged cells break sorting, filtering, copying, selecting columns and pivot tables. Use <strong>Center Across Selection</strong> instead: it looks the same and keeps every cell independent.</p></div>
+<h2 id="built-in-number-formats">Built-in number formats</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Format</th>
+<th>Example display of 1234.5</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General</td>
+<td>1234.5</td>
+<td>Default, no fixed format</td>
+</tr>
+<tr>
+<td>Number</td>
+<td>1,234.50</td>
+<td>Quantities, amounts</td>
+</tr>
+<tr>
+<td>Currency</td>
+<td>₹1,234.50</td>
+<td>Money, symbol next to the number</td>
+</tr>
+<tr>
+<td>Accounting</td>
+<td>₹ 1,234.50</td>
+<td>Money in financial statements: symbol aligned at the left edge, zero shown as a dash</td>
+</tr>
+<tr>
+<td>Percentage</td>
+<td>123450%</td>
+<td>Rates; type <code>12%</code> or format <code>0.12</code></td>
+</tr>
+<tr>
+<td>Fraction</td>
+<td>1234 1/2</td>
+<td>Measurements</td>
+</tr>
+<tr>
+<td>Scientific</td>
+<td>1.23E+03</td>
+<td>Very large or small numbers</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>1234.5 (as text)</td>
+<td>IDs, codes, phone numbers</td>
+</tr>
+<tr>
+<td>Date / Time</td>
+<td>Various</td>
+<td>Dates and times (stored as serial numbers)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Shortcuts: <code>Ctrl + Shift + 1</code> number with 2 decimals, <code>Ctrl + Shift + 4</code> currency, <code>Ctrl + Shift + 5</code> percentage, <code>Ctrl + Shift + 3</code> date.</p>
+<h2 id="custom-number-formats">Custom number formats</h2>
+<p><code>Ctrl + 1</code> → Number → <strong>Custom</strong> lets you write your own format code. Once you understand the structure, you can make dashboards that are much easier to read.</p>
+<h3 id="the-four-sections">The four sections</h3>
+<p>A format code can have up to four parts, separated by semicolons:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">POSITIVE ; NEGATIVE ; ZERO ; TEXT
+#,##0    ; [Red]-#,##0 ; &quot;–&quot; ; @</code></pre></div>
+<figure class="fig"><img src="../img/excel-03-01.png" alt="A custom number format has up to four sections separated by semicolons." loading="lazy"><figcaption>A custom number format has up to four sections separated by semicolons.</figcaption></figure>
+<h3 id="placeholder-characters">Placeholder characters</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Value 7.5 →</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Digit, shows a zero if none</td>
+<td><code>000.00</code> → 007.50</td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td>Digit, shows nothing if none</td>
+<td><code>#.##</code> → 7.5</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>Digit, shows a space (aligns decimals)</td>
+<td><code>?.??</code> → 7.5␣</td>
+</tr>
+<tr>
+<td><code>,</code> (in the middle)</td>
+<td>Thousands separator</td>
+<td><code>#,##0</code></td>
+</tr>
+<tr>
+<td><code>,</code> (at the end)</td>
+<td>Divide by 1,000 for each comma</td>
+<td><code>#,##0,</code> shows 12,500 as 13</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>Multiply by 100 and add %</td>
+<td><code>0%</code></td>
+</tr>
+<tr>
+<td><code>"text"</code></td>
+<td>Show literal text</td>
+<td><code>0" units"</code></td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>The cell's text</td>
+<td><code>"Dept: "@</code></td>
+</tr>
+<tr>
+<td><code>[Red]</code>, <code>[Blue]</code>, <code>[Color10]</code></td>
+<td>Colour</td>
+<td><code>[Red]-0</code></td>
+</tr>
+<tr>
+<td><code>[&gt;=1000]</code></td>
+<td>Condition</td>
+<td><code>[&gt;=1000]#,##0,"K";0</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="custom-formats-you-will-reuse">Custom formats you will reuse</h3>
+<p>Each result in column C was produced by Excel's <code>TEXT</code> function with the format code in column B.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Custom format cookbook</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Value</td><td class="c-h">Format code</td><td class="c-h">Result</td></tr><tr><th>2</th><td class="num">12500</td><td class="">#,##0</td><td class="fx" title="=TEXT(A2,B2)">12,500</td></tr><tr><th>3</th><td class="num">12500</td><td class="">#,##0,&quot;K&quot;</td><td class="fx" title="=TEXT(A3,B3)">13K</td></tr><tr><th>4</th><td class="num">12500</td><td class="">#,##0.0,&quot;K&quot;</td><td class="fx" title="=TEXT(A4,B4)">12.5K</td></tr><tr><th>5</th><td class="num">8450000</td><td class="">#,##0.0,,&quot;M&quot;</td><td class="fx" title="=TEXT(A5,B5)">8.5M</td></tr><tr><th>6</th><td class="num">-3200</td><td class="">#,##0;(#,##0)</td><td class="fx" title="=TEXT(A6,B6)">(3,200)</td></tr><tr><th>7</th><td class="num">0</td><td class="">#,##0;-#,##0;&quot;–&quot;</td><td class="fx" title="=TEXT(A7,B7)">–</td></tr><tr><th>8</th><td class="num">45</td><td class="">0&quot; units&quot;</td><td class="fx" title="=TEXT(A8,B8)">45 units</td></tr><tr><th>9</th><td class="num">0.0725</td><td class="">0.0%</td><td class="fx" title="=TEXT(A9,B9)">7.3%</td></tr><tr><th>10</th><td class="num">7</td><td class="">000</td><td class="fx" title="=TEXT(A10,B10)">007</td></tr><tr><th>11</th><td class="num">9876543210</td><td class="">00000 00000</td><td class="fx" title="=TEXT(A11,B11)">98765 43210</td></tr><tr><th>12</th><td class="num">1500</td><td class="">[&gt;=1000]#,##0.0,&quot;K&quot;;0</td><td class="fx" title="=TEXT(A12,B12)">1.5K</td></tr><tr><th>13</th><td class="num">850</td><td class="">[&gt;=1000]#,##0.0,&quot;K&quot;;0</td><td class="fx" title="=TEXT(A13,B13)">850</td></tr><tr><th>14</th><td class="num">0.25</td><td class="">▲ 0%;▼ 0%</td><td class="fx" title="=TEXT(A14,B14)">▲ 25%</td></tr><tr><th>15</th><td class="num">-0.12</td><td class="">▲ 0%;▼ 0%</td><td class="fx" title="=TEXT(A15,B15)">▼ 12%</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">TEXT</span>(A2,B2)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Up and down arrows in KPIs</b></div><p><code>▲ 0%;▼ 0%</code> (add <code>[Color10]</code> for green and <code>[Red]</code> for red: <code>[Color10]▲ 0%;[Red]▼ 0%</code>) is the classic format for "change versus last month" cells in dashboards. The arrow and colour change automatically with the sign.</p></div>
+<h3 id="indian-number-format-lakhs-and-crores">Indian number format: lakhs and crores</h3>
+<p>Indian reports group digits as 12,34,56,789 (crore, lakh, thousand). If your Windows region is set to English (India), the standard <code>#,##0</code> already groups this way. Otherwise use a conditional format:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">[&gt;=10000000]##\,##\,##\,##0;[&gt;=100000]##\,##\,##0;##,##0</code></pre></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Lakhs and crores</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Value</td><td class="c-h">Indian grouping</td><td class="c-h">In lakhs</td><td class="c-h">In crores</td></tr><tr><th>2</th><td class="num">1234567</td><td class="">12,34,567</td><td class="fx" title="=TEXT(A2/100000,&quot;0.00&quot;)&amp;&quot; L&quot;">12.35 L</td><td class="fx" title="=TEXT(A2/10000000,&quot;0.00&quot;)&amp;&quot; Cr&quot;">0.12 Cr</td></tr><tr><th>3</th><td class="num">98765432</td><td class="">9,87,65,432</td><td class="fx" title="=TEXT(A3/100000,&quot;0.00&quot;)&amp;&quot; L&quot;">987.65 L</td><td class="fx" title="=TEXT(A3/10000000,&quot;0.00&quot;)&amp;&quot; Cr&quot;">9.88 Cr</td></tr><tr><th>4</th><td class="num">450000</td><td class="">4,50,000</td><td class="fx" title="=TEXT(A4/100000,&quot;0.00&quot;)&amp;&quot; L&quot;">4.50 L</td><td class="fx" title="=TEXT(A4/10000000,&quot;0.00&quot;)&amp;&quot; Cr&quot;">0.05 Cr</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">TEXT</span>(A2/<span class="hl-n">100000</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; L&quot;</span></code></li><li><b>D2</b><code>=<span class="hl-f">TEXT</span>(A2/<span class="hl-n">10000000</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; Cr&quot;</span></code></li><li><b>C3</b><code>=<span class="hl-f">TEXT</span>(A3/<span class="hl-n">100000</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; L&quot;</span></code></li><li><b>D3</b><code>=<span class="hl-f">TEXT</span>(A3/<span class="hl-n">10000000</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; Cr&quot;</span></code></li><li><b>C4</b><code>=<span class="hl-f">TEXT</span>(A4/<span class="hl-n">100000</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; L&quot;</span></code></li><li><b>D4</b><code>=<span class="hl-f">TEXT</span>(A4/<span class="hl-n">10000000</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; Cr&quot;</span></code></li></ul></div>
+<p>There is no "divide by 1 lakh" comma trick in Excel (each trailing comma divides by 1,000), so for lakhs either divide in a helper column (as above) or use Power BI's display units.</p>
+<h3 id="date-and-time-format-codes">Date and time format codes</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Code</th>
+<th>Shows (for 27-04-2026 14:05)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d</code>, <code>dd</code></td>
+<td>27</td>
+</tr>
+<tr>
+<td><code>ddd</code>, <code>dddd</code></td>
+<td>Mon, Monday</td>
+</tr>
+<tr>
+<td><code>m</code>, <code>mm</code></td>
+<td>4, 04</td>
+</tr>
+<tr>
+<td><code>mmm</code>, <code>mmmm</code></td>
+<td>Apr, April</td>
+</tr>
+<tr>
+<td><code>yy</code>, <code>yyyy</code></td>
+<td>26, 2026</td>
+</tr>
+<tr>
+<td><code>hh:mm</code></td>
+<td>14:05</td>
+</tr>
+<tr>
+<td><code>hh:mm AM/PM</code></td>
+<td>02:05 PM</td>
+</tr>
+<tr>
+<td><code>[h]:mm</code></td>
+<td>Total hours beyond 24, for timesheets (e.g. 37:30)</td>
+</tr>
+<tr>
+<td><code>"Q"</code> with a formula</td>
+<td>Quarter labels need a formula: <code>="Q"&amp;ROUNDUP(MONTH(A2)/3,0)</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="conditional-formatting-let-insights-jump-out">Conditional formatting: let insights jump out</h2>
+<p><strong>Home → Conditional Formatting</strong> changes a cell's look based on its value. It is how you turn a wall of numbers into something a manager understands in five seconds.</p>
+<figure class="fig"><img src="../img/excel-03-02.png" alt="The five families of conditional formatting rules." loading="lazy"><figcaption>The five families of conditional formatting rules.</figcaption></figure>
+<h3 id="highlight-rules-and-topbottom">Highlight rules and Top/Bottom</h3>
+<p>In the table below, green marks sales <strong>above 1,50,000</strong> and red marks <strong>profit below 0</strong> (both "Highlight Cells Rules"):</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Highlight rules: sales &gt; 1,50,000 (green), profit &lt; 0 (red)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Region</td><td class="c-h">Category</td><td class="c-h">Sales</td><td class="c-h">Profit</td></tr><tr><th>2</th><td class="">North</td><td class="">Furniture</td><td class="num">128,400</td><td class="c-r num">-3,250</td></tr><tr><th>3</th><td class="">North</td><td class="">Technology</td><td class="c-g num">212,950</td><td class="num">28,400</td></tr><tr><th>4</th><td class="">South</td><td class="">Office Supplies</td><td class="num">96,300</td><td class="num">14,820</td></tr><tr><th>5</th><td class="">South</td><td class="">Technology</td><td class="c-g num">187,200</td><td class="num">19,950</td></tr><tr><th>6</th><td class="">East</td><td class="">Furniture</td><td class="num">74,100</td><td class="c-r num">-8,900</td></tr><tr><th>7</th><td class="">West</td><td class="">Technology</td><td class="c-g num">158,700</td><td class="num">22,310</td></tr></table></div></div></div>
+<h3 id="data-bars-colour-scales-and-icon-sets">Data bars, colour scales and icon sets</h3>
+<p>These visual rules are best seen on real data. Here they are applied to monthly sales from the Superstore dataset:</p>
+<figure class="fig"><img src="../img/excel-03-03.png" alt="Data bars (left), a green–yellow–red colour scale (middle) and icon sets (right) applied to the same monthly sales." loading="lazy"><figcaption>Data bars (left), a green–yellow–red colour scale (middle) and icon sets (right) applied to the same monthly sales.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Rule</th>
+<th>When to use</th>
+<th>Watch out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data bars</strong></td>
+<td>Compare magnitudes inside a table</td>
+<td>Negative values draw leftwards; set a fixed minimum of 0 if needed</td>
+</tr>
+<tr>
+<td><strong>Colour scales</strong></td>
+<td>Heat maps: sales by region × month, attendance grids</td>
+<td>Red/green is hard for colour-blind readers; consider blue–white–orange</td>
+</tr>
+<tr>
+<td><strong>Icon sets</strong></td>
+<td>Status at a glance: on track, at risk, off track</td>
+<td>Default thresholds are percentages of the range (67% / 33%); set them to numbers or percentiles that match your business targets</td>
+</tr>
+</tbody>
+</table></div>
+<p>Under <strong>Manage Rules → Edit Rule</strong> you can change thresholds, choose "Show Bar Only" or "Show Icon Only", and reverse the icon order.</p>
+<h2 id="custom-formula-conditional-formatting">Custom formula conditional formatting</h2>
+<p><strong>New Rule → Use a formula to determine which cells to format</strong> is the most powerful option. Write a formula for the <strong>top-left cell</strong> of your selection that returns TRUE for cells you want formatted. Dollar signs matter:</p>
+<ul>
+<li><code>$</code> before the column (<code>$D2</code>) locks the rule to column D, so <strong>every cell in the row</strong> checks column D → the whole row is highlighted.</li>
+<li>No <code>$</code> before the row number lets the row change as Excel moves down the selection.</li>
+</ul>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Highlight whole rows where Department = Finance AND Salary &gt; 1,00,000 — rule: =AND($C2=&amp;quot;Finance&amp;quot;,$F2&gt;100000)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr><tr><th>1</th><td class="c-h">Emp ID</td><td class="c-h">Name</td><td class="c-h">Department</td><td class="c-h">City</td><td class="c-h">Join date</td><td class="c-h">Salary</td><td class="c-h">Rating</td></tr><tr><th>2</th><td class="">E101</td><td class="">Kavya Iyer</td><td class="">HR</td><td class="">Mumbai</td><td class="">28-02-2016</td><td class="num">97,000</td><td class="num">4</td></tr><tr><th>3</th><td class="c-y">E102</td><td class="c-y">Imran Reddy</td><td class="c-y">Finance</td><td class="c-y">Delhi</td><td class="c-y">14-12-2019</td><td class="c-y num">157,000</td><td class="c-y num">3</td></tr><tr><th>4</th><td class="c-y">E103</td><td class="c-y">Harpreet Kulkarni</td><td class="c-y">Finance</td><td class="c-y">Mumbai</td><td class="c-y">05-10-2024</td><td class="c-y num">131,000</td><td class="c-y num">4</td></tr><tr><th>5</th><td class="">E104</td><td class="">Diya Iyer</td><td class="">HR</td><td class="">Bengaluru</td><td class="">02-01-2024</td><td class="num">90,000</td><td class="num">4</td></tr><tr><th>6</th><td class="">E110</td><td class="">Vikram Joshi</td><td class="">Finance</td><td class="">Chennai</td><td class="">19-10-2022</td><td class="num">75,000</td><td class="num">5</td></tr><tr><th>7</th><td class="">E119</td><td class="">Rohan Das</td><td class="">Finance</td><td class="">Delhi</td><td class="">19-07-2018</td><td class="num">97,000</td><td class="num">5</td></tr></table></div></div></div>
+<p>Rows E102 and E103 meet both conditions. E110 and E119 are in Finance but earn less than 1,00,000, so they stay white.</p>
+<h3 id="more-custom-formula-recipes">More custom-formula recipes</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Goal</th>
+<th>Select</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zebra stripes (every other row)</td>
+<td>the table</td>
+<td><code>=MOD(ROW(),2)=0</code></td>
+</tr>
+<tr>
+<td>Overdue tasks (due date before today, status not Done)</td>
+<td>the table</td>
+<td><code>=AND($E2&lt;TODAY(),$F2&lt;&gt;"Done")</code></td>
+</tr>
+<tr>
+<td>Values above the column average</td>
+<td><code>C2:C100</code></td>
+<td><code>=C2&gt;AVERAGE($C$2:$C$100)</code></td>
+</tr>
+<tr>
+<td>Duplicate IDs</td>
+<td><code>A2:A100</code></td>
+<td><code>=COUNTIF($A$2:$A$100,A2)&gt;1</code></td>
+</tr>
+<tr>
+<td>Weekend dates</td>
+<td><code>A2:A100</code></td>
+<td><code>=WEEKDAY(A2,2)&gt;5</code></td>
+</tr>
+<tr>
+<td>Row of the employee picked in a drop-down (H1)</td>
+<td>the table</td>
+<td><code>=$B2=$H$1</code></td>
+</tr>
+<tr>
+<td>Missing values</td>
+<td>the table</td>
+<td><code>=ISBLANK(A2)</code> or <code>=A2=""</code></td>
+</tr>
+<tr>
+<td>Top 3 per column</td>
+<td><code>C2:C100</code></td>
+<td><code>=C2&gt;=LARGE($C$2:$C$100,3)</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Create a whole-row highlight</b></div><ol>
+<li>Select the data <strong>without</strong> the header (for example <code>A2:G21</code>). The active cell must be in row 2.</li>
+<li>Home → Conditional Formatting → New Rule → <strong>Use a formula to determine which cells to format</strong>.</li>
+<li>Formula: <code>=AND($C2="Finance",$F2&gt;100000)</code>.</li>
+<li>Click <strong>Format…</strong> → Fill → choose a colour → OK.</li>
+<li>To edit later: Conditional Formatting → <strong>Manage Rules</strong> (choose "This Worksheet" to see all rules). Rules higher in the list win; tick <strong>Stop If True</strong> to prevent lower rules from also applying.</li>
+</ol></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>The three most common conditional-formatting bugs</b></div><ol>
+<li><strong>Wrong anchor</strong>: writing the formula for row 1 while the selection starts at row 2 shifts every result by one row.</li>
+<li><strong>Missing <code>$</code></strong>: <code>=C2="Finance"</code> (no <code>$</code>) checks a different column for each cell, so only part of the row lights up.</li>
+<li><strong>Copying cells copies rules</strong>: pasting formatted cells many times creates hundreds of duplicate rules and slows the workbook. Clean up in Manage Rules, or paste values only.</li>
+</ol></div>
+<h2 id="formatting-a-report-before-and-after">Formatting a report: before and after</h2>
+<p>A clean report follows a few simple rules:</p>
+<ol>
+<li><strong>Right-align numbers</strong>, left-align text, and use the same number of decimals in a column.</li>
+<li>Use <strong>thousands separators</strong>; show large values in K/M or lakh/crore with clear labels.</li>
+<li><strong>Bold</strong> headers and totals only; avoid using many colours.</li>
+<li>Use <strong>one highlight colour</strong> for "needs attention" and keep everything else neutral.</li>
+<li><strong>Freeze</strong> the header row; make the column widths fit the content.</li>
+<li>Add a title, the date range and the data source.</li>
+</ol>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Ask an assistant: <em>"Write an Excel custom number format that shows values above 1 crore as '1.25 Cr', values above 1 lakh as '4.50 L', and smaller values with Indian comma grouping."</em> Then test the answer with <code>=TEXT(value, "format")</code> on a few numbers before applying it. (A pure format can only scale by thousands, so a good answer will suggest a helper column or Power BI for lakhs and crores.)</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Formatting changes the <strong>display</strong>, never the stored value. Round with <code>ROUND</code> when it matters.</li>
+<li>Avoid merged cells; use <strong>Center Across Selection</strong>.</li>
+<li>Custom formats have four sections, <code>positive;negative;zero;text</code>, and support colours, conditions, text and scaling with trailing commas.</li>
+<li>Conditional formatting families: highlight rules, Top/Bottom, data bars, colour scales and icon sets.</li>
+<li>For whole-row highlights use a formula with <code>$</code> before the column: <code>=$C2="Finance"</code>.</li>
+<li>Manage Rules shows priority; rule order and Stop If True decide which format wins.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A cell contains 0.4567 formatted as 0%. What value does <code>=A1*100</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>46</button><button type="button" class="opt" data-ok="1"><i>B</i>45.67</button><button type="button" class="opt" data-ok="0"><i>C</i>0.46</button><button type="button" class="opt" data-ok="0"><i>D</i>46%</button></div><div class="qexp"><b>Answer: B.</b> The stored value is still 0.4567, so the formula returns 45.67. Formatting only changes the display.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which custom format shows 8,450,000 as 8.5M?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>#,##0,"M"</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>#,##0.0,,"M"</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>0.0"M"</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>#,##0.0%</code></button></div><div class="qexp"><b>Answer: B.</b> Two trailing commas divide by 1,000,000, and 0.0 shows one decimal.</div></div><div class="qq"><p class="qtext"><b>3.</b> In the format <code>#,##0;[Red](#,##0);"–"</code>, how is -2500 shown?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>-2,500 in black</button><button type="button" class="opt" data-ok="1"><i>B</i>(2,500) in red</button><button type="button" class="opt" data-ok="0"><i>C</i>–</button><button type="button" class="opt" data-ok="0"><i>D</i>2,500 in red</button></div><div class="qexp"><b>Answer: B.</b> The second section is for negative numbers: red, in brackets, without a minus sign.</div></div><div class="qq"><p class="qtext"><b>4.</b> You want to highlight entire rows where Status (column F) is "Late". Rows start at 2. Which rule is correct?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=F2="Late"</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=$F2="Late"</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=$F$2="Late"</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=F$2="Late"</code></button></div><div class="qexp"><b>Answer: B.</b> Locking the column with $ makes every cell in the row test column F; leaving the row free lets each row test itself.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does "Center Across Selection" replace?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Wrap Text</button><button type="button" class="opt" data-ok="1"><i>B</i>Merge &amp; Center</button><button type="button" class="opt" data-ok="0"><i>C</i>Format Painter</button><button type="button" class="opt" data-ok="0"><i>D</i>Freeze Panes</button></div><div class="qexp"><b>Answer: B.</b> It centres text across several cells without merging them, so sorting and selecting still work.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which conditional formatting type is best for a sales heat map of region × month?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Icon sets</button><button type="button" class="opt" data-ok="0"><i>B</i>Data bars</button><button type="button" class="opt" data-ok="1"><i>C</i>Colour scales</button><button type="button" class="opt" data-ok="0"><i>D</i>Highlight duplicates</button></div><div class="qexp"><b>Answer: C.</b> Colour scales shade each cell by value, which creates a heat map.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Dashboard number formats</b></div><p>Write custom formats for: (a) revenue shown in thousands with "K" and no decimals; (b) month-on-month change shown as a green up arrow with one decimal percentage when positive, and a red down arrow when negative; (c) a 6-digit PIN code that must keep leading zeros.</p><details class="sol"><summary>Show solution</summary><p>(a) <code>#,##0,"K"</code>  (b) <code>[Color10]▲ 0.0%;[Red]▼ 0.0%;"–"</code>  (c) <code>000000</code> (or store the PIN as text).</p></details></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Conditional formatting practice</b></div><p>Using <code>employees_small.csv</code>: (1) colour-scale the salary column; (2) add an icon set to rating with green for 5, amber for 3–4 and red for 1–2; (3) highlight the whole row of anyone who joined after 1-Jan-2024.</p><details class="sol"><summary>Show solution</summary><p>(1) Select F2:F21 → Color Scales → Green–Yellow–Red. (2) Select G2:G21 → Icon Sets → 3 traffic lights → Manage Rules → Edit: green when ≥ 5 (Number), amber when ≥ 3 (Number), otherwise red. (3) Select A2:G21 → New Rule → formula <code>=$E2&gt;DATE(2024,1,1)</code> → choose a fill.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between formatting a number and rounding it?</strong>
+Formatting changes only how the value looks; the full value is used in calculations. <code>ROUND</code> changes the stored value. Use <code>ROUND</code> when the rounded figure must flow into other calculations, such as invoices.</p>
+<p><strong>Q: How would you highlight the top 10% of customers by revenue?</strong>
+Conditional Formatting → Top/Bottom Rules → Top 10% (change 10 to any value), or a formula rule <code>=C2&gt;=PERCENTILE.INC($C$2:$C$500,0.9)</code> for more control.</p>
+<p><strong>Q: Why might a conditional format highlight the wrong rows?</strong>
+The formula was written for a different starting row than the active cell of the selection, or the <code>$</code> signs are wrong.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-02-data-entry-data-validation-and-data-cleaning.html"><small>← Previous</small><b>Data Entry, Data Validation &amp; Data Cleaning</b></a><a class="next" href="excel-04-formulas-cell-references-and-aggregate-functions.html"><small>Next →</small><b>Formulas, Cell References &amp; Aggregate Functions</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#formatting-changes-how-a-value-looks-not-what-it-is">Formatting changes how a value looks, not what it is</a><a href="#cell-formatting-the-professional-way">Cell formatting the professional way</a><a href="#built-in-number-formats">Built-in number formats</a><a href="#custom-number-formats">Custom number formats</a><a href="#conditional-formatting-let-insights-jump-out">Conditional formatting: let insights jump out</a><a href="#custom-formula-conditional-formatting">Custom formula conditional formatting</a><a href="#formatting-a-report-before-and-after">Formatting a report: before and after</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v7"></script><script src="../assets/course.js?v=v7"></script></body></html>

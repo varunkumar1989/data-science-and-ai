@@ -1,0 +1,455 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Date, Time &amp; Number Functions and Named Ranges · Excel Lesson 9 · Data Science &amp; AI Handbook</title><meta name="description" content="Work confidently with dates and times (DATE, EOMONTH, EDATE, WORKDAY, NETWORKDAYS, WEEKDAY, WEEKNUM, DATEDIF, fiscal quarters), clean up numbers with INT, MOD, ROUND, CEILING and FLOOR, and make formulas readable with static and dynamic named ranges and LET."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v7"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 9</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class="on"><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-09">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 9 of 12</div><h1>Date, Time &amp; Number Functions and Named Ranges</h1>
+<p class="sum">Work confidently with dates and times (DATE, EOMONTH, EDATE, WORKDAY, NETWORKDAYS, WEEKDAY, WEEKNUM, DATEDIF, fiscal quarters), clean up numbers with INT, MOD, ROUND, CEILING and FLOOR, and make formulas readable with static and dynamic named ranges and LET.</p><div class="tags"><span class="tag live">● Live classes 7–8</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_09_Date_Time_Number_Functions_and_Named_Ranges.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-09.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-09">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain how Excel stores dates and times, and do date arithmetic correctly</li><li>Extract parts of dates, find month ends, add months, and count working days with holidays</li><li>Calculate age, tenure and fiscal-year quarters (Indian April–March and US October–September)</li><li>Use INT, MOD, ROUND, ROUNDUP, ROUNDDOWN, MROUND, CEILING.MATH, FLOOR.MATH, SQRT, POWER and ABS</li><li>Create static and dynamic named ranges and simplify long formulas with LET</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="dates-and-times-are-numbers">Dates and times are numbers</h2>
+<p>Excel stores a date as the number of days since <strong>1 January 1900</strong> (that day is 1). A time is a <strong>fraction of a day</strong>: 12:00 noon is 0.5 and 06:00 is 0.25. A date with a time is simply a whole number plus a fraction.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>What is really stored</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">You see</td><td class="c-h">Stored as</td><td class="c-h">Explanation</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="fx" title="=A2">46139</td><td class="">Days since 1-Jan-1900</td></tr><tr><th>3</th><td class="">12:00</td><td class="fx" title="=TIME(12,0,0)">12:00</td><td class="">Half a day</td></tr><tr><th>4</th><td class="">06:30</td><td class="fx" title="=TIME(6,30,0)">0.2708</td><td class="">6.5 hours ÷ 24</td></tr><tr><th>5</th><td class="">27-04-2026 18:00</td><td class="fx" title="=DATE(2026,4,27)+TIME(18,0,0)">46139.75</td><td class="">Date + time</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=A2</code></li><li><b>B3</b><code>=<span class="hl-f">TIME</span>(<span class="hl-n">12</span>,<span class="hl-n">0</span>,<span class="hl-n">0</span>)</code></li><li><b>B4</b><code>=<span class="hl-f">TIME</span>(<span class="hl-n">6</span>,<span class="hl-n">30</span>,<span class="hl-n">0</span>)</code></li><li><b>B5</b><code>=<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">4</span>,<span class="hl-n">27</span>)+<span class="hl-f">TIME</span>(<span class="hl-n">18</span>,<span class="hl-n">0</span>,<span class="hl-n">0</span>)</code></li></ul></div>
+<p>This is why date arithmetic works:</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Date arithmetic</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Order date</td><td class="c-h">Ship date</td><td class="c-h">Days to ship =B2-A2</td><td class="c-h">Due date (+30 days)</td><td class="c-h">Overdue? (as of 15-Jun-2026)</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="">02-05-2026</td><td class="fx num" title="=B2-A2">5</td><td class="fx" title="=A2+30">27-05-2026</td><td class="fx" title="=IF(DATE(2026,6,15)&gt;D2,&quot;Overdue&quot;,&quot;OK&quot;)">Overdue</td></tr><tr><th>3</th><td class="">20-05-2026</td><td class="">21-05-2026</td><td class="fx num" title="=B3-A3">1</td><td class="fx" title="=A3+30">19-06-2026</td><td class="fx" title="=IF(DATE(2026,6,15)&gt;D3,&quot;Overdue&quot;,&quot;OK&quot;)">OK</td></tr><tr><th>4</th><td class="">01-06-2026</td><td class="">08-06-2026</td><td class="fx num" title="=B4-A4">7</td><td class="fx" title="=A4+30">01-07-2026</td><td class="fx" title="=IF(DATE(2026,6,15)&gt;D4,&quot;Overdue&quot;,&quot;OK&quot;)">OK</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=B2-A2</code></li><li><b>D2</b><code>=A2+<span class="hl-n">30</span></code></li><li><b>E2</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">DATE</span>(<span class="hl-n">2026</span>,<span class="hl-n">6</span>,<span class="hl-n">15</span>)&gt;D2,<span class="hl-s">&quot;Overdue&quot;</span>,<span class="hl-s">&quot;OK&quot;</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>TODAY() and NOW()</b></div><p><code>=TODAY()</code> returns today's date and <code>=NOW()</code> the date and time. They are <strong>volatile</strong>: they recalculate every time the workbook changes, so results move every day. For reports that must not change, type the "as of" date into a cell and refer to it, as in the overdue example above. Shortcuts: <code>Ctrl + ;</code> types today's date as a fixed value.</p></div>
+<h2 id="building-and-taking-apart-dates">Building and taking apart dates</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>Example (A2 = 27-04-2026)</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATE(y, m, d)</code></td>
+<td>A date from parts</td>
+<td><code>=DATE(2026,4,27)</code></td>
+<td>27-04-2026</td>
+</tr>
+<tr>
+<td><code>YEAR</code>, <code>MONTH</code>, <code>DAY</code></td>
+<td>Parts of a date</td>
+<td><code>=MONTH(A2)</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>WEEKDAY(date, 2)</code></td>
+<td>1 = Monday … 7 = Sunday</td>
+<td><code>=WEEKDAY(A2,2)</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>WEEKNUM(date, 2)</code></td>
+<td>Week of the year (weeks start Monday)</td>
+<td><code>=WEEKNUM(A2,2)</code></td>
+<td>18</td>
+</tr>
+<tr>
+<td><code>ISOWEEKNUM(date)</code></td>
+<td>ISO 8601 week number</td>
+<td><code>=ISOWEEKNUM(A2)</code></td>
+<td>18</td>
+</tr>
+<tr>
+<td><code>TEXT(date, "mmm")</code></td>
+<td>Month name as text</td>
+<td><code>=TEXT(A2,"mmmm")</code></td>
+<td>April</td>
+</tr>
+<tr>
+<td><code>EOMONTH(date, n)</code></td>
+<td>Last day of the month n months away</td>
+<td><code>=EOMONTH(A2,0)</code></td>
+<td>30-04-2026</td>
+</tr>
+<tr>
+<td><code>EDATE(date, n)</code></td>
+<td>Same day n months later</td>
+<td><code>=EDATE(A2,3)</code></td>
+<td>27-07-2026</td>
+</tr>
+<tr>
+<td><code>DATEVALUE(text)</code></td>
+<td>Converts date text to a real date</td>
+<td><code>=DATEVALUE("27-Apr-2026")</code></td>
+<td>46139</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Date parts and month boundaries</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr><tr><th>1</th><td class="c-h">Date</td><td class="c-h">Year</td><td class="c-h">Month</td><td class="c-h">Day</td><td class="c-h">Weekday (Mon=1)</td><td class="c-h">Month end</td><td class="c-h">First of month</td><td class="c-h">+3 months</td></tr><tr><th>2</th><td class="">27-04-2026</td><td class="fx num" title="=YEAR(A2)">2026</td><td class="fx num" title="=MONTH(A2)">4</td><td class="fx num" title="=DAY(A2)">27</td><td class="fx num" title="=WEEKDAY(A2,2)">1</td><td class="fx num" title="=EOMONTH(A2,0)">30-04-2026</td><td class="fx num" title="=EOMONTH(A2,-1)+1">01-04-2026</td><td class="fx num" title="=EDATE(A2,3)">27-07-2026</td></tr><tr><th>3</th><td class="">31-01-2026</td><td class="fx num" title="=YEAR(A3)">2026</td><td class="fx num" title="=MONTH(A3)">1</td><td class="fx num" title="=DAY(A3)">31</td><td class="fx num" title="=WEEKDAY(A3,2)">6</td><td class="fx num" title="=EOMONTH(A3,0)">31-01-2026</td><td class="fx num" title="=EOMONTH(A3,-1)+1">01-01-2026</td><td class="fx num" title="=EDATE(A3,1)">28-02-2026</td></tr><tr><th>4</th><td class="">29-02-2024</td><td class="fx num" title="=YEAR(A4)">2024</td><td class="fx num" title="=MONTH(A4)">2</td><td class="fx num" title="=DAY(A4)">29</td><td class="fx num" title="=WEEKDAY(A4,2)">4</td><td class="fx num" title="=EOMONTH(A4,0)">29-02-2024</td><td class="fx num" title="=EOMONTH(A4,-1)+1">01-02-2024</td><td class="fx num" title="=EDATE(A4,12)">28-02-2025</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">YEAR</span>(A2)</code></li><li><b>C2</b><code>=<span class="hl-f">MONTH</span>(A2)</code></li><li><b>D2</b><code>=<span class="hl-f">DAY</span>(A2)</code></li><li><b>E2</b><code>=<span class="hl-f">WEEKDAY</span>(A2,<span class="hl-n">2</span>)</code></li><li><b>F2</b><code>=<span class="hl-f">EOMONTH</span>(A2,<span class="hl-n">0</span>)</code></li><li><b>G2</b><code>=<span class="hl-f">EOMONTH</span>(A2,-<span class="hl-n">1</span>)+<span class="hl-n">1</span></code></li><li><b>H2</b><code>=<span class="hl-f">EDATE</span>(A2,<span class="hl-n">3</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>Notice that <code>EDATE</code> handles month ends correctly: 31-Jan + 1 month = 28-Feb (2026 is not a leap year), and 29-Feb-2024 + 12 months = 28-Feb-2025.</p>
+<h2 id="working-days">Working days</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NETWORKDAYS(start, end, [holidays])</code></td>
+<td>Count Mon–Fri days between two dates (inclusive) minus holidays</td>
+</tr>
+<tr>
+<td><code>NETWORKDAYS.INTL(start, end, weekend, [holidays])</code></td>
+<td>Choose weekend days: <code>11</code> = Sunday only, <code>"0000011"</code> = Sat + Sun</td>
+</tr>
+<tr>
+<td><code>WORKDAY(start, days, [holidays])</code></td>
+<td>The date after adding n working days</td>
+</tr>
+<tr>
+<td><code>WORKDAY.INTL(start, days, weekend, [holidays])</code></td>
+<td>Same with a custom weekend</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>SLA and delivery planning (holidays in G2:G4)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr><tr><th>1</th><td class="c-h">Ticket</td><td class="c-h">Opened</td><td class="c-h">Closed</td><td class="c-h">Working days =NETWORKDAYS(B2,C2,$G$2:$G$4)</td><td class="c-h">Due (+5 working days)</td><td class=""></td><td class="c-h">Holidays</td></tr><tr><th>2</th><td class="">T-101</td><td class="">10-08-2026</td><td class="">18-08-2026</td><td class="fx num" title="=NETWORKDAYS(B2,C2,$G$2:$G$4)">7</td><td class="fx num" title="=WORKDAY(B2,5,$G$2:$G$4)">17-08-2026</td><td class=""></td><td class="">15-08-2026</td></tr><tr><th>3</th><td class="">T-102</td><td class="">16-10-2026</td><td class="">23-10-2026</td><td class="fx num" title="=NETWORKDAYS(B3,C3,$G$2:$G$4)">5</td><td class="fx num" title="=WORKDAY(B3,5,$G$2:$G$4)">26-10-2026</td><td class=""></td><td class="">20-10-2026</td></tr><tr><th>4</th><td class="">T-103</td><td class="">06-11-2026</td><td class="">10-11-2026</td><td class="fx num" title="=NETWORKDAYS.INTL(B4,C4,11,$G$2:$G$4)">4</td><td class="fx" title="=WORKDAY.INTL(B4,5,11,$G$2:$G$4)">12-11-2026</td><td class=""></td><td class="">08-11-2026</td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=<span class="hl-f">NETWORKDAYS</span>(B2,C2,$G$<span class="hl-n">2</span>:$G$<span class="hl-n">4</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">WORKDAY</span>(B2,<span class="hl-n">5</span>,$G$<span class="hl-n">2</span>:$G$<span class="hl-n">4</span>)</code></li><li><b>D3</b><code>=<span class="hl-f">NETWORKDAYS</span>(B3,C3,$G$<span class="hl-n">2</span>:$G$<span class="hl-n">4</span>)</code></li><li><b>E3</b><code>=<span class="hl-f">WORKDAY</span>(B3,<span class="hl-n">5</span>,$G$<span class="hl-n">2</span>:$G$<span class="hl-n">4</span>)</code></li><li><b>D4</b><code>=<span class="hl-f">NETWORKDAYS.INTL</span>(B4,C4,<span class="hl-n">11</span>,$G$<span class="hl-n">2</span>:$G$<span class="hl-n">4</span>)</code></li><li><b>E4</b><code>=<span class="hl-f">WORKDAY.INTL</span>(B4,<span class="hl-n">5</span>,<span class="hl-n">11</span>,$G$<span class="hl-n">2</span>:$G$<span class="hl-n">4</span>)</code></li></ul></div>
+<p>T-103 uses a <strong>Sunday-only weekend</strong> (code <code>11</code>), common in Indian factories and retail. The holiday on 15-Aug-2026 falls on a Saturday, so it does not change T-101's count of working days.</p>
+<h2 id="age-tenure-and-durations">Age, tenure and durations</h2>
+<p><code>DATEDIF(start, end, unit)</code> is a hidden function (no tooltip) that returns complete years, months or days between two dates.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Unit</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"y"</code></td>
+<td>Complete years</td>
+</tr>
+<tr>
+<td><code>"m"</code></td>
+<td>Complete months</td>
+</tr>
+<tr>
+<td><code>"d"</code></td>
+<td>Days</td>
+</tr>
+<tr>
+<td><code>"ym"</code></td>
+<td>Months after removing complete years</td>
+</tr>
+<tr>
+<td><code>"md"</code></td>
+<td>Days after removing complete months</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Tenure as of 31-Mar-2026 (in E1)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Employee</td><td class="c-h">Join date</td><td class="c-h">Years</td><td class="c-h">Months after years</td><td class="c-h">Tenure label</td><td class="c-y">31-03-2026</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="">28-02-2016</td><td class="fx num" title="=DATEDIF(B2,$F$1,&quot;y&quot;)">10</td><td class="fx num" title="=DATEDIF(B2,$F$1,&quot;ym&quot;)">1</td><td class="fx" title="=C2&amp;&quot; yrs &quot;&amp;D2&amp;&quot; mths&quot;">10 yrs 1 mths</td><td class=""></td></tr><tr><th>3</th><td class="">Imran Reddy</td><td class="">14-12-2019</td><td class="fx num" title="=DATEDIF(B3,$F$1,&quot;y&quot;)">6</td><td class="fx num" title="=DATEDIF(B3,$F$1,&quot;ym&quot;)">3</td><td class="fx" title="=C3&amp;&quot; yrs &quot;&amp;D3&amp;&quot; mths&quot;">6 yrs 3 mths</td><td class=""></td></tr><tr><th>4</th><td class="">Saanvi Rao</td><td class="">18-02-2025</td><td class="fx num" title="=DATEDIF(B4,$F$1,&quot;y&quot;)">1</td><td class="fx num" title="=DATEDIF(B4,$F$1,&quot;ym&quot;)">1</td><td class="fx" title="=C4&amp;&quot; yrs &quot;&amp;D4&amp;&quot; mths&quot;">1 yrs 1 mths</td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">DATEDIF</span>(B2,$F$<span class="hl-n">1</span>,<span class="hl-s">&quot;y&quot;</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">DATEDIF</span>(B2,$F$<span class="hl-n">1</span>,<span class="hl-s">&quot;ym&quot;</span>)</code></li><li><b>E2</b><code>=C2&amp;<span class="hl-s">&quot; yrs &quot;</span>&amp;D2&amp;<span class="hl-s">&quot; mths&quot;</span></code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>(Cell F1 holds the date 31-03-2026.) For fractional years use <code>=YEARFRAC(B2,$F$1)</code>, for example 10.09 years.</p>
+<h2 id="fiscal-years-and-quarters">Fiscal years and quarters</h2>
+<p>Calendar quarter: <code>="Q"&amp;ROUNDUP(MONTH(A2)/3,0)</code>. Many organisations use a different financial year:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Year type</th>
+<th>Q1</th>
+<th>Formula for the quarter number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calendar</td>
+<td>Jan–Mar</td>
+<td><code>=ROUNDUP(MONTH(A2)/3,0)</code></td>
+</tr>
+<tr>
+<td><strong>India (FY Apr–Mar)</strong></td>
+<td>Apr–Jun</td>
+<td><code>=ROUNDUP(MOD(MONTH(A2)-4,12)/3+0.01,0)</code> or <code>=CHOOSE(MONTH(A2),4,4,4,1,1,1,2,2,2,3,3,3)</code></td>
+</tr>
+<tr>
+<td><strong>US federal (FY Oct–Sep)</strong></td>
+<td>Oct–Dec</td>
+<td><code>=CHOOSE(MONTH(A2),2,2,2,3,3,3,4,4,4,1,1,1)</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Calendar, Indian FY and US FY quarters</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Date</td><td class="c-h">Calendar Q</td><td class="c-h">India FY quarter</td><td class="c-h">India FY label</td><td class="c-h">US FY quarter</td></tr><tr><th>2</th><td class="">10-02-2026</td><td class="fx" title="=&quot;Q&quot;&amp;ROUNDUP(MONTH(A2)/3,0)">Q1</td><td class="fx" title="=&quot;Q&quot;&amp;CHOOSE(MONTH(A2),4,4,4,1,1,1,2,2,2,3,3,3)">Q4</td><td class="fx" title="=&quot;FY&quot;&amp;(YEAR(A2)+(MONTH(A2)&gt;=4))-2000">FY26</td><td class="fx" title="=&quot;Q&quot;&amp;CHOOSE(MONTH(A2),2,2,2,3,3,3,4,4,4,1,1,1)">Q2</td></tr><tr><th>3</th><td class="">27-04-2026</td><td class="fx" title="=&quot;Q&quot;&amp;ROUNDUP(MONTH(A3)/3,0)">Q2</td><td class="fx" title="=&quot;Q&quot;&amp;CHOOSE(MONTH(A3),4,4,4,1,1,1,2,2,2,3,3,3)">Q1</td><td class="fx" title="=&quot;FY&quot;&amp;(YEAR(A3)+(MONTH(A3)&gt;=4))-2000">FY27</td><td class="fx" title="=&quot;Q&quot;&amp;CHOOSE(MONTH(A3),2,2,2,3,3,3,4,4,4,1,1,1)">Q3</td></tr><tr><th>4</th><td class="">03-11-2026</td><td class="fx" title="=&quot;Q&quot;&amp;ROUNDUP(MONTH(A4)/3,0)">Q4</td><td class="fx" title="=&quot;Q&quot;&amp;CHOOSE(MONTH(A4),4,4,4,1,1,1,2,2,2,3,3,3)">Q3</td><td class="fx" title="=&quot;FY&quot;&amp;(YEAR(A4)+(MONTH(A4)&gt;=4))-2000">FY27</td><td class="fx" title="=&quot;Q&quot;&amp;CHOOSE(MONTH(A4),2,2,2,3,3,3,4,4,4,1,1,1)">Q1</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-s">&quot;Q&quot;</span>&amp;<span class="hl-f">ROUNDUP</span>(<span class="hl-f">MONTH</span>(A2)/<span class="hl-n">3</span>,<span class="hl-n">0</span>)</code></li><li><b>C2</b><code>=<span class="hl-s">&quot;Q&quot;</span>&amp;<span class="hl-f">CHOOSE</span>(<span class="hl-f">MONTH</span>(A2),<span class="hl-n">4</span>,<span class="hl-n">4</span>,<span class="hl-n">4</span>,<span class="hl-n">1</span>,<span class="hl-n">1</span>,<span class="hl-n">1</span>,<span class="hl-n">2</span>,<span class="hl-n">2</span>,<span class="hl-n">2</span>,<span class="hl-n">3</span>,<span class="hl-n">3</span>,<span class="hl-n">3</span>)</code></li><li><b>D2</b><code>=<span class="hl-s">&quot;FY&quot;</span>&amp;(<span class="hl-f">YEAR</span>(A2)+(<span class="hl-f">MONTH</span>(A2)&gt;=<span class="hl-n">4</span>))-<span class="hl-n">2000</span></code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>In the Indian convention, 27-Apr-2026 falls in <strong>FY27</strong> (April 2026 – March 2027), quarter Q1.</p>
+<h2 id="times">Times</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TIME(h, m, s)</code></td>
+<td><code>=TIME(14,30,0)</code></td>
+<td>14:30</td>
+</tr>
+<tr>
+<td><code>HOUR</code>, <code>MINUTE</code>, <code>SECOND</code></td>
+<td><code>=HOUR(A2)</code></td>
+<td>14</td>
+</tr>
+<tr>
+<td>Duration in hours</td>
+<td><code>=(end-start)*24</code></td>
+<td>8.5</td>
+</tr>
+<tr>
+<td>Duration beyond 24 h</td>
+<td>Format <code>[h]:mm</code></td>
+<td>37:30</td>
+</tr>
+<tr>
+<td>Shifts past midnight</td>
+<td><code>=MOD(end-start,1)</code></td>
+<td>Works when end is the next day</td>
+</tr>
+</tbody>
+</table></div>
+<p>A very common clean-up task: a system exports times as plain numbers like <code>1430</code> meaning 14:30. Convert them with <code>INT</code> and <code>MOD</code>:</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Convert 1430-style numbers into real times</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Raw</td><td class="c-h">Hours =INT(A2/100)</td><td class="c-h">Minutes =MOD(A2,100)</td><td class="c-h">Time =TIME(INT(A2/100),MOD(A2,100),0)</td><td class="c-h">Shift length (to B6)</td></tr><tr><th>2</th><td class="num">930</td><td class="fx num" title="=INT(A2/100)">9</td><td class="fx num" title="=MOD(A2,100)">30</td><td class="fx" title="=TIME(INT(A2/100),MOD(A2,100),0)">09:30</td><td class="fx num" title="=MOD(D6-D2,1)*24">8.75</td></tr><tr><th>3</th><td class="num">1430</td><td class="fx num" title="=INT(A3/100)">14</td><td class="fx num" title="=MOD(A3,100)">30</td><td class="fx" title="=TIME(INT(A3/100),MOD(A3,100),0)">14:30</td><td class=""></td></tr><tr><th>4</th><td class="num">2245</td><td class="fx num" title="=INT(A4/100)">22</td><td class="fx num" title="=MOD(A4,100)">45</td><td class="fx" title="=TIME(INT(A4/100),MOD(A4,100),0)">22:45</td><td class=""></td></tr><tr><th>5</th><td class="num">5</td><td class="fx num" title="=INT(A5/100)">0</td><td class="fx num" title="=MOD(A5,100)">5</td><td class="fx" title="=TIME(INT(A5/100),MOD(A5,100),0)">00:05</td><td class=""></td></tr><tr><th>6</th><td class="num">1815</td><td class="fx num" title="=INT(A6/100)">18</td><td class="fx num" title="=MOD(A6,100)">15</td><td class="fx" title="=TIME(INT(A6/100),MOD(A6,100),0)">18:15</td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">INT</span>(A2/<span class="hl-n">100</span>)</code></li><li><b>C2</b><code>=<span class="hl-f">MOD</span>(A2,<span class="hl-n">100</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">TIME</span>(<span class="hl-f">INT</span>(A2/<span class="hl-n">100</span>),<span class="hl-f">MOD</span>(A2,<span class="hl-n">100</span>),<span class="hl-n">0</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">MOD</span>(D6-D2,<span class="hl-n">1</span>)*<span class="hl-n">24</span></code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<h2 id="number-functions">Number functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>What it does</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INT(n)</code></td>
+<td>Rounds <strong>down</strong> to the integer</td>
+<td><code>=INT(-7.6)</code></td>
+<td>−8</td>
+</tr>
+<tr>
+<td><code>TRUNC(n, [d])</code></td>
+<td>Cuts off decimals (towards zero)</td>
+<td><code>=TRUNC(-7.6)</code></td>
+<td>−7</td>
+</tr>
+<tr>
+<td><code>ROUND(n, d)</code></td>
+<td>Normal rounding</td>
+<td><code>=ROUND(7.456,2)</code></td>
+<td>7.46</td>
+</tr>
+<tr>
+<td><code>ROUNDUP(n, d)</code></td>
+<td>Always away from zero</td>
+<td><code>=ROUNDUP(7.401,0)</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>ROUNDDOWN(n, d)</code></td>
+<td>Always towards zero</td>
+<td><code>=ROUNDDOWN(7.99,0)</code></td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>ROUND(n, -3)</code></td>
+<td>Round to thousands</td>
+<td><code>=ROUND(123456,-3)</code></td>
+<td>123000</td>
+</tr>
+<tr>
+<td><code>MROUND(n, m)</code></td>
+<td>Nearest multiple</td>
+<td><code>=MROUND(17,5)</code></td>
+<td>15</td>
+</tr>
+<tr>
+<td><code>CEILING.MATH(n, m)</code></td>
+<td>Up to the next multiple</td>
+<td><code>=CEILING.MATH(23,7)</code></td>
+<td>28</td>
+</tr>
+<tr>
+<td><code>FLOOR.MATH(n, m)</code></td>
+<td>Down to the previous multiple</td>
+<td><code>=FLOOR.MATH(23,7)</code></td>
+<td>21</td>
+</tr>
+<tr>
+<td><code>MOD(n, d)</code></td>
+<td>Remainder</td>
+<td><code>=MOD(28,3)</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>QUOTIENT(n, d)</code></td>
+<td>Integer part of a division</td>
+<td><code>=QUOTIENT(28,3)</code></td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>ABS(n)</code></td>
+<td>Absolute value</td>
+<td><code>=ABS(-450)</code></td>
+<td>450</td>
+</tr>
+<tr>
+<td><code>SIGN(n)</code></td>
+<td>−1, 0 or 1</td>
+<td><code>=SIGN(-450)</code></td>
+<td>−1</td>
+</tr>
+<tr>
+<td><code>SQRT(n)</code></td>
+<td>Square root</td>
+<td><code>=SQRT(144)</code></td>
+<td>12</td>
+</tr>
+<tr>
+<td><code>POWER(n, p)</code></td>
+<td>Power (same as <code>^</code>)</td>
+<td><code>=POWER(25,2)</code></td>
+<td>625</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Rounding functions side by side</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr><tr><th>1</th><td class="c-h">Value</td><td class="c-h">INT</td><td class="c-h">ROUND 0</td><td class="c-h">ROUNDUP 0</td><td class="c-h">ROUNDDOWN 0</td><td class="c-h">ROUND 2</td><td class="c-h">CEILING.MATH to 5</td><td class="c-h">FLOOR.MATH to 5</td></tr><tr><th>2</th><td class="num">7.456</td><td class="fx num" title="=INT(A2)">7</td><td class="fx num" title="=ROUND(A2,0)">7</td><td class="fx num" title="=ROUNDUP(A2,0)">8</td><td class="fx num" title="=ROUNDDOWN(A2,0)">7</td><td class="fx num" title="=ROUND(A2,2)">7.46</td><td class="fx num" title="=CEILING.MATH(A2,5)">10</td><td class="fx num" title="=FLOOR.MATH(A2,5)">5</td></tr><tr><th>3</th><td class="num">-7.456</td><td class="fx num" title="=INT(A3)">-8</td><td class="fx num" title="=ROUND(A3,0)">-7</td><td class="fx num" title="=ROUNDUP(A3,0)">-8</td><td class="fx num" title="=ROUNDDOWN(A3,0)">-7</td><td class="fx num" title="=ROUND(A3,2)">-7.46</td><td class="fx num" title="=CEILING.MATH(A3,5)">-5</td><td class="fx num" title="=FLOOR.MATH(A3,5)">-10</td></tr><tr><th>4</th><td class="num">23.5</td><td class="fx num" title="=INT(A4)">23</td><td class="fx num" title="=ROUND(A4,0)">24</td><td class="fx num" title="=ROUNDUP(A4,0)">24</td><td class="fx num" title="=ROUNDDOWN(A4,0)">23</td><td class="fx num" title="=ROUND(A4,2)">23.5</td><td class="fx num" title="=CEILING.MATH(A4,5)">25</td><td class="fx num" title="=FLOOR.MATH(A4,5)">20</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">INT</span>(A2)</code></li><li><b>C2</b><code>=<span class="hl-f">ROUND</span>(A2,<span class="hl-n">0</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">ROUNDUP</span>(A2,<span class="hl-n">0</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">ROUNDDOWN</span>(A2,<span class="hl-n">0</span>)</code></li><li><b>G2</b><code>=<span class="hl-f">CEILING.MATH</span>(A2,<span class="hl-n">5</span>)</code></li><li><b>H2</b><code>=<span class="hl-f">FLOOR.MATH</span>(A2,<span class="hl-n">5</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<h3 id="practical-uses">Practical uses</h3>
+<ul>
+<li><strong>Packaging</strong>: boxes needed for 523 items at 24 per box = <code>=CEILING.MATH(523,24)/24</code> or <code>=ROUNDUP(523/24,0)</code> → 22.</li>
+<li><strong>Price points</strong>: round prices up to the next 99: <code>=CEILING.MATH(A2,100)-1</code> turns 1,234 into 1,299.</li>
+<li><strong>Split profit and loss</strong> into two columns with <code>ABS</code>:</li>
+</ul>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Profit and Loss columns</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Store</td><td class="c-h">Profit / Loss</td><td class="c-h">Profit</td><td class="c-h">Loss</td></tr><tr><th>2</th><td class="">Pune</td><td class="num">45200</td><td class="fx num" title="=IF(B2&gt;0,B2,0)">45200</td><td class="fx num" title="=IF(B2&lt;0,ABS(B2),0)">0</td></tr><tr><th>3</th><td class="">Delhi</td><td class="num">-12800</td><td class="fx num" title="=IF(B3&gt;0,B3,0)">0</td><td class="fx num" title="=IF(B3&lt;0,ABS(B3),0)">12800</td></tr><tr><th>4</th><td class="">Kochi</td><td class="num">3300</td><td class="fx num" title="=IF(B4&gt;0,B4,0)">3300</td><td class="fx num" title="=IF(B4&lt;0,ABS(B4),0)">0</td></tr><tr><th>5</th><td class="">Patna</td><td class="num">-7600</td><td class="fx num" title="=IF(B5&gt;0,B5,0)">0</td><td class="fx num" title="=IF(B5&lt;0,ABS(B5),0)">7600</td></tr><tr><th>6</th><td class="c-b">Total</td><td class="c-b fx num" title="=SUM(B2:B5)">28100</td><td class="c-b fx num" title="=SUM(C2:C5)">48500</td><td class="c-b fx num" title="=SUM(D2:D5)">20400</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">IF</span>(B2&gt;<span class="hl-n">0</span>,B2,<span class="hl-n">0</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">IF</span>(B2&lt;<span class="hl-n">0</span>,<span class="hl-f">ABS</span>(B2),<span class="hl-n">0</span>)</code></li><li><b>B6</b><code>=<span class="hl-f">SUM</span>(B2:B5)</code></li><li><b>C6</b><code>=<span class="hl-f">SUM</span>(C2:C5)</code></li><li><b>D6</b><code>=<span class="hl-f">SUM</span>(D2:D5)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<h2 id="named-ranges">Named ranges</h2>
+<p>A <strong>name</strong> is a label for a cell, a range, a constant or a formula. <code>=SUM(Sales)</code> is easier to read and audit than <code>=SUM(Data!$O$2:$O$6324)</code>.</p>
+<h3 id="static-named-ranges">Static named ranges</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name Box</td>
+<td>Select the range, click the Name Box (left of the formula bar), type <code>GST_Rate</code>, press Enter</td>
+</tr>
+<tr>
+<td>Define Name</td>
+<td>Formulas → Define Name: set the name, scope (workbook or one sheet) and comment</td>
+</tr>
+<tr>
+<td>Create from Selection</td>
+<td>Select a table with headers → Formulas → Create from Selection (<code>Ctrl + Shift + F3</code>) → Top row: one name per column</td>
+</tr>
+<tr>
+<td>Name Manager</td>
+<td>Formulas → Name Manager (<code>Ctrl + F3</code>) to edit, delete or find broken names</td>
+</tr>
+</tbody>
+</table></div>
+<p>Rules: names start with a letter or underscore, contain no spaces (use <code>_</code>), cannot look like a cell address (<code>Q1</code> or <code>FY26</code> are not allowed) and are not case-sensitive.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Formulas with names (GST_Rate = F1, Qty and Price are named columns)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Qty</td><td class="c-h">Price</td><td class="c-h">Amount =Qty*Price</td><td class="c-h">With GST =Qty*Price*(1+GST_Rate)</td><td class=""></td><td class="c-y num">18%</td></tr><tr><th>2</th><td class="num">4</td><td class="num">1250</td><td class="fx num" title="=A2*B2">5000</td><td class="fx num" title="=A2*B2*(1+$F$1)">5,900.00</td><td class=""></td><td class=""></td></tr><tr><th>3</th><td class="num">10</td><td class="num">299</td><td class="fx num" title="=A3*B3">2990</td><td class="fx num" title="=A3*B3*(1+$F$1)">3,528.20</td><td class=""></td><td class=""></td></tr><tr><th>4</th><td class="num">2</td><td class="num">8999</td><td class="fx num" title="=A4*B4">17998</td><td class="fx num" title="=A4*B4*(1+$F$1)">21,237.64</td><td class=""></td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=A2*B2</code></li><li><b>D2</b><code>=A2*B2*(<span class="hl-n">1</span>+$F$<span class="hl-n">1</span>)</code></li><li><b>C3</b><code>=A3*B3</code></li><li><b>D3</b><code>=A3*B3*(<span class="hl-n">1</span>+$F$<span class="hl-n">1</span>)</code></li><li><b>C4</b><code>=A4*B4</code></li><li><b>D4</b><code>=A4*B4*(<span class="hl-n">1</span>+$F$<span class="hl-n">1</span>)</code></li></ul></div>
+<p>(F1, the yellow cell, is named <code>GST_Rate</code>. With names defined, the formula in D2 reads <code>=Qty*Price*(1+GST_Rate)</code>.)</p>
+<h3 id="dynamic-named-ranges">Dynamic named ranges</h3>
+<p>A static name like <code>=$B$2:$B$100</code> does not grow when you add row 101. A <strong>dynamic</strong> named range expands automatically, which keeps charts, validation lists and formulas up to date.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Refers to</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Excel Table</strong> (best)</td>
+<td><code>=tblSales[Amount]</code></td>
+<td>Automatic, no formula needed</td>
+</tr>
+<tr>
+<td><code>OFFSET</code> + <code>COUNTA</code></td>
+<td><code>=OFFSET(Data!$B$2,0,0,COUNTA(Data!$B:$B)-1,1)</code></td>
+<td>Classic; volatile (recalculates often)</td>
+</tr>
+<tr>
+<td><code>INDEX</code> + <code>COUNTA</code></td>
+<td><code>=Data!$B$2:INDEX(Data!$B:$B,COUNTA(Data!$B:$B))</code></td>
+<td>Not volatile; preferred over OFFSET</td>
+</tr>
+<tr>
+<td>Spill reference</td>
+<td><code>=Data!$H$2#</code></td>
+<td>Points to a dynamic-array result</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/excel-09-01.png" alt="A static range stays fixed; a dynamic range grows with the data." loading="lazy"><figcaption>A static range stays fixed; a dynamic range grows with the data.</figcaption></figure>
+<h3 id="let-names-inside-one-formula">LET: names inside one formula</h3>
+<p><code>LET</code> (Microsoft 365) assigns names to values <strong>inside</strong> a formula. It makes long formulas readable and faster, because each part is calculated once.</p>
+<p>Without LET: <code>=IF(SUMIFS(F:F,C:C,"Finance")/COUNTIFS(C:C,"Finance")&gt;90000,"High","Normal")</code></p>
+<p>With LET:</p>
+<div class="code"><div class="code-h"><span>Excel formula</span><button class="copy" type="button">Copy</button></div><pre><code class="excel">=<span class="hl-f">LET</span>(
+    total, <span class="hl-f">SUMIFS</span>(F:F, C:C, <span class="hl-s">&quot;Finance&quot;</span>),
+    heads, <span class="hl-f">COUNTIFS</span>(C:C, <span class="hl-s">&quot;Finance&quot;</span>),
+    avg,   total / heads,
+    <span class="hl-f">IF</span>(avg &gt; <span class="hl-n">90000</span>, <span class="hl-s">&quot;High&quot;</span>, <span class="hl-s">&quot;Normal&quot;</span>)
+)</code></pre></div>
+<p><code>LAMBDA</code> goes one step further and lets you create your own reusable functions; see Lesson 12.</p>
+<h2 id="case-date-analysis-on-superstore">Case: date analysis on Superstore</h2>
+<p>How long do orders take to ship, by ship mode, and which weekday gets the most orders? In Excel you would add columns <code>=ship_date-order_date</code> and <code>=TEXT(order_date,"ddd")</code> and pivot them. Here are the real answers:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+orders = <span class="hl-f">s.drop_duplicates</span>(<span class="hl-s">&quot;order_id&quot;</span>).<span class="hl-f">copy</span>()
+orders[<span class="hl-s">&quot;days_to_ship&quot;</span>] = (orders.ship_date - orders.order_date).dt.days            <span class="hl-c"># =C2-B2</span>
+orders[<span class="hl-s">&quot;weekday&quot;</span>] = <span class="hl-f">orders.order_date.dt.day_name</span>().str[:<span class="hl-n">3</span>]                         <span class="hl-c"># =TEXT(B2,&quot;ddd&quot;)</span>
+orders[<span class="hl-s">&quot;fy&quot;</span>] = <span class="hl-s">&quot;FY&quot;</span> + (orders.order_date.dt.year + (orders.order_date.dt.month &gt;= <span class="hl-n">4</span>)).<span class="hl-f">astype</span>(str).str[<span class="hl-n">2</span>:]   <span class="hl-c"># Indian FY</span>
+<span class="hl-f">print</span>(<span class="hl-f">orders.groupby</span>(<span class="hl-s">&quot;ship_mode&quot;</span>)[<span class="hl-s">&quot;days_to_ship&quot;</span>].<span class="hl-f">agg</span>([<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;min&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">to_string</span>())
+<span class="hl-f">print</span>()
+<span class="hl-f">print</span>(<span class="hl-f">orders.groupby</span>(<span class="hl-s">&quot;fy&quot;</span>).<span class="hl-f">size</span>().<span class="hl-f">rename</span>(<span class="hl-s">&quot;orders&quot;</span>).<span class="hl-f">to_string</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                mean  min  max
+ship_mode                     
+First Class      1.5    1    2
+Same Day         0.0    0    0
+Second Class     3.0    2    4
+Standard Class   5.5    4    7
+
+fy
+FY23     169
+FY24     952
+FY25    1114
+FY26     965</pre></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Dates are whole numbers (days since 1-Jan-1900); times are fractions of a day. Subtract dates to get days; multiply time differences by 24 for hours.</li>
+<li><code>EOMONTH</code> and <code>EDATE</code> handle month ends correctly; <code>NETWORKDAYS</code> and <code>WORKDAY</code> (with <code>.INTL</code> for custom weekends) handle working days and holidays.</li>
+<li><code>DATEDIF</code> gives complete years/months; build fiscal quarters with <code>CHOOSE(MONTH(…),…)</code>.</li>
+<li><code>INT</code> rounds down, <code>TRUNC</code> cuts towards zero, <code>ROUNDUP</code>/<code>ROUNDDOWN</code> force direction, <code>CEILING.MATH</code>/<code>FLOOR.MATH</code> round to multiples, <code>MOD</code> gives remainders.</li>
+<li>Named ranges make formulas readable; use Tables or <code>INDEX</code>-based names for dynamic ranges, and <code>LET</code> for names inside a formula.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-09-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A1 contains 27-04-2026 and B1 contains 02-05-2026. What does <code>=B1-A1</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>5 days as text</button><button type="button" class="opt" data-ok="1"><i>B</i>5</button><button type="button" class="opt" data-ok="0"><i>C</i>0.05</button><button type="button" class="opt" data-ok="0"><i>D</i><h1 id="value">VALUE!</h1></button></div><div class="qexp"><b>Answer: B.</b> Dates are numbers, so subtracting gives the number of days.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which formula returns the last day of the month for the date in A2?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=DATE(YEAR(A2),MONTH(A2),31)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=EOMONTH(A2,0)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=EDATE(A2,1)-1</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=MONTH(A2)+30</code></button></div><div class="qexp"><b>Answer: B.</b> EOMONTH(date,0) returns the month end; the other options fail for 30-day months or February.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>=INT(-3.2)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>−3</button><button type="button" class="opt" data-ok="1"><i>B</i>−4</button><button type="button" class="opt" data-ok="0"><i>C</i>3</button><button type="button" class="opt" data-ok="0"><i>D</i>−3.2</button></div><div class="qexp"><b>Answer: B.</b> INT always rounds down (towards minus infinity). TRUNC(-3.2) would give −3.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which formula converts the number 1745 into the time 17:45?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=TIME(1745)</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>=1745/24</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>=TIME(INT(A2/100),MOD(A2,100),0)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=TEXT(1745,"hh:mm")</code></button></div><div class="qexp"><b>Answer: C.</b> INT(1745/100) = 17 hours and MOD(1745,100) = 45 minutes.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why is an INDEX-based dynamic named range often preferred to OFFSET?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It works only in Excel 365</button><button type="button" class="opt" data-ok="1"><i>B</i>OFFSET is volatile and recalculates on every change, which can slow large workbooks</button><button type="button" class="opt" data-ok="0"><i>C</i>INDEX cannot refer to whole columns</button><button type="button" class="opt" data-ok="0"><i>D</i>OFFSET does not grow with the data</button></div><div class="qexp"><b>Answer: B.</b> Both grow, but OFFSET is volatile.</div></div><div class="qq"><p class="qtext"><b>6.</b> In the Indian financial year, which quarter is 15-January?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Q1</button><button type="button" class="opt" data-ok="0"><i>B</i>Q2</button><button type="button" class="opt" data-ok="0"><i>C</i>Q3</button><button type="button" class="opt" data-ok="1"><i>D</i>Q4</button></div><div class="qexp"><b>Answer: D.</b> FY runs April–March, so January–March is Q4.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>HR date calculations</b></div><p>Using <code>employees_small.csv</code> and an "as of" date of 31-03-2026 in a cell: (1) tenure in complete years; (2) the probation end date (6 months after joining); (3) the first working day after the probation end; (4) the joining quarter in the Indian FY.</p><details class="sol"><summary>Show solution</summary><p>With join date in E2 and the as-of date in $J$1:
+(1) <code>=DATEDIF(E2,$J$1,"y")</code>
+(2) <code>=EDATE(E2,6)</code>
+(3) <code>=WORKDAY(EDATE(E2,6)-1,1)</code> (the first working day on or after the probation end)
+(4) <code>="Q"&amp;CHOOSE(MONTH(E2),4,4,4,1,1,1,2,2,2,3,3,3)</code></p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How does Excel store dates and times?</strong>
+Dates as serial numbers counting days from 1-Jan-1900; times as fractions of a day. This makes arithmetic, sorting and formatting consistent.</p>
+<p><strong>Q: How do you count working days between two dates excluding holidays?</strong>
+<code>NETWORKDAYS(start, end, holidays)</code> or <code>NETWORKDAYS.INTL</code> with a custom weekend code.</p>
+<p><strong>Q: What is a dynamic named range and when do you need one?</strong>
+A name whose range grows with the data, built with an Excel Table, <code>INDEX</code>/<code>COUNTA</code> or <code>OFFSET</code>/<code>COUNTA</code>. It keeps charts, validation lists and formulas current as data is added.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-08-pivot-tables-from-basic-to-advanced.html"><small>← Previous</small><b>Pivot Tables from Basic to Advanced</b></a><a class="next" href="excel-10-charts-and-advanced-charts.html"><small>Next →</small><b>Charts and Advanced Charts</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#dates-and-times-are-numbers">Dates and times are numbers</a><a href="#building-and-taking-apart-dates">Building and taking apart dates</a><a href="#working-days">Working days</a><a href="#age-tenure-and-durations">Age, tenure and durations</a><a href="#fiscal-years-and-quarters">Fiscal years and quarters</a><a href="#times">Times</a><a href="#number-functions">Number functions</a><a href="#named-ranges">Named ranges</a><a href="#case-date-analysis-on-superstore">Case: date analysis on Superstore</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v7"></script><script src="../assets/course.js?v=v7"></script></body></html>

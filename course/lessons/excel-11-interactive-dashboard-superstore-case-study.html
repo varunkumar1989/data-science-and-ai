@@ -1,0 +1,470 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interactive Dashboard: Superstore Case Study · Excel Lesson 11 · Data Science &amp; AI Handbook</title><meta name="description" content="Build a complete, interactive sales dashboard from the Superstore data, from business questions and KPIs to pivot charts, slicers, a timeline, KPI cards and a dynamic title. Then protect it (sheet, workbook, allowed ranges), document it with comments and notes, and audit formulas with Evaluate Formula."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v7"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 11</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class="on"><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-11">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 11 of 12</div><h1>Interactive Dashboard: Superstore Case Study</h1>
+<p class="sum">Build a complete, interactive sales dashboard from the Superstore data, from business questions and KPIs to pivot charts, slicers, a timeline, KPI cards and a dynamic title. Then protect it (sheet, workbook, allowed ranges), document it with comments and notes, and audit formulas with Evaluate Formula.</p><div class="tags"><span class="tag live">● Live classes 8–9</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Intermediate–Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_11_Interactive_Dashboard_Superstore_Case_Study.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-11.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-11">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Turn a business brief into KPIs and questions before building anything</li><li>Prepare data, create one pivot per visual and connect them with slicers and a timeline</li><li>Build KPI cards and a dynamic title with GETPIVOTDATA and TEXT</li><li>Lay out a clean dashboard and apply design rules</li><li>Protect sheets and workbooks, use comments and notes, and audit formulas with Evaluate Formula</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="the-brief">The brief</h2>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Superstore sales review</b></div><p>The Head of Sales wants a one-page Excel dashboard to review performance for 2023–2025. They want to see, at a glance: total sales, profit, profit margin and orders; how sales are trending; which regions, categories and sub-categories perform best and worst; and the effect of discounts on profit. They want to filter by year, region and segment. The dashboard will be emailed every month, so it must be protected against accidental changes.</p></div>
+<h3 id="step-0-questions-and-kpis-first">Step 0: questions and KPIs first</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>KPI / question</th>
+<th>Calculation</th>
+<th>Visual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total sales</td>
+<td>Sum of sales</td>
+<td>KPI card</td>
+</tr>
+<tr>
+<td>Total profit and margin</td>
+<td>Sum of profit; profit ÷ sales</td>
+<td>KPI cards</td>
+</tr>
+<tr>
+<td>Number of orders</td>
+<td>Distinct count of order_id</td>
+<td>KPI card</td>
+</tr>
+<tr>
+<td>Sales trend</td>
+<td>Sales by month</td>
+<td>Line chart</td>
+</tr>
+<tr>
+<td>Regional performance</td>
+<td>Sales and profit by region</td>
+<td>Bar chart</td>
+</tr>
+<tr>
+<td>Product mix</td>
+<td>Sales by category and sub-category</td>
+<td>Bar chart / treemap</td>
+</tr>
+<tr>
+<td>Discount impact</td>
+<td>Profit by discount level</td>
+<td>Column chart</td>
+</tr>
+<tr>
+<td>Filters</td>
+<td>Year, Region, Segment</td>
+<td>Timeline + slicers</td>
+</tr>
+</tbody>
+</table></div>
+<p>Agreeing on this table before building saves hours of rework. It is also your "requirements document" in interviews.</p>
+<p>Here is the finished result we are aiming for (drawn from the real data):</p>
+<figure class="fig"><img src="../img/excel-11-01.png" alt="The finished Superstore dashboard: KPI cards on top, trend and breakdown charts below, slicers on the left." loading="lazy"><figcaption>The finished Superstore dashboard: KPI cards on top, trend and breakdown charts below, slicers on the left.</figcaption></figure>
+<h2 id="step-1-prepare-the-data">Step 1: prepare the data</h2>
+<ol>
+<li>Import <code>superstore_sales.csv</code> with <strong>Data → From Text/CSV</strong> (Power Query, Lesson 12), or open it and convert the range to a Table named <code>tblSales</code> (<code>Ctrl + T</code>).</li>
+<li>Add helper columns that the pivots will need:</li>
+</ol>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Column</th>
+<th>Formula (structured reference)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>year</code></td>
+<td><code>=YEAR([@order_date])</code></td>
+<td>Year slicer (or use a Timeline)</td>
+</tr>
+<tr>
+<td><code>month</code></td>
+<td><code>=TEXT([@order_date],"mmm")</code></td>
+<td>Labels</td>
+</tr>
+<tr>
+<td><code>margin</code></td>
+<td><code>=[@profit]/[@sales]</code></td>
+<td>Row-level margin for analysis</td>
+</tr>
+<tr>
+<td><code>discount_band</code></td>
+<td><code>=IFS([@discount]=0,"0%",[@discount]&lt;=0.2,"1–20%",TRUE,"&gt;20%")</code></td>
+<td>Simpler grouping</td>
+</tr>
+<tr>
+<td><code>days_to_ship</code></td>
+<td><code>=[@ship_date]-[@order_date]</code></td>
+<td>Operations KPI</td>
+</tr>
+</tbody>
+</table></div>
+<ol start="3">
+<li>Check data quality: blanks (<code>COUNTBLANK</code>), duplicates of <code>row_id</code>, negative quantities, dates outside 2023–2025.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">s.describe</span>(include=<span class="hl-s">&quot;all&quot;</span>).T[[<span class="hl-s">&quot;count&quot;</span>, <span class="hl-s">&quot;unique&quot;</span>, <span class="hl-s">&quot;min&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">12</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>unique</th>
+      <th>min</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>row_id</th>
+      <td>6,323.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>6,323.0</td>
+    </tr>
+    <tr>
+      <th>order_id</th>
+      <td>6323</td>
+      <td>3200</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>order_date</th>
+      <td>6323</td>
+      <td>NaN</td>
+      <td>2023-01-01</td>
+      <td>2025-12-31</td>
+    </tr>
+    <tr>
+      <th>ship_date</th>
+      <td>6323</td>
+      <td>1040</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ship_mode</th>
+      <td>6323</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>customer_id</th>
+      <td>6323</td>
+      <td>785</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>customer_name</th>
+      <td>6323</td>
+      <td>424</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>segment</th>
+      <td>6323</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>city</th>
+      <td>6323</td>
+      <td>16</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>state</th>
+      <td>6323</td>
+      <td>15</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td>6323</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>product_id</th>
+      <td>6323</td>
+      <td>78</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">12 rows × 4 columns</div></div>
+<h2 id="step-2-one-pivot-table-per-visual">Step 2: one pivot table per visual</h2>
+<p>Create a sheet called <strong>Calc</strong> (it will be hidden later). Insert one pivot table for each chart, all from <code>tblSales</code> so they share <strong>one pivot cache</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pivot</th>
+<th>Rows</th>
+<th>Values</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1 KPIs</td>
+<td>(none)</td>
+<td>Sum of sales, Sum of profit, Distinct count of order_id</td>
+<td>Tick "Add this data to the Data Model" to get Distinct Count</td>
+</tr>
+<tr>
+<td>P2 Trend</td>
+<td>order_date grouped by Years + Months</td>
+<td>Sum of sales</td>
+<td>Line chart</td>
+</tr>
+<tr>
+<td>P3 Region</td>
+<td>region</td>
+<td>Sum of sales, Sum of profit</td>
+<td>Bar chart</td>
+</tr>
+<tr>
+<td>P4 Sub-category</td>
+<td>sub_category</td>
+<td>Sum of sales (sorted)</td>
+<td>Bar chart</td>
+</tr>
+<tr>
+<td>P5 Discount</td>
+<td>discount</td>
+<td>Sum of profit</td>
+<td>Column chart</td>
+</tr>
+</tbody>
+</table></div>
+<p>Give each pivot a meaningful name (PivotTable Analyze → PivotTable Name: <code>ptTrend</code>, <code>ptRegion</code> …). Names make GETPIVOTDATA formulas and maintenance easier.</p>
+<h2 id="step-3-pivot-charts">Step 3: pivot charts</h2>
+<p>Click each pivot → PivotTable Analyze → <strong>PivotChart</strong> → choose the type → cut and paste the chart onto a sheet called <strong>Dashboard</strong>.</p>
+<p>Clean each chart:</p>
+<ul>
+<li>Right-click the field buttons → <strong>Hide All Field Buttons on Chart</strong>.</li>
+<li>Delete gridlines and legends that are not needed; add data labels where there are few bars.</li>
+<li>Apply the same font and a two-colour palette (one highlight, one neutral).</li>
+<li>Write insight titles, for example "Technology drives most sales" or "Discounts above 20% destroy profit".</li>
+</ul>
+<h2 id="step-4-slicers-and-a-timeline-that-control-everything">Step 4: slicers and a timeline that control everything</h2>
+<ol>
+<li>Select any pivot → PivotTable Analyze → <strong>Insert Slicer</strong> → tick <code>region</code> and <code>segment</code>.</li>
+<li><strong>Insert Timeline</strong> → <code>order_date</code> → switch the timeline to <strong>YEARS</strong>.</li>
+<li>Right-click each slicer → <strong>Report Connections</strong> → tick <strong>all five</strong> pivots. Now one click filters every chart and KPI.</li>
+<li>Format slicers: Slicer tab → Columns = 1 or 2, a matching style, size them to align with the grid.</li>
+</ol>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Report Connections are greyed out?</b></div><p>Slicers can only connect pivots that share the same pivot cache (or the same Data Model). If you built a pivot from a different range, rebuild it from <code>tblSales</code>.</p></div>
+<h2 id="step-5-kpi-cards-and-a-dynamic-title">Step 5: KPI cards and a dynamic title</h2>
+<p>KPI cards are simply cells or shapes linked to the KPI pivot. <code>GETPIVOTDATA</code> keeps returning the right number even when slicers change the pivot.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Calc sheet: KPI formulas (values shown for the unfiltered data)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">KPI</td><td class="c-h">Formula</td><td class="c-h">Value</td></tr><tr><th>2</th><td class="">Total sales</td><td class="">=GETPIVOTDATA(&quot;Sum of sales&quot;,Calc!$A$3)</td><td class="num">201,413,569</td></tr><tr><th>3</th><td class="">Total profit</td><td class="">=GETPIVOTDATA(&quot;Sum of profit&quot;,Calc!$A$3)</td><td class="num">18,352,164</td></tr><tr><th>4</th><td class="">Profit margin</td><td class="">=C3/C2</td><td class="fx num" title="=C3/C2">9.1%</td></tr><tr><th>5</th><td class="">Orders</td><td class="">=GETPIVOTDATA(&quot;Distinct Count of order_id&quot;,Calc!$A$3)</td><td class="num">3,200</td></tr><tr><th>6</th><td class="">Sales label</td><td class="">=&quot;₹&quot;&amp;TEXT(C2/10^7,&quot;0.00&quot;)&amp;&quot; Cr&quot;</td><td class="fx" title="=&quot;₹&quot;&amp;TEXT(C2/10^7,&quot;0.00&quot;)&amp;&quot; Cr&quot;">₹20.14 Cr</td></tr></table></div></div><ul class="xl-f"><li><b>C4</b><code>=C3/C2</code></li><li><b>C6</b><code>=<span class="hl-s">&quot;₹&quot;</span>&amp;<span class="hl-f">TEXT</span>(C2/<span class="hl-n">10</span>^<span class="hl-n">7</span>,<span class="hl-s">&quot;0.00&quot;</span>)&amp;<span class="hl-s">&quot; Cr&quot;</span></code></li></ul></div>
+<p>Let's verify these numbers with pandas:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-s">f&quot;Sales  : {s.sales.sum():,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Profit : {s.profit.sum():,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Margin : {s.profit.sum() / s.sales.sum():.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Orders : {s.order_id.nunique():,}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Sales  : 201,413,569
+Profit : 18,352,164
+Margin : 9.1%
+Orders : 3,200</pre></div>
+<p>To show a KPI card on the dashboard: Insert → Shapes → Rounded Rectangle, click the shape, type <code>=Calc!C6</code> in the <strong>formula bar</strong>, and press Enter. The shape now displays the live value.</p>
+<p><strong>Dynamic title</strong>: build the title text in a cell and link a text box to it:</p>
+<div class="code"><div class="code-h"><span>Excel formula</span><button class="copy" type="button">Copy</button></div><pre><code class="excel">=<span class="hl-s">&quot;Superstore Sales Dashboard · &quot;</span> &amp; <span class="hl-f">TEXTJOIN</span>(<span class="hl-s">&quot;, &quot;</span>, TRUE, Calc!H2:H5)</code></pre></div>
+<p>where <code>H2:H5</code> is a small pivot with <code>region</code> in Rows that is also connected to the slicers, so it lists only the selected regions.</p>
+<h2 id="step-6-layout-and-design-rules">Step 6: layout and design rules</h2>
+<figure class="fig"><img src="../img/excel-11-02.png" alt="A simple dashboard grid. Most important information top-left; filters on one side; consistent spacing." loading="lazy"><figcaption>A simple dashboard grid. Most important information top-left; filters on one side; consistent spacing.</figcaption></figure>
+<ol>
+<li><strong>Z-pattern</strong>: people read top-left first: put the headline KPIs there.</li>
+<li><strong>Align to the grid</strong>: hold <code>Alt</code> while dragging or resizing a chart to snap it to cell borders; set every chart to the same height.</li>
+<li><strong>Limit colours</strong>: one brand colour, one highlight, red only for bad news.</li>
+<li><strong>Remove clutter</strong>: View → untick Gridlines and Headings; hide the Calc sheet (right-click tab → Hide).</li>
+<li><strong>Label the date and the source</strong>: "Data: Superstore orders, Jan 2023 – Dec 2025. Refreshed 05-Jan-2026."</li>
+<li><strong>Test it</strong>: click every slicer combination; check that totals match the raw data.</li>
+</ol>
+<h2 id="step-7-protect-the-dashboard">Step 7: protect the dashboard</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Protection</th>
+<th>Where</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lock / unlock cells</strong></td>
+<td><code>Ctrl + 1</code> → Protection → Locked</td>
+<td>All cells are locked by default; <strong>unlock</strong> the input cells users may change. Locking only takes effect when the sheet is protected</td>
+</tr>
+<tr>
+<td><strong>Hide formulas</strong></td>
+<td><code>Ctrl + 1</code> → Protection → Hidden</td>
+<td>Formula bar shows nothing for those cells once the sheet is protected</td>
+</tr>
+<tr>
+<td><strong>Protect Sheet</strong></td>
+<td>Review → Protect Sheet</td>
+<td>Prevents editing locked cells; tick what users may still do: <strong>Use PivotTable &amp; PivotChart</strong>, <strong>Edit objects</strong> (needed for slicers), sort, filter, format</td>
+</tr>
+<tr>
+<td><strong>Allow Edit Ranges</strong></td>
+<td>Review → Allow Edit Ranges</td>
+<td>Lets specific ranges be edited, optionally with their own password</td>
+</tr>
+<tr>
+<td><strong>Protect Workbook</strong></td>
+<td>Review → Protect Workbook</td>
+<td>Protects the <strong>structure</strong>: no adding, deleting, renaming, moving or unhiding sheets</td>
+</tr>
+<tr>
+<td><strong>Encrypt with password</strong></td>
+<td>File → Info → Protect Workbook → Encrypt</td>
+<td>Password needed to <strong>open</strong> the file</td>
+</tr>
+<tr>
+<td><strong>Mark as Final</strong></td>
+<td>File → Info → Protect Workbook</td>
+<td>A read-only hint (not security)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Protect so slicers still work</b></div><ol>
+<li>Unlock any cells users need to type in (for example a target input).</li>
+<li>Review → <strong>Protect Sheet</strong> → tick "Select unlocked cells", "Use PivotTable &amp; PivotChart" and "Edit objects" → set a password.</li>
+<li>Review → <strong>Protect Workbook</strong> (structure) so the hidden Calc sheet cannot be unhidden.</li>
+<li>Test with a colleague before emailing.</li>
+</ol></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Sheet protection is not strong security</b></div><p>Sheet and structure passwords stop accidents, not determined users. Never rely on them to protect confidential data: use file encryption, SharePoint permissions or share only what is needed (for example a PDF export).</p></div>
+<h2 id="comments-and-notes">Comments and notes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Insert</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Note</strong> (old "comment")</td>
+<td>Review → Notes → New Note (<code>Shift + F2</code>)</td>
+<td>A sticky note explaining a cell: "Target approved by CFO on 12-Jan"</td>
+</tr>
+<tr>
+<td><strong>Comment</strong> (threaded)</td>
+<td>Review → New Comment (<code>Ctrl + Alt + M</code>)</td>
+<td>A conversation: @mention a colleague, reply, resolve</td>
+</tr>
+</tbody>
+</table></div>
+<p>Notes are best for permanent documentation; comments for review discussions. Add a small <strong>"How to use"</strong> note on the dashboard explaining the slicers and data date.</p>
+<h2 id="auditing-formulas-evaluate-formula-and-friends">Auditing formulas: Evaluate Formula and friends</h2>
+<p>When a KPI looks wrong, use <strong>Formulas → Formula Auditing</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Evaluate Formula</strong></td>
+<td>Steps through a formula one calculation at a time: press Evaluate to see each part replaced by its value</td>
+</tr>
+<tr>
+<td><strong>Trace Precedents / Dependents</strong></td>
+<td>Arrows to the cells a formula uses, or that use it</td>
+</tr>
+<tr>
+<td><strong>Show Formulas</strong> (<code>Ctrl + `</code>)</td>
+<td>Every formula instead of its result</td>
+</tr>
+<tr>
+<td><strong>Error Checking</strong></td>
+<td>Walks through cells with errors and suggests fixes</td>
+</tr>
+<tr>
+<td><strong>Watch Window</strong></td>
+<td>Keeps an eye on key cells while you work elsewhere</td>
+</tr>
+<tr>
+<td><code>F9</code> inside the formula bar</td>
+<td>Select part of a formula and press F9 to see its value (press Esc to undo)</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/excel-11-03.png" alt="Evaluate Formula replaces one part at a time until only the result remains." loading="lazy"><figcaption>Evaluate Formula replaces one part at a time until only the result remains.</figcaption></figure>
+<h2 id="delivering-the-dashboard">Delivering the dashboard</h2>
+<ul>
+<li><strong>Refresh</strong>: Data → Refresh All before sending.</li>
+<li><strong>Export</strong>: File → Export → PDF (select the Dashboard sheet, landscape, fit to one page) for people who only need to read it.</li>
+<li><strong>Share live</strong>: save to OneDrive/SharePoint and share a link; viewers can use slicers in Excel for the web.</li>
+<li><strong>Automate</strong>: Power Query + Refresh All, or Office Scripts / Power Automate to refresh and email on a schedule.</li>
+</ul>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Copilot in Excel can draft the analysis: <em>"Summarise sales and profit by region and category, identify the three biggest loss-making sub-categories, and suggest charts for a dashboard."</em> Use its suggestions as a starting point, then build the final dashboard deliberately: you are responsible for every number on it.</p></div>
+<h2 id="insights-from-the-case">Insights from the case</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sub = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">sum</span>()
+sub[<span class="hl-s">&quot;margin&quot;</span>] = (sub.profit / sub.sales * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Loss-making sub-categories:\n&quot;</span>, sub[sub.profit &lt; <span class="hl-n">0</span>].<span class="hl-f">round</span>(<span class="hl-n">0</span>).<span class="hl-f">to_string</span>())
+disc = <span class="hl-f">s.groupby</span>(<span class="hl-f">pd.cut</span>(s.discount, [-<span class="hl-n">0.01</span>, <span class="hl-n">0</span>, <span class="hl-n">0.2</span>, <span class="hl-n">1</span>], labels=[<span class="hl-s">&quot;0%&quot;</span>, <span class="hl-s">&quot;1–20%&quot;</span>, <span class="hl-s">&quot;&gt;20%&quot;</span>]), observed=<span class="hl-k">False</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">sum</span>()
+disc[<span class="hl-s">&quot;margin %&quot;</span>] = (disc.profit / disc.sales * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nMargin by discount band:\n&quot;</span>, <span class="hl-f">disc.round</span>(<span class="hl-n">0</span>).<span class="hl-f">to_string</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Loss-making sub-categories:
+                    sales    profit  margin
+sub_category                              
+Bookcases     11274848.0 -422786.0    -4.0
+Tables        14046224.0 -816042.0    -6.0
+
+Margin by discount band:
+                 sales      profit  margin %
+discount                                   
+0%        123936290.0  21718963.0      18.0
+1–20%      57729097.0    697141.0       1.0
+&gt;20%       19748182.0  -4063940.0     -21.0</pre></div>
+<p>A good dashboard closes with 3–4 written insights, for example:</p>
+<ol>
+<li>Technology generates about three quarters of sales and most of the profit; furniture is unprofitable overall.</li>
+<li>Tables and Bookcases lose money; both are heavily discounted.</li>
+<li>Order lines with discounts above 20% lose money almost every time: review the discount policy.</li>
+<li>Sales peak every October–December (festive season); plan stock and staffing accordingly.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Start with the brief, KPIs and questions; then data prep; then one pivot per visual.</li>
+<li>Build all pivots from one Table so they share a cache and can be connected to slicers and a timeline (Report Connections).</li>
+<li>KPI cards use GETPIVOTDATA; shapes can display a cell's value by typing <code>=Cell</code> in the formula bar.</li>
+<li>Design: top-left headline KPIs, aligned grid, few colours, insight titles, data date and source.</li>
+<li>Protect: unlock inputs, Protect Sheet (allow PivotTables and objects), Protect Workbook structure; use encryption for real security.</li>
+<li>Audit with Evaluate Formula, Trace Precedents/Dependents, Show Formulas and the Watch Window.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-11-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why should all dashboard pivots be built from the same Table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes the file smaller only</button><button type="button" class="opt" data-ok="1"><i>B</i>So they share one pivot cache and can all be connected to the same slicers</button><button type="button" class="opt" data-ok="0"><i>C</i>Pivot charts require it</button><button type="button" class="opt" data-ok="0"><i>D</i>It is needed for conditional formatting</button></div><div class="qexp"><b>Answer: B.</b> Slicers can only control pivots that share a cache (or data model).</div></div><div class="qq"><p class="qtext"><b>2.</b> After protecting the sheet, slicers stop working. What did you forget?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To unlock the slicer cells</button><button type="button" class="opt" data-ok="1"><i>B</i>To allow "Use PivotTable &amp; PivotChart" and "Edit objects" in Protect Sheet</button><button type="button" class="opt" data-ok="0"><i>C</i>To protect the workbook structure</button><button type="button" class="opt" data-ok="0"><i>D</i>To refresh the pivots</button></div><div class="qexp"><b>Answer: B.</b> Slicers are objects that change pivots, so both permissions must be allowed.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which tool lets you see each step of a complex formula's calculation?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Trace Dependents</button><button type="button" class="opt" data-ok="1"><i>B</i>Evaluate Formula</button><button type="button" class="opt" data-ok="0"><i>C</i>Watch Window</button><button type="button" class="opt" data-ok="0"><i>D</i>Name Manager</button></div><div class="qexp"><b>Answer: B.</b> Evaluate Formula replaces one part at a time with its value.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does Protect Workbook (structure) prevent?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Opening the file without a password</button><button type="button" class="opt" data-ok="0"><i>B</i>Editing any cell</button><button type="button" class="opt" data-ok="1"><i>C</i>Adding, deleting, renaming, moving, hiding or unhiding sheets</button><button type="button" class="opt" data-ok="0"><i>D</i>Using slicers</button></div><div class="qexp"><b>Answer: C.</b> Structure protection guards the sheets, not the cells.</div></div><div class="qq"><p class="qtext"><b>5.</b> How do you count distinct orders in a pivot table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Count of order_id</button><button type="button" class="opt" data-ok="1"><i>B</i>Add the data to the Data Model and use Distinct Count</button><button type="button" class="opt" data-ok="0"><i>C</i>Sum of order_id</button><button type="button" class="opt" data-ok="0"><i>D</i>Use a calculated field</button></div><div class="qexp"><b>Answer: B.</b> Distinct Count is available only for Data Model pivots.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is the difference between a note and a comment in Microsoft 365?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Notes are simple sticky notes; comments are threaded conversations with replies and mentions</button><button type="button" class="opt" data-ok="0"><i>B</i>They are identical</button><button type="button" class="opt" data-ok="0"><i>C</i>Comments cannot be printed</button><button type="button" class="opt" data-ok="0"><i>D</i>Notes can only be added to formulas</button></div><div class="qexp"><b>Answer: A.</b> Use notes for documentation and comments for review discussions.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build it yourself</b></div><p>Build the dashboard in this lesson from <code>superstore_sales.csv</code>. Then add: (1) a <strong>Ship mode</strong> slicer; (2) a KPI card for <strong>average days to ship</strong>; (3) a chart of the top 10 customers by sales that responds to all slicers; (4) sheet protection that still allows slicers.</p><details class="sol"><summary>Show solution</summary><p>(1) Insert Slicer → ship_mode → Report Connections → all pivots.
+(2) Add <code>days_to_ship</code> to tblSales; add Average of days_to_ship to the KPI pivot; link a shape to its GETPIVOTDATA cell.
+(3) New pivot from tblSales: Rows customer_name, Values Sum of sales, Value Filter Top 10; PivotChart (bar); connect to the slicers.
+(4) Review → Protect Sheet with "Use PivotTable &amp; PivotChart" and "Edit objects" ticked; protect workbook structure.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Walk me through how you would build an Excel dashboard.</strong>
+Clarify the audience and questions; define KPIs; clean and structure the data as a Table; create one pivot per visual; build pivot charts; connect slicers and a timeline; add KPI cards with GETPIVOTDATA; design the layout; validate numbers against the source; protect and share.</p>
+<p><strong>Q: How do you make sure dashboard numbers are correct?</strong>
+Reconcile totals with the raw data (SUM vs pivot), test filters, check distinct counts, use Evaluate Formula and trace precedents for KPI formulas, and have a second person review.</p>
+<p><strong>Q: Excel dashboard or Power BI?</strong>
+Excel for small data, quick turnaround and audiences who live in Excel; Power BI for larger data, many users, scheduled refresh, row-level security and richer interactivity.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-10-charts-and-advanced-charts.html"><small>← Previous</small><b>Charts and Advanced Charts</b></a><a class="next" href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html"><small>Next →</small><b>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-brief">The brief</a><a href="#step-1-prepare-the-data">Step 1: prepare the data</a><a href="#step-2-one-pivot-table-per-visual">Step 2: one pivot table per visual</a><a href="#step-3-pivot-charts">Step 3: pivot charts</a><a href="#step-4-slicers-and-a-timeline-that-control-everything">Step 4: slicers and a timeline that control everything</a><a href="#step-5-kpi-cards-and-a-dynamic-title">Step 5: KPI cards and a dynamic title</a><a href="#step-6-layout-and-design-rules">Step 6: layout and design rules</a><a href="#step-7-protect-the-dashboard">Step 7: protect the dashboard</a><a href="#comments-and-notes">Comments and notes</a><a href="#auditing-formulas-evaluate-formula-and-friends">Auditing formulas: Evaluate Formula and friends</a><a href="#delivering-the-dashboard">Delivering the dashboard</a><a href="#insights-from-the-case">Insights from the case</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v7"></script><script src="../assets/course.js?v=v7"></script></body></html>
