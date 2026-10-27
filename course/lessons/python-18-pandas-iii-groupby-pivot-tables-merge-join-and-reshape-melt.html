@@ -1,0 +1,232 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot) · Python Lesson 18 · Data Science &amp; AI Handbook</title><meta name="description" content="Summarise and combine data. Use groupby with agg, transform and filter, build pivot tables and crosstabs, join tables with merge (inner, left, right, outer, anti), stack with concat, and reshape between wide and long with melt, pivot, stack and unstack."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 18</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class="on"><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-18">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 18 of 19</div><h1>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</h1>
+<p class="sum">Summarise and combine data. Use groupby with agg, transform and filter, build pivot tables and crosstabs, join tables with merge (inner, left, right, outer, anti), stack with concat, and reshape between wide and long with melt, pivot, stack and unstack.</p><div class="tags"><span class="tag live">● Python class 14</span><span class="tag new">✦ pandas 2.3 / 3.0</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_18_pandas_III_GroupBy_Pivot_Tables_Merge_Join_and_Reshape_melt_unpivot.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-18">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Apply split-apply-combine with groupby, named aggregations and multiple keys</li><li>Use transform for group-level columns and filter for group-level conditions</li><li>Build pivot_table and crosstab summaries with totals and percentages</li><li>Join DataFrames with merge, choose the join type, and validate the result</li><li>Reshape wide ↔ long with melt (unpivot) and pivot, and combine with concat</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/products.csv" download>products.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="splitapplycombine">Split–apply–combine</h2>
+<p><code>groupby</code> <strong>splits</strong> rows into groups, <strong>applies</strong> a calculation to each group, and <strong>combines</strong> the results. It is SQL's <code>GROUP BY</code> and Excel's PivotTable.</p>
+<figure class="fig"><img src="../img/python-18-01.png" alt="groupby splits rows by key, applies an aggregation per group, and combines the answers." loading="lazy"><figcaption>groupby splits rows by key, applies an aggregation per group, and combines the answers.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.max_columns&quot;</span>, <span class="hl-n">20</span>); <span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>)
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-f">s.groupby</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>])[<span class="hl-s">&quot;profit&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">round</span>(<span class="hl-n">0</span>).<span class="hl-f">unstack</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">region
+South    53952768.5
+West     51958520.5
+North    49018161.0
+East     46484119.0
+Name: sales, dtype: float64
+category  Furniture  Office Supplies  Technology
+region                                          
+East      -209426.0         434731.0   4149185.0
+North     -236825.0         331848.0   4460806.0
+South     -259193.0         349958.0   4611247.0
+West      -112710.0         398257.0   4434286.0</pre></div>
+<h3 id="named-aggregations">Named aggregations</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">summary = (<span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;category&quot;</span>)
+             .<span class="hl-f">agg</span>(orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), lines=(<span class="hl-s">&quot;row_id&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>),
+                  profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), avg_discount=(<span class="hl-s">&quot;discount&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>), max_line=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;max&quot;</span>))
+             .<span class="hl-f">assign</span>(margin_pct=<span class="hl-k">lambda</span> d: (<span class="hl-n">100</span> * d.profit / d.sales).<span class="hl-f">round</span>(<span class="hl-n">1</span>))
+             .<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-f">summary.round</span>(<span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;segment&quot;</span>, as_index=<span class="hl-k">False</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">agg</span>([<span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;median&quot;</span>, <span class="hl-s">&quot;count&quot;</span>]).<span class="hl-f">round</span>(<span class="hl-n">0</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                 orders  lines        sales       profit  avg_discount  max_line  margin_pct
+category                                                                                    
+Technology         1518   1892  156438412.5  17655523.58          0.07  619290.0        11.3
+Furniture          1511   1917   34841853.0   -818153.31          0.13   93120.0        -2.3
+Office Supplies    1870   2514   10133303.5   1514793.58          0.07   60830.0        14.9
+       segment         sum     mean  median  count
+0     Consumer  98603292.0  32066.0  8288.0   3075
+1    Corporate  59113619.0  31427.0  8480.0   1881
+2  Home Office  43696658.0  31965.0  9079.0   1367</pre></div>
+<p>Common aggregations: <code>sum</code>, <code>mean</code>, <code>median</code>, <code>min</code>, <code>max</code>, <code>count</code> (non-null), <code>size</code> (rows), <code>nunique</code>, <code>std</code>, <code>first</code>, <code>last</code>, or your own function.</p>
+<h3 id="transform-and-filter">transform and filter</h3>
+<p><code>transform</code> returns a value <strong>for every row</strong> (the group result broadcast back), perfect for "share of group" and group-wise filling. <code>filter</code> keeps whole groups that meet a condition.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s[<span class="hl-s">&quot;region_sales&quot;</span>] = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">transform</span>(<span class="hl-s">&quot;sum&quot;</span>)
+s[<span class="hl-s">&quot;share_of_region_%&quot;</span>] = (<span class="hl-n">100</span> * s[<span class="hl-s">&quot;sales&quot;</span>] / s[<span class="hl-s">&quot;region_sales&quot;</span>]).<span class="hl-f">round</span>(<span class="hl-n">3</span>)
+s[<span class="hl-s">&quot;rank_in_region&quot;</span>] = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">rank</span>(ascending=<span class="hl-k">False</span>, method=<span class="hl-s">&quot;first&quot;</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-f">print</span>(s.loc[s.rank_in_region &lt;= <span class="hl-n">2</span>, [<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;product_name&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;share_of_region_%&quot;</span>, <span class="hl-s">&quot;rank_in_region&quot;</span>]].<span class="hl-f">sort_values</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;rank_in_region&quot;</span>]))
+loyal = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">filter</span>(<span class="hl-k">lambda</span> g: g[<span class="hl-s">&quot;order_id&quot;</span>].<span class="hl-f">nunique</span>() &gt;= <span class="hl-n">8</span>)
+<span class="hl-f">print</span>(loyal[<span class="hl-s">&quot;customer_id&quot;</span>].<span class="hl-f">nunique</span>(), <span class="hl-s">&quot;customers placed 8+ orders&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">     region       product_name     sales  share_of_region_%  rank_in_region
+6244   East  Vertex Copier 262  472740.0              1.017               1
+4219   East   Orbit Copier 746  442350.0              0.952               2
+3669  North   Orbit Copier 746  619290.0              1.263               1
+1653  North   Orbit Copier 746  526396.5              1.074               2
+1142  South  Vertex Copier 262  551530.0              1.022               1
+2087  South  Vertex Copier 262  551530.0              1.022               2
+1779   West    Apex Copier 347  493080.0              0.949               1
+3317   West   Orbit Copier 746  477738.0              0.919               2
+41 customers placed 8+ orders</pre></div>
+<h2 id="pivot-tables-and-crosstabs">Pivot tables and crosstabs</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s[<span class="hl-s">&quot;year&quot;</span>] = s[<span class="hl-s">&quot;order_date&quot;</span>].dt.year
+pt = <span class="hl-f">pd.pivot_table</span>(s, values=<span class="hl-s">&quot;sales&quot;</span>, index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;year&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>, margins=<span class="hl-k">True</span>, margins_name=<span class="hl-s">&quot;Total&quot;</span>)
+<span class="hl-f">print</span>((pt / 1e6).<span class="hl-f">round</span>(<span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-f">pd.crosstab</span>(s[<span class="hl-s">&quot;segment&quot;</span>], s[<span class="hl-s">&quot;ship_mode&quot;</span>], normalize=<span class="hl-s">&quot;index&quot;</span>).<span class="hl-f">mul</span>(<span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>))       <span class="hl-c"># row %</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">year              2023   2024   2025   Total
+category                                    
+Furniture         9.95  12.13  12.76   34.84
+Office Supplies   2.61   3.55   3.97   10.13
+Technology       45.08  49.72  61.65  156.44
+Total            57.64  65.40  78.38  201.41
+ship_mode    First Class  Same Day  Second Class  Standard Class
+segment                                                         
+Consumer            15.2       5.5          19.5            59.8
+Corporate           13.2       5.0          20.3            61.5
+Home Office         16.9       4.3          19.5            59.3</pre></div>
+<h2 id="merging-joins">Merging (joins)</h2>
+<p>Real analysis needs several tables. <code>pd.merge</code> (or <code>df.merge</code>) joins on key columns like SQL joins.</p>
+<figure class="fig"><img src="../img/python-18-02.png" alt="Join types: which rows survive." loading="lazy"><figcaption>Join types: which rows survive.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">orders = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;order_id&quot;</span>: [<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>], <span class="hl-s">&quot;cust&quot;</span>: [<span class="hl-s">&quot;C1&quot;</span>, <span class="hl-s">&quot;C2&quot;</span>, <span class="hl-s">&quot;C2&quot;</span>, <span class="hl-s">&quot;C9&quot;</span>], <span class="hl-s">&quot;amount&quot;</span>: [<span class="hl-n">500</span>, <span class="hl-n">250</span>, <span class="hl-n">900</span>, <span class="hl-n">120</span>]})
+cust = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;cust&quot;</span>: [<span class="hl-s">&quot;C1&quot;</span>, <span class="hl-s">&quot;C2&quot;</span>, <span class="hl-s">&quot;C3&quot;</span>], <span class="hl-s">&quot;name&quot;</span>: [<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>], <span class="hl-s">&quot;city&quot;</span>: [<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>]})
+<span class="hl-k">for</span> how <span class="hl-k">in</span> [<span class="hl-s">&quot;inner&quot;</span>, <span class="hl-s">&quot;left&quot;</span>, <span class="hl-s">&quot;right&quot;</span>, <span class="hl-s">&quot;outer&quot;</span>]:
+    <span class="hl-f">print</span>(how, <span class="hl-s">&quot;-&gt;&quot;</span>, <span class="hl-f">len</span>(<span class="hl-f">orders.merge</span>(cust, on=<span class="hl-s">&quot;cust&quot;</span>, how=how)), <span class="hl-s">&quot;rows&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">orders.merge</span>(cust, on=<span class="hl-s">&quot;cust&quot;</span>, how=<span class="hl-s">&quot;left&quot;</span>, indicator=<span class="hl-k">True</span>))
+anti = <span class="hl-f">orders.merge</span>(cust, on=<span class="hl-s">&quot;cust&quot;</span>, how=<span class="hl-s">&quot;left&quot;</span>, indicator=<span class="hl-k">True</span>).<span class="hl-f">query</span>(<span class="hl-s">&quot;_merge == &#x27;left_only&#x27;&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;orders with unknown customer:&quot;</span>, anti[<span class="hl-s">&quot;order_id&quot;</span>].<span class="hl-f">tolist</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">inner -&gt; 3 rows
+left -&gt; 4 rows
+right -&gt; 4 rows
+outer -&gt; 5 rows
+   order_id cust  amount  name   city     _merge
+0         1   C1     500  Asha   Pune       both
+1         2   C2     250  Ravi  Delhi       both
+2         3   C2     900  Ravi  Delhi       both
+3         4   C9     120   NaN    NaN  left_only
+orders with unknown customer: [4]</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Argument</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>on="key"</code> / <code>on=["a", "b"]</code></td>
+<td>Same column name(s) in both</td>
+</tr>
+<tr>
+<td><code>left_on=</code>, <code>right_on=</code></td>
+<td>Different key names</td>
+</tr>
+<tr>
+<td><code>how=</code></td>
+<td><code>inner</code>, <code>left</code>, <code>right</code>, <code>outer</code>, <code>cross</code></td>
+</tr>
+<tr>
+<td><code>suffixes=("_x", "_y")</code></td>
+<td>Clashing column names</td>
+</tr>
+<tr>
+<td><code>indicator=True</code></td>
+<td>Adds <code>_merge</code> to see where each row came from</td>
+</tr>
+<tr>
+<td><code>validate="many_to_one"</code></td>
+<td>Raises an error if the key is not unique on the right</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="a-real-three-table-join">A real three-table join</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">products = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;products.csv&quot;</span>); customers = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+lines = s[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;product_id&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;quantity&quot;</span>]]
+full = (<span class="hl-f">lines.merge</span>(products[[<span class="hl-s">&quot;product_id&quot;</span>, <span class="hl-s">&quot;list_price&quot;</span>]], on=<span class="hl-s">&quot;product_id&quot;</span>, how=<span class="hl-s">&quot;left&quot;</span>, validate=<span class="hl-s">&quot;many_to_one&quot;</span>)
+             .<span class="hl-f">merge</span>(customers[[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;city&quot;</span>, <span class="hl-s">&quot;segment&quot;</span>]], on=<span class="hl-s">&quot;customer_id&quot;</span>, how=<span class="hl-s">&quot;left&quot;</span>, validate=<span class="hl-s">&quot;many_to_one&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(lines), <span class="hl-f">len</span>(full), full[<span class="hl-s">&quot;list_price&quot;</span>].<span class="hl-f">isna</span>().<span class="hl-f">sum</span>(), <span class="hl-s">&quot;unmatched products&quot;</span>)
+full[<span class="hl-s">&quot;realised_vs_list_%&quot;</span>] = (<span class="hl-n">100</span> * full[<span class="hl-s">&quot;sales&quot;</span>] / (full[<span class="hl-s">&quot;list_price&quot;</span>] * full[<span class="hl-s">&quot;quantity&quot;</span>])).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-f">full.groupby</span>(<span class="hl-s">&quot;segment&quot;</span>)[<span class="hl-s">&quot;realised_vs_list_%&quot;</span>].<span class="hl-f">mean</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6323 6323 0 unmatched products
+segment
+Consumer       91.0
+Corporate      91.1
+Home Office    90.4
+Name: realised_vs_list_%, dtype: float64</pre></div>
+<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Row explosion</b></div><p>If the key is duplicated on <strong>both</strong> sides, a merge multiplies rows (many-to-many). Always compare row counts before and after, and use <code>validate=</code> to catch it.</p></div>
+<h2 id="concat-stacking-tables">concat: stacking tables</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">jan = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;store&quot;</span>: [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">100</span>, <span class="hl-n">80</span>]}); feb = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;store&quot;</span>: [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;C&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">120</span>, <span class="hl-n">60</span>]})
+<span class="hl-f">print</span>(<span class="hl-f">pd.concat</span>([<span class="hl-f">jan.assign</span>(month=<span class="hl-s">&quot;Jan&quot;</span>), <span class="hl-f">feb.assign</span>(month=<span class="hl-s">&quot;Feb&quot;</span>)], ignore_index=<span class="hl-k">True</span>))    <span class="hl-c"># rows (UNION ALL)</span>
+<span class="hl-f">print</span>(<span class="hl-f">pd.concat</span>([<span class="hl-f">jan.set_index</span>(<span class="hl-s">&quot;store&quot;</span>), <span class="hl-f">feb.set_index</span>(<span class="hl-s">&quot;store&quot;</span>)], axis=<span class="hl-n">1</span>, keys=[<span class="hl-s">&quot;Jan&quot;</span>, <span class="hl-s">&quot;Feb&quot;</span>]))   <span class="hl-c"># columns, aligned on index</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  store  sales month
+0     A    100   Jan
+1     B     80   Jan
+2     A    120   Feb
+3     C     60   Feb
+         Jan    Feb
+       sales  sales
+store              
+A      100.0  120.0
+B       80.0    NaN
+C        NaN   60.0</pre></div>
+<h2 id="reshaping-wide-long">Reshaping: wide ↔ long</h2>
+<p><strong>Wide</strong> tables are easy to read (one column per month); <strong>long</strong> (tidy) tables are easy to analyse and chart (one row per observation). <code>melt</code> is pandas' <strong>unpivot</strong> (the same as Power Query's "Unpivot columns").</p>
+<figure class="fig"><img src="../img/python-18-03.png" alt="melt turns columns into rows; pivot turns rows into columns." loading="lazy"><figcaption>melt turns columns into rows; pivot turns rows into columns.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">wide = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;region&quot;</span>: [<span class="hl-s">&quot;North&quot;</span>, <span class="hl-s">&quot;South&quot;</span>], <span class="hl-s">&quot;Jan&quot;</span>: [<span class="hl-n">10</span>, <span class="hl-n">8</span>], <span class="hl-s">&quot;Feb&quot;</span>: [<span class="hl-n">12</span>, <span class="hl-n">11</span>], <span class="hl-s">&quot;Mar&quot;</span>: [<span class="hl-n">9</span>, <span class="hl-n">14</span>]})
+long = <span class="hl-f">wide.melt</span>(id_vars=<span class="hl-s">&quot;region&quot;</span>, var_name=<span class="hl-s">&quot;month&quot;</span>, value_name=<span class="hl-s">&quot;sales&quot;</span>)
+<span class="hl-f">print</span>(long)
+back = <span class="hl-f">long.pivot</span>(index=<span class="hl-s">&quot;region&quot;</span>, columns=<span class="hl-s">&quot;month&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>)[[<span class="hl-s">&quot;Jan&quot;</span>, <span class="hl-s">&quot;Feb&quot;</span>, <span class="hl-s">&quot;Mar&quot;</span>]]
+<span class="hl-f">print</span>(back)
+st = <span class="hl-f">back.stack</span>(); <span class="hl-f">print</span>(<span class="hl-f">st.head</span>(<span class="hl-n">3</span>)); <span class="hl-f">print</span>(<span class="hl-f">st.unstack</span>().<span class="hl-f">equals</span>(back))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region month  sales
+0  North   Jan     10
+1  South   Jan      8
+2  North   Feb     12
+3  South   Feb     11
+4  North   Mar      9
+5  South   Mar     14
+month   Jan  Feb  Mar
+region               
+North    10   12    9
+South     8   11   14
+region  month
+North   Jan      10
+        Feb      12
+        Mar       9
+dtype: int64
+True</pre></div>
+<p><code>pivot</code> requires unique index/column pairs; <code>pivot_table</code> aggregates duplicates.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">monthly = (<span class="hl-f">s.assign</span>(month=<span class="hl-f">s.order_date.dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>).<span class="hl-f">astype</span>(str))
+             .<span class="hl-f">pivot_table</span>(index=<span class="hl-s">&quot;month&quot;</span>, columns=<span class="hl-s">&quot;category&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>).<span class="hl-f">tail</span>(<span class="hl-n">3</span>) / 1e6).<span class="hl-f">round</span>(<span class="hl-n">2</span>)
+<span class="hl-f">print</span>(monthly)
+<span class="hl-f">print</span>(<span class="hl-f">monthly.reset_index</span>().<span class="hl-f">melt</span>(id_vars=<span class="hl-s">&quot;month&quot;</span>, var_name=<span class="hl-s">&quot;category&quot;</span>, value_name=<span class="hl-s">&quot;sales_m&quot;</span>).<span class="hl-f">head</span>(<span class="hl-n">4</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">category  Furniture  Office Supplies  Technology
+month                                           
+2025-10        1.15             0.31        4.68
+2025-11        1.07             0.59        8.62
+2025-12        1.31             0.40        5.94
+     month         category  sales_m
+0  2025-10        Furniture     1.15
+1  2025-11        Furniture     1.07
+2  2025-12        Furniture     1.31
+3  2025-10  Office Supplies     0.31</pre></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>groupby(keys).agg(name=(col, func))</code> builds clean summaries; <code>transform</code> returns group values per row; <code>filter</code> keeps whole groups.</li>
+<li><code>pivot_table</code> (with <code>margins=True</code>) and <code>crosstab</code> (with <code>normalize</code>) mirror Excel PivotTables.</li>
+<li><code>merge(on=, how=)</code> joins tables; check row counts, use <code>indicator=True</code> for anti-joins and <code>validate=</code> to prevent row explosions.</li>
+<li><code>concat</code> stacks rows (or aligns columns).</li>
+<li><code>melt</code> = unpivot (wide → long); <code>pivot</code>/<code>pivot_table</code> = long → wide; <code>stack</code>/<code>unstack</code> move index levels.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-18-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which returns one value per original row?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>groupby().agg()</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>groupby().transform()</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>groupby().size()</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>pivot_table()</code></button></div><div class="qexp"><b>Answer: B.</b> transform broadcasts the group result back to each row.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which merge keeps every order even when the customer is missing?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>inner</button><button type="button" class="opt" data-ok="1"><i>B</i>left (orders on the left)</button><button type="button" class="opt" data-ok="0"><i>C</i>right</button><button type="button" class="opt" data-ok="0"><i>D</i>cross</button></div><div class="qexp"><b>Answer: B.</b> Unmatched customer columns become NaN.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you find rows in A with no match in B?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>inner merge</button><button type="button" class="opt" data-ok="1"><i>B</i>left merge with <code>indicator=True</code> and keep <code>_merge == "left_only"</code></button><button type="button" class="opt" data-ok="0"><i>C</i>outer merge without indicator</button><button type="button" class="opt" data-ok="0"><i>D</i>concat</button></div><div class="qexp"><b>Answer: B.</b> This is an anti-join.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>melt</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pivots long to wide</button><button type="button" class="opt" data-ok="1"><i>B</i>Unpivots wide columns into rows (long format)</button><button type="button" class="opt" data-ok="0"><i>C</i>Merges tables</button><button type="button" class="opt" data-ok="0"><i>D</i>Deletes columns</button></div><div class="qexp"><b>Answer: B.</b> <code>pivot</code> goes the other way.</div></div><div class="qq"><p class="qtext"><b>5.</b> A merge produced more rows than the left table. Most likely cause?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A bug in pandas</button><button type="button" class="opt" data-ok="1"><i>B</i>Duplicate keys on the right side</button><button type="button" class="opt" data-ok="0"><i>C</i>Missing values</button><button type="button" class="opt" data-ok="0"><i>D</i>Wrong dtype</button></div><div class="qexp"><b>Answer: B.</b> Use <code>validate="many_to_one"</code> to catch this.</div></div><div class="qq"><p class="qtext"><b>6.</b> How do you add a grand-total row and column to a pivot table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>totals=True</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>margins=True</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>sum=True</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>fill_value=0</code></button></div><div class="qexp"><b>Answer: B.</b> <code>margins_name</code> changes the label.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>GroupBy and merge practice</b></div><p>(1) Sales and profit by year and region, with margin %. (2) For each customer, the share of their spend in each category (use <code>transform</code>). (3) Top product per sub-category by profit. (4) Customers in <code>customers.csv</code> with no orders (anti-join). (5) Melt the year columns of a category × year pivot back to long format.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">yr = <span class="hl-f">s.groupby</span>([<span class="hl-s">&quot;year&quot;</span>, <span class="hl-s">&quot;region&quot;</span>]).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+yr[<span class="hl-s">&quot;margin_%&quot;</span>] = (<span class="hl-n">100</span> * yr.profit / yr.sales).<span class="hl-f">round</span>(<span class="hl-n">1</span>); <span class="hl-f">print</span>(yr)
+cc = <span class="hl-f">s.groupby</span>([<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;category&quot;</span>])[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">reset_index</span>()
+cc[<span class="hl-s">&quot;share&quot;</span>] = cc.sales / <span class="hl-f">cc.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">transform</span>(<span class="hl-s">&quot;sum&quot;</span>)
+top = <span class="hl-f">s.groupby</span>([<span class="hl-s">&quot;sub_category&quot;</span>, <span class="hl-s">&quot;product_name&quot;</span>])[<span class="hl-s">&quot;profit&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">reset_index</span>().<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;profit&quot;</span>).<span class="hl-f">groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">tail</span>(<span class="hl-n">1</span>)
+no_orders = <span class="hl-f">customers.merge</span>(s[[<span class="hl-s">&quot;customer_id&quot;</span>]].<span class="hl-f">drop_duplicates</span>(), how=<span class="hl-s">&quot;left&quot;</span>, indicator=<span class="hl-k">True</span>).<span class="hl-f">query</span>(<span class="hl-s">&quot;_merge == &#x27;left_only&#x27;&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(no_orders))
+pt = <span class="hl-f">s.pivot_table</span>(index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;year&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">pt.reset_index</span>().<span class="hl-f">melt</span>(id_vars=<span class="hl-s">&quot;category&quot;</span>, var_name=<span class="hl-s">&quot;year&quot;</span>, value_name=<span class="hl-s">&quot;sales&quot;</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between <code>agg</code> and <code>transform</code>?</strong>
+<code>agg</code> reduces each group to one row; <code>transform</code> returns an output aligned to the original rows.</p>
+<p><strong>Q: How would you compute each product's share of its category's sales?</strong>
+<code>df.sales / df.groupby("category").sales.transform("sum")</code>.</p>
+<p><strong>Q: merge vs join vs concat?</strong>
+<code>merge</code> joins on columns (SQL-style); <code>join</code> is a shortcut that joins on the index; <code>concat</code> stacks along an axis without matching keys.</p>
+<p><strong>Q: What is tidy data?</strong>
+Each variable is a column, each observation a row, each value a cell; long format produced by <code>melt</code> is tidy.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html"><small>← Previous</small><b>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</b></a><a class="next" href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html"><small>Next →</small><b>pandas IV: Dates, Time Series, Resampling and Rolling Windows</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#splitapplycombine">Split–apply–combine</a><a href="#pivot-tables-and-crosstabs">Pivot tables and crosstabs</a><a href="#merging-joins">Merging (joins)</a><a href="#concat-stacking-tables">concat: stacking tables</a><a href="#reshaping-wide-long">Reshaping: wide ↔ long</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
