@@ -1,0 +1,294 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability · GenAI &amp; Agents Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Move from the chat window to code. Set up API keys safely, send messages with system prompts, hold multi-turn conversations, stream responses, get schema-valid JSON, control reasoning effort, cache long prompts, count tokens and estimate cost, batch large jobs, handle errors and retries, and run the same pattern with other providers, with a runnable offline simulator for practice."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class="on"><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-03">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 3 of 3</div><h1>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</h1>
+<p class="sum">Move from the chat window to code. Set up API keys safely, send messages with system prompts, hold multi-turn conversations, stream responses, get schema-valid JSON, control reasoning effort, cache long prompts, count tokens and estimate cost, batch large jobs, handle errors and retries, and run the same pattern with other providers, with a runnable offline simulator for practice.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ Anthropic Python SDK 1.x · Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 (Oct 2026)</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_03_Calling_LLM_APIs_from_Python_Messages_Streaming_Structured_Output_Cost.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Store API keys safely and create a client</li><li>Send single and multi-turn requests with system prompts and read the response blocks</li><li>Stream output and request structured, validated JSON</li><li>Estimate and reduce cost with token counting, model choice, effort, caching and batching</li><li>Handle rate limits, errors and retries and log usage</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/customer_reviews.csv" download>customer_reviews.csv</a></div></div></div>
+<div class="content"><h2 id="setup">Setup</h2>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">pip install anthropic            # official SDK (also: openai, google-genai)
+# Never paste keys into notebooks. Set an environment variable instead:
+export ANTHROPIC_API_KEY=&quot;sk-ant-...&quot;          # macOS/Linux
+setx ANTHROPIC_API_KEY &quot;sk-ant-...&quot;            # Windows (new terminal afterwards)
+# or put it in a .env file listed in .gitignore and load it with python-dotenv</code></pre></div>
+<p>Get a key from the provider console (console.anthropic.com, platform.openai.com, aistudio.google.com), set a monthly <strong>spend limit</strong>, and create separate keys for development and production.</p>
+<h2 id="your-first-request">Your first request</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> anthropic
+client = <span class="hl-f">anthropic.Anthropic</span>()                 <span class="hl-c"># reads ANTHROPIC_API_KEY from the environment</span>
+
+response = <span class="hl-f">client.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>,                   <span class="hl-c"># current default model; claude-sonnet-5-5 / claude-haiku-5-5 are cheaper</span>
+    max_tokens=<span class="hl-n">16000</span>,                          <span class="hl-c"># upper limit on output tokens</span>
+    system=<span class="hl-s">&quot;You are a concise data analyst. Answer in at most 3 bullet points.&quot;</span>,
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Why might a churn model have high accuracy but low recall?&quot;</span>}],
+)
+<span class="hl-k">for</span> block <span class="hl-k">in</span> response.content:                 <span class="hl-c"># the reply is a list of content blocks</span>
+    <span class="hl-k">if</span> block.type == <span class="hl-s">&quot;text&quot;</span>:
+        <span class="hl-f">print</span>(block.text)
+<span class="hl-f">print</span>(response.stop_reason, response.usage.input_tokens, response.usage.output_tokens)</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td>Which model answers</td>
+</tr>
+<tr>
+<td><code>system</code></td>
+<td>Standing instructions: role, rules, format</td>
+</tr>
+<tr>
+<td><code>messages</code></td>
+<td>The conversation: alternating <code>user</code> / <code>assistant</code> turns</td>
+</tr>
+<tr>
+<td><code>max_tokens</code></td>
+<td>Maximum length of the reply</td>
+</tr>
+<tr>
+<td><code>response.content</code></td>
+<td>List of blocks (<code>text</code>, <code>thinking</code>, <code>tool_use</code>…); check <code>.type</code></td>
+</tr>
+<tr>
+<td><code>response.stop_reason</code></td>
+<td><code>end_turn</code>, <code>max_tokens</code> (cut off), <code>tool_use</code>, <code>refusal</code></td>
+</tr>
+<tr>
+<td><code>response.usage</code></td>
+<td>Input and output tokens, which you pay for</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Sampling parameters on new models</b></div><p>Older tutorials set <code>temperature</code>. Current Claude reasoning models manage sampling themselves (sending <code>temperature</code> to them returns an error); control depth and cost with <code>output_config={"effort": "low" | "medium" | "high" | "xhigh" | "max"}</code> instead. Check each provider's documentation for the model you use.</p></div>
+<h2 id="practise-offline-a-simulated-client">Practise offline: a simulated client</h2>
+<p>Real calls need a key and cost money. To learn the <strong>shapes</strong> of requests and responses, this lesson uses a small simulator with the same interface. Swap <code>FakeClient()</code> for <code>anthropic.Anthropic()</code> when you have a key.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json, re, time, random, types, pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+<span class="hl-k">class</span> FakeClient:
+    <span class="hl-s">&quot;&quot;&quot;Mimics client.messages.create(...) for offline practice: returns canned but realistic responses and token usage.&quot;&quot;&quot;</span>
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, fail_first=<span class="hl-n">0</span>): self.calls, self.fail_first = <span class="hl-n">0</span>, fail_first; self.messages = self
+    <span class="hl-k">def</span> <span class="hl-f">create</span>(self, model, max_tokens, messages, system=<span class="hl-k">None</span>, **kw):
+        self.calls += <span class="hl-n">1</span>
+        <span class="hl-k">if</span> self.calls &lt;= self.fail_first: <span class="hl-k">raise</span> <span class="hl-f">RuntimeError</span>(<span class="hl-s">&quot;429 rate_limit_error: please retry after 1s&quot;</span>)
+        last = messages[-<span class="hl-n">1</span>][<span class="hl-s">&quot;content&quot;</span>] <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(messages[-<span class="hl-n">1</span>][<span class="hl-s">&quot;content&quot;</span>], str) <span class="hl-k">else</span> <span class="hl-f">json.dumps</span>(messages[-<span class="hl-n">1</span>][<span class="hl-s">&quot;content&quot;</span>])
+        t = <span class="hl-f">last.lower</span>()
+        <span class="hl-k">if</span> <span class="hl-s">&quot;json&quot;</span> <span class="hl-k">in</span> t <span class="hl-k">or</span> <span class="hl-s">&quot;output_config&quot;</span> <span class="hl-k">in</span> kw:
+            neg = <span class="hl-f">any</span>(w <span class="hl-k">in</span> t <span class="hl-k">for</span> w <span class="hl-k">in</span> [<span class="hl-s">&quot;drain&quot;</span>, <span class="hl-s">&quot;poor&quot;</span>, <span class="hl-s">&quot;slow&quot;</span>, <span class="hl-s">&quot;late&quot;</span>, <span class="hl-s">&quot;worst&quot;</span>, <span class="hl-s">&quot;regret&quot;</span>, <span class="hl-s">&quot;cheap&quot;</span>])
+            text = <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;overall&quot;</span>: <span class="hl-s">&quot;negative&quot;</span> <span class="hl-k">if</span> neg <span class="hl-k">else</span> <span class="hl-s">&quot;positive&quot;</span>, <span class="hl-s">&quot;aspects&quot;</span>: [a <span class="hl-k">for</span> a <span class="hl-k">in</span> [<span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;screen&quot;</span>, <span class="hl-s">&quot;sound&quot;</span>, <span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;price&quot;</span>] <span class="hl-k">if</span> a <span class="hl-k">in</span> t], <span class="hl-s">&quot;summary&quot;</span>: last[:<span class="hl-n">60</span>]})
+        <span class="hl-k">elif</span> <span class="hl-s">&quot;my name is&quot;</span> <span class="hl-k">in</span> <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(m[<span class="hl-s">&quot;content&quot;</span>] <span class="hl-k">for</span> m <span class="hl-k">in</span> messages <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(m[<span class="hl-s">&quot;content&quot;</span>], str)).<span class="hl-f">lower</span>() <span class="hl-k">and</span> <span class="hl-s">&quot;name&quot;</span> <span class="hl-k">in</span> t:
+            text = <span class="hl-s">&quot;Your name is &quot;</span> + <span class="hl-f">re.search</span>(r<span class="hl-s">&quot;my name is (\w+)&quot;</span>, <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(m[<span class="hl-s">&quot;content&quot;</span>] <span class="hl-k">for</span> m <span class="hl-k">in</span> messages <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(m[<span class="hl-s">&quot;content&quot;</span>], str)), re.I).<span class="hl-f">group</span>(<span class="hl-n">1</span>) + <span class="hl-s">&quot;.&quot;</span>
+        <span class="hl-k">else</span>:
+            text = <span class="hl-s">&quot;• Accuracy counts both classes; with few churners, predicting &#x27;stay&#x27; scores well.\n• Recall only counts churners caught.\n• Check precision/recall at the decision threshold.&quot;</span>
+        n_in = <span class="hl-f">int</span>(<span class="hl-f">len</span>((system <span class="hl-k">or</span> <span class="hl-s">&quot;&quot;</span>).<span class="hl-f">split</span>() + <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">str</span>(m[<span class="hl-s">&quot;content&quot;</span>]) <span class="hl-k">for</span> m <span class="hl-k">in</span> messages).<span class="hl-f">split</span>()) * <span class="hl-n">1.3</span>); n_out = <span class="hl-f">int</span>(<span class="hl-f">len</span>(<span class="hl-f">text.split</span>()) * <span class="hl-n">1.3</span>)
+        <span class="hl-k">return</span> <span class="hl-f">types.SimpleNamespace</span>(content=[<span class="hl-f">types.SimpleNamespace</span>(type=<span class="hl-s">&quot;text&quot;</span>, text=text)], stop_reason=<span class="hl-s">&quot;end_turn&quot;</span>, model=model,
+                                     usage=<span class="hl-f">types.SimpleNamespace</span>(input_tokens=n_in, output_tokens=n_out, cache_read_input_tokens=<span class="hl-n">0</span>))
+client = <span class="hl-f">FakeClient</span>()
+r = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>, system=<span class="hl-s">&quot;You are a concise data analyst.&quot;</span>,
+                           messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Why might a churn model have high accuracy but low recall?&quot;</span>}])
+<span class="hl-f">print</span>(<span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> r.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>))
+<span class="hl-f">print</span>(r.stop_reason, r.usage.input_tokens, <span class="hl-s">&quot;in /&quot;</span>, r.usage.output_tokens, <span class="hl-s">&quot;out tokens&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">• Accuracy counts both classes; with few churners, predicting &#x27;stay&#x27; scores well.
+• Recall only counts churners caught.
+• Check precision/recall at the decision threshold.
+end_turn 22 in / 32 out tokens</pre></div>
+<h2 id="multi-turn-conversations">Multi-turn conversations</h2>
+<p>The API is <strong>stateless</strong>: send the whole history every time.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">history = []
+<span class="hl-k">def</span> <span class="hl-f">chat</span>(user_text):
+    <span class="hl-f">history.append</span>({<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: user_text})
+    resp = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">2000</span>, messages=history)
+    reply = <span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> resp.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>)
+    <span class="hl-f">history.append</span>({<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;assistant&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: reply})
+    <span class="hl-k">return</span> reply
+<span class="hl-f">chat</span>(<span class="hl-s">&quot;My name is Asha and I analyse telecom churn.&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">chat</span>(<span class="hl-s">&quot;What is my name?&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(history), <span class="hl-s">&quot;messages are sent with the next request&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Your name is Asha.
+4 messages are sent with the next request</pre></div>
+<p>Long conversations grow the input (and the bill) each turn: summarise or trim old turns, or use server-side compaction for very long sessions.</p>
+<h2 id="streaming">Streaming</h2>
+<p>Stream tokens as they are generated so users see progress (and long requests avoid timeouts):</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">with</span> <span class="hl-f">client.messages.stream</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>,
+    max_tokens=<span class="hl-n">64000</span>,
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Write a 300-word data-quality checklist for a new dataset.&quot;</span>}],
+) <span class="hl-k">as</span> stream:
+    <span class="hl-k">for</span> text <span class="hl-k">in</span> stream.text_stream:
+        <span class="hl-f">print</span>(text, end=<span class="hl-s">&quot;&quot;</span>, flush=<span class="hl-k">True</span>)
+    final = <span class="hl-f">stream.get_final_message</span>()          <span class="hl-c"># full message with usage, when you need it</span></code></pre></div>
+<h2 id="structured-output">Structured output</h2>
+<p>Ask for JSON that matches a schema; the SDK validates it for you.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pydantic <span class="hl-k">import</span> BaseModel
+<span class="hl-k">from</span> typing <span class="hl-k">import</span> Literal, List
+
+<span class="hl-k">class</span> <span class="hl-f">ReviewAnalysis</span>(BaseModel):
+    overall: Literal[<span class="hl-s">&quot;positive&quot;</span>, <span class="hl-s">&quot;negative&quot;</span>, <span class="hl-s">&quot;neutral&quot;</span>]
+    aspects: List[str]
+    summary: str
+
+response = <span class="hl-f">client.messages.parse</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>,
+    max_tokens=<span class="hl-n">16000</span>,
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Analyse this review: &#x27;Display is bright but the battery drains fast.&#x27;&quot;</span>}],
+    output_format=ReviewAnalysis,
+)
+result = response.parsed_output              <span class="hl-c"># a validated ReviewAnalysis object</span>
+<span class="hl-f">print</span>(result.overall, result.aspects)</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pydantic <span class="hl-k">import</span> BaseModel, ValidationError
+<span class="hl-k">from</span> typing <span class="hl-k">import</span> Literal, List
+<span class="hl-k">class</span> <span class="hl-f">ReviewAnalysis</span>(BaseModel):
+    overall: Literal[<span class="hl-s">&quot;positive&quot;</span>, <span class="hl-s">&quot;negative&quot;</span>, <span class="hl-s">&quot;neutral&quot;</span>]
+    aspects: List[str]
+    summary: str
+reviews = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customer_reviews.csv&quot;</span>).<span class="hl-f">sample</span>(<span class="hl-n">5</span>, random_state=<span class="hl-n">2</span>)
+rows = []
+<span class="hl-k">for</span> t <span class="hl-k">in</span> reviews.review_text:
+    resp = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-haiku-5-5&quot;</span>, max_tokens=<span class="hl-n">1000</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">f&quot;Return JSON for this review: {t}&quot;</span>}])
+    parsed = <span class="hl-f">ReviewAnalysis.model_validate_json</span>(resp.content[<span class="hl-n">0</span>].text)
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;review&quot;</span>: t[:<span class="hl-n">55</span>], <span class="hl-s">&quot;overall&quot;</span>: parsed.overall, <span class="hl-s">&quot;aspects&quot;</span>: parsed.aspects})
+<span class="hl-f">print</span>(<span class="hl-f">pd.DataFrame</span>(rows).<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                                                 review  overall         aspects
+Bahut badiya. The app is really smooth though the touch positive              []
+Happy with the purchase. Price is very reasonable for t positive         [price]
+Loved it! scren is crisp even outdoors, the finish is c positive              []
+Superb product. Screen is crisp even outdoors, price is positive [screen, price]
+Setup took two minutes, build quality feels premium, sc positive        [screen]</pre></div>
+<h2 id="reasoning-effort">Reasoning effort</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">response = <span class="hl-f">client.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>,
+    max_tokens=<span class="hl-n">16000</span>,
+    thinking={<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;adaptive&quot;</span>, <span class="hl-s">&quot;display&quot;</span>: <span class="hl-s">&quot;summarized&quot;</span>},   <span class="hl-c"># the model decides how much to think</span>
+    output_config={<span class="hl-s">&quot;effort&quot;</span>: <span class="hl-s">&quot;high&quot;</span>},                          <span class="hl-c"># low | medium (default on Opus 5.5) | high | xhigh | max</span>
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Our churn fell from 27% to 22% after a price cut that also changed the customer mix. Can we credit the price cut?&quot;</span>}],
+)
+<span class="hl-k">for</span> b <span class="hl-k">in</span> response.content:
+    <span class="hl-f">print</span>(b.type, (b.thinking <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;thinking&quot;</span> <span class="hl-k">else</span> b.text)[:<span class="hl-n">300</span>])</code></pre></div>
+<p>Use <strong>low</strong> effort for simple, high-volume tasks (classification, extraction) and <strong>high</strong> for analysis, planning and code.</p>
+<h2 id="cost-measure-estimate-reduce">Cost: measure, estimate, reduce</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">PRICE = {<span class="hl-s">&quot;claude-opus-5-5&quot;</span>: (<span class="hl-n">4.00</span>, <span class="hl-n">20.00</span>), <span class="hl-s">&quot;claude-sonnet-5-5&quot;</span>: (<span class="hl-n">2.00</span>, <span class="hl-n">10.00</span>), <span class="hl-s">&quot;claude-haiku-5-5&quot;</span>: (<span class="hl-n">0.10</span>, <span class="hl-n">0.50</span>)}   <span class="hl-c"># USD per million tokens (input, output), Oct 2026 list prices</span>
+<span class="hl-k">def</span> <span class="hl-f">cost_usd</span>(model, tokens_in, tokens_out): pin, pout = PRICE[model]; <span class="hl-k">return</span> (tokens_in * pin + tokens_out * pout) / 1e6
+job = {<span class="hl-s">&quot;reviews&quot;</span>: 100_000, <span class="hl-s">&quot;tokens_in&quot;</span>: <span class="hl-n">350</span>, <span class="hl-s">&quot;tokens_out&quot;</span>: <span class="hl-n">80</span>}            <span class="hl-c"># classify 1 lakh reviews</span>
+usd_inr = <span class="hl-n">88</span>
+<span class="hl-k">for</span> m <span class="hl-k">in</span> PRICE:
+    c = <span class="hl-f">cost_usd</span>(m, job[<span class="hl-s">&quot;reviews&quot;</span>] * job[<span class="hl-s">&quot;tokens_in&quot;</span>], job[<span class="hl-s">&quot;reviews&quot;</span>] * job[<span class="hl-s">&quot;tokens_out&quot;</span>])
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{m:18s} ${c:8,.2f}  ≈ ₹{c * usd_inr:10,.0f}  | with Batch API (50% off) ≈ ₹{c * usd_inr / 2:9,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">claude-opus-5-5    $  300.00  ≈ ₹    26,400  | with Batch API (50% off) ≈ ₹   13,200
+claude-sonnet-5-5  $  150.00  ≈ ₹    13,200  | with Batch API (50% off) ≈ ₹    6,600
+claude-haiku-5-5   $    7.50  ≈ ₹       660  | with Batch API (50% off) ≈ ₹      330</pre></div>
+<p>Prices change: check the provider's pricing page before budgeting. Main levers:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Lever</th>
+<th>Saving</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Right-size the model (Haiku/Sonnet for simple, high-volume steps)</td>
+<td>Often 10–40×</td>
+</tr>
+<tr>
+<td>Lower effort for simple tasks</td>
+<td>Fewer thinking tokens</td>
+</tr>
+<tr>
+<td><strong>Prompt caching</strong> for long, repeated prefixes (system prompt, documents)</td>
+<td>Cached input reads cost about 10% of normal input</td>
+</tr>
+<tr>
+<td><strong>Batch API</strong> for non-urgent jobs</td>
+<td>50% off, results within 24 hours</td>
+</tr>
+<tr>
+<td>Shorter prompts and outputs (ask for JSON, not essays)</td>
+<td>Linear</td>
+</tr>
+<tr>
+<td>Count tokens before sending (<code>client.messages.count_tokens(...)</code>)</td>
+<td>Avoid surprises</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Prompt caching: mark the long, stable part of the prompt</span>
+response = <span class="hl-f">client.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>,
+    system=[{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;text&quot;</span>, <span class="hl-s">&quot;text&quot;</span>: LONG_POLICY_DOCUMENT, <span class="hl-s">&quot;cache_control&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;ephemeral&quot;</span>}}],
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Does the refund policy cover damaged boxes?&quot;</span>}],
+)
+<span class="hl-f">print</span>(response.usage.cache_read_input_tokens)     <span class="hl-c"># &gt; 0 on repeat calls when the cache hits</span>
+
+<span class="hl-c"># Token counting</span>
+<span class="hl-f">print</span>(<span class="hl-f">client.messages.count_tokens</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Hello&quot;</span>}]).input_tokens)</code></pre></div>
+<h2 id="reliability-errors-and-retries">Reliability: errors and retries</h2>
+<p>The SDK already retries connection errors, 429 (rate limit) and 5xx errors twice with backoff. Handle the rest explicitly:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> anthropic
+<span class="hl-k">try</span>:
+    response = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>, messages=msgs)
+<span class="hl-k">except</span> anthropic.RateLimitError <span class="hl-k">as</span> e:          <span class="hl-c"># 429: slow down, queue, or retry later</span>
+    retry_after = <span class="hl-f">int</span>(<span class="hl-f">e.response.headers.get</span>(<span class="hl-s">&quot;retry-after&quot;</span>, <span class="hl-s">&quot;30&quot;</span>))
+<span class="hl-k">except</span> anthropic.BadRequestError <span class="hl-k">as</span> e:         <span class="hl-c"># 400: fix the request (do not retry)</span>
+    <span class="hl-f">print</span>(e.message)
+<span class="hl-k">except</span> anthropic.APIStatusError <span class="hl-k">as</span> e:          <span class="hl-c"># other HTTP errors</span>
+    <span class="hl-f">print</span>(e.status_code, e.message)
+<span class="hl-k">except</span> anthropic.APIConnectionError:           <span class="hl-c"># network problem</span>
+    ...
+<span class="hl-k">if</span> response.stop_reason == <span class="hl-s">&quot;max_tokens&quot;</span>: ...   <span class="hl-c"># output was cut off: raise max_tokens or stream</span>
+<span class="hl-k">if</span> response.stop_reason == <span class="hl-s">&quot;refusal&quot;</span>: ...      <span class="hl-c"># declined for safety: check response.stop_details</span></code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">call_with_retry</span>(fn, tries=<span class="hl-n">4</span>, base=<span class="hl-n">0.05</span>):
+    <span class="hl-k">for</span> attempt <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, tries + <span class="hl-n">1</span>):
+        <span class="hl-k">try</span>: <span class="hl-k">return</span> <span class="hl-f">fn</span>()
+        <span class="hl-k">except</span> RuntimeError <span class="hl-k">as</span> e:
+            <span class="hl-k">if</span> <span class="hl-s">&quot;429&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> <span class="hl-f">str</span>(e) <span class="hl-k">or</span> attempt == tries: <span class="hl-k">raise</span>
+            wait = base * <span class="hl-n">2</span> ** (attempt - <span class="hl-n">1</span>) + <span class="hl-f">random.uniform</span>(<span class="hl-n">0</span>, base); <span class="hl-f">print</span>(<span class="hl-s">f&quot;  attempt {attempt} failed ({e}); retrying in {wait:.2f}s&quot;</span>); <span class="hl-f">time.sleep</span>(wait)
+flaky = <span class="hl-f">FakeClient</span>(fail_first=<span class="hl-n">2</span>)
+r = <span class="hl-f">call_with_retry</span>(<span class="hl-k">lambda</span>: <span class="hl-f">flaky.messages.create</span>(model=<span class="hl-s">&quot;claude-haiku-5-5&quot;</span>, max_tokens=<span class="hl-n">500</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;hello&quot;</span>}]))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;succeeded after&quot;</span>, flaky.calls, <span class="hl-s">&quot;calls&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  attempt 1 failed (429 rate_limit_error: please retry after 1s); retrying in 0.05s
+  attempt 2 failed (429 rate_limit_error: please retry after 1s); retrying in 0.15s
+succeeded after 3 calls</pre></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Production logging</b></div><p>Log for every call: timestamp, model, prompt version, input/output tokens, latency, stop reason and the request id (<code>response._request_id</code>). This makes cost dashboards, debugging and audits possible. Never log secrets, and mask personal data.</p></div>
+<h2 id="large-jobs-the-batch-api">Large jobs: the Batch API</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> anthropic.types.message_create_params <span class="hl-k">import</span> MessageCreateParamsNonStreaming
+<span class="hl-k">from</span> anthropic.types.messages.batch_create_params <span class="hl-k">import</span> Request
+batch = <span class="hl-f">client.messages.batches.create</span>(requests=[
+    <span class="hl-f">Request</span>(custom_id=<span class="hl-s">f&quot;review-{i}&quot;</span>, params=<span class="hl-f">MessageCreateParamsNonStreaming</span>(
+        model=<span class="hl-s">&quot;claude-haiku-5-5&quot;</span>, max_tokens=<span class="hl-n">500</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">f&quot;Classify: {text}&quot;</span>}]))
+    <span class="hl-k">for</span> i, text <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(review_texts)])
+<span class="hl-c"># later: poll client.messages.batches.retrieve(batch.id).processing_status until &quot;ended&quot;,</span>
+<span class="hl-c"># then iterate client.messages.batches.results(batch.id) and match results by custom_id (order is not guaranteed)</span></code></pre></div>
+<h2 id="other-providers">Other providers</h2>
+<p>The pattern is the same everywhere: a client, a model name, messages, and a response with text and usage. OpenAI (<code>openai</code> package, Responses/Chat Completions APIs), Google (<code>google-genai</code>, Gemini), and open models served locally with <strong>Ollama</strong> or in the cloud with providers such as Together or Groq. Libraries like LiteLLM offer one interface over many providers; keep the provider-specific features (structured outputs, caching, tools) in mind when switching.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Keep API keys in environment variables or a secrets manager; set spend limits.</li>
+<li><code>client.messages.create(model, max_tokens, system, messages)</code>; read <code>response.content</code> blocks, <code>stop_reason</code> and <code>usage</code>.</li>
+<li>The API is stateless: send the conversation history each call and manage its length.</li>
+<li>Stream long outputs; use <code>messages.parse</code> / structured outputs for validated JSON; use effort (and adaptive thinking) for hard tasks.</li>
+<li>Control cost with model choice, effort, prompt caching, batching, short outputs and token counting.</li>
+<li>Handle rate limits and errors, check stop reasons, and log usage per call.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Where should an API key live?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In an environment variable or secrets manager, never in code</button><button type="button" class="opt" data-ok="0"><i>B</i>In the notebook</button><button type="button" class="opt" data-ok="0"><i>C</i>In the prompt</button><button type="button" class="opt" data-ok="0"><i>D</i>In a public repository</button></div><div class="qexp"><b>Answer: A.</b> Rotate keys if exposed.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why must you send the full message history each time?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The API is stateless; it remembers nothing between calls</button><button type="button" class="opt" data-ok="0"><i>B</i>To save tokens</button><button type="button" class="opt" data-ok="0"><i>C</i>It is optional</button><button type="button" class="opt" data-ok="0"><i>D</i>The API stores history automatically</button></div><div class="qexp"><b>Answer: A.</b> Manage history length for cost.</div></div><div class="qq"><p class="qtext"><b>3.</b> <code>stop_reason == "max_tokens"</code> means…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The reply was cut off at the output limit</button><button type="button" class="opt" data-ok="0"><i>B</i>The model finished normally</button><button type="button" class="opt" data-ok="0"><i>C</i>A tool was called</button><button type="button" class="opt" data-ok="0"><i>D</i>The request failed</button></div><div class="qexp"><b>Answer: A.</b> Increase max_tokens or stream.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which is the best lever for classifying 1 lakh reviews overnight cheaply?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A small model with the Batch API</button><button type="button" class="opt" data-ok="0"><i>B</i>The largest model in real time</button><button type="button" class="opt" data-ok="0"><i>C</i>Higher temperature</button><button type="button" class="opt" data-ok="0"><i>D</i>Longer prompts</button></div><div class="qexp"><b>Answer: A.</b> Batches are 50% cheaper.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does prompt caching help with?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Repeated long prefixes such as a policy document or system prompt</button><button type="button" class="opt" data-ok="0"><i>B</i>Changing questions only</button><button type="button" class="opt" data-ok="0"><i>C</i>Image generation</button><button type="button" class="opt" data-ok="0"><i>D</i>Training the model</button></div><div class="qexp"><b>Answer: A.</b> Cached reads are far cheaper.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which errors should you generally retry?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Rate limits (429), server errors (5xx) and network errors</button><button type="button" class="opt" data-ok="0"><i>B</i>400 bad requests</button><button type="button" class="opt" data-ok="0"><i>C</i>Authentication errors</button><button type="button" class="opt" data-ok="0"><i>D</i>Validation errors in your own code</button></div><div class="qexp"><b>Answer: A.</b> Fix 4xx requests instead.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Using the simulator (or a real key), classify 20 reviews and store results with token counts in a DataFrame. (2) Write a function that estimates monthly cost from requests per day and average tokens for each model. (3) Add logging of latency and tokens to <code>chat()</code>. (4) With a real key, compare the output of <code>claude-haiku-5-5</code> and <code>claude-opus-5-5</code> on five tricky reviews.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">recs = []
+<span class="hl-k">for</span> t <span class="hl-k">in</span> <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customer_reviews.csv&quot;</span>).<span class="hl-f">review_text.head</span>(<span class="hl-n">20</span>):
+    t0 = <span class="hl-f">time.perf_counter</span>(); r = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-haiku-5-5&quot;</span>, max_tokens=<span class="hl-n">500</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">f&quot;JSON: {t}&quot;</span>}])
+    <span class="hl-f">recs.append</span>({<span class="hl-s">&quot;text&quot;</span>: t, **<span class="hl-f">json.loads</span>(r.content[<span class="hl-n">0</span>].text), <span class="hl-s">&quot;in&quot;</span>: r.usage.input_tokens, <span class="hl-s">&quot;out&quot;</span>: r.usage.output_tokens, <span class="hl-s">&quot;ms&quot;</span>: <span class="hl-f">round</span>(<span class="hl-n">1000</span> * (<span class="hl-f">time.perf_counter</span>() - t0), <span class="hl-n">1</span>)})
+log = <span class="hl-f">pd.DataFrame</span>(recs)
+<span class="hl-k">def</span> <span class="hl-f">monthly_cost</span>(req_per_day, tin, tout): <span class="hl-k">return</span> {m: <span class="hl-f">round</span>(<span class="hl-f">cost_usd</span>(m, <span class="hl-n">30</span> * req_per_day * tin, <span class="hl-n">30</span> * req_per_day * tout), <span class="hl-n">2</span>) <span class="hl-k">for</span> m <span class="hl-k">in</span> PRICE}
+<span class="hl-f">print</span>(<span class="hl-f">monthly_cost</span>(<span class="hl-n">5000</span>, <span class="hl-n">800</span>, <span class="hl-n">200</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you estimate the cost of an LLM feature?</strong>
+Requests per day × (input tokens × input price + output tokens × output price), measured on real samples with token counting, then reduced with model choice, caching, batching and shorter outputs.</p>
+<p><strong>Q: How do you make LLM API calls robust?</strong>
+Timeouts, retries with exponential backoff for 429/5xx, validation of outputs, checking stop reasons, fallbacks (another model or a rule), idempotent processing and logging.</p>
+<p><strong>Q: How do you keep a long chatbot conversation within budget?</strong>
+Trim or summarise older turns, cache the stable system prompt, retrieve only relevant documents, and cap output length.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html"><small>← Previous</small><b>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#setup">Setup</a><a href="#your-first-request">Your first request</a><a href="#practise-offline-a-simulated-client">Practise offline: a simulated client</a><a href="#multi-turn-conversations">Multi-turn conversations</a><a href="#streaming">Streaming</a><a href="#structured-output">Structured output</a><a href="#reasoning-effort">Reasoning effort</a><a href="#cost-measure-estimate-reduce">Cost: measure, estimate, reduce</a><a href="#reliability-errors-and-retries">Reliability: errors and retries</a><a href="#large-jobs-the-batch-api">Large jobs: the Batch API</a><a href="#other-providers">Other providers</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
