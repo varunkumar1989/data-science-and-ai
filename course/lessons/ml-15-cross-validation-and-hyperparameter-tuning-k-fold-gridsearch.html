@@ -1,0 +1,208 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna · Stats &amp; ML Lesson 15 · Data Science &amp; AI Handbook</title><meta name="description" content="Estimate performance reliably and tune models without fooling yourself. Hold-out vs k-fold, stratified, grouped and time-series cross-validation, cross_validate with several metrics, GridSearchCV and RandomizedSearchCV over pipelines, nested cross-validation, Bayesian optimisation with Optuna, and the common leakage traps."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 15</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class="on"><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-15">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 15 of 15</div><h1>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</h1>
+<p class="sum">Estimate performance reliably and tune models without fooling yourself. Hold-out vs k-fold, stratified, grouped and time-series cross-validation, cross_validate with several metrics, GridSearchCV and RandomizedSearchCV over pipelines, nested cross-validation, Bayesian optimisation with Optuna, and the common leakage traps.</p><div class="tags"><span class="tag live">● ML classes 6–7</span><span class="tag new">✦ scikit-learn 1.7+ · Optuna 4</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_15_Cross_Validation_and_Hyperparameter_Tuning_K_Fold_GridSearchCV_Randomi.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-15">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain why one train/test split is noisy and how k-fold cross-validation helps</li><li>Choose stratified, group and time-series splitters for the problem</li><li>Tune pipeline hyperparameters with GridSearchCV and RandomizedSearchCV and read cv_results_</li><li>Use nested cross-validation for an unbiased estimate of a tuned model</li><li>Recognise and prevent leakage during validation</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/bank_loans.csv" download>bank_loans.csv</a><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a></div></div></div>
+<div class="content"><h2 id="one-split-is-noisy">One split is noisy</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split, cross_val_score, cross_validate, StratifiedKFold, KFold, GridSearchCV, RandomizedSearchCV
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline, Pipeline
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> roc_auc_score
+b = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;bank_loans.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;default&quot;</span>])
+feats = [<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;ed&quot;</span>, <span class="hl-s">&quot;employ&quot;</span>, <span class="hl-s">&quot;address&quot;</span>, <span class="hl-s">&quot;income&quot;</span>, <span class="hl-s">&quot;debtinc&quot;</span>, <span class="hl-s">&quot;creddebt&quot;</span>, <span class="hl-s">&quot;othdebt&quot;</span>]
+X, y = b[feats], <span class="hl-f">b.default.astype</span>(int)
+pipe = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">1000</span>))
+aucs = []
+<span class="hl-k">for</span> seed <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">20</span>):
+    Xa, Xb, ya, yb = <span class="hl-f">train_test_split</span>(X, y, test_size=<span class="hl-n">0.25</span>, stratify=y, random_state=seed)
+    <span class="hl-f">aucs.append</span>(<span class="hl-f">roc_auc_score</span>(yb, <span class="hl-f">pipe.fit</span>(Xa, ya).<span class="hl-f">predict_proba</span>(Xb)[:, <span class="hl-n">1</span>]))
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;20 different random splits: test AUC from {min(aucs):.3f} to {max(aucs):.3f} (mean {np.mean(aucs):.3f})&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">20 different random splits: test AUC from 0.745 to 0.865 (mean 0.801)</pre></div>
+<p>With 700 rows, the test score depends a lot on <strong>which</strong> rows land in the test set. Cross-validation averages over several splits.</p>
+<h2 id="k-fold-cross-validation">K-fold cross-validation</h2>
+<figure class="fig"><img src="../img/ml-15-01.png" alt="5-fold cross-validation: each fold is the validation set once; the score is the average of 5 runs." loading="lazy"><figcaption>5-fold cross-validation: each fold is the validation set once; the score is the average of 5 runs.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cv = <span class="hl-f">StratifiedKFold</span>(n_splits=<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>)
+scores = <span class="hl-f">cross_val_score</span>(pipe, X, y, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;fold AUCs:&quot;</span>, <span class="hl-f">scores.round</span>(<span class="hl-n">3</span>), <span class="hl-s">f&quot;| mean {scores.mean():.3f} ± {scores.std():.3f}&quot;</span>)
+res = <span class="hl-f">cross_validate</span>(pipe, X, y, cv=cv, scoring=[<span class="hl-s">&quot;roc_auc&quot;</span>, <span class="hl-s">&quot;accuracy&quot;</span>, <span class="hl-s">&quot;recall&quot;</span>, <span class="hl-s">&quot;precision&quot;</span>], return_train_score=<span class="hl-k">True</span>)
+<span class="hl-f">print</span>({k: <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-f">v.mean</span>()), <span class="hl-n">3</span>) <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">res.items</span>() <span class="hl-k">if</span> <span class="hl-s">&quot;time&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> k})</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">fold AUCs: [0.767 0.862 0.746 0.83  0.811] | mean 0.803 ± 0.042
+{&#x27;test_roc_auc&#x27;: 0.803, &#x27;train_roc_auc&#x27;: 0.817, &#x27;test_accuracy&#x27;: 0.749, &#x27;train_accuracy&#x27;: 0.762, &#x27;test_recall&#x27;: 0.48, &#x27;train_recall&#x27;: 0.49, &#x27;test_precision&#x27;: 0.667, &#x27;train_precision&#x27;: 0.68}</pre></div>
+<p>Report the <strong>mean and spread</strong>. Compare train and validation scores to spot overfitting.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Splitter</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KFold</code></td>
+<td>Regression, shuffled independent rows</td>
+</tr>
+<tr>
+<td><code>StratifiedKFold</code></td>
+<td>Classification: keeps class balance per fold (default for classifiers)</td>
+</tr>
+<tr>
+<td><code>GroupKFold</code></td>
+<td>Several rows per customer/patient/store: a group never appears in both train and validation</td>
+</tr>
+<tr>
+<td><code>TimeSeriesSplit</code></td>
+<td>Time order: always train on the past, validate on the future</td>
+</tr>
+<tr>
+<td><code>RepeatedStratifiedKFold</code></td>
+<td>Small data: repeat k-fold with different shuffles</td>
+</tr>
+<tr>
+<td><code>LeaveOneOut</code></td>
+<td>Tiny datasets (expensive)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="time-series-cross-validation">Time-series cross-validation</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> TimeSeriesSplit
+<span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> HistGradientBoostingRegressor
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_absolute_error
+d = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;daily_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;date&quot;</span>])
+f = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;dow&quot;</span>: d.date.dt.dayofweek, <span class="hl-s">&quot;month&quot;</span>: d.date.dt.month, <span class="hl-s">&quot;t&quot;</span>: <span class="hl-f">np.arange</span>(<span class="hl-f">len</span>(d)), <span class="hl-s">&quot;lag7&quot;</span>: <span class="hl-f">d.units_sold.shift</span>(<span class="hl-n">7</span>), <span class="hl-s">&quot;lag14&quot;</span>: <span class="hl-f">d.units_sold.shift</span>(<span class="hl-n">14</span>)}).<span class="hl-f">dropna</span>()
+yt = d.units_sold.loc[f.index]
+<span class="hl-k">for</span> i, (tr, va) <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(<span class="hl-f">TimeSeriesSplit</span>(n_splits=<span class="hl-n">4</span>, test_size=<span class="hl-n">90</span>).<span class="hl-f">split</span>(f)):
+    m = <span class="hl-f">HistGradientBoostingRegressor</span>(random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(f.iloc[tr], yt.iloc[tr])
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;fold {i + 1}: train to {d.date[f.index[tr[-1]]].date()} ({len(tr)} days) → validate {d.date[f.index[va[0]]].date()}–{d.date[f.index[va[-1]]].date()} | MAE {mean_absolute_error(yt.iloc[va], m.predict(f.iloc[va])):.1f}&quot;</span>)
+shuffled = <span class="hl-f">cross_val_score</span>(<span class="hl-f">HistGradientBoostingRegressor</span>(random_state=<span class="hl-n">0</span>), f, yt, cv=<span class="hl-f">KFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>), scoring=<span class="hl-s">&quot;neg_mean_absolute_error&quot;</span>).<span class="hl-f">mean</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;shuffled KFold MAE {-shuffled:.1f}: optimistic, because it trains on the future&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">fold 1: train to 2025-01-05 (1087 days) → validate 2025-01-06–2025-04-05 | MAE 24.3
+fold 2: train to 2025-04-05 (1177 days) → validate 2025-04-06–2025-07-04 | MAE 30.8
+fold 3: train to 2025-07-04 (1267 days) → validate 2025-07-05–2025-10-02 | MAE 14.9
+fold 4: train to 2025-10-02 (1357 days) → validate 2025-10-03–2025-12-31 | MAE 13.1
+shuffled KFold MAE 12.8: optimistic, because it trains on the future</pre></div>
+<h2 id="hyperparameters">Hyperparameters</h2>
+<p><strong>Parameters</strong> are learned from data (coefficients, tree splits). <strong>Hyperparameters</strong> are set before training (C, number of neighbours, tree depth, learning rate). We choose them by cross-validation.</p>
+<h3 id="gridsearchcv">GridSearchCV</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.neighbors <span class="hl-k">import</span> KNeighborsClassifier
+knn = <span class="hl-f">Pipeline</span>([(<span class="hl-s">&quot;scale&quot;</span>, <span class="hl-f">StandardScaler</span>()), (<span class="hl-s">&quot;knn&quot;</span>, <span class="hl-f">KNeighborsClassifier</span>())])
+grid = {<span class="hl-s">&quot;knn__n_neighbors&quot;</span>: [<span class="hl-n">5</span>, <span class="hl-n">11</span>, <span class="hl-n">21</span>, <span class="hl-n">31</span>, <span class="hl-n">45</span>], <span class="hl-s">&quot;knn__weights&quot;</span>: [<span class="hl-s">&quot;uniform&quot;</span>, <span class="hl-s">&quot;distance&quot;</span>], <span class="hl-s">&quot;knn__p&quot;</span>: [<span class="hl-n">1</span>, <span class="hl-n">2</span>]}
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(X, y, test_size=<span class="hl-n">0.25</span>, stratify=y, random_state=<span class="hl-n">7</span>)
+gs = <span class="hl-f">GridSearchCV</span>(knn, grid, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>, n_jobs=-<span class="hl-n">1</span>, return_train_score=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;best:&quot;</span>, gs.best_params_, <span class="hl-s">f&quot;| CV AUC {gs.best_score_:.3f} | test AUC {roc_auc_score(yte, gs.predict_proba(Xte)[:, 1]):.3f}&quot;</span>)
+r = <span class="hl-f">pd.DataFrame</span>(gs.cv_results_)[[<span class="hl-s">&quot;param_knn__n_neighbors&quot;</span>, <span class="hl-s">&quot;param_knn__weights&quot;</span>, <span class="hl-s">&quot;param_knn__p&quot;</span>, <span class="hl-s">&quot;mean_train_score&quot;</span>, <span class="hl-s">&quot;mean_test_score&quot;</span>, <span class="hl-s">&quot;rank_test_score&quot;</span>]]
+<span class="hl-f">print</span>(<span class="hl-f">r.sort_values</span>(<span class="hl-s">&quot;rank_test_score&quot;</span>).<span class="hl-f">head</span>(<span class="hl-n">6</span>).<span class="hl-f">round</span>(<span class="hl-n">3</span>).<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">best: {&#x27;knn__n_neighbors&#x27;: 45, &#x27;knn__p&#x27;: 2, &#x27;knn__weights&#x27;: &#x27;uniform&#x27;} | CV AUC 0.748 | test AUC 0.827
+ param_knn__n_neighbors param_knn__weights  param_knn__p  mean_train_score  mean_test_score  rank_test_score
+                     45            uniform             2             0.783            0.748                1
+                     45            uniform             1             0.787            0.746                2
+                     45           distance             2             1.000            0.745                3
+                     45           distance             1             1.000            0.744                4
+                     31            uniform             1             0.788            0.740                5
+                     31           distance             1             1.000            0.734                6</pre></div>
+<p>Pipeline step names prefix parameters (<code>knn__n_neighbors</code>). <code>refit=True</code> (default) retrains the best configuration on all training data, so <code>gs</code> can predict directly.</p>
+<figure class="fig"><img src="../img/ml-15-02.png" alt="Validation AUC by number of neighbours: small k overfits (train ≫ validation), large k smooths." loading="lazy"><figcaption>Validation AUC by number of neighbours: small k overfits (train ≫ validation), large k smooths.</figcaption></figure>
+<h3 id="randomizedsearchcv">RandomizedSearchCV</h3>
+<p>Grids grow exponentially (5 values × 5 parameters = 3,125 fits per fold). Random search samples a fixed number of combinations and often finds equally good settings much faster.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> scipy.stats <span class="hl-k">import</span> loguniform, randint
+<span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> RandomForestClassifier
+rs = <span class="hl-f">RandomizedSearchCV</span>(<span class="hl-f">RandomForestClassifier</span>(random_state=<span class="hl-n">0</span>),
+                        {<span class="hl-s">&quot;n_estimators&quot;</span>: <span class="hl-f">randint</span>(<span class="hl-n">100</span>, <span class="hl-n">500</span>), <span class="hl-s">&quot;max_depth&quot;</span>: [<span class="hl-k">None</span>, <span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">8</span>, <span class="hl-n">12</span>], <span class="hl-s">&quot;min_samples_leaf&quot;</span>: <span class="hl-f">randint</span>(<span class="hl-n">1</span>, <span class="hl-n">30</span>), <span class="hl-s">&quot;max_features&quot;</span>: [<span class="hl-s">&quot;sqrt&quot;</span>, <span class="hl-n">0.5</span>, <span class="hl-n">1.0</span>]},
+                        n_iter=<span class="hl-n">25</span>, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>, random_state=<span class="hl-n">0</span>, n_jobs=-<span class="hl-n">1</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;best RF:&quot;</span>, rs.best_params_, <span class="hl-s">f&quot;| CV AUC {rs.best_score_:.3f} | test AUC {roc_auc_score(yte, rs.predict_proba(Xte)[:, 1]):.3f}&quot;</span>)
+lr_search = <span class="hl-f">RandomizedSearchCV</span>(<span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>)), {<span class="hl-s">&quot;logisticregression__C&quot;</span>: <span class="hl-f">loguniform</span>(1e-<span class="hl-n">3</span>, 1e2)}, n_iter=<span class="hl-n">20</span>, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;logistic C = {lr_search.best_params_[&#x27;logisticregression__C&#x27;]:.3g} | CV AUC {lr_search.best_score_:.3f} | test AUC {roc_auc_score(yte, lr_search.predict_proba(Xte)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">best RF: {&#x27;max_depth&#x27;: 5, &#x27;max_features&#x27;: &#x27;sqrt&#x27;, &#x27;min_samples_leaf&#x27;: 24, &#x27;n_estimators&#x27;: 170} | CV AUC 0.776 | test AUC 0.847
+logistic C = 0.441 | CV AUC 0.783 | test AUC 0.864</pre></div>
+<p>Simple, well-regularised logistic regression is hard to beat on this small, mostly linear credit dataset: a useful reminder to always include simple models in the comparison.</p>
+<h3 id="bayesian-optimisation-with-optuna">Bayesian optimisation with Optuna</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> optuna
+<span class="hl-k">def</span> <span class="hl-f">objective</span>(trial):
+    params = {<span class="hl-s">&quot;n_estimators&quot;</span>: <span class="hl-f">trial.suggest_int</span>(<span class="hl-s">&quot;n_estimators&quot;</span>, <span class="hl-n">100</span>, <span class="hl-n">800</span>),
+              <span class="hl-s">&quot;max_depth&quot;</span>: <span class="hl-f">trial.suggest_int</span>(<span class="hl-s">&quot;max_depth&quot;</span>, <span class="hl-n">2</span>, <span class="hl-n">12</span>),
+              <span class="hl-s">&quot;min_samples_leaf&quot;</span>: <span class="hl-f">trial.suggest_int</span>(<span class="hl-s">&quot;min_samples_leaf&quot;</span>, <span class="hl-n">1</span>, <span class="hl-n">40</span>),
+              <span class="hl-s">&quot;max_features&quot;</span>: <span class="hl-f">trial.suggest_float</span>(<span class="hl-s">&quot;max_features&quot;</span>, <span class="hl-n">0.2</span>, <span class="hl-n">1.0</span>)}
+    <span class="hl-k">return</span> <span class="hl-f">cross_val_score</span>(<span class="hl-f">RandomForestClassifier</span>(**params, random_state=<span class="hl-n">0</span>), Xtr, ytr, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">mean</span>()
+study = <span class="hl-f">optuna.create_study</span>(direction=<span class="hl-s">&quot;maximize&quot;</span>)
+<span class="hl-f">study.optimize</span>(objective, n_trials=<span class="hl-n">60</span>)
+<span class="hl-f">print</span>(study.best_params, study.best_value)</code></pre></div>
+<p>Optuna (and scikit-optimize, Hyperopt) learns from earlier trials which regions look promising, and prunes bad trials early: the usual choice for gradient boosting and deep learning.</p>
+<h2 id="nested-cross-validation">Nested cross-validation</h2>
+<p>The best CV score from a search is slightly optimistic: it was chosen as the maximum of many tries. <strong>Nested CV</strong> wraps the search in an outer loop for an unbiased estimate.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">inner = <span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">1</span>); outer = <span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">2</span>)
+search = <span class="hl-f">GridSearchCV</span>(knn, {<span class="hl-s">&quot;knn__n_neighbors&quot;</span>: [<span class="hl-n">5</span>, <span class="hl-n">11</span>, <span class="hl-n">21</span>, <span class="hl-n">31</span>, <span class="hl-n">45</span>]}, cv=inner, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>)
+nested = <span class="hl-f">cross_val_score</span>(search, X, y, cv=outer, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;nested CV AUC {nested.mean():.3f} ± {nested.std():.3f} (vs best inner score {search.fit(X, y).best_score_:.3f})&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">nested CV AUC 0.783 ± 0.044 (vs best inner score 0.786)</pre></div>
+<h2 id="leakage-checklist">Leakage checklist</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Leak</th>
+<th>Example</th>
+<th>Prevention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preprocessing on all data</td>
+<td>Scaling or imputing before splitting</td>
+<td>Put every step in a Pipeline</td>
+</tr>
+<tr>
+<td>Target leakage</td>
+<td>A feature recorded after the outcome</td>
+<td>Feature cut-off dates</td>
+</tr>
+<tr>
+<td>Duplicate entities</td>
+<td>Same customer in train and validation</td>
+<td>GroupKFold</td>
+</tr>
+<tr>
+<td>Future data</td>
+<td>Random splits for time series</td>
+<td>TimeSeriesSplit</td>
+</tr>
+<tr>
+<td>Tuning on test data</td>
+<td>Picking the model with the best test score</td>
+<td>Tune with CV; test once</td>
+</tr>
+<tr>
+<td>Feature selection outside CV</td>
+<td>SelectKBest on all rows</td>
+<td>Selection inside the pipeline</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>One split is noisy; k-fold CV averages several splits; report mean ± spread.</li>
+<li>Use stratified folds for classification, groups for repeated entities, and time-series splits for temporal data.</li>
+<li>Hyperparameters are tuned by CV: GridSearchCV (small spaces), RandomizedSearchCV (large spaces), Optuna (efficient Bayesian search).</li>
+<li>Nested CV gives an unbiased estimate of a tuned model; the test set is still used only once.</li>
+<li>Keep every data-dependent step inside the pipeline to avoid leakage.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-15-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why use cross-validation instead of one train/test split?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A single split is noisy; averaging over folds gives a more reliable estimate</button><button type="button" class="opt" data-ok="0"><i>B</i>It makes models more accurate</button><button type="button" class="opt" data-ok="0"><i>C</i>It avoids needing a test set</button><button type="button" class="opt" data-ok="0"><i>D</i>It is faster</button></div><div class="qexp"><b>Answer: A.</b> Especially important for small datasets.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which splitter for daily sales forecasting?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>StratifiedKFold</button><button type="button" class="opt" data-ok="1"><i>B</i>TimeSeriesSplit</button><button type="button" class="opt" data-ok="0"><i>C</i>Shuffled KFold</button><button type="button" class="opt" data-ok="0"><i>D</i>LeaveOneOut</button></div><div class="qexp"><b>Answer: B.</b> Validation must come after training in time.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you name a hyperparameter of a pipeline step called "knn" in GridSearchCV?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>n_neighbors</button><button type="button" class="opt" data-ok="1"><i>B</i>knn__n_neighbors</button><button type="button" class="opt" data-ok="0"><i>C</i>knn.n_neighbors</button><button type="button" class="opt" data-ok="0"><i>D</i>knn-n_neighbors</button></div><div class="qexp"><b>Answer: B.</b> Step name, two underscores, parameter.</div></div><div class="qq"><p class="qtext"><b>4.</b> When is RandomizedSearchCV preferable to GridSearchCV?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When the search space is large; it samples a fixed number of combinations</button><button type="button" class="opt" data-ok="0"><i>B</i>When there is one hyperparameter</button><button type="button" class="opt" data-ok="0"><i>C</i>Never</button><button type="button" class="opt" data-ok="0"><i>D</i>Only for regression</button></div><div class="qexp"><b>Answer: A.</b> Often as good, much cheaper.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does nested cross-validation estimate?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The performance of the whole tuning procedure, without optimistic bias</button><button type="button" class="opt" data-ok="0"><i>B</i>The best hyperparameters only</button><button type="button" class="opt" data-ok="0"><i>C</i>Training time</button><button type="button" class="opt" data-ok="0"><i>D</i>Feature importance</button></div><div class="qexp"><b>Answer: A.</b> Inner loop tunes, outer loop evaluates.</div></div><div class="qq"><p class="qtext"><b>6.</b> Scaling the full dataset before cross-validation causes…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Leakage: validation statistics influence training</button><button type="button" class="opt" data-ok="0"><i>B</i>Better accuracy legitimately</button><button type="button" class="opt" data-ok="0"><i>C</i>No effect</button><button type="button" class="opt" data-ok="0"><i>D</i>Slower training</button></div><div class="qexp"><b>Answer: A.</b> Put the scaler in the pipeline.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Tune <code>C</code> and <code>penalty</code> (<code>l1</code>, <code>l2</code>) for logistic regression on the bank data with GridSearchCV (solver <code>liblinear</code>). (2) Use <code>GroupKFold</code> on the superstore data so that all lines of one customer stay together, predicting whether a line is loss-making. (3) Plot the CV AUC for <code>max_depth</code> 1–15 of a decision tree.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">g = <span class="hl-f">GridSearchCV</span>(<span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(solver=<span class="hl-s">&quot;liblinear&quot;</span>)), {<span class="hl-s">&quot;logisticregression__C&quot;</span>: <span class="hl-f">np.logspace</span>(-<span class="hl-n">3</span>, <span class="hl-n">2</span>, <span class="hl-n">12</span>), <span class="hl-s">&quot;logisticregression__penalty&quot;</span>: [<span class="hl-s">&quot;l1&quot;</span>, <span class="hl-s">&quot;l2&quot;</span>]}, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(g.best_params_, g.best_score_)
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> GroupKFold
+<span class="hl-k">from</span> sklearn.tree <span class="hl-k">import</span> DecisionTreeClassifier
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>); Xs = <span class="hl-f">pd.get_dummies</span>(s[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;quantity&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>, <span class="hl-s">&quot;category&quot;</span>, <span class="hl-s">&quot;region&quot;</span>]]); ys = (s.profit &lt; <span class="hl-n">0</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-f">print</span>(<span class="hl-f">cross_val_score</span>(<span class="hl-f">DecisionTreeClassifier</span>(max_depth=<span class="hl-n">5</span>), Xs, ys, groups=s.customer_id, cv=<span class="hl-f">GroupKFold</span>(<span class="hl-n">5</span>), scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">mean</span>())
+<span class="hl-f">print</span>([<span class="hl-f">round</span>(<span class="hl-f">cross_val_score</span>(<span class="hl-f">DecisionTreeClassifier</span>(max_depth=k, random_state=<span class="hl-n">0</span>), X, y, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">mean</span>(), <span class="hl-n">3</span>) <span class="hl-k">for</span> k <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">16</span>)])</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain k-fold cross-validation.</strong>
+Split the training data into k folds; train on k − 1 and validate on the remaining one, k times; average the scores. It uses all data for both training and validation and reduces variance of the estimate.</p>
+<p><strong>Q: Grid search vs random search vs Bayesian optimisation?</strong>
+Grid tries every combination (exhaustive, expensive); random samples combinations (efficient in high dimensions); Bayesian optimisation models the score surface to choose promising settings next.</p>
+<p><strong>Q: How would you validate a churn model that will score customers monthly?</strong>
+Time-based validation: train on earlier months and validate on later months, mimicking deployment; also group by customer to avoid leakage.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html"><small>← Previous</small><b>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#one-split-is-noisy">One split is noisy</a><a href="#k-fold-cross-validation">K-fold cross-validation</a><a href="#hyperparameters">Hyperparameters</a><a href="#nested-cross-validation">Nested cross-validation</a><a href="#leakage-checklist">Leakage checklist</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
