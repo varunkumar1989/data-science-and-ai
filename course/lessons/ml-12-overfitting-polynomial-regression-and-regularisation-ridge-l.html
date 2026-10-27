@@ -1,0 +1,184 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net) · Stats &amp; ML Lesson 12 · Data Science &amp; AI Handbook</title><meta name="description" content="See overfitting and underfitting happen, learn the bias-variance trade-off with polynomial regression, and control model complexity with L2 (Ridge), L1 (Lasso) and Elastic Net penalties, including choosing the penalty strength with cross-validation, feature selection with Lasso, and learning curves."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 12</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class="on"><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-12">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 12 of 13</div><h1>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</h1>
+<p class="sum">See overfitting and underfitting happen, learn the bias-variance trade-off with polynomial regression, and control model complexity with L2 (Ridge), L1 (Lasso) and Elastic Net penalties, including choosing the penalty strength with cross-validation, feature selection with Lasso, and learning curves.</p><div class="tags"><span class="tag live">● ML class 6</span><span class="tag new">✦ scikit-learn 1.7+</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_12_Overfitting_Polynomial_Regression_and_Regularisation_Ridge_Lasso_Elast.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-12">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Recognise underfitting and overfitting from train vs test errors and plots</li><li>Explain the bias-variance trade-off and how model complexity affects it</li><li>Fit polynomial regression and control its degree</li><li>Apply Ridge, Lasso and Elastic Net and tune alpha with RidgeCV/LassoCV</li><li>Use learning and validation curves to decide between more data and a different model</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="underfitting-and-overfitting">Underfitting and overfitting</h2>
+<figure class="fig"><img src="../img/ml-12-01.png" alt="Polynomial models of degree 1, 4 and 15 on the same noisy data. Degree 1 underfits, degree 4 fits well, degree 15 chases noise." loading="lazy"><figcaption>Polynomial models of degree 1, 4 and 15 on the same noisy data. Degree 1 underfits, degree 4 fits well, degree 15 chases noise.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Underfitting</th>
+<th>Good fit</th>
+<th>Overfitting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Training error</td>
+<td>High</td>
+<td>Low</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>Test error</td>
+<td>High</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Cause</td>
+<td>Model too simple, missing features</td>
+<td></td>
+<td>Model too complex, too little data, leakage</td>
+</tr>
+<tr>
+<td>Fix</td>
+<td>More features, more flexible model, less regularisation</td>
+<td></td>
+<td>More data, simpler model, regularisation, feature selection, early stopping</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-bias-variance-trade-off">The bias-variance trade-off</h2>
+<p><strong>Bias</strong> is the error from wrong assumptions (a line for a curve). <strong>Variance</strong> is the error from sensitivity to the particular training sample. Total expected error = bias² + variance + irreducible noise.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_squared_error
+x_test = <span class="hl-f">rng.uniform</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">500</span>); y_test = <span class="hl-f">np.sin</span>(<span class="hl-n">2</span> * np.pi * x_test) + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">25</span>, <span class="hl-n">500</span>)
+<span class="hl-k">for</span> d <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">6</span>, <span class="hl-n">9</span>, <span class="hl-n">12</span>, <span class="hl-n">15</span>):
+    m = <span class="hl-f">make_pipeline</span>(<span class="hl-f">PolynomialFeatures</span>(d), <span class="hl-f">StandardScaler</span>(), <span class="hl-f">LinearRegression</span>()).<span class="hl-f">fit</span>(x[:, <span class="hl-k">None</span>], y)
+    tr = <span class="hl-f">mean_squared_error</span>(y, <span class="hl-f">m.predict</span>(x[:, <span class="hl-k">None</span>])); te = <span class="hl-f">mean_squared_error</span>(y_test, <span class="hl-f">m.predict</span>(x_test[:, <span class="hl-k">None</span>]))
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;degree {d:2d}: train MSE {tr:7.3f} | test MSE {te:10.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">degree  1: train MSE   0.271 | test MSE      0.284
+degree  2: train MSE   0.271 | test MSE      0.285
+degree  3: train MSE   0.057 | test MSE      0.082
+degree  4: train MSE   0.053 | test MSE      0.085
+degree  6: train MSE   0.042 | test MSE      0.137
+degree  9: train MSE   0.041 | test MSE      0.118
+degree 12: train MSE   0.034 | test MSE      5.285
+degree 15: train MSE   0.023 | test MSE      3.548</pre></div>
+<figure class="fig"><img src="../img/ml-12-02.png" alt="As complexity grows, training error keeps falling while test error falls then rises: the sweet spot is in between." loading="lazy"><figcaption>As complexity grows, training error keeps falling while test error falls then rises: the sweet spot is in between.</figcaption></figure>
+<h2 id="regularisation">Regularisation</h2>
+<p>Instead of choosing fewer features by hand, add a <strong>penalty</strong> on large coefficients to the cost:</p>
+<figure class="math"><img src="../img/ml-12-math-f4f9d0d4.png" alt="\text{Ridge (L2):}\; J = \text{MSE} + \alpha\sum_j w_j^2 \qquad \text{Lasso (L1):}\; J = \text{MSE} + \alpha\sum_j |w_j|" loading="lazy"></figure>
+<p><strong>Elastic Net</strong> mixes both (<code>l1_ratio</code>). Larger α means stronger shrinkage, simpler models, more bias and less variance. Always <strong>scale features</strong> first, so the penalty treats them fairly.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> name, model <span class="hl-k">in</span> [(<span class="hl-s">&quot;no penalty&quot;</span>, <span class="hl-f">LinearRegression</span>()), (<span class="hl-s">&quot;Ridge α=0.01&quot;</span>, <span class="hl-f">Ridge</span>(alpha=<span class="hl-n">0.01</span>)), (<span class="hl-s">&quot;Lasso α=0.001&quot;</span>, <span class="hl-f">Lasso</span>(alpha=<span class="hl-n">0.001</span>, max_iter=<span class="hl-n">100000</span>))]:
+    m = <span class="hl-f">make_pipeline</span>(<span class="hl-f">PolynomialFeatures</span>(<span class="hl-n">15</span>), <span class="hl-f">StandardScaler</span>(), model).<span class="hl-f">fit</span>(x[:, <span class="hl-k">None</span>], y)
+    coefs = m[-<span class="hl-n">1</span>].coef_
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;degree-15 {name:12s} test MSE {mean_squared_error(y_test, m.predict(x_test[:, None])):9.3f} | largest |coef| {np.abs(coefs).max():12.1f} | zero coefs {(np.abs(coefs) &lt; 1e-8).sum():2d} of {len(coefs)}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">degree-15 no penalty   test MSE     3.548 | largest |coef|       9560.9 | zero coefs  0 of 16
+degree-15 Ridge α=0.01 test MSE     0.113 | largest |coef|          2.2 | zero coefs  1 of 16
+degree-15 Lasso α=0.001 test MSE     0.089 | largest |coef|          4.1 | zero coefs 12 of 16</pre></div>
+<p>The same degree-15 model becomes well behaved once its coefficients are penalised. <strong>Lasso</strong> sets some coefficients exactly to zero (automatic feature selection); <strong>Ridge</strong> shrinks all of them smoothly and handles correlated features well.</p>
+<figure class="fig"><img src="../img/ml-12-03.png" alt="Coefficient paths: as α grows, Ridge shrinks every coefficient gradually while Lasso drops features to exactly zero one by one." loading="lazy"><figcaption>Coefficient paths: as α grows, Ridge shrinks every coefficient gradually while Lasso drops features to exactly zero one by one.</figcaption></figure>
+<h2 id="choosing-with-cross-validation">Choosing α with cross-validation</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split, cross_val_score
+h = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;house_prices.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;area_sqft&quot;</span>])
+pps = h.price_lakh * 1e5 / h.area_sqft; h = h[<span class="hl-f">pps.between</span>(<span class="hl-f">pps.median</span>() / <span class="hl-n">3</span>, <span class="hl-f">pps.median</span>() * <span class="hl-n">3</span>)]
+X = <span class="hl-f">pd.get_dummies</span>(<span class="hl-f">h.drop</span>(columns=[<span class="hl-s">&quot;house_id&quot;</span>, <span class="hl-s">&quot;price_lakh&quot;</span>]), columns=[<span class="hl-s">&quot;city&quot;</span>], drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float); yv = h.price_lakh
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(X, yv, test_size=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>)
+poly = <span class="hl-k">lambda</span> est: <span class="hl-f">make_pipeline</span>(<span class="hl-f">PolynomialFeatures</span>(<span class="hl-n">2</span>, include_bias=<span class="hl-k">False</span>), <span class="hl-f">StandardScaler</span>(), est)
+models = {<span class="hl-s">&quot;linear (degree 2)&quot;</span>: <span class="hl-f">poly</span>(<span class="hl-f">LinearRegression</span>()), <span class="hl-s">&quot;RidgeCV&quot;</span>: <span class="hl-f">poly</span>(<span class="hl-f">RidgeCV</span>(alphas=<span class="hl-f">np.logspace</span>(-<span class="hl-n">3</span>, <span class="hl-n">3</span>, <span class="hl-n">30</span>))),
+          <span class="hl-s">&quot;LassoCV&quot;</span>: <span class="hl-f">poly</span>(<span class="hl-f">LassoCV</span>(cv=<span class="hl-n">5</span>, random_state=<span class="hl-n">0</span>, max_iter=<span class="hl-n">50000</span>)), <span class="hl-s">&quot;ElasticNet&quot;</span>: <span class="hl-f">poly</span>(<span class="hl-f">ElasticNet</span>(alpha=<span class="hl-n">0.05</span>, l1_ratio=<span class="hl-n">0.5</span>, max_iter=<span class="hl-n">50000</span>))}
+<span class="hl-k">for</span> name, m <span class="hl-k">in</span> <span class="hl-f">models.items</span>():
+    <span class="hl-f">m.fit</span>(Xtr, ytr); cv = <span class="hl-f">cross_val_score</span>(m, Xtr, ytr, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;neg_root_mean_squared_error&quot;</span>).<span class="hl-f">mean</span>()
+    extra = <span class="hl-s">f&quot; | α = {m[-1].alpha_:.4g}&quot;</span> <span class="hl-k">if</span> <span class="hl-f">hasattr</span>(m[-<span class="hl-n">1</span>], <span class="hl-s">&quot;alpha_&quot;</span>) <span class="hl-k">else</span> <span class="hl-s">&quot;&quot;</span>
+    nz = <span class="hl-s">f&quot; | non-zero coefs {(m[-1].coef_ != 0).sum()} of {len(m[-1].coef_)}&quot;</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:18s} CV RMSE {-cv:6.2f} | test RMSE {mean_squared_error(yte, m.predict(Xte)) ** .5:6.2f}{extra}{nz}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">linear (degree 2)  CV RMSE   7.21 | test RMSE   7.72 | non-zero coefs 51 of 54
+RidgeCV            CV RMSE   7.20 | test RMSE   7.75 | α = 0.788 | non-zero coefs 53 of 54
+LassoCV            CV RMSE   7.08 | test RMSE   7.64 | α = 0.07792 | non-zero coefs 25 of 54
+ElasticNet         CV RMSE   7.41 | test RMSE   8.05 | non-zero coefs 45 of 54</pre></div>
+<p>With about 900 training rows and 54 polynomial features, all models perform similarly here; Lasso reaches the same accuracy with far fewer terms. Regularisation matters most when features are many relative to rows, or strongly correlated.</p>
+<h2 id="learning-curves-more-data-or-a-better-model">Learning curves: more data or a better model?</h2>
+<figure class="fig"><img src="../img/ml-12-04.png" alt="Learning curves for a degree-2 Ridge model on house prices: the training and validation errors converge as data grows, so more data would help little; a more flexible model or better features would help more." loading="lazy"><figcaption>Learning curves for a degree-2 Ridge model on house prices: the training and validation errors converge as data grows, so more data would help little; a more flexible model or better features would help more.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Learning-curve pattern</th>
+<th>Diagnosis</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Both errors high and close</td>
+<td>High bias (underfitting)</td>
+<td>More features, more complex model</td>
+</tr>
+<tr>
+<td>Big gap: low train, high validation</td>
+<td>High variance (overfitting)</td>
+<td>More data, regularisation, simpler model</td>
+</tr>
+<tr>
+<td>Gap closing as data grows</td>
+<td>Variance falling</td>
+<td>Collect more data</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="regularisation-beyond-linear-models">Regularisation beyond linear models</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Model</th>
+<th>Regularisation knobs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logistic regression</td>
+<td><code>C</code> = 1/α (smaller C = stronger penalty), <code>penalty="l1"/"l2"/"elasticnet"</code></td>
+</tr>
+<tr>
+<td>Decision trees</td>
+<td><code>max_depth</code>, <code>min_samples_leaf</code>, pruning (<code>ccp_alpha</code>)</td>
+</tr>
+<tr>
+<td>Random forests / boosting</td>
+<td>Tree depth, number of trees, learning rate, subsampling</td>
+</tr>
+<tr>
+<td>Neural networks</td>
+<td>Weight decay (L2), dropout, early stopping, data augmentation</td>
+</tr>
+<tr>
+<td>KNN</td>
+<td>Larger k = smoother</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Underfitting: high error everywhere (bias). Overfitting: low training error, high test error (variance).</li>
+<li>Polynomial features add flexibility; the degree controls the bias-variance trade-off.</li>
+<li>Ridge (L2) shrinks coefficients; Lasso (L1) zeroes some (feature selection); Elastic Net combines them. Scale features first.</li>
+<li>Pick α by cross-validation (RidgeCV, LassoCV, GridSearchCV).</li>
+<li>Learning curves tell you whether more data or a different model will help.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-12-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Training error 2%, test error 25%. Diagnosis?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Underfitting</button><button type="button" class="opt" data-ok="1"><i>B</i>Overfitting (high variance)</button><button type="button" class="opt" data-ok="0"><i>C</i>Perfect model</button><button type="button" class="opt" data-ok="0"><i>D</i>Data too large</button></div><div class="qexp"><b>Answer: B.</b> The model memorised the training data.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which penalty can set coefficients exactly to zero?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Ridge (L2)</button><button type="button" class="opt" data-ok="1"><i>B</i>Lasso (L1)</button><button type="button" class="opt" data-ok="0"><i>C</i>No penalty</button><button type="button" class="opt" data-ok="0"><i>D</i>Both equally</button></div><div class="qexp"><b>Answer: B.</b> L1 performs feature selection.</div></div><div class="qq"><p class="qtext"><b>3.</b> What happens as α increases in Ridge regression?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Coefficients shrink, bias rises and variance falls</button><button type="button" class="opt" data-ok="0"><i>B</i>Coefficients grow</button><button type="button" class="opt" data-ok="0"><i>C</i>The model overfits more</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: A.</b> Stronger penalty = simpler model.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why scale features before regularisation?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>So the penalty treats all coefficients fairly regardless of units</button><button type="button" class="opt" data-ok="0"><i>B</i>To speed up printing</button><button type="button" class="opt" data-ok="0"><i>C</i>To remove outliers</button><button type="button" class="opt" data-ok="0"><i>D</i>It is optional</button></div><div class="qexp"><b>Answer: A.</b> Otherwise large-unit features are under-penalised.</div></div><div class="qq"><p class="qtext"><b>5.</b> In logistic regression in scikit-learn, a smaller C means…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Stronger regularisation</button><button type="button" class="opt" data-ok="0"><i>B</i>Weaker regularisation</button><button type="button" class="opt" data-ok="0"><i>C</i>More features</button><button type="button" class="opt" data-ok="0"><i>D</i>No effect</button></div><div class="qexp"><b>Answer: A.</b> C is the inverse of α.</div></div><div class="qq"><p class="qtext"><b>6.</b> Learning curves show training and validation errors both high and close together. What helps?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>More data</button><button type="button" class="opt" data-ok="1"><i>B</i>A more flexible model or better features</button><button type="button" class="opt" data-ok="0"><i>C</i>Stronger regularisation</button><button type="button" class="opt" data-ok="0"><i>D</i>Fewer features</button></div><div class="qexp"><b>Answer: B.</b> This is high bias.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Plot validation curves (<code>validation_curve</code>) of Ridge alpha for the house data. (2) Fit <code>LogisticRegressionCV</code> with L1 penalty on the HR attrition data: which features survive? (3) Compare degree 1, 2 and 3 polynomial Ridge models with 5-fold CV.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> validation_curve
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegressionCV
+al = <span class="hl-f">np.logspace</span>(-<span class="hl-n">3</span>, <span class="hl-n">3</span>, <span class="hl-n">13</span>)
+tr_, va_ = <span class="hl-f">validation_curve</span>(<span class="hl-f">poly</span>(<span class="hl-f">Ridge</span>()), Xtr, ytr, param_name=<span class="hl-s">&quot;ridge__alpha&quot;</span>, param_range=al, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;neg_root_mean_squared_error&quot;</span>)
+yb = (hr.attrition == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+lr1 = <span class="hl-f">LogisticRegressionCV</span>(penalty=<span class="hl-s">&quot;l1&quot;</span>, solver=<span class="hl-s">&quot;saga&quot;</span>, Cs=<span class="hl-n">10</span>, cv=<span class="hl-n">5</span>, max_iter=<span class="hl-n">5000</span>).<span class="hl-f">fit</span>(<span class="hl-f">StandardScaler</span>().<span class="hl-f">fit_transform</span>(Xh), yb)
+<span class="hl-f">print</span>(Xh.columns[lr1.coef_[<span class="hl-n">0</span>] != <span class="hl-n">0</span>].<span class="hl-f">tolist</span>())
+<span class="hl-k">for</span> d <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>): <span class="hl-f">print</span>(d, <span class="hl-f">cross_val_score</span>(<span class="hl-f">make_pipeline</span>(<span class="hl-f">PolynomialFeatures</span>(d, include_bias=<span class="hl-k">False</span>), <span class="hl-f">StandardScaler</span>(), <span class="hl-f">Ridge</span>(<span class="hl-n">1</span>)), Xtr, ytr, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;r2&quot;</span>).<span class="hl-f">mean</span>())</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain the bias-variance trade-off.</strong>
+Simple models have high bias (systematic error) and low variance; complex models have low bias but high variance (sensitivity to the training sample). We choose complexity that minimises total error on new data.</p>
+<p><strong>Q: L1 vs L2 regularisation?</strong>
+L2 shrinks coefficients towards zero and handles correlated features; L1 can set coefficients exactly to zero, selecting features; Elastic Net combines both.</p>
+<p><strong>Q: How do you detect overfitting?</strong>
+Compare training and validation/test performance (large gap), use cross-validation, and inspect learning curves.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html"><small>← Previous</small><b>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</b></a><a class="next" href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html"><small>Next →</small><b>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#underfitting-and-overfitting">Underfitting and overfitting</a><a href="#the-bias-variance-trade-off">The bias-variance trade-off</a><a href="#regularisation">Regularisation</a><a href="#choosing-with-cross-validation">Choosing α with cross-validation</a><a href="#learning-curves-more-data-or-a-better-model">Learning curves: more data or a better model?</a><a href="#regularisation-beyond-linear-models">Regularisation beyond linear models</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
