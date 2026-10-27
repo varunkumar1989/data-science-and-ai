@@ -1,0 +1,226 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB · Python Lesson 25 · Data Science &amp; AI Handbook</title><meta name="description" content="Make Python data work fast and scale beyond memory. Measure with timeit, replace loops with vectorised code, shrink DataFrames with the right dtypes, store data as Parquet, use Polars lazy queries and DuckDB for out-of-core analytics, and know when to move to Spark and the cloud."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 25</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class="on"><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-25">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 25 of 27</div><h1>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</h1>
+<p class="sum">Make Python data work fast and scale beyond memory. Measure with timeit, replace loops with vectorised code, shrink DataFrames with the right dtypes, store data as Parquet, use Polars lazy queries and DuckDB for out-of-core analytics, and know when to move to Spark and the cloud.</p><div class="tags"><span class="tag live">● Python class 19</span><span class="tag new">✦ pandas 3 · Polars 1.x/2.x · DuckDB · PyArrow</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_25_Performance_and_Bigger_Data_Vectorisation_Memory_Parquet_Polars_and_Du.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-25">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Measure speed and memory before optimising</li><li>Replace row loops and apply with vectorised pandas and NumPy operations</li><li>Reduce memory with categories, smaller numeric types and selected columns</li><li>Store and read data efficiently with Parquet and explain columnar formats</li><li>Write equivalent queries in pandas, Polars and DuckDB and choose between them</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="measure-first">Measure first</h2>
+<p>"Premature optimisation is the root of all evil" (Donald Knuth). Profile, find the slow part, fix that.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np, time, timeit
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+big = <span class="hl-f">pd.concat</span>([s] * <span class="hl-n">20</span>, ignore_index=<span class="hl-k">True</span>)                  <span class="hl-c"># ~126k rows to make timings visible</span>
+<span class="hl-f">print</span>(big.shape)
+<span class="hl-k">def</span> <span class="hl-f">t</span>(fn, n=<span class="hl-n">3</span>): <span class="hl-k">return</span> <span class="hl-f">min</span>(<span class="hl-f">timeit.repeat</span>(fn, number=<span class="hl-n">1</span>, repeat=n)) * <span class="hl-n">1000</span>
+loop = <span class="hl-k">lambda</span>: [r.sales * (<span class="hl-n">1</span> - r.discount) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">big.itertuples</span>()]
+apply_ = <span class="hl-k">lambda</span>: <span class="hl-f">big.apply</span>(<span class="hl-k">lambda</span> r: r[<span class="hl-s">&quot;sales&quot;</span>] * (<span class="hl-n">1</span> - r[<span class="hl-s">&quot;discount&quot;</span>]), axis=<span class="hl-n">1</span>)
+vec = <span class="hl-k">lambda</span>: big[<span class="hl-s">&quot;sales&quot;</span>] * (<span class="hl-n">1</span> - big[<span class="hl-s">&quot;discount&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;itertuples loop {t(loop, 1):8.1f} ms\napply(axis=1)   {t(apply_, 1):8.1f} ms\nvectorised      {t(vec):8.2f} ms&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(126460, 19)
+itertuples loop   1070.5 ms
+apply(axis=1)      659.5 ms
+vectorised          0.65 ms</pre></div>
+<p>The vectorised version is more than a thousand times faster. <code>itertuples</code> and <code>apply(axis=1)</code> take about the same time because both are Python loops (<code>apply</code> with <code>axis=1</code> is a loop in disguise), and <code>iterrows</code> is slower still.</p>
+<h3 id="vectorising-conditional-logic">Vectorising conditional logic</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">band_loop</span>(d): <span class="hl-k">return</span> <span class="hl-s">&quot;high&quot;</span> <span class="hl-k">if</span> d &gt; <span class="hl-n">0.2</span> <span class="hl-k">else</span> <span class="hl-s">&quot;mid&quot;</span> <span class="hl-k">if</span> d &gt; <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-s">&quot;none&quot;</span>
+f1 = <span class="hl-k">lambda</span>: big[<span class="hl-s">&quot;discount&quot;</span>].<span class="hl-f">map</span>(band_loop)
+f2 = <span class="hl-k">lambda</span>: <span class="hl-f">np.select</span>([big.discount &gt; <span class="hl-n">0.2</span>, big.discount &gt; <span class="hl-n">0</span>], [<span class="hl-s">&quot;high&quot;</span>, <span class="hl-s">&quot;mid&quot;</span>], default=<span class="hl-s">&quot;none&quot;</span>)
+f3 = <span class="hl-k">lambda</span>: <span class="hl-f">pd.cut</span>(big.discount, [-<span class="hl-n">1</span>, <span class="hl-n">0</span>, <span class="hl-n">0.2</span>, <span class="hl-n">1</span>], labels=[<span class="hl-s">&quot;none&quot;</span>, <span class="hl-s">&quot;mid&quot;</span>, <span class="hl-s">&quot;high&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;map(func) {t(f1):.1f} ms | np.select {t(f2):.1f} ms | pd.cut {t(f3):.1f} ms&quot;</span>)
+<span class="hl-f">print</span>((<span class="hl-f">f1</span>().values == <span class="hl-f">f2</span>()).<span class="hl-f">all</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">map(func) 15.6 ms | np.select 1.0 ms | pd.cut 1.5 ms
+True</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Slow pattern</th>
+<th>Faster pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>for</code>/<code>iterrows</code> over rows</td>
+<td>Column arithmetic, <code>np.where</code>, <code>np.select</code></td>
+</tr>
+<tr>
+<td><code>apply(axis=1)</code></td>
+<td>Vectorised expression, or <code>groupby().transform</code></td>
+</tr>
+<tr>
+<td>Growing a DataFrame in a loop (<code>concat</code> each time)</td>
+<td>Collect a list of dicts, build once</td>
+</tr>
+<tr>
+<td>String ops in Python loops</td>
+<td><code>.str</code> methods</td>
+</tr>
+<tr>
+<td>Repeated <code>df[df.x == k]</code> in a loop</td>
+<td>One <code>groupby</code></td>
+</tr>
+<tr>
+<td>Reading a big CSV many times</td>
+<td>Read once, save as Parquet</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="memory">Memory</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">mb</span>(df): <span class="hl-k">return</span> <span class="hl-f">df.memory_usage</span>(deep=<span class="hl-k">True</span>).<span class="hl-f">sum</span>() / 1e6
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;original: {mb(big):.1f} MB&quot;</span>)
+small = <span class="hl-f">big.copy</span>()
+<span class="hl-k">for</span> c <span class="hl-k">in</span> [<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;segment&quot;</span>, <span class="hl-s">&quot;category&quot;</span>, <span class="hl-s">&quot;sub_category&quot;</span>, <span class="hl-s">&quot;ship_mode&quot;</span>, <span class="hl-s">&quot;state&quot;</span>, <span class="hl-s">&quot;city&quot;</span>]: small[c] = small[c].<span class="hl-f">astype</span>(<span class="hl-s">&quot;category&quot;</span>)
+small[<span class="hl-s">&quot;quantity&quot;</span>] = <span class="hl-f">pd.to_numeric</span>(small[<span class="hl-s">&quot;quantity&quot;</span>], downcast=<span class="hl-s">&quot;integer&quot;</span>)
+small[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>]] = small[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>]].<span class="hl-f">astype</span>(<span class="hl-s">&quot;float32&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;categories + downcast: {mb(small):.1f} MB&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">small.dtypes.astype</span>(str).<span class="hl-f">value_counts</span>().<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">original: 34.7 MB
+categories + downcast: 18.3 MB
+{&#x27;category&#x27;: 7, &#x27;str&#x27;: 6, &#x27;float32&#x27;: 3, &#x27;int64&#x27;: 1, &#x27;datetime64[us]&#x27;: 1, &#x27;int8&#x27;: 1}</pre></div>
+<p>Categories store each label once plus small integer codes: ideal for columns with few distinct values. Also read only needed columns (<code>usecols=</code>) and stream with <code>chunksize=</code>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">total = <span class="hl-n">0.0</span>
+<span class="hl-k">for</span> chunk <span class="hl-k">in</span> <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, usecols=[<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>], chunksize=<span class="hl-n">2000</span>):
+    total += chunk.loc[chunk.region == <span class="hl-s">&quot;West&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;West sales via chunks: {total:,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">West sales via chunks: 51,958,520</pre></div>
+<h2 id="parquet-the-analytics-file-format">Parquet: the analytics file format</h2>
+<figure class="fig"><img src="../img/python-25-01.png" alt="CSV is row-oriented text; Parquet stores each column together, typed and compressed." loading="lazy"><figcaption>CSV is row-oriented text; Parquet stores each column together, typed and compressed.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> os
+<span class="hl-f">big.to_csv</span>(<span class="hl-s">&quot;big.csv&quot;</span>, index=<span class="hl-k">False</span>); <span class="hl-f">big.to_parquet</span>(<span class="hl-s">&quot;big.parquet&quot;</span>, index=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;CSV {os.path.getsize(&#x27;big.csv&#x27;)/1e6:.1f} MB | Parquet {os.path.getsize(&#x27;big.parquet&#x27;)/1e6:.1f} MB&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;read CSV {t(lambda: pd.read_csv(&#x27;big.csv&#x27;)):.0f} ms | read Parquet {t(lambda: pd.read_parquet(&#x27;big.parquet&#x27;)):.0f} ms | two columns {t(lambda: pd.read_parquet(&#x27;big.parquet&#x27;, columns=[&#x27;region&#x27;, &#x27;sales&#x27;])):.0f} ms&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">CSV 21.7 MB | Parquet 1.9 MB
+read CSV 249 ms | read Parquet 15 ms | two columns 5 ms</pre></div>
+<h2 id="polars-fast-dataframes-with-lazy-queries">Polars: fast DataFrames with lazy queries</h2>
+<p><strong>Polars</strong> is a DataFrame library written in Rust. It uses all CPU cores, the Arrow memory format, and a <strong>lazy</strong> mode that optimises the whole query before running it.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> polars <span class="hl-k">as</span> pl
+lazy = (<span class="hl-f">pl.scan_parquet</span>(<span class="hl-s">&quot;big.parquet&quot;</span>)                         <span class="hl-c"># nothing is read yet</span>
+          .<span class="hl-f">filter</span>(<span class="hl-f">pl.col</span>(<span class="hl-s">&quot;discount&quot;</span>) &lt;= <span class="hl-n">0.1</span>)
+          .<span class="hl-f">group_by</span>(<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>)
+          .<span class="hl-f">agg</span>(sales=<span class="hl-f">pl.col</span>(<span class="hl-s">&quot;sales&quot;</span>).<span class="hl-f">sum</span>(), profit=<span class="hl-f">pl.col</span>(<span class="hl-s">&quot;profit&quot;</span>).<span class="hl-f">sum</span>(), lines=<span class="hl-f">pl.len</span>())
+          .<span class="hl-f">with_columns</span>(margin=(<span class="hl-n">100</span> * <span class="hl-f">pl.col</span>(<span class="hl-s">&quot;profit&quot;</span>) / <span class="hl-f">pl.col</span>(<span class="hl-s">&quot;sales&quot;</span>)).<span class="hl-f">round</span>(<span class="hl-n">1</span>), sales_m=(<span class="hl-f">pl.col</span>(<span class="hl-s">&quot;sales&quot;</span>) / 1e6).<span class="hl-f">round</span>(<span class="hl-n">2</span>))
+          .<span class="hl-f">drop</span>(<span class="hl-s">&quot;profit&quot;</span>)
+          .<span class="hl-f">sort</span>(<span class="hl-s">&quot;sales&quot;</span>, descending=<span class="hl-k">True</span>))
+<span class="hl-f">print</span>(<span class="hl-f">lazy.head</span>(<span class="hl-n">4</span>).<span class="hl-f">collect</span>().<span class="hl-f">drop</span>(<span class="hl-s">&quot;sales&quot;</span>))
+pandas_way = <span class="hl-k">lambda</span>: (big[big.discount &lt;= <span class="hl-n">0.1</span>].<span class="hl-f">groupby</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>]).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)))
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;pandas {t(pandas_way):.1f} ms | polars lazy {t(lambda: lazy.collect()):.1f} ms | polars {pl.__version__}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">shape: (4, 5)
+┌────────┬────────────┬───────┬────────┬─────────┐
+│ region ┆ category   ┆ lines ┆ margin ┆ sales_m │
+│ ---    ┆ ---        ┆ ---   ┆ ---    ┆ ---     │
+│ str    ┆ str        ┆ u32   ┆ f64    ┆ f64     │
+╞════════╪════════════╪═══════╪════════╪═════════╡
+│ South  ┆ Technology ┆ 7220  ┆ 15.9   ┆ 642.79  │
+│ West   ┆ Technology ┆ 7080  ┆ 16.1   ┆ 604.14  │
+│ North  ┆ Technology ┆ 6720  ┆ 16.6   ┆ 598.63  │
+│ East   ┆ Technology ┆ 6320  ┆ 17.5   ┆ 531.33  │
+└────────┴────────────┴───────┴────────┴─────────┘
+pandas 22.0 ms | polars lazy 3.9 ms | polars 2.1.0</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>pandas</th>
+<th>Polars</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>df[df.x &gt; 1]</code></td>
+<td><code>df.filter(pl.col("x") &gt; 1)</code></td>
+</tr>
+<tr>
+<td><code>df.assign(y=df.x * 2)</code></td>
+<td><code>df.with_columns(y=pl.col("x") * 2)</code></td>
+</tr>
+<tr>
+<td><code>df.groupby("g").agg(s=("x", "sum"))</code></td>
+<td><code>df.group_by("g").agg(s=pl.col("x").sum())</code></td>
+</tr>
+<tr>
+<td><code>df.sort_values("x")</code></td>
+<td><code>df.sort("x")</code></td>
+</tr>
+<tr>
+<td><code>pd.read_csv</code></td>
+<td><code>pl.read_csv</code> / lazy <code>pl.scan_csv</code></td>
+</tr>
+<tr>
+<td><code>df.to_pandas()</code> ↔ <code>pl.from_pandas(df)</code></td>
+<td>Convert when a library needs pandas</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="duckdb-on-files-larger-than-memory">DuckDB on files larger than memory</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> duckdb
+q = <span class="hl-s">&quot;&quot;&quot;
+SELECT region, category, ROUND(SUM(sales)/1e6, 2) AS sales_m, ROUND(100*SUM(profit)/SUM(sales), 1) AS margin
+FROM &#x27;big.parquet&#x27; WHERE discount &lt;= 0.1 GROUP BY ALL ORDER BY sales_m DESC LIMIT 4
+&quot;&quot;&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">duckdb.sql</span>(q).<span class="hl-f">df</span>())
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;duckdb {t(lambda: duckdb.sql(q).fetchall()):.1f} ms&quot;</span>)
+<span class="hl-k">for</span> f <span class="hl-k">in</span> (<span class="hl-s">&quot;big.csv&quot;</span>, <span class="hl-s">&quot;big.parquet&quot;</span>): <span class="hl-f">os.remove</span>(f)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region    category  sales_m  margin
+0  South  Technology   642.79    15.9
+1   West  Technology   604.14    16.1
+2  North  Technology   598.63    16.6
+3   East  Technology   531.33    17.5
+duckdb 7.0 ms</pre></div>
+<p>DuckDB and Polars stream data in batches, so they can process files bigger than RAM on a laptop. Folders of Parquet files (<code>'data/*.parquet'</code>) work the same way.</p>
+<h2 id="going-further">Going further</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Use all CPU cores for custom Python</td>
+<td><code>concurrent.futures</code>, <code>joblib.Parallel</code>, multiprocessing</td>
+</tr>
+<tr>
+<td>Speed up numeric Python loops</td>
+<td>Numba (<code>@njit</code>), Cython</td>
+</tr>
+<tr>
+<td>Data bigger than one machine</td>
+<td>Apache Spark (PySpark), Databricks, Dask, Ray</td>
+</tr>
+<tr>
+<td>Warehouse-scale SQL</td>
+<td>BigQuery, Snowflake, Redshift, Databricks SQL</td>
+</tr>
+<tr>
+<td>GPU DataFrames</td>
+<td>RAPIDS cuDF (<code>cudf.pandas</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Rule of thumb: up to a few GB → pandas with good dtypes; up to ~100 GB on one machine → Polars or DuckDB with Parquet; beyond that or many users → Spark or a cloud warehouse.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Measure with <code>timeit</code>/<code>%timeit</code> before optimising; fix the bottleneck.</li>
+<li>Vectorise: column arithmetic, <code>np.where</code>/<code>np.select</code>, <code>pd.cut</code>, <code>.str</code>, <code>groupby</code>; avoid <code>iterrows</code> and <code>apply(axis=1)</code>.</li>
+<li>Save memory with categories, downcasting, <code>usecols</code> and <code>chunksize</code>.</li>
+<li>Parquet is columnar, typed and compressed: faster and smaller than CSV.</li>
+<li>Polars (lazy, multi-core) and DuckDB (SQL, out-of-core) handle data beyond pandas; Spark and warehouses go beyond one machine.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-25-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which is usually fastest for row-wise arithmetic?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>iterrows</button><button type="button" class="opt" data-ok="0"><i>B</i>apply(axis=1)</button><button type="button" class="opt" data-ok="1"><i>C</i>A vectorised column expression</button><button type="button" class="opt" data-ok="0"><i>D</i>A while loop</button></div><div class="qexp"><b>Answer: C.</b> Vectorised code runs in compiled loops.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why convert a text column with 4 distinct values to <code>category</code>?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It stores each label once with small integer codes, saving memory and speeding groupby</button><button type="button" class="opt" data-ok="0"><i>B</i>It sorts the data</button><button type="button" class="opt" data-ok="0"><i>C</i>It is required for charts</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes missing values</button></div><div class="qexp"><b>Answer: A.</b> Ideal for low-cardinality columns.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is the main advantage of Parquet over CSV?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Human-readable</button><button type="button" class="opt" data-ok="1"><i>B</i>Columnar, typed and compressed, so it is smaller and faster to read</button><button type="button" class="opt" data-ok="0"><i>C</i>Supported only by Excel</button><button type="button" class="opt" data-ok="0"><i>D</i>No schema</button></div><div class="qexp"><b>Answer: B.</b> You can read just the columns you need.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does Polars' <code>scan_parquet(...)</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Reads the whole file immediately</button><button type="button" class="opt" data-ok="1"><i>B</i>Creates a lazy query that is optimised and executed on <code>.collect()</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Writes a file</button><button type="button" class="opt" data-ok="0"><i>D</i>Converts to CSV</button></div><div class="qexp"><b>Answer: B.</b> Lazy evaluation enables predicate and projection push-down.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which tool queries Parquet files with SQL without a server?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>MySQL</button><button type="button" class="opt" data-ok="1"><i>B</i>DuckDB</button><button type="button" class="opt" data-ok="0"><i>C</i>Excel</button><button type="button" class="opt" data-ok="0"><i>D</i>requests</button></div><div class="qexp"><b>Answer: B.</b> It also queries pandas DataFrames.</div></div><div class="qq"><p class="qtext"><b>6.</b> When should you consider Spark or a cloud warehouse?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>For 10,000 rows</button><button type="button" class="opt" data-ok="1"><i>B</i>When data or users exceed what one machine can handle</button><button type="button" class="opt" data-ok="0"><i>C</i>Always</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: B.</b> Start simple; scale when needed.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Time <code>iterrows</code>, <code>apply(axis=1)</code> and a vectorised version of <code>profit / sales</code> on <code>big</code>. (2) Reduce the memory of <code>superstore_sales.csv</code> by at least 50% and report the percentage. (3) Rewrite a pandas groupby from Lesson 18 in Polars and in DuckDB SQL and check that the numbers match.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">t</span>(<span class="hl-k">lambda</span>: [r[<span class="hl-s">&quot;profit&quot;</span>] / r[<span class="hl-s">&quot;sales&quot;</span>] <span class="hl-k">for</span> _, r <span class="hl-k">in</span> <span class="hl-f">big.head</span>(<span class="hl-n">20000</span>).<span class="hl-f">iterrows</span>()], <span class="hl-n">1</span>))
+<span class="hl-f">print</span>(<span class="hl-f">t</span>(<span class="hl-k">lambda</span>: big.profit / big.sales))
+before = <span class="hl-f">mb</span>(s); s2 = <span class="hl-f">s.copy</span>()
+<span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">s2.select_dtypes</span>(<span class="hl-s">&quot;object&quot;</span>).<span class="hl-f">columns.union</span>(<span class="hl-f">s2.select_dtypes</span>(<span class="hl-s">&quot;string&quot;</span>).columns):
+    <span class="hl-k">if</span> s2[c].<span class="hl-f">nunique</span>() &lt; <span class="hl-n">100</span>: s2[c] = s2[c].<span class="hl-f">astype</span>(<span class="hl-s">&quot;category&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{100 * (1 - mb(s2) / before):.0f}% smaller&quot;</span>)
+pl_res = <span class="hl-f">pl.from_pandas</span>(s).<span class="hl-f">group_by</span>(<span class="hl-s">&quot;region&quot;</span>).<span class="hl-f">agg</span>(<span class="hl-f">pl.col</span>(<span class="hl-s">&quot;sales&quot;</span>).<span class="hl-f">sum</span>()).<span class="hl-f">sort</span>(<span class="hl-s">&quot;region&quot;</span>)
+dd_res = <span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;SELECT region, SUM(sales) sales FROM s GROUP BY region ORDER BY region&quot;</span>).<span class="hl-f">df</span>()</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Your pandas script is slow. What do you do?</strong>
+Profile to find the slow step; vectorise loops and <code>apply</code>; reduce data early (filter, <code>usecols</code>); fix dtypes; avoid repeated work; save intermediate results as Parquet; consider Polars/DuckDB or pushing work to SQL.</p>
+<p><strong>Q: Why is Parquet popular in data lakes?</strong>
+Columnar storage enables compression and reading only needed columns; it stores the schema; and every major engine reads it.</p>
+<p><strong>Q: pandas vs Polars?</strong>
+pandas has the biggest ecosystem; Polars is faster and more memory-efficient thanks to Rust, multi-threading and lazy optimisation. Many teams use both and convert where needed.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html"><small>← Previous</small><b>APIs, JSON and Web Scraping with requests and BeautifulSoup</b></a><a class="next" href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html"><small>Next →</small><b>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#measure-first">Measure first</a><a href="#memory">Memory</a><a href="#parquet-the-analytics-file-format">Parquet: the analytics file format</a><a href="#polars-fast-dataframes-with-lazy-queries">Polars: fast DataFrames with lazy queries</a><a href="#duckdb-on-files-larger-than-memory">DuckDB on files larger than memory</a><a href="#going-further">Going further</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
