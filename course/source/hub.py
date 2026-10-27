@@ -152,7 +152,7 @@ DATASETS = [
     ("retail_transactions.csv", "Invoices per customer for RFM segmentation"), ("telecom_churn.csv", "Subscribers with tenure, contract, service, charges, support calls and churn"),
     ("daily_sales.csv", "Daily units sold 2022–2025 with trend, seasonality and weekend effect"), ("ab_test.csv", "A/B test of a new checkout: group, converted, order value"),
     ("delivery_times.csv", "Delivery minutes in two cities (two-sample t-test)"), ("channel_survey.csv", "Age group vs preferred shopping channel (chi-square test)"),
-    ("diet_study.csv", "Weight loss under three diets (ANOVA)"), ("product_reviews.csv", "Short product reviews with rating and sentiment label (NLP)"),
+    ("diet_study.csv", "Weight loss under three diets (ANOVA)"), ("product_reviews.csv", "Short product reviews with rating and sentiment label (NLP)"), ("customer_reviews.csv", "3,000 realistic e-commerce reviews with stars, sentiment, negation and mixed opinions (text classification)"),
     ("adventure_cycles/fact_sales.csv", "Power BI case study fact table: order date, product, customer, territory, quantity, sales, cost"),
     ("adventure_cycles/dim_product.csv", "Power BI case study: product dimension"), ("adventure_cycles/dim_customer.csv", "Power BI case study: customer dimension"),
     ("adventure_cycles/dim_territory.csv", "Power BI case study: territory dimension"), ("adventure_cycles/dim_date.csv", "Power BI case study: date table"),
