@@ -140,3 +140,7 @@ h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
 .tdiv{break-before:page;break-after:page;height:250mm;display:flex;flex-direction:column;justify-content:center;padding:0 16mm;border-left:10px solid var(--tc)}.tdiv .k{color:var(--tc);font-weight:800;letter-spacing:.14em;text-transform:uppercase}.tdiv h1{font-size:36pt;margin:8px 0}.tdiv p{font-size:13pt;color:#3A3650}.tdiv ol{columns:2;font-size:10.5pt}
 
 .rs-n{font-size:11.5px;font-weight:700;color:var(--mu);margin:10px 0 2px;text-transform:uppercase;letter-spacing:.08em}
+
+/* v15: display equations rendered as images */
+figure.math{margin:14px 0 18px;text-align:center}
+figure.math img{max-width:100%;height:auto;max-height:90px;display:inline-block;border:0;box-shadow:none;background:transparent}

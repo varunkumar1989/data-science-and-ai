@@ -677,6 +677,19 @@ def render_lesson(L):
         return f"\n\nXQBLOCK{len(blocks) - 1}Z\n\n"
 
     body = re.sub(r"^```([^\n]*)\n([\s\S]*?)^```[ \t]*$", take_block, L.body, flags=re.M)
+
+    def math_block(m):                     # $$ … $$ on its own lines -> crisp PNG via matplotlib mathtext
+        tex = " ".join(m.group(1).split())
+        name = f"{L.id}-math-{hashlib.md5(tex.encode()).hexdigest()[:8]}.png"
+        fig = plt.figure(figsize=(0.01, 0.01)); fig.text(0, 0, f"${tex}$", fontsize=17, color="#1F1B2E")
+        try: fig.savefig(os.path.join(IMG, name), dpi=180, bbox_inches="tight", pad_inches=0.06, facecolor="white", transparent=False)
+        except Exception as e:
+            plt.close(fig); issues.append(f"math: {str(e).splitlines()[-1][:120]}")
+            blocks.append(codeblock(tex, "text", "Formula")); return f"\n\nXQBLOCK{len(blocks) - 1}Z\n\n"
+        plt.close(fig)
+        blocks.append(f'<figure class="math"><img src="../img/{name}" alt="{html.escape(tex)}" loading="lazy"></figure>')
+        return f"\n\nXQBLOCK{len(blocks) - 1}Z\n\n"
+    body = re.sub(r"^\$\$\s*\n?([\s\S]+?)\n?\s*\$\$[ \t]*$", math_block, body, flags=re.M)
     quizzes = []
 
     def callout(m):
