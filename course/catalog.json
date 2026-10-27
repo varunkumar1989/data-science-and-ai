@@ -1,0 +1,700 @@
+{
+ "title": "SkillNavora Data Science & AI Handbook",
+ "complete_pdf": "pdf/SkillNavora_Data_Science_AI_Complete_Handbook.pdf",
+ "tracks": [
+  {
+   "id": "excel",
+   "name": "Advanced Excel",
+   "color": "#1E8E5A",
+   "desc": "From the Excel window to dashboards: formatting, 100+ functions, lookups, pivot tables, advanced charts, Power Query, Power Pivot and AI in Excel.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Getting Started with Excel for Data Analysis",
+     "page": "lessons/excel-01-getting-started-with-excel-for-data-analysis.html",
+     "pdf": "pdf/excel/Excel_01_Getting_Started_with_Excel_for_Data_Analysis.pdf"
+    },
+    {
+     "n": 2,
+     "title": "Data Entry, Data Validation &amp; Data Cleaning",
+     "page": "lessons/excel-02-data-entry-data-validation-and-data-cleaning.html",
+     "pdf": "pdf/excel/Excel_02_Data_Entry_Data_Validation_Data_Cleaning.pdf"
+    },
+    {
+     "n": 3,
+     "title": "Number, Custom &amp; Conditional Formatting",
+     "page": "lessons/excel-03-number-custom-and-conditional-formatting.html",
+     "pdf": "pdf/excel/Excel_03_Number_Custom_Conditional_Formatting.pdf"
+    },
+    {
+     "n": 4,
+     "title": "Formulas, Cell References &amp; Aggregate Functions",
+     "page": "lessons/excel-04-formulas-cell-references-and-aggregate-functions.html",
+     "pdf": "pdf/excel/Excel_04_Formulas_Cell_References_Aggregate_Functions.pdf"
+    },
+    {
+     "n": 5,
+     "title": "Text Functions, Logical Functions &amp; IF",
+     "page": "lessons/excel-05-text-functions-logical-functions-and-if.html",
+     "pdf": "pdf/excel/Excel_05_Text_Functions_Logical_Functions_IF.pdf"
+    },
+    {
+     "n": 6,
+     "title": "Sorting, Filtering &amp; Dynamic Arrays",
+     "page": "lessons/excel-06-sorting-filtering-and-dynamic-arrays.html",
+     "pdf": "pdf/excel/Excel_06_Sorting_Filtering_Dynamic_Arrays.pdf"
+    },
+    {
+     "n": 7,
+     "title": "Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH",
+     "page": "lessons/excel-07-lookup-functions-vlookup-xlookup-and-index-match.html",
+     "pdf": "pdf/excel/Excel_07_Lookup_Functions_VLOOKUP_XLOOKUP_and_INDEX_MATCH.pdf"
+    },
+    {
+     "n": 8,
+     "title": "Pivot Tables from Basic to Advanced",
+     "page": "lessons/excel-08-pivot-tables-from-basic-to-advanced.html",
+     "pdf": "pdf/excel/Excel_08_Pivot_Tables_from_Basic_to_Advanced.pdf"
+    },
+    {
+     "n": 9,
+     "title": "Date, Time &amp; Number Functions and Named Ranges",
+     "page": "lessons/excel-09-date-time-and-number-functions-and-named-ranges.html",
+     "pdf": "pdf/excel/Excel_09_Date_Time_Number_Functions_and_Named_Ranges.pdf"
+    },
+    {
+     "n": 10,
+     "title": "Charts and Advanced Charts",
+     "page": "lessons/excel-10-charts-and-advanced-charts.html",
+     "pdf": "pdf/excel/Excel_10_Charts_and_Advanced_Charts.pdf"
+    },
+    {
+     "n": 11,
+     "title": "Interactive Dashboard: Superstore Case Study",
+     "page": "lessons/excel-11-interactive-dashboard-superstore-case-study.html",
+     "pdf": "pdf/excel/Excel_11_Interactive_Dashboard_Superstore_Case_Study.pdf"
+    },
+    {
+     "n": 12,
+     "title": "Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis",
+     "page": "lessons/excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html",
+     "pdf": "pdf/excel/Excel_12_Power_Query_Power_Pivot_Analysis_ToolPak_What_If_Analysis.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_01_Advanced_Excel.pdf"
+  },
+  {
+   "id": "sql",
+   "name": "SQL for Data Analysis",
+   "color": "#2563EB",
+   "desc": "Relational databases, ER diagrams and keys, DDL/DML, filtering, aggregation, joins, set operators, subqueries, window functions, CTEs, views, procedures and performance.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Databases, RDBMS &amp; SQL Basics",
+     "page": "lessons/sql-01-databases-rdbms-and-sql-basics.html",
+     "pdf": "pdf/sql/SQL_01_Databases_RDBMS_SQL_Basics.pdf"
+    },
+    {
+     "n": 2,
+     "title": "ER Diagrams, Relationships, Keys &amp; Normalisation",
+     "page": "lessons/sql-02-er-diagrams-relationships-keys-and-normalisation.html",
+     "pdf": "pdf/sql/SQL_02_ER_Diagrams_Relationships_Keys_Normalisation.pdf"
+    },
+    {
+     "n": 3,
+     "title": "Data Types, Operators, NULLs, Variables &amp; Comments",
+     "page": "lessons/sql-03-data-types-operators-nulls-variables-and-comments.html",
+     "pdf": "pdf/sql/SQL_03_Data_Types_Operators_NULLs_Variables_Comments.pdf"
+    },
+    {
+     "n": 4,
+     "title": "DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE",
+     "page": "lessons/sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html",
+     "pdf": "pdf/sql/SQL_04_DDL_DML_Constraints_CREATE_ALTER_INSERT_UPDATE_DELETE.pdf"
+    },
+    {
+     "n": 5,
+     "title": "SELECT, WHERE, ORDER BY &amp; Filtering Operators",
+     "page": "lessons/sql-05-select-where-order-by-and-filtering-operators.html",
+     "pdf": "pdf/sql/SQL_05_SELECT_WHERE_ORDER_BY_Filtering_Operators.pdf"
+    },
+    {
+     "n": 6,
+     "title": "SQL Functions: Aggregate, Text, Date &amp; Number",
+     "page": "lessons/sql-06-sql-functions-aggregate-text-date-and-number.html",
+     "pdf": "pdf/sql/SQL_06_SQL_Functions_Aggregate_Text_Date_Number.pdf"
+    },
+    {
+     "n": 7,
+     "title": "GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE",
+     "page": "lessons/sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html",
+     "pdf": "pdf/sql/SQL_07_GROUP_BY_HAVING_CASE_WHEN_ROLLUP_CUBE_COALESCE.pdf"
+    },
+    {
+     "n": 8,
+     "title": "Joins and a Retail Case Study",
+     "page": "lessons/sql-08-joins-and-a-retail-case-study.html",
+     "pdf": "pdf/sql/SQL_08_Joins_and_a_Retail_Case_Study.pdf"
+    },
+    {
+     "n": 9,
+     "title": "Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT",
+     "page": "lessons/sql-09-set-operators-union-union-all-intersect-and-except.html",
+     "pdf": "pdf/sql/SQL_09_Set_Operators_UNION_UNION_ALL_INTERSECT_EXCEPT.pdf"
+    },
+    {
+     "n": 10,
+     "title": "Subqueries, Derived Tables &amp; EXISTS",
+     "page": "lessons/sql-10-subqueries-derived-tables-and-exists.html",
+     "pdf": "pdf/sql/SQL_10_Subqueries_Derived_Tables_EXISTS.pdf"
+    },
+    {
+     "n": 11,
+     "title": "OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking",
+     "page": "lessons/sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html",
+     "pdf": "pdf/sql/SQL_11_OFFSET_FETCH_and_Window_Functions_I_OVER_PARTITION_BY_Ranking.pdf"
+    },
+    {
+     "n": 12,
+     "title": "Window Functions II: Running Totals, LEAD, LAG &amp; Frames",
+     "page": "lessons/sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html",
+     "pdf": "pdf/sql/SQL_12_Window_Functions_II_Running_Totals_LEAD_LAG_Frames.pdf"
+    },
+    {
+     "n": 13,
+     "title": "CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions",
+     "page": "lessons/sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html",
+     "pdf": "pdf/sql/SQL_13_CTEs_Views_Temporary_Tables_Stored_Procedures_Functions.pdf"
+    },
+    {
+     "n": 14,
+     "title": "Transactions, Indexes, Performance &amp; Security",
+     "page": "lessons/sql-14-transactions-indexes-performance-and-security.html",
+     "pdf": "pdf/sql/SQL_14_Transactions_Indexes_Performance_Security.pdf"
+    },
+    {
+     "n": 15,
+     "title": "End-to-End SQL Case Study &amp; Interview Practice",
+     "page": "lessons/sql-15-end-to-end-sql-case-study-and-interview-practice.html",
+     "pdf": "pdf/sql/SQL_15_End_to_End_SQL_Case_Study_Interview_Practice.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_02_SQL_for_Data_Analysis.pdf"
+  },
+  {
+   "id": "powerbi",
+   "name": "Power BI",
+   "color": "#E2A400",
+   "desc": "ETL with Power Query, star-schema modelling, DAX measures and time intelligence, interactive reports, case studies, publishing, security and Copilot.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Getting Started with Power BI &amp; Your First HR Report",
+     "page": "lessons/powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html",
+     "pdf": "pdf/powerbi/Power_BI_01_Getting_Started_with_Power_BI_Your_First_HR_Report.pdf"
+    },
+    {
+     "n": 2,
+     "title": "Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)",
+     "page": "lessons/powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html",
+     "pdf": "pdf/powerbi/Power_BI_02_Power_Query_Star_Schema_Data_Modelling_Adventure_Cycles.pdf"
+    },
+    {
+     "n": 3,
+     "title": "DAX Fundamentals: Measures, Filter Context &amp; CALCULATE",
+     "page": "lessons/powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html",
+     "pdf": "pdf/powerbi/Power_BI_03_DAX_Fundamentals_Measures_Filter_Context_CALCULATE.pdf"
+    },
+    {
+     "n": 4,
+     "title": "DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures",
+     "page": "lessons/powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html",
+     "pdf": "pdf/powerbi/Power_BI_04_DAX_Time_Intelligence_Ranking_Parameters_Dynamic_Measures.pdf"
+    },
+    {
+     "n": 5,
+     "title": "Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design",
+     "page": "lessons/powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html",
+     "pdf": "pdf/powerbi/Power_BI_05_Visuals_Filters_Drill_through_Tooltips_Buttons_Report_Design.pdf"
+    },
+    {
+     "n": 6,
+     "title": "Power BI Service, Connectivity Modes, Security &amp; Capstone",
+     "page": "lessons/powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html",
+     "pdf": "pdf/powerbi/Power_BI_06_Power_BI_Service_Connectivity_Modes_Security_Capstone.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_03_Power_BI.pdf"
+  },
+  {
+   "id": "ai-analytics",
+   "name": "AI for Data Analysis",
+   "color": "#DB2777",
+   "desc": "Generative AI for analysts: prompting, AI vs GenAI vs agentic AI, AI over SQL (Metabase, MinusX), Copilot and Gemini in Excel, and office agents.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI",
+     "page": "lessons/ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html",
+     "pdf": "pdf/ai-analytics/AI_Analytics_01_Generative_AI_for_Analysts_How_It_Works_Prompting_AI_vs_GenAI_vs_Agent.pdf"
+    },
+    {
+     "n": 2,
+     "title": "AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX",
+     "page": "lessons/ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html",
+     "pdf": "pdf/ai-analytics/AI_Analytics_02_AI_with_SQL_Text_to_SQL_Docker_Metabase_MinusX.pdf"
+    },
+    {
+     "n": 3,
+     "title": "AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents",
+     "page": "lessons/ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html",
+     "pdf": "pdf/ai-analytics/AI_Analytics_03_AI_in_Excel_Office_Copilot_Gemini_Claude_Python_in_Excel_Agents.pdf"
+    },
+    {
+     "n": 4,
+     "title": "The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)",
+     "page": "lessons/ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html",
+     "pdf": "pdf/ai-analytics/AI_Analytics_04_The_AI_Assisted_Analyst_Workflow_Agents_Governance_Capstone.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_04_AI_for_Data_Analysis.pdf"
+  },
+  {
+   "id": "python",
+   "name": "Python for Data Science",
+   "color": "#7C3AED",
+   "desc": "Python from zero: data types, control flow, data structures, functions, OOP, files, NumPy, pandas, visualisation, dates, SQL connections, EDA and DSA for data roles.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Introduction to Python: Why, Install &amp; Jupyter Notebooks",
+     "page": "lessons/python-01-introduction-to-python-why-install-and-jupyter-notebooks.html",
+     "pdf": "pdf/python/Python_01_Introduction_to_Python_Why_Install_Jupyter_Notebooks.pdf"
+    },
+    {
+     "n": 2,
+     "title": "Variables, Data Types, Type Conversion, print(), f-strings &amp; input()",
+     "page": "lessons/python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html",
+     "pdf": "pdf/python/Python_02_Variables_Data_Types_Type_Conversion_print_f_strings_input.pdf"
+    },
+    {
+     "n": 3,
+     "title": "Operators, Strings, Indexing, Slicing &amp; String Methods",
+     "page": "lessons/python-03-operators-strings-indexing-slicing-and-string-methods.html",
+     "pdf": "pdf/python/Python_03_Operators_Strings_Indexing_Slicing_String_Methods.pdf"
+    },
+    {
+     "n": 4,
+     "title": "Control Flow: if, elif, else, Nested Conditions &amp; match",
+     "page": "lessons/python-04-control-flow-if-elif-else-nested-conditions-and-match.html",
+     "pdf": "pdf/python/Python_04_Control_Flow_if_elif_else_Nested_Conditions_match.pdf"
+    },
+    {
+     "n": 5,
+     "title": "Loops: while, for, range, break, continue &amp; Patterns",
+     "page": "lessons/python-05-loops-while-for-range-break-continue-and-patterns.html",
+     "pdf": "pdf/python/Python_05_Loops_while_for_range_break_continue_Patterns.pdf"
+    },
+    {
+     "n": 6,
+     "title": "Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions",
+     "page": "lessons/python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html",
+     "pdf": "pdf/python/Python_06_Lists_Creating_Slicing_Methods_Sorting_Comprehensions.pdf"
+    },
+    {
+     "n": 7,
+     "title": "Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra",
+     "page": "lessons/python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html",
+     "pdf": "pdf/python/Python_07_Tuples_Sets_Immutable_Records_Unpacking_and_Set_Algebra.pdf"
+    },
+    {
+     "n": 8,
+     "title": "Dictionaries: Key-Value Data, Counting and Grouping",
+     "page": "lessons/python-08-dictionaries-key-value-data-counting-and-grouping.html",
+     "pdf": "pdf/python/Python_08_Dictionaries_Key_Value_Data_Counting_and_Grouping.pdf"
+    },
+    {
+     "n": 9,
+     "title": "Functions: Reusable Code, Arguments, Scope and Docstrings",
+     "page": "lessons/python-09-functions-reusable-code-arguments-scope-and-docstrings.html",
+     "pdf": "pdf/python/Python_09_Functions_Reusable_Code_Arguments_Scope_and_Docstrings.pdf"
+    },
+    {
+     "n": 10,
+     "title": "Comprehensions, Lambda, map/filter and Generators",
+     "page": "lessons/python-10-comprehensions-lambda-map-filter-and-generators.html",
+     "pdf": "pdf/python/Python_10_Comprehensions_Lambda_map_filter_and_Generators.pdf"
+    },
+    {
+     "n": 11,
+     "title": "Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses",
+     "page": "lessons/python-11-object-oriented-python-classes-objects-inheritance-and-datac.html",
+     "pdf": "pdf/python/Python_11_Object_Oriented_Python_Classes_Objects_Inheritance_and_Dataclasses.pdf"
+    },
+    {
+     "n": 12,
+     "title": "Files, Exceptions, JSON and CSV",
+     "page": "lessons/python-12-files-exceptions-json-and-csv.html",
+     "pdf": "pdf/python/Python_12_Files_Exceptions_JSON_and_CSV.pdf"
+    },
+    {
+     "n": 13,
+     "title": "Modules, Packages, Virtual Environments and Git",
+     "page": "lessons/python-13-modules-packages-virtual-environments-and-git.html",
+     "pdf": "pdf/python/Python_13_Modules_Packages_Virtual_Environments_and_Git.pdf"
+    },
+    {
+     "n": 14,
+     "title": "Debugging, Testing, Regular Expressions and Code Quality",
+     "page": "lessons/python-14-debugging-testing-regular-expressions-and-code-quality.html",
+     "pdf": "pdf/python/Python_14_Debugging_Testing_Regular_Expressions_and_Code_Quality.pdf"
+    },
+    {
+     "n": 15,
+     "title": "NumPy: Fast Arrays, Vectorisation and Broadcasting",
+     "page": "lessons/python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html",
+     "pdf": "pdf/python/Python_15_NumPy_Fast_Arrays_Vectorisation_and_Broadcasting.pdf"
+    },
+    {
+     "n": 16,
+     "title": "pandas I: Series, DataFrames, Reading Data, Selecting and Filtering",
+     "page": "lessons/python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html",
+     "pdf": "pdf/python/Python_16_pandas_I_Series_DataFrames_Reading_Data_Selecting_and_Filtering.pdf"
+    },
+    {
+     "n": 17,
+     "title": "pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers",
+     "page": "lessons/python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html",
+     "pdf": "pdf/python/Python_17_pandas_II_Data_Cleaning_Missing_Values_Types_Duplicates_Text_and_Outli.pdf"
+    },
+    {
+     "n": 18,
+     "title": "pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)",
+     "page": "lessons/python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html",
+     "pdf": "pdf/python/Python_18_pandas_III_GroupBy_Pivot_Tables_Merge_Join_and_Reshape_melt_unpivot.pdf"
+    },
+    {
+     "n": 19,
+     "title": "pandas IV: Dates, Time Series, Resampling and Rolling Windows",
+     "page": "lessons/python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html",
+     "pdf": "pdf/python/Python_19_pandas_IV_Dates_Time_Series_Resampling_and_Rolling_Windows.pdf"
+    },
+    {
+     "n": 20,
+     "title": "Data Visualisation I: Matplotlib and Choosing the Right Chart",
+     "page": "lessons/python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html",
+     "pdf": "pdf/python/Python_20_Data_Visualisation_I_Matplotlib_and_Choosing_the_Right_Chart.pdf"
+    },
+    {
+     "n": 21,
+     "title": "Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly",
+     "page": "lessons/python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html",
+     "pdf": "pdf/python/Python_21_Data_Visualisation_II_Seaborn_Statistical_Charts_and_Interactive_Plotl.pdf"
+    },
+    {
+     "n": 22,
+     "title": "Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn",
+     "page": "lessons/python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html",
+     "pdf": "pdf/python/Python_22_Exploratory_Data_Analysis_EDA_Case_Study_Telecom_Customer_Churn.pdf"
+    },
+    {
+     "n": 23,
+     "title": "Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql",
+     "page": "lessons/python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html",
+     "pdf": "pdf/python/Python_23_Python_and_SQL_sqlite3_DuckDB_SQLAlchemy_and_pandas_read_sql.pdf"
+    },
+    {
+     "n": 24,
+     "title": "APIs, JSON and Web Scraping with requests and BeautifulSoup",
+     "page": "lessons/python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html",
+     "pdf": "pdf/python/Python_24_APIs_JSON_and_Web_Scraping_with_requests_and_BeautifulSoup.pdf"
+    },
+    {
+     "n": 25,
+     "title": "Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB",
+     "page": "lessons/python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html",
+     "pdf": "pdf/python/Python_25_Performance_and_Bigger_Data_Vectorisation_Memory_Parquet_Polars_and_Du.pdf"
+    },
+    {
+     "n": 26,
+     "title": "DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window",
+     "page": "lessons/python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html",
+     "pdf": "pdf/python/Python_26_DSA_I_Big_O_Arrays_Strings_Hashing_Two_Pointers_and_Sliding_Window.pdf"
+    },
+    {
+     "n": 27,
+     "title": "DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search",
+     "page": "lessons/python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html",
+     "pdf": "pdf/python/Python_27_DSA_II_Stacks_Queues_Linked_Lists_Recursion_Sorting_and_Binary_Search.pdf"
+    },
+    {
+     "n": 28,
+     "title": "DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming",
+     "page": "lessons/python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html",
+     "pdf": "pdf/python/Python_28_DSA_III_Trees_Heaps_Graphs_BFS_DFS_and_Dynamic_Programming.pdf"
+    },
+    {
+     "n": 29,
+     "title": "Python Capstone: End-to-End Retail Sales Analytics Project",
+     "page": "lessons/python-29-python-capstone-end-to-end-retail-sales-analytics-project.html",
+     "pdf": "pdf/python/Python_29_Python_Capstone_End_to_End_Retail_Sales_Analytics_Project.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_05_Python_for_Data_Science.pdf"
+  },
+  {
+   "id": "ml",
+   "name": "Statistics & Machine Learning",
+   "color": "#0E9F8E",
+   "desc": "Probability, CLT, hypothesis tests, the ML lifecycle, regression, classification, trees, ensembles, clustering, PCA, time series, NLP, deep learning basics, evaluation, explainability and deployment.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "Descriptive Statistics: Centre, Spread, Shape and Relationships",
+     "page": "lessons/ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html",
+     "pdf": "pdf/ml/Stats_ML_01_Descriptive_Statistics_Centre_Spread_Shape_and_Relationships.pdf"
+    },
+    {
+     "n": 2,
+     "title": "Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal",
+     "page": "lessons/ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html",
+     "pdf": "pdf/ml/Stats_ML_02_Probability_and_Distributions_Rules_Bayes_Binomial_Poisson_and_Normal.pdf"
+    },
+    {
+     "n": 3,
+     "title": "Sampling, the Central Limit Theorem and Confidence Intervals",
+     "page": "lessons/ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html",
+     "pdf": "pdf/ml/Stats_ML_03_Sampling_the_Central_Limit_Theorem_and_Confidence_Intervals.pdf"
+    },
+    {
+     "n": 4,
+     "title": "Hypothesis Testing I: The Framework, p-values, z-tests and t-tests",
+     "page": "lessons/ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html",
+     "pdf": "pdf/ml/Stats_ML_04_Hypothesis_Testing_I_The_Framework_p_values_z_tests_and_t_tests.pdf"
+    },
+    {
+     "n": 5,
+     "title": "Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests",
+     "page": "lessons/ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html",
+     "pdf": "pdf/ml/Stats_ML_05_Hypothesis_Testing_II_Chi_Square_ANOVA_Non_Parametric_Tests_and_Correl.pdf"
+    },
+    {
+     "n": 6,
+     "title": "A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls",
+     "page": "lessons/ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html",
+     "pdf": "pdf/ml/Stats_ML_06_A_B_Testing_and_Experimentation_Design_Power_Analysis_and_Pitfalls.pdf"
+    },
+    {
+     "n": 7,
+     "title": "Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle",
+     "page": "lessons/ml-07-introduction-to-machine-learning-types-business-framing-and.html",
+     "pdf": "pdf/ml/Stats_ML_07_Introduction_to_Machine_Learning_Types_Business_Framing_and_the_ML_Lif.pdf"
+    },
+    {
+     "n": 8,
+     "title": "The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models",
+     "page": "lessons/ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html",
+     "pdf": "pdf/ml/Stats_ML_08_The_scikit_learn_Workflow_Train_Test_Split_Baselines_Pipelines_and_Sav.pdf"
+    },
+    {
+     "n": 9,
+     "title": "Data Preprocessing and Feature Engineering for ML",
+     "page": "lessons/ml-09-data-preprocessing-and-feature-engineering-for-ml.html",
+     "pdf": "pdf/ml/Stats_ML_09_Data_Preprocessing_and_Feature_Engineering_for_ML.pdf"
+    },
+    {
+     "n": 10,
+     "title": "Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics",
+     "page": "lessons/ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html",
+     "pdf": "pdf/ml/Stats_ML_10_Linear_Regression_Fitting_Interpreting_Assumptions_and_Diagnostics.pdf"
+    },
+    {
+     "n": 11,
+     "title": "Gradient Descent: How Models Learn (Built from Scratch in NumPy)",
+     "page": "lessons/ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html",
+     "pdf": "pdf/ml/Stats_ML_11_Gradient_Descent_How_Models_Learn_Built_from_Scratch_in_NumPy.pdf"
+    },
+    {
+     "n": 12,
+     "title": "Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)",
+     "page": "lessons/ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html",
+     "pdf": "pdf/ml/Stats_ML_12_Overfitting_Polynomial_Regression_and_Regularisation_Ridge_Lasso_Elast.pdf"
+    },
+    {
+     "n": 13,
+     "title": "Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring",
+     "page": "lessons/ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html",
+     "pdf": "pdf/ml/Stats_ML_13_Logistic_Regression_Probabilities_Odds_Ratios_and_Credit_Risk_Scoring.pdf"
+    },
+    {
+     "n": 14,
+     "title": "Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value",
+     "page": "lessons/ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html",
+     "pdf": "pdf/ml/Stats_ML_14_Classification_Metrics_Confusion_Matrix_Precision_Recall_ROC_PR_and_Bu.pdf"
+    },
+    {
+     "n": 15,
+     "title": "Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna",
+     "page": "lessons/ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html",
+     "pdf": "pdf/ml/Stats_ML_15_Cross_Validation_and_Hyperparameter_Tuning_K_Fold_GridSearchCV_Randomi.pdf"
+    },
+    {
+     "n": 16,
+     "title": "K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)",
+     "page": "lessons/ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html",
+     "pdf": "pdf/ml/Stats_ML_16_K_Nearest_Neighbours_Classifier_and_Regressor_Bank_Loans_Case_Study.pdf"
+    },
+    {
+     "n": 17,
+     "title": "Decision Trees: Splits, Impurity, Pruning and Interpretable Rules",
+     "page": "lessons/ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html",
+     "pdf": "pdf/ml/Stats_ML_17_Decision_Trees_Splits_Impurity_Pruning_and_Interpretable_Rules.pdf"
+    },
+    {
+     "n": 18,
+     "title": "Ensembles I: Bagging and Random Forests",
+     "page": "lessons/ml-18-ensembles-i-bagging-and-random-forests.html",
+     "pdf": "pdf/ml/Stats_ML_18_Ensembles_I_Bagging_and_Random_Forests.pdf"
+    },
+    {
+     "n": 19,
+     "title": "Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost",
+     "page": "lessons/ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html",
+     "pdf": "pdf/ml/Stats_ML_19_Ensembles_II_Gradient_Boosting_XGBoost_LightGBM_and_CatBoost.pdf"
+    },
+    {
+     "n": 20,
+     "title": "Support Vector Machines and Naive Bayes",
+     "page": "lessons/ml-20-support-vector-machines-and-naive-bayes.html",
+     "pdf": "pdf/ml/Stats_ML_20_Support_Vector_Machines_and_Naive_Bayes.pdf"
+    },
+    {
+     "n": 21,
+     "title": "Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds",
+     "page": "lessons/ml-21-imbalanced-classification-fraud-detection-with-class-weights.html",
+     "pdf": "pdf/ml/Stats_ML_21_Imbalanced_Classification_Fraud_Detection_with_Class_Weights_Resamplin.pdf"
+    },
+    {
+     "n": 22,
+     "title": "Clustering I: K-Means and RFM Customer Segmentation",
+     "page": "lessons/ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html",
+     "pdf": "pdf/ml/Stats_ML_22_Clustering_I_K_Means_and_RFM_Customer_Segmentation.pdf"
+    },
+    {
+     "n": 23,
+     "title": "Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP",
+     "page": "lessons/ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html",
+     "pdf": "pdf/ml/Stats_ML_23_Clustering_II_and_Dimensionality_Reduction_Hierarchical_DBSCAN_Gaussia.pdf"
+    },
+    {
+     "n": 24,
+     "title": "Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features",
+     "page": "lessons/ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html",
+     "pdf": "pdf/ml/Stats_ML_24_Time_Series_Forecasting_Decomposition_Baselines_ETS_ARIMA_and_ML_with_.pdf"
+    },
+    {
+     "n": 25,
+     "title": "NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings",
+     "page": "lessons/ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html",
+     "pdf": "pdf/ml/Stats_ML_25_NLP_and_Text_Analytics_Cleaning_TF_IDF_Sentiment_Classification_Topics.pdf"
+    },
+    {
+     "n": 26,
+     "title": "Neural Networks and Deep Learning: From a Neuron to Transformers",
+     "page": "lessons/ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html",
+     "pdf": "pdf/ml/Stats_ML_26_Neural_Networks_and_Deep_Learning_From_a_Neuron_to_Transformers.pdf"
+    },
+    {
+     "n": 27,
+     "title": "Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML",
+     "page": "lessons/ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html",
+     "pdf": "pdf/ml/Stats_ML_27_Explainable_AI_and_MLOps_SHAP_Fairness_Deployment_Monitoring_and_Respo.pdf"
+    },
+    {
+     "n": 28,
+     "title": "ML Capstone: End-to-End Churn Prediction and Retention Strategy",
+     "page": "lessons/ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html",
+     "pdf": "pdf/ml/Stats_ML_28_ML_Capstone_End_to_End_Churn_Prediction_and_Retention_Strategy.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_06_Statistics_Machine_Learning.pdf"
+  },
+  {
+   "id": "genai",
+   "name": "Generative AI & Agentic AI",
+   "color": "#EA580C",
+   "desc": "How LLMs work, prompting, LLM APIs in Python, embeddings and vector search, RAG, tool use, agents, MCP, evaluation, guardrails, fine-tuning and responsible AI.",
+   "lessons": [
+    {
+     "n": 1,
+     "title": "How Large Language Models Work: Tokens, Embeddings, Transformers and Training",
+     "page": "lessons/genai-01-how-large-language-models-work-tokens-embeddings-transformer.html",
+     "pdf": "pdf/genai/GenAI_Agents_01_How_Large_Language_Models_Work_Tokens_Embeddings_Transformers_and_Trai.pdf"
+    },
+    {
+     "n": 2,
+     "title": "Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output",
+     "page": "lessons/genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html",
+     "pdf": "pdf/genai/GenAI_Agents_02_Prompt_Engineering_in_Depth_Patterns_Templates_Few_Shot_Reasoning_and_.pdf"
+    },
+    {
+     "n": 3,
+     "title": "Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability",
+     "page": "lessons/genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html",
+     "pdf": "pdf/genai/GenAI_Agents_03_Calling_LLM_APIs_from_Python_Messages_Streaming_Structured_Output_Cost.pdf"
+    },
+    {
+     "n": 4,
+     "title": "Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases",
+     "page": "lessons/genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html",
+     "pdf": "pdf/genai/GenAI_Agents_04_Embeddings_and_Vector_Search_Meaning_as_Numbers_Similarity_and_Vector_.pdf"
+    },
+    {
+     "n": 5,
+     "title": "Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant",
+     "page": "lessons/genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html",
+     "pdf": "pdf/genai/GenAI_Agents_05_Retrieval_Augmented_Generation_RAG_Build_Evaluate_and_Improve_a_Q_A_As.pdf"
+    },
+    {
+     "n": 6,
+     "title": "Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions",
+     "page": "lessons/genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html",
+     "pdf": "pdf/genai/GenAI_Agents_06_Tool_Use_and_Function_Calling_Letting_LLMs_Query_Data_Call_APIs_and_Ta.pdf"
+    },
+    {
+     "n": 7,
+     "title": "AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them",
+     "page": "lessons/genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html",
+     "pdf": "pdf/genai/GenAI_Agents_07_AI_Agents_and_Agentic_AI_Loops_Planning_Memory_Multi_Agent_Systems_and.pdf"
+    },
+    {
+     "n": 8,
+     "title": "Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools",
+     "page": "lessons/genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html",
+     "pdf": "pdf/genai/GenAI_Agents_08_Model_Context_Protocol_MCP_Connecting_AI_Assistants_to_Your_Data_and_T.pdf"
+    },
+    {
+     "n": 9,
+     "title": "Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety",
+     "page": "lessons/genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html",
+     "pdf": "pdf/genai/GenAI_Agents_09_Evaluating_LLM_Applications_and_Building_Guardrails_Test_Sets_LLM_as_J.pdf"
+    },
+    {
+     "n": 10,
+     "title": "Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models",
+     "page": "lessons/genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html",
+     "pdf": "pdf/genai/GenAI_Agents_10_Customising_Models_Prompting_vs_RAG_vs_Fine_Tuning_LoRA_Distillation_a.pdf"
+    },
+    {
+     "n": 11,
+     "title": "GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights",
+     "page": "lessons/genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html",
+     "pdf": "pdf/genai/GenAI_Agents_11_GenAI_for_Data_Work_Text_to_SQL_AI_Coding_Assistants_Data_Cleaning_and.pdf"
+    }
+   ],
+   "pdf": "pdf/tracks/Track_07_Generative_AI_Agentic_AI.pdf"
+  }
+ ],
+ "lesson_count": 105
+}

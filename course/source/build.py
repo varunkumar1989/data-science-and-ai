@@ -746,7 +746,7 @@ def topbar(r, crumbs=""):
 
 
 FOOT = """<footer class="foot"><div>© 2026 {brand} · {title} by {author} · Version {ver} ({upd})</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
-<script src="{r}assets/search-index.js?v={v}"></script><script src="{r}assets/course.js?v={v}"></script></body></html>"""
+<script src="{r}assets/search-index.js?v={v}"></script><script src="{r}assets/course.js?v={v}"></script><script src="{r}assets/gate.js?v={v}" defer></script></body></html>"""
 
 
 def lesson_page(L, c, prev, nxt, idx, n_in_track):

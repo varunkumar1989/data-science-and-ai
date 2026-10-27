@@ -667,7 +667,7 @@ Total                      3,150.60</pre></div>
 <li>Format with <strong>f-strings</strong> (<code>{x:,.2f}</code>, <code>{p:.1%}</code>, <code>{n:05d}</code>, <code>{s:&lt;10}</code>); <code>print</code> has <code>sep</code> and <code>end</code>.</li>
 <li><code>input()</code> returns a string: convert and validate it.</li>
 </ul></div>
-<div class="quiz" id="quiz-python-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>type(10 / 2)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> <code>/</code> always returns a float in Python 3 (5.0).</div></div><div class="qq"><p class="qtext"><b>2.</b> What is <code>int(-3.9)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>−4</button><button type="button" class="opt" data-ok="1"><i>B</i>−3</button><button type="button" class="opt" data-ok="0"><i>C</i>3</button><button type="button" class="opt" data-ok="0"><i>D</i>−3.9</button></div><div class="qexp"><b>Answer: B.</b> int() truncates towards zero.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is NOT falsy?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>0</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>""</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>"0"</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>None</code></button></div><div class="qexp"><b>Answer: C.</b> A non-empty string, including "0", is truthy.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>print(f"{0.2345:.1%}")</code> print?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0.2</button><button type="button" class="opt" data-ok="1"><i>B</i>23.4%  (rounded to one decimal; 23.5% for exact halves)</button><button type="button" class="opt" data-ok="0"><i>C</i>2.3%</button><button type="button" class="opt" data-ok="0"><i>D</i>0.23</button></div><div class="qexp"><b>Answer: B.</b> <code>.1%</code> multiplies by 100 and shows one decimal: 0.2345 → 23.4% (binary floating-point rounding).</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>x = input("Age: ")</code> and the user types 25. What is <code>type(x)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> input() always returns text.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why is <code>0.1 + 0.2 == 0.3</code> False?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Python is buggy</button><button type="button" class="opt" data-ok="1"><i>B</i>Decimal fractions cannot be represented exactly in binary floating point</button><button type="button" class="opt" data-ok="0"><i>C</i>Because of integer division</button><button type="button" class="opt" data-ok="0"><i>D</i>Because of rounding to even</button></div><div class="qexp"><b>Answer: B.</b> Use math.isclose or Decimal.</div></div></div>
+<div class="quiz" id="quiz-python-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>type(10 / 2)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> <code>/</code> always returns a float in Python 3 (5.0).</div></div><div class="qq"><p class="qtext"><b>2.</b> What is <code>int(-3.9)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>−4</button><button type="button" class="opt" data-ok="1"><i>B</i>−3</button><button type="button" class="opt" data-ok="0"><i>C</i>3</button><button type="button" class="opt" data-ok="0"><i>D</i>−3.9</button></div><div class="qexp"><b>Answer: B.</b> int() truncates towards zero.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is NOT falsy?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>0</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>""</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>"0"</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>None</code></button></div><div class="qexp"><b>Answer: C.</b> A non-empty string, including "0", is truthy.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>print(f"{0.2345:.1%}")</code> print?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0.2</button><button type="button" class="opt" data-ok="1"><i>B</i>23.4%</button><button type="button" class="opt" data-ok="0"><i>C</i>2.3%</button><button type="button" class="opt" data-ok="0"><i>D</i>0.23</button></div><div class="qexp"><b>Answer: B.</b> <code>.1%</code> multiplies by 100 and shows one decimal. 0.2345 displays as 23.4% because 0.2345 is stored as a binary value just below 0.2345.</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>x = input("Age: ")</code> and the user types 25. What is <code>type(x)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> input() always returns text.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why is <code>0.1 + 0.2 == 0.3</code> False?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Python is buggy</button><button type="button" class="opt" data-ok="1"><i>B</i>Decimal fractions cannot be represented exactly in binary floating point</button><button type="button" class="opt" data-ok="0"><i>C</i>Because of integer division</button><button type="button" class="opt" data-ok="0"><i>D</i>Because of rounding to even</button></div><div class="qexp"><b>Answer: B.</b> Use math.isclose or Decimal.</div></div></div>
 <div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Ask for a price and quantity (simulate the input), compute the total with 18% GST and print it as <code>₹1,23,456.78</code>-style with thousands separators and 2 decimals. (2) Convert "1010" from binary to int and 255 to hex. (3) Explain the output of <code>print(round(2.5), round(3.5))</code>.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">price, qty = <span class="hl-f">float</span>(<span class="hl-s">&quot;1250.5&quot;</span>), <span class="hl-f">int</span>(<span class="hl-s">&quot;3&quot;</span>)
 total = price * qty * <span class="hl-n">1.18</span>
 <span class="hl-f">print</span>(<span class="hl-s">f&quot;Total: ₹{total:,.2f}&quot;</span>)          <span class="hl-c"># ₹4,426.77</span>
@@ -3098,7 +3098,7 @@ KeyError           &#x27;x&#x27;
 IndexError         list index out of range
 FileNotFoundError  [Errno 2] No such file or directory: &#x27;missing.csv&#x27;
 AttributeError     &#x27;NoneType&#x27; object has no attribute &#x27;upper&#x27;</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Do not swallow every error</b></div><p><code>except: pass</code> or <code>except Exception: pass</code> hides bugs. Catch the <strong>specific</strong> exceptions you expect, and let unexpected ones surface (or log them and re-raise).</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Do not swallow every error</b></div><p><code>except: pass</code> or <code>except Exception: pass</code> hides bugs. Catch the <strong>specific</strong> exceptions you expect, and let unexpected ones surface (or log them and re-raise).</p></div>
 <h3 id="python-12-raising-your-own-exceptions">Raising your own exceptions</h3>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> <span class="hl-f">DataQualityError</span>(Exception):
     <span class="hl-s">&quot;&quot;&quot;Raised when an input file fails validation.&quot;&quot;&quot;</span>
@@ -3359,7 +3359,7 @@ __pycache__/
 data/raw/
 *.env
 .DS_Store</code></pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Never commit secrets</b></div><p>API keys, passwords and tokens belong in environment variables or a <code>.env</code> file listed in <code>.gitignore</code>. Read them with <code>os.getenv("OPENAI_API_KEY")</code>. If a key is ever pushed, revoke it immediately: deleting the commit is not enough.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Never commit secrets</b></div><p>API keys, passwords and tokens belong in environment variables or a <code>.env</code> file listed in <code>.gitignore</code>. Read them with <code>os.getenv("OPENAI_API_KEY")</code>. If a key is ever pushed, revoke it immediately: deleting the commit is not enough.</p></div>
 <h2 id="python-13-summary">Summary</h2>
 <div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
 <li>A module is a <code>.py</code> file; a package is a folder of modules. Use standard aliases and avoid <code>import *</code>.</li>
@@ -3632,7 +3632,7 @@ n = 1_000_000
 py = <span class="hl-f">list</span>(<span class="hl-f">range</span>(n)); arr = <span class="hl-f">np.arange</span>(n)
 t0 = <span class="hl-f">time.perf_counter</span>(); sq_list = [x * x <span class="hl-k">for</span> x <span class="hl-k">in</span> py]; t1 = <span class="hl-f">time.perf_counter</span>(); sq_arr = arr * arr; t2 = <span class="hl-f">time.perf_counter</span>()
 <span class="hl-f">print</span>(<span class="hl-s">f&quot;list comprehension {1000*(t1-t0):.1f} ms | numpy {1000*(t2-t1):.1f} ms | same result: {sq_list[-1] == sq_arr[-1]}&quot;</span>)
-<span class="hl-f">print</span>(np.__version__)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">list comprehension 58.6 ms | numpy 24.8 ms | same result: True
+<span class="hl-f">print</span>(np.__version__)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">list comprehension 44.7 ms | numpy 34.8 ms | same result: True
 2.5.3</pre></div>
 <h2 id="python-15-creating-arrays">Creating arrays</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">a = <span class="hl-f">np.array</span>([<span class="hl-n">3</span>, <span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">1</span>, <span class="hl-n">5</span>])
@@ -3660,7 +3660,7 @@ m = <span class="hl-f">np.arange</span>(<span class="hl-n">1</span>, <span class
  [ 9 10 11 12]]
 3 [5 6 7 8] [ 2  6 10] [[ 7  8]
  [11 12]] 12</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Slices are views</b></div><p><code>b = a[1:4]</code> does <strong>not</strong> copy; changing <code>b</code> changes <code>a</code>. Use <code>a[1:4].copy()</code> when you need an independent array. (Python lists behave the other way: slicing copies.)</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Slices are views</b></div><p><code>b = a[1:4]</code> does <strong>not</strong> copy; changing <code>b</code> changes <code>a</code>. Use <code>a[1:4].copy()</code> when you need an independent array. (Python lists behave the other way: slicing copies.)</p></div>
 <h3 id="python-15-boolean-masks-and-fancy-indexing">Boolean masks and fancy indexing</h3>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sales = <span class="hl-f">np.array</span>([<span class="hl-n">120</span>, <span class="hl-n">45</span>, <span class="hl-n">300</span>, <span class="hl-n">80</span>, <span class="hl-n">210</span>, <span class="hl-n">15</span>])
 mask = sales &gt; <span class="hl-n">100</span>
@@ -3796,7 +3796,7 @@ East
 0   Pune    120     100   True
 1  Delhi     95     110  False
 2  Kochi    140     130   True
-(3, 4) [&#x27;city&#x27;, &#x27;sales&#x27;, &#x27;target&#x27;, &#x27;hit&#x27;] RangeIndex(start=0, stop=3, step=1) {&#x27;city&#x27;: &lt;StringDtype(na_value=nan)&gt;, &#x27;sales&#x27;: dtype(&#x27;int64&#x27;), &#x27;target&#x27;: dtype(&#x27;int64&#x27;), &#x27;hit&#x27;: dtype(&#x27;bool&#x27;)} 3.0.5</pre></div>
+(3, 4) [&#x27;city&#x27;, &#x27;sales&#x27;, &#x27;target&#x27;, &#x27;hit&#x27;] RangeIndex(start=0, stop=3, step=1) {&#x27;city&#x27;: dtype(&#x27;O&#x27;), &#x27;sales&#x27;: dtype(&#x27;int64&#x27;), &#x27;target&#x27;: dtype(&#x27;int64&#x27;), &#x27;hit&#x27;: dtype(&#x27;bool&#x27;)} 2.3.3</pre></div>
 <h2 id="python-16-reading-data">Reading data</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
 <span class="hl-f">print</span>(s.shape)
@@ -3862,32 +3862,32 @@ profit                     3472.55              1169.54              6044.47</pr
 <p>Other readers: <code>pd.read_excel("file.xlsx", sheet_name="Sales")</code> (needs <code>openpyxl</code>), <code>pd.read_json</code>, <code>pd.read_parquet</code>, <code>pd.read_sql</code> (Lesson 23), <code>pd.read_html</code>, <code>pd.read_clipboard</code>.</p>
 <h2 id="python-16-inspecting-data">Inspecting data</h2>
 <p>Run these five on every new dataset:</p>
-<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">s.info</span>(memory_usage=<span class="hl-s">&quot;deep&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&lt;class &#x27;pandas.DataFrame&#x27;&gt;
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">s.info</span>(memory_usage=<span class="hl-s">&quot;deep&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&lt;class &#x27;pandas.core.frame.DataFrame&#x27;&gt;
 RangeIndex: 6323 entries, 0 to 6322
 Data columns (total 19 columns):
  #   Column         Non-Null Count  Dtype         
 ---  ------         --------------  -----         
  0   row_id         6323 non-null   int64         
- 1   order_id       6323 non-null   str           
- 2   order_date     6323 non-null   datetime64[us]
- 3   ship_date      6323 non-null   datetime64[us]
- 4   ship_mode      6323 non-null   str           
- 5   customer_id    6323 non-null   str           
- 6   customer_name  6323 non-null   str           
- 7   segment        6323 non-null   str           
- 8   city           6323 non-null   str           
- 9   state          6323 non-null   str           
- 10  region         6323 non-null   str           
- 11  product_id     6323 non-null   str           
- 12  category       6323 non-null   str           
- 13  sub_category   6323 non-null   str           
- 14  product_name   6323 non-null   str           
+ 1   order_id       6323 non-null   object        
+ 2   order_date     6323 non-null   datetime64[ns]
+ 3   ship_date      6323 non-null   datetime64[ns]
+ 4   ship_mode      6323 non-null   object        
+ 5   customer_id    6323 non-null   object        
+ 6   customer_name  6323 non-null   object        
+ 7   segment        6323 non-null   object        
+ 8   city           6323 non-null   object        
+ 9   state          6323 non-null   object        
+ 10  region         6323 non-null   object        
+ 11  product_id     6323 non-null   object        
+ 12  category       6323 non-null   object        
+ 13  sub_category   6323 non-null   object        
+ 14  product_name   6323 non-null   object        
  15  sales          6323 non-null   float64       
  16  quantity       6323 non-null   int64         
  17  discount       6323 non-null   float64       
  18  profit         6323 non-null   float64       
-dtypes: datetime64[us](2), float64(3), int64(2), str(12)
-memory usage: 1.6 MB
+dtypes: datetime64[ns](2), float64(3), int64(2), object(12)
+memory usage: 4.6 MB
 None</pre></div>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">s.describe</span>(include=<span class="hl-s">&quot;number&quot;</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>).T)
 <span class="hl-f">print</span>(s[<span class="hl-s">&quot;region&quot;</span>].<span class="hl-f">value_counts</span>(), s[<span class="hl-s">&quot;category&quot;</span>].<span class="hl-f">value_counts</span>(normalize=<span class="hl-k">True</span>).<span class="hl-f">round</span>(<span class="hl-n">3</span>), sep=<span class="hl-s">&quot;\n&quot;</span>)
@@ -4015,7 +4015,7 @@ e[<span class="hl-s">&quot;salary_rank&quot;</span>] = e[<span class="hl-s">&quo
 3   E104          Diya Iyer         HR  Bengaluru 2024-01-02   90000     4   9000.0  Standard     B         1.8            9
 4   E105        Simran Iyer         HR  Bengaluru 2017-08-03  139000     4  13900.0    Senior     A         8.2            3
 5   E106         Saanvi Rao         HR      Delhi 2025-02-18   83000     4   8300.0  Standard     B         0.7           10</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>SettingWithCopyWarning</b></div><p><code>sub = df[df.x &gt; 0]; sub["y"] = 1</code> may warn because <code>sub</code> might be a view. Use <code>df.loc[df.x &gt; 0, "y"] = 1</code> to change the original, or <code>sub = df[df.x &gt; 0].copy()</code> for an independent table. pandas 3 makes copy-on-write the default, which removes the ambiguity.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>SettingWithCopyWarning</b></div><p><code>sub = df[df.x &gt; 0]; sub["y"] = 1</code> may warn because <code>sub</code> might be a view. Use <code>df.loc[df.x &gt; 0, "y"] = 1</code> to change the original, or <code>sub = df[df.x &gt; 0].copy()</code> for an independent table. pandas 3 makes copy-on-write the default, which removes the ambiguity.</p></div>
 <h2 id="python-16-saving-results">Saving results</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">out = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;region&quot;</span>, as_index=<span class="hl-k">False</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>()
 <span class="hl-f">out.to_csv</span>(<span class="hl-s">&quot;region_sales.csv&quot;</span>, index=<span class="hl-k">False</span>)
@@ -4415,7 +4415,7 @@ Consumer       91.0
 Corporate      91.1
 Home Office    90.4
 Name: realised_vs_list_%, dtype: float64</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Row explosion</b></div><p>If the key is duplicated on <strong>both</strong> sides, a merge multiplies rows (many-to-many). Always compare row counts before and after, and use <code>validate=</code> to catch it.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Row explosion</b></div><p>If the key is duplicated on <strong>both</strong> sides, a merge multiplies rows (many-to-many). Always compare row counts before and after, and use <code>validate=</code> to catch it.</p></div>
 <h2 id="python-18-concat-stacking-tables">concat: stacking tables</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">jan = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;store&quot;</span>: [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">100</span>, <span class="hl-n">80</span>]}); feb = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;store&quot;</span>: [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;C&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">120</span>, <span class="hl-n">60</span>]})
 <span class="hl-f">print</span>(<span class="hl-f">pd.concat</span>([<span class="hl-f">jan.assign</span>(month=<span class="hl-s">&quot;Jan&quot;</span>), <span class="hl-f">feb.assign</span>(month=<span class="hl-s">&quot;Feb&quot;</span>)], ignore_index=<span class="hl-k">True</span>))    <span class="hl-c"># rows (UNION ALL)</span>
@@ -4505,7 +4505,7 @@ d = <span class="hl-f">pd.to_datetime</span>(<span class="hl-f">pd.Series</span>
 <span class="hl-f">print</span>(<span class="hl-f">pd.to_datetime</span>(<span class="hl-s">&quot;2025-01-15 14:30&quot;</span>).<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%d %b %Y, %I:%M %p&quot;</span>), <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-02-28&quot;</span>).is_month_end)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[2025, 2025, 2025] [&#x27;January&#x27;, &#x27;March&#x27;, &#x27;December&#x27;] [&#x27;Wednesday&#x27;, &#x27;Saturday&#x27;, &#x27;Wednesday&#x27;] [1, 1, 4] [3, 9, 1]
 2025-01-05 2025-05-01
 15 Jan 2025, 02:30 PM True</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Day-first dates</b></div><p>Indian and European data often write 05/01/2025 for 5 January. Pass <code>dayfirst=True</code> or, better, an explicit <code>format="%d/%m/%Y"</code>. Check a few parsed values every time.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Day-first dates</b></div><p>Indian and European data often write 05/01/2025 for 5 January. Pass <code>dayfirst=True</code> or, better, an explicit <code>format="%d/%m/%Y"</code>. Check a few parsed values every time.</p></div>
 <div class="tblwrap"><table class="tbl md">
 <thead>
 <tr>

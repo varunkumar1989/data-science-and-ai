@@ -8218,15 +8218,15 @@ IN compares a value with a list or subquery result; EXISTS checks whether a corr
   <tbody>
     <tr>
       <td>Furniture</td>
-      <td>Bookcases, Chairs, Tables, Furnishings</td>
+      <td>Tables, Furnishings, Bookcases, Chairs</td>
     </tr>
     <tr>
       <td>Office Supplies</td>
-      <td>Appliances, Art, Binders, Storage, Paper</td>
+      <td>Storage, Appliances, Art, Binders, Paper</td>
     </tr>
     <tr>
       <td>Technology</td>
-      <td>Phones, Machines, Copiers, Accessories</td>
+      <td>Copiers, Phones, Machines, Accessories</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">3 rows × 2 columns</div></div>
@@ -12148,7 +12148,7 @@ It depends; modern optimisers often produce the same plan. Joins are usually cle
       <td>1</td>
     </tr>
     <tr>
-      <td>Ravi</td>
+      <td>Meera</td>
       <td>80</td>
       <td>2</td>
       <td>2</td>
@@ -12156,7 +12156,7 @@ It depends; modern optimisers often produce the same plan. Joins are usually cle
       <td>1</td>
     </tr>
     <tr>
-      <td>Meera</td>
+      <td>Ravi</td>
       <td>80</td>
       <td>3</td>
       <td>2</td>
@@ -14981,7 +14981,7 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>5</td>
       <td>1,000,175</td>
       <td>1</td>
-      <td>4</td>
+      <td>3</td>
       <td>4</td>
       <td>At risk (high value)</td>
     </tr>
@@ -15021,33 +15021,33 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
   <tbody>
     <tr>
       <td>Champions</td>
-      <td>179</td>
-      <td>80,891,146</td>
-      <td>40.2</td>
+      <td>178</td>
+      <td>80,496,072</td>
+      <td>40.0</td>
     </tr>
     <tr>
       <td>At risk (high value)</td>
-      <td>93</td>
-      <td>43,097,520</td>
-      <td>21.4</td>
+      <td>92</td>
+      <td>42,616,303</td>
+      <td>21.2</td>
     </tr>
     <tr>
       <td>Potential</td>
-      <td>197</td>
-      <td>29,262,095</td>
-      <td>14.5</td>
+      <td>198</td>
+      <td>29,644,898</td>
+      <td>14.7</td>
     </tr>
     <tr>
       <td>Lost / hibernating</td>
-      <td>168</td>
-      <td>24,655,947</td>
-      <td>12.2</td>
+      <td>169</td>
+      <td>24,817,833</td>
+      <td>12.3</td>
     </tr>
     <tr>
       <td>Loyal</td>
       <td>148</td>
-      <td>23,506,862</td>
-      <td>11.7</td>
+      <td>23,838,464</td>
+      <td>11.8</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">5 rows × 4 columns</div></div>
@@ -15142,27 +15142,7 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>10</td>
     </tr>
     <tr>
-      <td>C0527</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0596</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0384</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0069</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0719</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0110</td>
+      <td>C0291</td>
       <td>9</td>
     </tr>
     <tr>
@@ -15170,7 +15150,15 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>9</td>
     </tr>
     <tr>
-      <td>C0291</td>
+      <td>C0110</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0384</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0596</td>
       <td>9</td>
     </tr>
     <tr>
@@ -15179,6 +15167,18 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
     </tr>
     <tr>
       <td>C0271</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0527</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0719</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0069</td>
       <td>9</td>
     </tr>
   </tbody>
@@ -15196,15 +15196,7 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>6</td>
     </tr>
     <tr>
-      <td>Asha Rao</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Rohan Gupta</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Ananya Iyer</td>
+      <td>Ananya Gupta</td>
       <td>5</td>
     </tr>
     <tr>
@@ -15212,7 +15204,11 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>5</td>
     </tr>
     <tr>
-      <td>Ananya Gupta</td>
+      <td>Asha Rao</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Ananya Iyer</td>
       <td>5</td>
     </tr>
     <tr>
@@ -15220,23 +15216,27 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>5</td>
     </tr>
     <tr>
-      <td>Saanvi Mehta</td>
+      <td>Rohan Gupta</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Reyansh Shah</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Neha Shah</td>
+      <td>Simran Khan</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Sai Mehta</td>
+      <td>Vikram Kulkarni</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Simran Sharma</td>
+      <td>Arjun Sharma</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Aditya Kulkarni</td>
+      <td>Nikhil Das</td>
       <td>4</td>
     </tr>
   </tbody>
@@ -15253,11 +15253,6 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
   </thead>
   <tbody>
     <tr>
-      <td>Office Supplies</td>
-      <td>Crest Appliance 402</td>
-      <td>1,909,628</td>
-    </tr>
-    <tr>
       <td>Furniture</td>
       <td>Crest Table 572</td>
       <td>3,122,680</td>
@@ -15266,6 +15261,11 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>Technology</td>
       <td>Orbit Copier 746</td>
       <td>16,026,341</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Crest Appliance 402</td>
+      <td>1,909,628</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">3 rows × 3 columns</div></div></div>
@@ -15526,16 +15526,16 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
   </thead>
   <tbody>
     <tr>
+      <td>Consumer</td>
+      <td>63,451</td>
+    </tr>
+    <tr>
       <td>Corporate</td>
       <td>61,899</td>
     </tr>
     <tr>
       <td>Home Office</td>
       <td>63,237</td>
-    </tr>
-    <tr>
-      <td>Consumer</td>
-      <td>63,451</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">3 rows × 2 columns</div></div></div>
@@ -16101,7 +16101,7 @@ Attrition for satisfaction 1–2: 32.5%   vs   3–4: 19.4%</pre></div>
 <li>A DAX <strong>calculated column</strong> (<code>YEAR</code>, <code>SWITCH</code>) is computed row by row at load time; <strong>groups/bins</strong> categorise without changing the data; <strong>small multiples</strong> repeat a chart per category.</li>
 </ul></div>
 <div class="quiz" id="quiz-powerbi-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In Power BI, where do you perform the Extract and Transform steps of ETL?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Report view</button><button type="button" class="opt" data-ok="1"><i>B</i>Power Query</button><button type="button" class="opt" data-ok="0"><i>C</i>The Service</button><button type="button" class="opt" data-ok="0"><i>D</i>The Model view</button></div><div class="qexp"><b>Answer: B.</b> Power Query connects to sources and transforms data; Close &amp; Apply loads it into the model.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which view shows relationships between tables?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Report view</button><button type="button" class="opt" data-ok="0"><i>B</i>Table view</button><button type="button" class="opt" data-ok="1"><i>C</i>Model view</button><button type="button" class="opt" data-ok="0"><i>D</i>Filters pane</button></div><div class="qexp"><b>Answer: C.</b> Relationships are created and edited in Model view.</div></div><div class="qq"><p class="qtext"><b>3.</b> Power BI Desktop is available for:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Windows and Mac</button><button type="button" class="opt" data-ok="1"><i>B</i>Windows only</button><button type="button" class="opt" data-ok="0"><i>C</i>Mac only</button><button type="button" class="opt" data-ok="0"><i>D</i>Browsers only</button></div><div class="qexp"><b>Answer: B.</b> Desktop is Windows-only; Mac users use the Service or a Windows virtual machine.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does a calculated column do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Runs only when a slicer changes</button><button type="button" class="opt" data-ok="1"><i>B</i>Computes a value for every row when the data is loaded and stores it in the model</button><button type="button" class="opt" data-ok="0"><i>C</i>Replaces a measure</button><button type="button" class="opt" data-ok="0"><i>D</i>Changes the source file</button></div><div class="qexp"><b>Answer: B.</b> Calculated columns are row-by-row and stored; measures calculate on the fly.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which visual repeats the same chart for every value of a field?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Matrix</button><button type="button" class="opt" data-ok="0"><i>B</i>Slicer</button><button type="button" class="opt" data-ok="1"><i>C</i>Small multiples</button><button type="button" class="opt" data-ok="0"><i>D</i>Card</button></div><div class="qexp"><b>Answer: C.</b> Small multiples create a grid of mini-charts split by a category.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which licence do you need to share a report with colleagues who also have Pro licences?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>None, Desktop is enough</button><button type="button" class="opt" data-ok="0"><i>B</i>Free Service licence</button><button type="button" class="opt" data-ok="1"><i>C</i>Power BI Pro (or Premium Per User)</button><button type="button" class="opt" data-ok="0"><i>D</i>Gateway licence</button></div><div class="qexp"><b>Answer: C.</b> Sharing in the Service requires Pro for creators and viewers (unless the workspace is on Premium/Fabric capacity).</div></div></div>
-<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build the HR page</b></div><p>Build the page shown above in Power BI Desktop with <code>hr_employees.csv</code>. Then add: (1) a slicer for <code>city</code> and <code>gender</code>; (2) a matrix of attrition % by <code>job_title</code> and <code>education</code>; (3) an <code>Age Band</code> column and a column chart of attrition % by band; (4) a title text box that states your main finding.</p><details class="sol"><summary>Show solution</summary><p>(1) Slicer visual, fields <code>city</code>, <code>gender</code> (Format → Slicer settings → Style: Tile or Dropdown). (2) Matrix: Rows <code>job_title</code>, Columns <code>education</code>, Values <code>Attrition %</code> (turn on Cell elements → Background colour for a heat map). (3) Use the <code>SWITCH</code> formula in this lesson; chart X-axis <code>Age Band</code>, Y-axis <code>Attrition %</code>; sort the axis in the right order using a sort-by-column. (4) Insert → Text box, for example "Overtime roughly doubles attrition in every department." Verify the claim against your visuals before you publish.</p></details></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build the HR page</b></div><p>Build the page shown above in Power BI Desktop with <code>hr_employees.csv</code>. Then add: (1) a slicer for <code>city</code> and <code>gender</code>; (2) a matrix of attrition % by <code>job_title</code> and <code>education</code>; (3) an <code>Age Band</code> column and a column chart of attrition % by band; (4) a title text box that states your main finding.</p><details class="sol"><summary>Show solution</summary><p>(1) Slicer visual, fields <code>city</code>, <code>gender</code> (Format → Slicer settings → Style: Tile or Dropdown). (2) Matrix: Rows <code>job_title</code>, Columns <code>education</code>, Values <code>Attrition %</code> (turn on Cell elements → Background colour for a heat map). (3) Use the <code>SWITCH</code> formula in this lesson; chart X-axis <code>Age Band</code>, Y-axis <code>Attrition %</code>; sort the axis in the right order using a sort-by-column. (4) Insert → Text box, for example "Overtime is linked to about 15 more attrition points company-wide." Verify the claim against your visuals before you publish.</p></details></div>
 <div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between Power BI Desktop and Service?</strong>
 Desktop is the free authoring tool for models and reports on Windows; the Service is the cloud platform to publish, share, refresh on a schedule, build dashboards and apps, and apply security.</p>
 <p><strong>Q: What is ETL and where is it done in Power BI?</strong>
@@ -18161,10 +18161,10 @@ UAE         91.0    32.0      35.1     15.3
 
 Bikes are 78.5% of total sales; Components 18.4%.</pre></div>
 <div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span><b>What a good leadership summary says</b></div><ol>
-<li>Sales grew steadily across 2023–2025 while the margin stayed close to 35%, so growth is coming from volume, not pricing.</li>
-<li><strong>Bikes</strong> generate about four-fifths of sales; <strong>India</strong> about two-thirds. Both are concentration risks as well as strengths.</li>
-<li>Singapore and UAE are each ~15–16% of sales; check whether their margins justify expansion spending.</li>
-<li>Recommended actions: protect the bike range, test Components cross-selling to bike buyers, and set country targets with monthly tracking in the report.</li>
+<li><strong>Sales are shrinking, not growing</strong>: ₹204.2 M (2023) → ₹200.4 M (2024, −1.9%) → ₹189.9 M (2025, −5.2%), while the margin holds steady at about 35%. The problem is <strong>volume or demand</strong>, not pricing or cost.</li>
+<li><strong>Bikes</strong> generate 78.5% of sales and <strong>India</strong> 68.4%, so any decline in Indian bike sales moves the whole company: a concentration risk.</li>
+<li>Singapore (16.3% of sales) and the UAE (15.3%) earn the same ~35% margin as India, so growth there is as profitable as at home.</li>
+<li>Recommended next steps: find where the 2025 decline comes from (by category, country and month, using the YoY measures from Lesson 4), set recovery targets per country, and track them monthly in the report.</li>
 </ol></div>
 <p>(Verify each statement against the tables above before you present it; the numbers, not the template, are the story.)</p>
 <h2 id="powerbi-06-summary">Summary</h2>
@@ -20509,7 +20509,7 @@ Total                      3,150.60</pre></div>
 <li>Format with <strong>f-strings</strong> (<code>{x:,.2f}</code>, <code>{p:.1%}</code>, <code>{n:05d}</code>, <code>{s:&lt;10}</code>); <code>print</code> has <code>sep</code> and <code>end</code>.</li>
 <li><code>input()</code> returns a string: convert and validate it.</li>
 </ul></div>
-<div class="quiz" id="quiz-python-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>type(10 / 2)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> <code>/</code> always returns a float in Python 3 (5.0).</div></div><div class="qq"><p class="qtext"><b>2.</b> What is <code>int(-3.9)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>−4</button><button type="button" class="opt" data-ok="1"><i>B</i>−3</button><button type="button" class="opt" data-ok="0"><i>C</i>3</button><button type="button" class="opt" data-ok="0"><i>D</i>−3.9</button></div><div class="qexp"><b>Answer: B.</b> int() truncates towards zero.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is NOT falsy?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>0</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>""</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>"0"</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>None</code></button></div><div class="qexp"><b>Answer: C.</b> A non-empty string, including "0", is truthy.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>print(f"{0.2345:.1%}")</code> print?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0.2</button><button type="button" class="opt" data-ok="1"><i>B</i>23.4%  (rounded to one decimal; 23.5% for exact halves)</button><button type="button" class="opt" data-ok="0"><i>C</i>2.3%</button><button type="button" class="opt" data-ok="0"><i>D</i>0.23</button></div><div class="qexp"><b>Answer: B.</b> <code>.1%</code> multiplies by 100 and shows one decimal: 0.2345 → 23.4% (binary floating-point rounding).</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>x = input("Age: ")</code> and the user types 25. What is <code>type(x)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> input() always returns text.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why is <code>0.1 + 0.2 == 0.3</code> False?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Python is buggy</button><button type="button" class="opt" data-ok="1"><i>B</i>Decimal fractions cannot be represented exactly in binary floating point</button><button type="button" class="opt" data-ok="0"><i>C</i>Because of integer division</button><button type="button" class="opt" data-ok="0"><i>D</i>Because of rounding to even</button></div><div class="qexp"><b>Answer: B.</b> Use math.isclose or Decimal.</div></div></div>
+<div class="quiz" id="quiz-python-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>type(10 / 2)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> <code>/</code> always returns a float in Python 3 (5.0).</div></div><div class="qq"><p class="qtext"><b>2.</b> What is <code>int(-3.9)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>−4</button><button type="button" class="opt" data-ok="1"><i>B</i>−3</button><button type="button" class="opt" data-ok="0"><i>C</i>3</button><button type="button" class="opt" data-ok="0"><i>D</i>−3.9</button></div><div class="qexp"><b>Answer: B.</b> int() truncates towards zero.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is NOT falsy?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>0</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>""</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>"0"</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>None</code></button></div><div class="qexp"><b>Answer: C.</b> A non-empty string, including "0", is truthy.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>print(f"{0.2345:.1%}")</code> print?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0.2</button><button type="button" class="opt" data-ok="1"><i>B</i>23.4%</button><button type="button" class="opt" data-ok="0"><i>C</i>2.3%</button><button type="button" class="opt" data-ok="0"><i>D</i>0.23</button></div><div class="qexp"><b>Answer: B.</b> <code>.1%</code> multiplies by 100 and shows one decimal. 0.2345 displays as 23.4% because 0.2345 is stored as a binary value just below 0.2345.</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>x = input("Age: ")</code> and the user types 25. What is <code>type(x)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>int</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>str</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>float</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>bool</code></button></div><div class="qexp"><b>Answer: B.</b> input() always returns text.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why is <code>0.1 + 0.2 == 0.3</code> False?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Python is buggy</button><button type="button" class="opt" data-ok="1"><i>B</i>Decimal fractions cannot be represented exactly in binary floating point</button><button type="button" class="opt" data-ok="0"><i>C</i>Because of integer division</button><button type="button" class="opt" data-ok="0"><i>D</i>Because of rounding to even</button></div><div class="qexp"><b>Answer: B.</b> Use math.isclose or Decimal.</div></div></div>
 <div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Ask for a price and quantity (simulate the input), compute the total with 18% GST and print it as <code>₹1,23,456.78</code>-style with thousands separators and 2 decimals. (2) Convert "1010" from binary to int and 255 to hex. (3) Explain the output of <code>print(round(2.5), round(3.5))</code>.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">price, qty = <span class="hl-f">float</span>(<span class="hl-s">&quot;1250.5&quot;</span>), <span class="hl-f">int</span>(<span class="hl-s">&quot;3&quot;</span>)
 total = price * qty * <span class="hl-n">1.18</span>
 <span class="hl-f">print</span>(<span class="hl-s">f&quot;Total: ₹{total:,.2f}&quot;</span>)          <span class="hl-c"># ₹4,426.77</span>
@@ -22940,7 +22940,7 @@ KeyError           &#x27;x&#x27;
 IndexError         list index out of range
 FileNotFoundError  [Errno 2] No such file or directory: &#x27;missing.csv&#x27;
 AttributeError     &#x27;NoneType&#x27; object has no attribute &#x27;upper&#x27;</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Do not swallow every error</b></div><p><code>except: pass</code> or <code>except Exception: pass</code> hides bugs. Catch the <strong>specific</strong> exceptions you expect, and let unexpected ones surface (or log them and re-raise).</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Do not swallow every error</b></div><p><code>except: pass</code> or <code>except Exception: pass</code> hides bugs. Catch the <strong>specific</strong> exceptions you expect, and let unexpected ones surface (or log them and re-raise).</p></div>
 <h3 id="python-12-raising-your-own-exceptions">Raising your own exceptions</h3>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> <span class="hl-f">DataQualityError</span>(Exception):
     <span class="hl-s">&quot;&quot;&quot;Raised when an input file fails validation.&quot;&quot;&quot;</span>
@@ -23201,7 +23201,7 @@ __pycache__/
 data/raw/
 *.env
 .DS_Store</code></pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Never commit secrets</b></div><p>API keys, passwords and tokens belong in environment variables or a <code>.env</code> file listed in <code>.gitignore</code>. Read them with <code>os.getenv("OPENAI_API_KEY")</code>. If a key is ever pushed, revoke it immediately: deleting the commit is not enough.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Never commit secrets</b></div><p>API keys, passwords and tokens belong in environment variables or a <code>.env</code> file listed in <code>.gitignore</code>. Read them with <code>os.getenv("OPENAI_API_KEY")</code>. If a key is ever pushed, revoke it immediately: deleting the commit is not enough.</p></div>
 <h2 id="python-13-summary">Summary</h2>
 <div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
 <li>A module is a <code>.py</code> file; a package is a folder of modules. Use standard aliases and avoid <code>import *</code>.</li>
@@ -23474,7 +23474,7 @@ n = 1_000_000
 py = <span class="hl-f">list</span>(<span class="hl-f">range</span>(n)); arr = <span class="hl-f">np.arange</span>(n)
 t0 = <span class="hl-f">time.perf_counter</span>(); sq_list = [x * x <span class="hl-k">for</span> x <span class="hl-k">in</span> py]; t1 = <span class="hl-f">time.perf_counter</span>(); sq_arr = arr * arr; t2 = <span class="hl-f">time.perf_counter</span>()
 <span class="hl-f">print</span>(<span class="hl-s">f&quot;list comprehension {1000*(t1-t0):.1f} ms | numpy {1000*(t2-t1):.1f} ms | same result: {sq_list[-1] == sq_arr[-1]}&quot;</span>)
-<span class="hl-f">print</span>(np.__version__)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">list comprehension 58.6 ms | numpy 24.8 ms | same result: True
+<span class="hl-f">print</span>(np.__version__)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">list comprehension 44.7 ms | numpy 34.8 ms | same result: True
 2.5.3</pre></div>
 <h2 id="python-15-creating-arrays">Creating arrays</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">a = <span class="hl-f">np.array</span>([<span class="hl-n">3</span>, <span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">1</span>, <span class="hl-n">5</span>])
@@ -23502,7 +23502,7 @@ m = <span class="hl-f">np.arange</span>(<span class="hl-n">1</span>, <span class
  [ 9 10 11 12]]
 3 [5 6 7 8] [ 2  6 10] [[ 7  8]
  [11 12]] 12</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Slices are views</b></div><p><code>b = a[1:4]</code> does <strong>not</strong> copy; changing <code>b</code> changes <code>a</code>. Use <code>a[1:4].copy()</code> when you need an independent array. (Python lists behave the other way: slicing copies.)</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Slices are views</b></div><p><code>b = a[1:4]</code> does <strong>not</strong> copy; changing <code>b</code> changes <code>a</code>. Use <code>a[1:4].copy()</code> when you need an independent array. (Python lists behave the other way: slicing copies.)</p></div>
 <h3 id="python-15-boolean-masks-and-fancy-indexing">Boolean masks and fancy indexing</h3>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sales = <span class="hl-f">np.array</span>([<span class="hl-n">120</span>, <span class="hl-n">45</span>, <span class="hl-n">300</span>, <span class="hl-n">80</span>, <span class="hl-n">210</span>, <span class="hl-n">15</span>])
 mask = sales &gt; <span class="hl-n">100</span>
@@ -23638,7 +23638,7 @@ East
 0   Pune    120     100   True
 1  Delhi     95     110  False
 2  Kochi    140     130   True
-(3, 4) [&#x27;city&#x27;, &#x27;sales&#x27;, &#x27;target&#x27;, &#x27;hit&#x27;] RangeIndex(start=0, stop=3, step=1) {&#x27;city&#x27;: &lt;StringDtype(na_value=nan)&gt;, &#x27;sales&#x27;: dtype(&#x27;int64&#x27;), &#x27;target&#x27;: dtype(&#x27;int64&#x27;), &#x27;hit&#x27;: dtype(&#x27;bool&#x27;)} 3.0.5</pre></div>
+(3, 4) [&#x27;city&#x27;, &#x27;sales&#x27;, &#x27;target&#x27;, &#x27;hit&#x27;] RangeIndex(start=0, stop=3, step=1) {&#x27;city&#x27;: dtype(&#x27;O&#x27;), &#x27;sales&#x27;: dtype(&#x27;int64&#x27;), &#x27;target&#x27;: dtype(&#x27;int64&#x27;), &#x27;hit&#x27;: dtype(&#x27;bool&#x27;)} 2.3.3</pre></div>
 <h2 id="python-16-reading-data">Reading data</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
 <span class="hl-f">print</span>(s.shape)
@@ -23704,32 +23704,32 @@ profit                     3472.55              1169.54              6044.47</pr
 <p>Other readers: <code>pd.read_excel("file.xlsx", sheet_name="Sales")</code> (needs <code>openpyxl</code>), <code>pd.read_json</code>, <code>pd.read_parquet</code>, <code>pd.read_sql</code> (Lesson 23), <code>pd.read_html</code>, <code>pd.read_clipboard</code>.</p>
 <h2 id="python-16-inspecting-data">Inspecting data</h2>
 <p>Run these five on every new dataset:</p>
-<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">s.info</span>(memory_usage=<span class="hl-s">&quot;deep&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&lt;class &#x27;pandas.DataFrame&#x27;&gt;
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">s.info</span>(memory_usage=<span class="hl-s">&quot;deep&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&lt;class &#x27;pandas.core.frame.DataFrame&#x27;&gt;
 RangeIndex: 6323 entries, 0 to 6322
 Data columns (total 19 columns):
  #   Column         Non-Null Count  Dtype         
 ---  ------         --------------  -----         
  0   row_id         6323 non-null   int64         
- 1   order_id       6323 non-null   str           
- 2   order_date     6323 non-null   datetime64[us]
- 3   ship_date      6323 non-null   datetime64[us]
- 4   ship_mode      6323 non-null   str           
- 5   customer_id    6323 non-null   str           
- 6   customer_name  6323 non-null   str           
- 7   segment        6323 non-null   str           
- 8   city           6323 non-null   str           
- 9   state          6323 non-null   str           
- 10  region         6323 non-null   str           
- 11  product_id     6323 non-null   str           
- 12  category       6323 non-null   str           
- 13  sub_category   6323 non-null   str           
- 14  product_name   6323 non-null   str           
+ 1   order_id       6323 non-null   object        
+ 2   order_date     6323 non-null   datetime64[ns]
+ 3   ship_date      6323 non-null   datetime64[ns]
+ 4   ship_mode      6323 non-null   object        
+ 5   customer_id    6323 non-null   object        
+ 6   customer_name  6323 non-null   object        
+ 7   segment        6323 non-null   object        
+ 8   city           6323 non-null   object        
+ 9   state          6323 non-null   object        
+ 10  region         6323 non-null   object        
+ 11  product_id     6323 non-null   object        
+ 12  category       6323 non-null   object        
+ 13  sub_category   6323 non-null   object        
+ 14  product_name   6323 non-null   object        
  15  sales          6323 non-null   float64       
  16  quantity       6323 non-null   int64         
  17  discount       6323 non-null   float64       
  18  profit         6323 non-null   float64       
-dtypes: datetime64[us](2), float64(3), int64(2), str(12)
-memory usage: 1.6 MB
+dtypes: datetime64[ns](2), float64(3), int64(2), object(12)
+memory usage: 4.6 MB
 None</pre></div>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">s.describe</span>(include=<span class="hl-s">&quot;number&quot;</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>).T)
 <span class="hl-f">print</span>(s[<span class="hl-s">&quot;region&quot;</span>].<span class="hl-f">value_counts</span>(), s[<span class="hl-s">&quot;category&quot;</span>].<span class="hl-f">value_counts</span>(normalize=<span class="hl-k">True</span>).<span class="hl-f">round</span>(<span class="hl-n">3</span>), sep=<span class="hl-s">&quot;\n&quot;</span>)
@@ -23857,7 +23857,7 @@ e[<span class="hl-s">&quot;salary_rank&quot;</span>] = e[<span class="hl-s">&quo
 3   E104          Diya Iyer         HR  Bengaluru 2024-01-02   90000     4   9000.0  Standard     B         1.8            9
 4   E105        Simran Iyer         HR  Bengaluru 2017-08-03  139000     4  13900.0    Senior     A         8.2            3
 5   E106         Saanvi Rao         HR      Delhi 2025-02-18   83000     4   8300.0  Standard     B         0.7           10</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>SettingWithCopyWarning</b></div><p><code>sub = df[df.x &gt; 0]; sub["y"] = 1</code> may warn because <code>sub</code> might be a view. Use <code>df.loc[df.x &gt; 0, "y"] = 1</code> to change the original, or <code>sub = df[df.x &gt; 0].copy()</code> for an independent table. pandas 3 makes copy-on-write the default, which removes the ambiguity.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>SettingWithCopyWarning</b></div><p><code>sub = df[df.x &gt; 0]; sub["y"] = 1</code> may warn because <code>sub</code> might be a view. Use <code>df.loc[df.x &gt; 0, "y"] = 1</code> to change the original, or <code>sub = df[df.x &gt; 0].copy()</code> for an independent table. pandas 3 makes copy-on-write the default, which removes the ambiguity.</p></div>
 <h2 id="python-16-saving-results">Saving results</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">out = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;region&quot;</span>, as_index=<span class="hl-k">False</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>()
 <span class="hl-f">out.to_csv</span>(<span class="hl-s">&quot;region_sales.csv&quot;</span>, index=<span class="hl-k">False</span>)
@@ -24257,7 +24257,7 @@ Consumer       91.0
 Corporate      91.1
 Home Office    90.4
 Name: realised_vs_list_%, dtype: float64</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Row explosion</b></div><p>If the key is duplicated on <strong>both</strong> sides, a merge multiplies rows (many-to-many). Always compare row counts before and after, and use <code>validate=</code> to catch it.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Row explosion</b></div><p>If the key is duplicated on <strong>both</strong> sides, a merge multiplies rows (many-to-many). Always compare row counts before and after, and use <code>validate=</code> to catch it.</p></div>
 <h2 id="python-18-concat-stacking-tables">concat: stacking tables</h2>
 <div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">jan = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;store&quot;</span>: [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">100</span>, <span class="hl-n">80</span>]}); feb = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;store&quot;</span>: [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;C&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">120</span>, <span class="hl-n">60</span>]})
 <span class="hl-f">print</span>(<span class="hl-f">pd.concat</span>([<span class="hl-f">jan.assign</span>(month=<span class="hl-s">&quot;Jan&quot;</span>), <span class="hl-f">feb.assign</span>(month=<span class="hl-s">&quot;Feb&quot;</span>)], ignore_index=<span class="hl-k">True</span>))    <span class="hl-c"># rows (UNION ALL)</span>
@@ -24347,7 +24347,7 @@ d = <span class="hl-f">pd.to_datetime</span>(<span class="hl-f">pd.Series</span>
 <span class="hl-f">print</span>(<span class="hl-f">pd.to_datetime</span>(<span class="hl-s">&quot;2025-01-15 14:30&quot;</span>).<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%d %b %Y, %I:%M %p&quot;</span>), <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-02-28&quot;</span>).is_month_end)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[2025, 2025, 2025] [&#x27;January&#x27;, &#x27;March&#x27;, &#x27;December&#x27;] [&#x27;Wednesday&#x27;, &#x27;Saturday&#x27;, &#x27;Wednesday&#x27;] [1, 1, 4] [3, 9, 1]
 2025-01-05 2025-05-01
 15 Jan 2025, 02:30 PM True</pre></div>
-<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Day-first dates</b></div><p>Indian and European data often write 05/01/2025 for 5 January. Pass <code>dayfirst=True</code> or, better, an explicit <code>format="%d/%m/%Y"</code>. Check a few parsed values every time.</p></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Day-first dates</b></div><p>Indian and European data often write 05/01/2025 for 5 January. Pass <code>dayfirst=True</code> or, better, an explicit <code>format="%d/%m/%Y"</code>. Check a few parsed values every time.</p></div>
 <div class="tblwrap"><table class="tbl md">
 <thead>
 <tr>
@@ -28483,7 +28483,7 @@ pre = <span class="hl-f">ColumnTransformer</span>([
 ])
 pipe = <span class="hl-f">Pipeline</span>([(<span class="hl-s">&quot;pre&quot;</span>, pre), (<span class="hl-s">&quot;sel&quot;</span>, <span class="hl-f">SelectKBest</span>(mutual_info_classif, k=<span class="hl-n">12</span>)), (<span class="hl-s">&quot;model&quot;</span>, <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>))])
 scores = <span class="hl-f">cross_val_score</span>(pipe, X, y, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>)
-<span class="hl-f">print</span>(<span class="hl-s">f&quot;5-fold ROC-AUC {scores.mean():.3f} ± {scores.std():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5-fold ROC-AUC 0.668 ± 0.009</pre></div>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;5-fold ROC-AUC {scores.mean():.3f} ± {scores.std():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5-fold ROC-AUC 0.661 ± 0.013</pre></div>
 <h2 id="ml-09-summary">Summary</h2>
 <div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
 <li>Impute with medians/modes, KNN or iterative imputers, and add missing-value indicators when missingness carries information.</li>

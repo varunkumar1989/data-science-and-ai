@@ -1774,7 +1774,7 @@ pre = <span class="hl-f">ColumnTransformer</span>([
 ])
 pipe = <span class="hl-f">Pipeline</span>([(<span class="hl-s">&quot;pre&quot;</span>, pre), (<span class="hl-s">&quot;sel&quot;</span>, <span class="hl-f">SelectKBest</span>(mutual_info_classif, k=<span class="hl-n">12</span>)), (<span class="hl-s">&quot;model&quot;</span>, <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>))])
 scores = <span class="hl-f">cross_val_score</span>(pipe, X, y, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>)
-<span class="hl-f">print</span>(<span class="hl-s">f&quot;5-fold ROC-AUC {scores.mean():.3f} ± {scores.std():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5-fold ROC-AUC 0.668 ± 0.009</pre></div>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;5-fold ROC-AUC {scores.mean():.3f} ± {scores.std():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5-fold ROC-AUC 0.661 ± 0.013</pre></div>
 <h2 id="ml-09-summary">Summary</h2>
 <div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
 <li>Impute with medians/modes, KNN or iterative imputers, and add missing-value indicators when missingness carries information.</li>

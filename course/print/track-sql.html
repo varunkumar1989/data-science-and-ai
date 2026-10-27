@@ -2988,15 +2988,15 @@ IN compares a value with a list or subquery result; EXISTS checks whether a corr
   <tbody>
     <tr>
       <td>Furniture</td>
-      <td>Bookcases, Chairs, Tables, Furnishings</td>
+      <td>Tables, Furnishings, Bookcases, Chairs</td>
     </tr>
     <tr>
       <td>Office Supplies</td>
-      <td>Appliances, Art, Binders, Storage, Paper</td>
+      <td>Storage, Appliances, Art, Binders, Paper</td>
     </tr>
     <tr>
       <td>Technology</td>
-      <td>Phones, Machines, Copiers, Accessories</td>
+      <td>Copiers, Phones, Machines, Accessories</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">3 rows × 2 columns</div></div>
@@ -6918,7 +6918,7 @@ It depends; modern optimisers often produce the same plan. Joins are usually cle
       <td>1</td>
     </tr>
     <tr>
-      <td>Ravi</td>
+      <td>Meera</td>
       <td>80</td>
       <td>2</td>
       <td>2</td>
@@ -6926,7 +6926,7 @@ It depends; modern optimisers often produce the same plan. Joins are usually cle
       <td>1</td>
     </tr>
     <tr>
-      <td>Meera</td>
+      <td>Ravi</td>
       <td>80</td>
       <td>3</td>
       <td>2</td>
@@ -9751,7 +9751,7 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>5</td>
       <td>1,000,175</td>
       <td>1</td>
-      <td>4</td>
+      <td>3</td>
       <td>4</td>
       <td>At risk (high value)</td>
     </tr>
@@ -9791,33 +9791,33 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
   <tbody>
     <tr>
       <td>Champions</td>
-      <td>179</td>
-      <td>80,891,146</td>
-      <td>40.2</td>
+      <td>178</td>
+      <td>80,496,072</td>
+      <td>40.0</td>
     </tr>
     <tr>
       <td>At risk (high value)</td>
-      <td>93</td>
-      <td>43,097,520</td>
-      <td>21.4</td>
+      <td>92</td>
+      <td>42,616,303</td>
+      <td>21.2</td>
     </tr>
     <tr>
       <td>Potential</td>
-      <td>197</td>
-      <td>29,262,095</td>
-      <td>14.5</td>
+      <td>198</td>
+      <td>29,644,898</td>
+      <td>14.7</td>
     </tr>
     <tr>
       <td>Lost / hibernating</td>
-      <td>168</td>
-      <td>24,655,947</td>
-      <td>12.2</td>
+      <td>169</td>
+      <td>24,817,833</td>
+      <td>12.3</td>
     </tr>
     <tr>
       <td>Loyal</td>
       <td>148</td>
-      <td>23,506,862</td>
-      <td>11.7</td>
+      <td>23,838,464</td>
+      <td>11.8</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">5 rows × 4 columns</div></div>
@@ -9912,27 +9912,7 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>10</td>
     </tr>
     <tr>
-      <td>C0527</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0596</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0384</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0069</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0719</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>C0110</td>
+      <td>C0291</td>
       <td>9</td>
     </tr>
     <tr>
@@ -9940,7 +9920,15 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>9</td>
     </tr>
     <tr>
-      <td>C0291</td>
+      <td>C0110</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0384</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0596</td>
       <td>9</td>
     </tr>
     <tr>
@@ -9949,6 +9937,18 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
     </tr>
     <tr>
       <td>C0271</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0527</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0719</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>C0069</td>
       <td>9</td>
     </tr>
   </tbody>
@@ -9966,15 +9966,7 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>6</td>
     </tr>
     <tr>
-      <td>Asha Rao</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Rohan Gupta</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>Ananya Iyer</td>
+      <td>Ananya Gupta</td>
       <td>5</td>
     </tr>
     <tr>
@@ -9982,7 +9974,11 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>5</td>
     </tr>
     <tr>
-      <td>Ananya Gupta</td>
+      <td>Asha Rao</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Ananya Iyer</td>
       <td>5</td>
     </tr>
     <tr>
@@ -9990,23 +9986,27 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>5</td>
     </tr>
     <tr>
-      <td>Saanvi Mehta</td>
+      <td>Rohan Gupta</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Reyansh Shah</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Neha Shah</td>
+      <td>Simran Khan</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Sai Mehta</td>
+      <td>Vikram Kulkarni</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Simran Sharma</td>
+      <td>Arjun Sharma</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>Aditya Kulkarni</td>
+      <td>Nikhil Das</td>
       <td>4</td>
     </tr>
   </tbody>
@@ -10023,11 +10023,6 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
   </thead>
   <tbody>
     <tr>
-      <td>Office Supplies</td>
-      <td>Crest Appliance 402</td>
-      <td>1,909,628</td>
-    </tr>
-    <tr>
       <td>Furniture</td>
       <td>Crest Table 572</td>
       <td>3,122,680</td>
@@ -10036,6 +10031,11 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
       <td>Technology</td>
       <td>Orbit Copier 746</td>
       <td>16,026,341</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Crest Appliance 402</td>
+      <td>1,909,628</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">3 rows × 3 columns</div></div></div>
@@ -10296,16 +10296,16 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
   </thead>
   <tbody>
     <tr>
+      <td>Consumer</td>
+      <td>63,451</td>
+    </tr>
+    <tr>
       <td>Corporate</td>
       <td>61,899</td>
     </tr>
     <tr>
       <td>Home Office</td>
       <td>63,237</td>
-    </tr>
-    <tr>
-      <td>Consumer</td>
-      <td>63,451</td>
     </tr>
   </tbody>
 </table></div></div><div class="shape">3 rows × 2 columns</div></div></div>
