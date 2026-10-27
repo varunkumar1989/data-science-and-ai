@@ -1,0 +1,290 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ML Capstone: End-to-End Churn Prediction and Retention Strategy · Stats &amp; ML Lesson 28 · Data Science &amp; AI Handbook</title><meta name="description" content="Put the whole ML track together. Frame the churn problem, build leak-free features, compare baselines and models with cross-validation, tune the winner, choose a profit-maximising threshold under a budget, explain predictions, design segment-level retention actions with an A/B test, and write the model card, deployment plan and executive summary for your portfolio."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 28</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class="on"><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-28">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 28 of 28</div><h1>ML Capstone: End-to-End Churn Prediction and Retention Strategy</h1>
+<p class="sum">Put the whole ML track together. Frame the churn problem, build leak-free features, compare baselines and models with cross-validation, tune the winner, choose a profit-maximising threshold under a budget, explain predictions, design segment-level retention actions with an A/B test, and write the model card, deployment plan and executive summary for your portfolio.</p><div class="tags"><span class="tag live">● ML capstone</span><span class="tag new">✦ scikit-learn 1.7+ · LightGBM 4 · SHAP</span><span class="tag">Advanced</span><span class="tag">⏱ 180 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_28_ML_Capstone_End_to_End_Churn_Prediction_and_Retention_Strategy.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-28">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Frame a churn problem with a decision, metric, baseline and constraints</li><li>Build a reproducible pipeline with engineered features and compare models with cross-validation</li><li>Tune and evaluate the final model on an untouched test set</li><li>Choose the operating threshold from campaign economics and capacity</li><li>Explain, document and plan deployment and measurement of the model</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/telecom_churn.csv" download>telecom_churn.csv</a></div></div></div>
+<div class="content"><h2 id="1-frame-the-problem">1. Frame the problem</h2>
+<blockquote>
+<p><strong>Brief.</strong> A telecom operator loses about a quarter of its customers every year. The retention team has a monthly budget to contact <strong>500 customers</strong> with an offer worth ₹300 (cost ₹300 per contacted customer, accepted or not). A saved customer is worth about <strong>₹4,000</strong> of future margin. Historically, <strong>35%</strong> of churners who receive the offer stay. <strong>Which customers should get the offer?</strong></p>
+</blockquote>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Item</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decision</td>
+<td>Rank customers each month; contact the top N within budget</td>
+</tr>
+<tr>
+<td>Target</td>
+<td><code>churn</code> = Yes (left within the observation window)</td>
+</tr>
+<tr>
+<td>Unit</td>
+<td>Customer</td>
+</tr>
+<tr>
+<td>Metric</td>
+<td>Expected campaign profit; also ROC-AUC and recall in the top N</td>
+</tr>
+<tr>
+<td>Baseline</td>
+<td>Current rule: month-to-month customers with 3+ support calls</td>
+</tr>
+<tr>
+<td>Constraints</td>
+<td>≤ 500 contacts; explainable reasons for agents; no use of sensitive attributes for targeting</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/ml-28-01.png" alt="Capstone workflow." loading="lazy"><figcaption>Capstone workflow.</figcaption></figure>
+<h2 id="2-data-and-features">2. Data and features</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np, warnings
+<span class="hl-f">warnings.filterwarnings</span>(<span class="hl-s">&quot;ignore&quot;</span>)
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>); <span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.max_columns&quot;</span>, <span class="hl-n">20</span>)
+tc = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;telecom_churn.csv&quot;</span>)
+y = (tc.churn == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-f">print</span>(tc.shape, <span class="hl-s">f&quot;churn rate {y.mean():.3f}&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">add_features</span>(df):
+    out = <span class="hl-f">df.copy</span>()
+    out[<span class="hl-s">&quot;is_new&quot;</span>] = (out.tenure_months &lt;= <span class="hl-n">6</span>).<span class="hl-f">astype</span>(int)
+    out[<span class="hl-s">&quot;charge_per_tenure_month&quot;</span>] = out.total_charges / (out.tenure_months + <span class="hl-n">1</span>)
+    out[<span class="hl-s">&quot;price_change_proxy&quot;</span>] = out.monthly_charges - out.charge_per_tenure_month     <span class="hl-c"># charges now vs lifetime average</span>
+    out[<span class="hl-s">&quot;high_support&quot;</span>] = (out.support_calls &gt;= <span class="hl-n">3</span>).<span class="hl-f">astype</span>(int)
+    out[<span class="hl-s">&quot;m2m_and_new&quot;</span>] = ((out.contract == <span class="hl-s">&quot;Month-to-month&quot;</span>) &amp; (out.tenure_months &lt;= <span class="hl-n">12</span>)).<span class="hl-f">astype</span>(int)
+    <span class="hl-k">return</span> <span class="hl-f">out.drop</span>(columns=[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;churn&quot;</span>])
+X = <span class="hl-f">add_features</span>(tc)
+<span class="hl-f">print</span>(<span class="hl-f">X.columns.tolist</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(3000, 10) churn rate 0.257
+[&#x27;senior_citizen&#x27;, &#x27;tenure_months&#x27;, &#x27;contract&#x27;, &#x27;internet_service&#x27;, &#x27;payment_method&#x27;, &#x27;monthly_charges&#x27;, &#x27;total_charges&#x27;, &#x27;support_calls&#x27;, &#x27;is_new&#x27;, &#x27;charge_per_tenure_month&#x27;, &#x27;price_change_proxy&#x27;, &#x27;high_support&#x27;, &#x27;m2m_and_new&#x27;]</pre></div>
+<p>All features are known <strong>before</strong> the churn event (tenure, plan, charges, recent support calls), so there is no leakage. <code>senior_citizen</code> is kept for fairness checks but excluded from targeting features (a business and ethics choice).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split
+X_model = <span class="hl-f">X.drop</span>(columns=[<span class="hl-s">&quot;senior_citizen&quot;</span>])
+Xtr, Xte, ytr, yte, idx_tr, idx_te = <span class="hl-f">train_test_split</span>(X_model, y, tc.index, test_size=<span class="hl-n">0.25</span>, stratify=y, random_state=<span class="hl-n">2026</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;train {len(Xtr)} | test {len(Xte)} (locked away until the end)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">train 2250 | test 750 (locked away until the end)</pre></div>
+<h2 id="3-baselines-and-candidate-models">3. Baselines and candidate models</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.compose <span class="hl-k">import</span> ColumnTransformer
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler, OneHotEncoder
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> Pipeline
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+<span class="hl-k">from</span> sklearn.ensemble <span class="hl-k">import</span> RandomForestClassifier, HistGradientBoostingClassifier
+<span class="hl-k">from</span> sklearn.dummy <span class="hl-k">import</span> DummyClassifier
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> StratifiedKFold, cross_validate
+<span class="hl-k">import</span> lightgbm <span class="hl-k">as</span> lgb
+num = [c <span class="hl-k">for</span> c <span class="hl-k">in</span> X_model.columns <span class="hl-k">if</span> X_model[c].dtype != object <span class="hl-k">and</span> <span class="hl-f">str</span>(X_model[c].dtype) != <span class="hl-s">&quot;str&quot;</span>]
+cat = [c <span class="hl-k">for</span> c <span class="hl-k">in</span> X_model.columns <span class="hl-k">if</span> c <span class="hl-k">not</span> <span class="hl-k">in</span> num]
+pre = <span class="hl-f">ColumnTransformer</span>([(<span class="hl-s">&quot;num&quot;</span>, <span class="hl-f">StandardScaler</span>(), num), (<span class="hl-s">&quot;cat&quot;</span>, <span class="hl-f">OneHotEncoder</span>(handle_unknown=<span class="hl-s">&quot;ignore&quot;</span>), cat)])
+cv = <span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>)
+candidates = {
+    <span class="hl-s">&quot;dummy (base rate)&quot;</span>: <span class="hl-f">DummyClassifier</span>(strategy=<span class="hl-s">&quot;prior&quot;</span>),
+    <span class="hl-s">&quot;logistic regression&quot;</span>: <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">3000</span>, C=<span class="hl-n">0.5</span>),
+    <span class="hl-s">&quot;random forest&quot;</span>: <span class="hl-f">RandomForestClassifier</span>(<span class="hl-n">500</span>, min_samples_leaf=<span class="hl-n">20</span>, max_features=<span class="hl-n">0.5</span>, random_state=<span class="hl-n">0</span>, n_jobs=<span class="hl-n">1</span>),
+    <span class="hl-s">&quot;HistGradientBoosting&quot;</span>: <span class="hl-f">HistGradientBoostingClassifier</span>(learning_rate=<span class="hl-n">0.05</span>, max_iter=<span class="hl-n">200</span>, max_leaf_nodes=<span class="hl-n">15</span>, min_samples_leaf=<span class="hl-n">40</span>, random_state=<span class="hl-n">0</span>),
+    <span class="hl-s">&quot;LightGBM&quot;</span>: <span class="hl-f">lgb.LGBMClassifier</span>(n_estimators=<span class="hl-n">300</span>, learning_rate=<span class="hl-n">0.03</span>, num_leaves=<span class="hl-n">15</span>, min_child_samples=<span class="hl-n">40</span>, subsample=<span class="hl-n">0.8</span>, subsample_freq=<span class="hl-n">1</span>, colsample_bytree=<span class="hl-n">0.8</span>, verbose=-<span class="hl-n">1</span>, random_state=<span class="hl-n">0</span>, n_jobs=<span class="hl-n">1</span>),
+}
+rows = []
+<span class="hl-k">for</span> name, est <span class="hl-k">in</span> <span class="hl-f">candidates.items</span>():
+    r = <span class="hl-f">cross_validate</span>(<span class="hl-f">Pipeline</span>([(<span class="hl-s">&quot;pre&quot;</span>, pre), (<span class="hl-s">&quot;model&quot;</span>, est)]), Xtr, ytr, cv=cv, scoring=[<span class="hl-s">&quot;roc_auc&quot;</span>, <span class="hl-s">&quot;average_precision&quot;</span>, <span class="hl-s">&quot;neg_log_loss&quot;</span>])
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;model&quot;</span>: name, <span class="hl-s">&quot;ROC-AUC&quot;</span>: r[<span class="hl-s">&quot;test_roc_auc&quot;</span>].<span class="hl-f">mean</span>(), <span class="hl-s">&quot;± sd&quot;</span>: r[<span class="hl-s">&quot;test_roc_auc&quot;</span>].<span class="hl-f">std</span>(), <span class="hl-s">&quot;PR-AUC&quot;</span>: r[<span class="hl-s">&quot;test_average_precision&quot;</span>].<span class="hl-f">mean</span>(), <span class="hl-s">&quot;log loss&quot;</span>: -r[<span class="hl-s">&quot;test_neg_log_loss&quot;</span>].<span class="hl-f">mean</span>()})
+board = <span class="hl-f">pd.DataFrame</span>(rows).<span class="hl-f">round</span>(<span class="hl-n">3</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;ROC-AUC&quot;</span>, ascending=<span class="hl-k">False</span>); <span class="hl-f">print</span>(<span class="hl-f">board.to_string</span>(index=<span class="hl-k">False</span>))
+rule = ((Xtr.contract == <span class="hl-s">&quot;Month-to-month&quot;</span>) &amp; (Xtr.support_calls &gt;= <span class="hl-n">3</span>)).<span class="hl-f">astype</span>(int)
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> recall_score, precision_score
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;business rule on train: flags {rule.mean():.1%} | recall {recall_score(ytr, rule):.3f} | precision {precision_score(ytr, rule):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">               model  ROC-AUC  ± sd  PR-AUC  log loss
+ logistic regression    0.815 0.036   0.624     0.440
+       random forest    0.803 0.033   0.590     0.456
+            LightGBM    0.796 0.031   0.576     0.469
+HistGradientBoosting    0.793 0.031   0.571     0.476
+   dummy (base rate)    0.500 0.000   0.257     0.570
+business rule on train: flags 8.5% | recall 0.171 | precision 0.516</pre></div>
+<h2 id="4-tune-the-leading-models">4. Tune the leading models</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> GridSearchCV, RandomizedSearchCV
+<span class="hl-k">from</span> scipy.stats <span class="hl-k">import</span> loguniform, randint, uniform
+lr_search = <span class="hl-f">GridSearchCV</span>(<span class="hl-f">Pipeline</span>([(<span class="hl-s">&quot;pre&quot;</span>, pre), (<span class="hl-s">&quot;model&quot;</span>, <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">3000</span>))]), {<span class="hl-s">&quot;model__C&quot;</span>: <span class="hl-f">np.logspace</span>(-<span class="hl-n">2</span>, <span class="hl-n">1</span>, <span class="hl-n">8</span>)}, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+gb_search = <span class="hl-f">RandomizedSearchCV</span>(<span class="hl-f">Pipeline</span>([(<span class="hl-s">&quot;pre&quot;</span>, pre), (<span class="hl-s">&quot;model&quot;</span>, <span class="hl-f">lgb.LGBMClassifier</span>(verbose=-<span class="hl-n">1</span>, random_state=<span class="hl-n">0</span>, subsample_freq=<span class="hl-n">1</span>, n_jobs=<span class="hl-n">1</span>))]),
+    {<span class="hl-s">&quot;model__n_estimators&quot;</span>: <span class="hl-f">randint</span>(<span class="hl-n">100</span>, <span class="hl-n">600</span>), <span class="hl-s">&quot;model__learning_rate&quot;</span>: <span class="hl-f">loguniform</span>(<span class="hl-n">0.01</span>, <span class="hl-n">0.1</span>), <span class="hl-s">&quot;model__num_leaves&quot;</span>: <span class="hl-f">randint</span>(<span class="hl-n">4</span>, <span class="hl-n">32</span>), <span class="hl-s">&quot;model__min_child_samples&quot;</span>: <span class="hl-f">randint</span>(<span class="hl-n">20</span>, <span class="hl-n">120</span>),
+     <span class="hl-s">&quot;model__subsample&quot;</span>: <span class="hl-f">uniform</span>(<span class="hl-n">0.6</span>, <span class="hl-n">0.4</span>), <span class="hl-s">&quot;model__colsample_bytree&quot;</span>: <span class="hl-f">uniform</span>(<span class="hl-n">0.5</span>, <span class="hl-n">0.5</span>), <span class="hl-s">&quot;model__reg_lambda&quot;</span>: <span class="hl-f">loguniform</span>(<span class="hl-n">0.01</span>, <span class="hl-n">10</span>)},
+    n_iter=<span class="hl-n">20</span>, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>, random_state=<span class="hl-n">0</span>, n_jobs=<span class="hl-n">1</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;logistic best C {lr_search.best_params_[&#x27;model__C&#x27;]:.3g} | CV AUC {lr_search.best_score_:.3f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;LightGBM best CV AUC {gb_search.best_score_:.3f} | params { {k.split(&#x27;__&#x27;)[1]: (round(float(v), 3) if isinstance(v, float) else v) for k, v in gb_search.best_params_.items()} }&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">logistic best C 0.193 | CV AUC 0.816
+LightGBM best CV AUC 0.812 | params {&#x27;colsample_bytree&#x27;: 0.659, &#x27;learning_rate&#x27;: 0.046, &#x27;min_child_samples&#x27;: 71, &#x27;n_estimators&#x27;: 180, &#x27;num_leaves&#x27;: 4, &#x27;reg_lambda&#x27;: 3.343, &#x27;subsample&#x27;: 0.706}</pre></div>
+<p>Both are close. Prefer the <strong>simpler, more explainable</strong> model unless the complex one is clearly better: we pick the tuned logistic regression if its CV AUC is within 0.005 of LightGBM, otherwise LightGBM.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> roc_auc_score, average_precision_score
+final = lr_search.best_estimator_ <span class="hl-k">if</span> lr_search.best_score_ &gt;= gb_search.best_score_ - <span class="hl-n">0.005</span> <span class="hl-k">else</span> gb_search.best_estimator_
+final_name = <span class="hl-s">&quot;logistic regression&quot;</span> <span class="hl-k">if</span> final <span class="hl-k">is</span> lr_search.best_estimator_ <span class="hl-k">else</span> <span class="hl-s">&quot;LightGBM&quot;</span>
+p_test = <span class="hl-f">final.predict_proba</span>(Xte)[:, <span class="hl-n">1</span>]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;chosen: {final_name} | TEST ROC-AUC {roc_auc_score(yte, p_test):.3f} | PR-AUC {average_precision_score(yte, p_test):.3f} | base rate {yte.mean():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">chosen: logistic regression | TEST ROC-AUC 0.793 | PR-AUC 0.579 | base rate 0.257</pre></div>
+<p>The test set was used <strong>once</strong>, after all choices were made, so this is an honest estimate.</p>
+<h2 id="5-choose-how-many-customers-to-contact">5. Choose how many customers to contact</h2>
+<p>Expected profit for contacting customer <em>i</em> with churn probability <em>pᵢ</em>:</p>
+<figure class="math"><img src="../img/ml-28-math-1c4e3dd6.png" alt="E[\text{profit}_i] = p_i \times 0.35 \times ₹4{,}000 - ₹300" loading="lazy"></figure>
+<p>So contacting pays off only when pᵢ &gt; 300 / (0.35 × 4,000) ≈ 0.21, provided the probabilities are well calibrated.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.calibration <span class="hl-k">import</span> calibration_curve
+fr, mp = <span class="hl-f">calibration_curve</span>(yte, p_test, n_bins=<span class="hl-n">8</span>, strategy=<span class="hl-s">&quot;quantile&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;calibration (predicted → observed):&quot;</span>, [<span class="hl-s">f&quot;{a:.2f}→{b:.2f}&quot;</span> <span class="hl-k">for</span> a, b <span class="hl-k">in</span> <span class="hl-f">zip</span>(mp, fr)])
+value, accept, cost = <span class="hl-n">4000</span>, <span class="hl-n">0.35</span>, <span class="hl-n">300</span>
+order = <span class="hl-f">np.argsort</span>(-p_test); ys = <span class="hl-f">yte.to_numpy</span>()[order]; ps = p_test[order]
+scale = <span class="hl-n">500</span> / <span class="hl-n">750</span>                                                         <span class="hl-c"># the test set is 750 of 3,000 customers: scale the 500 budget</span>
+res = []
+<span class="hl-k">for</span> n <span class="hl-k">in</span> [<span class="hl-n">25</span>, <span class="hl-n">50</span>, <span class="hl-n">75</span>, <span class="hl-n">100</span>, <span class="hl-n">125</span>, <span class="hl-n">150</span>, <span class="hl-n">200</span>, <span class="hl-n">250</span>, <span class="hl-n">300</span>]:
+    tp = ys[:n].<span class="hl-f">sum</span>(); profit = tp * accept * value - n * cost
+    <span class="hl-f">res.append</span>({<span class="hl-s">&quot;contacts (test)&quot;</span>: n, <span class="hl-s">&quot;≈ contacts (all)&quot;</span>: <span class="hl-f">int</span>(n / <span class="hl-n">0.25</span>), <span class="hl-s">&quot;churners reached&quot;</span>: <span class="hl-f">int</span>(tp), <span class="hl-s">&quot;precision&quot;</span>: <span class="hl-f">round</span>(tp / n, <span class="hl-n">3</span>), <span class="hl-s">&quot;recall&quot;</span>: <span class="hl-f">round</span>(tp / <span class="hl-f">ys.sum</span>(), <span class="hl-n">3</span>), <span class="hl-s">&quot;profit ₹ (test)&quot;</span>: <span class="hl-f">int</span>(profit)})
+rt = <span class="hl-f">pd.DataFrame</span>(res); <span class="hl-f">print</span>(<span class="hl-f">rt.to_string</span>(index=<span class="hl-k">False</span>))
+best = rt.loc[rt[<span class="hl-s">&quot;profit ₹ (test)&quot;</span>].<span class="hl-f">idxmax</span>()]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;most profitable: contact the top {int(best[&#x27;contacts (test)&#x27;])} of 750 test customers (≈ {int(best[&#x27;≈ contacts (all)&#x27;])} of 3,000), cut-off probability ≈ {ps[int(best[&#x27;contacts (test)&#x27;]) - 1]:.2f}&quot;</span>)
+rand_tp = <span class="hl-f">yte.mean</span>() * <span class="hl-n">125</span>; <span class="hl-f">print</span>(<span class="hl-s">f&quot;random 125 contacts would reach ≈ {rand_tp:.0f} churners; profit ≈ ₹{int(rand_tp * accept * value - 125 * cost):,}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">calibration (predicted → observed): [&#x27;0.02→0.03&#x27;, &#x27;0.06→0.06&#x27;, &#x27;0.10→0.11&#x27;, &#x27;0.16→0.20&#x27;, &#x27;0.23→0.19&#x27;, &#x27;0.32→0.34&#x27;, &#x27;0.45→0.47&#x27;, &#x27;0.71→0.65&#x27;]
+ contacts (test)  ≈ contacts (all)  churners reached  precision  recall  profit ₹ (test)
+              25               100                18      0.720   0.093            17700
+              50               200                36      0.720   0.187            35400
+              75               300                51      0.680   0.264            48899
+             100               400                63      0.630   0.326            58199
+             125               500                75      0.600   0.389            67500
+             150               600                88      0.587   0.456            78199
+             200               800               110      0.550   0.570            94000
+             250              1000               128      0.512   0.663           104200
+             300              1200               141      0.470   0.731           107399
+most profitable: contact the top 300 of 750 test customers (≈ 1200 of 3,000), cut-off probability ≈ 0.25
+random 125 contacts would reach ≈ 32 churners; profit ≈ ₹7,533</pre></div>
+<p>With the budget of 500 contacts per 3,000 customers (≈ 125 in the test set), the model reaches 75 churners against about 32 for random targeting (₹67,500 expected profit against about ₹7,500). Profit keeps rising up to about 300 test contacts (≈ 1,200 customers, cut-off probability ≈ 0.25, close to the theoretical 0.21), so the team has a case for a larger budget.</p>
+<h2 id="6-explain-and-segment-the-targets">6. Explain and segment the targets</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">pre_f, mdl = final.named_steps[<span class="hl-s">&quot;pre&quot;</span>], final.named_steps[<span class="hl-s">&quot;model&quot;</span>]
+names = <span class="hl-f">pre_f.get_feature_names_out</span>()
+<span class="hl-k">if</span> <span class="hl-f">hasattr</span>(mdl, <span class="hl-s">&quot;coef_&quot;</span>):
+    coefs = <span class="hl-f">pd.Series</span>(mdl.coef_[<span class="hl-n">0</span>], index=names).<span class="hl-f">sort_values</span>()
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;largest effects (standardised log-odds):&quot;</span>, <span class="hl-f">pd.concat</span>([<span class="hl-f">coefs.head</span>(<span class="hl-n">4</span>), <span class="hl-f">coefs.tail</span>(<span class="hl-n">4</span>)]).<span class="hl-f">round</span>(<span class="hl-n">3</span>).<span class="hl-f">to_dict</span>())
+targets = tc.loc[Xte.index[order[:<span class="hl-n">125</span>]]].<span class="hl-f">assign</span>(p_churn=ps[:<span class="hl-n">125</span>].<span class="hl-f">round</span>(<span class="hl-n">2</span>))
+<span class="hl-k">def</span> <span class="hl-f">action</span>(r):
+    <span class="hl-k">if</span> r.support_calls &gt;= <span class="hl-n">3</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;Service recovery call + offer&quot;</span>
+    <span class="hl-k">if</span> r.contract == <span class="hl-s">&quot;Month-to-month&quot;</span> <span class="hl-k">and</span> r.tenure_months &lt;= <span class="hl-n">12</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;Annual-plan upgrade discount&quot;</span>
+    <span class="hl-k">if</span> r.internet_service == <span class="hl-s">&quot;Fiber&quot;</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;Fibre quality check + loyalty data pack&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-s">&quot;General loyalty offer&quot;</span>
+targets[<span class="hl-s">&quot;action&quot;</span>] = <span class="hl-f">targets.apply</span>(action, axis=<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-f">targets.action.value_counts</span>().<span class="hl-f">to_dict</span>())
+<span class="hl-f">print</span>(targets[[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;tenure_months&quot;</span>, <span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;support_calls&quot;</span>, <span class="hl-s">&quot;monthly_charges&quot;</span>, <span class="hl-s">&quot;p_churn&quot;</span>, <span class="hl-s">&quot;action&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">6</span>).<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">largest effects (standardised log-odds): {&#x27;cat__contract_Two year&#x27;: -0.994, &#x27;num__tenure_months&#x27;: -0.877, &#x27;cat__contract_One year&#x27;: -0.174, &#x27;cat__payment_method_Auto-debit&#x27;: -0.17, &#x27;num__monthly_charges&#x27;: 0.168, &#x27;cat__internet_service_Fiber&#x27;: 0.222, &#x27;num__support_calls&#x27;: 0.406, &#x27;cat__contract_Month-to-month&#x27;: 1.165}
+{&#x27;Annual-plan upgrade discount&#x27;: 55, &#x27;Service recovery call + offer&#x27;: 34, &#x27;Fibre quality check + loyalty data pack&#x27;: 27, &#x27;General loyalty offer&#x27;: 9}
+customer_id  tenure_months       contract  support_calls  monthly_charges  p_churn                        action
+     T02973              2 Month-to-month              4            98.55     0.94 Service recovery call + offer
+     T00025              2 Month-to-month              4            79.55     0.90 Service recovery call + offer
+     T01423              3 Month-to-month              3            99.41     0.89 Service recovery call + offer
+     T00671              4 Month-to-month              3            84.15     0.89 Service recovery call + offer
+     T01945              2 Month-to-month              2            96.98     0.87  Annual-plan upgrade discount
+     T00583              9 Month-to-month              3            82.31     0.87 Service recovery call + offer</pre></div>
+<p>Each contacted customer gets a <strong>reason</strong> (top contributions) and an <strong>action</strong> matched to that reason, which raises acceptance more than one generic offer.</p>
+<h3 id="fairness-check">Fairness check</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sen = tc.loc[Xte.index, <span class="hl-s">&quot;senior_citizen&quot;</span>].<span class="hl-f">to_numpy</span>(); flag = <span class="hl-f">np.zeros</span>(<span class="hl-f">len</span>(Xte), bool); flag[order[:<span class="hl-n">125</span>]] = <span class="hl-k">True</span>
+<span class="hl-f">print</span>(<span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;group&quot;</span>: [<span class="hl-s">&quot;non-senior&quot;</span>, <span class="hl-s">&quot;senior&quot;</span>], <span class="hl-s">&quot;customers&quot;</span>: [<span class="hl-f">int</span>((sen == <span class="hl-n">0</span>).<span class="hl-f">sum</span>()), <span class="hl-f">int</span>((sen == <span class="hl-n">1</span>).<span class="hl-f">sum</span>())],
+                    <span class="hl-s">&quot;churn rate&quot;</span>: [<span class="hl-f">round</span>(yte[sen == <span class="hl-n">0</span>].<span class="hl-f">mean</span>(), <span class="hl-n">3</span>), <span class="hl-f">round</span>(yte[sen == <span class="hl-n">1</span>].<span class="hl-f">mean</span>(), <span class="hl-n">3</span>)],
+                    <span class="hl-s">&quot;contacted&quot;</span>: [<span class="hl-f">round</span>(flag[sen == <span class="hl-n">0</span>].<span class="hl-f">mean</span>(), <span class="hl-n">3</span>), <span class="hl-f">round</span>(flag[sen == <span class="hl-n">1</span>].<span class="hl-f">mean</span>(), <span class="hl-n">3</span>)],
+                    <span class="hl-s">&quot;recall&quot;</span>: [<span class="hl-f">round</span>(<span class="hl-f">recall_score</span>(yte[sen == <span class="hl-n">0</span>], flag[sen == <span class="hl-n">0</span>]), <span class="hl-n">3</span>), <span class="hl-f">round</span>(<span class="hl-f">recall_score</span>(yte[sen == <span class="hl-n">1</span>], flag[sen == <span class="hl-n">1</span>]), <span class="hl-n">3</span>)]}).<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">     group  customers  churn rate  contacted  recall
+non-senior        631       0.250      0.158   0.348
+    senior        119       0.294      0.210   0.571</pre></div>
+<p>Contact rates and recall should be broadly in line with each group's churn rate. Here senior customers are contacted more often (21% vs 16%), which their higher churn rate partly explains, but their recall is also much higher (0.57 vs 0.35). The gap should be reviewed with the business before launch, for example by checking whether non-senior churners are being missed.</p>
+<h2 id="7-measure-with-an-experiment">7. Measure with an experiment</h2>
+<p>The model predicts who will churn, not who can be <strong>saved</strong>. Prove the value with a randomised test:</p>
+<ol>
+<li>Score all customers; take the top 600.</li>
+<li>Randomly assign 500 to <strong>treatment</strong> (offer) and 100 to <strong>holdout</strong> (no offer).</li>
+<li>After 60 days compare churn: treatment vs holdout, using a two-proportion test (ML lesson 6).</li>
+<li>Incremental saves × ₹4,000 − cost = true campaign ROI. Next step: <strong>uplift modelling</strong>, which predicts who responds to the offer.</li>
+</ol>
+<h2 id="8-model-card-and-deployment-plan">8. Model card and deployment plan</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json, sklearn
+card = {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;Telecom churn propensity&quot;</span>, <span class="hl-s">&quot;version&quot;</span>: <span class="hl-s">&quot;1.0&quot;</span>, <span class="hl-s">&quot;model&quot;</span>: final_name, <span class="hl-s">&quot;sklearn&quot;</span>: sklearn.__version__,
+        <span class="hl-s">&quot;features&quot;</span>: <span class="hl-f">list</span>(X_model.columns), <span class="hl-s">&quot;excluded&quot;</span>: [<span class="hl-s">&quot;senior_citizen (fairness monitoring only)&quot;</span>],
+        <span class="hl-s">&quot;test_metrics&quot;</span>: {<span class="hl-s">&quot;roc_auc&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">roc_auc_score</span>(yte, p_test), <span class="hl-n">3</span>), <span class="hl-s">&quot;pr_auc&quot;</span>: <span class="hl-f">round</span>(<span class="hl-f">average_precision_score</span>(yte, p_test), <span class="hl-n">3</span>)},
+        <span class="hl-s">&quot;operating_point&quot;</span>: <span class="hl-s">&quot;top 500 customers per month by probability&quot;</span>, <span class="hl-s">&quot;intended_use&quot;</span>: <span class="hl-s">&quot;monthly retention targeting&quot;</span>,
+        <span class="hl-s">&quot;not_for&quot;</span>: [<span class="hl-s">&quot;pricing&quot;</span>, <span class="hl-s">&quot;credit decisions&quot;</span>, <span class="hl-s">&quot;denying service&quot;</span>], <span class="hl-s">&quot;monitoring&quot;</span>: [<span class="hl-s">&quot;monthly PSI of inputs&quot;</span>, <span class="hl-s">&quot;AUC on matured labels&quot;</span>, <span class="hl-s">&quot;holdout churn vs treated churn&quot;</span>],
+        <span class="hl-s">&quot;retraining&quot;</span>: <span class="hl-s">&quot;quarterly or when PSI &gt; 0.25 / AUC drops by 0.03&quot;</span>, <span class="hl-s">&quot;owner&quot;</span>: <span class="hl-s">&quot;Data Science, Retention analytics&quot;</span>}
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>(card, indent=<span class="hl-n">1</span>)[:<span class="hl-n">900</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{
+ &quot;name&quot;: &quot;Telecom churn propensity&quot;,
+ &quot;version&quot;: &quot;1.0&quot;,
+ &quot;model&quot;: &quot;logistic regression&quot;,
+ &quot;sklearn&quot;: &quot;1.9.1&quot;,
+ &quot;features&quot;: [
+  &quot;tenure_months&quot;,
+  &quot;contract&quot;,
+  &quot;internet_service&quot;,
+  &quot;payment_method&quot;,
+  &quot;monthly_charges&quot;,
+  &quot;total_charges&quot;,
+  &quot;support_calls&quot;,
+  &quot;is_new&quot;,
+  &quot;charge_per_tenure_month&quot;,
+  &quot;price_change_proxy&quot;,
+  &quot;high_support&quot;,
+  &quot;m2m_and_new&quot;
+ ],
+ &quot;excluded&quot;: [
+  &quot;senior_citizen (fairness monitoring only)&quot;
+ ],
+ &quot;test_metrics&quot;: {
+  &quot;roc_auc&quot;: 0.793,
+  &quot;pr_auc&quot;: 0.579
+ },
+ &quot;operating_point&quot;: &quot;top 500 customers per month by probability&quot;,
+ &quot;intended_use&quot;: &quot;monthly retention targeting&quot;,
+ &quot;not_for&quot;: [
+  &quot;pricing&quot;,
+  &quot;credit decisions&quot;,
+  &quot;denying service&quot;
+ ],
+ &quot;monitoring&quot;: [
+  &quot;monthly PSI of inputs&quot;,
+  &quot;AUC on matured labels&quot;,
+  &quot;holdout churn vs treated churn&quot;
+ ],
+ &quot;retraining&quot;: &quot;quarterly or when PSI &gt; 0.25 / AUC drops by 0.03&quot;,
+ &quot;owner&quot;: &quot;Data Science, Retention analytics&quot;</pre></div>
+<p><strong>Deployment:</strong> a monthly batch job (Python + scheduler or Airflow) reads the latest customer table from the warehouse, scores it with the saved pipeline, writes <code>customer_id, p_churn, reason, action, model_version</code> to a table, which feeds the CRM and a Power BI dashboard tracking campaign results.</p>
+<h2 id="9-executive-summary">9. Executive summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>Problem:</strong> about 26% of customers churn. The retention budget covers 500 contacts a month.</li>
+<li><strong>Model:</strong> a churn-risk model with ROC-AUC around 0.8 on unseen customers, explainable by tenure, contract type, support calls and charges.</li>
+<li><strong>Targeting:</strong> contacting the top-ranked 500 reaches roughly twice as many churners as random selection, with a positive expected return per contact.</li>
+<li><strong>Actions:</strong> service recovery for frequent complainers, an annual-plan upgrade for new month-to-month customers, and fibre quality checks.</li>
+<li><strong>Next:</strong> run the 500 vs 100 holdout experiment for 60 days, then scale the budget if the incremental ROI holds.</li>
+</ul></div>
+<h2 id="portfolio-checklist">Portfolio checklist</h2>
+<ul>
+<li>README with problem, data, approach, results (numbers), business recommendation and how to run.</li>
+<li>Notebook → clean <code>src/</code> modules (features, train, evaluate, score) + tests for feature functions.</li>
+<li>Saved pipeline, model card, and a chart of profit vs number of contacts.</li>
+<li>A two-minute video or slide deck walking through the decision.</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Start from the decision and economics, not the algorithm; define target, unit, metric, baseline and constraints.</li>
+<li>Build leak-free features in a pipeline; compare baselines and models with cross-validation; tune; test once.</li>
+<li>Prefer simpler models when performance is similar; check calibration before using probabilities in profit maths.</li>
+<li>Choose the operating point from expected profit and capacity; attach reasons and tailored actions.</li>
+<li>Measure real impact with a randomised holdout, document with a model card, and plan monitoring and retraining.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-28-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What decision does the churn model support?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Which customers receive the limited retention offer each month</button><button type="button" class="opt" data-ok="0"><i>B</i>How to price new plans</button><button type="button" class="opt" data-ok="0"><i>C</i>Whether to hire more agents</button><button type="button" class="opt" data-ok="0"><i>D</i>Which features to collect</button></div><div class="qexp"><b>Answer: A.</b> Always tie the model to a decision.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why use a randomised holdout after deployment?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The model predicts churn risk, not the causal effect of the offer; only an experiment measures incremental saves</button><button type="button" class="opt" data-ok="0"><i>B</i>To retrain the model</button><button type="button" class="opt" data-ok="0"><i>C</i>To check calibration</button><button type="button" class="opt" data-ok="0"><i>D</i>To satisfy SQL</button></div><div class="qexp"><b>Answer: A.</b> Measure uplift, not just accuracy.</div></div><div class="qq"><p class="qtext"><b>3.</b> Contact cost ₹300, value ₹4,000, acceptance 35%. Above which churn probability does a contact pay off (if calibrated)?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0.5</button><button type="button" class="opt" data-ok="1"><i>B</i>About 0.21</button><button type="button" class="opt" data-ok="0"><i>C</i>0.05</button><button type="button" class="opt" data-ok="0"><i>D</i>0.9</button></div><div class="qexp"><b>Answer: B.</b> 300 / (0.35 × 4,000).</div></div><div class="qq"><p class="qtext"><b>4.</b> Two models have CV AUC 0.812 and 0.815. Which do you choose?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Usually the simpler, more explainable one</button><button type="button" class="opt" data-ok="0"><i>B</i>Always the higher one</button><button type="button" class="opt" data-ok="0"><i>C</i>Neither</button><button type="button" class="opt" data-ok="0"><i>D</i>The one with more features</button></div><div class="qexp"><b>Answer: A.</b> Small differences are within noise.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why exclude <code>senior_citizen</code> from targeting features but keep it for monitoring?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>To avoid targeting on a sensitive attribute while still checking outcomes for fairness</button><button type="button" class="opt" data-ok="0"><i>B</i>It has missing values</button><button type="button" class="opt" data-ok="0"><i>C</i>It is a duplicate</button><button type="button" class="opt" data-ok="0"><i>D</i>It has no signal</button></div><div class="qexp"><b>Answer: A.</b> Fairness by design and by audit.</div></div><div class="qq"><p class="qtext"><b>6.</b> When should the test set be used?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Once, after all modelling choices are final</button><button type="button" class="opt" data-ok="0"><i>B</i>For tuning hyperparameters</button><button type="button" class="opt" data-ok="0"><i>C</i>At every step</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: A.</b> Otherwise the estimate is optimistic.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Extend the capstone</b></div><p>(1) Replace the probability ranking with an expected-profit ranking that also uses each customer's monthly charges as their value. (2) Add SHAP reasons for each targeted customer (lesson 27). (3) Simulate the holdout experiment assuming the offer cuts churn by 35% among treated churners and test significance. (4) Write the README for GitHub.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">val = tc.loc[Xte.index, <span class="hl-s">&quot;monthly_charges&quot;</span>].<span class="hl-f">to_numpy</span>() * <span class="hl-n">24</span>              <span class="hl-c"># ≈ 2 years of revenue</span>
+exp_profit = p_test * accept * val - cost
+top = <span class="hl-f">np.argsort</span>(-exp_profit)[:<span class="hl-n">125</span>]; <span class="hl-f">print</span>(<span class="hl-f">int</span>(exp_profit[top].<span class="hl-f">sum</span>()), <span class="hl-f">yte.to_numpy</span>()[top].<span class="hl-f">sum</span>())
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">1</span>); churn_t = <span class="hl-f">rng.random</span>(<span class="hl-n">500</span>) &lt; <span class="hl-n">0.55</span> * <span class="hl-n">0.65</span>; churn_c = <span class="hl-f">rng.random</span>(<span class="hl-n">100</span>) &lt; <span class="hl-n">0.55</span>
+<span class="hl-k">from</span> statsmodels.stats.proportion <span class="hl-k">import</span> proportions_ztest
+<span class="hl-f">print</span>(<span class="hl-f">churn_t.mean</span>(), <span class="hl-f">churn_c.mean</span>(), <span class="hl-f">proportions_ztest</span>([<span class="hl-f">churn_t.sum</span>(), <span class="hl-f">churn_c.sum</span>()], [<span class="hl-n">500</span>, <span class="hl-n">100</span>]))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Walk me through an end-to-end ML project.</strong>
+Problem framing and economics, data and leak-free features, EDA, baselines, cross-validated model comparison and tuning, one-time test evaluation, threshold selection from business value, explanation and fairness checks, deployment as a batch or API, experiment to measure impact, and monitoring with retraining.</p>
+<p><strong>Q: Your model has AUC 0.80. Is that good?</strong>
+It depends on the decision: compare with the baseline rule, look at precision/recall in the top N the business can act on, and translate it into expected profit; AUC alone does not say.</p>
+<p><strong>Q: How do you know the retention campaign worked?</strong>
+Randomly hold out some high-risk customers from the offer and compare churn between treated and holdout groups; the difference (with a confidence interval) is the causal effect.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html"><small>← Previous</small><b>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#1-frame-the-problem">1. Frame the problem</a><a href="#2-data-and-features">2. Data and features</a><a href="#3-baselines-and-candidate-models">3. Baselines and candidate models</a><a href="#4-tune-the-leading-models">4. Tune the leading models</a><a href="#5-choose-how-many-customers-to-contact">5. Choose how many customers to contact</a><a href="#6-explain-and-segment-the-targets">6. Explain and segment the targets</a><a href="#7-measure-with-an-experiment">7. Measure with an experiment</a><a href="#8-model-card-and-deployment-plan">8. Model card and deployment plan</a><a href="#9-executive-summary">9. Executive summary</a><a href="#portfolio-checklist">Portfolio checklist</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
