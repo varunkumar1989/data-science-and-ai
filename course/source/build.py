@@ -63,7 +63,7 @@ TRACKS = [
                    ("StrataScratch data interview questions", "https://www.stratascratch.com/")]),
 ]
 TRACK = {t["id"]: t for t in TRACKS}
-BUILD_VER = "v13"
+BUILD_VER = "v14"
 
 # ====================================================================== code highlighting
 KW = {
@@ -142,7 +142,7 @@ class PyRunner:
         self.ns = {"__name__": "__main__", "dg": dg}
         self.errors = []
 
-    def run(self, code, fig_only=False, caption=None, hide_code=False):
+    def run(self, code, fig_only=False, caption=None, hide_code=False, expect_error=False):
         cwd = os.getcwd(); os.chdir(DATA)
         buf = io.StringIO(); err = None; result = None
         plt.close("all"); dg.style()
@@ -156,7 +156,7 @@ class PyRunner:
                     result = eval(compile(ast.Expression(body=last.value), f"<{self.lid}>", "eval"), self.ns)
         except Exception as e:
             err = "".join(traceback.format_exception_only(type(e), e)).strip()
-            self.errors.append(f"{self.lid}: {err}\n---\n{code[:400]}")
+            if not expect_error: self.errors.append(f"{self.lid}: {err}\n---\n{code[:400]}")
         finally:
             os.chdir(cwd)
         imgs = []
@@ -659,7 +659,7 @@ def render_lesson(L):
             h = py.run(code, fig_only=True, caption=inline_md(cap) if cap else None)
         elif lang == "python" and rest.startswith("run"):
             o = parse_opts(rest)
-            h = py.run(code, hide_code="hide" in o, caption=o.get("caption"))
+            h = py.run(code, hide_code="hide" in o, caption=o.get("caption"), expect_error="error" in o)
         elif lang == "python" and rest.startswith("setup"):
             py.run(code, hide_code=True); h = ""
         elif lang == "sql" and rest.startswith("run"):

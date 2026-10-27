@@ -1,0 +1,316 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Control Flow: if, elif, else, Nested Conditions &amp; match · Python Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Make programs decide. Learn indentation, if/elif/else, comparison and logical conditions, truthiness, conditional expressions (ternary), nested decisions, the match statement, and how Python&#x27;s if maps to Excel&#x27;s IF/IFS and SQL&#x27;s CASE WHEN, with data-flavoured examples."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class="on"><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-04">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 4 of 8</div><h1>Control Flow: if, elif, else, Nested Conditions &amp; match</h1>
+<p class="sum">Make programs decide. Learn indentation, if/elif/else, comparison and logical conditions, truthiness, conditional expressions (ternary), nested decisions, the match statement, and how Python's if maps to Excel's IF/IFS and SQL's CASE WHEN, with data-flavoured examples.</p><div class="tags"><span class="tag live">● Python class 3</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_04_Control_Flow_if_elif_else_Nested_Conditions_match.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write correct if / elif / else blocks and explain why indentation matters</li><li>Combine conditions with and, or, not, in, chained comparisons and truthiness</li><li>Use conditional expressions and the match statement</li><li>Order conditions correctly and avoid common branching bugs</li><li>Translate a spreadsheet or SQL rule into Python</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="decisions-and-indentation">Decisions and indentation</h2>
+<p>A program normally runs line by line. <strong>Control flow</strong> lets it choose between paths. In Python, a <strong>colon <code>:</code></strong> starts a block and <strong>indentation</strong> (4 spaces by convention) says which lines belong to it.</p>
+<figure class="fig"><img src="../img/python-04-01.png" alt="An if statement tests a condition. If it is True the indented block runs; otherwise Python moves on (or runs else)." loading="lazy"><figcaption>An if statement tests a condition. If it is True the indented block runs; otherwise Python moves on (or runs else).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">marks = <span class="hl-n">82</span>
+<span class="hl-k">if</span> marks &gt;= <span class="hl-n">40</span>:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;Pass&quot;</span>)
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;Well done!&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;This line always runs&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Pass
+Well done!
+This line always runs</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">if</span> <span class="hl-k">True</span>:
+<span class="hl-f">print</span>(<span class="hl-s">&quot;not indented&quot;</span>)        <span class="hl-c"># IndentationError: expected an indented block after &#x27;if&#x27; statement</span></code></pre></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Indentation rules</b></div><p>Use <strong>4 spaces</strong> (never mix tabs and spaces). Everything in the same block has the <strong>same indentation</strong>. A missing colon or wrong indentation causes <code>SyntaxError</code> / <code>IndentationError</code>.</p></div>
+<h2 id="if-elif-else">if / elif / else</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">marks = <span class="hl-n">82</span>
+<span class="hl-k">if</span> marks &gt;= <span class="hl-n">90</span>:
+    grade = <span class="hl-s">&quot;A+&quot;</span>
+<span class="hl-k">elif</span> marks &gt;= <span class="hl-n">75</span>:
+    grade = <span class="hl-s">&quot;A&quot;</span>
+<span class="hl-k">elif</span> marks &gt;= <span class="hl-n">60</span>:
+    grade = <span class="hl-s">&quot;B&quot;</span>
+<span class="hl-k">elif</span> marks &gt;= <span class="hl-n">40</span>:
+    grade = <span class="hl-s">&quot;C&quot;</span>
+<span class="hl-k">else</span>:
+    grade = <span class="hl-s">&quot;Fail&quot;</span>
+<span class="hl-f">print</span>(marks, <span class="hl-s">&quot;-&gt;&quot;</span>, grade)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">82 -&gt; A</pre></div>
+<p>Python checks the conditions <strong>top to bottom</strong> and runs the <strong>first</strong> one that is true, then skips the rest. This is Excel's nested <code>IF</code> / <code>IFS</code> and SQL's <code>CASE WHEN</code> (Excel Lesson 5, SQL Lesson 7).</p>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Order matters</b></div><p>If you test <code>marks &gt;= 40</code> first, an 82 gets "C" because the first true branch wins. Put the most specific / strictest condition first.</p></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> m <span class="hl-k">in</span> (<span class="hl-n">95</span>, <span class="hl-n">82</span>, <span class="hl-n">61</span>, <span class="hl-n">45</span>, <span class="hl-n">12</span>):
+    g = <span class="hl-s">&quot;A+&quot;</span> <span class="hl-k">if</span> m &gt;= <span class="hl-n">90</span> <span class="hl-k">else</span> <span class="hl-s">&quot;A&quot;</span> <span class="hl-k">if</span> m &gt;= <span class="hl-n">75</span> <span class="hl-k">else</span> <span class="hl-s">&quot;B&quot;</span> <span class="hl-k">if</span> m &gt;= <span class="hl-n">60</span> <span class="hl-k">else</span> <span class="hl-s">&quot;C&quot;</span> <span class="hl-k">if</span> m &gt;= <span class="hl-n">40</span> <span class="hl-k">else</span> <span class="hl-s">&quot;Fail&quot;</span>    <span class="hl-c"># chained conditional expression</span>
+    <span class="hl-f">print</span>(m, g)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">95 A+
+82 A
+61 B
+45 C
+12 Fail</pre></div>
+<h3 id="conditional-expression-ternary">Conditional expression (ternary)</h3>
+<p><code>value_if_true if condition else value_if_false</code> is Python's one-line <code>IF()</code>:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">salary = <span class="hl-n">97000</span>
+band = <span class="hl-s">&quot;High&quot;</span> <span class="hl-k">if</span> salary &gt;= <span class="hl-n">100000</span> <span class="hl-k">else</span> <span class="hl-s">&quot;Standard&quot;</span>
+bonus = salary * <span class="hl-n">0.1</span> <span class="hl-k">if</span> band == <span class="hl-s">&quot;High&quot;</span> <span class="hl-k">else</span> <span class="hl-n">0</span>
+<span class="hl-f">print</span>(band, bonus)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Standard 0</pre></div>
+<h2 id="conditions">Conditions</h2>
+<h3 id="comparison-and-logical-operators">Comparison and logical operators</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">age, city, income = <span class="hl-n">29</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-n">85000</span>
+<span class="hl-f">print</span>(age &gt;= <span class="hl-n">18</span> <span class="hl-k">and</span> city == <span class="hl-s">&quot;Pune&quot;</span>)                    <span class="hl-c"># both must be true</span>
+<span class="hl-f">print</span>(city <span class="hl-k">in</span> (<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Mumbai&quot;</span>) <span class="hl-k">or</span> income &gt; <span class="hl-n">100000</span>)   <span class="hl-c"># at least one</span>
+<span class="hl-f">print</span>(<span class="hl-k">not</span> (age &lt; <span class="hl-n">18</span>))
+<span class="hl-f">print</span>(<span class="hl-n">18</span> &lt;= age &lt; <span class="hl-n">60</span>)                                   <span class="hl-c"># chained comparison</span>
+<span class="hl-k">if</span> <span class="hl-n">18</span> &lt;= age &lt; <span class="hl-n">60</span> <span class="hl-k">and</span> income &gt;= <span class="hl-n">50000</span> <span class="hl-k">and</span> city <span class="hl-k">in</span> (<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>):
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;Eligible for the metro premium plan&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True
+True
+True
+True
+Eligible for the metro premium plan</pre></div>
+<h3 id="truthiness">Truthiness</h3>
+<p>Python treats "empty" and zero-like values as False (Lesson 2), so you can test them directly:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">name = <span class="hl-s">&quot;&quot;</span>
+items = [<span class="hl-n">3</span>, <span class="hl-n">5</span>]
+note = <span class="hl-k">None</span>
+<span class="hl-k">if</span> <span class="hl-k">not</span> name: <span class="hl-f">print</span>(<span class="hl-s">&quot;name is empty&quot;</span>)
+<span class="hl-k">if</span> items: <span class="hl-f">print</span>(<span class="hl-s">&quot;items has&quot;</span>, <span class="hl-f">len</span>(items), <span class="hl-s">&quot;elements&quot;</span>)
+<span class="hl-k">if</span> note <span class="hl-k">is</span> <span class="hl-k">None</span>: <span class="hl-f">print</span>(<span class="hl-s">&quot;note is missing&quot;</span>)                 <span class="hl-c"># use `is None`, not `== None`</span>
+<span class="hl-k">if</span> <span class="hl-n">0</span> &lt; <span class="hl-f">len</span>(items) &lt;= <span class="hl-n">5</span>: <span class="hl-f">print</span>(<span class="hl-s">&quot;small list&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">name is empty
+items has 2 elements
+note is missing
+small list</pre></div>
+<h3 id="membership-and-string-tests">Membership and string tests</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">status = <span class="hl-s">&quot;Shipped&quot;</span>
+<span class="hl-k">if</span> status <span class="hl-k">in</span> (<span class="hl-s">&quot;Shipped&quot;</span>, <span class="hl-s">&quot;Delivered&quot;</span>): <span class="hl-f">print</span>(<span class="hl-s">&quot;order has left the warehouse&quot;</span>)
+email = <span class="hl-s">&quot;kavya.iyer@abc.in&quot;</span>
+<span class="hl-k">if</span> <span class="hl-s">&quot;@&quot;</span> <span class="hl-k">in</span> email <span class="hl-k">and</span> <span class="hl-f">email.endswith</span>(<span class="hl-s">&quot;.in&quot;</span>): <span class="hl-f">print</span>(<span class="hl-s">&quot;Indian email address&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">order has left the warehouse
+Indian email address</pre></div>
+<h3 id="nested-conditions">Nested conditions</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">is_member, cart_value = <span class="hl-k">True</span>, <span class="hl-n">3200</span>
+<span class="hl-k">if</span> cart_value &gt; <span class="hl-n">0</span>:
+    <span class="hl-k">if</span> is_member:
+        discount = <span class="hl-n">0.1</span> <span class="hl-k">if</span> cart_value &gt;= <span class="hl-n">3000</span> <span class="hl-k">else</span> <span class="hl-n">0.05</span>
+    <span class="hl-k">else</span>:
+        discount = <span class="hl-n">0.02</span> <span class="hl-k">if</span> cart_value &gt;= <span class="hl-n">3000</span> <span class="hl-k">else</span> <span class="hl-n">0</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;Discount: {discount:.0%}&quot;</span>)
+<span class="hl-k">else</span>:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;Cart is empty&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Discount: 10%</pre></div>
+<p>Prefer <strong>flat</strong> conditions with <code>and</code> to deeply nested ones when they read clearly:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">shipping_fee</span>(value, is_member):
+    <span class="hl-k">if</span> value &lt;= <span class="hl-n">0</span>: <span class="hl-k">return</span> <span class="hl-n">0</span>
+    <span class="hl-k">if</span> is_member <span class="hl-k">and</span> value &gt;= <span class="hl-n">500</span>: <span class="hl-k">return</span> <span class="hl-n">0</span>
+    <span class="hl-k">if</span> value &gt;= <span class="hl-n">1500</span>: <span class="hl-k">return</span> <span class="hl-n">0</span>
+    <span class="hl-k">return</span> <span class="hl-n">49</span>
+<span class="hl-f">print</span>([<span class="hl-f">shipping_fee</span>(v, m) <span class="hl-k">for</span> v, m <span class="hl-k">in</span> [(<span class="hl-n">0</span>, <span class="hl-k">True</span>), (<span class="hl-n">600</span>, <span class="hl-k">True</span>), (<span class="hl-n">600</span>, <span class="hl-k">False</span>), (<span class="hl-n">1600</span>, <span class="hl-k">False</span>)]])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[0, 0, 49, 0]</pre></div>
+<p>Returning early (<strong>guard clauses</strong>) keeps code flat and readable.</p>
+<h2 id="match-structural-pattern-matching-310">match: structural pattern matching (3.10+)</h2>
+<p><code>match</code> compares one value with several patterns: a clean alternative to a long chain of <code>==</code> tests.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">describe_status</span>(code):
+    <span class="hl-k">match</span> code:
+        <span class="hl-k">case</span> <span class="hl-n">200</span> | <span class="hl-n">201</span>:
+            <span class="hl-k">return</span> <span class="hl-s">&quot;success&quot;</span>
+        <span class="hl-k">case</span> <span class="hl-n">301</span> | <span class="hl-n">302</span>:
+            <span class="hl-k">return</span> <span class="hl-s">&quot;redirect&quot;</span>
+        <span class="hl-k">case</span> <span class="hl-n">404</span>:
+            <span class="hl-k">return</span> <span class="hl-s">&quot;not found&quot;</span>
+        <span class="hl-k">case</span> <span class="hl-f">int</span>(c) <span class="hl-k">if</span> <span class="hl-n">500</span> &lt;= c &lt; <span class="hl-n">600</span>:
+            <span class="hl-k">return</span> <span class="hl-s">&quot;server error&quot;</span>
+        <span class="hl-k">case</span> _:
+            <span class="hl-k">return</span> <span class="hl-s">&quot;unknown&quot;</span>
+<span class="hl-f">print</span>([<span class="hl-f">describe_status</span>(c) <span class="hl-k">for</span> c <span class="hl-k">in</span> (<span class="hl-n">200</span>, <span class="hl-n">404</span>, <span class="hl-n">503</span>, <span class="hl-n">999</span>)])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;success&#x27;, &#x27;not found&#x27;, &#x27;server error&#x27;, &#x27;unknown&#x27;]</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">handle</span>(command):
+    <span class="hl-k">match</span> <span class="hl-f">command.split</span>():
+        <span class="hl-k">case</span> [<span class="hl-s">&quot;load&quot;</span>, filename]:  <span class="hl-k">return</span> <span class="hl-s">f&quot;loading {filename}&quot;</span>
+        <span class="hl-k">case</span> [<span class="hl-s">&quot;save&quot;</span>, filename]:  <span class="hl-k">return</span> <span class="hl-s">f&quot;saving {filename}&quot;</span>
+        <span class="hl-k">case</span> [<span class="hl-s">&quot;quit&quot;</span>]:            <span class="hl-k">return</span> <span class="hl-s">&quot;bye&quot;</span>
+        <span class="hl-k">case</span> _:                   <span class="hl-k">return</span> <span class="hl-s">&quot;unknown command&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">handle</span>(<span class="hl-s">&quot;load sales.csv&quot;</span>), <span class="hl-s">&quot;|&quot;</span>, <span class="hl-f">handle</span>(<span class="hl-s">&quot;quit&quot;</span>), <span class="hl-s">&quot;|&quot;</span>, <span class="hl-f">handle</span>(<span class="hl-s">&quot;fly away&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">loading sales.csv | bye | unknown command</pre></div>
+<h2 id="data-examples">Data examples</h2>
+<h3 id="rule-based-bonus-the-same-as-an-excel-if-and">Rule-based bonus (the same as an Excel IF + AND)</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+emp = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;employees_small.csv&quot;</span>)
+<span class="hl-k">def</span> <span class="hl-f">bonus</span>(salary, rating, dept):
+    <span class="hl-k">if</span> rating &gt;= <span class="hl-n">5</span>: rate = <span class="hl-n">0.15</span>
+    <span class="hl-k">elif</span> rating &gt;= <span class="hl-n">4</span>: rate = <span class="hl-n">0.10</span>
+    <span class="hl-k">elif</span> rating &gt;= <span class="hl-n">3</span>: rate = <span class="hl-n">0.05</span>
+    <span class="hl-k">else</span>: rate = <span class="hl-n">0</span>
+    <span class="hl-k">if</span> dept == <span class="hl-s">&quot;Sales&quot;</span>: rate += <span class="hl-n">0.02</span>             <span class="hl-c"># extra for Sales</span>
+    <span class="hl-k">return</span> <span class="hl-f">round</span>(salary * rate)
+emp[<span class="hl-s">&quot;bonus&quot;</span>] = [<span class="hl-f">bonus</span>(s, r, d) <span class="hl-k">for</span> s, r, d <span class="hl-k">in</span> <span class="hl-f">zip</span>(emp.salary, emp.rating, emp.department)]
+emp[[<span class="hl-s">&quot;name&quot;</span>, <span class="hl-s">&quot;department&quot;</span>, <span class="hl-s">&quot;salary&quot;</span>, <span class="hl-s">&quot;rating&quot;</span>, <span class="hl-s">&quot;bonus&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">8</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>department</th>
+      <th>salary</th>
+      <th>rating</th>
+      <th>bonus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Kavya Iyer</td>
+      <td>HR</td>
+      <td>97000</td>
+      <td>4</td>
+      <td>9700</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Imran Reddy</td>
+      <td>Finance</td>
+      <td>157000</td>
+      <td>3</td>
+      <td>7850</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Harpreet Kulkarni</td>
+      <td>Finance</td>
+      <td>131000</td>
+      <td>4</td>
+      <td>13100</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Diya Iyer</td>
+      <td>HR</td>
+      <td>90000</td>
+      <td>4</td>
+      <td>9000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Simran Iyer</td>
+      <td>HR</td>
+      <td>139000</td>
+      <td>4</td>
+      <td>13900</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Saanvi Rao</td>
+      <td>HR</td>
+      <td>83000</td>
+      <td>4</td>
+      <td>8300</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Isha Mehta</td>
+      <td>Sales</td>
+      <td>57000</td>
+      <td>3</td>
+      <td>3990</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Aarav Kulkarni</td>
+      <td>HR</td>
+      <td>101000</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 5 columns</div></div>
+<p>(In pandas you would use <code>np.where</code>, <code>np.select</code> or <code>.apply</code>: Lesson 19. Writing the rule once as a function makes it testable.)</p>
+<h3 id="a-small-decision-tree-loan-pre-check">A small decision tree: loan pre-check</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">loan_precheck</span>(age, income, existing_emi, credit_score):
+    reasons = []
+    <span class="hl-k">if</span> age &lt; <span class="hl-n">21</span> <span class="hl-k">or</span> age &gt; <span class="hl-n">60</span>: <span class="hl-f">reasons.append</span>(<span class="hl-s">&quot;age outside 21–60&quot;</span>)
+    <span class="hl-k">if</span> income &lt; <span class="hl-n">25000</span>: <span class="hl-f">reasons.append</span>(<span class="hl-s">&quot;income below ₹25,000&quot;</span>)
+    <span class="hl-k">if</span> existing_emi &gt; <span class="hl-n">0.5</span> * income: <span class="hl-f">reasons.append</span>(<span class="hl-s">&quot;EMIs exceed 50% of income&quot;</span>)
+    <span class="hl-k">if</span> credit_score &lt; <span class="hl-n">650</span>: <span class="hl-f">reasons.append</span>(<span class="hl-s">&quot;credit score below 650&quot;</span>)
+    <span class="hl-k">return</span> (<span class="hl-s">&quot;Eligible&quot;</span>, []) <span class="hl-k">if</span> <span class="hl-k">not</span> reasons <span class="hl-k">else</span> (<span class="hl-s">&quot;Review&quot;</span>, reasons)
+<span class="hl-f">print</span>(<span class="hl-f">loan_precheck</span>(<span class="hl-n">34</span>, <span class="hl-n">70000</span>, <span class="hl-n">20000</span>, <span class="hl-n">730</span>))
+<span class="hl-f">print</span>(<span class="hl-f">loan_precheck</span>(<span class="hl-n">19</span>, <span class="hl-n">22000</span>, <span class="hl-n">15000</span>, <span class="hl-n">610</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(&#x27;Eligible&#x27;, [])
+(&#x27;Review&#x27;, [&#x27;age outside 21–60&#x27;, &#x27;income below ₹25,000&#x27;, &#x27;EMIs exceed 50% of income&#x27;, &#x27;credit score below 650&#x27;])</pre></div>
+<p>Collecting <strong>all</strong> failing reasons is more useful than stopping at the first, and shows how a series of independent <code>if</code> statements (not <code>elif</code>) is sometimes right.</p>
+<h2 id="ifelif-vs-several-ifs"><code>if</code>/<code>elif</code> vs several <code>if</code>s</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if … elif … else</code></td>
+<td>Choices are <strong>mutually exclusive</strong>: only one branch should run</td>
+</tr>
+<tr>
+<td>Several separate <code>if</code></td>
+<td>Each condition is <strong>independent</strong>: more than one may apply (collecting reasons, applying several rules)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="common-mistakes">Common mistakes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if x = 5:</code> (assignment)</td>
+<td><code>if x == 5:</code></td>
+</tr>
+<tr>
+<td><code>if x == 3 or 4:</code> (always true: <code>4</code> is truthy)</td>
+<td><code>if x in (3, 4):</code></td>
+</tr>
+<tr>
+<td><code>if x == None:</code></td>
+<td><code>if x is None:</code></td>
+</tr>
+<tr>
+<td>Comparing floats with <code>==</code></td>
+<td><code>math.isclose</code></td>
+</tr>
+<tr>
+<td>Forgetting <code>elif</code> ordering</td>
+<td>strictest first</td>
+</tr>
+<tr>
+<td><code>if len(items) &gt; 0:</code> (verbose)</td>
+<td><code>if items:</code></td>
+</tr>
+<tr>
+<td>Deep nesting</td>
+<td>guard clauses / <code>and</code> / helper functions</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Take an Excel rule from your own work, such as a nested IF for commission, and ask an assistant to convert it to Python with test cases. Then write five edge-case tests yourself (boundaries like exactly 50,000, blanks, negative values) and see if the code survives.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A colon starts a block; <strong>indentation</strong> (4 spaces) defines it. <code>if / elif / else</code> runs the first true branch.</li>
+<li>Combine conditions with <code>and</code>, <code>or</code>, <code>not</code>, <code>in</code>, chained comparisons; empty/zero/None are falsy; test <code>None</code> with <code>is None</code>.</li>
+<li>Use the <strong>ternary</strong> <code>a if cond else b</code> for simple choices and the <code>match</code> statement for many exact cases and patterns.</li>
+<li>Order conditions from strictest to loosest; prefer flat code with guard clauses; use separate <code>if</code>s when several rules can apply.</li>
+<li>Wrap rules in functions so they can be tested and reused.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>x if cond else y</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Runs a loop</button><button type="button" class="opt" data-ok="1"><i>B</i>Evaluates to x when cond is True, otherwise y</button><button type="button" class="opt" data-ok="0"><i>C</i>Defines a function</button><button type="button" class="opt" data-ok="0"><i>D</i>Compares x and y</button></div><div class="qexp"><b>Answer: B.</b> It is Python's conditional (ternary) expression.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which condition is correct for "x is 3 or 4"?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>x == 3 or 4</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>x in (3, 4)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>x = 3 or 4</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>x is (3, 4)</code></button></div><div class="qexp"><b>Answer: B.</b> <code>x == 3 or 4</code> is always truthy because 4 is truthy.</div></div><div class="qq"><p class="qtext"><b>3.</b> With <code>marks = 82</code>, which grade does <code>if marks&gt;=40: "C" elif marks&gt;=75: "A"</code> give?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>C</button><button type="button" class="opt" data-ok="0"><i>B</i>A</button><button type="button" class="opt" data-ok="0"><i>C</i>Fail</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: A.</b> The first true branch wins, so the order is wrong.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which is the best way to test for None?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>x == None</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>x is None</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>not x</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>x = None</code></button></div><div class="qexp"><b>Answer: B.</b> <code>is None</code> tests identity and avoids surprises with falsy values like 0.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is a guard clause?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A loop that never ends</button><button type="button" class="opt" data-ok="1"><i>B</i>An early return that handles a special case so the rest of the function is not nested</button><button type="button" class="opt" data-ok="0"><i>C</i>A try/except block</button><button type="button" class="opt" data-ok="0"><i>D</i>A decorator</button></div><div class="qexp"><b>Answer: B.</b> Guard clauses keep code flat and readable.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does <code>match</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Matches regular expressions only</button><button type="button" class="opt" data-ok="1"><i>B</i>Compares a value against patterns and runs the first matching case</button><button type="button" class="opt" data-ok="0"><i>C</i>Loops over a list</button><button type="button" class="opt" data-ok="0"><i>D</i>Imports modules</button></div><div class="qexp"><b>Answer: B.</b> Structural pattern matching arrived in Python 3.10.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Rules in code</b></div><p>Write <code>delivery_charge(order_value, city, express)</code>: free if order ≥ ₹1,500; otherwise ₹49 in metros (Delhi, Mumbai, Bengaluru, Chennai, Kolkata, Hyderabad) and ₹79 elsewhere; express adds ₹100 unless the value is ≥ ₹5,000. Test five cases including boundaries.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">METROS = {<span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;Chennai&quot;</span>, <span class="hl-s">&quot;Kolkata&quot;</span>, <span class="hl-s">&quot;Hyderabad&quot;</span>}
+<span class="hl-k">def</span> <span class="hl-f">delivery_charge</span>(value, city, express=<span class="hl-k">False</span>):
+    fee = <span class="hl-n">0</span> <span class="hl-k">if</span> value &gt;= <span class="hl-n">1500</span> <span class="hl-k">else</span> (<span class="hl-n">49</span> <span class="hl-k">if</span> city <span class="hl-k">in</span> METROS <span class="hl-k">else</span> <span class="hl-n">79</span>)
+    <span class="hl-k">if</span> express <span class="hl-k">and</span> value &lt; <span class="hl-n">5000</span>: fee += <span class="hl-n">100</span>
+    <span class="hl-k">return</span> fee
+tests = [(<span class="hl-n">1500</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-k">False</span>), (<span class="hl-n">1499</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-k">False</span>), (<span class="hl-n">1499</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-n">5000</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-n">100</span>, <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-k">True</span>)]
+<span class="hl-f">print</span>([<span class="hl-f">delivery_charge</span>(*t) <span class="hl-k">for</span> t <span class="hl-k">in</span> tests])      <span class="hl-c"># [0, 49, 179, 0, 149]</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between <code>elif</code> and multiple <code>if</code> statements?</strong>
+<code>elif</code> branches are mutually exclusive (only the first true runs); separate <code>if</code>s are all evaluated, so several can run.</p>
+<p><strong>Q: How do you write a switch-case in Python?</strong>
+Use <code>match</code>/<code>case</code> (3.10+), or a dictionary mapping values to functions or results.</p>
+<p><strong>Q: What are falsy values in Python?</strong>
+<code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>[]</code>, <code>{}</code>, <code>()</code>, <code>set()</code>, and objects whose <code>__bool__</code> returns False or <code>__len__</code> returns 0.</p>
+<p><strong>Q: How do you replace nested if/else cleanly?</strong>
+Guard clauses, combined conditions, lookup tables (dicts), or polymorphism.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-03-operators-strings-indexing-slicing-and-string-methods.html"><small>← Previous</small><b>Operators, Strings, Indexing, Slicing &amp; String Methods</b></a><a class="next" href="python-05-loops-while-for-range-break-continue-and-patterns.html"><small>Next →</small><b>Loops: while, for, range, break, continue &amp; Patterns</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#decisions-and-indentation">Decisions and indentation</a><a href="#if-elif-else">if / elif / else</a><a href="#conditions">Conditions</a><a href="#match-structural-pattern-matching-310">match: structural pattern matching (3.10+)</a><a href="#data-examples">Data examples</a><a href="#ifelif-vs-several-ifs">if/elif vs several ifs</a><a href="#common-mistakes">Common mistakes</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>

@@ -1,0 +1,252 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra · Python Lesson 7 · Data Science &amp; AI Handbook</title><meta name="description" content="Use tuples for fixed records and multiple return values, master unpacking and named tuples, and use sets for uniqueness, fast membership tests and set algebra (union, intersection, difference) on real customer data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 7</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class="on"><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-07">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 7 of 8</div><h1>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</h1>
+<p class="sum">Use tuples for fixed records and multiple return values, master unpacking and named tuples, and use sets for uniqueness, fast membership tests and set algebra (union, intersection, difference) on real customer data.</p><div class="tags"><span class="tag live">● Python class 5</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_07_Tuples_Sets_Immutable_Records_Unpacking_and_Set_Algebra.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-07">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Create tuples, explain immutability and hashability, and unpack tuples including starred unpacking</li><li>Use namedtuple and dataclass-style records for readable fixed structures</li><li>Create sets and frozensets and use add, discard, remove, update and set operators</li><li>Apply union, intersection, difference and symmetric difference to compare groups</li><li>Choose between list, tuple, set and dict for a given task</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="tuples">Tuples</h2>
+<p>A <strong>tuple</strong> is an ordered, <strong>immutable</strong> sequence written with commas (brackets are usually optional).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">point = (<span class="hl-n">28.61</span>, <span class="hl-n">77.20</span>)
+single = (<span class="hl-n">5</span>,)                    <span class="hl-c"># the trailing comma makes a one-item tuple</span>
+empty = ()
+rec = <span class="hl-s">&quot;E101&quot;</span>, <span class="hl-s">&quot;Kavya Iyer&quot;</span>, <span class="hl-s">&quot;HR&quot;</span>, <span class="hl-n">97000</span>        <span class="hl-c"># packing: no brackets needed</span>
+<span class="hl-f">print</span>(point, <span class="hl-f">type</span>(single).__name__, <span class="hl-f">type</span>((<span class="hl-n">5</span>)).__name__, rec[<span class="hl-n">1</span>], rec[-<span class="hl-n">1</span>], rec[<span class="hl-n">1</span>:<span class="hl-n">3</span>], <span class="hl-f">len</span>(rec))
+<span class="hl-f">print</span>(<span class="hl-f">rec.count</span>(<span class="hl-s">&quot;HR&quot;</span>), <span class="hl-f">rec.index</span>(<span class="hl-s">&quot;HR&quot;</span>), (<span class="hl-n">1</span>, <span class="hl-n">2</span>) + (<span class="hl-n">3</span>,), (<span class="hl-n">0</span>,) * <span class="hl-n">3</span>, <span class="hl-n">5</span> <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">5</span>, <span class="hl-n">9</span>))
+<span class="hl-k">try</span>: rec[<span class="hl-n">0</span>] = <span class="hl-s">&quot;E102&quot;</span>
+<span class="hl-k">except</span> TypeError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;Error:&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(28.61, 77.2) tuple int Kavya Iyer 97000 (&#x27;Kavya Iyer&#x27;, &#x27;HR&#x27;) 4
+1 2 (1, 2, 3) (0, 0, 0) True
+Error: &#x27;tuple&#x27; object does not support item assignment</pre></div>
+<h3 id="unpacking">Unpacking</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">emp_id, name, dept, salary = rec                 <span class="hl-c"># one name per item</span>
+a, b = <span class="hl-n">1</span>, <span class="hl-n">2</span>; a, b = b, a                           <span class="hl-c"># swap</span>
+first, *others = (<span class="hl-n">10</span>, <span class="hl-n">20</span>, <span class="hl-n">30</span>, <span class="hl-n">40</span>)                  <span class="hl-c"># * collects the rest into a list</span>
+*head, last = (<span class="hl-n">10</span>, <span class="hl-n">20</span>, <span class="hl-n">30</span>, <span class="hl-n">40</span>)
+x, (y, z) = <span class="hl-n">1</span>, (<span class="hl-n">2</span>, <span class="hl-n">3</span>)                              <span class="hl-c"># nested unpacking</span>
+_, dept_only, *_ = rec                             <span class="hl-c"># _ means &quot;ignore&quot;</span>
+<span class="hl-f">print</span>(emp_id, name, a, b, first, others, head, last, x, y, z, dept_only)
+<span class="hl-k">for</span> city, sales <span class="hl-k">in</span> [(<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-n">120</span>), (<span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-n">95</span>)]:     <span class="hl-c"># unpack in loops</span>
+    <span class="hl-f">print</span>(city, sales)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">E101 Kavya Iyer 2 1 10 [20, 30, 40] [10, 20, 30] 40 1 2 3 Kavya Iyer
+Pune 120
+Delhi 95</pre></div>
+<h3 id="why-tuples">Why tuples?</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Use</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fixed records</strong></td>
+<td><code>(lat, lon)</code>, <code>(year, month)</code>, a row from a database</td>
+</tr>
+<tr>
+<td><strong>Multiple return values</strong></td>
+<td><code>def stats(x): return min(x), max(x)</code> → <code>lo, hi = stats(data)</code></td>
+</tr>
+<tr>
+<td><strong>Dictionary keys and set members</strong> (hashable)</td>
+<td><code>sales[("North", "Technology")]</code></td>
+</tr>
+<tr>
+<td><strong>Protection</strong> from accidental change</td>
+<td>Constants like <code>METROS = ("Delhi", "Mumbai")</code></td>
+</tr>
+<tr>
+<td><strong>Slightly less memory and faster</strong> than lists</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">describe</span>(values):
+    <span class="hl-k">return</span> <span class="hl-f">min</span>(values), <span class="hl-f">max</span>(values), <span class="hl-f">sum</span>(values) / <span class="hl-f">len</span>(values)
+lo, hi, avg = <span class="hl-f">describe</span>([<span class="hl-n">4</span>, <span class="hl-n">8</span>, <span class="hl-n">15</span>, <span class="hl-n">16</span>, <span class="hl-n">23</span>, <span class="hl-n">42</span>])
+<span class="hl-f">print</span>(lo, hi, <span class="hl-f">round</span>(avg, <span class="hl-n">2</span>), <span class="hl-f">describe</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>]))
+<span class="hl-f">print</span>(<span class="hl-f">hash</span>((<span class="hl-n">1</span>, <span class="hl-n">2</span>)), <span class="hl-s">&quot;| a tuple containing a list is not hashable:&quot;</span>, end=<span class="hl-s">&quot; &quot;</span>)
+<span class="hl-k">try</span>: <span class="hl-f">hash</span>((<span class="hl-n">1</span>, [<span class="hl-n">2</span>]))
+<span class="hl-k">except</span> TypeError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">4 42 18.0 (1, 2, 1.5)
+-3550055125485641917 | a tuple containing a list is not hashable: unhashable type: &#x27;list&#x27;</pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Tuples are immutable, but their contents might not be</b></div><p><code>t = ([1, 2], 3)</code>; <code>t[0].append(9)</code> works, because the tuple holds a <strong>reference</strong> to a mutable list. The tuple itself still points to the same list.</p></div>
+<h3 id="named-tuples-and-data-classes">Named tuples and data classes</h3>
+<p>When a record has many fields, positions like <code>rec[3]</code> are hard to read. Name the fields:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> collections <span class="hl-k">import</span> namedtuple
+<span class="hl-k">from</span> dataclasses <span class="hl-k">import</span> dataclass
+Employee = <span class="hl-f">namedtuple</span>(<span class="hl-s">&quot;Employee&quot;</span>, [<span class="hl-s">&quot;emp_id&quot;</span>, <span class="hl-s">&quot;name&quot;</span>, <span class="hl-s">&quot;dept&quot;</span>, <span class="hl-s">&quot;salary&quot;</span>])
+e = <span class="hl-f">Employee</span>(<span class="hl-s">&quot;E101&quot;</span>, <span class="hl-s">&quot;Kavya Iyer&quot;</span>, <span class="hl-s">&quot;HR&quot;</span>, <span class="hl-n">97000</span>)
+<span class="hl-f">print</span>(e, e.name, e[<span class="hl-n">3</span>], <span class="hl-f">e._asdict</span>(), <span class="hl-f">e._replace</span>(salary=<span class="hl-n">100000</span>).salary)
+
+@<span class="hl-f">dataclass</span>(frozen=<span class="hl-k">True</span>)                 <span class="hl-c"># frozen = immutable, like a tuple, but with types and methods</span>
+<span class="hl-k">class</span> Product:
+    sku: str
+    price: float
+    <span class="hl-k">def</span> <span class="hl-f">with_gst</span>(self, rate=<span class="hl-n">0.18</span>): <span class="hl-k">return</span> <span class="hl-f">round</span>(self.price * (<span class="hl-n">1</span> + rate), <span class="hl-n">2</span>)
+p = <span class="hl-f">Product</span>(<span class="hl-s">&quot;P101&quot;</span>, <span class="hl-n">4500.0</span>)
+<span class="hl-f">print</span>(p, <span class="hl-f">p.with_gst</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Employee(emp_id=&#x27;E101&#x27;, name=&#x27;Kavya Iyer&#x27;, dept=&#x27;HR&#x27;, salary=97000) Kavya Iyer 97000 {&#x27;emp_id&#x27;: &#x27;E101&#x27;, &#x27;name&#x27;: &#x27;Kavya Iyer&#x27;, &#x27;dept&#x27;: &#x27;HR&#x27;, &#x27;salary&#x27;: 97000} 100000
+Product(sku=&#x27;P101&#x27;, price=4500.0) 5310.0</pre></div>
+<h2 id="sets">Sets</h2>
+<p>A <strong>set</strong> is an <strong>unordered</strong> collection of <strong>unique</strong>, hashable items, written with braces. Sets support fast membership tests and mathematical set operations.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cities = {<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>}          <span class="hl-c"># duplicates vanish</span>
+<span class="hl-f">print</span>(cities, <span class="hl-f">len</span>(cities), <span class="hl-s">&quot;Pune&quot;</span> <span class="hl-k">in</span> cities)
+empty = <span class="hl-f">set</span>()                                           <span class="hl-c"># {} is an empty DICT, not a set!</span>
+<span class="hl-f">print</span>(<span class="hl-f">set</span>(<span class="hl-s">&quot;mississippi&quot;</span>), <span class="hl-f">set</span>([<span class="hl-n">3</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">1</span>]), <span class="hl-f">sorted</span>({<span class="hl-n">5</span>, <span class="hl-n">2</span>, <span class="hl-n">9</span>}), <span class="hl-f">type</span>({}).__name__, <span class="hl-f">type</span>(empty).__name__)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;Delhi&#x27;, &#x27;Pune&#x27;, &#x27;Kochi&#x27;} 3 True
+{&#x27;m&#x27;, &#x27;p&#x27;, &#x27;s&#x27;, &#x27;i&#x27;} {1, 2, 3} [2, 5, 9] dict set</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method / operator</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>s.add(x)</code></td>
+<td>Add an item</td>
+</tr>
+<tr>
+<td><code>s.update(iterable)</code> or <code>s \|= other</code></td>
+<td>Add many items</td>
+</tr>
+<tr>
+<td><code>s.discard(x)</code></td>
+<td>Remove x if present (no error)</td>
+</tr>
+<tr>
+<td><code>s.remove(x)</code></td>
+<td>Remove x; <code>KeyError</code> if missing</td>
+</tr>
+<tr>
+<td><code>s.pop()</code></td>
+<td>Remove and return an arbitrary item</td>
+</tr>
+<tr>
+<td><code>s.clear()</code></td>
+<td>Empty the set</td>
+</tr>
+<tr>
+<td><code>x in s</code></td>
+<td>Membership, <strong>O(1)</strong> on average</td>
+</tr>
+<tr>
+<td><code>len(s)</code>, <code>min(s)</code>, <code>max(s)</code>, <code>sum(s)</code>, <code>sorted(s)</code></td>
+<td>Usual helpers (sorted returns a list)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = {<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>}
+<span class="hl-f">s.add</span>(<span class="hl-n">4</span>); <span class="hl-f">s.update</span>([<span class="hl-n">5</span>, <span class="hl-n">6</span>]); <span class="hl-f">s.discard</span>(<span class="hl-n">10</span>); <span class="hl-f">s.remove</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(s, <span class="hl-f">s.pop</span>() <span class="hl-k">in</span> {<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>})</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{3, 4, 5, 6} True</pre></div>
+<h3 id="set-algebra">Set algebra</h3>
+<figure class="fig"><img src="../img/python-07-01.png" alt="The four set operations as Venn diagrams (A and B are sets of customers)." loading="lazy"><figcaption>The four set operations as Venn diagrams (A and B are sets of customers).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">a = {<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>}
+b = {<span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;Zoya&quot;</span>, <span class="hl-s">&quot;Neha&quot;</span>}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;union       :&quot;</span>, <span class="hl-f">sorted</span>(a | b), <span class="hl-s">&quot;  also a.union(b)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;intersection:&quot;</span>, <span class="hl-f">sorted</span>(a &amp; b), <span class="hl-s">&quot;  also a.intersection(b)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;A - B       :&quot;</span>, <span class="hl-f">sorted</span>(a - b), <span class="hl-s">&quot;  also a.difference(b)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;B - A       :&quot;</span>, <span class="hl-f">sorted</span>(b - a))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;A ^ B       :&quot;</span>, <span class="hl-f">sorted</span>(a ^ b), <span class="hl-s">&quot;  (in exactly one)&quot;</span>)
+<span class="hl-f">print</span>(a &lt;= {<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;X&quot;</span>}, {<span class="hl-s">&quot;Asha&quot;</span>} &lt; a, <span class="hl-f">a.isdisjoint</span>({<span class="hl-s">&quot;Zoya&quot;</span>}))     <span class="hl-c"># subset, proper subset, disjoint</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">union       : [&#x27;Asha&#x27;, &#x27;Kabir&#x27;, &#x27;Meera&#x27;, &#x27;Neha&#x27;, &#x27;Ravi&#x27;, &#x27;Zoya&#x27;]   also a.union(b)
+intersection: [&#x27;Kabir&#x27;, &#x27;Meera&#x27;]   also a.intersection(b)
+A - B       : [&#x27;Asha&#x27;, &#x27;Ravi&#x27;]   also a.difference(b)
+B - A       : [&#x27;Neha&#x27;, &#x27;Zoya&#x27;]
+A ^ B       : [&#x27;Asha&#x27;, &#x27;Neha&#x27;, &#x27;Ravi&#x27;, &#x27;Zoya&#x27;]   (in exactly one)
+True True True</pre></div>
+<p>These are the same operations as SQL's <code>UNION</code>, <code>INTERSECT</code> and <code>EXCEPT</code> (SQL Lesson 9).</p>
+<h3 id="frozen-sets">Frozen sets</h3>
+<p><code>frozenset</code> is an immutable set: it can be a dictionary key or a member of another set.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">fs = <span class="hl-f">frozenset</span>({<span class="hl-s">&quot;North&quot;</span>, <span class="hl-s">&quot;South&quot;</span>})
+<span class="hl-f">print</span>(fs, {fs: <span class="hl-s">&quot;regions&quot;</span>}, fs | {<span class="hl-s">&quot;East&quot;</span>})</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">frozenset({&#x27;North&#x27;, &#x27;South&#x27;}) {frozenset({&#x27;North&#x27;, &#x27;South&#x27;}): &#x27;regions&#x27;} frozenset({&#x27;North&#x27;, &#x27;South&#x27;, &#x27;East&#x27;})</pre></div>
+<h2 id="real-data-customer-movement-with-sets">Real data: customer movement with sets</h2>
+<p>The Superstore data lets us rebuild the retention analysis from SQL Lesson 9 with sets:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+cust = {y: <span class="hl-f">set</span>(s.loc[s.order_date.dt.year == y, <span class="hl-s">&quot;customer_id&quot;</span>]) <span class="hl-k">for</span> y <span class="hl-k">in</span> (<span class="hl-n">2023</span>, <span class="hl-n">2024</span>, <span class="hl-n">2025</span>)}
+<span class="hl-f">print</span>({y: <span class="hl-f">len</span>(c) <span class="hl-k">for</span> y, c <span class="hl-k">in</span> <span class="hl-f">cust.items</span>()})
+retained = cust[<span class="hl-n">2024</span>] &amp; cust[<span class="hl-n">2025</span>]
+lost = cust[<span class="hl-n">2024</span>] - cust[<span class="hl-n">2025</span>]
+new_in_2025 = cust[<span class="hl-n">2025</span>] - (cust[<span class="hl-n">2023</span>] | cust[<span class="hl-n">2024</span>])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Retained 2024→2025: {len(retained)} | lost: {len(lost)} | brand new in 2025: {len(new_in_2025)}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Retention rate: {len(retained) / len(cust[2024]):.1%}  (matches the SQL result: 467 of 590)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Bought in all 3 years:&quot;</span>, <span class="hl-f">len</span>(cust[<span class="hl-n">2023</span>] &amp; cust[<span class="hl-n">2024</span>] &amp; cust[<span class="hl-n">2025</span>]), <span class="hl-s">&quot;| bought in exactly one year:&quot;</span>, <span class="hl-f">len</span>((cust[<span class="hl-n">2023</span>] ^ cust[<span class="hl-n">2024</span>] ^ cust[<span class="hl-n">2025</span>]) - (cust[<span class="hl-n">2023</span>] &amp; cust[<span class="hl-n">2024</span>] &amp; cust[<span class="hl-n">2025</span>])))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{2023: 540, 2024: 590, 2025: 623}
+Retained 2024→2025: 467 | lost: 123 | brand new in 2025: 52
+Retention rate: 79.2%  (matches the SQL result: 467 of 590)
+Bought in all 3 years: 311 | bought in exactly one year: 128</pre></div>
+<p>Same answers as the SQL queries, in three lines. Sets are also the fastest way to <strong>de-duplicate</strong> and to <strong>check membership</strong> in big collections:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> time, random
+big_list = <span class="hl-f">list</span>(<span class="hl-f">range</span>(200_000)); big_set = <span class="hl-f">set</span>(big_list); probes = [<span class="hl-f">random.randrange</span>(400_000) <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">300</span>)]
+t0 = <span class="hl-f">time.perf_counter</span>(); [p <span class="hl-k">in</span> big_list <span class="hl-k">for</span> p <span class="hl-k">in</span> probes]; t1 = <span class="hl-f">time.perf_counter</span>(); [p <span class="hl-k">in</span> big_set <span class="hl-k">for</span> p <span class="hl-k">in</span> probes]; t2 = <span class="hl-f">time.perf_counter</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;300 lookups: list {1000 * (t1 - t0):.1f} ms | set {1000 * (t2 - t1):.3f} ms&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">300 lookups: list 329.5 ms | set 0.244 ms</pre></div>
+<h2 id="choosing-a-collection">Choosing a collection</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ordered, changeable sequence</td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td>Ordered, fixed record or dict key</td>
+<td><code>tuple</code></td>
+</tr>
+<tr>
+<td>Unique items, fast "is it in there?", set algebra</td>
+<td><code>set</code></td>
+</tr>
+<tr>
+<td>Key → value lookup</td>
+<td><code>dict</code> (next lesson)</td>
+</tr>
+<tr>
+<td>Unique <strong>and</strong> ordered</td>
+<td><code>dict.fromkeys(items)</code> or a list + set</td>
+</tr>
+<tr>
+<td>FIFO queue</td>
+<td><code>collections.deque</code></td>
+</tr>
+<tr>
+<td>Counting</td>
+<td><code>collections.Counter</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>Tuples</strong> are ordered and immutable: use them for fixed records, multiple return values and dictionary keys; unpack with <code>a, b = t</code> and <code>first, *rest = t</code>.</li>
+<li>A one-item tuple needs a comma: <code>(5,)</code>. Use <strong>namedtuple</strong> or a frozen <strong>dataclass</strong> for readable records.</li>
+<li><strong>Sets</strong> hold unique, hashable items with O(1) membership; <code>{}</code> is an empty dict, so use <code>set()</code>.</li>
+<li>Set algebra: <code>|</code> union, <code>&amp;</code> intersection, <code>-</code> difference, <code>^</code> symmetric difference; subset tests with <code>&lt;=</code>.</li>
+<li>Sets turn retention/overlap analyses into one-liners and are far faster than lists for membership tests.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-07-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is <code>type((5))</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>tuple</button><button type="button" class="opt" data-ok="1"><i>B</i>int</button><button type="button" class="opt" data-ok="0"><i>C</i>list</button><button type="button" class="opt" data-ok="0"><i>D</i>set</button></div><div class="qexp"><b>Answer: B.</b> Brackets alone do not make a tuple; <code>(5,)</code> does.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>{1, 2, 3} &amp; {2, 3, 4}</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>{1, 2, 3, 4}</button><button type="button" class="opt" data-ok="1"><i>B</i>{2, 3}</button><button type="button" class="opt" data-ok="0"><i>C</i>{1, 4}</button><button type="button" class="opt" data-ok="0"><i>D</i>{1}</button></div><div class="qexp"><b>Answer: B.</b> <code>&amp;</code> is the intersection.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which can be used as a dictionary key?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A list</button><button type="button" class="opt" data-ok="1"><i>B</i>A tuple of strings</button><button type="button" class="opt" data-ok="0"><i>C</i>A set</button><button type="button" class="opt" data-ok="0"><i>D</i>A dict</button></div><div class="qexp"><b>Answer: B.</b> Keys must be hashable; lists, sets and dicts are not.</div></div><div class="qq"><p class="qtext"><b>4.</b> How do you create an empty set?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>{}</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>set()</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>[]</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>()</code></button></div><div class="qexp"><b>Answer: B.</b> <code>{}</code> creates an empty dictionary.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does <code>first, *rest = (1, 2, 3, 4)</code> assign to <code>rest</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>(2, 3, 4)</button><button type="button" class="opt" data-ok="1"><i>B</i>[2, 3, 4]</button><button type="button" class="opt" data-ok="0"><i>C</i>4</button><button type="button" class="opt" data-ok="0"><i>D</i>2</button></div><div class="qexp"><b>Answer: B.</b> Starred unpacking collects the remaining items into a list.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why are set lookups faster than list lookups?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Sets are sorted</button><button type="button" class="opt" data-ok="1"><i>B</i>Sets use hashing, giving O(1) average membership tests</button><button type="button" class="opt" data-ok="0"><i>C</i>Sets store fewer items</button><button type="button" class="opt" data-ok="0"><i>D</i>They are not faster</button></div><div class="qexp"><b>Answer: B.</b> A list scans item by item (O(n)).</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Set problems</b></div><p>(1) Find the common cities between <code>{"Pune","Delhi","Goa"}</code> and <code>{"Goa","Kochi","Pune"}</code>. (2) Customers who bought in 2023 and 2024 but not in 2025 (use the Superstore sets). (3) Write <code>min_max_mean(values)</code> returning a tuple, and unpack it. (4) Check whether two words are anagrams using <code>sorted</code> and also using <code>collections.Counter</code>.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>({<span class="hl-s">&quot;Pune&quot;</span>,<span class="hl-s">&quot;Delhi&quot;</span>,<span class="hl-s">&quot;Goa&quot;</span>} &amp; {<span class="hl-s">&quot;Goa&quot;</span>,<span class="hl-s">&quot;Kochi&quot;</span>,<span class="hl-s">&quot;Pune&quot;</span>})
+<span class="hl-f">print</span>(<span class="hl-f">len</span>((cust[<span class="hl-n">2023</span>] &amp; cust[<span class="hl-n">2024</span>]) - cust[<span class="hl-n">2025</span>]))
+<span class="hl-k">def</span> <span class="hl-f">min_max_mean</span>(v): <span class="hl-k">return</span> <span class="hl-f">min</span>(v), <span class="hl-f">max</span>(v), <span class="hl-f">sum</span>(v) / <span class="hl-f">len</span>(v)
+lo, hi, m = <span class="hl-f">min_max_mean</span>([<span class="hl-n">3</span>, <span class="hl-n">9</span>, <span class="hl-n">6</span>])
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter
+<span class="hl-f">print</span>(<span class="hl-f">sorted</span>(<span class="hl-s">&quot;listen&quot;</span>) == <span class="hl-f">sorted</span>(<span class="hl-s">&quot;silent&quot;</span>), <span class="hl-f">Counter</span>(<span class="hl-s">&quot;listen&quot;</span>) == <span class="hl-f">Counter</span>(<span class="hl-s">&quot;silent&quot;</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Tuple vs list: when would you choose each?</strong>
+Tuple for fixed, heterogeneous records, hashable keys and returning several values; list for homogeneous collections that change.</p>
+<p><strong>Q: How do you remove duplicates from a list while preserving order?</strong>
+<code>list(dict.fromkeys(items))</code>; <code>list(set(items))</code> does not preserve order.</p>
+<p><strong>Q: What is the time complexity of set membership and why?</strong>
+Average O(1) because sets are hash tables (worst case O(n) with many collisions).</p>
+<p><strong>Q: How do you find items in A but not in B?</strong>
+<code>A - B</code> for sets; for lists use a set for B: <code>[x for x in A if x not in set_b]</code>.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html"><small>← Previous</small><b>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</b></a><a class="next" href="python-08-dictionaries-key-value-data-counting-and-grouping.html"><small>Next →</small><b>Dictionaries: Key-Value Data, Counting and Grouping</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#tuples">Tuples</a><a href="#sets">Sets</a><a href="#real-data-customer-movement-with-sets">Real data: customer movement with sets</a><a href="#choosing-a-collection">Choosing a collection</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>

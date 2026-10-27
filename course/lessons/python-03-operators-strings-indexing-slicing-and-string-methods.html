@@ -1,0 +1,352 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Operators, Strings, Indexing, Slicing &amp; String Methods · Python Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Master Python&#x27;s operators (arithmetic, comparison, logical, assignment, membership, identity, bitwise) and work with text: string indexing and slicing, immutability, every string method an analyst needs (split, join, strip, replace, find, startswith, case methods, isdigit…), escape sequences, and cleaning real messy text."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class="on"><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-03">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 3 of 8</div><h1>Operators, Strings, Indexing, Slicing &amp; String Methods</h1>
+<p class="sum">Master Python's operators (arithmetic, comparison, logical, assignment, membership, identity, bitwise) and work with text: string indexing and slicing, immutability, every string method an analyst needs (split, join, strip, replace, find, startswith, case methods, isdigit…), escape sequences, and cleaning real messy text.</p><div class="tags"><span class="tag live">● Python classes 3–4</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_03_Operators_Strings_Indexing_Slicing_String_Methods.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Use arithmetic, comparison, logical, membership and identity operators and explain operator precedence</li><li>Index and slice strings forwards and backwards, including steps, and explain immutability</li><li>Apply string methods to clean, split, search, join and format text</li><li>Build small text-cleaning functions and check results on real data</li><li>Recognise common string pitfalls (encoding, whitespace, case, escape characters)</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="operators">Operators</h2>
+<h3 id="arithmetic">Arithmetic</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code> <code>-</code> <code>*</code></td>
+<td>Add, subtract, multiply</td>
+<td><code>7 * 3</code></td>
+<td>21</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>True division (always float)</td>
+<td><code>7 / 2</code></td>
+<td>3.5</td>
+</tr>
+<tr>
+<td><code>//</code></td>
+<td>Floor division</td>
+<td><code>7 // 2</code>, <code>-7 // 2</code></td>
+<td>3, <strong>−4</strong></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>Remainder (modulo)</td>
+<td><code>7 % 2</code>, <code>-7 % 3</code></td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>Power</td>
+<td><code>2 ** 10</code></td>
+<td>1024</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-n">7</span> / <span class="hl-n">2</span>, <span class="hl-n">7</span> // <span class="hl-n">2</span>, -<span class="hl-n">7</span> // <span class="hl-n">2</span>, <span class="hl-n">7</span> % <span class="hl-n">2</span>, -<span class="hl-n">7</span> % <span class="hl-n">3</span>, <span class="hl-n">2</span> ** <span class="hl-n">10</span>, <span class="hl-n">9</span> ** <span class="hl-n">0.5</span>)
+<span class="hl-f">print</span>(<span class="hl-f">divmod</span>(<span class="hl-n">17</span>, <span class="hl-n">5</span>))                  <span class="hl-c"># (quotient, remainder) in one call</span>
+hours = <span class="hl-n">135</span>; <span class="hl-f">print</span>(<span class="hl-s">f&quot;{hours // 60} h {hours % 60} min&quot;</span>)       <span class="hl-c"># split minutes into hours and minutes</span>
+<span class="hl-f">print</span>(<span class="hl-n">10</span> % <span class="hl-n">3</span> == <span class="hl-n">1</span>, <span class="hl-n">12</span> % <span class="hl-n">2</span> == <span class="hl-n">0</span>)      <span class="hl-c"># test odd/even and divisibility</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">3.5 3 -4 1 2 1024 3.0
+(3, 2)
+2 h 15 min
+True True</pre></div>
+<h3 id="comparison-and-logical">Comparison and logical</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">x = <span class="hl-n">15</span>
+<span class="hl-f">print</span>(x &gt; <span class="hl-n">10</span>, x == <span class="hl-n">15</span>, x != <span class="hl-n">15</span>, <span class="hl-n">10</span> &lt; x &lt;= <span class="hl-n">20</span>)        <span class="hl-c"># chained comparison: 10 &lt; x and x &lt;= 20</span>
+<span class="hl-f">print</span>(x &gt; <span class="hl-n">10</span> <span class="hl-k">and</span> x &lt; <span class="hl-n">20</span>, x &lt; <span class="hl-n">5</span> <span class="hl-k">or</span> x &gt; <span class="hl-n">12</span>, <span class="hl-k">not</span> x &gt; <span class="hl-n">10</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;apple&quot;</span> &lt; <span class="hl-s">&quot;banana&quot;</span>, <span class="hl-s">&quot;Zebra&quot;</span> &lt; <span class="hl-s">&quot;apple&quot;</span>)         <span class="hl-c"># strings compare by character codes: uppercase before lowercase</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True True False True
+True True False
+True True</pre></div>
+<p><strong>Short-circuit evaluation</strong>: <code>A and B</code> stops at A if A is falsy; <code>A or B</code> stops at A if A is truthy. They return the <strong>deciding operand</strong>, not just True/False:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-n">0</span> <span class="hl-k">or</span> <span class="hl-s">&quot;default&quot;</span>, <span class="hl-s">&quot;&quot;</span> <span class="hl-k">or</span> <span class="hl-s">&quot;n/a&quot;</span>, <span class="hl-s">&quot;x&quot;</span> <span class="hl-k">and</span> <span class="hl-s">&quot;y&quot;</span>, <span class="hl-k">None</span> <span class="hl-k">and</span> <span class="hl-n">1</span>)
+name = <span class="hl-s">&quot;&quot;</span>; <span class="hl-f">print</span>(name <span class="hl-k">or</span> <span class="hl-s">&quot;Anonymous&quot;</span>)          <span class="hl-c"># a common idiom for default values</span>
+<span class="hl-f">print</span>(<span class="hl-n">5</span> &gt; <span class="hl-n">3</span> <span class="hl-k">and</span> <span class="hl-f">print</span>(<span class="hl-s">&quot;evaluated&quot;</span>) <span class="hl-k">is</span> <span class="hl-k">None</span>)     <span class="hl-c"># right side runs only when needed</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">default n/a y None
+Anonymous
+evaluated
+True</pre></div>
+<h3 id="assignment-membership-identity">Assignment, membership, identity</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">count = <span class="hl-n">10</span>; count += <span class="hl-n">5</span>; count *= <span class="hl-n">2</span>; count -= <span class="hl-n">1</span>; count //= <span class="hl-n">4</span>; count **= <span class="hl-n">2</span>
+<span class="hl-f">print</span>(count)
+<span class="hl-f">print</span>(<span class="hl-n">3</span> <span class="hl-k">in</span> [<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>], <span class="hl-s">&quot;py&quot;</span> <span class="hl-k">in</span> <span class="hl-s">&quot;python&quot;</span>, <span class="hl-s">&quot;z&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> <span class="hl-s">&quot;python&quot;</span>, <span class="hl-s">&quot;a&quot;</span> <span class="hl-k">in</span> {<span class="hl-s">&quot;a&quot;</span>: <span class="hl-n">1</span>})     <span class="hl-c"># membership</span>
+a = [<span class="hl-n">1</span>, <span class="hl-n">2</span>]; b = [<span class="hl-n">1</span>, <span class="hl-n">2</span>]; c = a
+<span class="hl-f">print</span>(a == b, a <span class="hl-k">is</span> b, a <span class="hl-k">is</span> c, <span class="hl-k">None</span> <span class="hl-k">is</span> <span class="hl-k">None</span>)                                          <span class="hl-c"># equality vs identity</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">49
+True True True True
+True False True True</pre></div>
+<h3 id="bitwise-awareness">Bitwise (awareness)</h3>
+<p><code>&amp;</code> AND, <code>|</code> OR, <code>^</code> XOR, <code>~</code> NOT, <code>&lt;&lt;</code> <code>&gt;&gt;</code> shifts: used for flags and low-level work; in pandas/NumPy <code>&amp;</code> and <code>|</code> combine boolean arrays (use brackets).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-n">5</span> &amp; <span class="hl-n">3</span>, <span class="hl-n">5</span> | <span class="hl-n">3</span>, <span class="hl-n">5</span> ^ <span class="hl-n">3</span>, <span class="hl-n">5</span> &lt;&lt; <span class="hl-n">1</span>, <span class="hl-n">5</span> &gt;&gt; <span class="hl-n">1</span>, <span class="hl-f">bin</span>(<span class="hl-n">5</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1 7 6 10 2 0b101</pre></div>
+<h3 id="precedence">Precedence</h3>
+<p>From highest to lowest: <code>**</code> → unary <code>-x</code> → <code>* / // %</code> → <code>+ -</code> → comparisons (<code>&lt; == in is</code>) → <code>not</code> → <code>and</code> → <code>or</code>. When in doubt, use brackets.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-n">2</span> + <span class="hl-n">3</span> * <span class="hl-n">4</span> ** <span class="hl-n">2</span>, (<span class="hl-n">2</span> + <span class="hl-n">3</span>) * <span class="hl-n">4</span> ** <span class="hl-n">2</span>, -<span class="hl-n">2</span> ** <span class="hl-n">2</span>, (-<span class="hl-n">2</span>) ** <span class="hl-n">2</span>, <span class="hl-k">not</span> <span class="hl-n">1</span> == <span class="hl-n">2</span> <span class="hl-k">or</span> <span class="hl-k">False</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">50 80 -4 4 True</pre></div>
+<h3 id="walrus-operator-38">Walrus operator (3.8+)</h3>
+<p><code>:=</code> assigns inside an expression: <code>if (n := len(items)) &gt; 10: print(f"{n} items")</code>. Useful in loops and comprehensions; do not overuse.</p>
+<h2 id="strings">Strings</h2>
+<p>A <strong>string</strong> is an immutable sequence of Unicode characters. Create with single, double or triple quotes.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">city = <span class="hl-s">&quot;Bengaluru&quot;</span>
+quote = <span class="hl-s">&#x27;She said &quot;hello&quot;&#x27;</span>
+multi = <span class="hl-s">&quot;&quot;&quot;Line 1
+Line 2&quot;&quot;&quot;</span>
+hindi = <span class="hl-s">&quot;नमस्ते&quot;</span>                      <span class="hl-c"># Unicode works everywhere</span>
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(city), <span class="hl-f">len</span>(hindi), <span class="hl-f">multi.splitlines</span>(), <span class="hl-f">city.upper</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Ha&quot;</span> * <span class="hl-n">3</span>, <span class="hl-s">&quot;data&quot;</span> + <span class="hl-s">&quot; &quot;</span> + <span class="hl-s">&quot;science&quot;</span>, <span class="hl-s">&quot;-&quot;</span> * <span class="hl-n">20</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">9 6 [&#x27;Line 1&#x27;, &#x27;Line 2&#x27;] BENGALURU
+HaHaHa data science --------------------</pre></div>
+<h3 id="indexing">Indexing</h3>
+<p>Characters are numbered from 0 on the left and from −1 on the right.</p>
+<figure class="fig"><img src="../img/python-03-01.png" alt="Indexing a string: positive indexes count from the left (starting at 0), negative from the right (starting at -1)." loading="lazy"><figcaption>Indexing a string: positive indexes count from the left (starting at 0), negative from the right (starting at -1).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">w = <span class="hl-s">&quot;BENGALURU&quot;</span>
+<span class="hl-f">print</span>(w[<span class="hl-n">0</span>], w[<span class="hl-n">3</span>], w[-<span class="hl-n">1</span>], w[-<span class="hl-n">3</span>])
+<span class="hl-k">try</span>: <span class="hl-f">print</span>(w[<span class="hl-n">20</span>])
+<span class="hl-k">except</span> IndexError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;IndexError:&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">B G U U
+IndexError: string index out of range</pre></div>
+<h3 id="slicing-sstartstopstep">Slicing: <code>s[start:stop:step]</code></h3>
+<p><code>start</code> is included, <code>stop</code> is <strong>excluded</strong>; omit a part to mean "from the beginning / to the end"; a negative step goes backwards.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">w = <span class="hl-s">&quot;BENGALURU&quot;</span>
+<span class="hl-f">print</span>(w[<span class="hl-n">0</span>:<span class="hl-n">3</span>], w[:<span class="hl-n">3</span>], w[<span class="hl-n">3</span>:], w[<span class="hl-n">3</span>:<span class="hl-n">6</span>], w[-<span class="hl-n">4</span>:], w[:-<span class="hl-n">1</span>])
+<span class="hl-f">print</span>(w[::<span class="hl-n">2</span>], w[::-<span class="hl-n">1</span>], w[<span class="hl-n">1</span>::<span class="hl-n">3</span>], w[<span class="hl-n">8</span>:<span class="hl-n">2</span>:-<span class="hl-n">2</span>])
+<span class="hl-f">print</span>(w[<span class="hl-n">2</span>:<span class="hl-n">100</span>], <span class="hl-f">repr</span>(w[<span class="hl-n">5</span>:<span class="hl-n">2</span>]))             <span class="hl-c"># out-of-range slices are safe; an empty slice is &#x27;&#x27;</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">BEN BEN GALURU GAL LURU BENGALUR
+BNAUU URULAGNEB EAR UUA
+NGALURU &#x27;&#x27;</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Slice</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>s[:n]</code></td>
+<td>First n characters</td>
+</tr>
+<tr>
+<td><code>s[-n:]</code></td>
+<td>Last n characters</td>
+</tr>
+<tr>
+<td><code>s[a:b]</code></td>
+<td>From a up to (not including) b; length b − a</td>
+</tr>
+<tr>
+<td><code>s[::-1]</code></td>
+<td>Reversed</td>
+</tr>
+<tr>
+<td><code>s[::2]</code></td>
+<td>Every second character</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">order_id = <span class="hl-s">&quot;IN-2025-00042&quot;</span>
+country, year, number = order_id[:<span class="hl-n">2</span>], <span class="hl-f">int</span>(order_id[<span class="hl-n">3</span>:<span class="hl-n">7</span>]), <span class="hl-f">int</span>(order_id[-<span class="hl-n">5</span>:])
+<span class="hl-f">print</span>(country, year, number)                      <span class="hl-c"># same as LEFT/MID/RIGHT in Excel and SQL</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">IN 2025 42</pre></div>
+<h2 id="string-methods">String methods</h2>
+<p>Strings are immutable, so every method <strong>returns a new string</strong>; the original stays unchanged.</p>
+<h3 id="case-and-cleaning">Case and cleaning</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-s">&quot;  new DELHI  &quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">repr</span>(<span class="hl-f">s.strip</span>()), <span class="hl-f">repr</span>(<span class="hl-f">s.lstrip</span>()), <span class="hl-f">repr</span>(<span class="hl-f">s.rstrip</span>()))
+<span class="hl-f">print</span>(<span class="hl-f">s.strip</span>().<span class="hl-f">lower</span>(), <span class="hl-f">s.strip</span>().<span class="hl-f">upper</span>(), <span class="hl-f">s.strip</span>().<span class="hl-f">title</span>(), <span class="hl-f">s.strip</span>().<span class="hl-f">capitalize</span>(), <span class="hl-f">s.strip</span>().<span class="hl-f">swapcase</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;xxHixx&quot;</span>.<span class="hl-f">strip</span>(<span class="hl-s">&quot;x&quot;</span>), <span class="hl-s">&quot;2025-04-27&quot;</span>.<span class="hl-f">replace</span>(<span class="hl-s">&quot;-&quot;</span>, <span class="hl-s">&quot;/&quot;</span>), <span class="hl-s">&quot;a,b,,c&quot;</span>.<span class="hl-f">replace</span>(<span class="hl-s">&quot;,,&quot;</span>, <span class="hl-s">&quot;,&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Bengaluru&quot;</span>.<span class="hl-f">casefold</span>() == <span class="hl-s">&quot;BENGALURU&quot;</span>.<span class="hl-f">casefold</span>())         <span class="hl-c"># robust case-insensitive comparison</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&#x27;new DELHI&#x27; &#x27;new DELHI  &#x27; &#x27;  new DELHI&#x27;
+new delhi NEW DELHI New Delhi New delhi NEW delhi
+Hi 2025/04/27 a,b,c
+True</pre></div>
+<h3 id="searching-and-testing">Searching and testing</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">t = <span class="hl-s">&quot;Delhi, Mumbai, Delhi, Pune&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">t.find</span>(<span class="hl-s">&quot;Delhi&quot;</span>), <span class="hl-f">t.rfind</span>(<span class="hl-s">&quot;Delhi&quot;</span>), <span class="hl-f">t.find</span>(<span class="hl-s">&quot;Goa&quot;</span>), <span class="hl-f">t.count</span>(<span class="hl-s">&quot;Delhi&quot;</span>), <span class="hl-f">t.index</span>(<span class="hl-s">&quot;Mumbai&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">t.startswith</span>(<span class="hl-s">&quot;Delhi&quot;</span>), <span class="hl-f">t.endswith</span>(<span class="hl-s">&quot;Pune&quot;</span>), <span class="hl-s">&quot;Mumbai&quot;</span> <span class="hl-k">in</span> t)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;12345&quot;</span>.<span class="hl-f">isdigit</span>(), <span class="hl-s">&quot;12.5&quot;</span>.<span class="hl-f">isdigit</span>(), <span class="hl-s">&quot;abc&quot;</span>.<span class="hl-f">isalpha</span>(), <span class="hl-s">&quot;abc123&quot;</span>.<span class="hl-f">isalnum</span>(), <span class="hl-s">&quot;  &quot;</span>.<span class="hl-f">isspace</span>(), <span class="hl-s">&quot;Abc&quot;</span>.<span class="hl-f">istitle</span>(), <span class="hl-s">&quot;abc&quot;</span>.<span class="hl-f">islower</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">0 15 -1 2 7
+True True True
+True False True True True True True</pre></div>
+<p><code>find</code> returns −1 when not found; <code>index</code> raises <code>ValueError</code>. <code>isdigit</code> is False for decimals and negatives, so use <code>try: float(s)</code> to test numbers.</p>
+<h3 id="splitting-and-joining">Splitting and joining</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">csv_line = <span class="hl-s">&quot;E101,Kavya Iyer,HR,97000&quot;</span>
+parts = <span class="hl-f">csv_line.split</span>(<span class="hl-s">&quot;,&quot;</span>)
+<span class="hl-f">print</span>(parts, <span class="hl-f">len</span>(parts))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;one  two   three&quot;</span>.<span class="hl-f">split</span>(), <span class="hl-s">&quot;a-b-c&quot;</span>.<span class="hl-f">split</span>(<span class="hl-s">&quot;-&quot;</span>, <span class="hl-n">1</span>), <span class="hl-s">&quot;line1\nline2&quot;</span>.<span class="hl-f">splitlines</span>(), <span class="hl-s">&quot;path/to/file.csv&quot;</span>.<span class="hl-f">rsplit</span>(<span class="hl-s">&quot;/&quot;</span>, <span class="hl-n">1</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;, &quot;</span>.<span class="hl-f">join</span>([<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Goa&quot;</span>]), <span class="hl-s">&quot;&quot;</span>.<span class="hl-f">join</span>([<span class="hl-s">&quot;a&quot;</span>, <span class="hl-s">&quot;b&quot;</span>]), <span class="hl-s">&quot; | &quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">str</span>(n) <span class="hl-k">for</span> n <span class="hl-k">in</span> [<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;abc&quot;</span>.<span class="hl-f">partition</span>(<span class="hl-s">&quot;b&quot;</span>), <span class="hl-s">&quot;IN-2025-00042&quot;</span>.<span class="hl-f">partition</span>(<span class="hl-s">&quot;-&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;E101&#x27;, &#x27;Kavya Iyer&#x27;, &#x27;HR&#x27;, &#x27;97000&#x27;] 4
+[&#x27;one&#x27;, &#x27;two&#x27;, &#x27;three&#x27;] [&#x27;a&#x27;, &#x27;b-c&#x27;] [&#x27;line1&#x27;, &#x27;line2&#x27;] [&#x27;path/to&#x27;, &#x27;file.csv&#x27;]
+Pune, Delhi, Goa ab 1 | 2 | 3
+(&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;) (&#x27;IN&#x27;, &#x27;-&#x27;, &#x27;2025-00042&#x27;)</pre></div>
+<p><code>split()</code> with no argument splits on any whitespace and ignores repeats: the best way to tokenise text. <code>join</code> is called on the <strong>separator</strong>, with a list of strings.</p>
+<h3 id="alignment-padding-and-formatting">Alignment, padding and formatting</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-s">&quot;42&quot;</span>.<span class="hl-f">zfill</span>(<span class="hl-n">6</span>), <span class="hl-s">&quot;7&quot;</span>.<span class="hl-f">rjust</span>(<span class="hl-n">4</span>, <span class="hl-s">&quot;0&quot;</span>), <span class="hl-s">&quot;ab&quot;</span>.<span class="hl-f">ljust</span>(<span class="hl-n">5</span>, <span class="hl-s">&quot;.&quot;</span>) + <span class="hl-s">&quot;|&quot;</span>, <span class="hl-s">&quot;ab&quot;</span>.<span class="hl-f">center</span>(<span class="hl-n">8</span>, <span class="hl-s">&quot;*&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Total&quot;</span>.<span class="hl-f">ljust</span>(<span class="hl-n">10</span>) + <span class="hl-s">&quot;1,500&quot;</span>.<span class="hl-f">rjust</span>(<span class="hl-n">10</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;{:&gt;8} {:&lt;8} {:^8}&quot;</span>.<span class="hl-f">format</span>(<span class="hl-s">&quot;right&quot;</span>, <span class="hl-s">&quot;left&quot;</span>, <span class="hl-s">&quot;mid&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;tab\tseparated&quot;</span>, <span class="hl-s">&quot;new\\nline stays literal&quot;</span>, <span class="hl-s">&quot;unicode: \u20b9 \u2713&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">000042 0007 ab...| ***ab***
+Total          1,500
+   right left       mid   
+tab	separated new\nline stays literal unicode: ₹ ✓</pre></div>
+<h3 id="translating-and-encoding">Translating and encoding</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">table = <span class="hl-f">str.maketrans</span>({<span class="hl-s">&quot;₹&quot;</span>: <span class="hl-s">&quot;Rs &quot;</span>, <span class="hl-s">&quot;,&quot;</span>: <span class="hl-s">&quot;&quot;</span>})
+<span class="hl-f">print</span>(<span class="hl-s">&quot;₹1,25,000&quot;</span>.<span class="hl-f">translate</span>(table))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;naïve café&quot;</span>.<span class="hl-f">encode</span>(<span class="hl-s">&quot;utf-8&quot;</span>), <span class="hl-s">&quot;abc&quot;</span>.<span class="hl-f">encode</span>(<span class="hl-s">&quot;ascii&quot;</span>), b<span class="hl-s">&quot;abc&quot;</span>.<span class="hl-f">decode</span>())
+<span class="hl-f">print</span>(<span class="hl-f">ord</span>(<span class="hl-s">&quot;A&quot;</span>), <span class="hl-f">chr</span>(<span class="hl-n">97</span>), <span class="hl-s">&quot;é&quot;</span>.<span class="hl-f">encode</span>(<span class="hl-s">&quot;utf-8&quot;</span>), <span class="hl-f">len</span>(<span class="hl-s">&quot;é&quot;</span>.<span class="hl-f">encode</span>(<span class="hl-s">&quot;utf-8&quot;</span>)))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Rs 125000
+b&#x27;na\xc3\xafve caf\xc3\xa9&#x27; b&#x27;abc&#x27; abc
+65 a b&#x27;\xc3\xa9&#x27; 2</pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Encoding</b></div><p>Text on disk is <strong>bytes</strong>. Most files today are <strong>UTF-8</strong>; if you see <code>Ã©</code> or <code>�</code>, the file was read with the wrong encoding. In pandas use <code>pd.read_csv(path, encoding="utf-8")</code> or <code>"latin-1"</code>/<code>"cp1252"</code> for old Windows exports.</p></div>
+<h3 id="method-cheat-sheet">Method cheat sheet</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Goal</th>
+<th>Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Change case</td>
+<td><code>lower()</code>, <code>upper()</code>, <code>title()</code>, <code>capitalize()</code>, <code>casefold()</code></td>
+</tr>
+<tr>
+<td>Trim</td>
+<td><code>strip()</code>, <code>lstrip()</code>, <code>rstrip()</code>, <code>removeprefix()</code>, <code>removesuffix()</code></td>
+</tr>
+<tr>
+<td>Replace</td>
+<td><code>replace(old, new, count)</code>, <code>translate()</code></td>
+</tr>
+<tr>
+<td>Search</td>
+<td><code>find()</code>, <code>rfind()</code>, <code>index()</code>, <code>count()</code>, <code>in</code>, <code>startswith()</code>, <code>endswith()</code></td>
+</tr>
+<tr>
+<td>Test</td>
+<td><code>isdigit()</code>, <code>isalpha()</code>, <code>isalnum()</code>, <code>isspace()</code>, <code>isupper()</code>, <code>islower()</code></td>
+</tr>
+<tr>
+<td>Split / join</td>
+<td><code>split()</code>, <code>rsplit()</code>, <code>splitlines()</code>, <code>partition()</code>, <code>join()</code></td>
+</tr>
+<tr>
+<td>Pad / align</td>
+<td><code>zfill()</code>, <code>ljust()</code>, <code>rjust()</code>, <code>center()</code></td>
+</tr>
+<tr>
+<td>Format</td>
+<td>f-strings, <code>format()</code>, <code>format_map()</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="cleaning-real-text">Cleaning real text</h2>
+<p>Customer names from the course's <code>customers.csv</code>, cleaned with the same rules you used in Excel (<code>TRIM</code>, <code>PROPER</code>) and SQL:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+cust = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+raw = [<span class="hl-s">&quot;  asha RAO &quot;</span>, <span class="hl-s">&quot;ravi   verma&quot;</span>, <span class="hl-s">&quot;MEERA\tIYER&quot;</span>, <span class="hl-s">&quot;kabir  singh &quot;</span>]          <span class="hl-c"># messy examples</span>
+<span class="hl-k">def</span> <span class="hl-f">clean_name</span>(name):
+    parts = <span class="hl-f">name.split</span>()                         <span class="hl-c"># split() collapses all whitespace</span>
+    <span class="hl-k">return</span> <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">p.capitalize</span>() <span class="hl-k">for</span> p <span class="hl-k">in</span> parts)
+<span class="hl-f">print</span>([<span class="hl-f">clean_name</span>(n) <span class="hl-k">for</span> n <span class="hl-k">in</span> raw])
+<span class="hl-f">print</span>(<span class="hl-f">cust.customer_name.head</span>(<span class="hl-n">5</span>).<span class="hl-f">tolist</span>())
+first_names = [<span class="hl-f">n.split</span>()[<span class="hl-n">0</span>] <span class="hl-k">for</span> n <span class="hl-k">in</span> cust.customer_name]
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(first_names), <span class="hl-s">&quot;names; most common first names:&quot;</span>, <span class="hl-f">pd.Series</span>(first_names).<span class="hl-f">value_counts</span>().<span class="hl-f">head</span>(<span class="hl-n">5</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;Asha Rao&#x27;, &#x27;Ravi Verma&#x27;, &#x27;Meera Iyer&#x27;, &#x27;Kabir Singh&#x27;]
+[&#x27;Saanvi Khan&#x27;, &#x27;Meera Bose&#x27;, &#x27;Riya Shah&#x27;, &#x27;Diya Fernandes&#x27;, &#x27;Neha Sharma&#x27;]
+800 names; most common first names: {&#x27;Arjun&#x27;: 36, &#x27;Vikram&#x27;: 31, &#x27;Aarav&#x27;: 31, &#x27;Sneha&#x27;: 30, &#x27;Priya&#x27;: 30}</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">initials</span>(name): <span class="hl-k">return</span> <span class="hl-s">&quot;&quot;</span>.<span class="hl-f">join</span>(w[<span class="hl-n">0</span>].<span class="hl-f">upper</span>() <span class="hl-k">for</span> w <span class="hl-k">in</span> <span class="hl-f">name.split</span>())
+<span class="hl-k">def</span> <span class="hl-f">mask_email</span>(email):
+    user, _, domain = <span class="hl-f">email.partition</span>(<span class="hl-s">&quot;@&quot;</span>)
+    <span class="hl-k">return</span> user[<span class="hl-n">0</span>] + <span class="hl-s">&quot;*&quot;</span> * (<span class="hl-f">len</span>(user) - <span class="hl-n">2</span>) + user[-<span class="hl-n">1</span>] + <span class="hl-s">&quot;@&quot;</span> + domain
+<span class="hl-f">print</span>(<span class="hl-f">initials</span>(<span class="hl-s">&quot;kavya iyer&quot;</span>), <span class="hl-f">mask_email</span>(<span class="hl-s">&quot;kavya.iyer@abc.in&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;palindrome&quot;</span> <span class="hl-k">if</span> (s := <span class="hl-s">&quot;Level&quot;</span>).<span class="hl-f">lower</span>() == <span class="hl-f">s.lower</span>()[::-<span class="hl-n">1</span>] <span class="hl-k">else</span> <span class="hl-s">&quot;not&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">KI k********r@abc.in
+palindrome</pre></div>
+<h3 id="counting-characters-and-words">Counting characters and words</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">text = <span class="hl-s">&quot;data science is fun and data engineering is fun too&quot;</span>
+words = <span class="hl-f">text.split</span>()
+freq = {}
+<span class="hl-k">for</span> w <span class="hl-k">in</span> words: freq[w] = <span class="hl-f">freq.get</span>(w, <span class="hl-n">0</span>) + <span class="hl-n">1</span>
+<span class="hl-f">print</span>(freq)
+<span class="hl-f">print</span>(<span class="hl-f">max</span>(freq, key=freq.get), <span class="hl-f">len</span>(words), <span class="hl-f">len</span>(<span class="hl-f">set</span>(words)))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;data&#x27;: 2, &#x27;science&#x27;: 1, &#x27;is&#x27;: 2, &#x27;fun&#x27;: 2, &#x27;and&#x27;: 1, &#x27;engineering&#x27;: 1, &#x27;too&#x27;: 1}
+data 10 7</pre></div>
+<p>(<code>collections.Counter(words)</code> does this in one line: Lesson 8.)</p>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Example</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forgetting strings are immutable</td>
+<td><code>s.upper()</code> without assigning</td>
+<td><code>s = s.upper()</code></td>
+</tr>
+<tr>
+<td>Whitespace/case mismatches</td>
+<td><code>"Delhi " != "Delhi"</code></td>
+<td><code>strip()</code>, <code>lower()</code> before comparing</td>
+</tr>
+<tr>
+<td>Using <code>+</code> with numbers</td>
+<td><code>"Total: " + 5</code></td>
+<td>f-string or <code>str(5)</code></td>
+</tr>
+<tr>
+<td><code>isdigit</code> for decimals</td>
+<td><code>"3.5".isdigit()</code> → False</td>
+<td><code>try: float(x)</code></td>
+</tr>
+<tr>
+<td>Off-by-one in slices</td>
+<td><code>s[0:3]</code> has 3 characters</td>
+<td>stop is excluded</td>
+</tr>
+<tr>
+<td>Backslashes in Windows paths</td>
+<td><code>"C:\new"</code> → newline!</td>
+<td>raw string <code>r"C:\new"</code> or forward slashes</td>
+</tr>
+<tr>
+<td>Huge strings in loops</td>
+<td><code>s += x</code> in a loop</td>
+<td>build a list and <code>"".join(list)</code></td>
+</tr>
+<tr>
+<td>Wrong encoding</td>
+<td><code>Ã©</code> characters</td>
+<td><code>encoding="utf-8"</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Ask an assistant to produce 10 messy phone numbers (fake) and then write a function to standardise them to <code>+91-XXXXX-XXXXX</code>. Test it yourself on edge cases (spaces, dashes, leading 0, +91 already present) and compare approaches: string methods first, then regular expressions (Lesson 14).</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Operators: <code>/</code> true division, <code>//</code> floor division, <code>%</code> remainder, <code>**</code> power; comparisons chain (<code>10 &lt; x &lt;= 20</code>); <code>and</code>/<code>or</code> short-circuit and return an operand; use <code>in</code>, <code>not in</code>, <code>is</code>.</li>
+<li>Strings are <strong>immutable</strong> sequences: index from 0 or −1, slice <code>[start:stop:step]</code> (stop excluded).</li>
+<li>Methods return new strings: <code>strip</code>, <code>lower/upper/title</code>, <code>replace</code>, <code>split</code>/<code>join</code>, <code>find</code>/<code>count</code>, <code>startswith</code>, <code>zfill</code>, <code>partition</code>.</li>
+<li>Clean text by trimming, normalising case/whitespace and replacing variants before comparing or counting.</li>
+<li>Watch pitfalls: forgetting to assign, off-by-one slices, wrong encodings, Windows backslashes.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>"BENGALURU"[2:5]</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>NGA</button><button type="button" class="opt" data-ok="0"><i>B</i>ENG</button><button type="button" class="opt" data-ok="0"><i>C</i>NGAL</button><button type="button" class="opt" data-ok="0"><i>D</i>GAL</button></div><div class="qexp"><b>Answer: A.</b> Index 2 is N, 3 is G and 4 is A; the stop index 5 is excluded.</div></div><div class="qq"><p class="qtext"><b>2.</b> What is <code>-7 // 2</code> in Python?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>−3</button><button type="button" class="opt" data-ok="1"><i>B</i>−4</button><button type="button" class="opt" data-ok="0"><i>C</i>3</button><button type="button" class="opt" data-ok="0"><i>D</i>−3.5</button></div><div class="qexp"><b>Answer: B.</b> Floor division rounds down towards minus infinity.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>0 or "default"</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0</button><button type="button" class="opt" data-ok="0"><i>B</i>True</button><button type="button" class="opt" data-ok="1"><i>C</i>"default"</button><button type="button" class="opt" data-ok="0"><i>D</i>None</button></div><div class="qexp"><b>Answer: C.</b> <code>or</code> returns the first truthy operand (or the last operand).</div></div><div class="qq"><p class="qtext"><b>4.</b> Which statement is true about strings?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>s[0] = "X"</code> changes the first character</button><button type="button" class="opt" data-ok="1"><i>B</i>Strings are immutable, so methods like <code>upper()</code> return a new string</button><button type="button" class="opt" data-ok="0"><i>C</i><code>split()</code> changes the original string</button><button type="button" class="opt" data-ok="0"><i>D</i><code>strip()</code> removes only spaces inside the text</button></div><div class="qexp"><b>Answer: B.</b> Assign the result to keep it.</div></div><div class="qq"><p class="qtext"><b>5.</b> How do you split text on any whitespace and ignore repeated spaces?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>text.split(" ")</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>text.split()</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>text.partition()</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>text.strip()</code></button></div><div class="qexp"><b>Answer: B.</b> <code>split()</code> without an argument splits on runs of whitespace.</div></div><div class="qq"><p class="qtext"><b>6.</b> <code>"3.5".isdigit()</code> returns:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>True</button><button type="button" class="opt" data-ok="1"><i>B</i>False</button><button type="button" class="opt" data-ok="0"><i>C</i>3.5</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> isdigit() is True only for strings of digits; use float() inside try/except for decimals.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>String practice</b></div><p>(1) From <code>"IN-2025-00042"</code> extract the country, year (int) and sequence number (int) with slicing. (2) Write <code>is_valid_pin(text)</code> that returns True for six-digit PIN codes not starting with 0. (3) Reverse the words in <code>"data science is fun"</code> (word order, not letters). (4) Turn <code>"  rAHul   VERMA "</code> into <code>"Rahul Verma"</code>.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">oid = <span class="hl-s">&quot;IN-2025-00042&quot;</span>; <span class="hl-f">print</span>(oid[:<span class="hl-n">2</span>], <span class="hl-f">int</span>(oid[<span class="hl-n">3</span>:<span class="hl-n">7</span>]), <span class="hl-f">int</span>(oid[-<span class="hl-n">5</span>:]))
+<span class="hl-k">def</span> <span class="hl-f">is_valid_pin</span>(t): <span class="hl-k">return</span> <span class="hl-f">len</span>(t) == <span class="hl-n">6</span> <span class="hl-k">and</span> <span class="hl-f">t.isdigit</span>() <span class="hl-k">and</span> t[<span class="hl-n">0</span>] != <span class="hl-s">&quot;0&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">is_valid_pin</span>(<span class="hl-s">&quot;411001&quot;</span>), <span class="hl-f">is_valid_pin</span>(<span class="hl-s">&quot;041100&quot;</span>), <span class="hl-f">is_valid_pin</span>(<span class="hl-s">&quot;4110a1&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">&quot;data science is fun&quot;</span>.<span class="hl-f">split</span>()[::-<span class="hl-n">1</span>]))            <span class="hl-c"># fun is science data</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">w.capitalize</span>() <span class="hl-k">for</span> w <span class="hl-k">in</span> <span class="hl-s">&quot;  rAHul   VERMA &quot;</span>.<span class="hl-f">split</span>()))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you reverse a string in Python?</strong>
+<code>s[::-1]</code> (slice with step −1) or <code>"".join(reversed(s))</code>.</p>
+<p><strong>Q: Why use <code>"".join(list)</code> instead of <code>+=</code> in a loop?</strong>
+Strings are immutable; each <code>+=</code> creates a new string (quadratic time). Building a list and joining once is linear.</p>
+<p><strong>Q: Difference between <code>find</code> and <code>index</code>?</strong>
+<code>find</code> returns −1 if the substring is missing; <code>index</code> raises <code>ValueError</code>.</p>
+<p><strong>Q: What does <code>//</code> do with negative numbers?</strong>
+Floors toward minus infinity: <code>-7 // 2 = -4</code>, and <code>-7 % 3 = 2</code>, so <code>(a // b) * b + a % b == a</code> always holds.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html"><small>← Previous</small><b>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</b></a><a class="next" href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html"><small>Next →</small><b>Control Flow: if, elif, else, Nested Conditions &amp; match</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#operators">Operators</a><a href="#strings">Strings</a><a href="#string-methods">String methods</a><a href="#cleaning-real-text">Cleaning real text</a><a href="#common-pitfalls">Common pitfalls</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>

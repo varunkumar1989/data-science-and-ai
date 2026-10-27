@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dictionaries: Key-Value Data, Counting and Grouping · Python Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Store and look up data by key. Create and update dictionaries, use get, setdefault, items, Counter and defaultdict, nest dictionaries, and convert between dictionaries, JSON-like records and DataFrames using the Superstore data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class="on"><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-08">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 8 of 8</div><h1>Dictionaries: Key-Value Data, Counting and Grouping</h1>
+<p class="sum">Store and look up data by key. Create and update dictionaries, use get, setdefault, items, Counter and defaultdict, nest dictionaries, and convert between dictionaries, JSON-like records and DataFrames using the Superstore data.</p><div class="tags"><span class="tag live">● Python class 6</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_08_Dictionaries_Key_Value_Data_Counting_and_Grouping.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-08">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Create dictionaries and read, add, update and delete keys safely</li><li>Loop over keys, values and items and merge dictionaries</li><li>Count and group with get, setdefault, Counter and defaultdict</li><li>Work with nested dictionaries and lists of dictionaries (JSON-like records)</li><li>Convert between dictionaries and pandas DataFrames</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-a-dictionary">What is a dictionary?</h2>
+<p>A <strong>dictionary</strong> (<code>dict</code>) maps <strong>keys</strong> to <strong>values</strong>: look up by name instead of by position. It keeps insertion order (Python 3.7+), and lookups are O(1) on average.</p>
+<figure class="fig"><img src="../img/python-08-01.png" alt="A dictionary is a set of key → value pairs. The key is hashed, so the lookup does not scan the data." loading="lazy"><figcaption>A dictionary is a set of key → value pairs. The key is hashed, so the lookup does not scan the data.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">emp = {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;Kavya Iyer&quot;</span>, <span class="hl-s">&quot;dept&quot;</span>: <span class="hl-s">&quot;HR&quot;</span>, <span class="hl-s">&quot;salary&quot;</span>: <span class="hl-n">97000</span>}
+<span class="hl-f">print</span>(emp[<span class="hl-s">&quot;name&quot;</span>], <span class="hl-f">emp.get</span>(<span class="hl-s">&quot;dept&quot;</span>), <span class="hl-f">emp.get</span>(<span class="hl-s">&quot;city&quot;</span>), <span class="hl-f">emp.get</span>(<span class="hl-s">&quot;city&quot;</span>, <span class="hl-s">&quot;unknown&quot;</span>), <span class="hl-f">len</span>(emp), <span class="hl-s">&quot;salary&quot;</span> <span class="hl-k">in</span> emp)
+<span class="hl-k">try</span>: emp[<span class="hl-s">&quot;city&quot;</span>]
+<span class="hl-k">except</span> KeyError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;KeyError:&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Kavya Iyer HR None unknown 3 True
+KeyError: &#x27;city&#x27;</pre></div>
+<p><code>d[key]</code> raises <code>KeyError</code> when missing; <code>d.get(key, default)</code> never does.</p>
+<h2 id="changing-a-dictionary">Changing a dictionary</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">emp[<span class="hl-s">&quot;city&quot;</span>] = <span class="hl-s">&quot;Pune&quot;</span>                 <span class="hl-c"># add</span>
+emp[<span class="hl-s">&quot;salary&quot;</span>] += <span class="hl-n">3000</span>                 <span class="hl-c"># update</span>
+<span class="hl-f">emp.update</span>({<span class="hl-s">&quot;dept&quot;</span>: <span class="hl-s">&quot;Finance&quot;</span>, <span class="hl-s">&quot;grade&quot;</span>: <span class="hl-s">&quot;M2&quot;</span>})
+removed = <span class="hl-f">emp.pop</span>(<span class="hl-s">&quot;grade&quot;</span>)           <span class="hl-c"># remove and return</span>
+del emp[<span class="hl-s">&quot;city&quot;</span>]
+<span class="hl-f">print</span>(emp, removed)
+<span class="hl-f">print</span>(<span class="hl-f">emp.setdefault</span>(<span class="hl-s">&quot;level&quot;</span>, <span class="hl-s">&quot;L3&quot;</span>), <span class="hl-f">emp.setdefault</span>(<span class="hl-s">&quot;dept&quot;</span>, <span class="hl-s">&quot;X&quot;</span>), emp)    <span class="hl-c"># set only if missing</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;name&#x27;: &#x27;Kavya Iyer&#x27;, &#x27;dept&#x27;: &#x27;Finance&#x27;, &#x27;salary&#x27;: 100000} M2
+L3 Finance {&#x27;name&#x27;: &#x27;Kavya Iyer&#x27;, &#x27;dept&#x27;: &#x27;Finance&#x27;, &#x27;salary&#x27;: 100000, &#x27;level&#x27;: &#x27;L3&#x27;}</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d[k] = v</code></td>
+<td>Add or overwrite</td>
+</tr>
+<tr>
+<td><code>d.get(k, default)</code></td>
+<td>Safe read</td>
+</tr>
+<tr>
+<td><code>d.setdefault(k, default)</code></td>
+<td>Read; insert default if missing</td>
+</tr>
+<tr>
+<td><code>d.update(other)</code> or <code>d \| other</code></td>
+<td>Merge (right side wins)</td>
+</tr>
+<tr>
+<td><code>d.pop(k[, default])</code></td>
+<td>Remove and return</td>
+</tr>
+<tr>
+<td><code>d.popitem()</code></td>
+<td>Remove the last pair</td>
+</tr>
+<tr>
+<td><code>del d[k]</code></td>
+<td>Delete (KeyError if missing)</td>
+</tr>
+<tr>
+<td><code>d.keys()</code>, <code>d.values()</code>, <code>d.items()</code></td>
+<td>Views</td>
+</tr>
+<tr>
+<td><code>d.copy()</code></td>
+<td>Shallow copy</td>
+</tr>
+<tr>
+<td><code>dict.fromkeys(keys, value)</code></td>
+<td>Create with the same value</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="looping">Looping</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">prices = {<span class="hl-s">&quot;Pen&quot;</span>: <span class="hl-n">10</span>, <span class="hl-s">&quot;Notebook&quot;</span>: <span class="hl-n">45</span>, <span class="hl-s">&quot;Stapler&quot;</span>: <span class="hl-n">180</span>}
+<span class="hl-k">for</span> k <span class="hl-k">in</span> prices: <span class="hl-f">print</span>(k, end=<span class="hl-s">&quot; &quot;</span>)
+<span class="hl-f">print</span>()
+<span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">prices.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;{k:&lt;10}{v:&gt;5}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">prices.values</span>()), <span class="hl-f">sum</span>(<span class="hl-f">prices.values</span>()), <span class="hl-f">max</span>(prices, key=prices.get), <span class="hl-f">sorted</span>(<span class="hl-f">prices.items</span>(), key=<span class="hl-k">lambda</span> kv: -kv[<span class="hl-n">1</span>]))
+merged = prices | {<span class="hl-s">&quot;Pen&quot;</span>: <span class="hl-n">12</span>, <span class="hl-s">&quot;Folder&quot;</span>: <span class="hl-n">30</span>}               <span class="hl-c"># Python 3.9+</span>
+<span class="hl-f">print</span>(merged)
+<span class="hl-f">print</span>({v: k <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">prices.items</span>()})                   <span class="hl-c"># invert (values must be unique and hashable)</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Pen Notebook Stapler 
+Pen          10
+Notebook     45
+Stapler     180
+[10, 45, 180] 235 Stapler [(&#x27;Stapler&#x27;, 180), (&#x27;Notebook&#x27;, 45), (&#x27;Pen&#x27;, 10)]
+{&#x27;Pen&#x27;: 12, &#x27;Notebook&#x27;: 45, &#x27;Stapler&#x27;: 180, &#x27;Folder&#x27;: 30}
+{10: &#x27;Pen&#x27;, 45: &#x27;Notebook&#x27;, 180: &#x27;Stapler&#x27;}</pre></div>
+<h2 id="counting-and-grouping">Counting and grouping</h2>
+<p>The most common dictionary jobs are <strong>count</strong> and <strong>group</strong>:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter, defaultdict
+words = <span class="hl-s">&quot;the cat and the hat and the bat&quot;</span>.<span class="hl-f">split</span>()
+manual = {}
+<span class="hl-k">for</span> w <span class="hl-k">in</span> words: manual[w] = <span class="hl-f">manual.get</span>(w, <span class="hl-n">0</span>) + <span class="hl-n">1</span>            <span class="hl-c"># classic pattern</span>
+<span class="hl-f">print</span>(manual)
+c = <span class="hl-f">Counter</span>(words)
+<span class="hl-f">print</span>(c, <span class="hl-f">c.most_common</span>(<span class="hl-n">2</span>), c[<span class="hl-s">&quot;the&quot;</span>], c[<span class="hl-s">&quot;dog&quot;</span>])
+groups = <span class="hl-f">defaultdict</span>(list)                                    <span class="hl-c"># missing key starts as an empty list</span>
+<span class="hl-k">for</span> w <span class="hl-k">in</span> words: groups[<span class="hl-f">len</span>(w)].<span class="hl-f">append</span>(w)
+<span class="hl-f">print</span>(<span class="hl-f">dict</span>(groups))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;the&#x27;: 3, &#x27;cat&#x27;: 1, &#x27;and&#x27;: 2, &#x27;hat&#x27;: 1, &#x27;bat&#x27;: 1}
+Counter({&#x27;the&#x27;: 3, &#x27;and&#x27;: 2, &#x27;cat&#x27;: 1, &#x27;hat&#x27;: 1, &#x27;bat&#x27;: 1}) [(&#x27;the&#x27;, 3), (&#x27;and&#x27;, 2)] 3 0
+{3: [&#x27;the&#x27;, &#x27;cat&#x27;, &#x27;and&#x27;, &#x27;the&#x27;, &#x27;hat&#x27;, &#x27;and&#x27;, &#x27;the&#x27;, &#x27;bat&#x27;]}</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+by_region = <span class="hl-f">Counter</span>(s[<span class="hl-s">&quot;region&quot;</span>])                              <span class="hl-c"># count rows</span>
+revenue = <span class="hl-f">defaultdict</span>(float)
+<span class="hl-k">for</span> r, amount <span class="hl-k">in</span> <span class="hl-f">zip</span>(s[<span class="hl-s">&quot;region&quot;</span>], s[<span class="hl-s">&quot;sales&quot;</span>]): revenue[r] += amount
+<span class="hl-f">print</span>(<span class="hl-f">by_region.most_common</span>())
+<span class="hl-f">print</span>({k: <span class="hl-f">round</span>(v / 1e6, <span class="hl-n">1</span>) <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">sorted</span>(<span class="hl-f">revenue.items</span>(), key=<span class="hl-k">lambda</span> kv: -kv[<span class="hl-n">1</span>])}, <span class="hl-s">&quot;(sales in millions)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">div</span>(1e6).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>).<span class="hl-f">to_dict</span>())   <span class="hl-c"># same in pandas</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[(&#x27;South&#x27;, 1656), (&#x27;West&#x27;, 1614), (&#x27;North&#x27;, 1530), (&#x27;East&#x27;, 1523)]
+{&#x27;South&#x27;: 54.0, &#x27;West&#x27;: 52.0, &#x27;North&#x27;: 49.0, &#x27;East&#x27;: 46.5} (sales in millions)
+{&#x27;South&#x27;: 54.0, &#x27;West&#x27;: 52.0, &#x27;North&#x27;: 49.0, &#x27;East&#x27;: 46.5}</pre></div>
+<h2 id="nested-dictionaries-and-json-like-records">Nested dictionaries and JSON-like records</h2>
+<p>Real data (API responses, configs, documents) nests dictionaries and lists. Python's <code>json</code> module reads and writes exactly this structure.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json
+order = {<span class="hl-s">&quot;order_id&quot;</span>: <span class="hl-s">&quot;O-1001&quot;</span>, <span class="hl-s">&quot;customer&quot;</span>: {<span class="hl-s">&quot;id&quot;</span>: <span class="hl-s">&quot;C7&quot;</span>, <span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>},
+         <span class="hl-s">&quot;items&quot;</span>: [{<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">&quot;P1&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: <span class="hl-n">2</span>, <span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">450.0</span>}, {<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">&quot;P2&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: <span class="hl-n">1</span>, <span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">1200.0</span>}]}
+total = <span class="hl-f">sum</span>(i[<span class="hl-s">&quot;qty&quot;</span>] * i[<span class="hl-s">&quot;price&quot;</span>] <span class="hl-k">for</span> i <span class="hl-k">in</span> order[<span class="hl-s">&quot;items&quot;</span>])
+<span class="hl-f">print</span>(order[<span class="hl-s">&quot;customer&quot;</span>][<span class="hl-s">&quot;city&quot;</span>], <span class="hl-f">len</span>(order[<span class="hl-s">&quot;items&quot;</span>]), total, <span class="hl-f">order.get</span>(<span class="hl-s">&quot;shipping&quot;</span>, {}).<span class="hl-f">get</span>(<span class="hl-s">&quot;city&quot;</span>, <span class="hl-s">&quot;n/a&quot;</span>))
+text = <span class="hl-f">json.dumps</span>(order, indent=<span class="hl-n">2</span>)
+<span class="hl-f">print</span>(text[:<span class="hl-n">90</span>].<span class="hl-f">replace</span>(<span class="hl-s">&quot;\n&quot;</span>, <span class="hl-s">&quot; &quot;</span>), <span class="hl-s">&quot;...&quot;</span>, <span class="hl-f">json.loads</span>(text) == order)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Pune 2 2100.0 n/a
+{   &quot;order_id&quot;: &quot;O-1001&quot;,   &quot;customer&quot;: {     &quot;id&quot;: &quot;C7&quot;,     &quot;name&quot;: &quot;Asha&quot;,     &quot;city&quot;:  ... True</pre></div>
+<p>A <strong>list of dictionaries</strong> is the standard row format, and it converts straight to a DataFrame:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rows = [{<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">&quot;P1&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: <span class="hl-n">2</span>, <span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">450.0</span>}, {<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">&quot;P2&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: <span class="hl-n">1</span>, <span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">1200.0</span>}, {<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">&quot;P3&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: <span class="hl-n">5</span>, <span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">80.0</span>}]
+df = <span class="hl-f">pd.DataFrame</span>(rows)
+df[<span class="hl-s">&quot;value&quot;</span>] = df.qty * df.price
+<span class="hl-f">print</span>(df)
+<span class="hl-f">print</span>(<span class="hl-f">df.set_index</span>(<span class="hl-s">&quot;sku&quot;</span>)[<span class="hl-s">&quot;value&quot;</span>].<span class="hl-f">to_dict</span>(), <span class="hl-f">df.to_dict</span>(<span class="hl-s">&quot;records&quot;</span>)[<span class="hl-n">0</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  sku  qty   price   value
+0  P1    2   450.0   900.0
+1  P2    1  1200.0  1200.0
+2  P3    5    80.0   400.0
+{&#x27;P1&#x27;: 900.0, &#x27;P2&#x27;: 1200.0, &#x27;P3&#x27;: 400.0} {&#x27;sku&#x27;: &#x27;P1&#x27;, &#x27;qty&#x27;: 2, &#x27;price&#x27;: 450.0, &#x27;value&#x27;: 900.0}</pre></div>
+<h2 id="lookup-tables-and-dispatch">Lookup tables and dispatch</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">tier = {<span class="hl-s">&quot;North&quot;</span>: <span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;South&quot;</span>: <span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;East&quot;</span>: <span class="hl-s">&quot;B&quot;</span>, <span class="hl-s">&quot;West&quot;</span>: <span class="hl-s">&quot;C&quot;</span>}                <span class="hl-c"># mapping/lookup</span>
+<span class="hl-f">print</span>(s[<span class="hl-s">&quot;region&quot;</span>].<span class="hl-f">map</span>(tier).<span class="hl-f">value_counts</span>().<span class="hl-f">to_dict</span>())
+ops = {<span class="hl-s">&quot;add&quot;</span>: <span class="hl-k">lambda</span> a, b: a + b, <span class="hl-s">&quot;mul&quot;</span>: <span class="hl-k">lambda</span> a, b: a * b}                  <span class="hl-c"># dictionary of functions</span>
+<span class="hl-f">print</span>(ops[<span class="hl-s">&quot;add&quot;</span>](<span class="hl-n">3</span>, <span class="hl-n">4</span>), ops[<span class="hl-s">&quot;mul&quot;</span>](<span class="hl-n">3</span>, <span class="hl-n">4</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;A&#x27;: 3186, &#x27;C&#x27;: 1614, &#x27;B&#x27;: 1523}
+7 12</pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Keys must be hashable</b></div><p>Strings, numbers and tuples work as keys; lists, sets and dicts do not. Use a tuple <code>("North", 2025)</code> for composite keys. Copying: <code>d.copy()</code> is shallow; use <code>copy.deepcopy</code> for nested data (Lesson 6).</p></div>
+<h2 id="common-mistakes">Common mistakes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d["missing"]</code> raises KeyError</td>
+<td><code>d.get(k, default)</code> or <code>if k in d</code></td>
+</tr>
+<tr>
+<td>Changing a dictionary's size while looping over it</td>
+<td>Loop over <code>list(d)</code> or build a new dict</td>
+</tr>
+<tr>
+<td><code>{}</code> for an empty set</td>
+<td><code>set()</code>; <code>{}</code> is an empty dict</td>
+</tr>
+<tr>
+<td>Duplicate keys in a literal</td>
+<td>The last one silently wins</td>
+</tr>
+<tr>
+<td>Assuming a shallow copy protects nested data</td>
+<td><code>copy.deepcopy</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A dict maps hashable keys to values with O(1) average lookup and keeps insertion order.</li>
+<li>Use <code>get</code> for safe reads, <code>setdefault</code>/<code>defaultdict</code> for grouping, <code>Counter</code> for counting, <code>d | other</code> to merge.</li>
+<li>Loop with <code>items()</code>; build with dict comprehensions <code>{k: f(v) for k, v in ...}</code>.</li>
+<li>Nested dict/list structures are JSON; a list of dicts converts to a DataFrame with <code>pd.DataFrame(rows)</code>.</li>
+<li>Dictionaries are lookup tables: <code>series.map(dict)</code> is a fast way to recode a column.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-08-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>d.get("x", 0)</code> do when "x" is missing?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Raises KeyError</button><button type="button" class="opt" data-ok="1"><i>B</i>Returns 0</button><button type="button" class="opt" data-ok="0"><i>C</i>Adds the key</button><button type="button" class="opt" data-ok="0"><i>D</i>Returns None</button></div><div class="qexp"><b>Answer: B.</b> <code>get</code> never raises; it returns the default.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which is a valid dictionary key?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>[1, 2]</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>(1, 2)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>{1, 2}</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>{"a": 1}</code></button></div><div class="qexp"><b>Answer: B.</b> Keys must be hashable (immutable).</div></div><div class="qq"><p class="qtext"><b>3.</b> Which tool counts occurrences most directly?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>defaultdict(list)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>collections.Counter</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>set</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>zip</code></button></div><div class="qexp"><b>Answer: B.</b> <code>Counter(items).most_common()</code>.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>{"a": 1} | {"a": 2, "b": 3}</code> give?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>{"a": 1, "b": 3}</button><button type="button" class="opt" data-ok="1"><i>B</i>{"a": 2, "b": 3}</button><button type="button" class="opt" data-ok="0"><i>C</i>Error</button><button type="button" class="opt" data-ok="0"><i>D</i>{"a": 3}</button></div><div class="qexp"><b>Answer: B.</b> The right-hand dictionary wins on conflicts.</div></div><div class="qq"><p class="qtext"><b>5.</b> How do you loop over keys and values together?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>for k in d.values()</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>for k, v in d.items()</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>for k, v in d</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>for v in d.keys()</code></button></div><div class="qexp"><b>Answer: B.</b> <code>items()</code> yields (key, value) pairs.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does <code>pd.DataFrame(list_of_dicts)</code> produce?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A Series</button><button type="button" class="opt" data-ok="1"><i>B</i>A table with one row per dictionary and columns from the keys</button><button type="button" class="opt" data-ok="0"><i>C</i>A list</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> This is the standard way to turn JSON-like records into a table.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Dictionary problems</b></div><p>(1) Count the frequency of each character in <code>"banana"</code>. (2) Group Superstore product <code>category</code> into a dictionary of sets of <code>sub_category</code>. (3) Invert <code>{"a": 1, "b": 2}</code>. (4) Given a list of orders, compute the total per customer using <code>defaultdict</code>. (5) Merge two dictionaries where the second overrides the first.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter, defaultdict
+<span class="hl-f">print</span>(<span class="hl-f">Counter</span>(<span class="hl-s">&quot;banana&quot;</span>))
+g = <span class="hl-f">defaultdict</span>(set)
+<span class="hl-k">for</span> c, sc <span class="hl-k">in</span> <span class="hl-f">zip</span>(s[<span class="hl-s">&quot;category&quot;</span>], s[<span class="hl-s">&quot;sub_category&quot;</span>]): g[c].<span class="hl-f">add</span>(sc)
+<span class="hl-f">print</span>({k: <span class="hl-f">sorted</span>(v) <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">g.items</span>()})
+<span class="hl-f">print</span>({v: k <span class="hl-k">for</span> k, v <span class="hl-k">in</span> {<span class="hl-s">&quot;a&quot;</span>: <span class="hl-n">1</span>, <span class="hl-s">&quot;b&quot;</span>: <span class="hl-n">2</span>}.<span class="hl-f">items</span>()})
+orders = [(<span class="hl-s">&quot;C1&quot;</span>, <span class="hl-n">100</span>), (<span class="hl-s">&quot;C2&quot;</span>, <span class="hl-n">50</span>), (<span class="hl-s">&quot;C1&quot;</span>, <span class="hl-n">25</span>)]
+t = <span class="hl-f">defaultdict</span>(int)
+<span class="hl-k">for</span> cid, amt <span class="hl-k">in</span> orders: t[cid] += amt
+<span class="hl-f">print</span>(<span class="hl-f">dict</span>(t), {<span class="hl-s">&quot;x&quot;</span>: <span class="hl-n">1</span>} | {<span class="hl-s">&quot;x&quot;</span>: <span class="hl-n">9</span>, <span class="hl-s">&quot;y&quot;</span>: <span class="hl-n">2</span>})</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How does a dictionary achieve O(1) lookup?</strong>
+It hashes the key to find a slot in a hash table; collisions are resolved by probing, so the average cost is constant.</p>
+<p><strong>Q: <code>d[k]</code> vs <code>d.get(k)</code>?</strong>
+<code>d[k]</code> raises KeyError for a missing key; <code>get</code> returns None (or a default).</p>
+<p><strong>Q: Are dictionaries ordered?</strong>
+Yes, they preserve insertion order from Python 3.7 onwards.</p>
+<p><strong>Q: Count word frequencies in a text.</strong>
+<code>Counter(text.lower().split()).most_common(10)</code>.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html"><small>← Previous</small><b>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-a-dictionary">What is a dictionary?</a><a href="#changing-a-dictionary">Changing a dictionary</a><a href="#looping">Looping</a><a href="#counting-and-grouping">Counting and grouping</a><a href="#nested-dictionaries-and-json-like-records">Nested dictionaries and JSON-like records</a><a href="#lookup-tables-and-dispatch">Lookup tables and dispatch</a><a href="#common-mistakes">Common mistakes</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
