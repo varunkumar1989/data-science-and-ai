@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Python for Data Science · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#7C3AED"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 5</div><h1>Python for Data Science</h1><p>Python from zero: data types, control flow, data structures, functions, OOP, files, NumPy, pandas, visualisation, dates, SQL connections, EDA and DSA for data roles.</p>
-<div class="cv-m"><span>27 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li><a href="#L-python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li><a href="#L-python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li><a href="#L-python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li><a href="#L-python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li><a href="#L-python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li><a href="#L-python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li><a href="#L-python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li><a href="#L-python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li><a href="#L-python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li><a href="#L-python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li><a href="#L-python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li><a href="#L-python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li><a href="#L-python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li><a href="#L-python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li><a href="#L-python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li><a href="#L-python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li><a href="#L-python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li><a href="#L-python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li><a href="#L-python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li><a href="#L-python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li><a href="#L-python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li><a href="#L-python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li><a href="#L-python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li><a href="#L-python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li><a href="#L-python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li><a href="#L-python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li></ol></section><article class="lesson-art bk" id="L-python-01"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 1</div><h1>Introduction to Python: Why, Install &amp; Jupyter Notebooks</h1>
+<div class="cv-m"><span>29 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li><a href="#L-python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li><a href="#L-python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li><a href="#L-python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li><a href="#L-python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li><a href="#L-python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li><a href="#L-python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li><a href="#L-python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li><a href="#L-python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li><a href="#L-python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li><a href="#L-python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li><a href="#L-python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li><a href="#L-python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li><a href="#L-python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li><a href="#L-python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li><a href="#L-python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li><a href="#L-python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li><a href="#L-python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li><a href="#L-python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li><a href="#L-python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li><a href="#L-python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li><a href="#L-python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li><a href="#L-python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li><a href="#L-python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li><a href="#L-python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li><a href="#L-python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li><a href="#L-python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li><a href="#L-python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li><a href="#L-python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></section><article class="lesson-art bk" id="L-python-01"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 1</div><h1>Introduction to Python: Why, Install &amp; Jupyter Notebooks</h1>
 <p class="sum">Learn what programming and Python are, how Python compares with other languages, how code runs (interpreters, compilers, bytecode), the properties of Python, and set up your environment (Anaconda, VS Code, Jupyter, Google Colab). Write and run your first cells, with markdown, magic commands and good notebook habits.</p><div class="tags"><span class="tag live">● Python class 1</span><span class="tag new">✦ Python 3.13, Jupyter, VS Code, Google Colab (2026)</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what a programming language is and why Python is the default language for data work</li><li>Describe the difference between compiled and interpreted languages and how Python runs your code</li><li>Install Python and Jupyter (or use Google Colab) and run code in cells</li><li>Use Markdown cells, keyboard shortcuts, magic commands and restart-and-run-all</li><li>Follow good habits: naming, comments, reproducibility and virtual environments</li></ul></div></div><div class="content"><h2 id="python-01-what-is-programming">What is programming?</h2>
 <p>A <strong>program</strong> is a set of precise instructions a computer follows. Computers only understand machine code (0s and 1s), so we write instructions in a <strong>programming language</strong> that humans can read, and a translator turns them into something the machine can run.</p>
@@ -6365,4 +6365,507 @@ Split the list in half recursively until single items remain, then merge sorted 
 <p><strong>Q: When is binary search applicable?</strong>
 When the data is sorted, or more generally when a yes/no condition is monotonic over the search space (search on the answer).</p>
 <p><strong>Q: Stack vs queue in real systems?</strong>
-Stacks: call stacks, undo, expression parsing, DFS. Queues: job and message queues (Kafka, SQS), BFS, rate-limited processing.</p></div></div></article></body></html>
+Stacks: call stacks, undo, expression parsing, DFS. Queues: job and message queues (Kafka, SQS), BFS, rate-limited processing.</p></div></div></article><article class="lesson-art bk" id="L-python-28"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 28</div><h1>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</h1>
+<p class="sum">Finish the DSA toolkit. Binary trees and binary search trees with traversals, heaps and priority queues with heapq (top-k, merge k lists, running median), graphs with adjacency lists, BFS and DFS, shortest paths and topological sort (as used in data pipelines), and dynamic programming from memoisation to tables.</p><div class="tags"><span class="tag live">● DSA for data roles (added)</span><span class="tag new">✦ Python 3.13</span><span class="tag">Advanced</span><span class="tag">⏱ 130 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Traverse binary trees (pre-, in-, post- and level-order) and use a binary search tree</li><li>Use heapq for top-k, k-way merge, scheduling and running medians</li><li>Represent graphs and apply BFS, DFS, Dijkstra and topological sort</li><li>Recognise dynamic-programming problems and solve them with memoisation and tabulation</li><li>Connect these structures to data tools (B-tree indexes, DAG schedulers, recommendation graphs)</li></ul></div></div><div class="content"><h2 id="python-28-trees">Trees</h2>
+<p>A <strong>tree</strong> is a hierarchy of nodes: one root, each node with children, no cycles. Examples: folders, org charts, JSON documents, decision trees in ML, and B-tree indexes in databases.</p>
+<figure class="fig"><img src="../img/python-28-01.png" alt="A binary search tree: every left child is smaller and every right child larger than its parent." loading="lazy"><figcaption>A binary search tree: every left child is smaller and every right child larger than its parent.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> TreeNode:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, val, left=<span class="hl-k">None</span>, right=<span class="hl-k">None</span>): self.val, self.left, self.right = val, left, right
+<span class="hl-k">def</span> <span class="hl-f">insert</span>(root, val):                          <span class="hl-c"># BST insert, O(height)</span>
+    <span class="hl-k">if</span> <span class="hl-k">not</span> root: <span class="hl-k">return</span> <span class="hl-f">TreeNode</span>(val)
+    <span class="hl-k">if</span> val &lt; root.val: root.left = <span class="hl-f">insert</span>(root.left, val)
+    <span class="hl-k">else</span>: root.right = <span class="hl-f">insert</span>(root.right, val)
+    <span class="hl-k">return</span> root
+root = <span class="hl-k">None</span>
+<span class="hl-k">for</span> v <span class="hl-k">in</span> [<span class="hl-n">8</span>, <span class="hl-n">3</span>, <span class="hl-n">10</span>, <span class="hl-n">1</span>, <span class="hl-n">6</span>, <span class="hl-n">14</span>, <span class="hl-n">4</span>, <span class="hl-n">7</span>, <span class="hl-n">13</span>]: root = <span class="hl-f">insert</span>(root, v)
+<span class="hl-k">def</span> <span class="hl-f">inorder</span>(n): <span class="hl-k">return</span> <span class="hl-f">inorder</span>(n.left) + [n.val] + <span class="hl-f">inorder</span>(n.right) <span class="hl-k">if</span> n <span class="hl-k">else</span> []
+<span class="hl-k">def</span> <span class="hl-f">preorder</span>(n): <span class="hl-k">return</span> [n.val] + <span class="hl-f">preorder</span>(n.left) + <span class="hl-f">preorder</span>(n.right) <span class="hl-k">if</span> n <span class="hl-k">else</span> []
+<span class="hl-k">def</span> <span class="hl-f">postorder</span>(n): <span class="hl-k">return</span> <span class="hl-f">postorder</span>(n.left) + <span class="hl-f">postorder</span>(n.right) + [n.val] <span class="hl-k">if</span> n <span class="hl-k">else</span> []
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> deque
+<span class="hl-k">def</span> <span class="hl-f">level_order</span>(n):
+    out, q = [], <span class="hl-f">deque</span>([n])
+    <span class="hl-k">while</span> q:
+        level = []
+        <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(q)):
+            node = <span class="hl-f">q.popleft</span>(); <span class="hl-f">level.append</span>(node.val)
+            <span class="hl-f">q.extend</span>(c <span class="hl-k">for</span> c <span class="hl-k">in</span> (node.left, node.right) <span class="hl-k">if</span> c)
+        <span class="hl-f">out.append</span>(level)
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">height</span>(n): <span class="hl-k">return</span> <span class="hl-n">1</span> + <span class="hl-f">max</span>(<span class="hl-f">height</span>(n.left), <span class="hl-f">height</span>(n.right)) <span class="hl-k">if</span> n <span class="hl-k">else</span> <span class="hl-n">0</span>
+<span class="hl-k">def</span> <span class="hl-f">contains</span>(n, x):
+    <span class="hl-k">while</span> n:
+        <span class="hl-k">if</span> x == n.val: <span class="hl-k">return</span> <span class="hl-k">True</span>
+        n = n.left <span class="hl-k">if</span> x &lt; n.val <span class="hl-k">else</span> n.right
+    <span class="hl-k">return</span> <span class="hl-k">False</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;in-order  :&quot;</span>, <span class="hl-f">inorder</span>(root), <span class="hl-s">&quot;(sorted!)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;pre-order :&quot;</span>, <span class="hl-f">preorder</span>(root)); <span class="hl-f">print</span>(<span class="hl-s">&quot;post-order:&quot;</span>, <span class="hl-f">postorder</span>(root)); <span class="hl-f">print</span>(<span class="hl-s">&quot;levels    :&quot;</span>, <span class="hl-f">level_order</span>(root))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;height&quot;</span>, <span class="hl-f">height</span>(root), <span class="hl-s">&quot;| contains 7?&quot;</span>, <span class="hl-f">contains</span>(root, <span class="hl-n">7</span>), <span class="hl-s">&quot;| contains 5?&quot;</span>, <span class="hl-f">contains</span>(root, <span class="hl-n">5</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">in-order  : [1, 3, 4, 6, 7, 8, 10, 13, 14] (sorted!)
+pre-order : [8, 3, 1, 6, 4, 7, 10, 14, 13]
+post-order: [1, 4, 7, 6, 3, 13, 14, 10, 8]
+levels    : [[8], [3, 10], [1, 6, 14], [4, 7, 13]]
+height 4 | contains 7? True | contains 5? False</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Traversal</th>
+<th>Order</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-order</td>
+<td>left, node, right</td>
+<td>BST → sorted output</td>
+</tr>
+<tr>
+<td>Pre-order</td>
+<td>node, left, right</td>
+<td>Copy/serialise a tree</td>
+</tr>
+<tr>
+<td>Post-order</td>
+<td>left, right, node</td>
+<td>Delete, compute sizes bottom-up</td>
+</tr>
+<tr>
+<td>Level-order (BFS)</td>
+<td>level by level</td>
+<td>Shortest path in unweighted trees, org levels</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">is_valid_bst</span>(n, lo=<span class="hl-f">float</span>(<span class="hl-s">&quot;-inf&quot;</span>), hi=<span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)):
+    <span class="hl-k">return</span> <span class="hl-k">not</span> n <span class="hl-k">or</span> (lo &lt; n.val &lt; hi <span class="hl-k">and</span> <span class="hl-f">is_valid_bst</span>(n.left, lo, n.val) <span class="hl-k">and</span> <span class="hl-f">is_valid_bst</span>(n.right, n.val, hi))
+<span class="hl-k">def</span> <span class="hl-f">lowest_common_ancestor</span>(n, a, b):            <span class="hl-c"># in a BST</span>
+    <span class="hl-k">while</span> n:
+        <span class="hl-k">if</span> a &lt; n.val <span class="hl-k">and</span> b &lt; n.val: n = n.left
+        <span class="hl-k">elif</span> a &gt; n.val <span class="hl-k">and</span> b &gt; n.val: n = n.right
+        <span class="hl-k">else</span>: <span class="hl-k">return</span> n.val
+<span class="hl-k">def</span> <span class="hl-f">max_path_sum_root_to_leaf</span>(n):
+    <span class="hl-k">if</span> <span class="hl-k">not</span> n: <span class="hl-k">return</span> <span class="hl-f">float</span>(<span class="hl-s">&quot;-inf&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-k">not</span> n.left <span class="hl-k">and</span> <span class="hl-k">not</span> n.right: <span class="hl-k">return</span> n.val
+    <span class="hl-k">return</span> n.val + <span class="hl-f">max</span>(<span class="hl-f">max_path_sum_root_to_leaf</span>(n.left), <span class="hl-f">max_path_sum_root_to_leaf</span>(n.right))
+<span class="hl-f">print</span>(<span class="hl-f">is_valid_bst</span>(root), <span class="hl-f">lowest_common_ancestor</span>(root, <span class="hl-n">4</span>, <span class="hl-n">7</span>), <span class="hl-f">lowest_common_ancestor</span>(root, <span class="hl-n">1</span>, <span class="hl-n">14</span>), <span class="hl-f">max_path_sum_root_to_leaf</span>(root))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True 6 8 45</pre></div>
+<p>A BST is O(log n) only when <strong>balanced</strong>; inserting sorted data creates a "linked list" with O(n) lookups. Databases use balanced <strong>B-trees</strong>, which is why an index makes <code>WHERE id = 42</code> fast.</p>
+<h2 id="python-28-heaps-and-priority-queues">Heaps and priority queues</h2>
+<p>A <strong>heap</strong> always gives the smallest item in O(1) and inserts/removes in O(log n). Python's <code>heapq</code> is a min-heap on a list.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> heapq
+h = []
+<span class="hl-k">for</span> x <span class="hl-k">in</span> [<span class="hl-n">5</span>, <span class="hl-n">1</span>, <span class="hl-n">8</span>, <span class="hl-n">3</span>, <span class="hl-n">9</span>, <span class="hl-n">2</span>]: <span class="hl-f">heapq.heappush</span>(h, x)
+<span class="hl-f">print</span>(h[<span class="hl-n">0</span>], [<span class="hl-f">heapq.heappop</span>(h) <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">3</span>)])
+sales = {<span class="hl-s">&quot;Pune&quot;</span>: <span class="hl-n">120</span>, <span class="hl-s">&quot;Delhi&quot;</span>: <span class="hl-n">340</span>, <span class="hl-s">&quot;Kochi&quot;</span>: <span class="hl-n">90</span>, <span class="hl-s">&quot;Goa&quot;</span>: <span class="hl-n">210</span>, <span class="hl-s">&quot;Jaipur&quot;</span>: <span class="hl-n">175</span>}
+<span class="hl-f">print</span>(<span class="hl-f">heapq.nlargest</span>(<span class="hl-n">3</span>, <span class="hl-f">sales.items</span>(), key=<span class="hl-k">lambda</span> kv: kv[<span class="hl-n">1</span>]))
+<span class="hl-k">def</span> <span class="hl-f">top_k_stream</span>(stream, k):                 <span class="hl-c"># keep a size-k min-heap: O(n log k), constant memory</span>
+    heap = []
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> stream:
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(heap) &lt; k: <span class="hl-f">heapq.heappush</span>(heap, x)
+        <span class="hl-k">elif</span> x &gt; heap[<span class="hl-n">0</span>]: <span class="hl-f">heapq.heapreplace</span>(heap, x)
+    <span class="hl-k">return</span> <span class="hl-f">sorted</span>(heap, reverse=<span class="hl-k">True</span>)
+<span class="hl-f">print</span>(<span class="hl-f">top_k_stream</span>(<span class="hl-f">iter</span>([<span class="hl-n">15</span>, <span class="hl-n">3</span>, <span class="hl-n">99</span>, <span class="hl-n">42</span>, <span class="hl-n">7</span>, <span class="hl-n">64</span>, <span class="hl-n">23</span>, <span class="hl-n">88</span>]), <span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">heapq.merge</span>([<span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">9</span>], [<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">10</span>], [<span class="hl-n">0</span>, <span class="hl-n">7</span>])))              <span class="hl-c"># k-way merge of sorted lists (external sort)</span>
+tasks = [(<span class="hl-n">2</span>, <span class="hl-s">&quot;send report&quot;</span>), (<span class="hl-n">1</span>, <span class="hl-s">&quot;fix pipeline&quot;</span>), (<span class="hl-n">3</span>, <span class="hl-s">&quot;update deck&quot;</span>)]  <span class="hl-c"># (priority, task)</span>
+<span class="hl-f">heapq.heapify</span>(tasks); <span class="hl-f">print</span>([<span class="hl-f">heapq.heappop</span>(tasks)[<span class="hl-n">1</span>] <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">3</span>)])
+
+<span class="hl-k">class</span> RunningMedian:                          <span class="hl-c"># two heaps: max-heap (negated) + min-heap</span>
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self): self.lo, self.hi = [], []
+    <span class="hl-k">def</span> <span class="hl-f">add</span>(self, x):
+        <span class="hl-f">heapq.heappush</span>(self.lo, -x); <span class="hl-f">heapq.heappush</span>(self.hi, -<span class="hl-f">heapq.heappop</span>(self.lo))
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(self.hi) &gt; <span class="hl-f">len</span>(self.lo): <span class="hl-f">heapq.heappush</span>(self.lo, -<span class="hl-f">heapq.heappop</span>(self.hi))
+    <span class="hl-k">def</span> <span class="hl-f">median</span>(self): <span class="hl-k">return</span> -self.lo[<span class="hl-n">0</span>] <span class="hl-k">if</span> <span class="hl-f">len</span>(self.lo) &gt; <span class="hl-f">len</span>(self.hi) <span class="hl-k">else</span> (-self.lo[<span class="hl-n">0</span>] + self.hi[<span class="hl-n">0</span>]) / <span class="hl-n">2</span>
+rm = <span class="hl-f">RunningMedian</span>(); out = []
+<span class="hl-k">for</span> x <span class="hl-k">in</span> [<span class="hl-n">5</span>, <span class="hl-n">15</span>, <span class="hl-n">1</span>, <span class="hl-n">3</span>, <span class="hl-n">8</span>, <span class="hl-n">7</span>]: <span class="hl-f">rm.add</span>(x); <span class="hl-f">out.append</span>(<span class="hl-f">rm.median</span>())
+<span class="hl-f">print</span>(out)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1 [1, 2, 3]
+[(&#x27;Delhi&#x27;, 340), (&#x27;Goa&#x27;, 210), (&#x27;Jaipur&#x27;, 175)]
+[99, 88, 64]
+[0, 1, 2, 3, 4, 7, 9, 10]
+[&#x27;fix pipeline&#x27;, &#x27;send report&#x27;, &#x27;update deck&#x27;]
+[5, 10.0, 5, 4.0, 5, 6.0]</pre></div>
+<h2 id="python-28-graphs">Graphs</h2>
+<p>A <strong>graph</strong> has nodes (vertices) and edges, optionally directed and weighted. Social networks, road maps, product co-purchases, and data-pipeline dependencies are graphs.</p>
+<figure class="fig"><img src="../img/python-28-02.png" alt="A directed acyclic graph (DAG) of pipeline tasks: a task runs only after its dependencies. Airflow, dbt and Dagster schedule exactly this." loading="lazy"><figcaption>A directed acyclic graph (DAG) of pipeline tasks: a task runs only after its dependencies. Airflow, dbt and Dagster schedule exactly this.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> collections <span class="hl-k">import</span> defaultdict, deque
+edges = [(<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>), (<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;C&quot;</span>), (<span class="hl-s">&quot;B&quot;</span>, <span class="hl-s">&quot;D&quot;</span>), (<span class="hl-s">&quot;C&quot;</span>, <span class="hl-s">&quot;D&quot;</span>), (<span class="hl-s">&quot;D&quot;</span>, <span class="hl-s">&quot;E&quot;</span>), (<span class="hl-s">&quot;F&quot;</span>, <span class="hl-s">&quot;G&quot;</span>)]
+g = <span class="hl-f">defaultdict</span>(list)
+<span class="hl-k">for</span> u, v <span class="hl-k">in</span> edges: g[u].<span class="hl-f">append</span>(v); g[v].<span class="hl-f">append</span>(u)               <span class="hl-c"># undirected adjacency list</span>
+<span class="hl-k">def</span> <span class="hl-f">bfs</span>(start):
+    seen, order, q = {start}, [], <span class="hl-f">deque</span>([start])
+    <span class="hl-k">while</span> q:
+        node = <span class="hl-f">q.popleft</span>(); <span class="hl-f">order.append</span>(node)
+        <span class="hl-k">for</span> nb <span class="hl-k">in</span> g[node]:
+            <span class="hl-k">if</span> nb <span class="hl-k">not</span> <span class="hl-k">in</span> seen: <span class="hl-f">seen.add</span>(nb); <span class="hl-f">q.append</span>(nb)
+    <span class="hl-k">return</span> order
+<span class="hl-k">def</span> <span class="hl-f">dfs</span>(node, seen=<span class="hl-k">None</span>):
+    seen = seen <span class="hl-k">if</span> seen <span class="hl-k">is</span> <span class="hl-k">not</span> <span class="hl-k">None</span> <span class="hl-k">else</span> <span class="hl-f">set</span>(); <span class="hl-f">seen.add</span>(node); out = [node]
+    <span class="hl-k">for</span> nb <span class="hl-k">in</span> g[node]:
+        <span class="hl-k">if</span> nb <span class="hl-k">not</span> <span class="hl-k">in</span> seen: out += <span class="hl-f">dfs</span>(nb, seen)
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">shortest_hops</span>(a, b):                      <span class="hl-c"># BFS gives shortest path in unweighted graphs</span>
+    q, prev = <span class="hl-f">deque</span>([a]), {a: <span class="hl-k">None</span>}
+    <span class="hl-k">while</span> q:
+        n = <span class="hl-f">q.popleft</span>()
+        <span class="hl-k">if</span> n == b: <span class="hl-k">break</span>
+        <span class="hl-k">for</span> nb <span class="hl-k">in</span> g[n]:
+            <span class="hl-k">if</span> nb <span class="hl-k">not</span> <span class="hl-k">in</span> prev: prev[nb] = n; <span class="hl-f">q.append</span>(nb)
+    path = []
+    <span class="hl-k">while</span> b <span class="hl-k">is</span> <span class="hl-k">not</span> <span class="hl-k">None</span>: <span class="hl-f">path.append</span>(b); b = <span class="hl-f">prev.get</span>(b)
+    <span class="hl-k">return</span> path[::-<span class="hl-n">1</span>]
+<span class="hl-k">def</span> <span class="hl-f">components</span>():
+    seen, comps = <span class="hl-f">set</span>(), []
+    <span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">list</span>(g):
+        <span class="hl-k">if</span> n <span class="hl-k">not</span> <span class="hl-k">in</span> seen: c = <span class="hl-f">dfs</span>(n, seen); <span class="hl-f">comps.append</span>(<span class="hl-f">sorted</span>(c))
+    <span class="hl-k">return</span> comps
+<span class="hl-f">print</span>(<span class="hl-s">&quot;BFS from A:&quot;</span>, <span class="hl-f">bfs</span>(<span class="hl-s">&quot;A&quot;</span>), <span class="hl-s">&quot;| DFS from A:&quot;</span>, <span class="hl-f">dfs</span>(<span class="hl-s">&quot;A&quot;</span>), <span class="hl-s">&quot;| path A→E:&quot;</span>, <span class="hl-f">shortest_hops</span>(<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;E&quot;</span>), <span class="hl-s">&quot;| components:&quot;</span>, <span class="hl-f">components</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">BFS from A: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;] | DFS from A: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;D&#x27;, &#x27;C&#x27;, &#x27;E&#x27;] | path A→E: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;D&#x27;, &#x27;E&#x27;] | components: [[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;], [&#x27;F&#x27;, &#x27;G&#x27;]]</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">number_of_islands</span>(grid):                  <span class="hl-c"># classic grid DFS</span>
+    rows, cols, count = <span class="hl-f">len</span>(grid), <span class="hl-f">len</span>(grid[<span class="hl-n">0</span>]), <span class="hl-n">0</span>
+    <span class="hl-k">def</span> <span class="hl-f">sink</span>(r, c):
+        <span class="hl-k">if</span> <span class="hl-n">0</span> &lt;= r &lt; rows <span class="hl-k">and</span> <span class="hl-n">0</span> &lt;= c &lt; cols <span class="hl-k">and</span> grid[r][c] == <span class="hl-s">&quot;1&quot;</span>:
+            grid[r][c] = <span class="hl-s">&quot;0&quot;</span>
+            <span class="hl-k">for</span> dr, dc <span class="hl-k">in</span> ((<span class="hl-n">1</span>, <span class="hl-n">0</span>), (-<span class="hl-n">1</span>, <span class="hl-n">0</span>), (<span class="hl-n">0</span>, <span class="hl-n">1</span>), (<span class="hl-n">0</span>, -<span class="hl-n">1</span>)): <span class="hl-f">sink</span>(r + dr, c + dc)
+    <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">range</span>(rows):
+        <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(cols):
+            <span class="hl-k">if</span> grid[r][c] == <span class="hl-s">&quot;1&quot;</span>: count += <span class="hl-n">1</span>; <span class="hl-f">sink</span>(r, c)
+    <span class="hl-k">return</span> count
+<span class="hl-f">print</span>(<span class="hl-f">number_of_islands</span>([<span class="hl-f">list</span>(<span class="hl-s">&quot;11000&quot;</span>), <span class="hl-f">list</span>(<span class="hl-s">&quot;11000&quot;</span>), <span class="hl-f">list</span>(<span class="hl-s">&quot;00100&quot;</span>), <span class="hl-f">list</span>(<span class="hl-s">&quot;00011&quot;</span>)]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">3</pre></div>
+<h3 id="python-28-dijkstras-shortest-path-weighted">Dijkstra's shortest path (weighted)</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">dijkstra</span>(graph, src):
+    dist = {src: <span class="hl-n">0</span>}; pq = [(<span class="hl-n">0</span>, src)]
+    <span class="hl-k">while</span> pq:
+        d, u = <span class="hl-f">heapq.heappop</span>(pq)
+        <span class="hl-k">if</span> d &gt; <span class="hl-f">dist.get</span>(u, <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)): <span class="hl-k">continue</span>
+        <span class="hl-k">for</span> v, w <span class="hl-k">in</span> <span class="hl-f">graph.get</span>(u, []):
+            <span class="hl-k">if</span> d + w &lt; <span class="hl-f">dist.get</span>(v, <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)): dist[v] = d + w; <span class="hl-f">heapq.heappush</span>(pq, (d + w, v))
+    <span class="hl-k">return</span> dist
+roads = {<span class="hl-s">&quot;Mumbai&quot;</span>: [(<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-n">150</span>), (<span class="hl-s">&quot;Nashik&quot;</span>, <span class="hl-n">170</span>)], <span class="hl-s">&quot;Pune&quot;</span>: [(<span class="hl-s">&quot;Satara&quot;</span>, <span class="hl-n">110</span>), (<span class="hl-s">&quot;Nashik&quot;</span>, <span class="hl-n">210</span>)], <span class="hl-s">&quot;Nashik&quot;</span>: [(<span class="hl-s">&quot;Aurangabad&quot;</span>, <span class="hl-n">180</span>)], <span class="hl-s">&quot;Satara&quot;</span>: [(<span class="hl-s">&quot;Kolhapur&quot;</span>, <span class="hl-n">120</span>)], <span class="hl-s">&quot;Aurangabad&quot;</span>: [], <span class="hl-s">&quot;Kolhapur&quot;</span>: []}
+<span class="hl-f">print</span>(<span class="hl-f">dijkstra</span>(roads, <span class="hl-s">&quot;Mumbai&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;Mumbai&#x27;: 0, &#x27;Pune&#x27;: 150, &#x27;Nashik&#x27;: 170, &#x27;Satara&#x27;: 260, &#x27;Aurangabad&#x27;: 350, &#x27;Kolhapur&#x27;: 380}</pre></div>
+<h3 id="python-28-topological-sort-ordering-a-pipeline">Topological sort: ordering a pipeline</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">deps = {<span class="hl-s">&quot;extract_orders&quot;</span>: [], <span class="hl-s">&quot;extract_customers&quot;</span>: [], <span class="hl-s">&quot;clean_orders&quot;</span>: [<span class="hl-s">&quot;extract_orders&quot;</span>], <span class="hl-s">&quot;join_customers&quot;</span>: [<span class="hl-s">&quot;clean_orders&quot;</span>, <span class="hl-s">&quot;extract_customers&quot;</span>],
+        <span class="hl-s">&quot;build_marts&quot;</span>: [<span class="hl-s">&quot;join_customers&quot;</span>], <span class="hl-s">&quot;refresh_dashboard&quot;</span>: [<span class="hl-s">&quot;build_marts&quot;</span>], <span class="hl-s">&quot;train_model&quot;</span>: [<span class="hl-s">&quot;join_customers&quot;</span>]}
+<span class="hl-k">def</span> <span class="hl-f">topo_sort</span>(deps):                          <span class="hl-c"># Kahn&#x27;s algorithm</span>
+    indeg = {t: <span class="hl-f">len</span>(d) <span class="hl-k">for</span> t, d <span class="hl-k">in</span> <span class="hl-f">deps.items</span>()}; children = <span class="hl-f">defaultdict</span>(list)
+    <span class="hl-k">for</span> t, ds <span class="hl-k">in</span> <span class="hl-f">deps.items</span>():
+        <span class="hl-k">for</span> d <span class="hl-k">in</span> ds: children[d].<span class="hl-f">append</span>(t)
+    q = <span class="hl-f">deque</span>(<span class="hl-f">sorted</span>(t <span class="hl-k">for</span> t, k <span class="hl-k">in</span> <span class="hl-f">indeg.items</span>() <span class="hl-k">if</span> k == <span class="hl-n">0</span>)); order = []
+    <span class="hl-k">while</span> q:
+        t = <span class="hl-f">q.popleft</span>(); <span class="hl-f">order.append</span>(t)
+        <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">sorted</span>(children[t]):
+            indeg[c] -= <span class="hl-n">1</span>
+            <span class="hl-k">if</span> indeg[c] == <span class="hl-n">0</span>: <span class="hl-f">q.append</span>(c)
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(order) != <span class="hl-f">len</span>(deps): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;cycle detected&quot;</span>)
+    <span class="hl-k">return</span> order
+<span class="hl-f">print</span>(<span class="hl-f">topo_sort</span>(deps))
+<span class="hl-k">from</span> graphlib <span class="hl-k">import</span> TopologicalSorter        <span class="hl-c"># standard-library version</span>
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">TopologicalSorter</span>(deps).<span class="hl-f">static_order</span>())[:<span class="hl-n">3</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;extract_customers&#x27;, &#x27;extract_orders&#x27;, &#x27;clean_orders&#x27;, &#x27;join_customers&#x27;, &#x27;build_marts&#x27;, &#x27;train_model&#x27;, &#x27;refresh_dashboard&#x27;]
+[&#x27;extract_orders&#x27;, &#x27;extract_customers&#x27;, &#x27;clean_orders&#x27;]</pre></div>
+<h2 id="python-28-dynamic-programming">Dynamic programming</h2>
+<p><strong>Dynamic programming (DP)</strong> solves problems with <strong>overlapping subproblems</strong> and <strong>optimal substructure</strong> by storing answers to subproblems instead of recomputing them.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> functools, time
+<span class="hl-k">def</span> <span class="hl-f">fib_naive</span>(n): <span class="hl-k">return</span> n <span class="hl-k">if</span> n &lt; <span class="hl-n">2</span> <span class="hl-k">else</span> <span class="hl-f">fib_naive</span>(n - <span class="hl-n">1</span>) + <span class="hl-f">fib_naive</span>(n - <span class="hl-n">2</span>)
+@functools.cache
+<span class="hl-k">def</span> <span class="hl-f">fib_memo</span>(n): <span class="hl-k">return</span> n <span class="hl-k">if</span> n &lt; <span class="hl-n">2</span> <span class="hl-k">else</span> <span class="hl-f">fib_memo</span>(n - <span class="hl-n">1</span>) + <span class="hl-f">fib_memo</span>(n - <span class="hl-n">2</span>)
+<span class="hl-k">def</span> <span class="hl-f">fib_table</span>(n):
+    a, b = <span class="hl-n">0</span>, <span class="hl-n">1</span>
+    <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(n): a, b = b, a + b
+    <span class="hl-k">return</span> a
+t0 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">fib_naive</span>(<span class="hl-n">27</span>); t1 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">fib_memo</span>(<span class="hl-n">27</span>); t2 = <span class="hl-f">time.perf_counter</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;naive {1000*(t1-t0):.0f} ms (O(2^n)) | memoised {1000*(t2-t1):.3f} ms (O(n)) | values equal: {fib_naive(20) == fib_memo(20) == fib_table(20)}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">naive 31 ms (O(2^n)) | memoised 0.022 ms (O(n)) | values equal: True</pre></div>
+<figure class="fig"><img src="../img/python-28-03.png" alt="Top-down (memoisation) vs bottom-up (tabulation) dynamic programming." loading="lazy"><figcaption>Top-down (memoisation) vs bottom-up (tabulation) dynamic programming.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">climb_stairs</span>(n):                          <span class="hl-c"># 1 or 2 steps at a time</span>
+    a, b = <span class="hl-n">1</span>, <span class="hl-n">1</span>
+    <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(n): a, b = b, a + b
+    <span class="hl-k">return</span> a
+<span class="hl-k">def</span> <span class="hl-f">coin_change</span>(coins, amount):               <span class="hl-c"># fewest coins</span>
+    dp = [<span class="hl-n">0</span>] + [<span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)] * amount
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, amount + <span class="hl-n">1</span>):
+        dp[x] = <span class="hl-f">min</span>((dp[x - c] + <span class="hl-n">1</span> <span class="hl-k">for</span> c <span class="hl-k">in</span> coins <span class="hl-k">if</span> c &lt;= x), default=<span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>))
+    <span class="hl-k">return</span> dp[amount] <span class="hl-k">if</span> dp[amount] != <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>) <span class="hl-k">else</span> -<span class="hl-n">1</span>
+<span class="hl-k">def</span> <span class="hl-f">house_robber</span>(nums):                       <span class="hl-c"># no two adjacent</span>
+    take = skip = <span class="hl-n">0</span>
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums: take, skip = skip + x, <span class="hl-f">max</span>(take, skip)
+    <span class="hl-k">return</span> <span class="hl-f">max</span>(take, skip)
+<span class="hl-k">def</span> <span class="hl-f">lis</span>(nums):                                <span class="hl-c"># longest increasing subsequence, O(n log n)</span>
+    <span class="hl-k">import</span> bisect; tails = []
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums:
+        i = <span class="hl-f">bisect.bisect_left</span>(tails, x)
+        tails[i:i + <span class="hl-n">1</span>] = [x]
+    <span class="hl-k">return</span> <span class="hl-f">len</span>(tails)
+<span class="hl-k">def</span> <span class="hl-f">edit_distance</span>(a, b):                      <span class="hl-c"># Levenshtein: used in fuzzy matching of names</span>
+    dp = <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-f">len</span>(b) + <span class="hl-n">1</span>))
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(a) + <span class="hl-n">1</span>):
+        prev, dp[<span class="hl-n">0</span>] = dp[<span class="hl-n">0</span>], i
+        <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(b) + <span class="hl-n">1</span>):
+            prev, dp[j] = dp[j], <span class="hl-f">min</span>(dp[j] + <span class="hl-n">1</span>, dp[j - <span class="hl-n">1</span>] + <span class="hl-n">1</span>, prev + (a[i - <span class="hl-n">1</span>] != b[j - <span class="hl-n">1</span>]))
+    <span class="hl-k">return</span> dp[-<span class="hl-n">1</span>]
+<span class="hl-k">def</span> <span class="hl-f">knapsack</span>(items, cap):                     <span class="hl-c"># 0/1 knapsack: (weight, value)</span>
+    dp = [<span class="hl-n">0</span>] * (cap + <span class="hl-n">1</span>)
+    <span class="hl-k">for</span> w, v <span class="hl-k">in</span> items:
+        <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(cap, w - <span class="hl-n">1</span>, -<span class="hl-n">1</span>): dp[c] = <span class="hl-f">max</span>(dp[c], dp[c - w] + v)
+    <span class="hl-k">return</span> dp[cap]
+<span class="hl-f">print</span>(<span class="hl-f">climb_stairs</span>(<span class="hl-n">10</span>), <span class="hl-f">coin_change</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>], <span class="hl-n">11</span>), <span class="hl-f">coin_change</span>([<span class="hl-n">2</span>], <span class="hl-n">3</span>), <span class="hl-f">house_robber</span>([<span class="hl-n">2</span>, <span class="hl-n">7</span>, <span class="hl-n">9</span>, <span class="hl-n">3</span>, <span class="hl-n">1</span>]), <span class="hl-f">lis</span>([<span class="hl-n">10</span>, <span class="hl-n">9</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>, <span class="hl-n">3</span>, <span class="hl-n">7</span>, <span class="hl-n">101</span>, <span class="hl-n">18</span>]))
+<span class="hl-f">print</span>(<span class="hl-f">edit_distance</span>(<span class="hl-s">&quot;Bangalore&quot;</span>, <span class="hl-s">&quot;Bengaluru&quot;</span>), <span class="hl-f">edit_distance</span>(<span class="hl-s">&quot;kitten&quot;</span>, <span class="hl-s">&quot;sitting&quot;</span>), <span class="hl-f">knapsack</span>([(<span class="hl-n">1</span>, <span class="hl-n">1</span>), (<span class="hl-n">3</span>, <span class="hl-n">4</span>), (<span class="hl-n">4</span>, <span class="hl-n">5</span>), (<span class="hl-n">5</span>, <span class="hl-n">7</span>)], <span class="hl-n">7</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">89 3 -1 12 4
+3 3 9</pre></div>
+<p>How to spot DP: "minimum/maximum/number of ways", choices at each step, and the same subproblem appearing again. Define the <strong>state</strong> (<code>dp[x]</code> = best answer for amount x), the <strong>transition</strong>, and the <strong>base case</strong>.</p>
+<h2 id="python-28-where-these-appear-in-data-work">Where these appear in data work</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Structure</th>
+<th>In data tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B-trees</td>
+<td>Database indexes</td>
+</tr>
+<tr>
+<td>Hash tables</td>
+<td>Hash joins, <code>GROUP BY</code>, Python dicts, Spark shuffles</td>
+</tr>
+<tr>
+<td>Heaps</td>
+<td>Top-N queries, schedulers, k-way merge in external sorting</td>
+</tr>
+<tr>
+<td>DAGs + topological sort</td>
+<td>Airflow, dbt, Dagster, Spark execution plans</td>
+</tr>
+<tr>
+<td>Graphs + BFS</td>
+<td>Recommendations ("people also bought"), fraud rings, knowledge graphs for GenAI</td>
+</tr>
+<tr>
+<td>Edit distance (DP)</td>
+<td>Fuzzy matching, deduplicating customer names</td>
+</tr>
+<tr>
+<td>Trees</td>
+<td>Decision trees, random forests, gradient boosting</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="python-28-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Trees: four traversals; a BST's in-order traversal is sorted; balanced trees give O(log n) search (database B-tree indexes).</li>
+<li>Heaps (<code>heapq</code>) give the minimum in O(1) and push/pop in O(log n): top-k, k-way merge, priority scheduling, running median.</li>
+<li>Graphs as adjacency lists; BFS (queue) for levels and shortest unweighted paths, DFS (recursion/stack) for components and islands; Dijkstra for weighted paths; topological sort for DAG pipelines.</li>
+<li>DP = overlapping subproblems + optimal substructure; use memoisation (<code>@functools.cache</code>) or tabulation; define state, transition and base case.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-28-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which traversal of a BST returns the values in sorted order?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pre-order</button><button type="button" class="opt" data-ok="1"><i>B</i>In-order</button><button type="button" class="opt" data-ok="0"><i>C</i>Post-order</button><button type="button" class="opt" data-ok="0"><i>D</i>Level-order</button></div><div class="qexp"><b>Answer: B.</b> Left subtree, node, right subtree.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>heapq</code> give you in O(1)?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The smallest item</button><button type="button" class="opt" data-ok="0"><i>B</i>The largest item</button><button type="button" class="opt" data-ok="0"><i>C</i>The median</button><button type="button" class="opt" data-ok="0"><i>D</i>A sorted list</button></div><div class="qexp"><b>Answer: A.</b> Negate values for a max-heap.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which search finds the shortest path in an unweighted graph?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>BFS</button><button type="button" class="opt" data-ok="0"><i>B</i>DFS</button><button type="button" class="opt" data-ok="0"><i>C</i>Binary search</button><button type="button" class="opt" data-ok="0"><i>D</i>Sorting</button></div><div class="qexp"><b>Answer: A.</b> BFS explores level by level.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which algorithm orders tasks so each runs after its dependencies?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Dijkstra</button><button type="button" class="opt" data-ok="1"><i>B</i>Topological sort</button><button type="button" class="opt" data-ok="0"><i>C</i>Merge sort</button><button type="button" class="opt" data-ok="0"><i>D</i>Kadane</button></div><div class="qexp"><b>Answer: B.</b> It works on directed acyclic graphs.</div></div><div class="qq"><p class="qtext"><b>5.</b> Two signs that a problem suits dynamic programming are…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Overlapping subproblems and optimal substructure</button><button type="button" class="opt" data-ok="0"><i>B</i>Sorted input and unique values</button><button type="button" class="opt" data-ok="0"><i>C</i>A graph and a heap</button><button type="button" class="opt" data-ok="0"><i>D</i>Strings only</button></div><div class="qexp"><b>Answer: A.</b> Store and reuse subproblem answers.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why does a database index speed up lookups?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It stores data in CSV</button><button type="button" class="opt" data-ok="1"><i>B</i>It keeps keys in a balanced tree (B-tree) so lookups are O(log n)</button><button type="button" class="opt" data-ok="0"><i>C</i>It caches every query</button><button type="button" class="opt" data-ok="0"><i>D</i>It compresses the table</button></div><div class="qexp"><b>Answer: B.</b> Without an index the database scans every row.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice set</b></div><p>(1) Return the maximum depth and the left view of a binary tree. (2) Find the k closest points to the origin with a heap. (3) Detect a cycle in a directed graph of task dependencies. (4) Count the number of ways to make change for an amount. (5) Longest common subsequence of two strings.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">left_view</span>(n): <span class="hl-k">return</span> [lvl[<span class="hl-n">0</span>] <span class="hl-k">for</span> lvl <span class="hl-k">in</span> <span class="hl-f">level_order</span>(n)]
+<span class="hl-k">def</span> <span class="hl-f">k_closest</span>(points, k): <span class="hl-k">return</span> <span class="hl-f">heapq.nsmallest</span>(k, points, key=<span class="hl-k">lambda</span> p: p[<span class="hl-n">0</span>] ** <span class="hl-n">2</span> + p[<span class="hl-n">1</span>] ** <span class="hl-n">2</span>)
+<span class="hl-k">def</span> <span class="hl-f">has_cycle_directed</span>(deps):
+    <span class="hl-k">try</span>: <span class="hl-f">topo_sort</span>(deps); <span class="hl-k">return</span> <span class="hl-k">False</span>
+    <span class="hl-k">except</span> ValueError: <span class="hl-k">return</span> <span class="hl-k">True</span>
+<span class="hl-k">def</span> <span class="hl-f">ways_to_change</span>(coins, amount):
+    dp = [<span class="hl-n">1</span>] + [<span class="hl-n">0</span>] * amount
+    <span class="hl-k">for</span> c <span class="hl-k">in</span> coins:
+        <span class="hl-k">for</span> x <span class="hl-k">in</span> <span class="hl-f">range</span>(c, amount + <span class="hl-n">1</span>): dp[x] += dp[x - c]
+    <span class="hl-k">return</span> dp[amount]
+<span class="hl-k">def</span> <span class="hl-f">lcs</span>(a, b):
+    dp = [[<span class="hl-n">0</span>] * (<span class="hl-f">len</span>(b) + <span class="hl-n">1</span>) <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(a) + <span class="hl-n">1</span>)]
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(a) + <span class="hl-n">1</span>):
+        <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(b) + <span class="hl-n">1</span>):
+            dp[i][j] = dp[i - <span class="hl-n">1</span>][j - <span class="hl-n">1</span>] + <span class="hl-n">1</span> <span class="hl-k">if</span> a[i - <span class="hl-n">1</span>] == b[j - <span class="hl-n">1</span>] <span class="hl-k">else</span> <span class="hl-f">max</span>(dp[i - <span class="hl-n">1</span>][j], dp[i][j - <span class="hl-n">1</span>])
+    <span class="hl-k">return</span> dp[-<span class="hl-n">1</span>][-<span class="hl-n">1</span>]
+<span class="hl-f">print</span>(<span class="hl-f">height</span>(root), <span class="hl-f">left_view</span>(root), <span class="hl-f">k_closest</span>([(<span class="hl-n">1</span>, <span class="hl-n">3</span>), (-<span class="hl-n">2</span>, <span class="hl-n">2</span>), (<span class="hl-n">5</span>, <span class="hl-n">8</span>)], <span class="hl-n">2</span>), <span class="hl-f">has_cycle_directed</span>({<span class="hl-s">&quot;a&quot;</span>: [<span class="hl-s">&quot;b&quot;</span>], <span class="hl-s">&quot;b&quot;</span>: [<span class="hl-s">&quot;a&quot;</span>]}), <span class="hl-f">ways_to_change</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>], <span class="hl-n">5</span>), <span class="hl-f">lcs</span>(<span class="hl-s">&quot;abcde&quot;</span>, <span class="hl-s">&quot;ace&quot;</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: BFS vs DFS?</strong>
+BFS uses a queue, explores by distance and finds shortest unweighted paths; DFS uses recursion or a stack, goes deep first, and suits connectivity, cycle detection and topological ordering. Both are O(V + E).</p>
+<p><strong>Q: How would you get the top 10 products from a stream of billions of sales?</strong>
+Maintain a size-10 min-heap of running totals per product (or approximate with Count-Min Sketch), or aggregate in SQL/Spark and take the top 10.</p>
+<p><strong>Q: Memoisation vs tabulation?</strong>
+Memoisation caches results of a top-down recursion; tabulation fills a table bottom-up. Same complexity; tabulation avoids recursion limits and often allows space optimisation.</p></div></div></article><article class="lesson-art bk" id="L-python-29"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 29</div><h1>Python Capstone: End-to-End Retail Sales Analytics Project</h1>
+<p class="sum">Bring the whole Python track together on the Superstore data. Structure a project, build a validated data pipeline, compute KPIs, growth and Pareto analysis, cohort retention and discount impact, create a chart pack and an Excel report, and write the README and executive summary you can put in your portfolio.</p><div class="tags"><span class="tag live">● Python capstone</span><span class="tag new">✦ pandas 3 · Matplotlib 3.10 · openpyxl</span><span class="tag">Advanced</span><span class="tag">⏱ 180 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Organise an analysis as a reproducible project with functions, checks and outputs</li><li>Build a load → validate → transform pipeline with assertions</li><li>Analyse KPIs, growth, Pareto concentration, cohorts and discount effects</li><li>Produce a multi-sheet Excel report and a chart pack</li><li>Write an executive summary and a portfolio-ready README</li></ul></div></div><div class="content"><h2 id="python-29-the-brief">The brief</h2>
+<blockquote>
+<p>The sales director of an Indian office-supplies retailer asks: <strong>How did 2025 go, where do we make and lose money, how loyal are our customers, and what should we change in 2026?</strong> Deliver a short report with charts and an Excel workbook her team can filter.</p>
+</blockquote>
+<figure class="fig"><img src="../img/python-29-01.png" alt="Capstone pipeline." loading="lazy"><figcaption>Capstone pipeline.</figcaption></figure>
+<p>Project layout (Lesson 13): <code>data/raw</code>, <code>src/</code> (functions below), <code>notebooks/</code> (exploration), <code>reports/</code> (outputs), <code>README.md</code>.</p>
+<h2 id="python-29-1-load-and-validate">1. Load and validate</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np, matplotlib.pyplot <span class="hl-k">as</span> plt
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.max_columns&quot;</span>, <span class="hl-n">20</span>); <span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">load</span>(path=<span class="hl-s">&quot;superstore_sales.csv&quot;</span>):
+    df = <span class="hl-f">pd.read_csv</span>(path, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+    <span class="hl-k">return</span> df
+
+<span class="hl-k">def</span> <span class="hl-f">validate</span>(df):
+    checks = {
+        <span class="hl-s">&quot;row_id unique&quot;</span>: df[<span class="hl-s">&quot;row_id&quot;</span>].is_unique,
+        <span class="hl-s">&quot;no missing values&quot;</span>: <span class="hl-f">df.isna</span>().<span class="hl-f">sum</span>().<span class="hl-f">sum</span>() == <span class="hl-n">0</span>,
+        <span class="hl-s">&quot;sales positive&quot;</span>: (df[<span class="hl-s">&quot;sales&quot;</span>] &gt; <span class="hl-n">0</span>).<span class="hl-f">all</span>(),
+        <span class="hl-s">&quot;discount between 0 and 1&quot;</span>: df[<span class="hl-s">&quot;discount&quot;</span>].<span class="hl-f">between</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span>).<span class="hl-f">all</span>(),
+        <span class="hl-s">&quot;ship after order&quot;</span>: (df[<span class="hl-s">&quot;ship_date&quot;</span>] &gt;= df[<span class="hl-s">&quot;order_date&quot;</span>]).<span class="hl-f">all</span>(),
+        <span class="hl-s">&quot;quantity 1-20&quot;</span>: df[<span class="hl-s">&quot;quantity&quot;</span>].<span class="hl-f">between</span>(<span class="hl-n">1</span>, <span class="hl-n">20</span>).<span class="hl-f">all</span>(),
+    }
+    <span class="hl-k">for</span> name, ok <span class="hl-k">in</span> <span class="hl-f">checks.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;  {&#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;}  {name}&quot;</span>)
+    assert <span class="hl-f">all</span>(<span class="hl-f">checks.values</span>()), <span class="hl-s">&quot;validation failed&quot;</span>
+    <span class="hl-k">return</span> df
+
+s = <span class="hl-f">validate</span>(<span class="hl-f">load</span>())
+<span class="hl-f">print</span>(s.shape, <span class="hl-f">s.order_date.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;→&quot;</span>, <span class="hl-f">s.order_date.max</span>().<span class="hl-f">date</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  PASS  row_id unique
+  PASS  no missing values
+  PASS  sales positive
+  PASS  discount between 0 and 1
+  PASS  ship after order
+  PASS  quantity 1-20
+(6323, 19) 2023-01-01 → 2025-12-31</pre></div>
+<h2 id="python-29-2-transform-and-enrich">2. Transform and enrich</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">enrich</span>(df):
+    out = <span class="hl-f">df.copy</span>()
+    out[<span class="hl-s">&quot;year&quot;</span>] = out.order_date.dt.year
+    out[<span class="hl-s">&quot;month&quot;</span>] = <span class="hl-f">out.order_date.dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>)
+    out[<span class="hl-s">&quot;margin_pct&quot;</span>] = <span class="hl-n">100</span> * out.profit / out.sales
+    out[<span class="hl-s">&quot;ship_days&quot;</span>] = (out.ship_date - out.order_date).dt.days
+    out[<span class="hl-s">&quot;discount_band&quot;</span>] = <span class="hl-f">pd.cut</span>(out.discount, [-<span class="hl-n">0.01</span>, <span class="hl-n">0</span>, <span class="hl-n">0.1</span>, <span class="hl-n">0.2</span>, <span class="hl-n">1</span>], labels=[<span class="hl-s">&quot;0%&quot;</span>, <span class="hl-s">&quot;1–10%&quot;</span>, <span class="hl-s">&quot;11–20%&quot;</span>, <span class="hl-s">&quot;&gt;20%&quot;</span>])
+    <span class="hl-k">return</span> out
+s = <span class="hl-f">enrich</span>(s)
+<span class="hl-f">print</span>(s[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;year&quot;</span>, <span class="hl-s">&quot;month&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;margin_pct&quot;</span>, <span class="hl-s">&quot;discount_band&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">        order_id  year    month    sales   profit  margin_pct discount_band
+0  IN-2023-00001  2023  2023-01  36000.0  3472.55    9.645972            0%
+1  IN-2023-00001  2023  2023-01   3850.0  1169.54   30.377662            0%
+2  IN-2023-00001  2023  2023-01  62080.0  6044.47    9.736582            0%</pre></div>
+<h2 id="python-29-3-headline-kpis-and-growth">3. Headline KPIs and growth</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">kpis</span>(df):
+    g = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;year&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), customers=(<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), units=(<span class="hl-s">&quot;quantity&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+    g[<span class="hl-s">&quot;margin_%&quot;</span>] = <span class="hl-n">100</span> * g.profit / g.sales
+    g[<span class="hl-s">&quot;aov&quot;</span>] = g.sales / g.orders
+    g[<span class="hl-s">&quot;sales_growth_%&quot;</span>] = <span class="hl-n">100</span> * <span class="hl-f">g.sales.pct_change</span>()
+    g[<span class="hl-s">&quot;profit_growth_%&quot;</span>] = <span class="hl-n">100</span> * <span class="hl-f">g.profit.pct_change</span>()
+    <span class="hl-k">return</span> g
+k = <span class="hl-f">kpis</span>(s)
+view = <span class="hl-f">k.assign</span>(sales=k.sales / 1e6, profit=k.profit / 1e6, aov=k.aov / 1e3).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+view.columns = [<span class="hl-s">&quot;sales ₹M&quot;</span>, <span class="hl-s">&quot;profit ₹M&quot;</span>, <span class="hl-s">&quot;orders&quot;</span>, <span class="hl-s">&quot;customers&quot;</span>, <span class="hl-s">&quot;units&quot;</span>, <span class="hl-s">&quot;margin %&quot;</span>, <span class="hl-s">&quot;AOV ₹K&quot;</span>, <span class="hl-s">&quot;sales growth %&quot;</span>, <span class="hl-s">&quot;profit growth %&quot;</span>]
+<span class="hl-f">print</span>(view)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">      sales ₹M  profit ₹M  orders  customers  units  margin %  AOV ₹K  sales growth %  profit growth %
+year                                                                                                  
+2023      57.6        4.7     883        540   4714       8.2    65.3             NaN              NaN
+2024      65.4        6.1    1085        590   5404       9.4    60.3            13.5             29.9
+2025      78.4        7.5    1232        623   6266       9.6    63.6            19.8             22.1</pre></div>
+<figure class="fig"><img src="../img/python-29-02.png" alt="Monthly sales and profit, 2023–2025, with 3-month rolling averages." loading="lazy"><figcaption>Monthly sales and profit, 2023–2025, with 3-month rolling averages.</figcaption></figure>
+<h2 id="python-29-4-where-we-make-and-lose-money">4. Where we make and lose money</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sub = s[s.year == <span class="hl-n">2025</span>].<span class="hl-f">groupby</span>([<span class="hl-s">&quot;category&quot;</span>, <span class="hl-s">&quot;sub_category&quot;</span>]).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), avg_disc=(<span class="hl-s">&quot;discount&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>))
+sub[<span class="hl-s">&quot;margin_%&quot;</span>] = (<span class="hl-n">100</span> * sub.profit / sub.sales).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+sub = <span class="hl-f">sub.sort_values</span>(<span class="hl-s">&quot;profit&quot;</span>)
+<span class="hl-f">print</span>((<span class="hl-f">sub.assign</span>(sales=sub.sales / 1e6, profit=sub.profit / 1e6)).<span class="hl-f">round</span>(<span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                              sales  profit  avg_disc  margin_%
+category        sub_category                                   
+Furniture       Tables         5.30   -0.29      0.17      -5.4
+                Bookcases      3.92   -0.17      0.19      -4.3
+Office Supplies Art            0.10    0.02      0.08      15.3
+                Binders        0.16    0.02      0.08      14.2
+Furniture       Furnishings    0.49    0.03      0.08       5.2
+Office Supplies Paper          0.19    0.03      0.07      15.8
+Furniture       Chairs         3.05    0.13      0.08       4.3
+Office Supplies Storage        0.98    0.14      0.08      14.1
+Technology      Accessories    1.22    0.15      0.07      11.9
+Office Supplies Appliances     2.54    0.38      0.07      14.9
+Technology      Phones        12.94    1.71      0.06      13.2
+                Machines      16.50    2.00      0.08      12.1
+                Copiers       30.98    3.35      0.08      10.8</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">db = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;discount_band&quot;</span>, observed=<span class="hl-k">True</span>).<span class="hl-f">agg</span>(lines=(<span class="hl-s">&quot;row_id&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+db[<span class="hl-s">&quot;margin_%&quot;</span>] = (<span class="hl-n">100</span> * db.profit / db.sales).<span class="hl-f">round</span>(<span class="hl-n">1</span>); db[<span class="hl-s">&quot;share_of_lines_%&quot;</span>] = (<span class="hl-n">100</span> * db.lines / <span class="hl-f">db.lines.sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-f">db.assign</span>(sales=(db.sales / 1e6).<span class="hl-f">round</span>(<span class="hl-n">1</span>), profit=(db.profit / 1e6).<span class="hl-f">round</span>(<span class="hl-n">2</span>)))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">               lines  sales  profit  margin_%  share_of_lines_%
+discount_band                                                  
+0%              3480  123.9   21.72      17.5              55.0
+1–10%            726   21.9    1.29       5.9              11.5
+11–20%          1217   35.9   -0.59      -1.6              19.2
+&gt;20%             900   19.7   -4.06     -20.6              14.2</pre></div>
+<figure class="fig"><img src="../img/python-29-03.png" alt="Margin by discount band: deep discounts turn profitable lines into losses." loading="lazy"><figcaption>Margin by discount band: deep discounts turn profitable lines into losses.</figcaption></figure>
+<h2 id="python-29-5-customer-concentration-pareto">5. Customer concentration (Pareto)</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cust = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>)
+cum = <span class="hl-f">cust.cumsum</span>() / <span class="hl-f">cust.sum</span>()
+top20 = <span class="hl-f">int</span>(<span class="hl-f">len</span>(cust) * <span class="hl-n">0.2</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{len(cust)} customers | top 20% ({top20}) bring {cum.iloc[top20 - 1]:.0%} of sales | customers needed for 50% of sales: {(cum &lt; 0.5).sum() + 1}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">785 customers | top 20% (157) bring 47% of sales | customers needed for 50% of sales: 171</pre></div>
+<figure class="fig"><img src="../img/python-29-04.png" alt="Pareto curve of customer sales." loading="lazy"><figcaption>Pareto curve of customer sales.</figcaption></figure>
+<h2 id="python-29-6-cohort-retention">6. Cohort retention</h2>
+<p>A <strong>cohort</strong> groups customers by the month (here: quarter) of their first purchase; retention tracks how many buy again later.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s[<span class="hl-s">&quot;quarter&quot;</span>] = <span class="hl-f">s.order_date.dt.to_period</span>(<span class="hl-s">&quot;Q&quot;</span>)
+first = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>)[<span class="hl-s">&quot;quarter&quot;</span>].<span class="hl-f">min</span>().<span class="hl-f">rename</span>(<span class="hl-s">&quot;cohort&quot;</span>)
+c = <span class="hl-f">s.join</span>(first, on=<span class="hl-s">&quot;customer_id&quot;</span>)
+c[<span class="hl-s">&quot;age_q&quot;</span>] = (c.quarter - c.cohort).<span class="hl-f">apply</span>(<span class="hl-k">lambda</span> d: d.n)
+active = <span class="hl-f">c.groupby</span>([<span class="hl-s">&quot;cohort&quot;</span>, <span class="hl-s">&quot;age_q&quot;</span>])[<span class="hl-s">&quot;customer_id&quot;</span>].<span class="hl-f">nunique</span>().<span class="hl-f">unstack</span>()
+retention = (<span class="hl-f">active.div</span>(active[<span class="hl-n">0</span>], axis=<span class="hl-n">0</span>) * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">0</span>)
+<span class="hl-f">print</span>(active[<span class="hl-n">0</span>].<span class="hl-f">rename</span>(<span class="hl-s">&quot;cohort size&quot;</span>).<span class="hl-f">head</span>(<span class="hl-n">6</span>).<span class="hl-f">to_dict</span>())
+<span class="hl-f">print</span>(retention.iloc[:<span class="hl-n">6</span>, :<span class="hl-n">8</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{Period(&#x27;2023Q1&#x27;, &#x27;Q-DEC&#x27;): 151.0, Period(&#x27;2023Q2&#x27;, &#x27;Q-DEC&#x27;): 142.0, Period(&#x27;2023Q3&#x27;, &#x27;Q-DEC&#x27;): 127.0, Period(&#x27;2023Q4&#x27;, &#x27;Q-DEC&#x27;): 120.0, Period(&#x27;2024Q1&#x27;, &#x27;Q-DEC&#x27;): 71.0, Period(&#x27;2024Q2&#x27;, &#x27;Q-DEC&#x27;): 42.0}
+age_q       0     1     2     3     4     5     6     7
+cohort                                                 
+2023Q1  100.0  23.0  26.0  28.0  22.0  26.0  35.0  38.0
+2023Q2  100.0  20.0  33.0  29.0  26.0  25.0  25.0  31.0
+2023Q3  100.0  24.0  26.0  22.0  35.0  36.0  26.0  20.0
+2023Q4  100.0  25.0  22.0  29.0  45.0  25.0  32.0  27.0
+2024Q1  100.0  38.0  17.0  37.0  34.0  25.0  27.0  38.0
+2024Q2  100.0  31.0  24.0  31.0  24.0  24.0  40.0   NaN</pre></div>
+<figure class="fig"><img src="../img/python-29-05.png" alt="Quarterly cohort retention (% of each cohort buying in later quarters)." loading="lazy"><figcaption>Quarterly cohort retention (% of each cohort buying in later quarters).</figcaption></figure>
+<h2 id="python-29-7-operations-shipping">7. Operations: shipping</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">ship = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;ship_mode&quot;</span>).<span class="hl-f">agg</span>(lines=(<span class="hl-s">&quot;row_id&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), avg_days=(<span class="hl-s">&quot;ship_days&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>), sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+ship[<span class="hl-s">&quot;share_%&quot;</span>] = (<span class="hl-n">100</span> * ship.lines / <span class="hl-f">ship.lines.sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-f">ship.round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;avg_days&quot;</span>))
+reg = s[s.year == <span class="hl-n">2025</span>].<span class="hl-f">groupby</span>(<span class="hl-s">&quot;region&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+reg[<span class="hl-s">&quot;margin_%&quot;</span>] = (<span class="hl-n">100</span> * reg.profit / reg.sales).<span class="hl-f">round</span>(<span class="hl-n">1</span>); <span class="hl-f">print</span>((<span class="hl-f">reg.assign</span>(sales=reg.sales / 1e6, profit=reg.profit / 1e6)).<span class="hl-f">round</span>(<span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                lines  avg_days        sales  share_%
+ship_mode                                            
+Same Day          321       0.0   10082429.5      5.1
+First Class       948       1.5   31455543.0     15.0
+Second Class     1249       3.0   40858316.0     19.8
+Standard Class   3805       5.6  119017280.5     60.2
+        sales  profit  margin_%
+region                         
+East    18.91    2.07      10.9
+North   16.43    1.56       9.5
+South   20.80    1.77       8.5
+West    22.23    2.10       9.4</pre></div>
+<h2 id="python-29-8-excel-report-for-the-business">8. Excel report for the business</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pathlib <span class="hl-k">import</span> Path
+out = <span class="hl-f">Path</span>(<span class="hl-s">&quot;reports&quot;</span>); <span class="hl-f">out.mkdir</span>(exist_ok=<span class="hl-k">True</span>)
+<span class="hl-k">with</span> <span class="hl-f">pd.ExcelWriter</span>(out / <span class="hl-s">&quot;sales_review_2025.xlsx&quot;</span>, engine=<span class="hl-s">&quot;openpyxl&quot;</span>) <span class="hl-k">as</span> xw:
+    <span class="hl-f">view.to_excel</span>(xw, sheet_name=<span class="hl-s">&quot;KPIs&quot;</span>)
+    <span class="hl-f">sub.reset_index</span>().<span class="hl-f">to_excel</span>(xw, sheet_name=<span class="hl-s">&quot;Sub-category 2025&quot;</span>, index=<span class="hl-k">False</span>)
+    <span class="hl-f">db.reset_index</span>().<span class="hl-f">to_excel</span>(xw, sheet_name=<span class="hl-s">&quot;Discount bands&quot;</span>, index=<span class="hl-k">False</span>)
+    <span class="hl-f">retention.reset_index</span>().<span class="hl-f">astype</span>(str).<span class="hl-f">to_excel</span>(xw, sheet_name=<span class="hl-s">&quot;Cohort retention&quot;</span>, index=<span class="hl-k">False</span>)
+    s[s.year == <span class="hl-n">2025</span>].<span class="hl-f">drop</span>(columns=[<span class="hl-s">&quot;month&quot;</span>, <span class="hl-s">&quot;quarter&quot;</span>]).<span class="hl-f">to_excel</span>(xw, sheet_name=<span class="hl-s">&quot;Data 2025&quot;</span>, index=<span class="hl-k">False</span>)
+<span class="hl-k">import</span> openpyxl
+wb = <span class="hl-f">openpyxl.load_workbook</span>(out / <span class="hl-s">&quot;sales_review_2025.xlsx&quot;</span>)
+<span class="hl-k">for</span> ws <span class="hl-k">in</span> wb.worksheets:
+    ws.freeze_panes = <span class="hl-s">&quot;B2&quot;</span>; ws.auto_filter.ref = ws.dimensions
+    <span class="hl-k">for</span> col <span class="hl-k">in</span> ws.columns: ws.column_dimensions[col[<span class="hl-n">0</span>].column_letter].width = <span class="hl-n">16</span>
+<span class="hl-f">wb.save</span>(out / <span class="hl-s">&quot;sales_review_2025.xlsx&quot;</span>)
+<span class="hl-f">print</span>(wb.sheetnames, <span class="hl-s">f&quot;{(out / &#x27;sales_review_2025.xlsx&#x27;).stat().st_size / 1e6:.1f} MB&quot;</span>)
+<span class="hl-k">import</span> shutil; <span class="hl-f">shutil.rmtree</span>(out)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;KPIs&#x27;, &#x27;Sub-category 2025&#x27;, &#x27;Discount bands&#x27;, &#x27;Cohort retention&#x27;, &#x27;Data 2025&#x27;] 0.3 MB</pre></div>
+<h2 id="python-29-9-executive-summary-template">9. Executive summary (template)</h2>
+<p>Write the summary <strong>from the numbers above</strong>; every claim should point to a table or chart.</p>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><p>Fill each line from your outputs:
+1. <strong>Growth</strong>: 2025 sales of ₹<strong>M (+</strong>% on 2024), profit ₹<strong>M (+</strong>%), margin __%.
+2. <strong>Profit engines</strong>: __ and __ deliver __% of profit; __ and <strong> lose mon</strong>.
+3. **Discounts**: lines discounted above 20% h<strong>e a __% m</strong>gin, against __% at no discount.
+4. **Customers**: the top 20% of customers brin<strong>__% of sales, an</strong>__% of a cohort is still buying a year later.
+5. <strong>Actions for 2026</strong>: cap discounts on __; review pricing of __; a loyalty programme for the top customers; a retention push in the first quarter after a customer's first purchase.</p></div>
+<h2 id="python-29-10-readme-for-your-portfolio">10. README for your portfolio</h2>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text"># Superstore India: 2025 Sales Review (Python)
+**Question:** How did 2025 perform, where is profit made and lost, how loyal are customers?
+**Data:** 6,323 order lines, 2023–2025 (synthetic, modelled on the Superstore dataset).
+**Tools:** pandas, Matplotlib, Seaborn, openpyxl.
+**Method:** validation checks → enrichment → KPIs, Pareto, cohort retention, discount analysis.
+**Key findings:** (3–5 bullets with numbers)
+**Recommendations:** (3 bullets)
+**How to run:** `pip install -r requirements.txt &amp;&amp; python src/run_report.py`
+**Repo:** data/ · src/ · notebooks/ · reports/ · README.md</code></pre></div>
+<h2 id="python-29-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A project is a pipeline: load → validate (assertions) → enrich → analyse → visualise → report.</li>
+<li>KPI tables with growth, sub-category profitability, discount bands, Pareto concentration and cohort retention answer most retail questions.</li>
+<li><code>pd.ExcelWriter</code> + openpyxl create business-ready, filterable workbooks.</li>
+<li>Finish with an executive summary tied to numbers and a portfolio README.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-29-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why put validation checks at the start of the pipeline?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>To stop early if the data breaks assumptions, rather than producing wrong results</button><button type="button" class="opt" data-ok="0"><i>B</i>To make the code longer</button><button type="button" class="opt" data-ok="0"><i>C</i>Because pandas requires it</button><button type="button" class="opt" data-ok="0"><i>D</i>To speed up loading</button></div><div class="qexp"><b>Answer: A.</b> Assertions make failures loud.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does a Pareto analysis of customers show?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Average sales</button><button type="button" class="opt" data-ok="1"><i>B</i>How concentrated sales are among the top customers</button><button type="button" class="opt" data-ok="0"><i>C</i>Retention over time</button><button type="button" class="opt" data-ok="0"><i>D</i>Discount impact</button></div><div class="qexp"><b>Answer: B.</b> Often a minority of customers brings most of the revenue.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is a cohort in retention analysis?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Customers grouped by the period of their first purchase</button><button type="button" class="opt" data-ok="0"><i>B</i>Customers in the same city</button><button type="button" class="opt" data-ok="0"><i>C</i>All customers</button><button type="button" class="opt" data-ok="0"><i>D</i>Products in a category</button></div><div class="qexp"><b>Answer: A.</b> Retention follows each cohort over time.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which tool writes several sheets to one Excel file?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>df.to_csv</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>pd.ExcelWriter</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>openpyxl.load_workbook</code> only</button><button type="button" class="opt" data-ok="0"><i>D</i><code>df.to_json</code></button></div><div class="qexp"><b>Answer: B.</b> Then format with openpyxl.</div></div><div class="qq"><p class="qtext"><b>5.</b> What belongs in an executive summary?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>All code</button><button type="button" class="opt" data-ok="1"><i>B</i>Key numbers, findings and recommended actions</button><button type="button" class="opt" data-ok="0"><i>C</i>Raw data</button><button type="button" class="opt" data-ok="0"><i>D</i>Library versions</button></div><div class="qexp"><b>Answer: B.</b> Lead with the answer.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why write analysis steps as functions?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>They can be tested, re-run on new data and reused</button><button type="button" class="opt" data-ok="0"><i>B</i>They run faster in all cases</button><button type="button" class="opt" data-ok="0"><i>C</i>Notebooks forbid loops</button><button type="button" class="opt" data-ok="0"><i>D</i>To avoid variables</button></div><div class="qexp"><b>Answer: A.</b> Reproducibility matters.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Extend the capstone</b></div><p>(1) Add product-level ABC analysis (A = top 80% of sales). (2) Compute RFM scores for 2025 customers (see ML track lesson on segmentation). (3) Turn the chart cells into a function that saves PNGs to <code>reports/</code>. (4) Publish the project on GitHub with the README template and one chart in the README.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">prod = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>)
+share = <span class="hl-f">prod.cumsum</span>() / <span class="hl-f">prod.sum</span>()
+abc = <span class="hl-f">pd.cut</span>(share, [<span class="hl-n">0</span>, .<span class="hl-n">8</span>, .<span class="hl-n">95</span>, <span class="hl-n">1</span>], labels=[<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>, <span class="hl-s">&quot;C&quot;</span>]); <span class="hl-f">print</span>(<span class="hl-f">abc.value_counts</span>())
+snap = <span class="hl-f">s.order_date.max</span>() + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">1</span>)
+rfm = s[s.year == <span class="hl-n">2025</span>].<span class="hl-f">groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">agg</span>(R=(<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-k">lambda</span> d: (snap - <span class="hl-f">d.max</span>()).days), F=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), M=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+rfm[<span class="hl-s">&quot;score&quot;</span>] = <span class="hl-f">pd.qcut</span>(-rfm.R, <span class="hl-n">4</span>, labels=<span class="hl-k">False</span>) + <span class="hl-f">pd.qcut</span>(<span class="hl-f">rfm.F.rank</span>(method=<span class="hl-s">&quot;first&quot;</span>), <span class="hl-n">4</span>, labels=<span class="hl-k">False</span>) + <span class="hl-f">pd.qcut</span>(rfm.M, <span class="hl-n">4</span>, labels=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-f">rfm.sort_values</span>(<span class="hl-s">&quot;score&quot;</span>, ascending=<span class="hl-k">False</span>).<span class="hl-f">head</span>())</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Walk me through a project you are proud of.</strong>
+Use STAR: the business situation and question, your task, the actions (data, cleaning, analysis, tools), and the result with numbers and what changed. Keep it to two minutes and be ready to go deeper on any step.</p>
+<p><strong>Q: How do you make sure your numbers are right?</strong>
+Validation checks, reconciling totals with a trusted source, spot-checking individual records, peer review, and versioned, re-runnable code.</p>
+<p><strong>Q: What would you do next with more time?</strong>
+Automate the refresh (schedule + Parquet/database), add a dashboard, build a churn or demand-forecast model, and run an experiment on discount policy.</p></div></div></article></body></html>
