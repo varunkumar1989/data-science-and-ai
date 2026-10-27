@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Generative AI &amp; Agentic AI · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#EA580C"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 7</div><h1>Generative AI &amp; Agentic AI</h1><p>How LLMs work, prompting, LLM APIs in Python, embeddings and vector search, RAG, tool use, agents, MCP, evaluation, guardrails, fine-tuning and responsible AI.</p>
-<div class="cv-m"><span>3 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li><a href="#L-genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li><a href="#L-genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li></ol></section><article class="lesson-art bk" id="L-genai-01"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 1</div><h1>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</h1>
+<div class="cv-m"><span>5 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li><a href="#L-genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li><a href="#L-genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li><a href="#L-genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li><a href="#L-genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li></ol></section><article class="lesson-art bk" id="L-genai-01"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 1</div><h1>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</h1>
 <p class="sum">Open the black box. Tokens and tokenisation (built from scratch), next-token prediction and sampling with temperature, embeddings, attention and the transformer, pre-training, instruction tuning and RLHF, context windows, reasoning models, why LLMs hallucinate, and how to choose among Claude, GPT, Gemini, Llama, Mistral, DeepSeek and Qwen.</p><div class="tags"><span class="tag live">● DVA + AI class 1 (deep dive)</span><span class="tag new">✦ 2026 model landscape</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain tokens, vocabularies and why token counts drive cost and limits</li><li>Describe next-token prediction and the effect of temperature and top-p sampling</li><li>Explain embeddings, self-attention and the transformer at an intuitive level</li><li>Describe the training stages (pre-training, instruction tuning, preference optimisation) and reasoning models</li><li>Explain hallucinations and choose a model by capability, cost, latency, privacy and context length</li></ul></div></div><div class="content"><h2 id="genai-01-an-llm-in-one-sentence">An LLM in one sentence</h2>
 <p>A large language model is a neural network trained to <strong>predict the next token</strong> given the previous ones. Doing that very well on trillions of words forces it to learn grammar, facts, reasoning patterns and styles, which instruction tuning then turns into a helpful assistant.</p>
@@ -731,4 +731,589 @@ Requests per day × (input tokens × input price + output tokens × output price
 <p><strong>Q: How do you make LLM API calls robust?</strong>
 Timeouts, retries with exponential backoff for 429/5xx, validation of outputs, checking stop reasons, fallbacks (another model or a rule), idempotent processing and logging.</p>
 <p><strong>Q: How do you keep a long chatbot conversation within budget?</strong>
-Trim or summarise older turns, cache the stable system prompt, retrieve only relevant documents, and cap output length.</p></div></div></article></body></html>
+Trim or summarise older turns, cache the stable system prompt, retrieve only relevant documents, and cap output length.</p></div></div></article><article class="lesson-art bk" id="L-genai-04"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 4</div><h1>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</h1>
+<p class="sum">Learn the foundation of semantic search and RAG. What embeddings are, how word and sentence embeddings are learned (trained here from scratch on our reviews), cosine similarity, document embeddings, building a vector index, exact vs approximate nearest-neighbour search (IVF, HNSW), evaluating retrieval with recall@k, hybrid keyword + vector search, and choosing embedding models and vector databases.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ 2026 tooling: Voyage, OpenAI, Gemini embeddings · pgvector · FAISS · Chroma</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain embeddings and why similar meanings produce nearby vectors</li><li>Learn word embeddings from co-occurrence and build document embeddings</li><li>Use cosine similarity and build exact and approximate vector indexes</li><li>Measure retrieval quality with recall@k and latency</li><li>Choose an embedding model, chunking strategy and vector store for an application</li></ul></div></div><div class="content"><h2 id="genai-04-what-is-an-embedding">What is an embedding?</h2>
+<p>An <strong>embedding</strong> is a list of numbers (a vector) that represents the meaning of a word, sentence, image or product. Models are trained so that <strong>similar meanings produce nearby vectors</strong>.</p>
+<figure class="fig"><img src="../img/genai-04-01.png" alt="Embeddings place items in a space where distance reflects meaning: complaints about charging cluster together, praise for displays clusters elsewhere." loading="lazy"><figcaption>Embeddings place items in a space where distance reflects meaning: complaints about charging cluster together, praise for displays clusters elsewhere.</figcaption></figure>
+<p>Real embeddings have 256–3,072 dimensions. Uses: semantic search, RAG (next lesson), recommendations ("similar products"), clustering and de-duplication, classification features, anomaly detection.</p>
+<h2 id="genai-04-learning-word-embeddings-from-scratch">Learning word embeddings from scratch</h2>
+<p>"You shall know a word by the company it keeps" (J. R. Firth). Words that appear in similar contexts get similar vectors. Word2Vec and GloVe learn this with neural networks; the classic <strong>PPMI + SVD</strong> method below captures the same idea in a few lines.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re, collections, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> sklearn.decomposition <span class="hl-k">import</span> TruncatedSVD
+<span class="hl-k">from</span> scipy.sparse <span class="hl-k">import</span> coo_matrix
+rv = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customer_reviews.csv&quot;</span>)
+docs = [<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;[a-z]+&quot;</span>, <span class="hl-f">t.lower</span>()) <span class="hl-k">for</span> t <span class="hl-k">in</span> rv.review_text]
+counts = <span class="hl-f">collections.Counter</span>(w <span class="hl-k">for</span> d <span class="hl-k">in</span> docs <span class="hl-k">for</span> w <span class="hl-k">in</span> d)
+vocab = [w <span class="hl-k">for</span> w, c <span class="hl-k">in</span> <span class="hl-f">counts.items</span>() <span class="hl-k">if</span> c &gt;= <span class="hl-n">5</span>]; idx = {w: i <span class="hl-k">for</span> i, w <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(vocab)}
+pairs = <span class="hl-f">collections.Counter</span>()
+<span class="hl-k">for</span> d <span class="hl-k">in</span> docs:
+    ids = [idx[w] <span class="hl-k">for</span> w <span class="hl-k">in</span> d <span class="hl-k">if</span> w <span class="hl-k">in</span> idx]
+    <span class="hl-k">for</span> i, a <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(ids):
+        <span class="hl-k">for</span> b <span class="hl-k">in</span> ids[<span class="hl-f">max</span>(<span class="hl-n">0</span>, i - <span class="hl-n">3</span>): i] + ids[i + <span class="hl-n">1</span>: i + <span class="hl-n">4</span>]: pairs[a, b] += <span class="hl-n">1</span>      <span class="hl-c"># co-occurrence within ±3 words</span>
+r, c, v = <span class="hl-f">zip</span>(*[(a, b, n) <span class="hl-k">for</span> (a, b), n <span class="hl-k">in</span> <span class="hl-f">pairs.items</span>()])
+M = <span class="hl-f">coo_matrix</span>((v, (r, c)), shape=(<span class="hl-f">len</span>(vocab), <span class="hl-f">len</span>(vocab))).<span class="hl-f">tocsr</span>().<span class="hl-f">astype</span>(float)
+total = <span class="hl-f">M.sum</span>(); row = <span class="hl-f">np.asarray</span>(<span class="hl-f">M.sum</span>(<span class="hl-n">1</span>)).<span class="hl-f">ravel</span>(); col = <span class="hl-f">np.asarray</span>(<span class="hl-f">M.sum</span>(<span class="hl-n">0</span>)).<span class="hl-f">ravel</span>()
+M = <span class="hl-f">M.tocoo</span>(); pmi = <span class="hl-f">np.log</span>((M.data * total) / (row[M.row] * col[M.col])); keep = pmi &gt; <span class="hl-n">0</span>
+PPMI = <span class="hl-f">coo_matrix</span>((pmi[keep], (M.row[keep], M.col[keep])), shape=M.shape).<span class="hl-f">tocsr</span>()
+W = <span class="hl-f">TruncatedSVD</span>(<span class="hl-n">50</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit_transform</span>(PPMI); W /= <span class="hl-f">np.linalg.norm</span>(W, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>)
+<span class="hl-k">def</span> <span class="hl-f">similar</span>(word, k=<span class="hl-n">6</span>):
+    s = W @ W[idx[word]]; <span class="hl-k">return</span> [vocab[i] <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">np.argsort</span>(-s)[<span class="hl-n">1</span>:k + <span class="hl-n">1</span>]]
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(vocab), <span class="hl-s">&quot;words, 50-dimensional vectors&quot;</span>)
+<span class="hl-k">for</span> w <span class="hl-k">in</span> [<span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;superb&quot;</span>, <span class="hl-s">&quot;slow&quot;</span>, <span class="hl-s">&quot;refund&quot;</span>]: <span class="hl-f">print</span>(<span class="hl-s">f&quot;{w:9s} → {similar(w)}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">213 words, 50-dimensional vectors
+battery   → [&#x27;batery&#x27;, &#x27;lasts&#x27;, &#x27;day&#x27;, &#x27;barely&#x27;, &#x27;half&#x27;, &#x27;a&#x27;]
+delivery  → [&#x27;delivry&#x27;, &#x27;was&#x27;, &#x27;courier&#x27;, &#x27;replacement&#x27;, &#x27;buttons&#x27;, &#x27;packaging&#x27;]
+superb    → [&#x27;highly&#x27;, &#x27;bahut&#x27;, &#x27;loved&#x27;, &#x27;recommend&#x27;, &#x27;badiya&#x27;, &#x27;rich&#x27;]
+slow      → [&#x27;painfully&#x27;, &#x27;times&#x27;, &#x27;is&#x27;, &#x27;charging&#x27;, &#x27;disappointed&#x27;, &#x27;this&#x27;]
+refund    → [&#x27;still&#x27;, &#x27;has&#x27;, &#x27;pending&#x27;, &#x27;display&#x27;, &#x27;charging&#x27;, &#x27;courier&#x27;]</pre></div>
+<p>Even this small corpus learns useful structure: "battery" sits near "lasts", "barely" and "half (a day)", "superb" near "loved", "highly" and "recommend", and "slow" near "painfully" and "charging". It even links the misspelling "batery" to "battery". But it only knows words that appear in these 3,000 reviews. Modern embedding models learn from billions of sentences, so they also know that "phone dies by noon" means poor battery life.</p>
+<h2 id="genai-04-cosine-similarity">Cosine similarity</h2>
+<figure class="math"><img src="../img/genai-04-math-1f69647b.png" alt="\cos(\mathbf{a}, \mathbf{b}) = \frac{\mathbf{a}\cdot\mathbf{b}}{\|\mathbf{a}\|\,\|\mathbf{b}\|}" loading="lazy"></figure>
+<p>1 = same direction (same meaning), 0 = unrelated, −1 = opposite. With <strong>normalised</strong> vectors (length 1), cosine similarity is just the dot product, which is why vector databases normalise embeddings.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">cos</span>(a, b): <span class="hl-k">return</span> <span class="hl-f">float</span>(a @ b / (<span class="hl-f">np.linalg.norm</span>(a) * <span class="hl-f">np.linalg.norm</span>(b)))
+<span class="hl-k">for</span> a, b <span class="hl-k">in</span> [(<span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;lasts&quot;</span>), (<span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;courier&quot;</span>), (<span class="hl-s">&quot;superb&quot;</span>, <span class="hl-s">&quot;loved&quot;</span>), (<span class="hl-s">&quot;superb&quot;</span>, <span class="hl-s">&quot;slow&quot;</span>)]: <span class="hl-f">print</span>(<span class="hl-s">f&quot;cos({a}, {b}) = {cos(W[idx[a]], W[idx[b]]):.2f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">cos(battery, lasts) = 0.75
+cos(delivery, courier) = 0.60
+cos(superb, loved) = 0.78
+cos(superb, slow) = 0.05</pre></div>
+<h2 id="genai-04-document-embeddings-and-semantic-search">Document embeddings and semantic search</h2>
+<p>A simple document vector: the TF-IDF-weighted average of its word vectors. (Sentence-embedding models do this far better with a transformer.)</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer
+tf = <span class="hl-f">TfidfVectorizer</span>(vocabulary=vocab, token_pattern=r<span class="hl-s">&quot;[a-z]+&quot;</span>).<span class="hl-f">fit</span>(<span class="hl-f">rv.review_text.str.lower</span>())
+<span class="hl-k">def</span> <span class="hl-f">embed</span>(texts):
+    T = <span class="hl-f">tf.transform</span>([<span class="hl-f">t.lower</span>() <span class="hl-k">for</span> t <span class="hl-k">in</span> texts]); D = T @ W
+    <span class="hl-k">return</span> D / <span class="hl-f">np.maximum</span>(<span class="hl-f">np.linalg.norm</span>(D, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>), 1e-<span class="hl-n">9</span>)
+E = <span class="hl-f">embed</span>(<span class="hl-f">rv.review_text.tolist</span>())
+<span class="hl-k">def</span> <span class="hl-f">search</span>(query, k=<span class="hl-n">4</span>):
+    s = E @ <span class="hl-f">embed</span>([query])[<span class="hl-n">0</span>]; out, seen = [], <span class="hl-f">set</span>()
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">np.argsort</span>(-s):                                   <span class="hl-c"># skip duplicate texts</span>
+        txt = rv.review_text.iloc[i].<span class="hl-f">rstrip</span>(<span class="hl-s">&quot;.!:) &quot;</span>)
+        <span class="hl-k">if</span> <span class="hl-f">txt.lower</span>() <span class="hl-k">in</span> seen: <span class="hl-k">continue</span>
+        <span class="hl-f">seen.add</span>(<span class="hl-f">txt.lower</span>()); <span class="hl-f">out.append</span>((<span class="hl-f">round</span>(<span class="hl-f">float</span>(s[i]), <span class="hl-n">2</span>), txt[:<span class="hl-n">80</span>]))
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(out) == k: <span class="hl-k">break</span>
+    <span class="hl-k">return</span> out
+<span class="hl-k">for</span> q <span class="hl-k">in</span> [<span class="hl-s">&quot;charging takes forever&quot;</span>, <span class="hl-s">&quot;parcel came late and broken&quot;</span>, <span class="hl-s">&quot;support team was very helpful&quot;</span>]:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;query:&quot;</span>, q); [<span class="hl-f">print</span>(<span class="hl-s">&quot;   &quot;</span>, r) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">search</span>(q)]</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">query: charging takes forever
+    (0.85, &#x27;Charging is painfully slow&#x27;)
+    (0.78, &#x27;Regret buying this. Charging is painfully slow&#x27;)
+    (0.78, &#x27;Very disappointed. Charging is painfully slow&#x27;)
+    (0.77, &#x27;Charging is painfully slow, not worth it&#x27;)
+query: parcel came late and broken
+    (0.86, &#x27;Delivery was totally late&#x27;)
+    (0.82, &#x27;Very disappointed. Delivery was late&#x27;)
+    (0.8, &#x27;Bekaar product. Delivery was late&#x27;)
+    (0.79, &#x27;Sound is tinny, delivery was super late, not worth it&#x27;)
+query: support team was very helpful
+    (0.79, &#x27;Superb product. Price is very totally reasonable for these features, customer su&#x27;)
+    (0.77, &#x27;Highly recommend. Packaging was very neat and safe, battery backup is superb, cu&#x27;)
+    (0.77, &#x27;Bahut badiya. Packaging was really neat and safe, service centre staff were supe&#x27;)
+    (0.75, &#x27;Highly recommend. Service centre staff were helpful, charges really very fast&#x27;)</pre></div>
+<h2 id="genai-04-vector-indexes-exact-and-approximate-search">Vector indexes: exact and approximate search</h2>
+<p>Comparing a query with every vector (<strong>exact / brute-force</strong> search) is fine for thousands of items. For millions, use <strong>approximate nearest neighbour (ANN)</strong> indexes that check only promising regions.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> time
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+N, d = 100_000, <span class="hl-n">64</span>
+centres = <span class="hl-f">rng.normal</span>(size=(<span class="hl-n">2000</span>, d))                                   <span class="hl-c"># real embeddings are clustered by topic, not uniform</span>
+X = (centres[<span class="hl-f">rng.integers</span>(<span class="hl-n">0</span>, <span class="hl-n">2000</span>, N)] + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">35</span>, (N, d))).<span class="hl-f">astype</span>(np.float32); X /= <span class="hl-f">np.linalg.norm</span>(X, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>)
+queries = X[<span class="hl-f">rng.choice</span>(N, <span class="hl-n">100</span>, replace=<span class="hl-k">False</span>)] + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">05</span>, (<span class="hl-n">100</span>, d)).<span class="hl-f">astype</span>(np.float32)
+t0 = <span class="hl-f">time.perf_counter</span>(); exact = <span class="hl-f">np.argsort</span>(-(queries @ X.T), axis=<span class="hl-n">1</span>)[:, :<span class="hl-n">10</span>]; t_exact = <span class="hl-f">time.perf_counter</span>() - t0
+<span class="hl-k">from</span> sklearn.cluster <span class="hl-k">import</span> MiniBatchKMeans
+nlist = <span class="hl-n">256</span>; km = <span class="hl-f">MiniBatchKMeans</span>(nlist, random_state=<span class="hl-n">0</span>, n_init=<span class="hl-n">3</span>, batch_size=<span class="hl-n">4096</span>).<span class="hl-f">fit</span>(X)          <span class="hl-c"># IVF: partition vectors into cells</span>
+assign = km.labels_; cells = {c: <span class="hl-f">np.where</span>(assign == c)[<span class="hl-n">0</span>] <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(nlist)}
+<span class="hl-k">def</span> <span class="hl-f">ivf_search</span>(q, nprobe=<span class="hl-n">8</span>, k=<span class="hl-n">10</span>):
+    near = <span class="hl-f">np.argsort</span>(-(km.cluster_centers_ @ q))[:nprobe]; cand = <span class="hl-f">np.concatenate</span>([cells[c] <span class="hl-k">for</span> c <span class="hl-k">in</span> near])
+    <span class="hl-k">return</span> cand[<span class="hl-f">np.argsort</span>(-(X[cand] @ q))[:k]]
+<span class="hl-k">for</span> nprobe <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">16</span>):
+    t0 = <span class="hl-f">time.perf_counter</span>(); approx = <span class="hl-f">np.array</span>([<span class="hl-f">ivf_search</span>(q, nprobe) <span class="hl-k">for</span> q <span class="hl-k">in</span> queries]); t = <span class="hl-f">time.perf_counter</span>() - t0
+    recall = <span class="hl-f">np.mean</span>([<span class="hl-f">len</span>(<span class="hl-f">set</span>(a) &amp; <span class="hl-f">set</span>(e)) / <span class="hl-n">10</span> <span class="hl-k">for</span> a, e <span class="hl-k">in</span> <span class="hl-f">zip</span>(approx, exact)])
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;IVF nprobe={nprobe:2d}: recall@10 {recall:.2f} | {1000 * t / 100:.2f} ms/query (exact: {1000 * t_exact / 100:.2f} ms/query)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">IVF nprobe= 1: recall@10 0.89 | 0.08 ms/query (exact: 2.12 ms/query)
+IVF nprobe= 4: recall@10 0.98 | 0.19 ms/query (exact: 2.12 ms/query)
+IVF nprobe=16: recall@10 1.00 | 0.81 ms/query (exact: 2.12 ms/query)</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Index</th>
+<th>Idea</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flat (exact)</td>
+<td>Compare with everything</td>
+<td>Perfect recall, slow at scale</td>
+</tr>
+<tr>
+<td>IVF</td>
+<td>Cluster vectors; search a few nearest clusters (<code>nprobe</code>)</td>
+<td>Tune recall vs speed</td>
+</tr>
+<tr>
+<td>HNSW</td>
+<td>Navigable small-world graph of neighbours</td>
+<td>Very fast, high recall, more memory</td>
+</tr>
+<tr>
+<td>Product quantisation (PQ)</td>
+<td>Compress vectors into short codes</td>
+<td>Huge datasets in little memory</td>
+</tr>
+</tbody>
+</table></div>
+<p>Libraries: <strong>FAISS</strong>, <strong>hnswlib</strong>, <strong>ScaNN</strong>, Annoy. In production, ANN indexes live inside vector databases.</p>
+<h2 id="genai-04-evaluate-retrieval">Evaluate retrieval</h2>
+<p>Create a small labelled set of queries with their relevant documents and measure <strong>recall@k</strong> (share of relevant documents found in the top k) and <strong>MRR</strong> (how high the first relevant result ranks).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">aspect_rx = {<span class="hl-s">&quot;battery&quot;</span>: r<span class="hl-s">&quot;batter|charg&quot;</span>, <span class="hl-s">&quot;delivery&quot;</span>: r<span class="hl-s">&quot;deliver|courier|box arrived|packag&quot;</span>, <span class="hl-s">&quot;service&quot;</span>: r<span class="hl-s">&quot;support|service|refund|replacement|care&quot;</span>}
+labelled = {<span class="hl-s">&quot;phone battery dies quickly&quot;</span>: <span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;my order came late&quot;</span>: <span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;the customer care was useless&quot;</span>: <span class="hl-s">&quot;service&quot;</span>}
+<span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer <span class="hl-k">as</span> TV
+bm = <span class="hl-f">TV</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), sublinear_tf=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(rv.review_text); B = <span class="hl-f">bm.transform</span>(rv.review_text)
+<span class="hl-k">def</span> <span class="hl-f">precision_at_k</span>(scores, aspect, k=<span class="hl-n">10</span>):
+    rel = <span class="hl-f">rv.review_text.str.lower</span>().<span class="hl-f">str.contains</span>(aspect_rx[aspect]).<span class="hl-f">to_numpy</span>(); top = <span class="hl-f">np.argsort</span>(-scores)[:k]; <span class="hl-k">return</span> rel[top].<span class="hl-f">mean</span>()
+<span class="hl-k">for</span> q, a <span class="hl-k">in</span> <span class="hl-f">labelled.items</span>():
+    dense = E @ <span class="hl-f">embed</span>([q])[<span class="hl-n">0</span>]; sparse = (B @ <span class="hl-f">bm.transform</span>([q]).T).<span class="hl-f">toarray</span>().<span class="hl-f">ravel</span>()
+    hybrid = <span class="hl-n">0.5</span> * dense / <span class="hl-f">dense.max</span>() + <span class="hl-n">0.5</span> * sparse / <span class="hl-f">max</span>(<span class="hl-f">sparse.max</span>(), 1e-<span class="hl-n">9</span>)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{q:32s} precision@10 dense {precision_at_k(dense, a):.1f} | keyword {precision_at_k(sparse, a):.1f} | hybrid {precision_at_k(hybrid, a):.1f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">phone battery dies quickly       precision@10 dense 0.8 | keyword 0.6 | hybrid 0.6
+my order came late               precision@10 dense 0.3 | keyword 0.6 | hybrid 0.4
+the customer care was useless    precision@10 dense 1.0 | keyword 1.0 | hybrid 1.0</pre></div>
+<p>No method wins every query: the small home-made embeddings beat keywords on "battery dies", keywords win on "order came late" (exact words such as "late"), and the hybrid lands in between. With strong embedding models on large real corpora, <strong>hybrid search</strong> (keyword/BM25 + vector, then optional re-ranking with a cross-encoder or LLM) is usually the most robust production choice: keywords catch exact terms (product codes, names), vectors catch paraphrases.</p>
+<h2 id="genai-04-real-embedding-models">Real embedding models</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Voyage AI (recommended by Anthropic for use with Claude) - pip install voyageai</span>
+<span class="hl-k">import</span> voyageai
+vo = <span class="hl-f">voyageai.Client</span>()                                    <span class="hl-c"># VOYAGE_API_KEY in the environment</span>
+docs_emb = <span class="hl-f">vo.embed</span>(texts, model=<span class="hl-s">&quot;voyage-3.5&quot;</span>, input_type=<span class="hl-s">&quot;document&quot;</span>).embeddings
+query_emb = <span class="hl-f">vo.embed</span>([<span class="hl-s">&quot;phone dies by noon&quot;</span>], model=<span class="hl-s">&quot;voyage-3.5&quot;</span>, input_type=<span class="hl-s">&quot;query&quot;</span>).embeddings[<span class="hl-n">0</span>]
+
+<span class="hl-c"># OpenAI - pip install openai</span>
+<span class="hl-k">from</span> openai <span class="hl-k">import</span> OpenAI
+emb = <span class="hl-f">OpenAI</span>().<span class="hl-f">embeddings.create</span>(model=<span class="hl-s">&quot;text-embedding-3-small&quot;</span>, input=texts).data
+
+<span class="hl-c"># Local, free - pip install sentence-transformers</span>
+<span class="hl-k">from</span> sentence_transformers <span class="hl-k">import</span> SentenceTransformer
+model = <span class="hl-f">SentenceTransformer</span>(<span class="hl-s">&quot;BAAI/bge-small-en-v1.5&quot;</span>)
+emb = <span class="hl-f">model.encode</span>(texts, normalize_embeddings=<span class="hl-k">True</span>)</code></pre></div>
+<p>Check the MTEB leaderboard for quality by task and language (multilingual models handle Hindi and other Indian languages), and test on your own queries.</p>
+<h2 id="genai-04-vector-stores">Vector stores</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Option</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NumPy / FAISS in memory</td>
+<td>Prototypes, up to a few million vectors</td>
+</tr>
+<tr>
+<td><strong>pgvector</strong> (PostgreSQL), Supabase</td>
+<td>You already run Postgres; combine SQL filters and vectors</td>
+</tr>
+<tr>
+<td>Chroma, LanceDB</td>
+<td>Simple local or embedded stores for apps and notebooks</td>
+</tr>
+<tr>
+<td>Qdrant, Weaviate, Milvus</td>
+<td>Dedicated open-source vector databases at scale</td>
+</tr>
+<tr>
+<td>Pinecone, cloud search (Azure AI Search, Vertex Vector Search, OpenSearch)</td>
+<td>Managed services</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># pgvector example</span>
+<span class="hl-c"># CREATE EXTENSION vector;</span>
+<span class="hl-c"># CREATE TABLE reviews (id bigserial PRIMARY KEY, text text, product text, embedding vector(1024));</span>
+<span class="hl-c"># CREATE INDEX ON reviews USING hnsw (embedding vector_cosine_ops);</span>
+<span class="hl-c"># SELECT id, text FROM reviews WHERE product = &#x27;Laptop&#x27; ORDER BY embedding &lt;=&gt; $1 LIMIT 5;   -- &lt;=&gt; is cosine distance</span></code></pre></div>
+<h2 id="genai-04-practical-tips">Practical tips</h2>
+<ul>
+<li><strong>Chunk</strong> long documents (e.g. 300–800 tokens with some overlap, split on headings/paragraphs) before embedding (lesson 5).</li>
+<li>Store <strong>metadata</strong> (source, date, product, access rights) with each vector and filter on it.</li>
+<li>Use the same model for documents and queries; re-embed everything when you change models.</li>
+<li>Normalise vectors; use cosine or dot product consistently.</li>
+<li>Cache embeddings: they are cheap but not free, and recomputing is slow.</li>
+</ul>
+<h2 id="genai-04-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Embeddings map text (or images, products) to vectors where similar meanings are close.</li>
+<li>Word embeddings come from co-occurrence (Word2Vec, GloVe, PPMI-SVD); sentence embeddings from transformer models.</li>
+<li>Cosine similarity (dot product of normalised vectors) measures closeness.</li>
+<li>Exact search is simple; ANN indexes (IVF, HNSW, PQ) trade a little recall for big speed-ups.</li>
+<li>Evaluate retrieval with recall@k/MRR; combine keyword and vector search (hybrid) and re-rank.</li>
+<li>Choose embedding models by tested quality, language and cost; choose stores by scale and existing stack (pgvector is a common first choice).</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What property do good embeddings have?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Items with similar meanings have nearby vectors</button><button type="button" class="opt" data-ok="0"><i>B</i>Every vector is identical</button><button type="button" class="opt" data-ok="0"><i>C</i>They store the original text</button><button type="button" class="opt" data-ok="0"><i>D</i>They are always 2-D</button></div><div class="qexp"><b>Answer: A.</b> Distance encodes meaning.</div></div><div class="qq"><p class="qtext"><b>2.</b> Cosine similarity of 1 means…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The vectors point in the same direction (very similar meaning)</button><button type="button" class="opt" data-ok="0"><i>B</i>Unrelated</button><button type="button" class="opt" data-ok="0"><i>C</i>Opposite</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: A.</b> Values range from −1 to 1.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why use an approximate nearest-neighbour index?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>To search millions of vectors fast with only a small loss of recall</button><button type="button" class="opt" data-ok="0"><i>B</i>To increase accuracy above exact search</button><button type="button" class="opt" data-ok="0"><i>C</i>To store text</button><button type="button" class="opt" data-ok="0"><i>D</i>To train embeddings</button></div><div class="qexp"><b>Answer: A.</b> e.g. IVF or HNSW.</div></div><div class="qq"><p class="qtext"><b>4.</b> In an IVF index, increasing <code>nprobe</code>…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Searches more clusters: higher recall, slower queries</button><button type="button" class="opt" data-ok="0"><i>B</i>Reduces recall</button><button type="button" class="opt" data-ok="0"><i>C</i>Changes the embeddings</button><button type="button" class="opt" data-ok="0"><i>D</i>Deletes vectors</button></div><div class="qexp"><b>Answer: A.</b> A tunable trade-off.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why combine keyword and vector search?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Keywords catch exact terms and codes; vectors catch paraphrases and synonyms</button><button type="button" class="opt" data-ok="0"><i>B</i>It is cheaper than either alone</button><button type="button" class="opt" data-ok="0"><i>C</i>Vectors cannot be filtered</button><button type="button" class="opt" data-ok="0"><i>D</i>Keywords understand meaning better</button></div><div class="qexp"><b>Answer: A.</b> Hybrid search is the production default.</div></div><div class="qq"><p class="qtext"><b>6.</b> You switch to a new embedding model. What must you do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Re-embed all documents with the new model</button><button type="button" class="opt" data-ok="0"><i>B</i>Nothing</button><button type="button" class="opt" data-ok="0"><i>C</i>Only re-embed queries</button><button type="button" class="opt" data-ok="0"><i>D</i>Delete the index</button></div><div class="qexp"><b>Answer: A.</b> Vectors from different models are not comparable.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Find the 10 nearest words to "price" and "screen" in the learned vectors. (2) Cluster the review embeddings with K-means (k = 6) and label each cluster from its top words. (3) Measure how recall@10 changes with <code>nlist</code> 64 vs 1,024 at nprobe = 8. (4) Design a pgvector table for a product catalogue with metadata filters.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">similar</span>(<span class="hl-s">&quot;price&quot;</span>, <span class="hl-n">10</span>), <span class="hl-f">similar</span>(<span class="hl-s">&quot;screen&quot;</span>, <span class="hl-n">10</span>))
+<span class="hl-k">from</span> sklearn.cluster <span class="hl-k">import</span> KMeans
+lab = <span class="hl-f">KMeans</span>(<span class="hl-n">6</span>, n_init=<span class="hl-n">10</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit_predict</span>(E)
+<span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">6</span>): <span class="hl-f">print</span>(c, <span class="hl-f">collections.Counter</span>(w <span class="hl-k">for</span> t <span class="hl-k">in</span> rv.review_text[lab == c] <span class="hl-k">for</span> w <span class="hl-k">in</span> <span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;[a-z]+&quot;</span>, <span class="hl-f">t.lower</span>()) <span class="hl-k">if</span> w <span class="hl-k">in</span> idx <span class="hl-k">and</span> counts[w] &lt; <span class="hl-n">600</span>).<span class="hl-f">most_common</span>(<span class="hl-n">5</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is an embedding and how is it used in search?</strong>
+A dense vector representing meaning. Documents are embedded once and stored; a query is embedded at search time, and the nearest document vectors (by cosine similarity) are returned, often combined with keyword search.</p>
+<p><strong>Q: How does HNSW work at a high level?</strong>
+It builds a layered graph where each vector links to near neighbours; search starts at a coarse top layer and greedily moves closer to the query through lower layers, visiting only a small part of the data.</p>
+<p><strong>Q: How do you evaluate a semantic search system?</strong>
+A labelled set of queries with relevant documents; measure recall@k, precision@k, MRR or nDCG, plus latency and cost, and compare keyword, vector and hybrid configurations.</p></div></div></article><article class="lesson-art bk" id="L-genai-05"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 5</div><h1>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</h1>
+<p class="sum">Ground an LLM in your own documents. RAG architecture, document loading and chunking, indexing, hybrid retrieval and re-ranking, prompt assembly with citations, answer generation (offline simulator plus real Claude code with the citations feature), evaluation of retrieval and answers, failure modes and advanced patterns (query rewriting, contextual retrieval, metadata filters, agentic and graph RAG), built end to end on a retailer's policy handbook.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ 2026 practice: hybrid retrieval, re-ranking, citations, contextual retrieval</span><span class="tag">Intermediate</span><span class="tag">⏱ 140 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain why and when RAG beats fine-tuning or long prompts</li><li>Chunk documents with metadata and build a searchable index</li><li>Retrieve with hybrid search, re-rank, and assemble a grounded prompt with citations</li><li>Evaluate retrieval (hit rate, MRR) and answers (correctness, faithfulness, citation accuracy)</li><li>Diagnose RAG failures and apply advanced techniques</li></ul></div></div><div class="content"><h2 id="genai-05-why-rag">Why RAG?</h2>
+<p>LLMs do not know your company's policies, product catalogue or yesterday's report, and they may hallucinate. <strong>Retrieval-augmented generation</strong> retrieves the most relevant passages for each question and gives them to the model with an instruction to answer <strong>only from them, with citations</strong>.</p>
+<figure class="fig"><img src="../img/genai-05-01.png" alt="RAG has an offline indexing pipeline and an online question-answering pipeline." loading="lazy"><figcaption>RAG has an offline indexing pipeline and an online question-answering pipeline.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Approach</th>
+<th>Good for</th>
+<th>Limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Put everything in the prompt (long context)</td>
+<td>A few documents, one-off analysis</td>
+<td>Cost and latency grow with every call; no access control</td>
+</tr>
+<tr>
+<td><strong>RAG</strong></td>
+<td>Large, changing knowledge; citations; access control</td>
+<td>Retrieval quality limits answer quality</td>
+</tr>
+<tr>
+<td>Fine-tuning</td>
+<td>Style, format, narrow skills</td>
+<td>Poor at injecting facts; costly to update</td>
+</tr>
+<tr>
+<td>Tools / SQL</td>
+<td>Live numbers and transactions</td>
+<td>Needs structured sources</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="genai-05-the-knowledge-base">The knowledge base</h2>
+<p>Our example: <strong>NovaMart</strong>, an online electronics retailer. The assistant answers customer-support questions from the policy handbook.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re, numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+DOCS = {
+<span class="hl-s">&quot;returns.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Returns policy
+## Return window
+Most products can be returned within 10 days of delivery. Mobiles and laptops have a 7-day replacement-only window for manufacturing defects.
+## Conditions
+Products must be unused, with original box, accessories and invoice. Opened earbuds and personal-care items cannot be returned for hygiene reasons.
+## Refund timeline
+Refunds are issued to the original payment method within 5–7 working days after the returned product passes quality check. UPI refunds usually arrive within 48 hours.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;warranty.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Warranty
+## Standard warranty
+All electronics carry the manufacturer&#x27;s warranty: 1 year for mobiles, laptops and smartwatches, 6 months for chargers and cables.
+## Extended warranty
+NovaMart Care adds 1 or 2 extra years and covers accidental liquid damage once per year. It must be bought within 30 days of delivery.
+## How to claim
+Book a claim in the app under Orders → Help. A technician visit is scheduled within 72 hours in metro cities and 5 days elsewhere.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;delivery.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Delivery
+## Delivery times
+Metro cities: 1–2 days. Other cities: 3–5 days. Remote pin codes: up to 8 days.
+## Delivery charges
+Delivery is free on orders above ₹499. Below that a ₹49 fee applies. Same-day delivery costs ₹99 in Bengaluru, Delhi NCR, Mumbai and Pune.
+## Damaged parcels
+If the box is damaged on arrival, refuse the delivery or report it within 48 hours with photos for a free replacement.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;payments.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Payments
+## Methods
+We accept UPI, credit and debit cards, net banking, NovaMart wallet and cash on delivery up to ₹10,000.
+## No-cost EMI
+No-cost EMI is available on orders above ₹3,000 with selected bank cards for 3, 6 or 9 months. The interest is given back as an instant discount.
+## Failed payments
+If money is debited but the order fails, it is automatically refunded within 3 working days.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;exchange.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Exchange offers
+## Old device exchange
+Customers can exchange an old phone or laptop for an instant discount. The final value is confirmed by the delivery agent after a physical check.
+## Eligibility
+The device must switch on, have no cracked screen and match the declared model. Exchange is not available with cash on delivery.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;loyalty.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# NovaMart Plus
+## Benefits
+Plus members get free same-day delivery, early access to sales and 5% back as NovaCoins on every order.
+## Cost
+Membership costs ₹399 per year or ₹49 per month and can be cancelled any time; unused months are not refunded.&quot;&quot;&quot;</span>,
+}
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(DOCS), <span class="hl-s">&quot;documents,&quot;</span>, <span class="hl-f">sum</span>(<span class="hl-f">len</span>(<span class="hl-f">t.split</span>()) <span class="hl-k">for</span> t <span class="hl-k">in</span> <span class="hl-f">DOCS.values</span>()), <span class="hl-s">&quot;words&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 documents, 404 words</pre></div>
+<h2 id="genai-05-step-1-chunking">Step 1: chunking</h2>
+<p>Split documents into passages small enough to be specific but large enough to carry context. Splitting on <strong>structure</strong> (headings, paragraphs) beats fixed character windows. Keep metadata for filtering and citations.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">chunk_markdown</span>(name, text, max_words=<span class="hl-n">80</span>):
+    title = <span class="hl-f">re.search</span>(r<span class="hl-s">&quot;^# (.+)$&quot;</span>, text, re.M).<span class="hl-f">group</span>(<span class="hl-n">1</span>); chunks = []
+    <span class="hl-k">for</span> sec <span class="hl-k">in</span> <span class="hl-f">re.split</span>(r<span class="hl-s">&quot;^## &quot;</span>, text, flags=re.M)[<span class="hl-n">1</span>:]:
+        heading, body = <span class="hl-f">sec.split</span>(<span class="hl-s">&quot;\n&quot;</span>, <span class="hl-n">1</span>); words = <span class="hl-f">body.split</span>()
+        <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">0</span>, <span class="hl-f">len</span>(words), max_words - <span class="hl-n">15</span>):                 <span class="hl-c"># 15-word overlap if a section is long</span>
+            <span class="hl-f">chunks.append</span>({<span class="hl-s">&quot;id&quot;</span>: <span class="hl-s">f&quot;{name}#{heading.strip().lower().replace(&#x27; &#x27;, &#x27;-&#x27;)}&quot;</span> + (<span class="hl-s">f&quot;-{i}&quot;</span> <span class="hl-k">if</span> i <span class="hl-k">else</span> <span class="hl-s">&quot;&quot;</span>), <span class="hl-s">&quot;doc&quot;</span>: name, <span class="hl-s">&quot;title&quot;</span>: title, <span class="hl-s">&quot;section&quot;</span>: <span class="hl-f">heading.strip</span>(),
+                           <span class="hl-s">&quot;text&quot;</span>: <span class="hl-s">f&quot;{title} &gt; {heading.strip()}: &quot;</span> + <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(words[i:i + max_words])})
+    <span class="hl-k">return</span> chunks
+chunks = <span class="hl-f">pd.DataFrame</span>([c <span class="hl-k">for</span> n, t <span class="hl-k">in</span> <span class="hl-f">DOCS.items</span>() <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">chunk_markdown</span>(n, t)])
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(chunks), <span class="hl-s">&quot;chunks&quot;</span>); <span class="hl-f">print</span>(chunks[[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;text&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">4</span>).<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>, max_colwidth=<span class="hl-n">90</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">16 chunks
+                           id                                                                                       text
+     returns.md#return-window Returns policy &gt; Return window: Most products can be returned within 10 days of deliver...
+        returns.md#conditions Returns policy &gt; Conditions: Products must be unused, with original box, accessories an...
+   returns.md#refund-timeline Returns policy &gt; Refund timeline: Refunds are issued to the original payment method wit...
+warranty.md#standard-warranty Warranty &gt; Standard warranty: All electronics carry the manufacturer&#x27;s warranty: 1 year...</pre></div>
+<p>Prefixing each chunk with its document title and section ("Returns policy &gt; Refund timeline: …") is a cheap version of <strong>contextual retrieval</strong>: the chunk still makes sense on its own.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Chunking choice</th>
+<th>Typical value</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Size</td>
+<td>200–800 tokens</td>
+<td>Smaller = precise, larger = more context</td>
+</tr>
+<tr>
+<td>Overlap</td>
+<td>10–20%</td>
+<td>Avoid cutting answers in half</td>
+</tr>
+<tr>
+<td>Boundaries</td>
+<td>Headings, paragraphs, sentences</td>
+<td>Use document structure</td>
+</tr>
+<tr>
+<td>Metadata</td>
+<td>Source, section, date, product, access group</td>
+<td>Filters and citations</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="genai-05-step-2-index-and-retrieve-hybrid">Step 2: index and retrieve (hybrid)</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer
+<span class="hl-k">from</span> sklearn.metrics.pairwise <span class="hl-k">import</span> cosine_similarity
+word_vec = <span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), sublinear_tf=<span class="hl-k">True</span>, stop_words=<span class="hl-s">&quot;english&quot;</span>).<span class="hl-f">fit</span>(chunks.text)
+char_vec = <span class="hl-f">TfidfVectorizer</span>(analyzer=<span class="hl-s">&quot;char_wb&quot;</span>, ngram_range=(<span class="hl-n">3</span>, <span class="hl-n">5</span>), sublinear_tf=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(chunks.text)     <span class="hl-c"># robust to typos and word forms</span>
+Wd, Cd = <span class="hl-f">word_vec.transform</span>(chunks.text), <span class="hl-f">char_vec.transform</span>(chunks.text)
+<span class="hl-k">def</span> <span class="hl-f">retrieve</span>(question, k=<span class="hl-n">3</span>, doc_filter=<span class="hl-k">None</span>):
+    s = <span class="hl-n">0.6</span> * <span class="hl-f">cosine_similarity</span>(<span class="hl-f">word_vec.transform</span>([question]), Wd)[<span class="hl-n">0</span>] + <span class="hl-n">0.4</span> * <span class="hl-f">cosine_similarity</span>(<span class="hl-f">char_vec.transform</span>([question]), Cd)[<span class="hl-n">0</span>]
+    <span class="hl-k">if</span> doc_filter: s = <span class="hl-f">np.where</span>(<span class="hl-f">chunks.doc.isin</span>(doc_filter), s, -<span class="hl-n">1</span>)
+    top = <span class="hl-f">np.argsort</span>(-s)[:k]
+    <span class="hl-k">return</span> chunks.iloc[top].<span class="hl-f">assign</span>(score=s[top].<span class="hl-f">round</span>(<span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">retrieve</span>(<span class="hl-s">&quot;How long does a refund take if I paid by UPI?&quot;</span>)[[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;score&quot;</span>]].<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-f">retrieve</span>(<span class="hl-s">&quot;is there emi without interest&quot;</span>)[[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;score&quot;</span>]].<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                         id  score
+ returns.md#refund-timeline  0.221
+        payments.md#methods  0.088
+payments.md#failed-payments  0.061
+                         id  score
+    payments.md#no-cost-emi  0.328
+   warranty.md#how-to-claim  0.033
+delivery.md#damaged-parcels  0.025</pre></div>
+<p>Here keyword (word) and character n-gram similarity stand in for the keyword + embedding hybrid of lesson 4; in production use BM25 plus an embedding model, and a <strong>re-ranker</strong> (a cross-encoder or a small LLM call) to reorder the top 20–50 candidates.</p>
+<h2 id="genai-05-step-3-build-the-grounded-prompt">Step 3: build the grounded prompt</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">SYSTEM = <span class="hl-s">&quot;&quot;&quot;You are NovaMart&#x27;s customer-support assistant.
+Answer ONLY from the documents provided. If they do not contain the answer, say &quot;I don&#x27;t have that information&quot; and suggest contacting support.
+Cite the document id in square brackets after each fact, like [returns.md#refund-timeline]. Keep answers under 80 words.&quot;&quot;&quot;</span>
+<span class="hl-k">def</span> <span class="hl-f">build_prompt</span>(question, k=<span class="hl-n">3</span>):
+    ctx = <span class="hl-f">retrieve</span>(question, k)
+    docs = <span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&#x27;&lt;document id=&quot;{r.id}&quot;&gt;\n{r.text}\n&lt;/document&gt;&#x27;</span> <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">ctx.itertuples</span>())
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;&lt;documents&gt;\n{docs}\n&lt;/documents&gt;\n\n&lt;question&gt;{question}&lt;/question&gt;&quot;</span>, ctx
+prompt, ctx = <span class="hl-f">build_prompt</span>(<span class="hl-s">&quot;My earbuds box was damaged when it arrived. What should I do?&quot;</span>)
+<span class="hl-f">print</span>(prompt)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&lt;documents&gt;
+&lt;document id=&quot;delivery.md#damaged-parcels&quot;&gt;
+Delivery &gt; Damaged parcels: If the box is damaged on arrival, refuse the delivery or report it within 48 hours with photos for a free replacement.
+&lt;/document&gt;
+&lt;document id=&quot;returns.md#conditions&quot;&gt;
+Returns policy &gt; Conditions: Products must be unused, with original box, accessories and invoice. Opened earbuds and personal-care items cannot be returned for hygiene reasons.
+&lt;/document&gt;
+&lt;document id=&quot;warranty.md#extended-warranty&quot;&gt;
+Warranty &gt; Extended warranty: NovaMart Care adds 1 or 2 extra years and covers accidental liquid damage once per year. It must be bought within 30 days of delivery.
+&lt;/document&gt;
+&lt;/documents&gt;
+
+&lt;question&gt;My earbuds box was damaged when it arrived. What should I do?&lt;/question&gt;</pre></div>
+<h2 id="genai-05-step-4-generate-the-answer">Step 4: generate the answer</h2>
+<p>With a real model:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> anthropic
+client = <span class="hl-f">anthropic.Anthropic</span>()
+response = <span class="hl-f">client.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">2000</span>, system=SYSTEM,
+    output_config={<span class="hl-s">&quot;effort&quot;</span>: <span class="hl-s">&quot;low&quot;</span>},                     <span class="hl-c"># a short grounded answer does not need deep reasoning</span>
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: prompt}],
+)
+answer = <span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> response.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>)
+
+<span class="hl-c"># Or let the API produce verifiable citations: pass chunks as document blocks with citations enabled</span>
+content = [{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;document&quot;</span>, <span class="hl-s">&quot;source&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;text&quot;</span>, <span class="hl-s">&quot;media_type&quot;</span>: <span class="hl-s">&quot;text/plain&quot;</span>, <span class="hl-s">&quot;data&quot;</span>: r.text}, <span class="hl-s">&quot;title&quot;</span>: r.id, <span class="hl-s">&quot;citations&quot;</span>: {<span class="hl-s">&quot;enabled&quot;</span>: <span class="hl-k">True</span>}} <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">ctx.itertuples</span>()]
+<span class="hl-f">content.append</span>({<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;text&quot;</span>, <span class="hl-s">&quot;text&quot;</span>: question})
+response = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">2000</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: content}])
+<span class="hl-k">for</span> block <span class="hl-k">in</span> response.content:                            <span class="hl-c"># text blocks carry .citations with the exact cited text</span>
+    <span class="hl-f">print</span>(block.text, [c.cited_text <span class="hl-k">for</span> c <span class="hl-k">in</span> (<span class="hl-f">getattr</span>(block, <span class="hl-s">&quot;citations&quot;</span>, <span class="hl-k">None</span>) <span class="hl-k">or</span> [])])</code></pre></div>
+<p>To practise offline, an <strong>extractive</strong> stand-in picks the retrieved sentences that best match the question, with citations. It cannot reason, but it shows the grounding and citation mechanics.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">answer_offline</span>(question, k=<span class="hl-n">3</span>, min_score=<span class="hl-n">0.12</span>):
+    ctx = <span class="hl-f">retrieve</span>(question, k)
+    <span class="hl-k">if</span> <span class="hl-f">ctx.score.max</span>() &lt; min_score: <span class="hl-k">return</span> <span class="hl-s">&quot;I don&#x27;t have that information. Please contact NovaMart support.&quot;</span>, ctx
+    sents = [(<span class="hl-f">s.strip</span>(), r.id) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">ctx.itertuples</span>() <span class="hl-k">for</span> s <span class="hl-k">in</span> <span class="hl-f">re.split</span>(r<span class="hl-s">&quot;(?&lt;=[.!?])\s+&quot;</span>, <span class="hl-f">r.text.split</span>(<span class="hl-s">&quot;: &quot;</span>, <span class="hl-n">1</span>)[<span class="hl-n">1</span>]) <span class="hl-k">if</span> <span class="hl-f">s.strip</span>()]
+    sv = <span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), stop_words=<span class="hl-s">&quot;english&quot;</span>).<span class="hl-f">fit</span>([s <span class="hl-k">for</span> s, _ <span class="hl-k">in</span> sents] + [question])
+    sc = <span class="hl-f">cosine_similarity</span>(<span class="hl-f">sv.transform</span>([question]), <span class="hl-f">sv.transform</span>([s <span class="hl-k">for</span> s, _ <span class="hl-k">in</span> sents]))[<span class="hl-n">0</span>]
+    best = [sents[i] <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">np.argsort</span>(-sc)[:<span class="hl-n">2</span>] <span class="hl-k">if</span> sc[i] &gt; <span class="hl-n">0</span>]
+    <span class="hl-k">return</span> <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&quot;{s} [{cid}]&quot;</span> <span class="hl-k">for</span> s, cid <span class="hl-k">in</span> best) <span class="hl-k">or</span> <span class="hl-s">&quot;I don&#x27;t have that information.&quot;</span>, ctx
+<span class="hl-k">for</span> q <span class="hl-k">in</span> [<span class="hl-s">&quot;My earbuds box was damaged when it arrived. What should I do?&quot;</span>, <span class="hl-s">&quot;How long does a refund take if I paid by UPI?&quot;</span>,
+          <span class="hl-s">&quot;Can I use cash on delivery with an exchange offer?&quot;</span>, <span class="hl-s">&quot;Do you deliver to Sri Lanka?&quot;</span>]:
+    a, _ = <span class="hl-f">answer_offline</span>(q); <span class="hl-f">print</span>(<span class="hl-s">f&quot;Q: {q}\nA: {a}\n&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Q: My earbuds box was damaged when it arrived. What should I do?
+A: If the box is damaged on arrival, refuse the delivery or report it within 48 hours with photos for a free replacement. [delivery.md#damaged-parcels] Opened earbuds and personal-care items cannot be returned for hygiene reasons. [returns.md#conditions]
+
+Q: How long does a refund take if I paid by UPI?
+A: UPI refunds usually arrive within 48 hours. [returns.md#refund-timeline] We accept UPI, credit and debit cards, net banking, NovaMart wallet and cash on delivery up to ₹10,000. [payments.md#methods]
+
+Q: Can I use cash on delivery with an exchange offer?
+A: Exchange is not available with cash on delivery. [exchange.md#eligibility] We accept UPI, credit and debit cards, net banking, NovaMart wallet and cash on delivery up to ₹10,000. [payments.md#methods]
+
+Q: Do you deliver to Sri Lanka?
+A: I don&#x27;t have that information. Please contact NovaMart support.</pre></div>
+<p>The last question has no answer in the documents, and the assistant says so instead of guessing: an essential behaviour to test.</p>
+<h2 id="genai-05-step-5-evaluate">Step 5: evaluate</h2>
+<p>Build a test set of questions with the document section that contains the answer and the key fact the answer must state.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">TEST = [
+    (<span class="hl-s">&quot;How many days do I have to return a speaker?&quot;</span>, <span class="hl-s">&quot;returns.md#return-window&quot;</span>, <span class="hl-s">&quot;10 days&quot;</span>),
+    (<span class="hl-s">&quot;Can I return opened earbuds?&quot;</span>, <span class="hl-s">&quot;returns.md#conditions&quot;</span>, <span class="hl-s">&quot;cannot be returned&quot;</span>),
+    (<span class="hl-s">&quot;When will my UPI refund arrive?&quot;</span>, <span class="hl-s">&quot;returns.md#refund-timeline&quot;</span>, <span class="hl-s">&quot;48 hours&quot;</span>),
+    (<span class="hl-s">&quot;How long is the warranty on a charger?&quot;</span>, <span class="hl-s">&quot;warranty.md#standard-warranty&quot;</span>, <span class="hl-s">&quot;6 months&quot;</span>),
+    (<span class="hl-s">&quot;Does NovaMart Care cover water damage?&quot;</span>, <span class="hl-s">&quot;warranty.md#extended-warranty&quot;</span>, <span class="hl-s">&quot;liquid damage&quot;</span>),
+    (<span class="hl-s">&quot;What is the delivery fee for a ₹300 order?&quot;</span>, <span class="hl-s">&quot;delivery.md#delivery-charges&quot;</span>, <span class="hl-s">&quot;₹49&quot;</span>),
+    (<span class="hl-s">&quot;Is same-day delivery available in Pune?&quot;</span>, <span class="hl-s">&quot;delivery.md#delivery-charges&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>),
+    (<span class="hl-s">&quot;Is no cost emi available on a 2500 rupee order?&quot;</span>, <span class="hl-s">&quot;payments.md#no-cost-emi&quot;</span>, <span class="hl-s">&quot;above ₹3,000&quot;</span>),
+    (<span class="hl-s">&quot;Money was debited but my order failed&quot;</span>, <span class="hl-s">&quot;payments.md#failed-payments&quot;</span>, <span class="hl-s">&quot;3 working days&quot;</span>),
+    (<span class="hl-s">&quot;Can I exchange a phone with a cracked screen?&quot;</span>, <span class="hl-s">&quot;exchange.md#eligibility&quot;</span>, <span class="hl-s">&quot;no cracked screen&quot;</span>),
+    (<span class="hl-s">&quot;How much does Plus membership cost?&quot;</span>, <span class="hl-s">&quot;loyalty.md#cost&quot;</span>, <span class="hl-s">&quot;₹399&quot;</span>),
+    (<span class="hl-s">&quot;What are the benefits of NovaMart Plus?&quot;</span>, <span class="hl-s">&quot;loyalty.md#benefits&quot;</span>, <span class="hl-s">&quot;same-day&quot;</span>),
+]
+rows = []
+<span class="hl-k">for</span> q, gold, fact <span class="hl-k">in</span> TEST:
+    ret = <span class="hl-f">retrieve</span>(q, k=<span class="hl-n">3</span>).<span class="hl-f">id.tolist</span>(); ans, _ = <span class="hl-f">answer_offline</span>(q)
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;question&quot;</span>: q[:<span class="hl-n">42</span>], <span class="hl-s">&quot;hit@1&quot;</span>: gold == ret[<span class="hl-n">0</span>], <span class="hl-s">&quot;hit@3&quot;</span>: gold <span class="hl-k">in</span> ret, <span class="hl-s">&quot;rank&quot;</span>: (<span class="hl-f">ret.index</span>(gold) + <span class="hl-n">1</span>) <span class="hl-k">if</span> gold <span class="hl-k">in</span> ret <span class="hl-k">else</span> <span class="hl-k">None</span>,
+                 <span class="hl-s">&quot;fact_in_answer&quot;</span>: <span class="hl-f">fact.lower</span>() <span class="hl-k">in</span> <span class="hl-f">ans.lower</span>(), <span class="hl-s">&quot;cites_gold&quot;</span>: gold <span class="hl-k">in</span> ans})
+ev = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">ev.to_string</span>(index=<span class="hl-k">False</span>))
+mrr = <span class="hl-f">np.mean</span>([<span class="hl-n">1</span> / r <span class="hl-k">if</span> r <span class="hl-k">else</span> <span class="hl-n">0</span> <span class="hl-k">for</span> r <span class="hl-k">in</span> ev[<span class="hl-s">&quot;rank&quot;</span>]])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;\nretrieval: hit@1 {ev[&#x27;hit@1&#x27;].mean():.0%} | hit@3 {ev[&#x27;hit@3&#x27;].mean():.0%} | MRR {mrr:.2f} || answers: key fact present {ev.fact_in_answer.mean():.0%} | cites the right section {ev.cites_gold.mean():.0%}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                                  question  hit@1  hit@3  rank  fact_in_answer  cites_gold
+How many days do I have to return a speake   True   True     1           False       False
+              Can I return opened earbuds?   True   True     1            True        True
+           When will my UPI refund arrive?   True   True     1            True        True
+    How long is the warranty on a charger?   True   True     1            True        True
+    Does NovaMart Care cover water damage?   True   True     1            True        True
+What is the delivery fee for a ₹300 order?   True   True     1            True        True
+   Is same-day delivery available in Pune?   True   True     1            True        True
+Is no cost emi available on a 2500 rupee o   True   True     1            True        True
+     Money was debited but my order failed   True   True     1            True        True
+Can I exchange a phone with a cracked scre   True   True     1            True        True
+       How much does Plus membership cost?   True   True     1           False       False
+   What are the benefits of NovaMart Plus?   True   True     1            True        True
+
+retrieval: hit@1 100% | hit@3 100% | MRR 1.00 || answers: key fact present 83% | cites the right section 83%</pre></div>
+<p>Retrieval is perfect on this small handbook, yet the crude extractive answerer misses the key fact for two questions: it picks a less relevant sentence from the right section. That is why you <strong>measure the layers separately</strong>: here the fix belongs in generation (a real LLM, or a better sentence scorer), not in retrieval.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Layer</th>
+<th>Metric</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrieval</td>
+<td>Hit rate@k, MRR, recall</td>
+<td>Labelled question → relevant chunk pairs</td>
+</tr>
+<tr>
+<td>Answer correctness</td>
+<td>Key facts present, exact match, human or LLM-judge score</td>
+<td>Gold answers or checklists</td>
+</tr>
+<tr>
+<td><strong>Faithfulness</strong></td>
+<td>Every claim supported by retrieved text</td>
+<td>LLM judge or NLI model; citation checks</td>
+</tr>
+<tr>
+<td>Abstention</td>
+<td>Says "don't know" for unanswerable questions</td>
+<td>Include such questions in the test set</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td>Latency, cost per answer, user feedback</td>
+<td>Logs and dashboards</td>
+</tr>
+</tbody>
+</table></div>
+<p>Frameworks such as <strong>Ragas</strong>, <strong>TruLens</strong> and <strong>DeepEval</strong> automate these checks; lesson 9 covers LLM-as-judge evaluation.</p>
+<h2 id="genai-05-failure-modes-and-fixes">Failure modes and fixes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Right document exists but is not retrieved</td>
+<td>Vocabulary mismatch, bad chunking</td>
+<td>Hybrid search, better embeddings, contextual chunk headers, query rewriting</td>
+</tr>
+<tr>
+<td>Retrieved but answer still wrong</td>
+<td>Too many/irrelevant chunks, weak prompt</td>
+<td>Re-rank, fewer and better chunks, clearer instructions</td>
+</tr>
+<tr>
+<td>Answer adds facts not in documents</td>
+<td>Model falls back on prior knowledge</td>
+<td>"Only from documents" + citations + faithfulness checks</td>
+</tr>
+<tr>
+<td>Stale or conflicting answers</td>
+<td>Old documents indexed</td>
+<td>Metadata dates, re-index pipeline, prefer latest version</td>
+</tr>
+<tr>
+<td>Leaks confidential content</td>
+<td>No access control</td>
+<td>Filter chunks by user permissions <strong>before</strong> prompting</td>
+</tr>
+<tr>
+<td>Multi-part questions half-answered</td>
+<td>Single retrieval</td>
+<td>Decompose the question; agentic RAG (retrieve per sub-question)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="genai-05-advanced-patterns">Advanced patterns</h2>
+<ul>
+<li><strong>Query rewriting / HyDE:</strong> ask the LLM to rewrite the question (or draft a hypothetical answer) before retrieval.</li>
+<li><strong>Contextual retrieval:</strong> prepend an LLM-written one-line context to each chunk before indexing (Anthropic reported large drops in retrieval failures, especially combined with BM25 and re-ranking).</li>
+<li><strong>Metadata filtering:</strong> product, region, date, access group.</li>
+<li><strong>Parent-document retrieval:</strong> search small chunks, return their larger parent section.</li>
+<li><strong>Agentic RAG:</strong> the model decides when and what to search (tool use, lessons 6–7).</li>
+<li><strong>GraphRAG:</strong> build a knowledge graph of entities and relations for questions that span many documents.</li>
+<li><strong>Structured + unstructured:</strong> route numeric questions to SQL (text-to-SQL, lesson 11) and policy questions to documents.</li>
+</ul>
+<p>Frameworks: LlamaIndex and LangChain (loaders, splitters, retrievers), Haystack; managed options include cloud "knowledge base" services and vector databases with built-in hybrid search.</p>
+<h2 id="genai-05-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>RAG retrieves relevant passages and asks the model to answer only from them, with citations: up-to-date, grounded and auditable answers.</li>
+<li>Chunk along document structure, keep metadata, and add context headers to chunks.</li>
+<li>Use hybrid retrieval and re-ranking; filter by access rights before prompting.</li>
+<li>Instruct the model to cite sources and to say "I don't know" when the documents lack the answer; use the API's citation features where available.</li>
+<li>Evaluate retrieval (hit rate, MRR) and answers (correctness, faithfulness, abstention) on a labelled test set, then improve the weakest layer.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What problem does RAG mainly solve?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Giving the model up-to-date, private knowledge and grounding answers in sources</button><button type="button" class="opt" data-ok="0"><i>B</i>Making models faster</button><button type="button" class="opt" data-ok="0"><i>C</i>Training a new model</button><button type="button" class="opt" data-ok="0"><i>D</i>Generating images</button></div><div class="qexp"><b>Answer: A.</b> Retrieval supplies the facts.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why add the document title and section to each chunk?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>So each chunk is understandable on its own, which improves retrieval and citations</button><button type="button" class="opt" data-ok="0"><i>B</i>To make chunks longer</button><button type="button" class="opt" data-ok="0"><i>C</i>To confuse the retriever</button><button type="button" class="opt" data-ok="0"><i>D</i>Because embeddings require it</button></div><div class="qexp"><b>Answer: A.</b> A cheap form of contextual retrieval.</div></div><div class="qq"><p class="qtext"><b>3.</b> A user asks something the documents do not cover. Ideal behaviour?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Say the information is not available and point to support</button><button type="button" class="opt" data-ok="0"><i>B</i>Guess an answer</button><button type="button" class="opt" data-ok="0"><i>C</i>Answer from general knowledge without saying so</button><button type="button" class="opt" data-ok="0"><i>D</i>Return an error page</button></div><div class="qexp"><b>Answer: A.</b> Test abstention explicitly.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which metric checks whether the answer is supported by the retrieved text?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Hit rate</button><button type="button" class="opt" data-ok="0"><i>B</i>Latency</button><button type="button" class="opt" data-ok="1"><i>C</i>Faithfulness (groundedness)</button><button type="button" class="opt" data-ok="0"><i>D</i>Token count</button></div><div class="qexp"><b>Answer: C.</b> Every claim should trace to a source.</div></div><div class="qq"><p class="qtext"><b>5.</b> The right chunk is retrieved but ranked 9th of 10. What helps most?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A re-ranker, or fewer, better-ranked chunks</button><button type="button" class="opt" data-ok="0"><i>B</i>A higher temperature</button><button type="button" class="opt" data-ok="0"><i>C</i>Larger chunks only</button><button type="button" class="opt" data-ok="0"><i>D</i>Removing citations</button></div><div class="qexp"><b>Answer: A.</b> Re-rankers reorder candidates precisely.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where should access control be enforced?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In retrieval: filter chunks by the user's permissions before they reach the prompt</button><button type="button" class="opt" data-ok="0"><i>B</i>In the prompt text only</button><button type="button" class="opt" data-ok="0"><i>C</i>After the answer is shown</button><button type="button" class="opt" data-ok="0"><i>D</i>Not needed</button></div><div class="qexp"><b>Answer: A.</b> The model cannot leak what it never sees.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Add a <code>shipping-abroad.md</code> document and check that the "Sri Lanka" question is now answered. (2) Change <code>max_words</code> to 30 and 200: how do hit@1 and the fact score change? (3) Add three unanswerable questions to the test set and measure abstention. (4) With a real API key, replace <code>answer_offline</code> with Claude and compare the fact and citation scores.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">DOCS[<span class="hl-s">&quot;shipping-abroad.md&quot;</span>] = <span class="hl-s">&quot;# International shipping\n## Countries\nWe currently ship only within India. International delivery is not available.&quot;</span>
+chunks = <span class="hl-f">pd.DataFrame</span>([c <span class="hl-k">for</span> n, t <span class="hl-k">in</span> <span class="hl-f">DOCS.items</span>() <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">chunk_markdown</span>(n, t)])
+word_vec = <span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), sublinear_tf=<span class="hl-k">True</span>, stop_words=<span class="hl-s">&quot;english&quot;</span>).<span class="hl-f">fit</span>(chunks.text); char_vec = <span class="hl-f">TfidfVectorizer</span>(analyzer=<span class="hl-s">&quot;char_wb&quot;</span>, ngram_range=(<span class="hl-n">3</span>, <span class="hl-n">5</span>), sublinear_tf=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(chunks.text)
+Wd, Cd = <span class="hl-f">word_vec.transform</span>(chunks.text), <span class="hl-f">char_vec.transform</span>(chunks.text)
+<span class="hl-f">print</span>(<span class="hl-f">answer_offline</span>(<span class="hl-s">&quot;Do you deliver to Sri Lanka?&quot;</span>)[<span class="hl-n">0</span>])
+unanswerable = [<span class="hl-s">&quot;Do you sell cars?&quot;</span>, <span class="hl-s">&quot;What is the CEO&#x27;s phone number?&quot;</span>, <span class="hl-s">&quot;Can I pay in bitcoin?&quot;</span>]
+<span class="hl-f">print</span>([<span class="hl-f">answer_offline</span>(q)[<span class="hl-n">0</span>].<span class="hl-f">startswith</span>(<span class="hl-s">&quot;I don&#x27;t&quot;</span>) <span class="hl-k">for</span> q <span class="hl-k">in</span> unanswerable])</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain RAG and when you would use it instead of fine-tuning.</strong>
+RAG retrieves relevant documents at question time and has the model answer from them; use it when knowledge is large, private or changing and you need citations. Fine-tuning suits behaviour, style or format, not frequently updated facts.</p>
+<p><strong>Q: How do you evaluate a RAG system?</strong>
+Separately: retrieval (hit rate, MRR, recall on labelled questions) and generation (correctness, faithfulness to sources, citation accuracy, abstention), plus latency and cost; use human review and LLM judges calibrated against humans.</p>
+<p><strong>Q: Your RAG bot gives wrong answers. How do you debug it?</strong>
+Inspect retrieved chunks for failing questions: if the right chunk is missing, fix chunking, retrieval or query rewriting; if present but the answer is wrong, re-rank, reduce noise, and tighten the prompt; add the cases to the test set.</p></div></div></article></body></html>
