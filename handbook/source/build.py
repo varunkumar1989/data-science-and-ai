@@ -3,6 +3,7 @@ import os, re, json, html, glob, sys, urllib.parse
 
 HB = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HB, "site")
+REPO = "https://github.com/varunkumar1989/data-science-and-ai"
 ONLINE = os.environ.get("HB_URL", "").strip()          # public URL of the interactive version (set after first publish)
 TITLE = "Data Science & AI Handbook"
 PROGRAMME = "AnalytixLabs · Advanced Certification in Data Science & AI (IIT), June 2026 batch"
@@ -141,7 +142,7 @@ def nav():
         for cid in ids:
             t = re.sub(r"^[^:]+:\s*", "", CASES[cid]["title"])
             h.append(f'<a href="#case/{cid}" data-r="case/{cid}">{html.escape(t[:46])}</a>')
-    h.append('</div><div class="nav-group">Files</div><a href="#downloads" data-r="downloads"><span class="n">⬇</span>PDFs &amp; Excel workbook</a></div>')
+    h.append('</div><div class="nav-group">Files</div><a href="#downloads" data-r="downloads"><span class="n">⬇</span>PDFs &amp; Excel workbook</a><a href="#github" data-r="github"><span class="n">⎇</span>Project details &amp; GitHub</a></div>')
     return "".join(h)
 
 def module_page(m):
@@ -189,7 +190,7 @@ def home():
     return f'''<section class="page" id="p-home" data-page="home">
 <div class="hero"><div class="crumb" style="color:#F4C77D">DATA SCIENCE &amp; AI</div><h1>{TITLE}</h1>
 <p>{PROGRAMME}. Course handbooks class by class (Building Blocks Class 1 onwards), {len(SESSIONS)} basic-to-advanced learning sessions written for non-technical learners, every case study solved on real data, an Excel practice workbook, and clickable PDFs.</p>
-<div class="chips"><span class="chip">{len(MODULES)} course handbooks</span><span class="chip">{len(SESSIONS)} learning sessions</span><span class="chip">{len(CASES)} case studies · {nq} answers</span><a class="chip" href="#downloads">⬇ PDFs + Excel</a>{online}</div></div>
+<div class="chips"><span class="chip">{len(MODULES)} course handbooks</span><span class="chip">{len(SESSIONS)} learning sessions</span><span class="chip">{len(CASES)} case studies · {nq} answers</span><a class="chip" href="#downloads">⬇ PDFs + Excel</a><a class="chip" href="#github">⎇ GitHub repo</a>{online}</div></div>
 <div class="stats"><div class="stat"><b>{ntabs}</b><span>topic tabs</span></div><div class="stat"><b>{len(CASES)}</b><span>case studies solved</span></div><div class="stat"><b>{nq}</b><span>questions answered</span></div><div class="stat"><b>{ndg}</b><span>charts and diagrams</span></div></div>
 <h2>Course handbooks</h2><p class="muted">Follow the AnalytixLabs course order. Building Blocks is organised exactly by class: Building Blocks · Class 1, Class 2, Class 3…</p><div class="mods">{"".join(card(m) for m in MODULES)}</div>
 <h2>Learning sessions: basic to advanced</h2><p class="muted">Self-contained guides for non-technical learners that fill gaps beyond the course, each with its own PDF.</p><div class="mods">{"".join(card(m) for m in SESSIONS)}</div>
@@ -284,9 +285,58 @@ JS = r"""
 })();
 """
 
+def github_page():
+    raw = REPO + "/blob/main/handbook/"
+    ntabs = sum(len(m["tabs"]) for m in ALL)
+    rows_m = "".join(f'<tr><td>{m["num"]}</td><td><a href="#{m["id"]}">{html.escape(m["title"])}</a></td><td>{len(m["tabs"])}</td><td><code>source/content</code></td></tr>' for m in MODULES)
+    rows_s = "".join(f'<tr><td>{m["num"]}</td><td><a href="#{m["id"]}">{html.escape(m["title"])}</a></td><td>{len(m["tabs"])}</td><td><a href="{raw}pdf/{session_pdf(m)}" target="_blank" rel="noopener">{session_pdf(m)}</a></td></tr>' for m in SESSIONS)
+    rows_p = "".join(f'<tr><td>{t}</td><td><a href="{raw}pdf/{f}" target="_blank" rel="noopener">pdf/{f}</a></td><td>{d}</td></tr>' for f, t, d in PDFS)
+    return f'''<section class="page" id="p-github" data-page="github"><div class="crumb">PROJECT</div><h1>Project details &amp; GitHub</h1>
+<p class="lead">This handbook is version-controlled in a public GitHub repository. Every page, PDF, the Excel workbook and the build scripts that generate them live in the <code>handbook/</code> folder.</p>
+<div class="dl"><div class="dlc"><b>⎇ GitHub repository</b><span>varunkumar1989/data-science-and-ai · branch <code>main</code> · folder <code>handbook/</code></span><div class="btns"><a class="btn" href="{REPO}/tree/main/handbook" target="_blank" rel="noopener">Open on GitHub</a><a class="btn ghost" href="{REPO}/archive/refs/heads/main.zip" target="_blank" rel="noopener">Download repo (.zip)</a></div></div>
+<div class="dlc"><b>📗 Excel workbook on GitHub</b><span>22 sheets · 1,593 formulas · fictional sample data</span><div class="btns"><a class="btn" href="{REPO}/raw/main/handbook/files/Excel_Basic_to_Advanced.xlsx" target="_blank" rel="noopener">Download .xlsx</a></div></div></div>
+<h2>At a glance</h2>
+<div class="stats"><div class="stat"><b>{len(MODULES)}</b><span>course handbooks</span></div><div class="stat"><b>{len(SESSIONS)}</b><span>learning sessions</span></div><div class="stat"><b>{ntabs}</b><span>topic tabs</span></div><div class="stat"><b>{len(PDFS) + len(SESSIONS)}</b><span>PDFs</span></div></div>
+<h2>Repository structure</h2>
+<pre><code class="text">data-science-and-ai/
+├── README.md                      repository overview
+└── handbook/
+    ├── README.md                  what's inside and how to use it
+    ├── index.html                 this interactive handbook (open in any browser)
+    ├── img/                       diagrams (dg), statistics &amp; maths figures (bb), ML charts (ml), case-study charts (cs)
+    ├── pdf/                       {len(PDFS) + len(SESSIONS)} PDFs with clickable contents
+    ├── files/                     Excel_Basic_to_Advanced.xlsx
+    └── source/
+        ├── content/               course handbook pages (one HTML file per module)
+        ├── sessions/              learning-session pages S1–S12
+        ├── build.py               builds index.html and the print pages
+        ├── make_pdfs.py           renders every PDF (Playwright / Chromium)
+        ├── diagrams.py, bb_figs.py   diagrams and figures
+        └── build_xlsx.py          builds the Excel workbook</code></pre>
+<h2>Course handbooks</h2>
+<table class="tbl"><thead><tr><th>#</th><th>Handbook</th><th>Tabs</th><th>Source</th></tr></thead><tbody>{rows_m}</tbody></table>
+<h2>Learning sessions</h2>
+<table class="tbl"><thead><tr><th>#</th><th>Session</th><th>Tabs</th><th>PDF on GitHub</th></tr></thead><tbody>{rows_s}</tbody></table>
+<h2>Main PDFs on GitHub</h2>
+<table class="tbl"><thead><tr><th>PDF</th><th>File</th><th>Contents</th></tr></thead><tbody>{rows_p}</tbody></table>
+<h2>Use the repository</h2>
+<div class="grid3"><div class="card"><h4>1. Get a copy</h4><p>Click <b>Code → Download ZIP</b> on GitHub, or run <code>git clone {REPO}.git</code>. Open <code>handbook/index.html</code> in a browser; everything works offline.</p></div>
+<div class="card"><h4>2. Publish as a website</h4><p><b>Netlify:</b> drag the <code>handbook</code> folder onto app.netlify.com/drop. <b>GitHub Pages:</b> Settings → Pages → deploy from branch <code>main</code>; the site appears at <code>/handbook/</code>.</p></div>
+<div class="card"><h4>3. Edit and rebuild</h4><p>Change a page in <code>source/content</code> or <code>source/sessions</code>, then run <code>python3 build.py</code> and <code>python3 make_pdfs.py</code>; commit and push.</p></div></div>
+<h3>Update workflow</h3>
+<pre><code class="bash">git clone {REPO}.git
+cd data-science-and-ai/handbook/source
+# edit content/*.html or sessions/*.html
+python3 build.py            # rebuilds the website pages
+python3 make_pdfs.py        # rebuilds all PDFs
+git add -A &amp;&amp; git commit -m "Update handbook" &amp;&amp; git push</code></pre>
+<h2>Content standards</h2>
+<ul class="check"><li>Building Blocks is organised exactly by class: Building Blocks · Class 1, Class 2… and Building Blocks ML · Class 1–10.</li><li>Latest-feature notes (Excel 365, SQL Server 2025, Power BI, Tableau, AI tools) were checked against vendor documentation in October 2026.</li><li>Case-study questions are summarised in our own words and solved independently; no LMS recordings, attachments or login links are included.</li><li>Sample data in the workbook and examples is fictional.</li></ul>
+</section>'''
+
 def site():
     css = open(os.path.join(HB, "style.css")).read()
-    pages = home() + "".join(module_page(m) for m in ALL) + cases_index() + "".join(case_page(c) for _, ids in ORDER for c in ids) + downloads()
+    pages = home() + "".join(module_page(m) for m in ALL) + cases_index() + "".join(case_page(c) for _, ids in ORDER for c in ids) + downloads() + github_page()
     doc = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Data Science &amp; AI Handbook</title><meta name="description" content="Data Science and AI handbook: course notes class by class, learning sessions, solved case studies, Excel workbook and PDFs.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
