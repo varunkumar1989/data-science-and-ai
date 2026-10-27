@@ -130,7 +130,7 @@ save(pd.DataFrame(T).sort_values("invoice_date"), "retail_transactions.csv")
 
 # ---------------------------------------------------------------- 7. Telecom churn
 n = 3000
-ten = rng.integers(0, 73, n); contract = rng.choice(["Month-to-month", "One year", "Two year"], n, p=[.55, .25, .2]); internet = rng.choice(["Fiber", "DSL", "None"], n, p=[.45, .35, .2])
+ten = rng.integers(0, 73, n); contract = rng.choice(["Month-to-month", "One year", "Two year"], n, p=[.55, .25, .2]); internet = rng.choice(["Fiber", "DSL", "No internet"], n, p=[.45, .35, .2])
 mc = np.round(20 + (internet == "Fiber") * 55 + (internet == "DSL") * 30 + rng.normal(10, 12, n).clip(0), 2); calls = rng.poisson(1.3, n); pay = rng.choice(["UPI", "Card", "Net banking", "Auto-debit"], n)
 senior = (rng.random(n) < .16).astype(int)
 z = -1.2 - .045 * ten + 1.3 * (contract == "Month-to-month") - .8 * (contract == "Two year") + .5 * (internet == "Fiber") + .35 * calls + .012 * (mc - 60) + .3 * senior - .4 * (pay == "Auto-debit")

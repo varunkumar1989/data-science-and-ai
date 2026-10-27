@@ -1,0 +1,451 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX · AI Analytics Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Use AI to write, explain and debug SQL safely. Learn how text-to-SQL works and where it fails, give the model the right schema, protect your database with read-only access, install Docker, run Metabase on your own data, connect an AI assistant such as MinusX, and validate every generated query."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v13"></head><body class="lesson tr-ai-analytics"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ai-analytics">AI for Data Analysis</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#DB2777">AI for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html" data-lid="ai-analytics-01"><span>01</span>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI</a></li><li class="on"><a href="ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html" data-lid="ai-analytics-02"><span>02</span>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</a></li><li class=""><a href="ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html" data-lid="ai-analytics-03"><span>03</span>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</a></li><li class=""><a href="ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html" data-lid="ai-analytics-04"><span>04</span>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ai-analytics-02">
+<div class="lhead" style="--tc:#DB2777"><div class="kick">AI for Data Analysis · Lesson 2 of 4</div><h1>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</h1>
+<p class="sum">Use AI to write, explain and debug SQL safely. Learn how text-to-SQL works and where it fails, give the model the right schema, protect your database with read-only access, install Docker, run Metabase on your own data, connect an AI assistant such as MinusX, and validate every generated query.</p><div class="tags"><span class="tag live">● DVA with AI · class 2</span><span class="tag new">✦ Docker, Metabase and AI assistants, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ai-analytics/AI_Analytics_02_AI_with_SQL_Text_to_SQL_Docker_Metabase_MinusX.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ai-analytics-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain how text-to-SQL works and why context (schema, definitions, examples) decides quality</li><li>Write a schema-aware prompt and review generated SQL for the usual errors</li><li>Install Docker and run Metabase locally; connect a database; build questions, models and dashboards</li><li>Describe how an in-browser AI assistant such as MinusX works with Metabase, and its privacy trade-offs</li><li>Apply guardrails: read-only roles, row limits, query review and result validation</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a><a class="chip" href="../datasets/products.csv" download>products.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-text-to-sql">What is text-to-SQL?</h2>
+<p><strong>Text-to-SQL</strong> turns a business question in plain language into a SQL query: "Which region had the highest profit in 2025?" → <code>SELECT region, SUM(profit) …</code>. LLMs are good at SQL syntax, but <strong>correct SQL for <em>your</em> database</strong> needs your context.</p>
+<figure class="fig"><img src="../img/ai-analytics-02-01.png" alt="Text-to-SQL pipeline. Quality depends mostly on the context you supply, not on the model alone." loading="lazy"><figcaption>Text-to-SQL pipeline. Quality depends mostly on the context you supply, not on the model alone.</figcaption></figure>
+<h3 id="what-goes-wrong-without-context">What goes wrong without context</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Problem</th>
+<th>Example</th>
+<th>Prevention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Wrong tables/columns</strong></td>
+<td>Uses <code>customer_name</code> in <code>orders</code>, where it does not exist</td>
+<td>Provide the schema (tables, columns, types, keys)</td>
+</tr>
+<tr>
+<td><strong>Wrong grain / fan-out</strong></td>
+<td>Joins orders to items and then <code>COUNT(*)</code> for "orders"</td>
+<td>State the grain: "one row per order line"; add "count distinct order_id" rule</td>
+</tr>
+<tr>
+<td><strong>Wrong definitions</strong></td>
+<td>"Active customer", "net sales", "this year"</td>
+<td>Provide a metric dictionary</td>
+</tr>
+<tr>
+<td><strong>Dialect mismatch</strong></td>
+<td><code>LIMIT</code> instead of <code>TOP</code> in SQL Server</td>
+<td>Name the database and version</td>
+</tr>
+<tr>
+<td><strong>Dates</strong></td>
+<td>Uses <code>YEAR(date) = 2025</code> (slow) or the wrong fiscal year</td>
+<td>State calendar vs fiscal year and preferred patterns</td>
+</tr>
+<tr>
+<td><strong>Hallucinated values</strong></td>
+<td><code>WHERE region = 'Northern'</code> when data says <code>North</code></td>
+<td>Provide sample values for categorical columns</td>
+</tr>
+<tr>
+<td><strong>Unsafe actions</strong></td>
+<td><code>DELETE</code>/<code>DROP</code> suggestions</td>
+<td>Read-only connection; review before running</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="a-schema-prompt-that-works">A schema prompt that works</h3>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">You are a senior analytics engineer. Write SQL for Microsoft SQL Server 2022.
+
+SCHEMA (all in dbo):
+customers(customer_id PK, customer_name, segment, city, state, region)
+  - segment in (&#x27;Consumer&#x27;,&#x27;Corporate&#x27;,&#x27;Home Office&#x27;); region in (&#x27;North&#x27;,&#x27;South&#x27;,&#x27;East&#x27;,&#x27;West&#x27;)
+orders(order_id PK, order_date DATE, ship_date DATE, ship_mode, customer_id FK -&gt; customers)
+order_items(item_id PK, order_id FK -&gt; orders, product_id FK -&gt; products, quantity, discount, sales, profit)
+  - one row per product line; sales and profit in rupees
+products(product_id PK, product_name, category, sub_category, list_price)
+
+DEFINITIONS:
+- &quot;Orders&quot; = COUNT(DISTINCT orders.order_id). &quot;Margin %&quot; = SUM(profit) / SUM(sales).
+- Financial year runs April–March. Use half-open date ranges (&gt;= start AND &lt; next start).
+
+QUESTION: For FY2025 (Apr 2025–Mar 2026), show margin % by category and by discount band (0, 1–20%, &gt;20%).
+
+RULES: Return only SQL; add comments; no SELECT *; list any assumptions after the query.</code></pre></div>
+<p>Notice the pieces: dialect, schema with keys, valid values, grain, definitions, date convention and output rules. This is the difference between a lucky answer and a reliable one.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Keep a reusable &quot;context file&quot;</b></div><p>Save your schema, definitions and sample queries in one text file (or in an AI <strong>Project</strong> / custom instructions). Paste it into every session. Many BI tools (Metabase, Power BI Copilot, Snowflake Cortex, Looker) call this a <strong>semantic layer</strong> or "AI context": descriptions, synonyms and verified queries.</p></div>
+<h2 id="reviewing-ai-generated-sql-a-checklist">Reviewing AI-generated SQL: a checklist</h2>
+<ol>
+<li><strong>Does every table/column exist?</strong> (Run it; fix any "invalid column name".)</li>
+<li><strong>Is the grain right?</strong> After each join, did rows multiply? Are distinct counts used for orders and customers?</li>
+<li><strong>Are filters correct?</strong> Date ranges half-open? Status filters? NULL handling?</li>
+<li><strong>Do aggregates match the definition?</strong> <code>SUM(profit)/SUM(sales)</code> not <code>AVG(margin)</code>.</li>
+<li><strong>Does the total reconcile?</strong> Compare with a simple query: <code>SELECT SUM(sales) FROM order_items</code>.</li>
+<li><strong>Is it safe and cheap?</strong> No writes; a <code>TOP</code>/<code>LIMIT</code> while testing; no accidental cross join.</li>
+<li><strong>Is it readable?</strong> CTEs, aliases and comments you could explain in an interview.</li>
+</ol>
+<p>Let's see this in practice. A typical AI answer to "profit margin by discount band" that forgets <code>SUM(profit)/SUM(sales)</code> and averages row margins instead:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;0%&#x27;</span> <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;1–20%&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;&gt;20%&#x27;</span> <span class="hl-k">END</span> <span class="hl-k">AS</span> discount_band,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(profit / sales) * <span class="hl-n">100</span>, <span class="hl-n">1</span>) <span class="hl-k">AS</span> ai_margin_pct          <span class="hl-c">-- average of row margins (unweighted)</span>
+<span class="hl-k">FROM</span> order_items
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;0%&#x27;</span> <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;1–20%&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;&gt;20%&#x27;</span> <span class="hl-k">END</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> discount_band;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>discount_band</th>
+      <th>ai_margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0%</td>
+      <td>18.2</td>
+    </tr>
+    <tr>
+      <td>1–20%</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>&gt;20%</td>
+      <td>-20.5</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 2 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;0%&#x27;</span> <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;1–20%&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;&gt;20%&#x27;</span> <span class="hl-k">END</span> <span class="hl-k">AS</span> discount_band,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales), <span class="hl-n">1</span>) <span class="hl-k">AS</span> correct_margin_pct     <span class="hl-c">-- weighted: total profit / total sales</span>
+<span class="hl-k">FROM</span> order_items
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;0%&#x27;</span> <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;1–20%&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;&gt;20%&#x27;</span> <span class="hl-k">END</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> discount_band;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>discount_band</th>
+      <th>correct_margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0%</td>
+      <td>17.5</td>
+    </tr>
+    <tr>
+      <td>1–20%</td>
+      <td>1.2</td>
+    </tr>
+    <tr>
+      <td>&gt;20%</td>
+      <td>-20.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 2 columns</div></div>
+<p>The two queries differ in every band (18.2% vs 17.5% and 2.0% vs 1.2% for the first two) because large order lines matter more in the weighted version than small ones. Which one the business wants must be written in the <strong>definitions</strong> part of your prompt. The checklist question "does the aggregate match the definition?" catches this.</p>
+<h2 id="guardrails-for-letting-ai-near-a-database">Guardrails for letting AI near a database</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Guardrail</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Read-only login</strong></td>
+<td>Create a database user with <code>SELECT</code> only on approved views (<code>GRANT SELECT ON …</code>); never give AI tools <code>db_owner</code></td>
+</tr>
+<tr>
+<td><strong>Expose views, not raw tables</strong></td>
+<td>A <code>vw_sales_for_ai</code> view with clean names, no personal data columns</td>
+</tr>
+<tr>
+<td><strong>Row and time limits</strong></td>
+<td>Timeouts, <code>TOP 1000</code>, query cost limits</td>
+</tr>
+<tr>
+<td><strong>Masking</strong></td>
+<td>Hide phone, email, ID columns; use dynamic data masking</td>
+</tr>
+<tr>
+<td><strong>Human review</strong></td>
+<td>Show the SQL before running it; log queries</td>
+</tr>
+<tr>
+<td><strong>Verified questions</strong></td>
+<td>Keep a library of approved queries for key metrics</td>
+</tr>
+<tr>
+<td><strong>No secrets in prompts</strong></td>
+<td>Connection strings and passwords stay in the tool's secret store</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="docker-running-tools-in-containers">Docker: running tools in containers</h2>
+<p><strong>Docker</strong> packages an application and everything it needs into a <strong>container</strong>, so it runs the same on any machine. Instead of installing Java, a database and an app by hand, you run one command.</p>
+<figure class="fig"><img src="../img/ai-analytics-02-02.png" alt="An image is a read-only template; a container is a running instance of it. Many containers can run from one image." loading="lazy"><figcaption>An image is a read-only template; a container is a running instance of it. Many containers can run from one image.</figcaption></figure>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Install Docker Desktop</b></div><ol>
+<li>Download <strong>Docker Desktop</strong> for Windows, Mac or Linux from the Docker website and install it. On Windows it uses <strong>WSL 2</strong> (Windows Subsystem for Linux); the installer enables it, and you may need to restart.</li>
+<li>Start Docker Desktop and wait until it says "Engine running".</li>
+<li>Open a terminal (PowerShell, Terminal) and check: <code>docker --version</code> and <code>docker run hello-world</code>.</li>
+<li>Note your machine needs virtualisation enabled in BIOS and about 4 GB of free RAM for small tools.</li>
+</ol></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker pull metabase/metabase:latest</code></td>
+<td>Download an image</td>
+</tr>
+<tr>
+<td><code>docker run -d -p 3000:3000 --name metabase metabase/metabase</code></td>
+<td>Run it in the background (<code>-d</code>), map port 3000, name it</td>
+</tr>
+<tr>
+<td><code>docker ps</code> / <code>docker ps -a</code></td>
+<td>List running / all containers</td>
+</tr>
+<tr>
+<td><code>docker logs -f metabase</code></td>
+<td>Follow its logs (see start-up progress)</td>
+</tr>
+<tr>
+<td><code>docker stop metabase</code> / <code>docker start metabase</code></td>
+<td>Stop / start again</td>
+</tr>
+<tr>
+<td><code>docker rm metabase</code></td>
+<td>Delete the container (not the image)</td>
+</tr>
+<tr>
+<td><code>docker images</code></td>
+<td>List downloaded images</td>
+</tr>
+<tr>
+<td><code>docker compose up -d</code></td>
+<td>Start everything defined in a <code>compose.yaml</code> file</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="metabase-open-source-bi-for-everyone">Metabase: open-source BI for everyone</h2>
+<p><strong>Metabase</strong> is an open-source business-intelligence tool: connect a database, ask questions with a point-and-click <strong>question builder</strong> (no SQL needed), or write SQL, then save charts into <strong>dashboards</strong>. It is popular in start-ups because non-technical colleagues can self-serve.</p>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Run Metabase and connect your data</b></div><ol>
+<li>Start it: <code>docker run -d -p 3000:3000 --name metabase metabase/metabase</code>. First start takes a minute or two (check <code>docker logs -f metabase</code>).</li>
+<li>Open <strong>http://localhost:3000</strong>, create the admin account, and choose <strong>Add your data</strong>.</li>
+<li>Pick your database type (PostgreSQL, MySQL, SQL Server, BigQuery, Snowflake, SQLite files via drivers, CSV upload in newer versions), enter host, port, database name, username and password. <strong>Use the read-only user.</strong> If the database also runs on your PC, use the host <code>host.docker.internal</code> from inside the container.</li>
+<li>Metabase scans the tables. Browse them under <strong>Browse data</strong>.</li>
+<li><strong>New → Question</strong>: choose a table, pick columns, add <strong>Filter</strong>, <strong>Summarize</strong> (<code>Sum of sales</code> by <code>region</code>), choose a visualisation, <strong>Save</strong>.</li>
+<li><strong>New → Dashboard</strong>: add saved questions, add filters (date, region) and connect them to the question fields.</li>
+</ol></div>
+<p>For anything you want to keep, run Metabase with a proper application database instead of the default embedded one, and mount a volume, for example:</p>
+<div class="code"><div class="code-h"><span>YAML</span><button class="copy" type="button">Copy</button></div><pre><code class="yaml"># compose.yaml
+services:
+  metabase:
+    image: metabase/metabase:latest
+    ports: [&quot;3000:3000&quot;]
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: ${METABASE_DB_PASSWORD}      # from a .env file, never hard-coded
+      MB_DB_HOST: postgres
+    depends_on: [postgres]
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: metabase
+      POSTGRES_DB: metabase
+      POSTGRES_PASSWORD: ${METABASE_DB_PASSWORD}
+    volumes: [&quot;pgdata:/var/lib/postgresql/data&quot;]
+volumes:
+  pgdata:</code></pre></div>
+<h3 id="metabase-concepts">Metabase concepts</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Concept</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Question</strong></td>
+<td>A saved query (builder or SQL) with a visualisation</td>
+</tr>
+<tr>
+<td><strong>Model</strong></td>
+<td>A curated, cleaned table (a saved query with documented columns) for people to build on</td>
+</tr>
+<tr>
+<td><strong>Metric</strong></td>
+<td>A named, reusable calculation such as "Net revenue"</td>
+</tr>
+<tr>
+<td><strong>Dashboard</strong></td>
+<td>A page of questions with shared filters</td>
+</tr>
+<tr>
+<td><strong>Collection</strong></td>
+<td>Folders with permissions</td>
+</tr>
+<tr>
+<td><strong>Segment / filters</strong></td>
+<td>Reusable row filters</td>
+</tr>
+<tr>
+<td><strong>Permissions</strong></td>
+<td>Which groups see which databases and tables; row-level sandboxing (paid plans)</td>
+</tr>
+<tr>
+<td><strong>Metabot / AI features</strong></td>
+<td>Built-in AI assistance for questions and SQL in recent versions (availability depends on the edition and plan; check Metabase's current documentation)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Try it on the retail data: connect to your SQL Server <code>RetailDB</code>, then build three questions: <em>Sales by region</em>, <em>Monthly sales</em> (summarise by <code>order_date: Month</code>), and <em>Top 10 customers</em>. Then verify each one against this handbook's tables:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> sum_of_sales <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sum_of_sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>sum_of_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>South</td>
+      <td>53,952,769</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>51,958,521</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>49,018,161</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>46,484,119</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<h2 id="minusx-an-ai-assistant-inside-your-bi-tool">MinusX: an AI assistant inside your BI tool</h2>
+<p><strong>MinusX</strong> is an open-source AI assistant delivered as a <strong>Chrome extension</strong> that adds a chat sidebar to tools such as <strong>Metabase</strong> and <strong>Jupyter notebooks</strong>. Instead of copying your data into a chatbot, you work in Metabase and ask the sidebar things like <em>"Why did sales drop in March?"</em> or <em>"Write a query for monthly profit by category"</em>. According to its public description, it reads a simplified view of the page (metadata such as table and column names), then operates the tool by clicking, typing and writing queries, and lets you accept or reject its edits.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Aspect</th>
+<th>How it behaves</th>
+<th>What you should still do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Context</strong></td>
+<td>Sees the page, selected tables/columns and the query editor</td>
+<td>Make sure the right database and tables are selected</td>
+</tr>
+<tr>
+<td><strong>Actions</strong></td>
+<td>Writes and runs SQL, edits questions, explains results</td>
+<td>Read the SQL before accepting</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>Supports several LLM providers (you may supply your own API key)</td>
+<td>Check the provider's data policy</td>
+</tr>
+<tr>
+<td><strong>Privacy</strong></td>
+<td>Vendor says raw data is not sent; metadata and your prompts are</td>
+<td>Verify the current policy; never expose sensitive tables</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Free and paid plans; model API usage may cost</td>
+<td>Check current pricing</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Using an AI assistant with Metabase</b></div><ol>
+<li>Install the Chrome extension from the Chrome Web Store (search "MinusX") and pin it; open your Metabase tab and open the sidebar.</li>
+<li>Add your model/API key in settings if required.</li>
+<li>Select the database/table in Metabase so the assistant knows the context.</li>
+<li>Ask a precise question ("Monthly sales and profit by category for 2025, as a line chart; sales = SUM(sales), profit = SUM(profit)").</li>
+<li>Review the generated SQL, run it, check totals against a simple query, then save it as a question.</li>
+<li>Ask follow-ups: "Explain the biggest drop", "Break it down by region", "Why is Furniture negative?"</li>
+</ol></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>AI assistants and sensitive data</b></div><p>Anything the assistant can see, the model provider may receive. Use a <strong>read-only role limited to non-sensitive views</strong>, keep personal columns out of the connected schema, use an enterprise model agreement for company data, and keep a record of which prompts were run. If your company bans browser extensions that read pages, ask IT before installing any.</p></div>
+<h2 id="other-ways-to-use-ai-with-sql">Other ways to use AI with SQL</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Use</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Explain a query</strong></td>
+<td>Paste the query (not the data) and ask for a line-by-line explanation and the business meaning</td>
+</tr>
+<tr>
+<td><strong>Optimise</strong></td>
+<td>Paste query + execution plan + table sizes; ask for rewrites and indexes; test each</td>
+</tr>
+<tr>
+<td><strong>Convert dialects</strong></td>
+<td>"Convert this SQL Server query to PostgreSQL; list functions that differ"</td>
+</tr>
+<tr>
+<td><strong>Generate test data</strong></td>
+<td>"Create INSERT statements for 20 fictional customers across four regions" (no real data)</td>
+</tr>
+<tr>
+<td><strong>Write documentation</strong></td>
+<td>Column descriptions, data dictionaries, comments</td>
+</tr>
+<tr>
+<td><strong>Data quality checks</strong></td>
+<td>"Write queries to find nulls, duplicates, orphans and out-of-range values for these tables"</td>
+</tr>
+<tr>
+<td><strong>Platform AI</strong></td>
+<td>Snowflake Cortex Analyst, BigQuery Gemini, Databricks Genie, SSMS Copilot, Azure Data Studio/VS Code Copilot, Fabric Copilot: all follow the same principle: context in, SQL out, you verify</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Trend: the semantic layer</b></div><p>Teams that succeed with text-to-SQL do not rely on the raw schema: they define metrics (net sales, active customer) once in a <strong>semantic layer</strong> (dbt Semantic Layer, Cube, LookML, Power BI semantic models, Metabase models/metrics) and let AI query <em>that</em>. The AI then picks from governed metrics instead of reinventing definitions, which removes most wrong-number errors.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Text-to-SQL works when you provide <strong>dialect, schema with keys, valid values, grain, metric definitions and date rules</strong>.</li>
+<li>Review every query: columns exist, <strong>grain</strong> is right, filters correct, aggregates match the definition, totals reconcile, nothing writes.</li>
+<li>Protect the database with <strong>read-only logins on curated views</strong>, row limits and human review; never expose secrets or personal columns.</li>
+<li><strong>Docker</strong> runs tools in containers (<code>docker run -d -p 3000:3000 metabase/metabase</code>); <strong>Metabase</strong> gives self-service questions, models and dashboards.</li>
+<li>An assistant such as <strong>MinusX</strong> adds an AI sidebar to Metabase; treat it as a fast junior analyst whose SQL you review, and check privacy terms.</li>
+<li>A governed <strong>semantic layer</strong> makes AI answers consistent.</li>
+</ul></div>
+<div class="quiz" id="quiz-ai-analytics-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why does giving the AI your schema and metric definitions improve results?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes the model larger</button><button type="button" class="opt" data-ok="1"><i>B</i>The model can use real table and column names and your definitions instead of guessing</button><button type="button" class="opt" data-ok="0"><i>C</i>It speeds up the database</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes the need to review the SQL</button></div><div class="qexp"><b>Answer: B.</b> Context is the main driver of text-to-SQL accuracy; review is still required.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which command starts Metabase in a container on port 3000?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>docker build metabase</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>docker run -d -p 3000:3000 --name metabase metabase/metabase</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>docker stop metabase</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>metabase install</code></button></div><div class="qexp"><b>Answer: B.</b> <code>-d</code> runs detached and <code>-p 3000:3000</code> maps the port.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which login is safest for an AI tool?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The database owner</button><button type="button" class="opt" data-ok="1"><i>B</i>A read-only user restricted to curated views</button><button type="button" class="opt" data-ok="0"><i>C</i>The admin account</button><button type="button" class="opt" data-ok="0"><i>D</i>An anonymous login</button></div><div class="qexp"><b>Answer: B.</b> Least privilege limits damage if the AI makes a mistake.</div></div><div class="qq"><p class="qtext"><b>4.</b> A generated query averages <code>profit/sales</code> row by row to get a margin. Why is that risky?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is invalid SQL</button><button type="button" class="opt" data-ok="1"><i>B</i>It is an unweighted average of ratios and may not match the business definition SUM(profit)/SUM(sales)</button><button type="button" class="opt" data-ok="0"><i>C</i>It is slower</button><button type="button" class="opt" data-ok="0"><i>D</i>It drops NULLs</button></div><div class="qexp"><b>Answer: B.</b> Weighted vs unweighted aggregates differ; define the metric in the prompt.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is a semantic layer?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A type of chart</button><button type="button" class="opt" data-ok="1"><i>B</i>A governed set of definitions for tables, metrics and relationships that BI and AI tools use</button><button type="button" class="opt" data-ok="0"><i>C</i>A SQL function</button><button type="button" class="opt" data-ok="0"><i>D</i>A backup system</button></div><div class="qexp"><b>Answer: B.</b> It standardises metrics so every query uses the same logic.</div></div><div class="qq"><p class="qtext"><b>6.</b> What should you do before saving an AI-generated Metabase question?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing</button><button type="button" class="opt" data-ok="1"><i>B</i>Read the SQL and reconcile at least one total against a simple independent query</button><button type="button" class="opt" data-ok="0"><i>C</i>Share it with everyone</button><button type="button" class="opt" data-ok="0"><i>D</i>Delete the database</button></div><div class="qexp"><b>Answer: B.</b> Validation protects you from plausible but wrong numbers.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Schema prompt and review</b></div><p>(1) Write a schema prompt for the <code>employees</code> table (HR data: emp_id, gender, age, department, job_title, education, hire_date, years_at_company, monthly_income, job_satisfaction, overtime, performance_rating, city, attrition) including at least three definitions. (2) Ask any AI assistant for a query that returns attrition % by department and overtime. (3) Review the result with the checklist and reconcile the overall attrition % (25.9%) with a simple query.</p><details class="sol"><summary>Show solution</summary><p>Definitions to include: "Attrition %" = employees with attrition = 'Yes' ÷ all employees; <code>monthly_income</code> is in rupees; "tenure band" = 0–2, 3–5, 6+ years. Reconciliation query: <code>SELECT ROUND(100.0 * SUM(CASE WHEN attrition = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 1) FROM employees;</code> should return 25.9. The weighted total from the grouped result (sum of leavers ÷ sum of employees across all groups) must also equal 25.9.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you use AI to speed up SQL work safely?</strong>
+Provide schema, definitions and dialect; generate and explain queries; review for grain, filters and definitions; run read-only with limits; reconcile totals; keep verified queries in a library.</p>
+<p><strong>Q: What is Docker and why is it useful for data tools?</strong>
+A container platform that packages apps with their dependencies so the same setup runs anywhere; useful to spin up Metabase, databases or Jupyter in one command and share reproducible environments.</p>
+<p><strong>Q: What are the risks of connecting an AI assistant to a database?</strong>
+Data exposure to a model provider, destructive queries, wrong answers presented as facts, and prompt injection; mitigate with read-only access to curated views, masking, review and logging.</p>
+<p><strong>Q: What is Metabase?</strong>
+An open-source BI tool where users can ask questions with a visual builder or SQL, build dashboards and share them, with permission control by group.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/copilot-excel">Microsoft Copilot in Excel help ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.metabase.com/docs/latest/">Metabase docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">Anthropic prompt engineering guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Google Prompting guide for Gemini ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html"><small>← Previous</small><b>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI</b></a><a class="next" href="ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html"><small>Next →</small><b>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-text-to-sql">What is text-to-SQL?</a><a href="#reviewing-ai-generated-sql-a-checklist">Reviewing AI-generated SQL: a checklist</a><a href="#guardrails-for-letting-ai-near-a-database">Guardrails for letting AI near a database</a><a href="#docker-running-tools-in-containers">Docker: running tools in containers</a><a href="#metabase-open-source-bi-for-everyone">Metabase: open-source BI for everyone</a><a href="#minusx-an-ai-assistant-inside-your-bi-tool">MinusX: an AI assistant inside your BI tool</a><a href="#other-ways-to-use-ai-with-sql">Other ways to use AI with SQL</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v13"></script><script src="../assets/course.js?v=v13"></script></body></html>

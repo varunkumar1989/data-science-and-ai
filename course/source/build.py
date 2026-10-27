@@ -63,7 +63,7 @@ TRACKS = [
                    ("StrataScratch data interview questions", "https://www.stratascratch.com/")]),
 ]
 TRACK = {t["id"]: t for t in TRACKS}
-BUILD_VER = "v12"
+BUILD_VER = "v13"
 
 # ====================================================================== code highlighting
 KW = {

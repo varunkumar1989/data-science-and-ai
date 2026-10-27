@@ -1,0 +1,343 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents · AI Analytics Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Use AI where analysts work every day. Work with Copilot in Excel (formulas, insights, charts, the COPILOT function), Gemini in Google Sheets and Excel add-ins, Claude and other assistants for formulas and files, Python in Excel, and office agents that perform multi-step tasks, and learn how to prompt, verify and stay safe."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v13"></head><body class="lesson tr-ai-analytics"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ai-analytics">AI for Data Analysis</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#DB2777">AI for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html" data-lid="ai-analytics-01"><span>01</span>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI</a></li><li class=""><a href="ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html" data-lid="ai-analytics-02"><span>02</span>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</a></li><li class="on"><a href="ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html" data-lid="ai-analytics-03"><span>03</span>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</a></li><li class=""><a href="ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html" data-lid="ai-analytics-04"><span>04</span>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ai-analytics-03">
+<div class="lhead" style="--tc:#DB2777"><div class="kick">AI for Data Analysis · Lesson 3 of 4</div><h1>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</h1>
+<p class="sum">Use AI where analysts work every day. Work with Copilot in Excel (formulas, insights, charts, the COPILOT function), Gemini in Google Sheets and Excel add-ins, Claude and other assistants for formulas and files, Python in Excel, and office agents that perform multi-step tasks, and learn how to prompt, verify and stay safe.</p><div class="tags"><span class="tag live">● DVA with AI · class 3</span><span class="tag new">✦ Microsoft 365 Copilot, Gemini and agent features as of 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ai-analytics/AI_Analytics_03_AI_in_Excel_Office_Copilot_Gemini_Claude_Python_in_Excel_Agents.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ai-analytics-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Prepare a workbook so AI tools understand it (Tables, clear headers, no merged cells)</li><li>Use Copilot and Gemini-style assistants to explain, write and debug formulas, create pivots and charts, and summarise data</li><li>Use the Excel COPILOT function and Python in Excel for text, classification and analysis inside cells</li><li>Describe what office agents do and what controls they need</li><li>Verify AI-generated formulas and numbers with independent checks</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="the-ai-in-excel-landscape">The AI-in-Excel landscape</h2>
+<figure class="fig"><img src="../img/ai-analytics-03-01.png" alt="Four ways AI shows up in spreadsheets." loading="lazy"><figcaption>Four ways AI shows up in spreadsheets.</figcaption></figure>
+<h2 id="step-0-make-your-workbook-ai-ready">Step 0: make your workbook AI-ready</h2>
+<p>AI assistants can only reason about data they can <em>see and parse</em>. The same rules that make pivot tables work (Excel Lesson 1) make AI work:</p>
+<ol>
+<li><strong>Convert data to an Excel Table</strong> (<code>Ctrl + T</code>) with a clear name (<code>tblSales</code>) and one header row.</li>
+<li><strong>Descriptive column names</strong> (<code>order_date</code>, <code>sales_inr</code>) instead of <code>Col1</code>; add units.</li>
+<li>No merged cells, blank rows or notes inside the data; keep totals outside.</li>
+<li>One sheet per dataset; a small <strong>Data dictionary</strong> sheet that defines columns and metrics (AI reads it too).</li>
+<li>Remove or mask sensitive columns before connecting an AI service.</li>
+<li>Save to <strong>OneDrive/SharePoint</strong> (Copilot needs cloud-saved files with AutoSave on).</li>
+</ol>
+<h2 id="copilot-in-excel">Copilot in Excel</h2>
+<p><em>Needs a Microsoft 365 Copilot licence and your data formatted as a Table or range with headers.</em></p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Example prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Explain</strong></td>
+<td>"Explain what column H does and how it is calculated"</td>
+</tr>
+<tr>
+<td><strong>Formulas</strong></td>
+<td>"Add a column that shows profit margin %" / "Write a formula that looks up the manager's name from the Managers table"</td>
+</tr>
+<tr>
+<td><strong>Insights</strong></td>
+<td>"Show me insights about sales by region" → Copilot adds pivot tables and charts</td>
+</tr>
+<tr>
+<td><strong>Highlight</strong></td>
+<td>"Highlight rows where discount &gt; 20% and profit is negative" (conditional formatting)</td>
+</tr>
+<tr>
+<td><strong>Sort / filter</strong></td>
+<td>"Sort by sales descending and filter to Technology"</td>
+</tr>
+<tr>
+<td><strong>Pivot &amp; charts</strong></td>
+<td>"Create a pivot table of sales by category and year with YoY %"</td>
+</tr>
+<tr>
+<td><strong>Clean up</strong></td>
+<td>"Fix the inconsistent city names" / "Split full name into first and last name"</td>
+</tr>
+<tr>
+<td><strong>Analyse with Python</strong></td>
+<td>"Run a correlation between discount and profit and plot it" (uses Python in Excel)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>A safe Copilot workflow</b></div><ol>
+<li>Open your workbook (saved in OneDrive) → <strong>Home → Copilot</strong>.</li>
+<li>Select the Table (or let Copilot detect it).</li>
+<li>Ask one thing at a time, with column names: <em>"Add a column margin_pct = profit / sales, formatted as a percentage."</em></li>
+<li><strong>Read the proposed formula</strong> and its explanation before clicking <strong>Insert column</strong>.</li>
+<li>Check three rows by hand, and one total against a plain <code>SUM</code>.</li>
+<li>Undo (<code>Ctrl + Z</code>) if wrong, and rephrase with more detail.</li>
+</ol></div>
+<h3 id="the-copilot-function">The COPILOT() function</h3>
+<p>Microsoft 365 also provides a <strong><code>COPILOT</code> function</strong> that sends text and cell ranges to the model and returns results into cells that <strong>spill and recalculate</strong>:</p>
+<div class="code"><div class="code-h"><span>Excel formula</span><button class="copy" type="button">Copy</button></div><pre><code class="excel">=<span class="hl-f">COPILOT</span>(<span class="hl-s">&quot;Classify this customer review as Positive, Neutral or Negative&quot;</span>, D2:D100)
+=<span class="hl-f">COPILOT</span>(<span class="hl-s">&quot;Summarise the main complaint in 6 words or fewer&quot;</span>, D2)
+=<span class="hl-f">COPILOT</span>(<span class="hl-s">&quot;Extract the city name from this address&quot;</span>, A2)</code></pre></div>
+<p>Use it for text tasks (classify, summarise, extract, translate, tag) over <strong>small to moderate</strong> ranges, not for arithmetic: use normal formulas for numbers. Results can change between recalculations and each call consumes model capacity; availability, limits and licensing change, so check Microsoft's current documentation. Convert important results to values (copy → paste values) once checked.</p>
+<p>Here is the same classify-sentiment idea applied to the product reviews dataset, with the (non-AI) ground-truth labels already in the file, so you can see how to <em>measure</em> an AI's accuracy:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+rev = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;product_reviews.csv&quot;</span>)
+<span class="hl-f">print</span>(rev.shape)
+rev[[<span class="hl-s">&quot;review_id&quot;</span>, <span class="hl-s">&quot;product&quot;</span>, <span class="hl-s">&quot;rating&quot;</span>, <span class="hl-s">&quot;review_text&quot;</span>, <span class="hl-s">&quot;sentiment&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(1200, 5)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>review_id</th>
+      <th>product</th>
+      <th>rating</th>
+      <th>review_text</th>
+      <th>sentiment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Speaker</td>
+      <td>4</td>
+      <td>Very comfortable to use all day</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Smartwatch</td>
+      <td>5</td>
+      <td>Very comfortable to use all day</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Smartphone</td>
+      <td>4</td>
+      <td>Delivery was quick and packaging was neat. great value for money, totally worth it</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Earbuds</td>
+      <td>1</td>
+      <td>Battery drains too fast</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Laptop</td>
+      <td>2</td>
+      <td>Delivery was late and the box was damaged</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>Laptop</td>
+      <td>2</td>
+      <td>Refund process is very slow. heats up a lot while charging</td>
+      <td>negative</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 5 columns</div></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># How would you evaluate an AI classifier? Compare its labels with a trusted label set.</span>
+<span class="hl-c"># Here a deliberately weak keyword rule plays the role of &quot;the AI&quot; so you can see the evaluation method.</span>
+<span class="hl-c"># (These reviews are synthetic and templated, so real reviews will be much harder to classify.)</span>
+neg_words = (<span class="hl-s">&quot;stopped&quot;</span>, <span class="hl-s">&quot;late&quot;</span>, <span class="hl-s">&quot;poor&quot;</span>, <span class="hl-s">&quot;crashing&quot;</span>)          <span class="hl-c"># a deliberately small word list: an imperfect classifier</span>
+pos_words = (<span class="hl-s">&quot;excellent&quot;</span>, <span class="hl-s">&quot;great&quot;</span>, <span class="hl-s">&quot;amazing&quot;</span>, <span class="hl-s">&quot;premium&quot;</span>)
+<span class="hl-k">def</span> <span class="hl-f">guess</span>(t):
+    t = <span class="hl-f">t.lower</span>()
+    n = <span class="hl-f">sum</span>(w <span class="hl-k">in</span> t <span class="hl-k">for</span> w <span class="hl-k">in</span> neg_words); p = <span class="hl-f">sum</span>(w <span class="hl-k">in</span> t <span class="hl-k">for</span> w <span class="hl-k">in</span> pos_words)
+    <span class="hl-k">return</span> <span class="hl-s">&quot;negative&quot;</span> <span class="hl-k">if</span> n &gt; p <span class="hl-k">else</span> (<span class="hl-s">&quot;positive&quot;</span> <span class="hl-k">if</span> p &gt; n <span class="hl-k">else</span> <span class="hl-s">&quot;neutral&quot;</span>)
+rev[<span class="hl-s">&quot;pred&quot;</span>] = <span class="hl-f">rev.review_text.apply</span>(guess)
+acc = (rev.pred == rev.sentiment).<span class="hl-f">mean</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Agreement with trusted labels: {acc:.1%}\n&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">pd.crosstab</span>(rev.sentiment, rev.pred, rownames=[<span class="hl-s">&quot;actual&quot;</span>], colnames=[<span class="hl-s">&quot;predicted&quot;</span>]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Agreement with trusted labels: 56.0%
+
+predicted  negative  neutral  positive
+actual                                
+negative        204      206         0
+neutral           0      175         0
+positive          0      322       293</pre></div>
+<p>The cross-tab (a <strong>confusion matrix</strong>, ML track Lesson 15) shows <em>where</em> a classifier goes wrong. Do the same with an AI column: take 100 reviews you labelled yourself, compare, and only then trust it on 10,000.</p>
+<h2 id="gemini-in-google-sheets-and-with-excel">Gemini in Google Sheets and with Excel</h2>
+<ul>
+<li><strong>Gemini in Google Sheets</strong> (Workspace plans): a side panel that can <em>create tables, write formulas, summarise, generate charts and analyse trends</em>, plus an <strong><code>AI()</code> function</strong> to run a prompt per row (classify, summarise, extract) similar to <code>COPILOT()</code>.</li>
+<li><strong>Gemini and other LLM add-ins for Excel</strong>: some marketplaces offer add-ins or custom functions (for example <code>=GEMINI("prompt", A2)</code>) that call a model through <strong>your own API key</strong>. They are useful for batch text tasks, but you must protect the key, watch the <strong>cost per call</strong>, and avoid sending sensitive data.</li>
+<li><strong>Apps Script / Office Scripts</strong>: AI can write the script; you review and run it.</li>
+</ul>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>API-key hygiene for add-ins</b></div><p>Never paste an API key into a shared workbook or a cell others can read; use the add-in's secure settings, set a <strong>spending limit</strong> on the key, and rotate it if exposed. A key in a shared file is a billing and security incident waiting to happen.</p></div>
+<h2 id="claude-chatgpt-and-other-assistants-with-your-files">Claude, ChatGPT and other assistants with your files</h2>
+<p>Upload a CSV or XLSX to a general assistant that can <strong>run code</strong> (analysis/code-execution tools). It reads the file, writes Python, runs it, and shows charts and tables: closer to an analyst than a chatbot that only talks.</p>
+<p>A good first message with a file:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">I&#x27;ve attached superstore_sales.csv (one row per order line, Jan 2023–Dec 2025, amounts in rupees).
+1) Profile the data: row count, columns and types, missing values, duplicates, date range.
+2) Compute total sales, profit and margin by year and category.
+3) Find the three biggest drivers of low margin; quantify each.
+4) Show your Python code, and tell me which assumptions you made.
+Do not guess: if something cannot be computed from the file, say so.</code></pre></div>
+<p>Typical good behaviour: it prints the profile, shows code, makes charts. What you still do: spot-check numbers, make sure it used the right columns, and ask for the code so you can re-run it yourself. Assistants that run code produce <strong>reproducible</strong> analysis; those that only "think" may fabricate numbers.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Assistant strengths</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Writing and explaining formulas (even <code>LET</code>, <code>LAMBDA</code>, <code>XLOOKUP</code>, array formulas)</td>
+<td>Test on sample rows</td>
+</tr>
+<tr>
+<td>Cleaning plans and Power Query M code</td>
+<td>Preview the result; keep a backup</td>
+</tr>
+<tr>
+<td>Building DAX measures</td>
+<td>Validate against a pivot</td>
+</tr>
+<tr>
+<td>Summarising and drafting commentary</td>
+<td>Verify each number quoted</td>
+</tr>
+<tr>
+<td>Designing dashboards and chart choices</td>
+<td>Compare with your audience's needs</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="python-in-excel">Python in Excel</h2>
+<p><code>=PY(</code> turns a cell into a Python editor (Formulas → Insert Python). It uses <strong>pandas, matplotlib, seaborn, statsmodels and scikit-learn</strong>, runs in Microsoft's secure cloud (no local Python needed), and reads Excel ranges with <code>xl()</code>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">df = <span class="hl-f">xl</span>(<span class="hl-s">&quot;tblSales[#All]&quot;</span>, headers=<span class="hl-k">True</span>)          <span class="hl-c"># Excel Table → pandas DataFrame</span>
+<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[<span class="hl-s">&quot;profit&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>)</code></pre></div>
+<p>Ask Copilot: <em>"Use Python to show the correlation between discount and profit and draw a scatter plot."</em> Behind the scenes it writes the <code>=PY()</code> code. Check what it computed against this handbook's result:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sup = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Correlation discount vs profit margin (lines): {sup.discount.corr(sup.profit / sup.sales):.2f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">sup.groupby</span>(<span class="hl-f">sup.discount.map</span>(<span class="hl-k">lambda</span> d: <span class="hl-s">f&quot;{d:.0%}&quot;</span>)).<span class="hl-f">apply</span>(<span class="hl-k">lambda</span> g: <span class="hl-f">round</span>(<span class="hl-f">g.profit.sum</span>() / <span class="hl-f">g.sales.sum</span>() * <span class="hl-n">100</span>, <span class="hl-n">1</span>)).<span class="hl-f">rename</span>(<span class="hl-s">&quot;margin_%&quot;</span>).<span class="hl-f">to_string</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Correlation discount vs profit margin (lines): -0.91
+discount
+0%     17.5
+10%     5.9
+15%     0.9
+20%    -4.6
+30%   -19.0
+40%   -26.3</pre></div>
+<p>A strong negative correlation, and margin turning negative from a 20% discount upwards: the same story as the SQL and Power BI lessons, arrived at a third way. Cross-checking tools against each other is how you build trust.</p>
+<h2 id="office-agents-the-next-step">Office agents: the next step</h2>
+<p><strong>Agents</strong> go beyond answering: given a goal ("Clean this export, build a pivot by region, add a chart, and draft a three-slide summary"), they <strong>plan, use the spreadsheet or Office apps as tools, check results and iterate</strong>, then present the outcome for your approval. Microsoft, Google, Anthropic, OpenAI and others have all released agent modes for office work; names and capabilities change quickly, so evaluate any specific product (including whichever "Frontier"-style agent your organisation provides) against the questions below.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question to ask about any agent</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What can it <strong>read</strong> and <strong>write</strong>? (files, mail, calendar, web)</td>
+<td>Scope of risk</td>
+</tr>
+<tr>
+<td>Does it <strong>show its plan and steps</strong> and ask before acting?</td>
+<td>Oversight</td>
+</tr>
+<tr>
+<td>Can I <strong>undo</strong> or review changes (version history)?</td>
+<td>Recoverability</td>
+</tr>
+<tr>
+<td>Where does data <strong>go</strong> (tenant, region, retention, training use)?</td>
+<td>Compliance</td>
+</tr>
+<tr>
+<td>How does it handle <strong>untrusted content</strong> (prompt injection in emails/web pages)?</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>Does it produce <strong>formulas and sources</strong> or just pasted values?</td>
+<td>Auditability</td>
+</tr>
+<tr>
+<td>What does it <strong>cost per task</strong>?</td>
+<td>Budget</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/ai-analytics-03-02.png" alt="A safe agent workflow: small steps, visible plan, human approval at risky points, independent checks." loading="lazy"><figcaption>A safe agent workflow: small steps, visible plan, human approval at risky points, independent checks.</figcaption></figure>
+<h2 id="what-ai-does-well-and-badly-in-spreadsheets">What AI does well and badly in spreadsheets</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Strong</th>
+<th>Weak / risky</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explaining unfamiliar formulas and files</td>
+<td>Large-scale precise calculation (use formulas/Python)</td>
+</tr>
+<tr>
+<td>Drafting formulas, DAX, SQL, M code, VBA</td>
+<td>Knowing your <strong>business rules</strong> unless told</td>
+</tr>
+<tr>
+<td>Text tasks: classify, summarise, extract, translate</td>
+<td>Consistent results every time (non-deterministic)</td>
+</tr>
+<tr>
+<td>Suggesting charts and structure</td>
+<td>Hidden assumptions (date ranges, definitions)</td>
+</tr>
+<tr>
+<td>Debugging errors (<code>#N/A</code>, <code>#SPILL!</code>)</td>
+<td>Anything involving <strong>sensitive data</strong> in the wrong tool</td>
+</tr>
+<tr>
+<td>Documentation and commentary</td>
+<td>Replacing review and sign-off</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="a-checklist-before-you-trust-an-ai-built-spreadsheet">A checklist before you trust an AI-built spreadsheet</h2>
+<ol>
+<li>Totals reconcile with the source (<code>SUM</code> of raw vs summary).</li>
+<li>Row counts match (no lost or duplicated rows).</li>
+<li>Formulas are <strong>visible</strong> (not pasted values) and use absolute references correctly.</li>
+<li>Spot-check five random rows by hand.</li>
+<li>Edge cases: blanks, zero, negative, text in number columns, duplicates.</li>
+<li>Units and currency are labelled; dates are real dates.</li>
+<li>Assumptions are written on the sheet.</li>
+<li>A second tool or person confirms the headline number.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Prepare data as <strong>Tables</strong> with clear headers, no merged cells, and a data dictionary; save in the cloud for Copilot.</li>
+<li><strong>Copilot</strong> explains and writes formulas, creates pivots, charts, highlights and cleans data; <code>COPILOT()</code> and Sheets' <code>AI()</code> apply prompts per row for text tasks.</li>
+<li>General assistants that can <strong>run code</strong> make reproducible analyses from uploaded files; always request the code and assumptions.</li>
+<li><strong>Python in Excel</strong> (<code>=PY()</code>) brings pandas into cells; AI can write it, you verify it.</li>
+<li><strong>Agents</strong> plan and act across apps: work on a copy, require visible plans, approvals, undo, audit trail and clear data-handling terms.</li>
+<li>Verify with reconciliation, spot checks, edge cases and a second tool; protect keys and sensitive data.</li>
+</ul></div>
+<div class="quiz" id="quiz-ai-analytics-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What should you do first to help an AI understand your Excel data?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Merge headers</button><button type="button" class="opt" data-ok="1"><i>B</i>Convert it to a clearly named Excel Table with descriptive headers and no merged cells</button><button type="button" class="opt" data-ok="0"><i>C</i>Colour the cells</button><button type="button" class="opt" data-ok="0"><i>D</i>Hide the columns</button></div><div class="qexp"><b>Answer: B.</b> Structured, well-named data is easier for AI (and pivot tables) to use.</div></div><div class="qq"><p class="qtext"><b>2.</b> The COPILOT() function is best used for:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Precise financial arithmetic</button><button type="button" class="opt" data-ok="1"><i>B</i>Text tasks such as classifying, summarising or extracting over a range</button><button type="button" class="opt" data-ok="0"><i>C</i>Replacing SUM</button><button type="button" class="opt" data-ok="0"><i>D</i>Sorting</button></div><div class="qexp"><b>Answer: B.</b> Use normal formulas for numbers; use AI functions for language tasks.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why ask an assistant to show its Python code?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To make the answer longer</button><button type="button" class="opt" data-ok="1"><i>B</i>So the analysis is reproducible and can be checked</button><button type="button" class="opt" data-ok="0"><i>C</i>Because code is always correct</button><button type="button" class="opt" data-ok="0"><i>D</i>To avoid cleaning data</button></div><div class="qexp"><b>Answer: B.</b> Visible code lets you verify and re-run the work.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which is a sensible control for an office agent?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Let it edit the live file without review</button><button type="button" class="opt" data-ok="1"><i>B</i>Run it on a copy, review its plan and outputs, and keep version history</button><button type="button" class="opt" data-ok="0"><i>C</i>Give it all passwords</button><button type="button" class="opt" data-ok="0"><i>D</i>Disable logging</button></div><div class="qexp"><b>Answer: B.</b> Human oversight and recoverability are essential.</div></div><div class="qq"><p class="qtext"><b>5.</b> An AI classifier labels reviews; how do you measure its quality?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Read three results</button><button type="button" class="opt" data-ok="1"><i>B</i>Compare its labels with a trusted labelled sample and look at accuracy and the confusion matrix</button><button type="button" class="opt" data-ok="0"><i>C</i>Use temperature 1.0</button><button type="button" class="opt" data-ok="0"><i>D</i>Ask it if it is right</button></div><div class="qexp"><b>Answer: B.</b> Evaluate against ground truth, not self-reports.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where should an API key for an Excel add-in be stored?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In a visible cell</button><button type="button" class="opt" data-ok="1"><i>B</i>In the add-in's secure settings with a spending limit</button><button type="button" class="opt" data-ok="0"><i>C</i>In the sheet name</button><button type="button" class="opt" data-ok="0"><i>D</i>In an email</button></div><div class="qexp"><b>Answer: B.</b> Keys in shared files can be abused and billed to you.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>AI-assisted analysis, verified</b></div><p>Using <code>superstore_sales.csv</code>: (1) ask an AI assistant with code execution to profile the data and compute margin by category and discount band; (2) write the pivot table version yourself; (3) compare the two and list any differences; (4) create three <code>COPILOT()</code>-style prompts (or Gemini <code>AI()</code> prompts) for a column of customer comments, and say how you would evaluate them on 50 labelled examples.</p><details class="sol"><summary>Show solution</summary><p>Expected margins by discount band: 0% → 17.5%, 1–20% → 1.2%, &gt;20% → −20.6% (overall 9.1%). Differences usually come from averaging margins instead of total profit ÷ total sales, or from using order lines versus orders. Prompts: "Classify as Positive, Neutral or Negative (one word)"; "Extract the product mentioned (or 'none')"; "Summarise the complaint in under 8 words". Evaluation: label 50 comments yourself, run the prompt, compute accuracy and a confusion matrix, inspect errors, refine the prompt, and re-test on a fresh sample.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you use AI tools to speed up Excel analysis responsibly?</strong>
+Prepare structured data, ask specific questions, review generated formulas and pivots, reconcile totals, document assumptions, keep sensitive data out of unapproved tools, and keep a human sign-off.</p>
+<p><strong>Q: What is Python in Excel?</strong>
+A feature that runs Python (pandas, matplotlib, scikit-learn) in cells via <code>=PY()</code>, in a secure cloud, reading Excel ranges with <code>xl()</code>, useful for analysis and charts that are hard with formulas.</p>
+<p><strong>Q: What is an AI agent in an office context and what are its risks?</strong>
+A system that plans and executes multi-step tasks using apps and files; risks include wrong actions, data leakage, prompt injection and lack of audit; mitigate with scoped permissions, approvals, copies and logs.</p>
+<p><strong>Q: How do you check an AI-generated formula?</strong>
+Test on a few rows including edge cases, compare totals with a simple independent calculation, read the formula's explanation, and make sure references and units are right.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/copilot-excel">Microsoft Copilot in Excel help ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.metabase.com/docs/latest/">Metabase docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">Anthropic prompt engineering guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Google Prompting guide for Gemini ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html"><small>← Previous</small><b>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</b></a><a class="next" href="ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html"><small>Next →</small><b>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-ai-in-excel-landscape">The AI-in-Excel landscape</a><a href="#step-0-make-your-workbook-ai-ready">Step 0: make your workbook AI-ready</a><a href="#copilot-in-excel">Copilot in Excel</a><a href="#gemini-in-google-sheets-and-with-excel">Gemini in Google Sheets and with Excel</a><a href="#claude-chatgpt-and-other-assistants-with-your-files">Claude, ChatGPT and other assistants with your files</a><a href="#python-in-excel">Python in Excel</a><a href="#office-agents-the-next-step">Office agents: the next step</a><a href="#what-ai-does-well-and-badly-in-spreadsheets">What AI does well and badly in spreadsheets</a><a href="#a-checklist-before-you-trust-an-ai-built-spreadsheet">A checklist before you trust an AI-built spreadsheet</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v13"></script><script src="../assets/course.js?v=v13"></script></body></html>

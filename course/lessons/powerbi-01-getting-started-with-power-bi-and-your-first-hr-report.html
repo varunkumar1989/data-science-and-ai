@@ -1,0 +1,467 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Getting Started with Power BI &amp; Your First HR Report · Power BI Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand what Power BI is and how its parts fit together, install Power BI Desktop, tour the three views, follow the ETL and analytics stages, and build a complete first report on HR data: cards, bar and column charts, a donut, slicers, a year column with DAX, groups and small multiples."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v13"></head><body class="lesson tr-powerbi"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-powerbi">Power BI</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E2A400">Power BI</div>
+<ol class="side-l"><li class="on"><a href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html" data-lid="powerbi-01"><span>01</span>Getting Started with Power BI &amp; Your First HR Report</a></li><li class=""><a href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html" data-lid="powerbi-02"><span>02</span>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</a></li><li class=""><a href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html" data-lid="powerbi-03"><span>03</span>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</a></li><li class=""><a href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html" data-lid="powerbi-04"><span>04</span>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</a></li><li class=""><a href="powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html" data-lid="powerbi-05"><span>05</span>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</a></li><li class=""><a href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html" data-lid="powerbi-06"><span>06</span>Power BI Service, Connectivity Modes, Security &amp; Capstone</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="powerbi-01">
+<div class="lhead" style="--tc:#E2A400"><div class="kick">Power BI · Lesson 1 of 6</div><h1>Getting Started with Power BI &amp; Your First HR Report</h1>
+<p class="sum">Understand what Power BI is and how its parts fit together, install Power BI Desktop, tour the three views, follow the ETL and analytics stages, and build a complete first report on HR data: cards, bar and column charts, a donut, slicers, a year column with DAX, groups and small multiples.</p><div class="tags"><span class="tag live">● Power BI class 1</span><span class="tag new">✦ Power BI Desktop 2026 (Copilot, Fabric, PBIP)</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/powerbi/Power_BI_01_Getting_Started_with_Power_BI_Your_First_HR_Report.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="powerbi-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Describe Power BI Desktop, the Service and Mobile, and how data flows between them</li><li>Explain ETL and the stages of the data-analytics process, and map them to Power BI tools</li><li>Navigate Report, Table and Model views, and the Fields, Visualizations and Filters panes</li><li>Load a CSV, check data types and build cards, bar/column charts, a matrix, a donut and slicers</li><li>Add a calculated column with DAX (YEAR), create data groups, and use small multiples</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-power-bi">What is Power BI?</h2>
+<p><strong>Power BI</strong> is Microsoft's business-intelligence platform: it connects to data, cleans and models it, and turns it into interactive reports and dashboards that people can share. In 2026 it is part of <strong>Microsoft Fabric</strong>, Microsoft's all-in-one analytics platform, and it is one of the most requested tools in analyst job posts, alongside Excel, SQL and Tableau.</p>
+<figure class="fig"><img src="../img/powerbi-01-01.png" alt="The Power BI components. You build in Desktop, publish to the Service, and consume on the web or mobile." loading="lazy"><figcaption>The Power BI components. You build in Desktop, publish to the Service, and consume on the web or mobile.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Component</th>
+<th>What it is</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Power BI Desktop</strong></td>
+<td>Free Windows application to build data models and reports (<code>.pbix</code>)</td>
+<td>Analysts, developers</td>
+</tr>
+<tr>
+<td><strong>Power BI Service</strong> (app.powerbi.com)</td>
+<td>Cloud site to publish, share, schedule refresh, create dashboards and apps</td>
+<td>Analysts and report consumers</td>
+</tr>
+<tr>
+<td><strong>Power BI Mobile</strong></td>
+<td>iOS/Android apps to view reports and get alerts</td>
+<td>Managers on the go</td>
+</tr>
+<tr>
+<td><strong>Power BI Report Builder</strong></td>
+<td>Paginated, print-ready reports (invoices, statements)</td>
+<td>Report developers</td>
+</tr>
+<tr>
+<td><strong>On-premises data gateway</strong></td>
+<td>Secure bridge so the cloud can refresh data from your own servers</td>
+<td>Admins</td>
+</tr>
+<tr>
+<td><strong>Power BI Report Server</strong></td>
+<td>Self-hosted option for organisations that cannot use the cloud</td>
+<td>IT</td>
+</tr>
+<tr>
+<td><strong>Copilot</strong></td>
+<td>AI assistant that writes DAX, builds report pages and summarises insights (needs a Fabric/Premium capacity)</td>
+<td>Everyone</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Report vs dashboard</b></div><p>In Power BI a <strong>report</strong> is one or more pages of interactive visuals built on a data model. A <strong>dashboard</strong> (Service only) is a single page of <strong>pinned tiles</strong> from different reports. Many teams use reports only, or share them as an <strong>app</strong>.</p></div>
+<h3 id="licences-in-brief">Licences in brief</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Licence</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power BI Desktop</td>
+<td>Free: build and save locally</td>
+</tr>
+<tr>
+<td>Free (Service)</td>
+<td>Personal use in "My workspace"; cannot share with others</td>
+</tr>
+<tr>
+<td><strong>Pro</strong></td>
+<td>Publish and share with other Pro users (about US$14 per user per month)</td>
+</tr>
+<tr>
+<td><strong>Premium Per User / Fabric capacity</strong></td>
+<td>Larger models, AI features, share with free users</td>
+</tr>
+</tbody>
+</table></div>
+<p>(Prices change; check Microsoft's current pricing page.)</p>
+<h2 id="installing-power-bi-desktop">Installing Power BI Desktop</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Install</b></div><ol>
+<li><strong>Easiest:</strong> open the <strong>Microsoft Store</strong>, search "Power BI Desktop" and click Install (it updates itself every month).</li>
+<li>Or download it from the Microsoft Power BI website → Download → Power BI Desktop.</li>
+<li>Requirements: Windows 10/11 (64-bit), 4 GB+ RAM (8 GB+ recommended). <strong>There is no Mac version</strong>: Mac users can use the Service in a browser, a Windows virtual machine, or Windows 365.</li>
+<li>Start the app and sign in with a work or school account (optional for building locally).</li>
+</ol></div>
+<h2 id="the-three-views">The three views</h2>
+<figure class="fig"><img src="../img/powerbi-01-02.png" alt="The Power BI Desktop window: left rail with three views, canvas in the middle, panes on the right." loading="lazy"><figcaption>The Power BI Desktop window: left rail with three views, canvas in the middle, panes on the right.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>View</th>
+<th>Icon</th>
+<th>Use it to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Report</strong></td>
+<td>bar chart</td>
+<td>Design the report pages</td>
+</tr>
+<tr>
+<td><strong>Table</strong> (Data)</td>
+<td>grid</td>
+<td>Inspect the data and create calculated columns and measures</td>
+</tr>
+<tr>
+<td><strong>Model</strong></td>
+<td>diagram</td>
+<td>See and edit <strong>relationships</strong> between tables</td>
+</tr>
+<tr>
+<td><strong>DAX query view</strong></td>
+<td><code>{ }</code></td>
+<td>Run DAX queries and test measures</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="etl-and-the-analytics-process">ETL and the analytics process</h2>
+<p><strong>ETL</strong> = <strong>E</strong>xtract (get data from sources), <strong>T</strong>ransform (clean and reshape it), <strong>L</strong>oad (store it in the model). In Power BI, Extract and Transform are done in <strong>Power Query</strong>, and Load puts the result into the data model. (You met Power Query in Excel Lesson 12: it is the same engine.)</p>
+<figure class="fig"><img src="../img/powerbi-01-03.png" alt="The data analytics stages, mapped to Power BI." loading="lazy"><figcaption>The data analytics stages, mapped to Power BI.</figcaption></figure>
+<p>Always start with the <strong>question</strong>: "Why are people leaving?" decides which data and visuals you need. The worst Power BI reports are tours of every chart type with no question.</p>
+<h2 id="your-first-report-hr-attrition">Your first report: HR attrition</h2>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The brief</b></div><p>HR wants a one-page report on the company's 1,500 employees: how many there are, how many left (attrition), where attrition is highest, and whether overtime, job satisfaction or income play a role. Use <code>hr_employees.csv</code>.</p></div>
+<p>The data (first rows):</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+hr = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;hr_employees.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;hire_date&quot;</span>])
+<span class="hl-f">print</span>(hr.shape)
+<span class="hl-f">hr.head</span>(<span class="hl-n">5</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(1500, 15)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>emp_id</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>department</th>
+      <th>job_title</th>
+      <th>education</th>
+      <th>hire_date</th>
+      <th>years_at_company</th>
+      <th>monthly_income</th>
+      <th>job_satisfaction</th>
+      <th>overtime</th>
+      <th>distance_from_home_km</th>
+      <th>performance_rating</th>
+      <th>city</th>
+      <th>attrition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>E00001</td>
+      <td>Male</td>
+      <td>39</td>
+      <td>Operations</td>
+      <td>Operations Manager</td>
+      <td>Bachelor's</td>
+      <td>2025-05-26</td>
+      <td>0</td>
+      <td>74500</td>
+      <td>2</td>
+      <td>Yes</td>
+      <td>28</td>
+      <td>3</td>
+      <td>Bengaluru</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>E00002</td>
+      <td>Female</td>
+      <td>45</td>
+      <td>IT</td>
+      <td>Tester</td>
+      <td>Bachelor's</td>
+      <td>2020-10-17</td>
+      <td>5</td>
+      <td>61417</td>
+      <td>1</td>
+      <td>No</td>
+      <td>25</td>
+      <td>3</td>
+      <td>Mumbai</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>E00003</td>
+      <td>Male</td>
+      <td>41</td>
+      <td>IT</td>
+      <td>Tester</td>
+      <td>Bachelor's</td>
+      <td>2019-05-06</td>
+      <td>6</td>
+      <td>59167</td>
+      <td>4</td>
+      <td>Yes</td>
+      <td>18</td>
+      <td>4</td>
+      <td>Bengaluru</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>E00004</td>
+      <td>Male</td>
+      <td>21</td>
+      <td>R&amp;D</td>
+      <td>Data Scientist</td>
+      <td>Bachelor's</td>
+      <td>2025-08-23</td>
+      <td>0</td>
+      <td>51500</td>
+      <td>4</td>
+      <td>No</td>
+      <td>28</td>
+      <td>1</td>
+      <td>Mumbai</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>E00005</td>
+      <td>Male</td>
+      <td>41</td>
+      <td>Sales</td>
+      <td>Sales Executive</td>
+      <td>Master's</td>
+      <td>2015-08-24</td>
+      <td>10</td>
+      <td>128333</td>
+      <td>1</td>
+      <td>No</td>
+      <td>3</td>
+      <td>2</td>
+      <td>Pune</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 15 columns</div></div>
+<h3 id="step-1-get-the-data">Step 1: get the data</h3>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Load the CSV</b></div><ol>
+<li>Home → <strong>Get data → Text/CSV</strong> → choose <code>hr_employees.csv</code>.</li>
+<li>The preview shows the columns and detected data types. Click <strong>Transform Data</strong> (not Load) to check types in Power Query.</li>
+<li>Confirm: <code>age</code>, <code>years_at_company</code>, <code>monthly_income</code>, <code>job_satisfaction</code>, <code>performance_rating</code> are whole numbers; <code>hire_date</code> is <strong>Date</strong>; the rest are text.</li>
+<li>Home → <strong>Close &amp; Apply</strong>.</li>
+</ol></div>
+<p>In the Data pane you now see the table <code>hr_employees</code> with a <strong>Σ</strong> next to numeric fields (they can be summed) and no symbol next to text fields.</p>
+<h3 id="step-2-kpi-cards">Step 2: KPI cards</h3>
+<p>Drag fields onto the canvas, then choose the <strong>Card</strong> visual:</p>
+<ul>
+<li><strong>Employees</strong> = Count of <code>emp_id</code></li>
+<li><strong>Attrition (leavers)</strong>: use a measure (Lesson 3 explains measures): <code>Leavers = CALCULATE ( COUNTROWS ( hr_employees ), hr_employees[attrition] = "Yes" )</code></li>
+<li><strong>Attrition %</strong> = <code>DIVIDE ( [Leavers], COUNTROWS ( hr_employees ) )</code>, formatted as a percentage</li>
+<li><strong>Average monthly income</strong> = Average of <code>monthly_income</code></li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">n = <span class="hl-f">len</span>(hr); leavers = (hr.attrition == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Employees      : {n:,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Leavers        : {leavers:,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Attrition %    : {leavers / n:.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Avg income (₹) : {hr.monthly_income.mean():,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Employees      : 1,500
+Leavers        : 389
+Attrition %    : 25.9%
+Avg income (₹) : 82,611</pre></div>
+<h3 id="step-3-bar-column-and-donut-charts">Step 3: bar, column and donut charts</h3>
+<ul>
+<li><strong>Clustered bar chart</strong>: Y-axis <code>department</code>, X-axis = <code>Attrition %</code> → ranks departments.</li>
+<li><strong>Clustered column chart</strong>: X-axis <code>job_satisfaction</code>, Y-axis <code>Attrition %</code>.</li>
+<li><strong>Donut chart</strong>: Legend <code>attrition</code>, Values = count of <code>emp_id</code>.</li>
+<li><strong>Matrix</strong>: Rows <code>department</code>, Columns <code>overtime</code>, Values <code>Attrition %</code> (turns into a heat map with conditional formatting, Lesson 5).</li>
+<li><strong>Slicers</strong>: <code>gender</code>, <code>education</code>, <code>city</code>.</li>
+</ul>
+<figure class="fig"><img src="../img/powerbi-01-04.png" alt="The finished HR page, drawn from the real data: KPI cards, attrition by department, by satisfaction and overtime, and the leaver/stayer donut." loading="lazy"><figcaption>The finished HR page, drawn from the real data: KPI cards, attrition by department, by satisfaction and overtime, and the leaver/stayer donut.</figcaption></figure>
+<h3 id="step-4-a-calculated-column-with-dax">Step 4: a calculated column with DAX</h3>
+<p>We want to see joining trends by year, but the table has only <code>hire_date</code>. Add a <strong>calculated column</strong>: Table view (or Modeling) → <strong>New column</strong>:</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Hire Year = YEAR ( hr_employees[hire_date] )</code></pre></div>
+<p>A calculated column is evaluated <strong>row by row when the data loads</strong> and stored in the model, just like a new column in Excel. Now a line/column chart of <strong>headcount by hire year</strong> works:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">hr[<span class="hl-s">&quot;hire_year&quot;</span>] = hr.hire_date.dt.year
+by_year = <span class="hl-f">hr.groupby</span>(<span class="hl-s">&quot;hire_year&quot;</span>).<span class="hl-f">agg</span>(hired=(<span class="hl-s">&quot;emp_id&quot;</span>, <span class="hl-s">&quot;count&quot;</span>), left=(<span class="hl-s">&quot;left&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+by_year[<span class="hl-s">&quot;attrition_%&quot;</span>] = (by_year.left / by_year.hired * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">by_year.tail</span>(<span class="hl-n">8</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hired</th>
+      <th>left</th>
+      <th>attrition_%</th>
+    </tr>
+    <tr>
+      <th>hire_year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019</th>
+      <td>82</td>
+      <td>16</td>
+      <td>19.5</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>85</td>
+      <td>20</td>
+      <td>23.5</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>120</td>
+      <td>22</td>
+      <td>18.3</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>136</td>
+      <td>35</td>
+      <td>25.7</td>
+    </tr>
+    <tr>
+      <th>2023</th>
+      <td>196</td>
+      <td>60</td>
+      <td>30.6</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>234</td>
+      <td>71</td>
+      <td>30.3</td>
+    </tr>
+    <tr>
+      <th>2025</th>
+      <td>284</td>
+      <td>93</td>
+      <td>32.7</td>
+    </tr>
+    <tr>
+      <th>2026</th>
+      <td>64</td>
+      <td>17</td>
+      <td>26.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 3 columns</div></div>
+<h3 id="step-5-data-groups-and-bins">Step 5: data groups and bins</h3>
+<p>Groups combine values into custom categories, such as the "age band" below, without changing the source data:</p>
+<ul>
+<li><strong>Bins</strong> (numbers): right-click the field → <strong>New group</strong> → Group type <em>Bin</em> → bin size 5 → creates <code>age (bins)</code>.</li>
+<li><strong>List groups</strong> (text): select several values → right-click → <strong>Group</strong> → rename, for example group <em>Mumbai</em> and <em>Pune</em> as "Maharashtra".</li>
+</ul>
+<p>For flexible logic, a calculated column is more transparent:</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Age Band =
+SWITCH (
+    <span class="hl-k">TRUE</span> (),
+    hr_employees[age] &lt; <span class="hl-n">25</span>, <span class="hl-s">&quot;Under 25&quot;</span>,
+    hr_employees[age] &lt; <span class="hl-n">35</span>, <span class="hl-s">&quot;25–34&quot;</span>,
+    hr_employees[age] &lt; <span class="hl-n">45</span>, <span class="hl-s">&quot;35–44&quot;</span>,
+    <span class="hl-s">&quot;45 and over&quot;</span>
+)</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">bands = <span class="hl-f">pd.cut</span>(hr.age, [<span class="hl-n">0</span>, <span class="hl-n">24</span>, <span class="hl-n">34</span>, <span class="hl-n">44</span>, <span class="hl-n">120</span>], labels=[<span class="hl-s">&quot;Under 25&quot;</span>, <span class="hl-s">&quot;25–34&quot;</span>, <span class="hl-s">&quot;35–44&quot;</span>, <span class="hl-s">&quot;45 and over&quot;</span>])
+<span class="hl-f">hr.groupby</span>(bands, observed=<span class="hl-k">False</span>).<span class="hl-f">agg</span>(employees=(<span class="hl-s">&quot;emp_id&quot;</span>, <span class="hl-s">&quot;count&quot;</span>), attrition_pct=(<span class="hl-s">&quot;left&quot;</span>, <span class="hl-k">lambda</span> s: <span class="hl-f">round</span>(<span class="hl-f">s.mean</span>() * <span class="hl-n">100</span>, <span class="hl-n">1</span>)))</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>employees</th>
+      <th>attrition_pct</th>
+    </tr>
+    <tr>
+      <th>age</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Under 25</th>
+      <td>148</td>
+      <td>35.1</td>
+    </tr>
+    <tr>
+      <th>25–34</th>
+      <td>624</td>
+      <td>26.9</td>
+    </tr>
+    <tr>
+      <th>35–44</th>
+      <td>574</td>
+      <td>23.5</td>
+    </tr>
+    <tr>
+      <th>45 and over</th>
+      <td>154</td>
+      <td>22.1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<h3 id="step-6-small-multiples">Step 6: small multiples</h3>
+<p><strong>Small multiples</strong> split one visual into a grid of identical mini-charts by a field. Drag <code>department</code> into the visual's <strong>Small multiples</strong> well: you get one small column chart of attrition by satisfaction for every department. This lets you compare patterns across groups at a glance without a cluttered legend.</p>
+<figure class="fig"><img src="../img/powerbi-01-05.png" alt="Small multiples: attrition % by overtime for each department. The same pattern repeats everywhere, which says overtime is a company-wide issue, not a one-department issue." loading="lazy"><figcaption>Small multiples: attrition % by overtime for each department. The same pattern repeats everywhere, which says overtime is a company-wide issue, not a one-department issue.</figcaption></figure>
+<h3 id="what-does-the-report-tell-us">What does the report tell us?</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">t = <span class="hl-f">hr.groupby</span>(<span class="hl-s">&quot;overtime&quot;</span>).<span class="hl-f">left.agg</span>([<span class="hl-s">&quot;count&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>]); t[<span class="hl-s">&quot;mean&quot;</span>] = (t[<span class="hl-s">&quot;mean&quot;</span>] * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+t.columns = [<span class="hl-s">&quot;employees&quot;</span>, <span class="hl-s">&quot;attrition_%&quot;</span>]
+<span class="hl-f">print</span>(<span class="hl-f">t.to_string</span>()); <span class="hl-f">print</span>()
+low = hr[hr.job_satisfaction &lt;= <span class="hl-n">2</span>].<span class="hl-f">left.mean</span>() * <span class="hl-n">100</span>; high = hr[hr.job_satisfaction &gt;= <span class="hl-n">3</span>].<span class="hl-f">left.mean</span>() * <span class="hl-n">100</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Attrition for satisfaction 1–2: {low:.1f}%   vs   3–4: {high:.1f}%&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">          employees  attrition_%
+overtime                        
+No             1067         21.6
+Yes             433         36.7
+
+Attrition for satisfaction 1–2: 32.5%   vs   3–4: 19.4%</pre></div>
+<p>Insight sentences for a manager: <em>overtime workers leave far more often than others; low satisfaction scores go with higher attrition; Sales has the highest attrition among departments</em>. Notice the careful wording: these are <strong>associations</strong> in the data, not proof of cause. (The ML track shows how to test them properly.)</p>
+<h2 id="good-habits-from-day-one">Good habits from day one</h2>
+<ol>
+<li><strong>Name things clearly</strong>: <code>Attrition %</code>, not <code>Measure 3</code>; rename pages ("HR Overview").</li>
+<li><strong>Put measures in a dedicated table</strong> later (Lesson 3) and format them (percentage, thousands separator).</li>
+<li><strong>Check data types</strong> in Power Query before loading.</li>
+<li><strong>One idea per page</strong>; the title should say the insight.</li>
+<li><strong>Save often</strong> (<code>.pbix</code>), and use clear version names.</li>
+<li><strong>Do not use pie charts</strong> with many slices; prefer bars (ranked) and use donuts only for 2–3 parts.</li>
+</ol>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Power BI in 2026</b></div><ul>
+<li><strong>Copilot</strong> can create a report page from a prompt ("Build an attrition overview for HR"), write DAX measures and summarise a page. It needs a paid Fabric/Premium capacity and your data to be well-modelled and named.</li>
+<li><strong>Power BI Project (PBIP)</strong> format stores the report as text files, so teams can use <strong>Git</strong> and code review.</li>
+<li><strong>TMDL</strong> (Tabular Model Definition Language) and <strong>DAX query view</strong> make models easier to script and test.</li>
+<li><strong>Direct Lake</strong> (Fabric) reads Delta tables directly with import-like speed.
+(See Lesson 6.)</li>
+</ul></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Power BI = Desktop (build) + Service (share) + Mobile (consume), now inside Microsoft Fabric.</li>
+<li>ETL: <strong>Extract and Transform in Power Query, Load into the model</strong>; analytics stages run from question to decision.</li>
+<li>Three views: <strong>Report</strong>, <strong>Table</strong>, <strong>Model</strong>; build with the Fields, Visualizations and Filters panes.</li>
+<li>A <strong>card</strong> shows a KPI; bar/column charts compare categories; a donut shows 2–3 parts; a matrix is a pivot table; slicers filter.</li>
+<li>A DAX <strong>calculated column</strong> (<code>YEAR</code>, <code>SWITCH</code>) is computed row by row at load time; <strong>groups/bins</strong> categorise without changing the data; <strong>small multiples</strong> repeat a chart per category.</li>
+</ul></div>
+<div class="quiz" id="quiz-powerbi-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In Power BI, where do you perform the Extract and Transform steps of ETL?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Report view</button><button type="button" class="opt" data-ok="1"><i>B</i>Power Query</button><button type="button" class="opt" data-ok="0"><i>C</i>The Service</button><button type="button" class="opt" data-ok="0"><i>D</i>The Model view</button></div><div class="qexp"><b>Answer: B.</b> Power Query connects to sources and transforms data; Close &amp; Apply loads it into the model.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which view shows relationships between tables?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Report view</button><button type="button" class="opt" data-ok="0"><i>B</i>Table view</button><button type="button" class="opt" data-ok="1"><i>C</i>Model view</button><button type="button" class="opt" data-ok="0"><i>D</i>Filters pane</button></div><div class="qexp"><b>Answer: C.</b> Relationships are created and edited in Model view.</div></div><div class="qq"><p class="qtext"><b>3.</b> Power BI Desktop is available for:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Windows and Mac</button><button type="button" class="opt" data-ok="1"><i>B</i>Windows only</button><button type="button" class="opt" data-ok="0"><i>C</i>Mac only</button><button type="button" class="opt" data-ok="0"><i>D</i>Browsers only</button></div><div class="qexp"><b>Answer: B.</b> Desktop is Windows-only; Mac users use the Service or a Windows virtual machine.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does a calculated column do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Runs only when a slicer changes</button><button type="button" class="opt" data-ok="1"><i>B</i>Computes a value for every row when the data is loaded and stores it in the model</button><button type="button" class="opt" data-ok="0"><i>C</i>Replaces a measure</button><button type="button" class="opt" data-ok="0"><i>D</i>Changes the source file</button></div><div class="qexp"><b>Answer: B.</b> Calculated columns are row-by-row and stored; measures calculate on the fly.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which visual repeats the same chart for every value of a field?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Matrix</button><button type="button" class="opt" data-ok="0"><i>B</i>Slicer</button><button type="button" class="opt" data-ok="1"><i>C</i>Small multiples</button><button type="button" class="opt" data-ok="0"><i>D</i>Card</button></div><div class="qexp"><b>Answer: C.</b> Small multiples create a grid of mini-charts split by a category.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which licence do you need to share a report with colleagues who also have Pro licences?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>None, Desktop is enough</button><button type="button" class="opt" data-ok="0"><i>B</i>Free Service licence</button><button type="button" class="opt" data-ok="1"><i>C</i>Power BI Pro (or Premium Per User)</button><button type="button" class="opt" data-ok="0"><i>D</i>Gateway licence</button></div><div class="qexp"><b>Answer: C.</b> Sharing in the Service requires Pro for creators and viewers (unless the workspace is on Premium/Fabric capacity).</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build the HR page</b></div><p>Build the page shown above in Power BI Desktop with <code>hr_employees.csv</code>. Then add: (1) a slicer for <code>city</code> and <code>gender</code>; (2) a matrix of attrition % by <code>job_title</code> and <code>education</code>; (3) an <code>Age Band</code> column and a column chart of attrition % by band; (4) a title text box that states your main finding.</p><details class="sol"><summary>Show solution</summary><p>(1) Slicer visual, fields <code>city</code>, <code>gender</code> (Format → Slicer settings → Style: Tile or Dropdown). (2) Matrix: Rows <code>job_title</code>, Columns <code>education</code>, Values <code>Attrition %</code> (turn on Cell elements → Background colour for a heat map). (3) Use the <code>SWITCH</code> formula in this lesson; chart X-axis <code>Age Band</code>, Y-axis <code>Attrition %</code>; sort the axis in the right order using a sort-by-column. (4) Insert → Text box, for example "Overtime roughly doubles attrition in every department." Verify the claim against your visuals before you publish.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between Power BI Desktop and Service?</strong>
+Desktop is the free authoring tool for models and reports on Windows; the Service is the cloud platform to publish, share, refresh on a schedule, build dashboards and apps, and apply security.</p>
+<p><strong>Q: What is ETL and where is it done in Power BI?</strong>
+Extract, Transform, Load: Power Query connects to sources and applies transformation steps; the result is loaded into the VertiPaq in-memory model.</p>
+<p><strong>Q: Calculated column vs measure?</strong>
+A calculated column is evaluated per row at refresh time and stored (uses memory); a measure is evaluated at query time in the current filter context (uses CPU). Use measures for aggregations such as sums and ratios.</p>
+<p><strong>Q: Report vs dashboard?</strong>
+A report is multi-page and interactive, built on one model. A dashboard is a single page of pinned tiles from several reports, available only in the Service.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/career-paths/data-analyst">Microsoft Learn: Power BI data analyst path (PL-300) ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://dax.guide/">DAX Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.sqlbi.com/">SQLBI articles and videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets">Power BI sample datasets (Microsoft) ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html"><small>Next →</small><b>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-power-bi">What is Power BI?</a><a href="#installing-power-bi-desktop">Installing Power BI Desktop</a><a href="#the-three-views">The three views</a><a href="#etl-and-the-analytics-process">ETL and the analytics process</a><a href="#your-first-report-hr-attrition">Your first report: HR attrition</a><a href="#good-habits-from-day-one">Good habits from day one</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v13"></script><script src="../assets/course.js?v=v13"></script></body></html>
