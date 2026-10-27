@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Python for Data Science · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#7C3AED"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 5</div><h1>Python for Data Science</h1><p>Python from zero: data types, control flow, data structures, functions, OOP, files, NumPy, pandas, visualisation, dates, SQL connections, EDA and DSA for data roles.</p>
-<div class="cv-m"><span>10 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li><a href="#L-python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li><a href="#L-python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li><a href="#L-python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li><a href="#L-python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li><a href="#L-python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li><a href="#L-python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li><a href="#L-python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li><a href="#L-python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li><a href="#L-python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li></ol></section><article class="lesson-art bk" id="L-python-01"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 1</div><h1>Introduction to Python: Why, Install &amp; Jupyter Notebooks</h1>
+<div class="cv-m"><span>11 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li><a href="#L-python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li><a href="#L-python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li><a href="#L-python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li><a href="#L-python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li><a href="#L-python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li><a href="#L-python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li><a href="#L-python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li><a href="#L-python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li><a href="#L-python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li><a href="#L-python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li></ol></section><article class="lesson-art bk" id="L-python-01"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 1</div><h1>Introduction to Python: Why, Install &amp; Jupyter Notebooks</h1>
 <p class="sum">Learn what programming and Python are, how Python compares with other languages, how code runs (interpreters, compilers, bytecode), the properties of Python, and set up your environment (Anaconda, VS Code, Jupyter, Google Colab). Write and run your first cells, with markdown, magic commands and good notebook habits.</p><div class="tags"><span class="tag live">● Python class 1</span><span class="tag new">✦ Python 3.13, Jupyter, VS Code, Google Colab (2026)</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what a programming language is and why Python is the default language for data work</li><li>Describe the difference between compiled and interpreted languages and how Python runs your code</li><li>Install Python and Jupyter (or use Google Colab) and run code in cells</li><li>Use Markdown cells, keyboard shortcuts, magic commands and restart-and-run-all</li><li>Follow good habits: naming, comments, reproducibility and virtual environments</li></ul></div></div><div class="content"><h2 id="python-01-what-is-programming">What is programming?</h2>
 <p>A <strong>program</strong> is a set of precise instructions a computer follows. Computers only understand machine code (0s and 1s), so we write instructions in a <strong>programming language</strong> that humans can read, and a translator turns them into something the machine can run.</p>
@@ -2636,4 +2636,301 @@ When logic needs several statements, side effects, or deep nesting; readability 
 <p><strong>Q: What does <code>yield</code> do?</strong>
 It turns a function into a generator: the function pauses, hands back a value, and resumes where it left off on the next call.</p>
 <p><strong>Q: How do you flatten a list of lists?</strong>
-<code>[x for sub in lists for x in sub]</code> or <code>itertools.chain.from_iterable(lists)</code>.</p></div></div></article></body></html>
+<code>[x for sub in lists for x in sub]</code> or <code>itertools.chain.from_iterable(lists)</code>.</p></div></div></article><article class="lesson-art bk" id="L-python-11"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 11</div><h1>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</h1>
+<p class="sum">Model real things as objects. Learn classes, <strong>init</strong>, attributes and methods, encapsulation, inheritance, polymorphism, special (dunder) methods, class and static methods, properties and dataclasses, with a small data-pipeline example.</p><div class="tags"><span class="tag live">● Python class 9</span><span class="tag new">✦ Python 3.13</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Define classes with attributes and methods and create objects</li><li>Use inheritance, super() and polymorphism to share and customise behaviour</li><li>Implement <strong>str</strong>, <strong>repr</strong>, <strong>eq</strong> and <strong>len</strong> to make objects behave like built-ins</li><li>Use @property, @classmethod and @staticmethod appropriately</li><li>Choose between a plain class, a dataclass and a dictionary</li></ul></div></div><div class="content"><h2 id="python-11-why-classes">Why classes?</h2>
+<p>A <strong>class</strong> bundles <strong>data</strong> (attributes) and <strong>behaviour</strong> (methods) into one unit. An <strong>object</strong> is one instance of a class. Libraries you already use are classes: a pandas <code>DataFrame</code> has data (rows) and methods (<code>.groupby()</code>).</p>
+<figure class="fig"><img src="../img/python-11-01.png" alt="A class is the blueprint; objects are the things built from it, each with its own data." loading="lazy"><figcaption>A class is the blueprint; objects are the things built from it, each with its own data.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Account:
+    bank = <span class="hl-s">&quot;SkillBank&quot;</span>                       <span class="hl-c"># class attribute: shared by all objects</span>
+
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, owner, balance=<span class="hl-n">0</span>):    <span class="hl-c"># constructor: runs when you create an object</span>
+        self.owner = owner                    <span class="hl-c"># instance attributes: belong to this object</span>
+        self.balance = balance
+
+    <span class="hl-k">def</span> <span class="hl-f">deposit</span>(self, amount):
+        <span class="hl-k">if</span> amount &lt;= <span class="hl-n">0</span>: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;amount must be positive&quot;</span>)
+        self.balance += amount
+        <span class="hl-k">return</span> self.balance
+
+    <span class="hl-k">def</span> <span class="hl-f">withdraw</span>(self, amount):
+        <span class="hl-k">if</span> amount &gt; self.balance: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;insufficient funds&quot;</span>)
+        self.balance -= amount
+        <span class="hl-k">return</span> self.balance
+
+a, b = <span class="hl-f">Account</span>(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-n">500</span>), <span class="hl-f">Account</span>(<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-n">900</span>)
+<span class="hl-f">a.deposit</span>(<span class="hl-n">250</span>); <span class="hl-f">b.withdraw</span>(<span class="hl-n">100</span>)
+<span class="hl-f">print</span>(a.owner, a.balance, b.owner, b.balance, Account.bank, a.bank)
+<span class="hl-k">try</span>: <span class="hl-f">a.withdraw</span>(<span class="hl-n">5000</span>)
+<span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;Error:&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Asha 750 Ravi 800 SkillBank SkillBank
+Error: insufficient funds</pre></div>
+<p><code>self</code> is the object the method was called on. Python passes it automatically: <code>a.deposit(250)</code> is <code>Account.deposit(a, 250)</code>.</p>
+<h2 id="python-11-special-dunder-methods">Special (dunder) methods</h2>
+<p>Methods with double underscores customise how objects behave with <code>print</code>, <code>==</code>, <code>len</code>, <code>+</code> and more.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Account:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, owner, balance=<span class="hl-n">0</span>): self.owner, self.balance = owner, balance
+    <span class="hl-k">def</span> <span class="hl-f">__repr__</span>(self): <span class="hl-k">return</span> <span class="hl-s">f&quot;Account({self.owner!r}, {self.balance})&quot;</span>      <span class="hl-c"># for developers</span>
+    <span class="hl-k">def</span> <span class="hl-f">__str__</span>(self): <span class="hl-k">return</span> <span class="hl-s">f&quot;{self.owner}: ₹{self.balance:,}&quot;</span>                <span class="hl-c"># for print()</span>
+    <span class="hl-k">def</span> <span class="hl-f">__eq__</span>(self, other): <span class="hl-k">return</span> (self.owner, self.balance) == (other.owner, other.balance)
+    <span class="hl-k">def</span> <span class="hl-f">__lt__</span>(self, other): <span class="hl-k">return</span> self.balance &lt; other.balance                <span class="hl-c"># enables sorting</span>
+    <span class="hl-k">def</span> <span class="hl-f">__add__</span>(self, other): <span class="hl-k">return</span> <span class="hl-f">Account</span>(self.owner + <span class="hl-s">&quot;&amp;&quot;</span> + other.owner, self.balance + other.balance)
+
+x, y = <span class="hl-f">Account</span>(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-n">5000</span>), <span class="hl-f">Account</span>(<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-n">9000</span>)
+<span class="hl-f">print</span>(x, <span class="hl-s">&quot;|&quot;</span>, <span class="hl-f">repr</span>(x), <span class="hl-s">&quot;|&quot;</span>, x == <span class="hl-f">Account</span>(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-n">5000</span>), <span class="hl-s">&quot;|&quot;</span>, <span class="hl-f">sorted</span>([y, x]), <span class="hl-s">&quot;|&quot;</span>, x + y)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Asha: ₹5,000 | Account(&#x27;Asha&#x27;, 5000) | True | [Account(&#x27;Asha&#x27;, 5000), Account(&#x27;Ravi&#x27;, 9000)] | Asha&amp;Ravi: ₹14,000</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__init__</code></td>
+<td>Creating the object</td>
+</tr>
+<tr>
+<td><code>__repr__</code>, <code>__str__</code></td>
+<td><code>repr()</code>, <code>print()</code></td>
+</tr>
+<tr>
+<td><code>__eq__</code>, <code>__lt__</code></td>
+<td><code>==</code>, <code>&lt;</code>, sorting</td>
+</tr>
+<tr>
+<td><code>__len__</code>, <code>__getitem__</code></td>
+<td><code>len(obj)</code>, <code>obj[i]</code></td>
+</tr>
+<tr>
+<td><code>__iter__</code>, <code>__next__</code></td>
+<td><code>for</code> loops</td>
+</tr>
+<tr>
+<td><code>__enter__</code>, <code>__exit__</code></td>
+<td><code>with</code> blocks</td>
+</tr>
+<tr>
+<td><code>__call__</code></td>
+<td>Calling the object like a function</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="python-11-encapsulation-and-properties">Encapsulation and properties</h2>
+<p>Python has no strict private members; a leading underscore (<code>_balance</code>) means "internal, please do not touch". A <strong>property</strong> exposes an attribute while keeping control over it.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Temperature:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, celsius): self._c = celsius
+    @property
+    <span class="hl-k">def</span> <span class="hl-f">celsius</span>(self): <span class="hl-k">return</span> self._c
+    @celsius.setter
+    <span class="hl-k">def</span> <span class="hl-f">celsius</span>(self, v):
+        <span class="hl-k">if</span> v &lt; -<span class="hl-n">273.15</span>: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;below absolute zero&quot;</span>)
+        self._c = v
+    @property
+    <span class="hl-k">def</span> <span class="hl-f">fahrenheit</span>(self): <span class="hl-k">return</span> self._c * <span class="hl-n">9</span> / <span class="hl-n">5</span> + <span class="hl-n">32</span>          <span class="hl-c"># computed, read-only</span>
+t = <span class="hl-f">Temperature</span>(<span class="hl-n">25</span>)
+t.celsius = <span class="hl-n">30</span>
+<span class="hl-f">print</span>(t.celsius, t.fahrenheit)
+<span class="hl-k">try</span>: t.celsius = -<span class="hl-n">500</span>
+<span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;Error:&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">30 86.0
+Error: below absolute zero</pre></div>
+<h2 id="python-11-inheritance-and-polymorphism">Inheritance and polymorphism</h2>
+<p>A <strong>child</strong> class reuses a <strong>parent</strong> and adds or overrides behaviour. <code>super()</code> calls the parent's version.</p>
+<figure class="fig"><img src="../img/python-11-02.png" alt="Savings and Current accounts inherit everything from Account and add their own rules." loading="lazy"><figcaption>Savings and Current accounts inherit everything from Account and add their own rules.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Account:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, owner, balance=<span class="hl-n">0</span>): self.owner, self.balance = owner, balance
+    <span class="hl-k">def</span> <span class="hl-f">withdraw</span>(self, amount):
+        <span class="hl-k">if</span> amount &gt; <span class="hl-f">self.limit</span>(): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;limit exceeded&quot;</span>)
+        self.balance -= amount
+    <span class="hl-k">def</span> <span class="hl-f">limit</span>(self): <span class="hl-k">return</span> self.balance
+    <span class="hl-k">def</span> <span class="hl-f">__str__</span>(self): <span class="hl-k">return</span> <span class="hl-s">f&quot;{type(self).__name__}({self.owner}, {self.balance})&quot;</span>
+
+<span class="hl-k">class</span> <span class="hl-f">Savings</span>(Account):
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, owner, balance=<span class="hl-n">0</span>, rate=<span class="hl-n">0.04</span>):
+        <span class="hl-f">super</span>().<span class="hl-f">__init__</span>(owner, balance)             <span class="hl-c"># reuse the parent&#x27;s setup</span>
+        self.rate = rate
+    <span class="hl-k">def</span> <span class="hl-f">interest</span>(self): <span class="hl-k">return</span> <span class="hl-f">round</span>(self.balance * self.rate, <span class="hl-n">2</span>)
+
+<span class="hl-k">class</span> <span class="hl-f">Current</span>(Account):
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, owner, balance=<span class="hl-n">0</span>, overdraft=<span class="hl-n">10000</span>):
+        <span class="hl-f">super</span>().<span class="hl-f">__init__</span>(owner, balance); self.overdraft = overdraft
+    <span class="hl-k">def</span> <span class="hl-f">limit</span>(self): <span class="hl-k">return</span> self.balance + self.overdraft          <span class="hl-c"># override</span>
+
+accounts = [<span class="hl-f">Savings</span>(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-n">50000</span>), <span class="hl-f">Current</span>(<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-n">2000</span>)]
+<span class="hl-k">for</span> acc <span class="hl-k">in</span> accounts:                                              <span class="hl-c"># polymorphism: same call, different behaviour</span>
+    <span class="hl-f">acc.withdraw</span>(<span class="hl-n">5000</span>)
+    <span class="hl-f">print</span>(acc, <span class="hl-s">&quot;| limit now&quot;</span>, <span class="hl-f">acc.limit</span>())
+<span class="hl-f">print</span>(accounts[<span class="hl-n">0</span>].<span class="hl-f">interest</span>(), <span class="hl-f">isinstance</span>(accounts[<span class="hl-n">0</span>], Account), <span class="hl-f">issubclass</span>(Current, Account), [c.__name__ <span class="hl-k">for</span> c <span class="hl-k">in</span> Current.__mro__])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Savings(Asha, 45000) | limit now 45000
+Current(Ravi, -3000) | limit now 7000
+1800.0 True True [&#x27;Current&#x27;, &#x27;Account&#x27;, &#x27;object&#x27;]</pre></div>
+<p><strong>Polymorphism</strong> means different classes respond to the same method name in their own way, so code like the loop above works with any account type.</p>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Composition often beats inheritance</b></div><p>"Is-a" relationships (a Savings <strong>is an</strong> Account) suit inheritance. "Has-a" relationships (a Pipeline <strong>has</strong> steps) suit composition: store other objects as attributes. Prefer composition when in doubt.</p></div>
+<h2 id="python-11-class-and-static-methods">Class and static methods</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Order:
+    GST = <span class="hl-n">0.18</span>
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, amount): self.amount = amount
+    @classmethod
+    <span class="hl-k">def</span> <span class="hl-f">from_string</span>(cls, text):                    <span class="hl-c"># alternative constructor: &quot;₹1,200&quot;</span>
+        <span class="hl-k">return</span> <span class="hl-f">cls</span>(<span class="hl-f">float</span>(<span class="hl-f">text.replace</span>(<span class="hl-s">&quot;₹&quot;</span>, <span class="hl-s">&quot;&quot;</span>).<span class="hl-f">replace</span>(<span class="hl-s">&quot;,&quot;</span>, <span class="hl-s">&quot;&quot;</span>)))
+    @staticmethod
+    <span class="hl-k">def</span> <span class="hl-f">is_valid</span>(amount): <span class="hl-k">return</span> amount &gt; <span class="hl-n">0</span>        <span class="hl-c"># no self/cls: just a function in the class namespace</span>
+    <span class="hl-k">def</span> <span class="hl-f">total</span>(self): <span class="hl-k">return</span> <span class="hl-f">round</span>(self.amount * (<span class="hl-n">1</span> + self.GST), <span class="hl-n">2</span>)
+o = <span class="hl-f">Order.from_string</span>(<span class="hl-s">&quot;₹1,200&quot;</span>)
+<span class="hl-f">print</span>(o.amount, <span class="hl-f">o.total</span>(), <span class="hl-f">Order.is_valid</span>(-<span class="hl-n">5</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1200.0 1416.0 False</pre></div>
+<h2 id="python-11-dataclasses-classes-for-data">Dataclasses: classes for data</h2>
+<p>For classes that mainly store data, <code>@dataclass</code> generates <code>__init__</code>, <code>__repr__</code> and <code>__eq__</code> for you.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> dataclasses <span class="hl-k">import</span> dataclass, field, asdict
+
+@<span class="hl-f">dataclass</span>(order=<span class="hl-k">True</span>)
+<span class="hl-k">class</span> Employee:
+    name: str
+    dept: str
+    salary: float = <span class="hl-n">0.0</span>
+    skills: list = <span class="hl-f">field</span>(default_factory=list)       <span class="hl-c"># mutable default done safely</span>
+    <span class="hl-k">def</span> <span class="hl-f">raise_salary</span>(self, pct): self.salary = <span class="hl-f">round</span>(self.salary * (<span class="hl-n">1</span> + pct / <span class="hl-n">100</span>), <span class="hl-n">2</span>)
+
+staff = [<span class="hl-f">Employee</span>(<span class="hl-s">&quot;Kavya&quot;</span>, <span class="hl-s">&quot;HR&quot;</span>, <span class="hl-n">97000</span>, [<span class="hl-s">&quot;Excel&quot;</span>]), <span class="hl-f">Employee</span>(<span class="hl-s">&quot;Rohan&quot;</span>, <span class="hl-s">&quot;IT&quot;</span>, <span class="hl-n">120000</span>), <span class="hl-f">Employee</span>(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;HR&quot;</span>, <span class="hl-n">88000</span>)]
+staff[<span class="hl-n">0</span>].<span class="hl-f">raise_salary</span>(<span class="hl-n">10</span>)
+<span class="hl-f">print</span>(staff[<span class="hl-n">0</span>], <span class="hl-s">&quot;|&quot;</span>, staff[<span class="hl-n">0</span>] == <span class="hl-f">Employee</span>(<span class="hl-s">&quot;Kavya&quot;</span>, <span class="hl-s">&quot;HR&quot;</span>, <span class="hl-n">106700.0</span>, [<span class="hl-s">&quot;Excel&quot;</span>]), <span class="hl-s">&quot;|&quot;</span>, <span class="hl-f">max</span>(staff, key=<span class="hl-k">lambda</span> e: e.salary).name)
+<span class="hl-f">print</span>(<span class="hl-f">asdict</span>(staff[<span class="hl-n">1</span>]), <span class="hl-f">sorted</span>(staff)[<span class="hl-n">0</span>].name)
+<span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-f">print</span>(<span class="hl-f">pd.DataFrame</span>([<span class="hl-f">asdict</span>(e) <span class="hl-k">for</span> e <span class="hl-k">in</span> staff]).<span class="hl-f">groupby</span>(<span class="hl-s">&quot;dept&quot;</span>)[<span class="hl-s">&quot;salary&quot;</span>].<span class="hl-f">mean</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Employee(name=&#x27;Kavya&#x27;, dept=&#x27;HR&#x27;, salary=106700.0, skills=[&#x27;Excel&#x27;]) | True | Rohan
+{&#x27;name&#x27;: &#x27;Rohan&#x27;, &#x27;dept&#x27;: &#x27;IT&#x27;, &#x27;salary&#x27;: 120000, &#x27;skills&#x27;: []} Asha
+dept
+HR     97350.0
+IT    120000.0
+Name: salary, dtype: float64</pre></div>
+<h2 id="python-11-a-small-data-pipeline-class">A small data-pipeline class</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+<span class="hl-k">class</span> CleaningPipeline:
+    <span class="hl-s">&quot;&quot;&quot;Holds a list of cleaning steps and applies them in order.&quot;&quot;&quot;</span>
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self): self.steps = []
+    <span class="hl-k">def</span> <span class="hl-f">add</span>(self, name, func): <span class="hl-f">self.steps.append</span>((name, func)); <span class="hl-k">return</span> self      <span class="hl-c"># return self allows chaining</span>
+    <span class="hl-k">def</span> <span class="hl-f">run</span>(self, df):
+        <span class="hl-k">for</span> name, func <span class="hl-k">in</span> self.steps:
+            before = <span class="hl-f">len</span>(df); df = <span class="hl-f">func</span>(df)
+            <span class="hl-f">print</span>(<span class="hl-s">f&quot;  {name:&lt;18} rows {before} -&gt; {len(df)}&quot;</span>)
+        <span class="hl-k">return</span> df
+
+raw = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;city&quot;</span>: [<span class="hl-s">&quot; Pune&quot;</span>, <span class="hl-s">&quot;pune &quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-k">None</span>, <span class="hl-s">&quot;Delhi&quot;</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">100</span>, <span class="hl-n">100</span>, <span class="hl-n">250</span>, <span class="hl-n">80</span>, -<span class="hl-n">5</span>]})
+pipe = (<span class="hl-f">CleaningPipeline</span>()
+        .<span class="hl-f">add</span>(<span class="hl-s">&quot;drop missing city&quot;</span>, <span class="hl-k">lambda</span> d: <span class="hl-f">d.dropna</span>(subset=[<span class="hl-s">&quot;city&quot;</span>]))
+        .<span class="hl-f">add</span>(<span class="hl-s">&quot;tidy text&quot;</span>, <span class="hl-k">lambda</span> d: <span class="hl-f">d.assign</span>(city=<span class="hl-f">d.city.str.strip</span>().<span class="hl-f">str.title</span>()))
+        .<span class="hl-f">add</span>(<span class="hl-s">&quot;remove negatives&quot;</span>, <span class="hl-k">lambda</span> d: d[d.sales &gt;= <span class="hl-n">0</span>])
+        .<span class="hl-f">add</span>(<span class="hl-s">&quot;drop duplicates&quot;</span>, <span class="hl-k">lambda</span> d: <span class="hl-f">d.drop_duplicates</span>()))
+<span class="hl-f">print</span>(<span class="hl-f">pipe.run</span>(raw))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  drop missing city  rows 5 -&gt; 4
+  tidy text          rows 4 -&gt; 4
+  remove negatives   rows 4 -&gt; 3
+  drop duplicates    rows 3 -&gt; 2
+    city  sales
+0   Pune    100
+2  Delhi    250</pre></div>
+<p>This is the idea behind scikit-learn pipelines (ML track): objects with <code>fit</code>/<code>transform</code> methods that you chain.</p>
+<h2 id="python-11-when-to-use-what">When to use what</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A few related values</td>
+<td>Tuple / dict</td>
+</tr>
+<tr>
+<td>Record with named fields, no logic</td>
+<td><code>@dataclass</code> or namedtuple</td>
+</tr>
+<tr>
+<td>Data plus behaviour, state that changes</td>
+<td>Class</td>
+</tr>
+<tr>
+<td>Share behaviour across related types</td>
+<td>Inheritance (or composition)</td>
+</tr>
+<tr>
+<td>One function</td>
+<td>Just a function</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="python-11-common-mistakes">Common mistakes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forgetting <code>self</code> in the method signature</td>
+<td><code>def method(self, ...)</code></td>
+</tr>
+<tr>
+<td>Forgetting <code>self.</code> when reading an attribute</td>
+<td><code>self.balance</code>, not <code>balance</code></td>
+</tr>
+<tr>
+<td>Mutable class attribute shared by all objects (<code>items = []</code>)</td>
+<td>Create it in <code>__init__</code></td>
+</tr>
+<tr>
+<td>Overusing inheritance</td>
+<td>Prefer composition and small functions</td>
+</tr>
+<tr>
+<td>Missing <code>super().__init__()</code> in the child</td>
+<td>Call it to initialise parent state</td>
+</tr>
+<tr>
+<td>Comparing objects without <code>__eq__</code></td>
+<td>Compares identity, not content; use a dataclass</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="python-11-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A class is a blueprint; <code>__init__</code> sets up each object; <code>self</code> refers to the current object.</li>
+<li>Dunder methods (<code>__str__</code>, <code>__repr__</code>, <code>__eq__</code>, <code>__lt__</code>, <code>__len__</code>) make objects behave like built-ins.</li>
+<li>Inheritance reuses and overrides parent behaviour with <code>super()</code>; polymorphism lets one call work across types.</li>
+<li><code>@property</code> guards attributes; <code>@classmethod</code> builds alternative constructors; <code>@staticmethod</code> groups helpers.</li>
+<li><code>@dataclass</code> removes boilerplate for data holders. Prefer composition over deep inheritance.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-11-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>self</code> refer to?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The class</button><button type="button" class="opt" data-ok="1"><i>B</i>The specific object the method is called on</button><button type="button" class="opt" data-ok="0"><i>C</i>The module</button><button type="button" class="opt" data-ok="0"><i>D</i>The parent class</button></div><div class="qexp"><b>Answer: B.</b> Python passes the instance automatically.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which method runs when you create an object?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>__str__</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>__init__</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>__new__</code> only</button><button type="button" class="opt" data-ok="0"><i>D</i><code>__call__</code></button></div><div class="qexp"><b>Answer: B.</b> <code>__init__</code> initialises the new instance.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>super().__init__(owner, balance)</code> do in a child class?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Deletes the parent</button><button type="button" class="opt" data-ok="1"><i>B</i>Runs the parent's constructor to set up inherited attributes</button><button type="button" class="opt" data-ok="0"><i>C</i>Creates a new class</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: B.</b> It reuses the parent's initialisation.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which decorator gives a read-only computed attribute?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>@staticmethod</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>@property</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>@classmethod</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>@cache</code></button></div><div class="qexp"><b>Answer: B.</b> Access without parentheses.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does <code>@dataclass</code> generate automatically?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Only <code>__str__</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>__init__</code>, <code>__repr__</code> and <code>__eq__</code></button><button type="button" class="opt" data-ok="0"><i>C</i>A database table</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: B.</b> It removes boilerplate for data holders.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is polymorphism?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Having many parents</button><button type="button" class="opt" data-ok="1"><i>B</i>Different classes responding to the same method name in their own way</button><button type="button" class="opt" data-ok="0"><i>C</i>Copying a class</button><button type="button" class="opt" data-ok="0"><i>D</i>Hiding attributes</button></div><div class="qexp"><b>Answer: B.</b> The loop <code>for acc in accounts: acc.withdraw()</code> works for any account type.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>OOP problems</b></div><p>(1) Create a <code>Rectangle</code> class with <code>area()</code> and <code>perimeter()</code>, and a <code>Square</code> subclass. (2) Add <code>__str__</code> and <code>__eq__</code> to a <code>Point(x, y)</code> class. (3) Build a <code>Stack</code> class (push, pop, peek, <code>__len__</code>). (4) Make a dataclass <code>Product</code> with price and <code>with_gst()</code>, then sort a list of products by price. (5) Write a <code>Counter</code>-like class that counts calls using a class attribute.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Rectangle:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, w, h): self.w, self.h = w, h
+    <span class="hl-k">def</span> <span class="hl-f">area</span>(self): <span class="hl-k">return</span> self.w * self.h
+    <span class="hl-k">def</span> <span class="hl-f">perimeter</span>(self): <span class="hl-k">return</span> <span class="hl-n">2</span> * (self.w + self.h)
+<span class="hl-k">class</span> <span class="hl-f">Square</span>(Rectangle):
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, side): <span class="hl-f">super</span>().<span class="hl-f">__init__</span>(side, side)
+<span class="hl-f">print</span>(<span class="hl-f">Rectangle</span>(<span class="hl-n">3</span>, <span class="hl-n">4</span>).<span class="hl-f">area</span>(), <span class="hl-f">Square</span>(<span class="hl-n">5</span>).<span class="hl-f">perimeter</span>())
+<span class="hl-k">class</span> Point:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, x, y): self.x, self.y = x, y
+    <span class="hl-k">def</span> <span class="hl-f">__str__</span>(self): <span class="hl-k">return</span> <span class="hl-s">f&quot;({self.x}, {self.y})&quot;</span>
+    <span class="hl-k">def</span> <span class="hl-f">__eq__</span>(self, o): <span class="hl-k">return</span> (self.x, self.y) == (o.x, o.y)
+<span class="hl-f">print</span>(<span class="hl-f">Point</span>(<span class="hl-n">1</span>, <span class="hl-n">2</span>), <span class="hl-f">Point</span>(<span class="hl-n">1</span>, <span class="hl-n">2</span>) == <span class="hl-f">Point</span>(<span class="hl-n">1</span>, <span class="hl-n">2</span>))
+<span class="hl-k">class</span> Stack:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self): self._d = []
+    <span class="hl-k">def</span> <span class="hl-f">push</span>(self, x): <span class="hl-f">self._d.append</span>(x)
+    <span class="hl-k">def</span> <span class="hl-f">pop</span>(self): <span class="hl-k">return</span> <span class="hl-f">self._d.pop</span>()
+    <span class="hl-k">def</span> <span class="hl-f">peek</span>(self): <span class="hl-k">return</span> self._d[-<span class="hl-n">1</span>]
+    <span class="hl-k">def</span> <span class="hl-f">__len__</span>(self): <span class="hl-k">return</span> <span class="hl-f">len</span>(self._d)
+st = <span class="hl-f">Stack</span>(); <span class="hl-f">st.push</span>(<span class="hl-n">1</span>); <span class="hl-f">st.push</span>(<span class="hl-n">2</span>); <span class="hl-f">print</span>(<span class="hl-f">st.pop</span>(), <span class="hl-f">len</span>(st))
+<span class="hl-k">from</span> dataclasses <span class="hl-k">import</span> dataclass
+@<span class="hl-f">dataclass</span>(order=<span class="hl-k">True</span>)
+<span class="hl-k">class</span> Product:
+    price: float
+    <span class="hl-k">def</span> <span class="hl-f">with_gst</span>(self): <span class="hl-k">return</span> <span class="hl-f">round</span>(self.price * <span class="hl-n">1.18</span>, <span class="hl-n">2</span>)
+<span class="hl-f">print</span>(<span class="hl-f">sorted</span>([<span class="hl-f">Product</span>(<span class="hl-n">500</span>), <span class="hl-f">Product</span>(<span class="hl-n">120</span>)]), <span class="hl-f">Product</span>(<span class="hl-n">100</span>).<span class="hl-f">with_gst</span>())</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Class attribute vs instance attribute?</strong>
+A class attribute is shared by all instances (defined in the class body); an instance attribute belongs to one object (set in <code>__init__</code>).</p>
+<p><strong>Q: What is the difference between <code>__str__</code> and <code>__repr__</code>?</strong>
+<code>__str__</code> is the readable form for users (<code>print</code>); <code>__repr__</code> is the unambiguous form for developers, ideally something that could recreate the object.</p>
+<p><strong>Q: Explain the four OOP pillars.</strong>
+Encapsulation (bundle and protect data), inheritance (reuse), polymorphism (same interface, different behaviour), abstraction (expose what, hide how).</p>
+<p><strong>Q: Inheritance or composition?</strong>
+Use inheritance for a true is-a relationship; use composition (objects holding other objects) for flexibility and lower coupling.</p></div></div></article></body></html>
