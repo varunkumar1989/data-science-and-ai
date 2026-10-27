@@ -1,0 +1,191 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study) · Stats &amp; ML Lesson 16 · Data Science &amp; AI Handbook</title><meta name="description" content="The simplest learning algorithm: predict from the most similar past examples. Distance metrics, choosing k, why scaling is essential, weighted voting, the curse of dimensionality, KNN for classification and regression, tuning with GridSearchCV, and the full Bank Loans case study from the live class with metrics and scoring of new applicants."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 16</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class="on"><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-16">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 16 of 17</div><h1>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</h1>
+<p class="sum">The simplest learning algorithm: predict from the most similar past examples. Distance metrics, choosing k, why scaling is essential, weighted voting, the curse of dimensionality, KNN for classification and regression, tuning with GridSearchCV, and the full Bank Loans case study from the live class with metrics and scoring of new applicants.</p><div class="tags"><span class="tag live">● ML class 7</span><span class="tag new">✦ scikit-learn 1.7+</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_16_K_Nearest_Neighbours_Classifier_and_Regressor_Bank_Loans_Case_Study.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-16">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain how KNN classifies and regresses using distances to neighbours</li><li>Compute Euclidean, Manhattan and Minkowski distances and know why scaling matters</li><li>Choose k and weighting with cross-validation and explain the bias-variance effect of k</li><li>Run the Bank Loans case study end to end with a pipeline and GridSearchCV</li><li>Describe KNN's strengths, weaknesses and the curse of dimensionality</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/bank_loans.csv" download>bank_loans.csv</a><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a></div></div></div>
+<div class="content"><h2 id="the-idea">The idea</h2>
+<p>"Tell me who your neighbours are, and I'll tell you who you are." To predict a new point, find the <em>k</em> most similar labelled points and let them <strong>vote</strong> (classification) or <strong>average</strong> their values (regression). There is no training beyond storing the data, so KNN is a <strong>lazy, instance-based</strong> learner.</p>
+<figure class="fig"><img src="../img/ml-16-01.png" alt="KNN with k = 5: the new applicant (star) is classified by the majority of its five nearest neighbours." loading="lazy"><figcaption>KNN with k = 5: the new applicant (star) is classified by the majority of its five nearest neighbours.</figcaption></figure>
+<h2 id="distances">Distances</h2>
+<figure class="math"><img src="../img/ml-16-math-fa24bf01.png" alt="d_{\text{Euclidean}}(a, b) = \sqrt{\sum_j (a_j - b_j)^2} \qquad d_{\text{Manhattan}}(a, b) = \sum_j |a_j - b_j|" loading="lazy"></figure>
+<p>Minkowski distance generalises both (<code>p=2</code> Euclidean, <code>p=1</code> Manhattan). Cosine distance suits text and embeddings; Hamming suits binary features.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> scipy.spatial <span class="hl-k">import</span> distance
+x1, x2 = <span class="hl-f">np.array</span>([<span class="hl-n">30</span>, <span class="hl-n">45.0</span>, <span class="hl-n">8.5</span>]), <span class="hl-f">np.array</span>([<span class="hl-n">42</span>, <span class="hl-n">60.0</span>, <span class="hl-n">12.0</span>])          <span class="hl-c"># age, income (thousands), debt-to-income %</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Euclidean&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">distance.euclidean</span>(x1, x2), <span class="hl-n">2</span>), <span class="hl-s">&quot;| Manhattan&quot;</span>, <span class="hl-f">distance.cityblock</span>(x1, x2), <span class="hl-s">&quot;| cosine&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">distance.cosine</span>(x1, x2), <span class="hl-n">4</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Euclidean 19.53 | Manhattan 30.5 | cosine 0.0003</pre></div>
+<h3 id="why-scaling-is-essential">Why scaling is essential</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">b = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;bank_loans.csv&quot;</span>)
+known = b[<span class="hl-f">b.default.notna</span>()].<span class="hl-f">copy</span>(); known[<span class="hl-s">&quot;default&quot;</span>] = <span class="hl-f">known.default.astype</span>(int); new_apps = b[<span class="hl-f">b.default.isna</span>()].<span class="hl-f">copy</span>()
+feats = [<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;ed&quot;</span>, <span class="hl-s">&quot;employ&quot;</span>, <span class="hl-s">&quot;address&quot;</span>, <span class="hl-s">&quot;income&quot;</span>, <span class="hl-s">&quot;debtinc&quot;</span>, <span class="hl-s">&quot;creddebt&quot;</span>, <span class="hl-s">&quot;othdebt&quot;</span>]
+<span class="hl-f">print</span>(known[feats].<span class="hl-f">describe</span>().loc[[<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;std&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]].<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">       age   ed  employ  address  income  debtinc  creddebt  othdebt
+mean  37.4  1.9     6.3      5.3    49.5     10.0       1.7      3.3
+std   10.6  1.0     5.9      5.0    24.9      6.5       1.7      3.4
+max   55.0  5.0    24.0     22.0   172.4     41.0      12.3     43.0</pre></div>
+<p>Income ranges up to 170 while <code>ed</code> ranges 1–5: unscaled, income dominates every distance and education is ignored. Standardise (or min-max scale) before KNN.</p>
+<h2 id="choosing-k">Choosing k</h2>
+<figure class="fig"><img src="../img/ml-16-02.png" alt="Decision boundaries for k = 1, 15 and 75 on two standardised features: small k overfits with jagged islands; large k oversmooths." loading="lazy"><figcaption>Decision boundaries for k = 1, 15 and 75 on two standardised features: small k overfits with jagged islands; large k oversmooths.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Small k</th>
+<th>Large k</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flexible, low bias, high variance (overfits)</td>
+<td>Smooth, high bias, low variance (underfits)</td>
+</tr>
+<tr>
+<td>k = 1 memorises training data (100% train accuracy)</td>
+<td>k = n predicts the majority class everywhere</td>
+</tr>
+</tbody>
+</table></div>
+<p>Rules of thumb: start near √n, prefer odd k for binary problems (no ties), and choose by cross-validation. <code>weights="distance"</code> lets closer neighbours count more.</p>
+<h2 id="case-study-bank-loans">Case study: Bank Loans</h2>
+<p><strong>Business problem:</strong> decide which of 150 new loan applicants to approve, using 700 past customers with known outcomes.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split, GridSearchCV, StratifiedKFold
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> roc_auc_score, classification_report, confusion_matrix, accuracy_score
+X, y = known[feats], known.default
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(X, y, test_size=<span class="hl-n">0.3</span>, stratify=y, random_state=<span class="hl-n">42</span>)
+raw = <span class="hl-f">KNeighborsClassifier</span>(<span class="hl-n">15</span>).<span class="hl-f">fit</span>(Xtr, ytr); scaled = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">KNeighborsClassifier</span>(<span class="hl-n">15</span>)).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;k=15 without scaling: AUC {roc_auc_score(yte, raw.predict_proba(Xte)[:, 1]):.3f} | with scaling: AUC {roc_auc_score(yte, scaled.predict_proba(Xte)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">k=15 without scaling: AUC 0.757 | with scaling: AUC 0.765</pre></div>
+<p>Scaling helps only a little here, because the large-range features (income, debt-to-income) happen to be informative anyway. When a large-range feature is irrelevant (for example a customer ID number or a postcode), unscaled KNN can fail completely.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">pipe = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">KNeighborsClassifier</span>())
+grid = {<span class="hl-s">&quot;kneighborsclassifier__n_neighbors&quot;</span>: <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">3</span>, <span class="hl-n">62</span>, <span class="hl-n">4</span>)), <span class="hl-s">&quot;kneighborsclassifier__weights&quot;</span>: [<span class="hl-s">&quot;uniform&quot;</span>, <span class="hl-s">&quot;distance&quot;</span>], <span class="hl-s">&quot;kneighborsclassifier__metric&quot;</span>: [<span class="hl-s">&quot;euclidean&quot;</span>, <span class="hl-s">&quot;manhattan&quot;</span>]}
+gs = <span class="hl-f">GridSearchCV</span>(pipe, grid, cv=<span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>), scoring=<span class="hl-s">&quot;roc_auc&quot;</span>, n_jobs=-<span class="hl-n">1</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;best:&quot;</span>, {<span class="hl-f">k.split</span>(<span class="hl-s">&quot;__&quot;</span>)[<span class="hl-n">1</span>]: v <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">gs.best_params_.items</span>()}, <span class="hl-s">f&quot;| CV AUC {gs.best_score_:.3f}&quot;</span>)
+p = <span class="hl-f">gs.predict_proba</span>(Xte)[:, <span class="hl-n">1</span>]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;test AUC {roc_auc_score(yte, p):.3f} | accuracy at 0.5 {accuracy_score(yte, p &gt;= .5):.3f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">confusion_matrix</span>(yte, p &gt;= <span class="hl-n">0.5</span>))
+<span class="hl-f">print</span>(<span class="hl-f">classification_report</span>(yte, p &gt;= <span class="hl-n">0.5</span>, target_names=[<span class="hl-s">&quot;repaid&quot;</span>, <span class="hl-s">&quot;default&quot;</span>], digits=<span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">best: {&#x27;metric&#x27;: &#x27;manhattan&#x27;, &#x27;n_neighbors&#x27;: 51, &#x27;weights&#x27;: &#x27;distance&#x27;} | CV AUC 0.772
+test AUC 0.810 | accuracy at 0.5 0.733
+[[134   9]
+ [ 47  20]]
+              precision    recall  f1-score   support
+
+      repaid      0.740     0.937     0.827       143
+     default      0.690     0.299     0.417        67
+
+    accuracy                          0.733       210
+   macro avg      0.715     0.618     0.622       210
+weighted avg      0.724     0.733     0.696       210</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">t = <span class="hl-n">0.3</span>                                                   <span class="hl-c"># lower threshold: missing a defaulter is costlier</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;threshold {t}:&quot;</span>); <span class="hl-f">print</span>(<span class="hl-f">confusion_matrix</span>(yte, p &gt;= t)); <span class="hl-f">print</span>(<span class="hl-f">classification_report</span>(yte, p &gt;= t, target_names=[<span class="hl-s">&quot;repaid&quot;</span>, <span class="hl-s">&quot;default&quot;</span>], digits=<span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">threshold 0.3:
+[[94 49]
+ [ 9 58]]
+              precision    recall  f1-score   support
+
+      repaid      0.913     0.657     0.764       143
+     default      0.542     0.866     0.667        67
+
+    accuracy                          0.724       210
+   macro avg      0.727     0.762     0.715       210
+weighted avg      0.794     0.724     0.733       210</pre></div>
+<h3 id="knn-vs-logistic-regression">KNN vs logistic regression</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> cross_val_score
+cv = <span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>)
+<span class="hl-k">for</span> name, m <span class="hl-k">in</span> [(<span class="hl-s">&quot;KNN (tuned)&quot;</span>, gs.best_estimator_), (<span class="hl-s">&quot;logistic regression&quot;</span>, <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">1000</span>)))]:
+    s = <span class="hl-f">cross_val_score</span>(m, X, y, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>); <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:20s} 5-fold AUC {s.mean():.3f} ± {s.std():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">KNN (tuned)          5-fold AUC 0.786 ± 0.046
+logistic regression  5-fold AUC 0.803 ± 0.042</pre></div>
+<p>On this small, roughly linear credit problem, logistic regression is as good or better, and far easier to explain. KNN shines when the boundary is irregular and the data are dense.</p>
+<h3 id="scoring-new-applicants-and-explaining-with-neighbours">Scoring new applicants and explaining with neighbours</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">best = <span class="hl-f">gs.best_estimator_.fit</span>(X, y)
+new_apps[<span class="hl-s">&quot;p_default&quot;</span>] = <span class="hl-f">best.predict_proba</span>(new_apps[feats])[:, <span class="hl-n">1</span>].<span class="hl-f">round</span>(<span class="hl-n">3</span>)
+<span class="hl-f">print</span>(<span class="hl-f">new_apps.p_default.describe</span>().<span class="hl-f">round</span>(<span class="hl-n">3</span>).<span class="hl-f">to_dict</span>())
+app = <span class="hl-f">new_apps.sort_values</span>(<span class="hl-s">&quot;p_default&quot;</span>, ascending=<span class="hl-k">False</span>).iloc[<span class="hl-n">0</span>]
+dist_, idx = best[-<span class="hl-n">1</span>].<span class="hl-f">kneighbors</span>(best[<span class="hl-n">0</span>].<span class="hl-f">transform</span>(app[feats].<span class="hl-f">to_frame</span>().<span class="hl-f">T.astype</span>(float)), n_neighbors=<span class="hl-n">5</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{app.customer_id}: P(default) {app.p_default:.2f}. Its 5 most similar past customers:&quot;</span>)
+<span class="hl-f">print</span>(known.iloc[idx[<span class="hl-n">0</span>]][feats + [<span class="hl-s">&quot;default&quot;</span>]].<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;count&#x27;: 150.0, &#x27;mean&#x27;: 0.295, &#x27;std&#x27;: 0.176, &#x27;min&#x27;: 0.016, &#x27;25%&#x27;: 0.168, &#x27;50%&#x27;: 0.271, &#x27;75%&#x27;: 0.401, &#x27;max&#x27;: 0.802}
+L0782: P(default) 0.80. Its 5 most similar past customers:
+ age  ed  employ  address  income  debtinc  creddebt  othdebt  default
+  35   2       1        5    33.7     30.7      3.24     7.11        1
+  47   2       0        4    26.5     32.8      4.28     4.41        1
+  40   1       3        4    49.7     24.1      4.34     7.64        1
+  39   1       5        4    32.7     24.3      3.44     4.51        1
+  26   1       1        2    52.2     29.4      5.63     9.72        1</pre></div>
+<p>KNN explanations are concrete: here, all five of the most similar past customers defaulted.</p>
+<h2 id="knn-regression">KNN regression</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.neighbors <span class="hl-k">import</span> KNeighborsRegressor
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_absolute_error
+h = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;house_prices.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;area_sqft&quot;</span>])
+hf = [<span class="hl-s">&quot;area_sqft&quot;</span>, <span class="hl-s">&quot;bedrooms&quot;</span>, <span class="hl-s">&quot;bathrooms&quot;</span>, <span class="hl-s">&quot;age_years&quot;</span>, <span class="hl-s">&quot;distance_to_center_km&quot;</span>]
+Htr, Hte, htr, hte = <span class="hl-f">train_test_split</span>(h[hf], h.price_lakh, test_size=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>)
+<span class="hl-k">for</span> k <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">5</span>, <span class="hl-n">15</span>, <span class="hl-n">40</span>):
+    m = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">KNeighborsRegressor</span>(k, weights=<span class="hl-s">&quot;distance&quot;</span>)).<span class="hl-f">fit</span>(Htr, htr)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;k = {k:2d}: test MAE {mean_absolute_error(hte, m.predict(Hte)):.2f} lakh&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">k =  1: test MAE 16.40 lakh
+k =  5: test MAE 12.57 lakh
+k = 15: test MAE 12.96 lakh
+k = 40: test MAE 12.42 lakh</pre></div>
+<h2 id="strengths-weaknesses-and-the-curse-of-dimensionality">Strengths, weaknesses and the curse of dimensionality</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Strengths</th>
+<th>Weaknesses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple, intuitive, no training</td>
+<td>Slow predictions on large data (must search all points)</td>
+</tr>
+<tr>
+<td>Naturally multiclass; non-linear boundaries</td>
+<td>Needs scaling; sensitive to irrelevant features</td>
+</tr>
+<tr>
+<td>Explanations by example</td>
+<td>Struggles in high dimensions</td>
+</tr>
+<tr>
+<td>Works for regression too</td>
+<td>Memory: stores the whole training set</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+<span class="hl-k">for</span> dims <span class="hl-k">in</span> (<span class="hl-n">2</span>, <span class="hl-n">10</span>, <span class="hl-n">100</span>, <span class="hl-n">1000</span>):
+    pts_ = <span class="hl-f">rng.uniform</span>(size=(<span class="hl-n">500</span>, dims)); d = <span class="hl-f">np.linalg.norm</span>(pts_[<span class="hl-n">1</span>:] - pts_[<span class="hl-n">0</span>], axis=<span class="hl-n">1</span>)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{dims:4d} dimensions: nearest/farthest distance ratio {d.min() / d.max():.2f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">   2 dimensions: nearest/farthest distance ratio 0.01
+  10 dimensions: nearest/farthest distance ratio 0.30
+ 100 dimensions: nearest/farthest distance ratio 0.73
+1000 dimensions: nearest/farthest distance ratio 0.90</pre></div>
+<p>In high dimensions every point is almost equally far from every other (the ratio approaches 1), so "nearest" stops meaning "similar". Reduce dimensions (feature selection, PCA) first. For millions of vectors (embeddings in RAG systems, GenAI track), approximate nearest-neighbour indexes (FAISS, HNSW) make search fast.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>KNN predicts from the k most similar labelled examples: majority vote or (weighted) average.</li>
+<li>Distances: Euclidean, Manhattan, Minkowski, cosine; always scale features first.</li>
+<li>Small k overfits, large k underfits; tune k, weights and metric with cross-validation.</li>
+<li>Bank Loans: a scaled, tuned KNN reaches a decent AUC, and logistic regression is as good and more interpretable on this data.</li>
+<li>KNN suffers from slow prediction and the curse of dimensionality; approximate nearest-neighbour search powers vector databases.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-16-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does KNN do during training?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Stores the training data (lazy learning)</button><button type="button" class="opt" data-ok="0"><i>B</i>Fits coefficients by gradient descent</button><button type="button" class="opt" data-ok="0"><i>C</i>Builds a tree</button><button type="button" class="opt" data-ok="0"><i>D</i>Computes clusters</button></div><div class="qexp"><b>Answer: A.</b> Work happens at prediction time.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why must features be scaled for KNN?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Features with large ranges would dominate the distance</button><button type="button" class="opt" data-ok="0"><i>B</i>To make it faster</button><button type="button" class="opt" data-ok="0"><i>C</i>Because KNN needs normal data</button><button type="button" class="opt" data-ok="0"><i>D</i>It is optional</button></div><div class="qexp"><b>Answer: A.</b> Income would swamp education level.</div></div><div class="qq"><p class="qtext"><b>3.</b> What happens with k = 1?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The model memorises the training data and tends to overfit</button><button type="button" class="opt" data-ok="0"><i>B</i>It underfits</button><button type="button" class="opt" data-ok="0"><i>C</i>It always predicts the majority class</button><button type="button" class="opt" data-ok="0"><i>D</i>It is invalid</button></div><div class="qexp"><b>Answer: A.</b> Training accuracy is 100%.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which distance is Minkowski with p = 1?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Euclidean</button><button type="button" class="opt" data-ok="1"><i>B</i>Manhattan</button><button type="button" class="opt" data-ok="0"><i>C</i>Cosine</button><button type="button" class="opt" data-ok="0"><i>D</i>Hamming</button></div><div class="qexp"><b>Answer: B.</b> Sum of absolute differences.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is the curse of dimensionality for KNN?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In many dimensions, all points become roughly equally distant, so neighbours are not meaningful</button><button type="button" class="opt" data-ok="0"><i>B</i>More rows slow it down</button><button type="button" class="opt" data-ok="0"><i>C</i>It needs more classes</button><button type="button" class="opt" data-ok="0"><i>D</i>Scaling stops working</button></div><div class="qexp"><b>Answer: A.</b> Reduce dimensions first.</div></div><div class="qq"><p class="qtext"><b>6.</b> How does <code>weights="distance"</code> change predictions?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Closer neighbours get more influence than farther ones</button><button type="button" class="opt" data-ok="0"><i>B</i>All neighbours count equally</button><button type="button" class="opt" data-ok="0"><i>C</i>It removes far neighbours</button><button type="button" class="opt" data-ok="0"><i>D</i>It changes the metric</button></div><div class="qexp"><b>Answer: A.</b> Weights are 1/distance.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Use KNN to predict churn on <code>telecom_churn.csv</code> (one-hot + scale) and tune k with GridSearchCV; compare AUC with logistic regression. (2) Plot test MAE against k (1–50) for KNN regression on house prices. (3) Find the 5 nearest neighbours of a new house (1,400 sq ft, 3 bed, 2 bath, 8 years, 6 km).</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.compose <span class="hl-k">import</span> ColumnTransformer
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> OneHotEncoder
+tc = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;telecom_churn.csv&quot;</span>); Xc = <span class="hl-f">tc.drop</span>(columns=[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;churn&quot;</span>, <span class="hl-s">&quot;total_charges&quot;</span>]); yc = (tc.churn == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+pre = <span class="hl-f">ColumnTransformer</span>([(<span class="hl-s">&quot;n&quot;</span>, <span class="hl-f">StandardScaler</span>(), [<span class="hl-s">&quot;senior_citizen&quot;</span>, <span class="hl-s">&quot;tenure_months&quot;</span>, <span class="hl-s">&quot;monthly_charges&quot;</span>, <span class="hl-s">&quot;support_calls&quot;</span>]), (<span class="hl-s">&quot;c&quot;</span>, <span class="hl-f">OneHotEncoder</span>(), [<span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;internet_service&quot;</span>, <span class="hl-s">&quot;payment_method&quot;</span>])])
+g = <span class="hl-f">GridSearchCV</span>(<span class="hl-f">make_pipeline</span>(pre, <span class="hl-f">KNeighborsClassifier</span>()), {<span class="hl-s">&quot;kneighborsclassifier__n_neighbors&quot;</span>: <span class="hl-f">range</span>(<span class="hl-n">5</span>, <span class="hl-n">120</span>, <span class="hl-n">10</span>)}, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">fit</span>(Xc, yc); <span class="hl-f">print</span>(g.best_params_, g.best_score_)
+maes = [<span class="hl-f">mean_absolute_error</span>(hte, <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">KNeighborsRegressor</span>(k)).<span class="hl-f">fit</span>(Htr, htr).<span class="hl-f">predict</span>(Hte)) <span class="hl-k">for</span> k <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">51</span>)]
+m = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">KNeighborsRegressor</span>(<span class="hl-n">5</span>)).<span class="hl-f">fit</span>(h[hf], h.price_lakh)
+<span class="hl-f">print</span>(<span class="hl-f">m.predict</span>(<span class="hl-f">pd.DataFrame</span>([[<span class="hl-n">1400</span>, <span class="hl-n">3</span>, <span class="hl-n">2</span>, <span class="hl-n">8</span>, <span class="hl-n">6</span>]], columns=hf)))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How does KNN work and how do you choose k?</strong>
+It finds the k closest training points by a distance metric and votes or averages; choose k (and weighting, metric) by cross-validation, balancing overfitting (small k) and oversmoothing (large k).</p>
+<p><strong>Q: What are the disadvantages of KNN?</strong>
+Slow and memory-heavy predictions, sensitivity to scaling and irrelevant features, poor performance in high dimensions, and imbalanced classes skew votes.</p>
+<p><strong>Q: How would you speed up nearest-neighbour search on millions of points?</strong>
+KD-trees or ball trees for low dimensions, and approximate nearest-neighbour indexes (HNSW, FAISS, ScaNN) for high-dimensional embeddings.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html"><small>← Previous</small><b>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</b></a><a class="next" href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html"><small>Next →</small><b>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-idea">The idea</a><a href="#distances">Distances</a><a href="#choosing-k">Choosing k</a><a href="#case-study-bank-loans">Case study: Bank Loans</a><a href="#knn-regression">KNN regression</a><a href="#strengths-weaknesses-and-the-curse-of-dimensionality">Strengths, weaknesses and the curse of dimensionality</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>

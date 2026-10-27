@@ -1,0 +1,201 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules · Stats &amp; ML Lesson 17 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn the model behind random forests and gradient boosting. How trees split data with Gini impurity, entropy and variance reduction, growing and visualising a tree, reading it as business rules, controlling overfitting with depth, minimum leaf size and cost-complexity pruning, regression trees, feature importance and the strengths and weaknesses of single trees."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 17</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class="on"><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-17">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 17 of 17</div><h1>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</h1>
+<p class="sum">Learn the model behind random forests and gradient boosting. How trees split data with Gini impurity, entropy and variance reduction, growing and visualising a tree, reading it as business rules, controlling overfitting with depth, minimum leaf size and cost-complexity pruning, regression trees, feature importance and the strengths and weaknesses of single trees.</p><div class="tags"><span class="tag live">● ML track (added)</span><span class="tag new">✦ scikit-learn 1.7+</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_17_Decision_Trees_Splits_Impurity_Pruning_and_Interpretable_Rules.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-17">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain recursive binary splitting and compute Gini impurity and entropy by hand</li><li>Train, plot and read a decision tree classifier as IF-THEN rules</li><li>Control overfitting with max_depth, min_samples_leaf and ccp_alpha pruning</li><li>Build a regression tree and explain its step-shaped predictions</li><li>Describe tree feature importance and the instability of single trees</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a></div></div></div>
+<div class="content"><h2 id="how-a-tree-decides">How a tree decides</h2>
+<p>A <strong>decision tree</strong> asks a sequence of yes/no questions about the features. Each question splits the data into two purer groups; leaves give the prediction (majority class or average value). It is a flowchart learned from data.</p>
+<figure class="fig"><img src="../img/ml-17-01.png" alt="A decision tree is a learned flowchart of questions." loading="lazy"><figcaption>A decision tree is a learned flowchart of questions.</figcaption></figure>
+<h2 id="measuring-purity">Measuring purity</h2>
+<p>At each node the algorithm tries every feature and threshold and picks the split that most reduces <strong>impurity</strong>.</p>
+<figure class="math"><img src="../img/ml-17-math-436a8ba8.png" alt="\text{Gini} = 1 - \sum_k p_k^2 \qquad \text{Entropy} = -\sum_k p_k \log_2 p_k" loading="lazy"></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">def</span> <span class="hl-f">gini</span>(p): p = <span class="hl-f">np.asarray</span>(p); <span class="hl-k">return</span> <span class="hl-n">1</span> - (p ** <span class="hl-n">2</span>).<span class="hl-f">sum</span>()
+<span class="hl-k">def</span> <span class="hl-f">entropy</span>(p): p = <span class="hl-f">np.asarray</span>([x <span class="hl-k">for</span> x <span class="hl-k">in</span> p <span class="hl-k">if</span> x &gt; <span class="hl-n">0</span>]); <span class="hl-k">return</span> <span class="hl-f">float</span>(-(p * <span class="hl-f">np.log2</span>(p)).<span class="hl-f">sum</span>()) + <span class="hl-n">0.0</span>
+<span class="hl-k">for</span> dist <span class="hl-k">in</span> ([<span class="hl-n">0.5</span>, <span class="hl-n">0.5</span>], [<span class="hl-n">0.8</span>, <span class="hl-n">0.2</span>], [<span class="hl-n">1.0</span>, <span class="hl-n">0.0</span>]): <span class="hl-f">print</span>(dist, <span class="hl-s">&quot;Gini&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">gini</span>(dist), <span class="hl-n">3</span>), <span class="hl-s">&quot;| entropy&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">entropy</span>(dist), <span class="hl-n">3</span>))
+hr = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;hr_employees.csv&quot;</span>); hr[<span class="hl-s">&quot;left&quot;</span>] = (hr.attrition == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-k">def</span> <span class="hl-f">split_gain</span>(df, mask):
+    parent = <span class="hl-f">gini</span>([<span class="hl-n">1</span> - <span class="hl-f">df.left.mean</span>(), <span class="hl-f">df.left.mean</span>()])
+    l, r = df[mask], df[~mask]
+    child = <span class="hl-f">sum</span>(<span class="hl-f">len</span>(s) / <span class="hl-f">len</span>(df) * <span class="hl-f">gini</span>([<span class="hl-n">1</span> - <span class="hl-f">s.left.mean</span>(), <span class="hl-f">s.left.mean</span>()]) <span class="hl-k">for</span> s <span class="hl-k">in</span> (l, r))
+    <span class="hl-k">return</span> parent - child
+<span class="hl-k">for</span> name, mask <span class="hl-k">in</span> [(<span class="hl-s">&quot;overtime == Yes&quot;</span>, hr.overtime == <span class="hl-s">&quot;Yes&quot;</span>), (<span class="hl-s">&quot;job_satisfaction &lt;= 2&quot;</span>, hr.job_satisfaction &lt;= <span class="hl-n">2</span>), (<span class="hl-s">&quot;years_at_company &lt;= 1&quot;</span>, hr.years_at_company &lt;= <span class="hl-n">1</span>), (<span class="hl-s">&quot;department == Sales&quot;</span>, hr.department == <span class="hl-s">&quot;Sales&quot;</span>)]:
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:24s} Gini decrease {split_gain(hr, mask):.4f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[0.5, 0.5] Gini 0.5 | entropy 1.0
+[0.8, 0.2] Gini 0.32 | entropy 0.722
+[1.0, 0.0] Gini 0.0 | entropy 0.0
+overtime == Yes          Gini decrease 0.0094
+job_satisfaction &lt;= 2    Gini decrease 0.0086
+years_at_company &lt;= 1    Gini decrease 0.0031
+department == Sales      Gini decrease 0.0015</pre></div>
+<p>The split with the largest decrease (information gain) wins; then the process repeats inside each child (<strong>recursive binary splitting</strong>) until a stopping rule is met. Regression trees use variance (MSE) reduction instead.</p>
+<h2 id="training-and-reading-a-tree">Training and reading a tree</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.tree <span class="hl-k">import</span> DecisionTreeClassifier, export_text, plot_tree
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> roc_auc_score, accuracy_score
+X = <span class="hl-f">pd.get_dummies</span>(hr[[<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;years_at_company&quot;</span>, <span class="hl-s">&quot;monthly_income&quot;</span>, <span class="hl-s">&quot;job_satisfaction&quot;</span>, <span class="hl-s">&quot;distance_from_home_km&quot;</span>, <span class="hl-s">&quot;performance_rating&quot;</span>, <span class="hl-s">&quot;overtime&quot;</span>, <span class="hl-s">&quot;department&quot;</span>]], drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float)
+y = hr.left
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(X, y, test_size=<span class="hl-n">0.3</span>, stratify=y, random_state=<span class="hl-n">0</span>)
+small = <span class="hl-f">DecisionTreeClassifier</span>(max_depth=<span class="hl-n">3</span>, min_samples_leaf=<span class="hl-n">40</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-f">export_text</span>(small, feature_names=<span class="hl-f">list</span>(X.columns), show_weights=<span class="hl-k">True</span>, decimals=<span class="hl-n">1</span>))
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;test AUC {roc_auc_score(yte, small.predict_proba(Xte)[:, 1]):.3f} | accuracy {accuracy_score(yte, small.predict(Xte)):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">|--- overtime_Yes &lt;= 0.5
+|   |--- job_satisfaction &lt;= 2.5
+|   |   |--- distance_from_home_km &lt;= 15.5
+|   |   |   |--- weights: [149.0, 33.0] class: 0
+|   |   |--- distance_from_home_km &gt;  15.5
+|   |   |   |--- weights: [104.0, 64.0] class: 0
+|   |--- job_satisfaction &gt;  2.5
+|   |   |--- distance_from_home_km &lt;= 26.5
+|   |   |   |--- weights: [294.0, 41.0] class: 0
+|   |   |--- distance_from_home_km &gt;  26.5
+|   |   |   |--- weights: [39.0, 16.0] class: 0
+|--- overtime_Yes &gt;  0.5
+|   |--- years_at_company &lt;= 3.5
+|   |   |--- job_satisfaction &lt;= 2.5
+|   |   |   |--- weights: [44.0, 52.0] class: 1
+|   |   |--- job_satisfaction &gt;  2.5
+|   |   |   |--- weights: [55.0, 32.0] class: 0
+|   |--- years_at_company &gt;  3.5
+|   |   |--- monthly_income &lt;= 84708.5
+|   |   |   |--- weights: [25.0, 16.0] class: 0
+|   |   |--- monthly_income &gt;  84708.5
+|   |   |   |--- weights: [68.0, 18.0] class: 0
+
+test AUC 0.598 | accuracy 0.716</pre></div>
+<figure class="fig"><img src="../img/ml-17-02.png" alt="The depth-3 tree. Each box shows the split, Gini impurity, sample count and class mix; darker colours are purer." loading="lazy"><figcaption>The depth-3 tree. Each box shows the split, Gini impurity, sample count and class mix; darker colours are purer.</figcaption></figure>
+<p>Each path from root to leaf is an <strong>IF-THEN rule</strong> that managers can read and challenge, which is a big advantage of small trees.</p>
+<h2 id="overfitting-and-how-to-stop-it">Overfitting and how to stop it</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> depth <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">8</span>, <span class="hl-n">12</span>, <span class="hl-k">None</span>):
+    m = <span class="hl-f">DecisionTreeClassifier</span>(max_depth=depth, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;max_depth={str(depth):4s} leaves {m.get_n_leaves():4d} | train AUC {roc_auc_score(ytr, m.predict_proba(Xtr)[:, 1]):.3f} | test AUC {roc_auc_score(yte, m.predict_proba(Xte)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">max_depth=1    leaves    2 | train AUC 0.594 | test AUC 0.552
+max_depth=2    leaves    4 | train AUC 0.639 | test AUC 0.591
+max_depth=3    leaves    7 | train AUC 0.681 | test AUC 0.598
+max_depth=5    leaves   23 | train AUC 0.757 | test AUC 0.571
+max_depth=8    leaves   90 | train AUC 0.898 | test AUC 0.597
+max_depth=12   leaves  196 | train AUC 0.986 | test AUC 0.579
+max_depth=None leaves  255 | train AUC 1.000 | test AUC 0.551</pre></div>
+<p>An unrestricted tree keeps splitting until leaves are pure: perfect on training data, poor on new data. Notice also that attrition is hard to predict from these few HR fields (the best test AUC is only about 0.6). That is common with people data: many reasons for leaving (a new offer, a manager, family) are not in the database. A good analyst says so rather than overselling the model.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Hyperparameter</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_depth</code></td>
+<td>Maximum number of questions on a path</td>
+</tr>
+<tr>
+<td><code>min_samples_split</code></td>
+<td>A node needs this many rows to split</td>
+</tr>
+<tr>
+<td><code>min_samples_leaf</code></td>
+<td>Every leaf keeps at least this many rows (smooths probabilities)</td>
+</tr>
+<tr>
+<td><code>max_leaf_nodes</code></td>
+<td>Cap on the number of leaves</td>
+</tr>
+<tr>
+<td><code>ccp_alpha</code></td>
+<td>Cost-complexity pruning: removes branches that add little</td>
+</tr>
+<tr>
+<td><code>class_weight="balanced"</code></td>
+<td>Gives the minority class more weight</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="cost-complexity-pruning">Cost-complexity pruning</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> cross_val_score, StratifiedKFold
+path = <span class="hl-f">DecisionTreeClassifier</span>(random_state=<span class="hl-n">0</span>).<span class="hl-f">cost_complexity_pruning_path</span>(Xtr, ytr)
+alphas = path.ccp_alphas[::<span class="hl-f">max</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(path.ccp_alphas) // <span class="hl-n">25</span>)]
+cv = <span class="hl-f">StratifiedKFold</span>(<span class="hl-n">5</span>, shuffle=<span class="hl-k">True</span>, random_state=<span class="hl-n">0</span>)
+scores = [<span class="hl-f">cross_val_score</span>(<span class="hl-f">DecisionTreeClassifier</span>(ccp_alpha=a, random_state=<span class="hl-n">0</span>), Xtr, ytr, cv=cv, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">mean</span>() <span class="hl-k">for</span> a <span class="hl-k">in</span> alphas]
+best_a = alphas[<span class="hl-f">int</span>(<span class="hl-f">np.argmax</span>(scores))]
+pruned = <span class="hl-f">DecisionTreeClassifier</span>(ccp_alpha=best_a, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;best ccp_alpha {best_a:.5f} | leaves {pruned.get_n_leaves()} | CV AUC {max(scores):.3f} | test AUC {roc_auc_score(yte, pruned.predict_proba(Xte)[:, 1]):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">best ccp_alpha 0.00320 | leaves 10 | CV AUC 0.607 | test AUC 0.586</pre></div>
+<h2 id="feature-importance">Feature importance</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">imp = <span class="hl-f">pd.Series</span>(pruned.feature_importances_, index=X.columns).<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(imp[imp &gt; <span class="hl-n">0</span>].<span class="hl-f">round</span>(<span class="hl-n">3</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;monthly_income&#x27;: 0.424, &#x27;overtime_Yes&#x27;: 0.245, &#x27;distance_from_home_km&#x27;: 0.131, &#x27;job_satisfaction&#x27;: 0.119, &#x27;years_at_company&#x27;: 0.08}</pre></div>
+<p>Importance = total impurity decrease contributed by each feature (normalised to sum to 1). It is quick but biased towards continuous features with many possible split points; check with permutation importance (lesson 27).</p>
+<h2 id="regression-trees">Regression trees</h2>
+<figure class="fig"><img src="../img/ml-17-03.png" alt="A regression tree predicts the average price in each leaf, giving step-shaped predictions (depth 2 vs depth 5)." loading="lazy"><figcaption>A regression tree predicts the average price in each leaf, giving step-shaped predictions (depth 2 vs depth 5).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_absolute_error
+hf = [<span class="hl-s">&quot;area_sqft&quot;</span>, <span class="hl-s">&quot;bedrooms&quot;</span>, <span class="hl-s">&quot;bathrooms&quot;</span>, <span class="hl-s">&quot;age_years&quot;</span>, <span class="hl-s">&quot;distance_to_center_km&quot;</span>, <span class="hl-s">&quot;parking&quot;</span>]
+Htr, Hte, htr, hte = <span class="hl-f">train_test_split</span>(<span class="hl-f">pd.get_dummies</span>(h[hf + [<span class="hl-s">&quot;city&quot;</span>]]).<span class="hl-f">astype</span>(float), h.price_lakh, test_size=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>)
+<span class="hl-k">for</span> d <span class="hl-k">in</span> (<span class="hl-n">3</span>, <span class="hl-n">6</span>, <span class="hl-n">10</span>, <span class="hl-k">None</span>):
+    t = <span class="hl-f">DecisionTreeRegressor</span>(max_depth=d, min_samples_leaf=<span class="hl-n">5</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Htr, htr)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;depth {str(d):4s} test MAE {mean_absolute_error(hte, t.predict(Hte)):.2f} lakh&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">depth 3    test MAE 10.12 lakh
+depth 6    test MAE 8.10 lakh
+depth 10   test MAE 7.62 lakh
+depth None test MAE 7.64 lakh</pre></div>
+<p>Trees cannot extrapolate: a house bigger than any in the training data gets the price of the largest leaf.</p>
+<h2 id="strengths-and-weaknesses">Strengths and weaknesses</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Strengths</th>
+<th>Weaknesses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to explain as rules; visual</td>
+<td>Unstable: small data changes give a different tree</td>
+</tr>
+<tr>
+<td>No scaling needed; handles mixed types</td>
+<td>Overfits without limits</td>
+</tr>
+<tr>
+<td>Captures non-linearity and interactions automatically</td>
+<td>Step-shaped, no extrapolation</td>
+</tr>
+<tr>
+<td>Fast to train and predict</td>
+<td>Single trees are usually less accurate than ensembles</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> seed <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">3</span>):
+    Xs, _, ys, _ = <span class="hl-f">train_test_split</span>(Xtr, ytr, train_size=<span class="hl-n">0.8</span>, random_state=seed)
+    t = <span class="hl-f">DecisionTreeClassifier</span>(max_depth=<span class="hl-n">2</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit</span>(Xs, ys)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;sample {seed}: root split on &#x27;{X.columns[t.tree_.feature[0]]}&#x27; at {t.tree_.threshold[0]:.1f}, second-level splits on {[X.columns[f] for f in t.tree_.feature[1:] if f &gt;= 0]}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">sample 0: root split on &#x27;overtime_Yes&#x27; at 0.5, second-level splits on [&#x27;distance_from_home_km&#x27;, &#x27;years_at_company&#x27;]
+sample 1: root split on &#x27;overtime_Yes&#x27; at 0.5, second-level splits on [&#x27;job_satisfaction&#x27;, &#x27;years_at_company&#x27;]
+sample 2: root split on &#x27;job_satisfaction&#x27; at 2.5, second-level splits on [&#x27;distance_from_home_km&#x27;, &#x27;age&#x27;]</pre></div>
+<p>Instability is exactly what <strong>random forests</strong> exploit: average many different trees and the noise cancels out (next lesson).</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Trees split recursively on the feature/threshold that most reduces impurity (Gini, entropy) or variance (regression).</li>
+<li>Small trees are readable IF-THEN rules; unrestricted trees overfit badly.</li>
+<li>Control complexity with max_depth, min_samples_leaf and ccp_alpha pruning, chosen by cross-validation.</li>
+<li>Impurity-based importance is quick but biased; trees need no scaling but cannot extrapolate.</li>
+<li>Single trees are unstable; ensembles (random forests, boosting) fix this.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-17-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the Gini impurity of a node with 50% stay and 50% leave?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0</button><button type="button" class="opt" data-ok="1"><i>B</i>0.5</button><button type="button" class="opt" data-ok="0"><i>C</i>1</button><button type="button" class="opt" data-ok="0"><i>D</i>0.25</button></div><div class="qexp"><b>Answer: B.</b> 1 − (0.5² + 0.5²) = 0.5, the maximum for two classes.</div></div><div class="qq"><p class="qtext"><b>2.</b> An unrestricted tree has train AUC 1.0 and test AUC 0.6. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It overfits: leaves memorise individual training rows</button><button type="button" class="opt" data-ok="0"><i>B</i>It underfits</button><button type="button" class="opt" data-ok="0"><i>C</i>The data are scaled wrongly</button><button type="button" class="opt" data-ok="0"><i>D</i>Gini is the wrong criterion</button></div><div class="qexp"><b>Answer: A.</b> Limit depth or prune.</div></div><div class="qq"><p class="qtext"><b>3.</b> Do decision trees need feature scaling?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Yes, always</button><button type="button" class="opt" data-ok="1"><i>B</i>No: splits depend on thresholds, not distances</button><button type="button" class="opt" data-ok="0"><i>C</i>Only for regression</button><button type="button" class="opt" data-ok="0"><i>D</i>Only with entropy</button></div><div class="qexp"><b>Answer: B.</b> Monotonic transformations do not change splits.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>min_samples_leaf=40</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Prevents leaves with fewer than 40 training rows</button><button type="button" class="opt" data-ok="0"><i>B</i>Limits the tree to 40 leaves</button><button type="button" class="opt" data-ok="0"><i>C</i>Uses 40 features</button><button type="button" class="opt" data-ok="0"><i>D</i>Builds 40 trees</button></div><div class="qexp"><b>Answer: A.</b> It smooths predictions and reduces overfitting.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why can't a regression tree predict prices above the training maximum?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Predictions are averages of training targets in each leaf</button><button type="button" class="opt" data-ok="0"><i>B</i>It has a bug</button><button type="button" class="opt" data-ok="0"><i>C</i>Prices must be scaled</button><button type="button" class="opt" data-ok="0"><i>D</i>Trees only classify</button></div><div class="qexp"><b>Answer: A.</b> No extrapolation.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which weakness of single trees do random forests address?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>High variance / instability</button><button type="button" class="opt" data-ok="0"><i>B</i>Lack of scaling</button><button type="button" class="opt" data-ok="0"><i>C</i>Inability to handle categories</button><button type="button" class="opt" data-ok="0"><i>D</i>Slowness</button></div><div class="qexp"><b>Answer: A.</b> Averaging many trees reduces variance.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Train a tree on the telecom churn data with depth 3 and write its rules as three bullet points for the retention team. (2) Tune <code>max_depth</code> and <code>min_samples_leaf</code> with GridSearchCV. (3) Compare the test AUC of the pruned tree with logistic regression.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">tc = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;telecom_churn.csv&quot;</span>); Xc = <span class="hl-f">pd.get_dummies</span>(<span class="hl-f">tc.drop</span>(columns=[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;churn&quot;</span>, <span class="hl-s">&quot;total_charges&quot;</span>]), drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float); yc = (tc.churn == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+t3 = <span class="hl-f">DecisionTreeClassifier</span>(max_depth=<span class="hl-n">3</span>, min_samples_leaf=<span class="hl-n">50</span>).<span class="hl-f">fit</span>(Xc, yc); <span class="hl-f">print</span>(<span class="hl-f">export_text</span>(t3, feature_names=<span class="hl-f">list</span>(Xc.columns)))
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> GridSearchCV
+g = <span class="hl-f">GridSearchCV</span>(<span class="hl-f">DecisionTreeClassifier</span>(random_state=<span class="hl-n">0</span>), {<span class="hl-s">&quot;max_depth&quot;</span>: [<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>, <span class="hl-n">8</span>], <span class="hl-s">&quot;min_samples_leaf&quot;</span>: [<span class="hl-n">5</span>, <span class="hl-n">20</span>, <span class="hl-n">50</span>, <span class="hl-n">100</span>]}, cv=<span class="hl-n">5</span>, scoring=<span class="hl-s">&quot;roc_auc&quot;</span>).<span class="hl-f">fit</span>(Xc, yc); <span class="hl-f">print</span>(g.best_params_, g.best_score_)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How does a decision tree choose a split?</strong>
+It evaluates candidate thresholds on every feature and picks the one with the largest impurity reduction (Gini or entropy for classification, variance for regression), then repeats recursively.</p>
+<p><strong>Q: Gini vs entropy?</strong>
+Both measure impurity and usually give similar trees; Gini is slightly faster, entropy comes from information theory.</p>
+<p><strong>Q: How do you prevent a tree from overfitting?</strong>
+Limit depth, require minimum samples per leaf/split, cap leaves, prune with cost-complexity, or use ensembles.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html"><small>← Previous</small><b>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#how-a-tree-decides">How a tree decides</a><a href="#measuring-purity">Measuring purity</a><a href="#training-and-reading-a-tree">Training and reading a tree</a><a href="#overfitting-and-how-to-stop-it">Overfitting and how to stop it</a><a href="#feature-importance">Feature importance</a><a href="#regression-trees">Regression trees</a><a href="#strengths-and-weaknesses">Strengths and weaknesses</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
