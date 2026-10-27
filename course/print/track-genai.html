@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Generative AI &amp; Agentic AI · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#EA580C"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 7</div><h1>Generative AI &amp; Agentic AI</h1><p>How LLMs work, prompting, LLM APIs in Python, embeddings and vector search, RAG, tool use, agents, MCP, evaluation, guardrails, fine-tuning and responsible AI.</p>
-<div class="cv-m"><span>9 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li><a href="#L-genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li><a href="#L-genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li><a href="#L-genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li><a href="#L-genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li><a href="#L-genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li><a href="#L-genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li><a href="#L-genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li><a href="#L-genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li></ol></section><article class="lesson-art bk" id="L-genai-01"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 1</div><h1>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</h1>
+<div class="cv-m"><span>11 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li><a href="#L-genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li><a href="#L-genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li><a href="#L-genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li><a href="#L-genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li><a href="#L-genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li><a href="#L-genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li><a href="#L-genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li><a href="#L-genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li><a href="#L-genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li><a href="#L-genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li></ol></section><article class="lesson-art bk" id="L-genai-01"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 1</div><h1>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</h1>
 <p class="sum">Open the black box. Tokens and tokenisation (built from scratch), next-token prediction and sampling with temperature, embeddings, attention and the transformer, pre-training, instruction tuning and RLHF, context windows, reasoning models, why LLMs hallucinate, and how to choose among Claude, GPT, Gemini, Llama, Mistral, DeepSeek and Qwen.</p><div class="tags"><span class="tag live">● DVA + AI class 1 (deep dive)</span><span class="tag new">✦ 2026 model landscape</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain tokens, vocabularies and why token counts drive cost and limits</li><li>Describe next-token prediction and the effect of temperature and top-p sampling</li><li>Explain embeddings, self-attention and the transformer at an intuitive level</li><li>Describe the training stages (pre-training, instruction tuning, preference optimisation) and reasoning models</li><li>Explain hallucinations and choose a model by capability, cost, latency, privacy and context length</li></ul></div></div><div class="content"><h2 id="genai-01-an-llm-in-one-sentence">An LLM in one sentence</h2>
 <p>A large language model is a neural network trained to <strong>predict the next token</strong> given the previous ones. Doing that very well on trillions of words forces it to learn grammar, facts, reasoning patterns and styles, which instruction tuning then turns into a helpful assistant.</p>
@@ -2273,4 +2273,479 @@ Define success criteria per task; build a representative and adversarial test se
 <p><strong>Q: What guardrails would you put on a customer-facing chatbot?</strong>
 Input checks (length, scope, PII, injection), retrieval restricted to approved content, least-privilege tools with approval for refunds or account changes, output validation (schema, policy, grounded facts), refusal handling, logging with PII redaction, and human escalation.</p>
 <p><strong>Q: What is prompt injection and why is it hard to solve completely?</strong>
-Instructions hidden in user or retrieved content that hijack the model. Models process instructions and data in the same channel, so filters can be evaded; robust systems limit what a compromised model can do.</p></div></div></article></body></html>
+Instructions hidden in user or retrieved content that hijack the model. Models process instructions and data in the same channel, so filters can be evaded; robust systems limit what a compromised model can do.</p></div></div></article><article class="lesson-art bk" id="L-genai-10"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 10</div><h1>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</h1>
+<p class="sum">Decide how to adapt a model to your task. The customisation ladder (prompting, few-shot, RAG, tools, fine-tuning, training), what fine-tuning is good and bad at, preparing training data, parameter-efficient fine-tuning with LoRA and QLoRA (with the maths), distillation from a large to a small model, running open-weight models locally with Ollama and at scale with vLLM, and the cost, privacy and quality trade-offs of API vs self-hosting.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ 2026: LoRA/QLoRA, Ollama, vLLM, open-weight Llama, Mistral, Qwen, DeepSeek, Gemma</span><span class="tag">Advanced</span><span class="tag">⏱ 100 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose between prompting, RAG, tools and fine-tuning for a requirement</li><li>Prepare a fine-tuning dataset in chat format and split it for evaluation</li><li>Explain LoRA/QLoRA and compute their parameter savings</li><li>Describe distillation and when a small specialised model wins</li><li>Run open-weight models locally and compare API and self-hosting costs</li></ul></div></div><div class="content"><h2 id="genai-10-the-customisation-ladder">The customisation ladder</h2>
+<p>Climb only as far as you need: each step costs more to build and maintain.</p>
+<figure class="fig"><img src="../img/genai-10-01.png" alt="From cheapest to most expensive ways to adapt an LLM." loading="lazy"><figcaption>From cheapest to most expensive ways to adapt an LLM.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Best first approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model lacks your <strong>knowledge</strong> (policies, products, documents)</td>
+<td>RAG</td>
+</tr>
+<tr>
+<td>Needs <strong>live data</strong> or must <strong>act</strong></td>
+<td>Tools / MCP</td>
+</tr>
+<tr>
+<td>Must follow a <strong>format or style</strong> consistently</td>
+<td>Prompt + examples + structured outputs; fine-tune if still unreliable</td>
+</tr>
+<tr>
+<td>A <strong>narrow task at huge volume</strong> must be cheap and fast</td>
+<td>Fine-tune or distil a small model</td>
+</tr>
+<tr>
+<td>Specialised <strong>domain language</strong> (legal Hindi, medical codes)</td>
+<td>Better model choice, RAG; then fine-tune</td>
+</tr>
+<tr>
+<td>Model must run <strong>on-premises / offline</strong></td>
+<td>Open-weight model (optionally fine-tuned)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Fine-tuning is not a knowledge database</b></div><p>Fine-tuning teaches patterns (tone, format, task behaviour). It is unreliable for injecting facts, which change and need citations: use RAG for knowledge. Most teams that "need fine-tuning" first need better prompts, examples and evaluation.</p></div>
+<h2 id="genai-10-preparing-fine-tuning-data">Preparing fine-tuning data</h2>
+<p>Fine-tuning datasets are examples of the exact behaviour you want, usually in <strong>chat format</strong> (JSONL: one conversation per line).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json, numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+rv = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customer_reviews.csv&quot;</span>)
+SYSTEM = <span class="hl-s">&quot;Classify the review&#x27;s sentiment as positive, negative or neutral. Reply with one word.&quot;</span>
+<span class="hl-k">def</span> <span class="hl-f">to_example</span>(text, label):
+    <span class="hl-k">return</span> {<span class="hl-s">&quot;messages&quot;</span>: [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;system&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: SYSTEM}, {<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: text}, {<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;assistant&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: label}]}
+data = <span class="hl-f">rv.sample</span>(frac=<span class="hl-n">1</span>, random_state=<span class="hl-n">0</span>)
+train, val, test = <span class="hl-f">np.split</span>(data, [<span class="hl-f">int</span>(.<span class="hl-n">8</span> * <span class="hl-f">len</span>(data)), <span class="hl-f">int</span>(.<span class="hl-n">9</span> * <span class="hl-f">len</span>(data))])
+<span class="hl-k">with</span> <span class="hl-f">open</span>(<span class="hl-s">&quot;train.jsonl&quot;</span>, <span class="hl-s">&quot;w&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+    <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">train.itertuples</span>(): <span class="hl-f">f.write</span>(<span class="hl-f">json.dumps</span>(<span class="hl-f">to_example</span>(r.review_text, r.sentiment), ensure_ascii=<span class="hl-k">False</span>) + <span class="hl-s">&quot;\n&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(train), <span class="hl-s">&quot;train |&quot;</span>, <span class="hl-f">len</span>(val), <span class="hl-s">&quot;validation |&quot;</span>, <span class="hl-f">len</span>(test), <span class="hl-s">&quot;test&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">open</span>(<span class="hl-s">&quot;train.jsonl&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>).<span class="hl-f">readline</span>()[:<span class="hl-n">220</span>])
+<span class="hl-f">print</span>(<span class="hl-s">&quot;label balance:&quot;</span>, <span class="hl-f">train.sentiment.value_counts</span>(normalize=<span class="hl-k">True</span>).<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">to_dict</span>())
+<span class="hl-k">import</span> os; <span class="hl-f">os.remove</span>(<span class="hl-s">&quot;train.jsonl&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2400 train | 300 validation | 300 test
+{&quot;messages&quot;: [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Classify the review&#x27;s sentiment as positive, negative or neutral. Reply with one word.&quot;}, {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Bahut badiya. Sound is really clear and loud, setup took
+label balance: {&#x27;positive&#x27;: 0.53, &#x27;negative&#x27;: 0.32, &#x27;neutral&#x27;: 0.15}</pre></div>
+<p>Data quality rules: hundreds to a few thousand <strong>high-quality, diverse, correctly labelled</strong> examples beat tens of thousands of noisy ones; remove duplicates and PII; cover edge cases; keep a test set the model never sees; and compare against the best prompt-only baseline.</p>
+<h2 id="genai-10-full-fine-tuning-vs-lora">Full fine-tuning vs LoRA</h2>
+<p>Full fine-tuning updates every weight: billions of parameters, lots of GPU memory. <strong>LoRA</strong> (low-rank adaptation) freezes the original weights and learns a small update for selected matrices as the product of two thin matrices:</p>
+<figure class="math"><img src="../img/genai-10-math-4ab85d74.png" alt="W&#x27; = W + \Delta W = W + B A, \qquad B \in \mathbb{R}^{d \times r},\; A \in \mathbb{R}^{r \times k},\; r \ll \min(d, k)" loading="lazy"></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">lora_params</span>(d, k, r): <span class="hl-k">return</span> r * (d + k)
+d = k = <span class="hl-n">4096</span>                                                   <span class="hl-c"># one attention projection in a ~7–8B model</span>
+<span class="hl-k">for</span> r <span class="hl-k">in</span> (<span class="hl-n">4</span>, <span class="hl-n">8</span>, <span class="hl-n">16</span>, <span class="hl-n">64</span>):
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;rank {r:2d}: {lora_params(d, k, r):,} trainable vs {d * k:,} full ({100 * lora_params(d, k, r) / (d * k):.2f}%)&quot;</span>)
+layers, mats = <span class="hl-n">32</span>, <span class="hl-n">4</span>                                           <span class="hl-c"># 32 transformer layers × q, k, v, o projections</span>
+total_full = 8e9; total_lora = layers * mats * <span class="hl-f">lora_params</span>(<span class="hl-n">4096</span>, <span class="hl-n">4096</span>, <span class="hl-n">16</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;whole model: LoRA r=16 trains {total_lora / 1e6:.1f}M parameters ≈ {100 * total_lora / total_full:.2f}% of 8B&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;memory for weights in 16-bit: {total_full * 2 / 1e9:.0f} GB | 4-bit (QLoRA): {total_full * 0.5 / 1e9:.0f} GB&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">rank  4: 32,768 trainable vs 16,777,216 full (0.20%)
+rank  8: 65,536 trainable vs 16,777,216 full (0.39%)
+rank 16: 131,072 trainable vs 16,777,216 full (0.78%)
+rank 64: 524,288 trainable vs 16,777,216 full (3.12%)
+whole model: LoRA r=16 trains 16.8M parameters ≈ 0.21% of 8B
+memory for weights in 16-bit: 16 GB | 4-bit (QLoRA): 4 GB</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+true_update = <span class="hl-f">rng.normal</span>(size=(<span class="hl-n">64</span>, <span class="hl-n">4</span>)) @ <span class="hl-f">rng.normal</span>(size=(<span class="hl-n">4</span>, <span class="hl-n">64</span>))           <span class="hl-c"># a genuinely low-rank change</span>
+U, S, Vt = <span class="hl-f">np.linalg.svd</span>(true_update + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">01</span>, (<span class="hl-n">64</span>, <span class="hl-n">64</span>)))
+<span class="hl-k">for</span> r <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">4</span>, <span class="hl-n">8</span>):
+    approx = (U[:, :r] * S[:r]) @ Vt[:r]
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;rank-{r} approximation keeps {100 * (1 - np.linalg.norm(true_update - approx) / np.linalg.norm(true_update)):.1f}% of the update with {r * 128} numbers instead of 4,096&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">rank-1 approximation keeps 27.0% of the update with 128 numbers instead of 4,096
+rank-2 approximation keeps 43.5% of the update with 256 numbers instead of 4,096
+rank-4 approximation keeps 99.8% of the update with 512 numbers instead of 4,096
+rank-8 approximation keeps 99.7% of the update with 1024 numbers instead of 4,096</pre></div>
+<p>Fine-tuning updates tend to be low-rank, so a small rank captures most of the change. <strong>QLoRA</strong> loads the frozen base model in 4-bit precision, so a 7–8B model can be fine-tuned on a single consumer or Colab GPU.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Typical open-model LoRA fine-tune (Hugging Face) - run on a GPU (e.g. Colab)</span>
+<span class="hl-k">from</span> datasets <span class="hl-k">import</span> load_dataset
+<span class="hl-k">from</span> peft <span class="hl-k">import</span> LoraConfig
+<span class="hl-k">from</span> trl <span class="hl-k">import</span> SFTTrainer, SFTConfig
+ds = <span class="hl-f">load_dataset</span>(<span class="hl-s">&quot;json&quot;</span>, data_files={<span class="hl-s">&quot;train&quot;</span>: <span class="hl-s">&quot;train.jsonl&quot;</span>, <span class="hl-s">&quot;validation&quot;</span>: <span class="hl-s">&quot;val.jsonl&quot;</span>})
+trainer = <span class="hl-f">SFTTrainer</span>(
+    model=<span class="hl-s">&quot;Qwen/Qwen2.5-1.5B-Instruct&quot;</span>,                   <span class="hl-c"># small open model</span>
+    train_dataset=ds[<span class="hl-s">&quot;train&quot;</span>], eval_dataset=ds[<span class="hl-s">&quot;validation&quot;</span>],
+    peft_config=<span class="hl-f">LoraConfig</span>(r=<span class="hl-n">16</span>, lora_alpha=<span class="hl-n">32</span>, lora_dropout=<span class="hl-n">0.05</span>, target_modules=<span class="hl-s">&quot;all-linear&quot;</span>),
+    args=<span class="hl-f">SFTConfig</span>(output_dir=<span class="hl-s">&quot;sentiment-lora&quot;</span>, num_train_epochs=<span class="hl-n">2</span>, per_device_train_batch_size=<span class="hl-n">8</span>, learning_rate=2e-<span class="hl-n">4</span>),
+)
+<span class="hl-f">trainer.train</span>(); <span class="hl-f">trainer.save_model</span>()                    <span class="hl-c"># saves only the small adapter</span></code></pre></div>
+<p>Tools: Hugging Face TRL + PEFT, Unsloth (fast, memory-efficient), Axolotl, and managed fine-tuning on cloud platforms (Amazon Bedrock, Google Vertex AI, Azure AI Foundry, OpenAI) for supported models.</p>
+<h2 id="genai-10-distillation-big-teacher-small-student">Distillation: big teacher, small student</h2>
+<p>Use a large model to <strong>label or generate</strong> high-quality training data, then fine-tune a small, cheap model on it. For a narrow, high-volume task (classifying millions of tickets), the student can approach the teacher's accuracy at a fraction of the cost and latency.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LogisticRegression
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline
+<span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> accuracy_score
+teacher_acc = <span class="hl-n">0.93</span>                                             <span class="hl-c"># suppose a large LLM labels reviews with ~93% accuracy</span>
+noisy = <span class="hl-f">train.copy</span>(); flip = <span class="hl-f">rng.random</span>(<span class="hl-f">len</span>(noisy)) &gt; teacher_acc
+noisy.loc[flip, <span class="hl-s">&quot;sentiment&quot;</span>] = <span class="hl-f">rng.choice</span>([<span class="hl-s">&quot;positive&quot;</span>, <span class="hl-s">&quot;negative&quot;</span>, <span class="hl-s">&quot;neutral&quot;</span>], <span class="hl-f">flip.sum</span>())
+<span class="hl-k">for</span> name, labels <span class="hl-k">in</span> [(<span class="hl-s">&quot;human labels&quot;</span>, train.sentiment), (<span class="hl-s">&quot;teacher (LLM) labels&quot;</span>, noisy.sentiment)]:
+    student = <span class="hl-f">make_pipeline</span>(<span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), min_df=<span class="hl-n">2</span>), <span class="hl-f">LogisticRegression</span>(max_iter=<span class="hl-n">2000</span>, C=<span class="hl-n">5</span>)).<span class="hl-f">fit</span>(train.review_text, labels)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;student trained on {name:22s} → test accuracy {accuracy_score(test.sentiment, student.predict(test.review_text)):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">student trained on human labels           → test accuracy 0.943
+student trained on teacher (LLM) labels   → test accuracy 0.923</pre></div>
+<p>Here a tiny classical "student" trained on teacher labels nearly matches one trained on human labels. The same idea, with a small LLM as the student, powers many cost-efficient production systems. (Check each provider's terms: some prohibit using outputs to train competing models.)</p>
+<h2 id="genai-10-open-weight-models">Open-weight models</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Model families (2026)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Llama (Meta)</td>
+<td>Widely supported, many sizes</td>
+</tr>
+<tr>
+<td>Mistral / Mixtral</td>
+<td>Efficient, Apache-licensed options</td>
+</tr>
+<tr>
+<td>Qwen (Alibaba)</td>
+<td>Strong multilingual and coding models</td>
+</tr>
+<tr>
+<td>DeepSeek</td>
+<td>Strong reasoning, MoE architectures</td>
+</tr>
+<tr>
+<td>Gemma (Google), Phi (Microsoft)</td>
+<td>Small models for laptops and edge devices</td>
+</tr>
+<tr>
+<td>Indic models (Sarvam, Krutrim, AI4Bharat)</td>
+<td>Indian-language focus</td>
+</tr>
+</tbody>
+</table></div>
+<p>Run locally with <strong>Ollama</strong> (<code>ollama run llama3.2</code>, then an OpenAI-compatible API at <code>localhost:11434</code>), LM Studio or llama.cpp; serve at scale with <strong>vLLM</strong>, TGI or SGLang. Always check the <strong>licence</strong> (commercial use, user limits) and evaluate on your task.</p>
+<h2 id="genai-10-api-vs-self-hosting">API vs self-hosting</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">api_cost</span>(req, tin, tout, pin, pout): <span class="hl-k">return</span> req * (tin * pin + tout * pout) / 1e6
+monthly_requests = 3_000_000; tin, tout = <span class="hl-n">400</span>, <span class="hl-n">60</span>
+api_small = <span class="hl-f">api_cost</span>(monthly_requests, tin, tout, <span class="hl-n">0.10</span>, <span class="hl-n">0.50</span>)        <span class="hl-c"># small hosted model (Claude Haiku 5.5 list price, USD/M tokens)</span>
+api_large = <span class="hl-f">api_cost</span>(monthly_requests, tin, tout, <span class="hl-n">4.00</span>, <span class="hl-n">20.00</span>)       <span class="hl-c"># frontier model</span>
+gpu_month = <span class="hl-n">1.2</span> * <span class="hl-n">24</span> * <span class="hl-n">30</span>                                             <span class="hl-c"># one cloud GPU at ~$1.2/hour, always on</span>
+engineering = <span class="hl-n">2500</span>                                                    <span class="hl-c"># share of an engineer&#x27;s time to run it (USD/month, illustrative)</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;API small model: ${api_small:,.0f}/month | API frontier model: ${api_large:,.0f}/month | self-host 1 GPU: ${gpu_month + engineering:,.0f}/month (incl. ops)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">API small model: $210/month | API frontier model: $8,400/month | self-host 1 GPU: $3,364/month (incl. ops)</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Factor</th>
+<th>Hosted API</th>
+<th>Self-hosted open model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quality</td>
+<td>Frontier models</td>
+<td>Good to very good; best for narrow tasks</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Pay per token; zero at zero use</td>
+<td>Fixed GPU + engineering; cheap only at high, steady volume</td>
+</tr>
+<tr>
+<td>Privacy</td>
+<td>Contracts, zero-retention options, regional hosting</td>
+<td>Data never leaves your infrastructure</td>
+</tr>
+<tr>
+<td>Speed to ship</td>
+<td>Minutes</td>
+<td>Weeks</td>
+</tr>
+<tr>
+<td>Maintenance</td>
+<td>Provider updates</td>
+<td>You patch, scale, monitor and evaluate</td>
+</tr>
+</tbody>
+</table></div>
+<p>Small hosted models are often cheaper than self-hosting until volumes are very large; self-hosting wins on strict data residency, offline/edge needs, or very high steady volume.</p>
+<h2 id="genai-10-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Climb the ladder: prompt → examples → RAG → tools → fine-tuning; use RAG for knowledge and fine-tuning for behaviour.</li>
+<li>Fine-tuning needs clean, diverse chat-format examples, a held-out test set and a prompt-only baseline.</li>
+<li>LoRA trains small low-rank updates (often &lt; 1% of parameters); QLoRA adds 4-bit base weights for single-GPU training.</li>
+<li>Distillation trains a small model on a large model's outputs for cheap, fast, narrow tasks.</li>
+<li>Open-weight models (Llama, Mistral, Qwen, DeepSeek, Gemma) run via Ollama/vLLM; compare API and self-hosting on quality, total cost, privacy and effort.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-10-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Your assistant must answer from 5,000 changing policy pages. Best approach?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>RAG</button><button type="button" class="opt" data-ok="0"><i>B</i>Fine-tuning</button><button type="button" class="opt" data-ok="0"><i>C</i>Training from scratch</button><button type="button" class="opt" data-ok="0"><i>D</i>A higher temperature</button></div><div class="qexp"><b>Answer: A.</b> Knowledge belongs in retrieval.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does LoRA train?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Small low-rank matrices added to frozen original weights</button><button type="button" class="opt" data-ok="0"><i>B</i>All model weights</button><button type="button" class="opt" data-ok="0"><i>C</i>Only the tokenizer</button><button type="button" class="opt" data-ok="0"><i>D</i>The embedding database</button></div><div class="qexp"><b>Answer: A.</b> Few trainable parameters.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does QLoRA add?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A 4-bit quantised frozen base model, cutting memory</button><button type="button" class="opt" data-ok="0"><i>B</i>More training data</button><button type="button" class="opt" data-ok="0"><i>C</i>A new tokenizer</button><button type="button" class="opt" data-ok="0"><i>D</i>RAG</button></div><div class="qexp"><b>Answer: A.</b> Fine-tune big models on one GPU.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is distillation?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Training a small student model on a large teacher model's outputs</button><button type="button" class="opt" data-ok="0"><i>B</i>Removing stop words</button><button type="button" class="opt" data-ok="0"><i>C</i>Compressing PDFs</button><button type="button" class="opt" data-ok="0"><i>D</i>Prompt chaining</button></div><div class="qexp"><b>Answer: A.</b> Cheap, fast specialised models.</div></div><div class="qq"><p class="qtext"><b>5.</b> When is self-hosting an open model most attractive?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Strict data residency/offline needs or very high, steady volume</button><button type="button" class="opt" data-ok="0"><i>B</i>A prototype with 100 users</button><button type="button" class="opt" data-ok="0"><i>C</i>When you need the best possible quality immediately</button><button type="button" class="opt" data-ok="0"><i>D</i>When nobody can manage GPUs</button></div><div class="qexp"><b>Answer: A.</b> Include engineering costs.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is the first thing to try before fine-tuning for a formatting problem?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Clear instructions, examples and structured outputs</button><button type="button" class="opt" data-ok="0"><i>B</i>Training from scratch</button><button type="button" class="opt" data-ok="0"><i>C</i>Buying GPUs</button><button type="button" class="opt" data-ok="0"><i>D</i>Removing the system prompt</button></div><div class="qexp"><b>Answer: A.</b> Cheapest rung first.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Write 20 high-quality chat-format examples for a ticket-routing task. (2) Compute LoRA trainable parameters for a 70B model with 80 layers, hidden size 8,192, rank 8 on q/v projections. (3) Install Ollama and compare a small open model with an API model on 20 reviews. (4) Calculate the monthly volume at which one GPU becomes cheaper than the small API model.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-n">80</span> * <span class="hl-n">2</span> * <span class="hl-f">lora_params</span>(<span class="hl-n">8192</span>, <span class="hl-n">8192</span>, <span class="hl-n">8</span>) / 1e6, <span class="hl-s">&quot;M parameters&quot;</span>)          <span class="hl-c"># ≈ 21M</span>
+per_req = (<span class="hl-n">400</span> * <span class="hl-n">0.10</span> + <span class="hl-n">60</span> * <span class="hl-n">0.50</span>) / 1e6
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;break-even ≈ {(gpu_month + engineering) / per_req:,.0f} requests/month&quot;</span>)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: RAG or fine-tuning?</strong>
+RAG for knowledge that changes or needs citations; fine-tuning for consistent behaviour, format, tone or narrow tasks at scale. They combine well: a fine-tuned model can still use RAG.</p>
+<p><strong>Q: Explain LoRA in one minute.</strong>
+Instead of updating a huge weight matrix, LoRA learns two small matrices whose product approximates the needed change; the original weights stay frozen, so training is cheap and adapters are small and swappable.</p>
+<p><strong>Q: How would you decide between an API model and a self-hosted model?</strong>
+Evaluate quality on the task, total monthly cost including engineering, latency, data-privacy and residency requirements, licence terms and the team's ability to operate GPUs.</p></div></div></article><article class="lesson-art bk" id="L-genai-11"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 11</div><h1>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</h1>
+<p class="sum">Apply LLMs to everyday analytics and engineering. Schema-aware text-to-SQL with guardrails and execution-accuracy evaluation, AI coding assistants and agents in notebooks and IDEs, LLM-assisted data cleaning (normalising messy categories, extracting fields from text), generating narrative insights from tables safely, and a workflow that keeps the analyst in control.</p><div class="tags"><span class="tag live">● DVA + AI classes 2–3 · GenAI Launchpad</span><span class="tag new">✦ 2026: Claude Code, GitHub Copilot, Gemini in Colab/BigQuery, Copilot in Power BI and Excel</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build a schema-aware text-to-SQL prompt with read-only execution and validation</li><li>Evaluate text-to-SQL with execution accuracy on a gold question set</li><li>Use AI coding assistants effectively and safely for analysis code</li><li>Use LLMs for data cleaning and text-to-table extraction with validation</li><li>Generate narrative insights that are grounded in computed numbers</li></ul></div></div><div class="content"><h2 id="genai-11-where-genai-helps-analysts">Where GenAI helps analysts</h2>
+<figure class="fig"><img src="../img/genai-11-01.png" alt="The analyst&#x27;s workflow with AI assistance at each step, and the human checks that keep it reliable." loading="lazy"><figcaption>The analyst's workflow with AI assistance at each step, and the human checks that keep it reliable.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Typical tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write and explain SQL</td>
+<td>Claude/ChatGPT/Gemini, BigQuery and Snowflake copilots, Metabase AI, MinusX</td>
+</tr>
+<tr>
+<td>Write Python, fix errors, build charts</td>
+<td>Claude Code, GitHub Copilot, Cursor, Gemini in Colab, Jupyter AI</td>
+</tr>
+<tr>
+<td>Clean messy text and categories</td>
+<td>LLM calls with validation, fuzzy matching</td>
+</tr>
+<tr>
+<td>Extract fields from documents (invoices, emails)</td>
+<td>LLM structured outputs, document AI services</td>
+</tr>
+<tr>
+<td>Summarise dashboards and write reports</td>
+<td>Copilot in Power BI, Excel Copilot/Gemini, LLM APIs</td>
+</tr>
+<tr>
+<td>Ask questions of data in plain English</td>
+<td>Text-to-SQL apps, BI "Q&amp;A" features, data agents</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="genai-11-text-to-sql">Text-to-SQL</h2>
+<p>The model needs the <strong>schema</strong>, <strong>business definitions</strong> and <strong>rules</strong>; your code must keep execution <strong>read-only</strong> and <strong>validate</strong> results.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re, json, duckdb, pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+con = <span class="hl-f">duckdb.connect</span>(); <span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+schema = <span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&quot;  {c} {t}&quot;</span> <span class="hl-k">for</span> c, t, *_ <span class="hl-k">in</span> <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;DESCRIBE sales&quot;</span>).<span class="hl-f">fetchall</span>())
+PROMPT = <span class="hl-s">f&quot;&quot;</span>&quot;You write DuckDB SQL <span class="hl-k">for</span> an Indian office-supplies retailer.
+
+&lt;schema&gt;
+TABLE sales (one row per order line)
+{schema}
+&lt;/schema&gt;
+
+&lt;definitions&gt;
+- Revenue = <span class="hl-f">SUM</span>(sales); profit margin % = <span class="hl-n">100</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales).
+- An order <span class="hl-k">is</span> a distinct order_id; AOV = revenue / number of orders.
+- Years are calendar years of order_date. Amounts are <span class="hl-k">in</span> INR.
+&lt;/definitions&gt;
+
+&lt;rules&gt;
+- Return ONE SELECT statement only, no comments <span class="hl-k">or</span> explanations.
+- Never modify data. Use explicit column names. Round money to <span class="hl-n">2</span> decimals.
+- If the question cannot be answered <span class="hl-k">from</span> this table, <span class="hl-k">return</span>: SELECT <span class="hl-s">&#x27;cannot answer&#x27;</span> AS message
+&lt;/rules&gt;
+
+&lt;question&gt;{{question}}&lt;/question&gt;<span class="hl-s">&quot;&quot;</span>&quot;
+<span class="hl-f">print</span>(<span class="hl-f">PROMPT.format</span>(question=<span class="hl-s">&quot;Which region had the highest profit margin in 2025?&quot;</span>)[:<span class="hl-n">900</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">You write DuckDB SQL for an Indian office-supplies retailer.
+
+&lt;schema&gt;
+TABLE sales (one row per order line)
+  row_id BIGINT
+  order_id VARCHAR
+  order_date TIMESTAMP_NS
+  ship_date TIMESTAMP_NS
+  ship_mode VARCHAR
+  customer_id VARCHAR
+  customer_name VARCHAR
+  segment VARCHAR
+  city VARCHAR
+  state VARCHAR
+  region VARCHAR
+  product_id VARCHAR
+  category VARCHAR
+  sub_category VARCHAR
+  product_name VARCHAR
+  sales DOUBLE
+  quantity BIGINT
+  discount DOUBLE
+  profit DOUBLE
+&lt;/schema&gt;
+
+&lt;definitions&gt;
+- Revenue = SUM(sales); profit margin % = 100 * SUM(profit) / SUM(sales).
+- An order is a distinct order_id; AOV = revenue / number of orders.
+- Years are calendar years of order_date. Amounts are in INR.
+&lt;/definitions&gt;
+
+&lt;rules&gt;
+- Return ONE SELECT statement only, no comments or explanations.
+- Never modify data. Use explicit column names. Round money to 2 decimals.
+- If the question cannot be</pre></div>
+<h3 id="genai-11-guarded-execution">Guarded execution</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">FORBIDDEN = r<span class="hl-s">&quot;\b(insert|update|delete|drop|alter|create|replace|copy|attach|detach|pragma|install|load|export)\b&quot;</span>
+<span class="hl-k">def</span> <span class="hl-f">safe_execute</span>(sql_text, max_rows=<span class="hl-n">200</span>):
+    sql_text = <span class="hl-f">sql_text.strip</span>().<span class="hl-f">strip</span>(<span class="hl-s">&quot;`&quot;</span>).<span class="hl-f">removeprefix</span>(<span class="hl-s">&quot;sql&quot;</span>).<span class="hl-f">strip</span>().<span class="hl-f">rstrip</span>(<span class="hl-s">&quot;;&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-s">&quot;;&quot;</span> <span class="hl-k">in</span> sql_text: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;multiple statements are not allowed&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-k">not</span> <span class="hl-f">re.match</span>(r<span class="hl-s">&quot;^(with|select)\b&quot;</span>, sql_text, re.I): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;only SELECT/WITH queries are allowed&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-f">re.search</span>(FORBIDDEN, sql_text, re.I): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;forbidden keyword&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(<span class="hl-s">f&quot;SELECT * FROM ({sql_text}) LIMIT {max_rows}&quot;</span>).<span class="hl-f">df</span>()
+<span class="hl-f">print</span>(<span class="hl-f">safe_execute</span>(<span class="hl-s">&quot;```sql\nSELECT region, ROUND(100*SUM(profit)/SUM(sales), 2) AS margin FROM sales WHERE YEAR(order_date)=2025 GROUP BY 1 ORDER BY 2 DESC\n```&quot;</span>))
+<span class="hl-k">for</span> bad <span class="hl-k">in</span> [<span class="hl-s">&quot;DROP TABLE sales&quot;</span>, <span class="hl-s">&quot;SELECT 1; DELETE FROM sales&quot;</span>, <span class="hl-s">&quot;COPY sales TO &#x27;leak.csv&#x27;&quot;</span>]:
+    <span class="hl-k">try</span>: <span class="hl-f">safe_execute</span>(bad)
+    <span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;blocked:&quot;</span>, bad, <span class="hl-s">&quot;→&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region  margin
+0   East   10.93
+1  North    9.49
+2   West    9.43
+3  South    8.50
+blocked: DROP TABLE sales → only SELECT/WITH queries are allowed
+blocked: SELECT 1; DELETE FROM sales → multiple statements are not allowed
+blocked: COPY sales TO &#x27;leak.csv&#x27; → only SELECT/WITH queries are allowed</pre></div>
+<p>Better still: connect with a <strong>read-only database user</strong>, set query timeouts and row limits, and restrict to approved schemas or views.</p>
+<h3 id="genai-11-evaluate-with-execution-accuracy">Evaluate with execution accuracy</h3>
+<p>Compare the <strong>result</strong> of the generated SQL with the result of a gold query (different SQL can be equally correct).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">GOLD = {
+    <span class="hl-s">&quot;Total revenue in 2024 in crores&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(SUM(sales)/1e7, 2) FROM sales WHERE YEAR(order_date) = 2024&quot;</span>,
+    <span class="hl-s">&quot;Number of orders in 2025&quot;</span>: <span class="hl-s">&quot;SELECT COUNT(DISTINCT order_id) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,
+    <span class="hl-s">&quot;Top 3 states by profit in 2025&quot;</span>: <span class="hl-s">&quot;SELECT state FROM sales WHERE YEAR(order_date) = 2025 GROUP BY state ORDER BY SUM(profit) DESC LIMIT 3&quot;</span>,
+    <span class="hl-s">&quot;Average order value in 2025&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(SUM(sales) / COUNT(DISTINCT order_id), 2) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,
+    <span class="hl-s">&quot;Share of lines with discount above 20%&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(100.0 * AVG(CASE WHEN discount &gt; 0.2 THEN 1 ELSE 0 END), 2) FROM sales&quot;</span>,
+}
+GENERATED = {   <span class="hl-c"># what a model returned (one plausible correct, one subtly wrong, one different-but-correct, ...)</span>
+    <span class="hl-s">&quot;Total revenue in 2024 in crores&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(SUM(sales) / 10000000, 2) AS revenue_cr FROM sales WHERE order_date BETWEEN &#x27;2024-01-01&#x27; AND &#x27;2024-12-31&#x27;&quot;</span>,
+    <span class="hl-s">&quot;Number of orders in 2025&quot;</span>: <span class="hl-s">&quot;SELECT COUNT(order_id) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,                      <span class="hl-c"># counts lines, not orders</span>
+    <span class="hl-s">&quot;Top 3 states by profit in 2025&quot;</span>: <span class="hl-s">&quot;SELECT state FROM (SELECT state, SUM(profit) p FROM sales WHERE YEAR(order_date)=2025 GROUP BY state) ORDER BY p DESC LIMIT 3&quot;</span>,
+    <span class="hl-s">&quot;Average order value in 2025&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(AVG(sales), 2) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,               <span class="hl-c"># average line value, not order value</span>
+    <span class="hl-s">&quot;Share of lines with discount above 20%&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE discount &gt; 0.2) / COUNT(*), 2) FROM sales&quot;</span>,
+}
+<span class="hl-k">def</span> <span class="hl-f">same_result</span>(a, b): <span class="hl-k">return</span> [<span class="hl-f">tuple</span>(r) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">a.round</span>(<span class="hl-n">2</span>).<span class="hl-f">astype</span>(str).values] == [<span class="hl-f">tuple</span>(r) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">b.round</span>(<span class="hl-n">2</span>).<span class="hl-f">astype</span>(str).values]
+rows = []
+<span class="hl-k">for</span> q, g <span class="hl-k">in</span> <span class="hl-f">GOLD.items</span>():
+    <span class="hl-k">try</span>: ok = <span class="hl-f">same_result</span>(<span class="hl-f">safe_execute</span>(GENERATED[q]), <span class="hl-f">safe_execute</span>(g))
+    <span class="hl-k">except</span> Exception <span class="hl-k">as</span> e: ok = <span class="hl-k">False</span>
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;question&quot;</span>: q, <span class="hl-s">&quot;execution_match&quot;</span>: ok})
+r = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">r.to_string</span>(index=<span class="hl-k">False</span>)); <span class="hl-f">print</span>(<span class="hl-s">f&quot;execution accuracy: {r.execution_match.mean():.0%}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                              question  execution_match
+       Total revenue in 2024 in crores             True
+              Number of orders in 2025            False
+        Top 3 states by profit in 2025             True
+           Average order value in 2025            False
+Share of lines with discount above 20%             True
+execution accuracy: 60%</pre></div>
+<p>The two failures are classic <strong>semantic</strong> errors that run without error: counting order lines instead of distinct orders, and averaging line values instead of order values. That is why business <strong>definitions in the prompt</strong>, a gold test set and analyst review matter more than whether the SQL runs.</p>
+<p>Benchmarks such as <strong>Spider</strong> and <strong>BIRD</strong> measure text-to-SQL; real accuracy depends on your schema quality: clear names, documented columns, curated views and a <strong>semantic layer</strong> (dbt metrics, Power BI measures, LookML) dramatically improve results.</p>
+<h2 id="genai-11-ai-coding-assistants-for-analysis">AI coding assistants for analysis</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Practice</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Give context: data shape, column meanings, goal, libraries</td>
+<td>Better first drafts</td>
+</tr>
+<tr>
+<td>Ask for small steps and run each one</td>
+<td>Easier to verify</td>
+</tr>
+<tr>
+<td>Ask the assistant to explain unfamiliar code</td>
+<td>Learning and review</td>
+</tr>
+<tr>
+<td>Make it write tests/assertions (row counts, totals)</td>
+<td>Catch silent errors</td>
+</tr>
+<tr>
+<td>Never paste secrets or confidential data into tools not approved by your company</td>
+<td>Privacy and compliance</td>
+</tr>
+<tr>
+<td>Review every line before it touches production</td>
+<td>You own the result</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A typical AI-drafted cleaning snippet, with the reconciliation checks you should always add</span>
+before_rows, before_sales = <span class="hl-f">len</span>(sales), <span class="hl-f">sales.sales.sum</span>()
+clean = <span class="hl-f">sales.drop_duplicates</span>().<span class="hl-f">assign</span>(margin=<span class="hl-k">lambda</span> d: d.profit / d.sales)
+clean = clean[clean.sales &gt; <span class="hl-n">0</span>]
+assert <span class="hl-f">len</span>(clean) == before_rows, <span class="hl-s">&quot;row count changed: investigate before continuing&quot;</span>
+assert <span class="hl-f">abs</span>(<span class="hl-f">clean.sales.sum</span>() - before_sales) &lt; <span class="hl-n">1</span>, <span class="hl-s">&quot;revenue no longer reconciles&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;checks passed:&quot;</span>, <span class="hl-f">len</span>(clean), <span class="hl-s">&quot;rows, revenue&quot;</span>, <span class="hl-s">f&quot;{clean.sales.sum():,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">checks passed: 6323 rows, revenue 201,413,569</pre></div>
+<p>Agentic coding tools (Claude Code, Copilot agent mode, Cursor agents) can run whole tasks: explore a repository, write a pipeline, run tests and fix failures. Use them with version control, small reviewed changes and tests.</p>
+<h2 id="genai-11-llm-assisted-data-cleaning">LLM-assisted data cleaning</h2>
+<p>Messy free-text categories are a perfect LLM task: map variants to a controlled list, then <strong>validate</strong>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> difflib <span class="hl-k">import</span> get_close_matches
+CANONICAL = [<span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Hyderabad&quot;</span>, <span class="hl-s">&quot;Chennai&quot;</span>, <span class="hl-s">&quot;Kolkata&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Ahmedabad&quot;</span>]
+raw = [<span class="hl-s">&quot;Bangalore&quot;</span>, <span class="hl-s">&quot;bengaluru &quot;</span>, <span class="hl-s">&quot;BLR&quot;</span>, <span class="hl-s">&quot;Bombay&quot;</span>, <span class="hl-s">&quot;mumbai&quot;</span>, <span class="hl-s">&quot;New Delhi&quot;</span>, <span class="hl-s">&quot;Dilli&quot;</span>, <span class="hl-s">&quot;Hyd&quot;</span>, <span class="hl-s">&quot;Calcutta&quot;</span>, <span class="hl-s">&quot;Poona&quot;</span>, <span class="hl-s">&quot;Pune-411001&quot;</span>, <span class="hl-s">&quot;Gurgaon&quot;</span>]
+<span class="hl-k">def</span> <span class="hl-f">rule_based</span>(x):
+    m = <span class="hl-f">get_close_matches</span>(<span class="hl-f">x.strip</span>().<span class="hl-f">title</span>().<span class="hl-f">split</span>(<span class="hl-s">&quot;-&quot;</span>)[<span class="hl-n">0</span>], CANONICAL, n=<span class="hl-n">1</span>, cutoff=<span class="hl-n">0.75</span>); <span class="hl-k">return</span> m[<span class="hl-n">0</span>] <span class="hl-k">if</span> m <span class="hl-k">else</span> <span class="hl-k">None</span>
+llm_mapping = {<span class="hl-s">&quot;Bangalore&quot;</span>: <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;bengaluru &quot;</span>: <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;BLR&quot;</span>: <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;Bombay&quot;</span>: <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;mumbai&quot;</span>: <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;New Delhi&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Dilli&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>,
+               <span class="hl-s">&quot;Hyd&quot;</span>: <span class="hl-s">&quot;Hyderabad&quot;</span>, <span class="hl-s">&quot;Calcutta&quot;</span>: <span class="hl-s">&quot;Kolkata&quot;</span>, <span class="hl-s">&quot;Poona&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Pune-411001&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Gurgaon&quot;</span>: <span class="hl-s">&quot;OTHER&quot;</span>}       <span class="hl-c"># what an LLM prompt returned</span>
+out = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;raw&quot;</span>: raw, <span class="hl-s">&quot;fuzzy_match&quot;</span>: [<span class="hl-f">rule_based</span>(x) <span class="hl-k">for</span> x <span class="hl-k">in</span> raw], <span class="hl-s">&quot;llm&quot;</span>: [llm_mapping[x] <span class="hl-k">for</span> x <span class="hl-k">in</span> raw]})
+out[<span class="hl-s">&quot;llm_valid&quot;</span>] = <span class="hl-f">out.llm.isin</span>(CANONICAL + [<span class="hl-s">&quot;OTHER&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-f">out.to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">        raw fuzzy_match       llm  llm_valid
+  Bangalore        None Bengaluru       True
+ bengaluru    Bengaluru Bengaluru       True
+        BLR        None Bengaluru       True
+     Bombay        None    Mumbai       True
+     mumbai      Mumbai    Mumbai       True
+  New Delhi        None     Delhi       True
+      Dilli        None     Delhi       True
+        Hyd        None Hyderabad       True
+   Calcutta        None   Kolkata       True
+      Poona        None      Pune       True
+Pune-411001        Pune      Pune       True
+    Gurgaon        None     OTHER       True</pre></div>
+<p>Fuzzy matching handles spelling variants but misses old names and abbreviations (Bombay, BLR, Dilli, Calcutta); an LLM with world knowledge handles them, and a validation step guarantees every output is from the allowed list. Gurgaon is correctly flagged as not one of the target cities. For large tables, map the <strong>unique values</strong> once (hundreds of calls, not millions), review the mapping table, and join it back.</p>
+<h3 id="genai-11-text-to-table">Text to table</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">emails = [<span class="hl-s">&quot;Hi, order NM-1042 (laptop) arrived with a cracked screen on 3 Oct. I need a replacement urgently - Priya&quot;</span>,
+          <span class="hl-s">&quot;Payment of Rs 2,499 was debited twice for order NM-2210. Please refund one. Thanks, Arjun&quot;</span>]
+extracted = [{<span class="hl-s">&quot;order_id&quot;</span>: <span class="hl-s">&quot;NM-1042&quot;</span>, <span class="hl-s">&quot;product&quot;</span>: <span class="hl-s">&quot;laptop&quot;</span>, <span class="hl-s">&quot;issue&quot;</span>: <span class="hl-s">&quot;damaged on arrival&quot;</span>, <span class="hl-s">&quot;amount_inr&quot;</span>: <span class="hl-k">None</span>, <span class="hl-s">&quot;urgency&quot;</span>: <span class="hl-s">&quot;high&quot;</span>},
+             {<span class="hl-s">&quot;order_id&quot;</span>: <span class="hl-s">&quot;NM-2210&quot;</span>, <span class="hl-s">&quot;product&quot;</span>: <span class="hl-k">None</span>, <span class="hl-s">&quot;issue&quot;</span>: <span class="hl-s">&quot;duplicate payment&quot;</span>, <span class="hl-s">&quot;amount_inr&quot;</span>: <span class="hl-n">2499</span>, <span class="hl-s">&quot;urgency&quot;</span>: <span class="hl-s">&quot;medium&quot;</span>}]   <span class="hl-c"># model output via structured outputs</span>
+df = <span class="hl-f">pd.DataFrame</span>(extracted)
+df[<span class="hl-s">&quot;order_id_valid&quot;</span>] = <span class="hl-f">df.order_id.str.fullmatch</span>(r<span class="hl-s">&quot;NM-\d{4}&quot;</span>); df[<span class="hl-s">&quot;order_id_in_text&quot;</span>] = [o <span class="hl-k">in</span> e <span class="hl-k">for</span> o, e <span class="hl-k">in</span> <span class="hl-f">zip</span>(df.order_id, emails)]
+<span class="hl-f">print</span>(<span class="hl-f">df.to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">order_id product              issue  amount_inr urgency  order_id_valid  order_id_in_text
+ NM-1042  laptop damaged on arrival         NaN    high            True              True
+ NM-2210    None  duplicate payment      2499.0  medium            True              True</pre></div>
+<p>Check extracted values against the source text (does the order id actually appear?) and against business rules.</p>
+<h2 id="genai-11-grounded-narrative-insights">Grounded narrative insights</h2>
+<p>LLMs write fluent commentary, but numbers must come from your computations, not from the model.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">sales.assign</span>(year=sales.order_date.dt.year)
+k = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;year&quot;</span>).<span class="hl-f">agg</span>(revenue=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>))
+k[<span class="hl-s">&quot;margin&quot;</span>] = <span class="hl-n">100</span> * k.profit / k.revenue
+facts = {<span class="hl-s">&quot;revenue_2025_cr&quot;</span>: <span class="hl-f">round</span>(k.revenue[<span class="hl-n">2025</span>] / 1e7, <span class="hl-n">2</span>), <span class="hl-s">&quot;revenue_growth_pct&quot;</span>: <span class="hl-f">round</span>(<span class="hl-n">100</span> * (k.revenue[<span class="hl-n">2025</span>] / k.revenue[<span class="hl-n">2024</span>] - <span class="hl-n">1</span>), <span class="hl-n">1</span>),
+         <span class="hl-s">&quot;margin_2025_pct&quot;</span>: <span class="hl-f">round</span>(k.margin[<span class="hl-n">2025</span>], <span class="hl-n">1</span>), <span class="hl-s">&quot;margin_2024_pct&quot;</span>: <span class="hl-f">round</span>(k.margin[<span class="hl-n">2024</span>], <span class="hl-n">1</span>), <span class="hl-s">&quot;orders_2025&quot;</span>: <span class="hl-f">int</span>(k.orders[<span class="hl-n">2025</span>])}
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>(facts))
+prompt = <span class="hl-s">f&quot;&quot;</span>&quot;Write a <span class="hl-n">3</span>-sentence executive summary <span class="hl-k">for</span> the CFO using ONLY these facts. Do <span class="hl-k">not</span> add any other numbers.
+&lt;facts&gt;{<span class="hl-f">json.dumps</span>(facts)}&lt;/facts&gt;<span class="hl-s">&quot;&quot;</span>&quot;
+draft = (<span class="hl-s">&quot;Revenue reached ₹7.84 crore in 2025, up 19.8% on 2024, from 1,232 orders. &quot;</span>
+         <span class="hl-s">&quot;Profit margin improved slightly to 9.6% from 9.4%. Growth was broad-based, so the priority is protecting margin as volumes rise.&quot;</span>)   <span class="hl-c"># an LLM-style draft</span>
+nums_in_draft = <span class="hl-f">set</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;\d[\d,]*\.?\d*&quot;</span>, <span class="hl-f">draft.replace</span>(<span class="hl-s">&quot;,&quot;</span>, <span class="hl-s">&quot;&quot;</span>)))
+allowed = {<span class="hl-f">str</span>(v).<span class="hl-f">replace</span>(<span class="hl-s">&quot;,&quot;</span>, <span class="hl-s">&quot;&quot;</span>) <span class="hl-k">for</span> v <span class="hl-k">in</span> <span class="hl-f">facts.values</span>()} | {<span class="hl-s">&quot;2025&quot;</span>, <span class="hl-s">&quot;2024&quot;</span>, <span class="hl-s">&quot;3&quot;</span>}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;numbers not in facts:&quot;</span>, <span class="hl-f">sorted</span>(nums_in_draft - allowed) <span class="hl-k">or</span> <span class="hl-s">&quot;none&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&quot;revenue_2025_cr&quot;: 7.84, &quot;revenue_growth_pct&quot;: 19.8, &quot;margin_2025_pct&quot;: 9.6, &quot;margin_2024_pct&quot;: 9.4, &quot;orders_2025&quot;: 1232}
+numbers not in facts: none</pre></div>
+<p>Pattern: <strong>compute facts in code → pass them as JSON → instruct "use only these facts" → automatically check every number in the draft → human review</strong>. The same pattern drives Power BI Copilot summaries and automated monthly reports.</p>
+<h2 id="genai-11-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Text-to-SQL needs the schema, business definitions and rules in the prompt, read-only guarded execution, and evaluation by execution accuracy on gold questions.</li>
+<li>The dangerous errors are semantic (wrong definition) not syntactic; curated views and semantic layers improve accuracy.</li>
+<li>AI coding assistants speed up analysis; give context, work in small steps, add reconciliation checks and review everything.</li>
+<li>LLMs clean messy categories and extract fields from text well when outputs are validated against allowed values and the source.</li>
+<li>Generate narratives from computed facts only, and check every number automatically.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-11-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why include business definitions (e.g. "an order is a distinct order_id") in a text-to-SQL prompt?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Without them the model may write SQL that runs but computes the wrong metric</button><button type="button" class="opt" data-ok="0"><i>B</i>To make the prompt longer</button><button type="button" class="opt" data-ok="0"><i>C</i>Because SQL requires it</button><button type="button" class="opt" data-ok="0"><i>D</i>To speed up the query</button></div><div class="qexp"><b>Answer: A.</b> Semantic errors are the main risk.</div></div><div class="qq"><p class="qtext"><b>2.</b> What is execution accuracy?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Whether the generated query returns the same result as a gold query</button><button type="button" class="opt" data-ok="0"><i>B</i>Whether the SQL is formatted nicely</button><button type="button" class="opt" data-ok="0"><i>C</i>Query speed</button><button type="button" class="opt" data-ok="0"><i>D</i>Whether it uses SELECT</button></div><div class="qexp"><b>Answer: A.</b> Different SQL can be equally correct.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which control best prevents an LLM-generated query from changing data?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A read-only database user (plus statement checks)</button><button type="button" class="opt" data-ok="0"><i>B</i>Asking the model politely</button><button type="button" class="opt" data-ok="0"><i>C</i>Higher temperature</button><button type="button" class="opt" data-ok="0"><i>D</i>Longer prompts</button></div><div class="qexp"><b>Answer: A.</b> Least privilege.</div></div><div class="qq"><p class="qtext"><b>4.</b> How should you clean 2 million rows with 300 distinct messy city names using an LLM?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Map the 300 unique values once, validate the mapping, and join it back</button><button type="button" class="opt" data-ok="0"><i>B</i>Call the LLM 2 million times</button><button type="button" class="opt" data-ok="0"><i>C</i>Skip validation</button><button type="button" class="opt" data-ok="0"><i>D</i>Delete the column</button></div><div class="qexp"><b>Answer: A.</b> Cheap and reviewable.</div></div><div class="qq"><p class="qtext"><b>5.</b> An AI-written report says "margin grew 3 points" but your facts show 0.2. What prevents this?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Passing computed facts only and automatically checking every number in the draft</button><button type="button" class="opt" data-ok="0"><i>B</i>Using a bigger model only</button><button type="button" class="opt" data-ok="0"><i>C</i>Writing longer prompts</button><button type="button" class="opt" data-ok="0"><i>D</i>Trusting the model</button></div><div class="qexp"><b>Answer: A.</b> Verify numbers in code.</div></div><div class="qq"><p class="qtext"><b>6.</b> What improves text-to-SQL accuracy most on a messy warehouse?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Clean, documented schemas, curated views and a semantic layer</button><button type="button" class="opt" data-ok="0"><i>B</i>More GPU memory</button><button type="button" class="opt" data-ok="0"><i>C</i>Removing column names</button><button type="button" class="opt" data-ok="0"><i>D</i>Higher temperature</button></div><div class="qexp"><b>Answer: A.</b> Context quality drives accuracy.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Write five more gold questions (including one the table cannot answer) and evaluate a model's SQL with <code>same_result</code>. (2) Add a check that rejects queries without a <code>WHERE</code> on year when the question mentions a year. (3) Map the <code>ship_mode</code> values to an allowed list using fuzzy matching and inspect failures. (4) Generate a monthly KPI facts JSON and write the summary prompt.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">mentions_year_without_filter</span>(question, sql_text):
+    yrs = <span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;20\d\d&quot;</span>, question); <span class="hl-k">return</span> <span class="hl-f">bool</span>(yrs) <span class="hl-k">and</span> <span class="hl-k">not</span> <span class="hl-f">all</span>(y <span class="hl-k">in</span> sql_text <span class="hl-k">for</span> y <span class="hl-k">in</span> yrs)
+<span class="hl-f">print</span>(<span class="hl-f">mentions_year_without_filter</span>(<span class="hl-s">&quot;Revenue in 2025&quot;</span>, <span class="hl-s">&quot;SELECT SUM(sales) FROM sales&quot;</span>))
+m = <span class="hl-f">sales.assign</span>(m=<span class="hl-f">sales.order_date.dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>)).<span class="hl-f">groupby</span>(<span class="hl-s">&quot;m&quot;</span>).<span class="hl-f">agg</span>(rev=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)).<span class="hl-f">tail</span>(<span class="hl-n">2</span>)
+facts_m = {<span class="hl-s">&quot;revenue_last_month_lakh&quot;</span>: <span class="hl-f">round</span>(m.rev.iloc[-<span class="hl-n">1</span>] / 1e5, <span class="hl-n">1</span>), <span class="hl-s">&quot;mom_change_pct&quot;</span>: <span class="hl-f">round</span>(<span class="hl-n">100</span> * (m.rev.iloc[-<span class="hl-n">1</span>] / m.rev.iloc[-<span class="hl-n">2</span>] - <span class="hl-n">1</span>), <span class="hl-n">1</span>)}
+<span class="hl-f">print</span>(facts_m)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you build a "chat with your data" tool safely?</strong>
+Curated read-only views with documented columns and metric definitions, schema-aware prompts, guarded execution with timeouts and row limits, show the SQL and results to the user, evaluate with a gold question set, log queries, and route ambiguous questions to analysts.</p>
+<p><strong>Q: What are the risks of AI-generated analysis code?</strong>
+Silent logic errors, wrong joins and definitions, security issues, and data leakage to external tools; mitigate with tests, reconciliation checks, code review and approved tools.</p>
+<p><strong>Q: How can LLMs help with data cleaning?</strong>
+Normalising categories and entity names, extracting structured fields from text, detecting anomalies in descriptions, and generating cleaning code, always with validation against allowed values and source data.</p></div></div></article></body></html>

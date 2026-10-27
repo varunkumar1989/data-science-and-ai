@@ -1,0 +1,283 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights · GenAI &amp; Agents Lesson 11 · Data Science &amp; AI Handbook</title><meta name="description" content="Apply LLMs to everyday analytics and engineering. Schema-aware text-to-SQL with guardrails and execution-accuracy evaluation, AI coding assistants and agents in notebooks and IDEs, LLM-assisted data cleaning (normalising messy categories, extracting fields from text), generating narrative insights from tables safely, and a workflow that keeps the analyst in control."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 11</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class=""><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li class=""><a href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html" data-lid="genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li class=""><a href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html" data-lid="genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li class=""><a href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html" data-lid="genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li class=""><a href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html" data-lid="genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li class=""><a href="genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html" data-lid="genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li class=""><a href="genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html" data-lid="genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li class=""><a href="genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html" data-lid="genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li class="on"><a href="genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html" data-lid="genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-11">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 11 of 11</div><h1>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</h1>
+<p class="sum">Apply LLMs to everyday analytics and engineering. Schema-aware text-to-SQL with guardrails and execution-accuracy evaluation, AI coding assistants and agents in notebooks and IDEs, LLM-assisted data cleaning (normalising messy categories, extracting fields from text), generating narrative insights from tables safely, and a workflow that keeps the analyst in control.</p><div class="tags"><span class="tag live">● DVA + AI classes 2–3 · GenAI Launchpad</span><span class="tag new">✦ 2026: Claude Code, GitHub Copilot, Gemini in Colab/BigQuery, Copilot in Power BI and Excel</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_11_GenAI_for_Data_Work_Text_to_SQL_AI_Coding_Assistants_Data_Cleaning_and.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-11">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build a schema-aware text-to-SQL prompt with read-only execution and validation</li><li>Evaluate text-to-SQL with execution accuracy on a gold question set</li><li>Use AI coding assistants effectively and safely for analysis code</li><li>Use LLMs for data cleaning and text-to-table extraction with validation</li><li>Generate narrative insights that are grounded in computed numbers</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customer_reviews.csv" download>customer_reviews.csv</a></div></div></div>
+<div class="content"><h2 id="where-genai-helps-analysts">Where GenAI helps analysts</h2>
+<figure class="fig"><img src="../img/genai-11-01.png" alt="The analyst&#x27;s workflow with AI assistance at each step, and the human checks that keep it reliable." loading="lazy"><figcaption>The analyst's workflow with AI assistance at each step, and the human checks that keep it reliable.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Typical tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write and explain SQL</td>
+<td>Claude/ChatGPT/Gemini, BigQuery and Snowflake copilots, Metabase AI, MinusX</td>
+</tr>
+<tr>
+<td>Write Python, fix errors, build charts</td>
+<td>Claude Code, GitHub Copilot, Cursor, Gemini in Colab, Jupyter AI</td>
+</tr>
+<tr>
+<td>Clean messy text and categories</td>
+<td>LLM calls with validation, fuzzy matching</td>
+</tr>
+<tr>
+<td>Extract fields from documents (invoices, emails)</td>
+<td>LLM structured outputs, document AI services</td>
+</tr>
+<tr>
+<td>Summarise dashboards and write reports</td>
+<td>Copilot in Power BI, Excel Copilot/Gemini, LLM APIs</td>
+</tr>
+<tr>
+<td>Ask questions of data in plain English</td>
+<td>Text-to-SQL apps, BI "Q&amp;A" features, data agents</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="text-to-sql">Text-to-SQL</h2>
+<p>The model needs the <strong>schema</strong>, <strong>business definitions</strong> and <strong>rules</strong>; your code must keep execution <strong>read-only</strong> and <strong>validate</strong> results.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re, json, duckdb, pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+con = <span class="hl-f">duckdb.connect</span>(); <span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+schema = <span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&quot;  {c} {t}&quot;</span> <span class="hl-k">for</span> c, t, *_ <span class="hl-k">in</span> <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;DESCRIBE sales&quot;</span>).<span class="hl-f">fetchall</span>())
+PROMPT = <span class="hl-s">f&quot;&quot;</span>&quot;You write DuckDB SQL <span class="hl-k">for</span> an Indian office-supplies retailer.
+
+&lt;schema&gt;
+TABLE sales (one row per order line)
+{schema}
+&lt;/schema&gt;
+
+&lt;definitions&gt;
+- Revenue = <span class="hl-f">SUM</span>(sales); profit margin % = <span class="hl-n">100</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales).
+- An order <span class="hl-k">is</span> a distinct order_id; AOV = revenue / number of orders.
+- Years are calendar years of order_date. Amounts are <span class="hl-k">in</span> INR.
+&lt;/definitions&gt;
+
+&lt;rules&gt;
+- Return ONE SELECT statement only, no comments <span class="hl-k">or</span> explanations.
+- Never modify data. Use explicit column names. Round money to <span class="hl-n">2</span> decimals.
+- If the question cannot be answered <span class="hl-k">from</span> this table, <span class="hl-k">return</span>: SELECT <span class="hl-s">&#x27;cannot answer&#x27;</span> AS message
+&lt;/rules&gt;
+
+&lt;question&gt;{{question}}&lt;/question&gt;<span class="hl-s">&quot;&quot;</span>&quot;
+<span class="hl-f">print</span>(<span class="hl-f">PROMPT.format</span>(question=<span class="hl-s">&quot;Which region had the highest profit margin in 2025?&quot;</span>)[:<span class="hl-n">900</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">You write DuckDB SQL for an Indian office-supplies retailer.
+
+&lt;schema&gt;
+TABLE sales (one row per order line)
+  row_id BIGINT
+  order_id VARCHAR
+  order_date TIMESTAMP_NS
+  ship_date TIMESTAMP_NS
+  ship_mode VARCHAR
+  customer_id VARCHAR
+  customer_name VARCHAR
+  segment VARCHAR
+  city VARCHAR
+  state VARCHAR
+  region VARCHAR
+  product_id VARCHAR
+  category VARCHAR
+  sub_category VARCHAR
+  product_name VARCHAR
+  sales DOUBLE
+  quantity BIGINT
+  discount DOUBLE
+  profit DOUBLE
+&lt;/schema&gt;
+
+&lt;definitions&gt;
+- Revenue = SUM(sales); profit margin % = 100 * SUM(profit) / SUM(sales).
+- An order is a distinct order_id; AOV = revenue / number of orders.
+- Years are calendar years of order_date. Amounts are in INR.
+&lt;/definitions&gt;
+
+&lt;rules&gt;
+- Return ONE SELECT statement only, no comments or explanations.
+- Never modify data. Use explicit column names. Round money to 2 decimals.
+- If the question cannot be</pre></div>
+<h3 id="guarded-execution">Guarded execution</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">FORBIDDEN = r<span class="hl-s">&quot;\b(insert|update|delete|drop|alter|create|replace|copy|attach|detach|pragma|install|load|export)\b&quot;</span>
+<span class="hl-k">def</span> <span class="hl-f">safe_execute</span>(sql_text, max_rows=<span class="hl-n">200</span>):
+    sql_text = <span class="hl-f">sql_text.strip</span>().<span class="hl-f">strip</span>(<span class="hl-s">&quot;`&quot;</span>).<span class="hl-f">removeprefix</span>(<span class="hl-s">&quot;sql&quot;</span>).<span class="hl-f">strip</span>().<span class="hl-f">rstrip</span>(<span class="hl-s">&quot;;&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-s">&quot;;&quot;</span> <span class="hl-k">in</span> sql_text: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;multiple statements are not allowed&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-k">not</span> <span class="hl-f">re.match</span>(r<span class="hl-s">&quot;^(with|select)\b&quot;</span>, sql_text, re.I): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;only SELECT/WITH queries are allowed&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-f">re.search</span>(FORBIDDEN, sql_text, re.I): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;forbidden keyword&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(<span class="hl-s">f&quot;SELECT * FROM ({sql_text}) LIMIT {max_rows}&quot;</span>).<span class="hl-f">df</span>()
+<span class="hl-f">print</span>(<span class="hl-f">safe_execute</span>(<span class="hl-s">&quot;```sql\nSELECT region, ROUND(100*SUM(profit)/SUM(sales), 2) AS margin FROM sales WHERE YEAR(order_date)=2025 GROUP BY 1 ORDER BY 2 DESC\n```&quot;</span>))
+<span class="hl-k">for</span> bad <span class="hl-k">in</span> [<span class="hl-s">&quot;DROP TABLE sales&quot;</span>, <span class="hl-s">&quot;SELECT 1; DELETE FROM sales&quot;</span>, <span class="hl-s">&quot;COPY sales TO &#x27;leak.csv&#x27;&quot;</span>]:
+    <span class="hl-k">try</span>: <span class="hl-f">safe_execute</span>(bad)
+    <span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;blocked:&quot;</span>, bad, <span class="hl-s">&quot;→&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region  margin
+0   East   10.93
+1  North    9.49
+2   West    9.43
+3  South    8.50
+blocked: DROP TABLE sales → only SELECT/WITH queries are allowed
+blocked: SELECT 1; DELETE FROM sales → multiple statements are not allowed
+blocked: COPY sales TO &#x27;leak.csv&#x27; → only SELECT/WITH queries are allowed</pre></div>
+<p>Better still: connect with a <strong>read-only database user</strong>, set query timeouts and row limits, and restrict to approved schemas or views.</p>
+<h3 id="evaluate-with-execution-accuracy">Evaluate with execution accuracy</h3>
+<p>Compare the <strong>result</strong> of the generated SQL with the result of a gold query (different SQL can be equally correct).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">GOLD = {
+    <span class="hl-s">&quot;Total revenue in 2024 in crores&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(SUM(sales)/1e7, 2) FROM sales WHERE YEAR(order_date) = 2024&quot;</span>,
+    <span class="hl-s">&quot;Number of orders in 2025&quot;</span>: <span class="hl-s">&quot;SELECT COUNT(DISTINCT order_id) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,
+    <span class="hl-s">&quot;Top 3 states by profit in 2025&quot;</span>: <span class="hl-s">&quot;SELECT state FROM sales WHERE YEAR(order_date) = 2025 GROUP BY state ORDER BY SUM(profit) DESC LIMIT 3&quot;</span>,
+    <span class="hl-s">&quot;Average order value in 2025&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(SUM(sales) / COUNT(DISTINCT order_id), 2) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,
+    <span class="hl-s">&quot;Share of lines with discount above 20%&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(100.0 * AVG(CASE WHEN discount &gt; 0.2 THEN 1 ELSE 0 END), 2) FROM sales&quot;</span>,
+}
+GENERATED = {   <span class="hl-c"># what a model returned (one plausible correct, one subtly wrong, one different-but-correct, ...)</span>
+    <span class="hl-s">&quot;Total revenue in 2024 in crores&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(SUM(sales) / 10000000, 2) AS revenue_cr FROM sales WHERE order_date BETWEEN &#x27;2024-01-01&#x27; AND &#x27;2024-12-31&#x27;&quot;</span>,
+    <span class="hl-s">&quot;Number of orders in 2025&quot;</span>: <span class="hl-s">&quot;SELECT COUNT(order_id) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,                      <span class="hl-c"># counts lines, not orders</span>
+    <span class="hl-s">&quot;Top 3 states by profit in 2025&quot;</span>: <span class="hl-s">&quot;SELECT state FROM (SELECT state, SUM(profit) p FROM sales WHERE YEAR(order_date)=2025 GROUP BY state) ORDER BY p DESC LIMIT 3&quot;</span>,
+    <span class="hl-s">&quot;Average order value in 2025&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(AVG(sales), 2) FROM sales WHERE YEAR(order_date) = 2025&quot;</span>,               <span class="hl-c"># average line value, not order value</span>
+    <span class="hl-s">&quot;Share of lines with discount above 20%&quot;</span>: <span class="hl-s">&quot;SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE discount &gt; 0.2) / COUNT(*), 2) FROM sales&quot;</span>,
+}
+<span class="hl-k">def</span> <span class="hl-f">same_result</span>(a, b): <span class="hl-k">return</span> [<span class="hl-f">tuple</span>(r) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">a.round</span>(<span class="hl-n">2</span>).<span class="hl-f">astype</span>(str).values] == [<span class="hl-f">tuple</span>(r) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">b.round</span>(<span class="hl-n">2</span>).<span class="hl-f">astype</span>(str).values]
+rows = []
+<span class="hl-k">for</span> q, g <span class="hl-k">in</span> <span class="hl-f">GOLD.items</span>():
+    <span class="hl-k">try</span>: ok = <span class="hl-f">same_result</span>(<span class="hl-f">safe_execute</span>(GENERATED[q]), <span class="hl-f">safe_execute</span>(g))
+    <span class="hl-k">except</span> Exception <span class="hl-k">as</span> e: ok = <span class="hl-k">False</span>
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;question&quot;</span>: q, <span class="hl-s">&quot;execution_match&quot;</span>: ok})
+r = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">r.to_string</span>(index=<span class="hl-k">False</span>)); <span class="hl-f">print</span>(<span class="hl-s">f&quot;execution accuracy: {r.execution_match.mean():.0%}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                              question  execution_match
+       Total revenue in 2024 in crores             True
+              Number of orders in 2025            False
+        Top 3 states by profit in 2025             True
+           Average order value in 2025            False
+Share of lines with discount above 20%             True
+execution accuracy: 60%</pre></div>
+<p>The two failures are classic <strong>semantic</strong> errors that run without error: counting order lines instead of distinct orders, and averaging line values instead of order values. That is why business <strong>definitions in the prompt</strong>, a gold test set and analyst review matter more than whether the SQL runs.</p>
+<p>Benchmarks such as <strong>Spider</strong> and <strong>BIRD</strong> measure text-to-SQL; real accuracy depends on your schema quality: clear names, documented columns, curated views and a <strong>semantic layer</strong> (dbt metrics, Power BI measures, LookML) dramatically improve results.</p>
+<h2 id="ai-coding-assistants-for-analysis">AI coding assistants for analysis</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Practice</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Give context: data shape, column meanings, goal, libraries</td>
+<td>Better first drafts</td>
+</tr>
+<tr>
+<td>Ask for small steps and run each one</td>
+<td>Easier to verify</td>
+</tr>
+<tr>
+<td>Ask the assistant to explain unfamiliar code</td>
+<td>Learning and review</td>
+</tr>
+<tr>
+<td>Make it write tests/assertions (row counts, totals)</td>
+<td>Catch silent errors</td>
+</tr>
+<tr>
+<td>Never paste secrets or confidential data into tools not approved by your company</td>
+<td>Privacy and compliance</td>
+</tr>
+<tr>
+<td>Review every line before it touches production</td>
+<td>You own the result</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A typical AI-drafted cleaning snippet, with the reconciliation checks you should always add</span>
+before_rows, before_sales = <span class="hl-f">len</span>(sales), <span class="hl-f">sales.sales.sum</span>()
+clean = <span class="hl-f">sales.drop_duplicates</span>().<span class="hl-f">assign</span>(margin=<span class="hl-k">lambda</span> d: d.profit / d.sales)
+clean = clean[clean.sales &gt; <span class="hl-n">0</span>]
+assert <span class="hl-f">len</span>(clean) == before_rows, <span class="hl-s">&quot;row count changed: investigate before continuing&quot;</span>
+assert <span class="hl-f">abs</span>(<span class="hl-f">clean.sales.sum</span>() - before_sales) &lt; <span class="hl-n">1</span>, <span class="hl-s">&quot;revenue no longer reconciles&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;checks passed:&quot;</span>, <span class="hl-f">len</span>(clean), <span class="hl-s">&quot;rows, revenue&quot;</span>, <span class="hl-s">f&quot;{clean.sales.sum():,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">checks passed: 6323 rows, revenue 201,413,569</pre></div>
+<p>Agentic coding tools (Claude Code, Copilot agent mode, Cursor agents) can run whole tasks: explore a repository, write a pipeline, run tests and fix failures. Use them with version control, small reviewed changes and tests.</p>
+<h2 id="llm-assisted-data-cleaning">LLM-assisted data cleaning</h2>
+<p>Messy free-text categories are a perfect LLM task: map variants to a controlled list, then <strong>validate</strong>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> difflib <span class="hl-k">import</span> get_close_matches
+CANONICAL = [<span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Hyderabad&quot;</span>, <span class="hl-s">&quot;Chennai&quot;</span>, <span class="hl-s">&quot;Kolkata&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Ahmedabad&quot;</span>]
+raw = [<span class="hl-s">&quot;Bangalore&quot;</span>, <span class="hl-s">&quot;bengaluru &quot;</span>, <span class="hl-s">&quot;BLR&quot;</span>, <span class="hl-s">&quot;Bombay&quot;</span>, <span class="hl-s">&quot;mumbai&quot;</span>, <span class="hl-s">&quot;New Delhi&quot;</span>, <span class="hl-s">&quot;Dilli&quot;</span>, <span class="hl-s">&quot;Hyd&quot;</span>, <span class="hl-s">&quot;Calcutta&quot;</span>, <span class="hl-s">&quot;Poona&quot;</span>, <span class="hl-s">&quot;Pune-411001&quot;</span>, <span class="hl-s">&quot;Gurgaon&quot;</span>]
+<span class="hl-k">def</span> <span class="hl-f">rule_based</span>(x):
+    m = <span class="hl-f">get_close_matches</span>(<span class="hl-f">x.strip</span>().<span class="hl-f">title</span>().<span class="hl-f">split</span>(<span class="hl-s">&quot;-&quot;</span>)[<span class="hl-n">0</span>], CANONICAL, n=<span class="hl-n">1</span>, cutoff=<span class="hl-n">0.75</span>); <span class="hl-k">return</span> m[<span class="hl-n">0</span>] <span class="hl-k">if</span> m <span class="hl-k">else</span> <span class="hl-k">None</span>
+llm_mapping = {<span class="hl-s">&quot;Bangalore&quot;</span>: <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;bengaluru &quot;</span>: <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;BLR&quot;</span>: <span class="hl-s">&quot;Bengaluru&quot;</span>, <span class="hl-s">&quot;Bombay&quot;</span>: <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;mumbai&quot;</span>: <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;New Delhi&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Dilli&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>,
+               <span class="hl-s">&quot;Hyd&quot;</span>: <span class="hl-s">&quot;Hyderabad&quot;</span>, <span class="hl-s">&quot;Calcutta&quot;</span>: <span class="hl-s">&quot;Kolkata&quot;</span>, <span class="hl-s">&quot;Poona&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Pune-411001&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Gurgaon&quot;</span>: <span class="hl-s">&quot;OTHER&quot;</span>}       <span class="hl-c"># what an LLM prompt returned</span>
+out = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;raw&quot;</span>: raw, <span class="hl-s">&quot;fuzzy_match&quot;</span>: [<span class="hl-f">rule_based</span>(x) <span class="hl-k">for</span> x <span class="hl-k">in</span> raw], <span class="hl-s">&quot;llm&quot;</span>: [llm_mapping[x] <span class="hl-k">for</span> x <span class="hl-k">in</span> raw]})
+out[<span class="hl-s">&quot;llm_valid&quot;</span>] = <span class="hl-f">out.llm.isin</span>(CANONICAL + [<span class="hl-s">&quot;OTHER&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-f">out.to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">        raw fuzzy_match       llm  llm_valid
+  Bangalore        None Bengaluru       True
+ bengaluru    Bengaluru Bengaluru       True
+        BLR        None Bengaluru       True
+     Bombay        None    Mumbai       True
+     mumbai      Mumbai    Mumbai       True
+  New Delhi        None     Delhi       True
+      Dilli        None     Delhi       True
+        Hyd        None Hyderabad       True
+   Calcutta        None   Kolkata       True
+      Poona        None      Pune       True
+Pune-411001        Pune      Pune       True
+    Gurgaon        None     OTHER       True</pre></div>
+<p>Fuzzy matching handles spelling variants but misses old names and abbreviations (Bombay, BLR, Dilli, Calcutta); an LLM with world knowledge handles them, and a validation step guarantees every output is from the allowed list. Gurgaon is correctly flagged as not one of the target cities. For large tables, map the <strong>unique values</strong> once (hundreds of calls, not millions), review the mapping table, and join it back.</p>
+<h3 id="text-to-table">Text to table</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">emails = [<span class="hl-s">&quot;Hi, order NM-1042 (laptop) arrived with a cracked screen on 3 Oct. I need a replacement urgently - Priya&quot;</span>,
+          <span class="hl-s">&quot;Payment of Rs 2,499 was debited twice for order NM-2210. Please refund one. Thanks, Arjun&quot;</span>]
+extracted = [{<span class="hl-s">&quot;order_id&quot;</span>: <span class="hl-s">&quot;NM-1042&quot;</span>, <span class="hl-s">&quot;product&quot;</span>: <span class="hl-s">&quot;laptop&quot;</span>, <span class="hl-s">&quot;issue&quot;</span>: <span class="hl-s">&quot;damaged on arrival&quot;</span>, <span class="hl-s">&quot;amount_inr&quot;</span>: <span class="hl-k">None</span>, <span class="hl-s">&quot;urgency&quot;</span>: <span class="hl-s">&quot;high&quot;</span>},
+             {<span class="hl-s">&quot;order_id&quot;</span>: <span class="hl-s">&quot;NM-2210&quot;</span>, <span class="hl-s">&quot;product&quot;</span>: <span class="hl-k">None</span>, <span class="hl-s">&quot;issue&quot;</span>: <span class="hl-s">&quot;duplicate payment&quot;</span>, <span class="hl-s">&quot;amount_inr&quot;</span>: <span class="hl-n">2499</span>, <span class="hl-s">&quot;urgency&quot;</span>: <span class="hl-s">&quot;medium&quot;</span>}]   <span class="hl-c"># model output via structured outputs</span>
+df = <span class="hl-f">pd.DataFrame</span>(extracted)
+df[<span class="hl-s">&quot;order_id_valid&quot;</span>] = <span class="hl-f">df.order_id.str.fullmatch</span>(r<span class="hl-s">&quot;NM-\d{4}&quot;</span>); df[<span class="hl-s">&quot;order_id_in_text&quot;</span>] = [o <span class="hl-k">in</span> e <span class="hl-k">for</span> o, e <span class="hl-k">in</span> <span class="hl-f">zip</span>(df.order_id, emails)]
+<span class="hl-f">print</span>(<span class="hl-f">df.to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">order_id product              issue  amount_inr urgency  order_id_valid  order_id_in_text
+ NM-1042  laptop damaged on arrival         NaN    high            True              True
+ NM-2210    None  duplicate payment      2499.0  medium            True              True</pre></div>
+<p>Check extracted values against the source text (does the order id actually appear?) and against business rules.</p>
+<h2 id="grounded-narrative-insights">Grounded narrative insights</h2>
+<p>LLMs write fluent commentary, but numbers must come from your computations, not from the model.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">sales.assign</span>(year=sales.order_date.dt.year)
+k = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;year&quot;</span>).<span class="hl-f">agg</span>(revenue=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>))
+k[<span class="hl-s">&quot;margin&quot;</span>] = <span class="hl-n">100</span> * k.profit / k.revenue
+facts = {<span class="hl-s">&quot;revenue_2025_cr&quot;</span>: <span class="hl-f">round</span>(k.revenue[<span class="hl-n">2025</span>] / 1e7, <span class="hl-n">2</span>), <span class="hl-s">&quot;revenue_growth_pct&quot;</span>: <span class="hl-f">round</span>(<span class="hl-n">100</span> * (k.revenue[<span class="hl-n">2025</span>] / k.revenue[<span class="hl-n">2024</span>] - <span class="hl-n">1</span>), <span class="hl-n">1</span>),
+         <span class="hl-s">&quot;margin_2025_pct&quot;</span>: <span class="hl-f">round</span>(k.margin[<span class="hl-n">2025</span>], <span class="hl-n">1</span>), <span class="hl-s">&quot;margin_2024_pct&quot;</span>: <span class="hl-f">round</span>(k.margin[<span class="hl-n">2024</span>], <span class="hl-n">1</span>), <span class="hl-s">&quot;orders_2025&quot;</span>: <span class="hl-f">int</span>(k.orders[<span class="hl-n">2025</span>])}
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>(facts))
+prompt = <span class="hl-s">f&quot;&quot;</span>&quot;Write a <span class="hl-n">3</span>-sentence executive summary <span class="hl-k">for</span> the CFO using ONLY these facts. Do <span class="hl-k">not</span> add any other numbers.
+&lt;facts&gt;{<span class="hl-f">json.dumps</span>(facts)}&lt;/facts&gt;<span class="hl-s">&quot;&quot;</span>&quot;
+draft = (<span class="hl-s">&quot;Revenue reached ₹7.84 crore in 2025, up 19.8% on 2024, from 1,232 orders. &quot;</span>
+         <span class="hl-s">&quot;Profit margin improved slightly to 9.6% from 9.4%. Growth was broad-based, so the priority is protecting margin as volumes rise.&quot;</span>)   <span class="hl-c"># an LLM-style draft</span>
+nums_in_draft = <span class="hl-f">set</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;\d[\d,]*\.?\d*&quot;</span>, <span class="hl-f">draft.replace</span>(<span class="hl-s">&quot;,&quot;</span>, <span class="hl-s">&quot;&quot;</span>)))
+allowed = {<span class="hl-f">str</span>(v).<span class="hl-f">replace</span>(<span class="hl-s">&quot;,&quot;</span>, <span class="hl-s">&quot;&quot;</span>) <span class="hl-k">for</span> v <span class="hl-k">in</span> <span class="hl-f">facts.values</span>()} | {<span class="hl-s">&quot;2025&quot;</span>, <span class="hl-s">&quot;2024&quot;</span>, <span class="hl-s">&quot;3&quot;</span>}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;numbers not in facts:&quot;</span>, <span class="hl-f">sorted</span>(nums_in_draft - allowed) <span class="hl-k">or</span> <span class="hl-s">&quot;none&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&quot;revenue_2025_cr&quot;: 7.84, &quot;revenue_growth_pct&quot;: 19.8, &quot;margin_2025_pct&quot;: 9.6, &quot;margin_2024_pct&quot;: 9.4, &quot;orders_2025&quot;: 1232}
+numbers not in facts: none</pre></div>
+<p>Pattern: <strong>compute facts in code → pass them as JSON → instruct "use only these facts" → automatically check every number in the draft → human review</strong>. The same pattern drives Power BI Copilot summaries and automated monthly reports.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Text-to-SQL needs the schema, business definitions and rules in the prompt, read-only guarded execution, and evaluation by execution accuracy on gold questions.</li>
+<li>The dangerous errors are semantic (wrong definition) not syntactic; curated views and semantic layers improve accuracy.</li>
+<li>AI coding assistants speed up analysis; give context, work in small steps, add reconciliation checks and review everything.</li>
+<li>LLMs clean messy categories and extract fields from text well when outputs are validated against allowed values and the source.</li>
+<li>Generate narratives from computed facts only, and check every number automatically.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-11-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why include business definitions (e.g. "an order is a distinct order_id") in a text-to-SQL prompt?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Without them the model may write SQL that runs but computes the wrong metric</button><button type="button" class="opt" data-ok="0"><i>B</i>To make the prompt longer</button><button type="button" class="opt" data-ok="0"><i>C</i>Because SQL requires it</button><button type="button" class="opt" data-ok="0"><i>D</i>To speed up the query</button></div><div class="qexp"><b>Answer: A.</b> Semantic errors are the main risk.</div></div><div class="qq"><p class="qtext"><b>2.</b> What is execution accuracy?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Whether the generated query returns the same result as a gold query</button><button type="button" class="opt" data-ok="0"><i>B</i>Whether the SQL is formatted nicely</button><button type="button" class="opt" data-ok="0"><i>C</i>Query speed</button><button type="button" class="opt" data-ok="0"><i>D</i>Whether it uses SELECT</button></div><div class="qexp"><b>Answer: A.</b> Different SQL can be equally correct.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which control best prevents an LLM-generated query from changing data?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A read-only database user (plus statement checks)</button><button type="button" class="opt" data-ok="0"><i>B</i>Asking the model politely</button><button type="button" class="opt" data-ok="0"><i>C</i>Higher temperature</button><button type="button" class="opt" data-ok="0"><i>D</i>Longer prompts</button></div><div class="qexp"><b>Answer: A.</b> Least privilege.</div></div><div class="qq"><p class="qtext"><b>4.</b> How should you clean 2 million rows with 300 distinct messy city names using an LLM?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Map the 300 unique values once, validate the mapping, and join it back</button><button type="button" class="opt" data-ok="0"><i>B</i>Call the LLM 2 million times</button><button type="button" class="opt" data-ok="0"><i>C</i>Skip validation</button><button type="button" class="opt" data-ok="0"><i>D</i>Delete the column</button></div><div class="qexp"><b>Answer: A.</b> Cheap and reviewable.</div></div><div class="qq"><p class="qtext"><b>5.</b> An AI-written report says "margin grew 3 points" but your facts show 0.2. What prevents this?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Passing computed facts only and automatically checking every number in the draft</button><button type="button" class="opt" data-ok="0"><i>B</i>Using a bigger model only</button><button type="button" class="opt" data-ok="0"><i>C</i>Writing longer prompts</button><button type="button" class="opt" data-ok="0"><i>D</i>Trusting the model</button></div><div class="qexp"><b>Answer: A.</b> Verify numbers in code.</div></div><div class="qq"><p class="qtext"><b>6.</b> What improves text-to-SQL accuracy most on a messy warehouse?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Clean, documented schemas, curated views and a semantic layer</button><button type="button" class="opt" data-ok="0"><i>B</i>More GPU memory</button><button type="button" class="opt" data-ok="0"><i>C</i>Removing column names</button><button type="button" class="opt" data-ok="0"><i>D</i>Higher temperature</button></div><div class="qexp"><b>Answer: A.</b> Context quality drives accuracy.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Write five more gold questions (including one the table cannot answer) and evaluate a model's SQL with <code>same_result</code>. (2) Add a check that rejects queries without a <code>WHERE</code> on year when the question mentions a year. (3) Map the <code>ship_mode</code> values to an allowed list using fuzzy matching and inspect failures. (4) Generate a monthly KPI facts JSON and write the summary prompt.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">mentions_year_without_filter</span>(question, sql_text):
+    yrs = <span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;20\d\d&quot;</span>, question); <span class="hl-k">return</span> <span class="hl-f">bool</span>(yrs) <span class="hl-k">and</span> <span class="hl-k">not</span> <span class="hl-f">all</span>(y <span class="hl-k">in</span> sql_text <span class="hl-k">for</span> y <span class="hl-k">in</span> yrs)
+<span class="hl-f">print</span>(<span class="hl-f">mentions_year_without_filter</span>(<span class="hl-s">&quot;Revenue in 2025&quot;</span>, <span class="hl-s">&quot;SELECT SUM(sales) FROM sales&quot;</span>))
+m = <span class="hl-f">sales.assign</span>(m=<span class="hl-f">sales.order_date.dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>)).<span class="hl-f">groupby</span>(<span class="hl-s">&quot;m&quot;</span>).<span class="hl-f">agg</span>(rev=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)).<span class="hl-f">tail</span>(<span class="hl-n">2</span>)
+facts_m = {<span class="hl-s">&quot;revenue_last_month_lakh&quot;</span>: <span class="hl-f">round</span>(m.rev.iloc[-<span class="hl-n">1</span>] / 1e5, <span class="hl-n">1</span>), <span class="hl-s">&quot;mom_change_pct&quot;</span>: <span class="hl-f">round</span>(<span class="hl-n">100</span> * (m.rev.iloc[-<span class="hl-n">1</span>] / m.rev.iloc[-<span class="hl-n">2</span>] - <span class="hl-n">1</span>), <span class="hl-n">1</span>)}
+<span class="hl-f">print</span>(facts_m)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you build a "chat with your data" tool safely?</strong>
+Curated read-only views with documented columns and metric definitions, schema-aware prompts, guarded execution with timeouts and row limits, show the SQL and results to the user, evaluate with a gold question set, log queries, and route ambiguous questions to analysts.</p>
+<p><strong>Q: What are the risks of AI-generated analysis code?</strong>
+Silent logic errors, wrong joins and definitions, security issues, and data leakage to external tools; mitigate with tests, reconciliation checks, code review and approved tools.</p>
+<p><strong>Q: How can LLMs help with data cleaning?</strong>
+Normalising categories and entity names, extracting structured fields from text, detecting anomalies in descriptions, and generating cleaning code, always with validation against allowed values and source data.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html"><small>← Previous</small><b>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#where-genai-helps-analysts">Where GenAI helps analysts</a><a href="#text-to-sql">Text-to-SQL</a><a href="#ai-coding-assistants-for-analysis">AI coding assistants for analysis</a><a href="#llm-assisted-data-cleaning">LLM-assisted data cleaning</a><a href="#grounded-narrative-insights">Grounded narrative insights</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
