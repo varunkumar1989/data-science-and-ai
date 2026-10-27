@@ -1,0 +1,285 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APIs, JSON and Web Scraping with requests and BeautifulSoup · Python Lesson 24 · Data Science &amp; AI Handbook</title><meta name="description" content="Collect data from the web. Understand HTTP, call REST APIs with requests (GET/POST, query parameters, headers, authentication, pagination, retries and rate limits), flatten nested JSON with json_normalize, and scrape HTML tables and pages responsibly with BeautifulSoup and pandas.read_html."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 24</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class="on"><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-24">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 24 of 24</div><h1>APIs, JSON and Web Scraping with requests and BeautifulSoup</h1>
+<p class="sum">Collect data from the web. Understand HTTP, call REST APIs with requests (GET/POST, query parameters, headers, authentication, pagination, retries and rate limits), flatten nested JSON with json_normalize, and scrape HTML tables and pages responsibly with BeautifulSoup and pandas.read_html.</p><div class="tags"><span class="tag live">● Python class 18</span><span class="tag new">✦ requests 2.3x · httpx · BeautifulSoup 4</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_24_APIs_JSON_and_Web_Scraping_with_requests_and_BeautifulSoup.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-24">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain HTTP methods, status codes, headers and JSON responses</li><li>Call REST APIs with parameters, headers and API keys stored safely</li><li>Handle pagination, timeouts, retries and rate limits</li><li>Flatten nested JSON into DataFrames with json_normalize</li><li>Scrape HTML with BeautifulSoup and read_html, respecting robots.txt and terms of use</li></ul></div></div>
+<div class="content"><h2 id="http-in-five-minutes">HTTP in five minutes</h2>
+<p>An <strong>API</strong> (Application Programming Interface) lets programs ask another system for data. Web APIs use <strong>HTTP</strong>: the client sends a <strong>request</strong> (method, URL, headers, optional body) and receives a <strong>response</strong> (status code, headers, body, usually JSON).</p>
+<figure class="fig"><img src="../img/python-24-01.png" alt="A REST API call." loading="lazy"><figcaption>A REST API call.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Meaning</th>
+<th>Status code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td>Read</td>
+<td><code>200</code></td>
+<td>OK</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td>Create / send data</td>
+<td><code>201</code></td>
+<td>Created</td>
+</tr>
+<tr>
+<td><code>PUT</code> / <code>PATCH</code></td>
+<td>Replace / update</td>
+<td><code>400</code></td>
+<td>Bad request</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>Remove</td>
+<td><code>401</code> / <code>403</code></td>
+<td>Not authenticated / not allowed</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>404</code></td>
+<td>Not found</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>429</code></td>
+<td>Too many requests (rate limit)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>500</code>–<code>503</code></td>
+<td>Server error: retry later</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="a-practice-api">A practice API</h2>
+<p>To keep this lesson runnable offline, we start a tiny local API that behaves like a real one (paginated orders, an API key, a rate limit). Every call below works the same way against real services.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json, threading, time
+<span class="hl-k">from</span> http.server <span class="hl-k">import</span> BaseHTTPRequestHandler, HTTPServer
+<span class="hl-k">from</span> urllib.parse <span class="hl-k">import</span> urlparse, parse_qs
+ORDERS = [{<span class="hl-s">&quot;id&quot;</span>: i, <span class="hl-s">&quot;customer&quot;</span>: {<span class="hl-s">&quot;name&quot;</span>: n, <span class="hl-s">&quot;city&quot;</span>: c}, <span class="hl-s">&quot;items&quot;</span>: [{<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">f&quot;P{i}&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: i % <span class="hl-n">3</span> + <span class="hl-n">1</span>, <span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">100.0</span> * i}], <span class="hl-s">&quot;status&quot;</span>: s}
+          <span class="hl-k">for</span> i, (n, c, s) <span class="hl-k">in</span> <span class="hl-f">enumerate</span>([(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;shipped&quot;</span>), (<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;new&quot;</span>), (<span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>, <span class="hl-s">&quot;shipped&quot;</span>), (<span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;Goa&quot;</span>, <span class="hl-s">&quot;cancelled&quot;</span>), (<span class="hl-s">&quot;Zoya&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;new&quot;</span>)], <span class="hl-n">1</span>)]
+HITS = {<span class="hl-s">&quot;n&quot;</span>: <span class="hl-n">0</span>}
+<span class="hl-k">class</span> <span class="hl-f">Api</span>(BaseHTTPRequestHandler):
+    <span class="hl-k">def</span> <span class="hl-f">log_message</span>(self, *a): <span class="hl-k">pass</span>
+    <span class="hl-k">def</span> <span class="hl-f">send</span>(self, code, body, ctype=<span class="hl-s">&quot;application/json&quot;</span>):
+        <span class="hl-f">self.send_response</span>(code); <span class="hl-f">self.send_header</span>(<span class="hl-s">&quot;Content-Type&quot;</span>, ctype); <span class="hl-f">self.end_headers</span>(); <span class="hl-f">self.wfile.write</span>(<span class="hl-f">body.encode</span>())
+    <span class="hl-k">def</span> <span class="hl-f">do_GET</span>(self):
+        u = <span class="hl-f">urlparse</span>(self.path); q = <span class="hl-f">parse_qs</span>(u.query)
+        <span class="hl-k">if</span> u.path == <span class="hl-s">&quot;/page&quot;</span>: <span class="hl-k">return</span> <span class="hl-f">self.send</span>(<span class="hl-n">200</span>, <span class="hl-s">&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Prices&lt;/h1&gt;&lt;table id=&#x27;p&#x27;&gt;&lt;tr&gt;&lt;th&gt;Product&lt;/th&gt;&lt;th&gt;Price&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chair&lt;/td&gt;&lt;td&gt;₹4,500&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Desk&lt;/td&gt;&lt;td&gt;₹12,000&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;a href=&#x27;/about&#x27;&gt;About&lt;/a&gt;&lt;p class=&#x27;note&#x27;&gt;Updated daily&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>, <span class="hl-s">&quot;text/html; charset=utf-8&quot;</span>)
+        <span class="hl-k">if</span> <span class="hl-f">self.headers.get</span>(<span class="hl-s">&quot;X-API-Key&quot;</span>) != <span class="hl-s">&quot;demo-key&quot;</span>: <span class="hl-k">return</span> <span class="hl-f">self.send</span>(<span class="hl-n">401</span>, <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;error&quot;</span>: <span class="hl-s">&quot;missing or bad API key&quot;</span>}))
+        HITS[<span class="hl-s">&quot;n&quot;</span>] += <span class="hl-n">1</span>
+        <span class="hl-k">if</span> u.path == <span class="hl-s">&quot;/flaky&quot;</span> <span class="hl-k">and</span> HITS[<span class="hl-s">&quot;n&quot;</span>] % <span class="hl-n">2</span>: <span class="hl-k">return</span> <span class="hl-f">self.send</span>(<span class="hl-n">503</span>, <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;error&quot;</span>: <span class="hl-s">&quot;busy&quot;</span>}))
+        <span class="hl-k">if</span> u.path <span class="hl-k">in</span> (<span class="hl-s">&quot;/orders&quot;</span>, <span class="hl-s">&quot;/flaky&quot;</span>):
+            page, size = <span class="hl-f">int</span>(<span class="hl-f">q.get</span>(<span class="hl-s">&quot;page&quot;</span>, [<span class="hl-n">1</span>])[<span class="hl-n">0</span>]), <span class="hl-f">int</span>(<span class="hl-f">q.get</span>(<span class="hl-s">&quot;size&quot;</span>, [<span class="hl-n">2</span>])[<span class="hl-n">0</span>]); st = <span class="hl-f">q.get</span>(<span class="hl-s">&quot;status&quot;</span>, [<span class="hl-k">None</span>])[<span class="hl-n">0</span>]
+            rows = [o <span class="hl-k">for</span> o <span class="hl-k">in</span> ORDERS <span class="hl-k">if</span> <span class="hl-k">not</span> st <span class="hl-k">or</span> o[<span class="hl-s">&quot;status&quot;</span>] == st]
+            <span class="hl-k">return</span> <span class="hl-f">self.send</span>(<span class="hl-n">200</span>, <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;data&quot;</span>: rows[(page - <span class="hl-n">1</span>) * size: page * size], <span class="hl-s">&quot;page&quot;</span>: page, <span class="hl-s">&quot;next&quot;</span>: page + <span class="hl-n">1</span> <span class="hl-k">if</span> page * size &lt; <span class="hl-f">len</span>(rows) <span class="hl-k">else</span> <span class="hl-k">None</span>}))
+        <span class="hl-f">self.send</span>(<span class="hl-n">404</span>, <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;error&quot;</span>: <span class="hl-s">&quot;not found&quot;</span>}))
+    <span class="hl-k">def</span> <span class="hl-f">do_POST</span>(self):
+        body = <span class="hl-f">json.loads</span>(<span class="hl-f">self.rfile.read</span>(<span class="hl-f">int</span>(self.headers[<span class="hl-s">&quot;Content-Length&quot;</span>])))
+        <span class="hl-f">self.send</span>(<span class="hl-n">201</span>, <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;created&quot;</span>: <span class="hl-k">True</span>, <span class="hl-s">&quot;echo&quot;</span>: body}))
+srv = <span class="hl-f">HTTPServer</span>((<span class="hl-s">&quot;127.0.0.1&quot;</span>, <span class="hl-n">0</span>), Api); BASE = <span class="hl-s">f&quot;http://127.0.0.1:{srv.server_port}&quot;</span>
+<span class="hl-f">threading.Thread</span>(target=srv.serve_forever, daemon=<span class="hl-k">True</span>).<span class="hl-f">start</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;practice API running on this machine at&quot;</span>, <span class="hl-f">BASE.rsplit</span>(<span class="hl-s">&quot;:&quot;</span>, <span class="hl-n">1</span>)[<span class="hl-n">0</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">practice API running on this machine at http://127.0.0.1</pre></div>
+<h2 id="get-requests-with-requests">GET requests with requests</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> requests, os
+<span class="hl-f">os.environ.setdefault</span>(<span class="hl-s">&quot;DEMO_API_KEY&quot;</span>, <span class="hl-s">&quot;demo-key&quot;</span>)                 <span class="hl-c"># in real life, set this outside the code</span>
+headers = {<span class="hl-s">&quot;X-API-Key&quot;</span>: os.environ[<span class="hl-s">&quot;DEMO_API_KEY&quot;</span>], <span class="hl-s">&quot;Accept&quot;</span>: <span class="hl-s">&quot;application/json&quot;</span>}
+r = <span class="hl-f">requests.get</span>(<span class="hl-s">f&quot;{BASE}/orders&quot;</span>, params={<span class="hl-s">&quot;page&quot;</span>: <span class="hl-n">1</span>, <span class="hl-s">&quot;size&quot;</span>: <span class="hl-n">2</span>}, headers=headers, timeout=<span class="hl-n">10</span>)
+<span class="hl-f">print</span>(r.status_code, <span class="hl-f">r.url.replace</span>(BASE, <span class="hl-s">&quot;BASE&quot;</span>), r.headers[<span class="hl-s">&quot;Content-Type&quot;</span>])
+payload = <span class="hl-f">r.json</span>()
+<span class="hl-f">print</span>(payload[<span class="hl-s">&quot;page&quot;</span>], payload[<span class="hl-s">&quot;next&quot;</span>], payload[<span class="hl-s">&quot;data&quot;</span>][<span class="hl-n">0</span>][<span class="hl-s">&quot;customer&quot;</span>])
+bad = <span class="hl-f">requests.get</span>(<span class="hl-s">f&quot;{BASE}/orders&quot;</span>, timeout=<span class="hl-n">10</span>)
+<span class="hl-f">print</span>(bad.status_code, <span class="hl-f">bad.json</span>())
+<span class="hl-k">try</span>: <span class="hl-f">bad.raise_for_status</span>()
+<span class="hl-k">except</span> requests.HTTPError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;HTTPError:&quot;</span>, <span class="hl-f">str</span>(e)[:<span class="hl-n">40</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">200 BASE/orders?page=1&amp;size=2 application/json
+1 2 {&#x27;name&#x27;: &#x27;Asha&#x27;, &#x27;city&#x27;: &#x27;Pune&#x27;}
+401 {&#x27;error&#x27;: &#x27;missing or bad API key&#x27;}
+HTTPError: 401 Client Error: Unauthorized for url:</pre></div>
+<p>Always set a <code>timeout</code>, check the status (<code>raise_for_status()</code>), and keep keys in environment variables.</p>
+<h2 id="post-requests">POST requests</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">r = <span class="hl-f">requests.post</span>(<span class="hl-s">f&quot;{BASE}/orders&quot;</span>, json={<span class="hl-s">&quot;customer&quot;</span>: <span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;items&quot;</span>: [{<span class="hl-s">&quot;sku&quot;</span>: <span class="hl-s">&quot;P9&quot;</span>, <span class="hl-s">&quot;qty&quot;</span>: <span class="hl-n">1</span>}]}, headers=headers, timeout=<span class="hl-n">10</span>)
+<span class="hl-f">print</span>(r.status_code, <span class="hl-f">r.json</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">201 {&#x27;created&#x27;: True, &#x27;echo&#x27;: {&#x27;customer&#x27;: &#x27;Asha&#x27;, &#x27;items&#x27;: [{&#x27;sku&#x27;: &#x27;P9&#x27;, &#x27;qty&#x27;: 1}]}}</pre></div>
+<p><code>json=</code> serialises the body and sets the <code>Content-Type</code> header for you. Use <code>data=</code> for form posts and <code>files=</code> for uploads.</p>
+<h2 id="pagination-retries-and-rate-limits">Pagination, retries and rate limits</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">fetch_all</span>(path, params=<span class="hl-k">None</span>, max_pages=<span class="hl-n">50</span>):
+    rows, page = [], <span class="hl-n">1</span>
+    <span class="hl-k">with</span> <span class="hl-f">requests.Session</span>() <span class="hl-k">as</span> session:                          <span class="hl-c"># re-uses the connection</span>
+        <span class="hl-f">session.headers.update</span>(headers)
+        <span class="hl-k">while</span> page <span class="hl-k">and</span> page &lt;= max_pages:
+            resp = <span class="hl-f">session.get</span>(<span class="hl-s">f&quot;{BASE}{path}&quot;</span>, params={**(params <span class="hl-k">or</span> {}), <span class="hl-s">&quot;page&quot;</span>: page, <span class="hl-s">&quot;size&quot;</span>: <span class="hl-n">2</span>}, timeout=<span class="hl-n">10</span>)
+            <span class="hl-f">resp.raise_for_status</span>()
+            body = <span class="hl-f">resp.json</span>(); rows += body[<span class="hl-s">&quot;data&quot;</span>]; page = body[<span class="hl-s">&quot;next&quot;</span>]
+    <span class="hl-k">return</span> rows
+orders = <span class="hl-f">fetch_all</span>(<span class="hl-s">&quot;/orders&quot;</span>); <span class="hl-f">print</span>(<span class="hl-f">len</span>(orders), <span class="hl-s">&quot;orders fetched across pages&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">get_with_retry</span>(url, tries=<span class="hl-n">4</span>, backoff=<span class="hl-n">0.2</span>, **kw):
+    <span class="hl-k">for</span> attempt <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, tries + <span class="hl-n">1</span>):
+        resp = <span class="hl-f">requests.get</span>(url, timeout=<span class="hl-n">10</span>, **kw)
+        <span class="hl-k">if</span> resp.status_code <span class="hl-k">not</span> <span class="hl-k">in</span> (<span class="hl-n">429</span>, <span class="hl-n">500</span>, <span class="hl-n">502</span>, <span class="hl-n">503</span>, <span class="hl-n">504</span>): <span class="hl-k">return</span> resp
+        wait = <span class="hl-f">float</span>(<span class="hl-f">resp.headers.get</span>(<span class="hl-s">&quot;Retry-After&quot;</span>, backoff * <span class="hl-n">2</span> ** (attempt - <span class="hl-n">1</span>)))     <span class="hl-c"># exponential backoff</span>
+        <span class="hl-f">print</span>(<span class="hl-s">f&quot;  attempt {attempt}: {resp.status_code}, retrying in {wait:.1f}s&quot;</span>); <span class="hl-f">time.sleep</span>(wait)
+    <span class="hl-f">resp.raise_for_status</span>()
+<span class="hl-f">print</span>(<span class="hl-f">get_with_retry</span>(<span class="hl-s">f&quot;{BASE}/flaky&quot;</span>, headers=headers).status_code)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5 orders fetched across pages
+  attempt 1: 503, retrying in 0.2s
+200</pre></div>
+<p>Respect rate limits: read the API's documented limits, honour <code>Retry-After</code>, cache results, and sleep between calls.</p>
+<h2 id="flattening-nested-json">Flattening nested JSON</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>)
+flat = <span class="hl-f">pd.json_normalize</span>(orders, sep=<span class="hl-s">&quot;_&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">flat.drop</span>(columns=<span class="hl-s">&quot;items&quot;</span>))
+lines = <span class="hl-f">pd.json_normalize</span>(orders, record_path=<span class="hl-s">&quot;items&quot;</span>, meta=[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;status&quot;</span>, [<span class="hl-s">&quot;customer&quot;</span>, <span class="hl-s">&quot;city&quot;</span>]], sep=<span class="hl-s">&quot;_&quot;</span>)
+lines[<span class="hl-s">&quot;value&quot;</span>] = lines.qty * lines.price
+<span class="hl-f">print</span>(lines)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">   id     status customer_name customer_city
+0   1    shipped          Asha          Pune
+1   2        new          Ravi         Delhi
+2   3    shipped         Meera         Kochi
+3   4  cancelled         Kabir           Goa
+4   5        new          Zoya          Pune
+  sku  qty  price id     status customer_city   value
+0  P1    2  100.0  1    shipped          Pune   200.0
+1  P2    3  200.0  2        new         Delhi   600.0
+2  P3    1  300.0  3    shipped         Kochi   300.0
+3  P4    2  400.0  4  cancelled           Goa   800.0
+4  P5    3  500.0  5        new          Pune  1500.0</pre></div>
+<p><code>record_path</code> explodes a nested list into rows; <code>meta</code> copies parent fields onto each row.</p>
+<h2 id="real-public-apis-to-practise-with">Real public APIs to practise with</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>API</th>
+<th>Data</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data.gov.in</td>
+<td>Indian government open data</td>
+<td>Free API key</td>
+</tr>
+<tr>
+<td>RBI DBIE, World Bank, IMF</td>
+<td>Economic indicators</td>
+<td><code>wbgapi</code> package for the World Bank</td>
+</tr>
+<tr>
+<td>Open-Meteo</td>
+<td>Weather forecasts and history</td>
+<td>No key</td>
+</tr>
+<tr>
+<td>GitHub REST API</td>
+<td>Repositories, issues</td>
+<td>Token raises limits</td>
+</tr>
+<tr>
+<td>Alpha Vantage, yfinance</td>
+<td>Stock prices</td>
+<td>Free tiers, rate-limited</td>
+</tr>
+<tr>
+<td>OpenAI, Anthropic, Gemini</td>
+<td>LLMs</td>
+<td>Paid keys, see GenAI track</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Example (needs internet): daily max temperature in Pune from Open-Meteo</span>
+r = <span class="hl-f">requests.get</span>(<span class="hl-s">&quot;https://api.open-meteo.com/v1/forecast&quot;</span>,
+                 params={<span class="hl-s">&quot;latitude&quot;</span>: <span class="hl-n">18.52</span>, <span class="hl-s">&quot;longitude&quot;</span>: <span class="hl-n">73.86</span>, <span class="hl-s">&quot;daily&quot;</span>: <span class="hl-s">&quot;temperature_2m_max&quot;</span>, <span class="hl-s">&quot;timezone&quot;</span>: <span class="hl-s">&quot;Asia/Kolkata&quot;</span>}, timeout=<span class="hl-n">10</span>)
+weather = <span class="hl-f">pd.DataFrame</span>(<span class="hl-f">r.json</span>()[<span class="hl-s">&quot;daily&quot;</span>])</code></pre></div>
+<h2 id="web-scraping">Web scraping</h2>
+<p>When there is no API, you can parse HTML. <strong>BeautifulSoup</strong> navigates the HTML tree; <code>pandas.read_html</code> grabs <code>&lt;table&gt;</code> elements directly.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> bs4 <span class="hl-k">import</span> BeautifulSoup
+<span class="hl-k">from</span> io <span class="hl-k">import</span> StringIO
+html = <span class="hl-f">requests.get</span>(<span class="hl-s">f&quot;{BASE}/page&quot;</span>, timeout=<span class="hl-n">10</span>).text
+soup = <span class="hl-f">BeautifulSoup</span>(html, <span class="hl-s">&quot;html.parser&quot;</span>)
+<span class="hl-f">print</span>(soup.h1.text, <span class="hl-s">&quot;|&quot;</span>, <span class="hl-f">soup.find</span>(<span class="hl-s">&quot;p&quot;</span>, class_=<span class="hl-s">&quot;note&quot;</span>).<span class="hl-f">get_text</span>(strip=<span class="hl-k">True</span>), <span class="hl-s">&quot;|&quot;</span>, [a[<span class="hl-s">&quot;href&quot;</span>] <span class="hl-k">for</span> a <span class="hl-k">in</span> <span class="hl-f">soup.find_all</span>(<span class="hl-s">&quot;a&quot;</span>)])
+rows = [[<span class="hl-f">td.get_text</span>(strip=<span class="hl-k">True</span>) <span class="hl-k">for</span> td <span class="hl-k">in</span> <span class="hl-f">tr.find_all</span>([<span class="hl-s">&quot;td&quot;</span>, <span class="hl-s">&quot;th&quot;</span>])] <span class="hl-k">for</span> tr <span class="hl-k">in</span> <span class="hl-f">soup.select</span>(<span class="hl-s">&quot;table#p tr&quot;</span>)]
+<span class="hl-f">print</span>(rows)
+t = <span class="hl-f">pd.read_html</span>(<span class="hl-f">StringIO</span>(html))[<span class="hl-n">0</span>]
+t[<span class="hl-s">&quot;Price&quot;</span>] = t[<span class="hl-s">&quot;Price&quot;</span>].<span class="hl-f">str.replace</span>(r<span class="hl-s">&quot;[₹,]&quot;</span>, <span class="hl-s">&quot;&quot;</span>, regex=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-f">print</span>(t, <span class="hl-f">t.Price.sum</span>())
+<span class="hl-f">srv.shutdown</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Prices | Updated daily | [&#x27;/about&#x27;]
+[[&#x27;Product&#x27;, &#x27;Price&#x27;], [&#x27;Chair&#x27;, &#x27;₹4,500&#x27;], [&#x27;Desk&#x27;, &#x27;₹12,000&#x27;]]
+  Product  Price
+0   Chair   4500
+1    Desk  12000 16500</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>BeautifulSoup</th>
+<th>Finds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>soup.find("tag", class_="x")</code></td>
+<td>First match</td>
+</tr>
+<tr>
+<td><code>soup.find_all("a")</code></td>
+<td>All matches</td>
+</tr>
+<tr>
+<td><code>soup.select("div.card &gt; h2")</code></td>
+<td>CSS selectors</td>
+</tr>
+<tr>
+<td><code>el.get_text(strip=True)</code>, <code>el["href"]</code></td>
+<td>Text and attributes</td>
+</tr>
+</tbody>
+</table></div>
+<p>For pages built by JavaScript, use <strong>Playwright</strong> or Selenium to drive a real browser, or look in the browser's Network tab for the underlying JSON API.</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Scrape responsibly and legally</b></div><p>Check the site's <strong>terms of use</strong> and <strong>robots.txt</strong>, prefer official APIs, identify your scraper with a User-Agent, go slowly (one request every few seconds), cache pages, and never collect personal data without a lawful basis (India's DPDP Act 2023, GDPR). Logged-in or paywalled content is usually off-limits.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>HTTP: methods (GET, POST…), status codes (200, 401, 404, 429, 5xx), headers and JSON bodies.</li>
+<li><code>requests.get(url, params=, headers=, timeout=)</code>; <code>r.json()</code>; <code>r.raise_for_status()</code>; keys from environment variables.</li>
+<li>Loop over pages with a <code>Session</code>; retry 429/5xx with exponential backoff and honour <code>Retry-After</code>.</li>
+<li><code>pd.json_normalize(data, record_path=, meta=)</code> flattens nested JSON.</li>
+<li>Scrape with BeautifulSoup or <code>pd.read_html</code> only when allowed; prefer APIs and be polite.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-24-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does status code 429 mean?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Not found</button><button type="button" class="opt" data-ok="1"><i>B</i>Too many requests (rate limit)</button><button type="button" class="opt" data-ok="0"><i>C</i>Server error</button><button type="button" class="opt" data-ok="0"><i>D</i>Success</button></div><div class="qexp"><b>Answer: B.</b> Slow down and retry after the indicated time.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why set <code>timeout=</code> on every request?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It speeds up requests</button><button type="button" class="opt" data-ok="1"><i>B</i>Without it, a request can hang forever</button><button type="button" class="opt" data-ok="0"><i>C</i>It is required by APIs</button><button type="button" class="opt" data-ok="0"><i>D</i>To retry automatically</button></div><div class="qexp"><b>Answer: B.</b> Typical values are 5–30 seconds.</div></div><div class="qq"><p class="qtext"><b>3.</b> Where should an API key be kept?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In the URL in your notebook</button><button type="button" class="opt" data-ok="1"><i>B</i>In an environment variable or secrets store</button><button type="button" class="opt" data-ok="0"><i>C</i>In a GitHub README</button><button type="button" class="opt" data-ok="0"><i>D</i>In a comment</button></div><div class="qexp"><b>Answer: B.</b> Read it with <code>os.getenv</code>.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>json_normalize(..., record_path="items")</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Deletes the items field</button><button type="button" class="opt" data-ok="1"><i>B</i>Creates one row per element of each record's items list</button><button type="button" class="opt" data-ok="0"><i>C</i>Converts to CSV</button><button type="button" class="opt" data-ok="0"><i>D</i>Sorts the data</button></div><div class="qexp"><b>Answer: B.</b> <code>meta</code> keeps parent fields.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is the best first option to get data from a website?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>An official API or data download</button><button type="button" class="opt" data-ok="0"><i>B</i>Scraping every page quickly</button><button type="button" class="opt" data-ok="0"><i>C</i>Copy-paste</button><button type="button" class="opt" data-ok="0"><i>D</i>A screenshot</button></div><div class="qexp"><b>Answer: A.</b> Scraping is a fallback.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which tool can read every <code>&lt;table&gt;</code> on a page into DataFrames?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>requests.post</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>pd.read_html</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>json.loads</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>soup.h1</code></button></div><div class="qexp"><b>Answer: B.</b> It returns a list of DataFrames.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Using the Open-Meteo example (on your machine), fetch 7 days of forecasts for three cities and combine them into one DataFrame. (2) Write <code>fetch_all</code> for an API that uses <code>offset</code>/<code>limit</code> instead of pages. (3) Scrape the list of tables from a Wikipedia page of your choice with <code>read_html</code> and clean one of them.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cities = {<span class="hl-s">&quot;Pune&quot;</span>: (<span class="hl-n">18.52</span>, <span class="hl-n">73.86</span>), <span class="hl-s">&quot;Delhi&quot;</span>: (<span class="hl-n">28.61</span>, <span class="hl-n">77.21</span>), <span class="hl-s">&quot;Kochi&quot;</span>: (<span class="hl-n">9.93</span>, <span class="hl-n">76.27</span>)}
+frames = []
+<span class="hl-k">for</span> name, (lat, lon) <span class="hl-k">in</span> <span class="hl-f">cities.items</span>():
+    r = <span class="hl-f">requests.get</span>(<span class="hl-s">&quot;https://api.open-meteo.com/v1/forecast&quot;</span>, params={<span class="hl-s">&quot;latitude&quot;</span>: lat, <span class="hl-s">&quot;longitude&quot;</span>: lon, <span class="hl-s">&quot;daily&quot;</span>: <span class="hl-s">&quot;temperature_2m_max&quot;</span>, <span class="hl-s">&quot;timezone&quot;</span>: <span class="hl-s">&quot;Asia/Kolkata&quot;</span>}, timeout=<span class="hl-n">10</span>)
+    <span class="hl-f">frames.append</span>(<span class="hl-f">pd.DataFrame</span>(<span class="hl-f">r.json</span>()[<span class="hl-s">&quot;daily&quot;</span>]).<span class="hl-f">assign</span>(city=name))
+df = <span class="hl-f">pd.concat</span>(frames)
+<span class="hl-k">def</span> <span class="hl-f">fetch_offset</span>(url, limit=<span class="hl-n">100</span>):
+    out, offset = [], <span class="hl-n">0</span>
+    <span class="hl-k">while</span> <span class="hl-k">True</span>:
+        batch = <span class="hl-f">requests.get</span>(url, params={<span class="hl-s">&quot;offset&quot;</span>: offset, <span class="hl-s">&quot;limit&quot;</span>: limit}, timeout=<span class="hl-n">10</span>).<span class="hl-f">json</span>()
+        <span class="hl-k">if</span> <span class="hl-k">not</span> batch: <span class="hl-k">return</span> out
+        out += batch; offset += limit</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you collect data from a paginated API reliably?</strong>
+Use a session, loop until there is no next page/cursor, set timeouts, retry 429/5xx with backoff, respect rate limits, log progress, and make the job restartable.</p>
+<p><strong>Q: API vs web scraping?</strong>
+APIs are stable, documented and permitted; scraping depends on page structure, can break, and has legal and ethical limits.</p>
+<p><strong>Q: How do you turn nested JSON into a table?</strong>
+<code>pd.json_normalize</code> with <code>record_path</code> and <code>meta</code>, or explode list columns and expand dict columns.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html"><small>← Previous</small><b>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#http-in-five-minutes">HTTP in five minutes</a><a href="#a-practice-api">A practice API</a><a href="#get-requests-with-requests">GET requests with requests</a><a href="#post-requests">POST requests</a><a href="#pagination-retries-and-rate-limits">Pagination, retries and rate limits</a><a href="#flattening-nested-json">Flattening nested JSON</a><a href="#real-public-apis-to-practise-with">Real public APIs to practise with</a><a href="#web-scraping">Web scraping</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>
