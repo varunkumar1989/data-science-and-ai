@@ -1,0 +1,205 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modules, Packages, Virtual Environments and Git · Python Lesson 13 · Data Science &amp; AI Handbook</title><meta name="description" content="Organise code into modules and packages, install libraries with pip or uv inside virtual environments, pin dependencies, use the standard library, and version-control your projects with Git and GitHub."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 13</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class="on"><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-13">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 13 of 14</div><h1>Modules, Packages, Virtual Environments and Git</h1>
+<p class="sum">Organise code into modules and packages, install libraries with pip or uv inside virtual environments, pin dependencies, use the standard library, and version-control your projects with Git and GitHub.</p><div class="tags"><span class="tag live">● Python class 10</span><span class="tag new">✦ Python 3.13 · pip 25 · uv · Git 2.5x</span><span class="tag">Intermediate</span><span class="tag">⏱ 90 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_13_Modules_Packages_Virtual_Environments_and_Git.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-13">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Import modules in the different ways and explain if <strong>name</strong> == "<strong>main</strong>"</li><li>Create a package with <strong>init</strong>.py and a sensible project layout</li><li>Create virtual environments and install and pin packages with pip or uv</li><li>Use key standard-library modules (os, pathlib, datetime, random, math, statistics, collections)</li><li>Use the everyday Git workflow: init, add, commit, branch, push, pull request</li></ul></div></div>
+<div class="content"><h2 id="modules">Modules</h2>
+<p>A <strong>module</strong> is any <code>.py</code> file. Importing it gives you its functions, classes and variables.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> math                                  <span class="hl-c"># whole module, use with prefix</span>
+<span class="hl-k">from</span> statistics <span class="hl-k">import</span> mean, median          <span class="hl-c"># specific names</span>
+<span class="hl-k">import</span> datetime <span class="hl-k">as</span> dt                        <span class="hl-c"># alias</span>
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter <span class="hl-k">as</span> C
+<span class="hl-f">print</span>(<span class="hl-f">math.sqrt</span>(<span class="hl-n">144</span>), math.pi, <span class="hl-f">mean</span>([<span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">10</span>]), <span class="hl-f">median</span>([<span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">10</span>]), <span class="hl-f">dt.date</span>(<span class="hl-n">2025</span>, <span class="hl-n">4</span>, <span class="hl-n">1</span>).<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%d %b %Y&quot;</span>), <span class="hl-f">C</span>(<span class="hl-s">&quot;aab&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">math.ceil</span>(<span class="hl-n">4.2</span>), <span class="hl-f">math.floor</span>(<span class="hl-n">4.8</span>), <span class="hl-f">math.log10</span>(<span class="hl-n">1000</span>), <span class="hl-f">round</span>(<span class="hl-f">math.exp</span>(<span class="hl-n">1</span>), <span class="hl-n">4</span>), <span class="hl-f">math.comb</span>(<span class="hl-n">5</span>, <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">12.0 3.141592653589793 6 5 01 Apr 2025 Counter({&#x27;a&#x27;: 2, &#x27;b&#x27;: 1})
+5 4 3.0 2.7183 10</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Style</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>import pandas as pd</code></td>
+<td>Standard aliases (<code>np</code>, <code>pd</code>, <code>plt</code>, <code>sns</code>)</td>
+</tr>
+<tr>
+<td><code>from pathlib import Path</code></td>
+<td>A few names used often</td>
+</tr>
+<tr>
+<td><code>from module import *</code></td>
+<td><strong>Avoid</strong>: hides where names come from</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="writing-your-own-module">Writing your own module</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pathlib <span class="hl-k">import</span> Path
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;metrics.py&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-s">&#x27;&#x27;&#x27;&quot;&quot;&quot;Reusable business metrics.&quot;&quot;&quot;
+GST = 0.18
+
+def margin_pct(profit, sales):
+    return round(100 * profit / sales, 1) if sales else None
+
+def with_gst(amount):
+    return round(amount * (1 + GST), 2)
+
+if __name__ == &quot;__main__&quot;:          # runs only when executed directly, not when imported
+    print(&quot;self-test:&quot;, margin_pct(25, 200))
+&#x27;&#x27;&#x27;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+<span class="hl-k">import</span> importlib, sys
+<span class="hl-k">if</span> <span class="hl-s">&quot;&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> sys.path: <span class="hl-f">sys.path.insert</span>(<span class="hl-n">0</span>, <span class="hl-s">&quot;&quot;</span>)        <span class="hl-c"># notebooks and scripts already search the current folder</span>
+<span class="hl-k">import</span> metrics
+<span class="hl-f">importlib.reload</span>(metrics)
+<span class="hl-f">print</span>(<span class="hl-f">metrics.margin_pct</span>(<span class="hl-n">30</span>, <span class="hl-n">120</span>), <span class="hl-f">metrics.with_gst</span>(<span class="hl-n">1000</span>), metrics.__doc__)
+<span class="hl-k">import</span> subprocess, sys
+<span class="hl-f">print</span>(<span class="hl-f">subprocess.run</span>([sys.executable, <span class="hl-s">&quot;metrics.py&quot;</span>], capture_output=<span class="hl-k">True</span>, text=<span class="hl-k">True</span>).<span class="hl-f">stdout.strip</span>())
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;metrics.py&quot;</span>).<span class="hl-f">unlink</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">25.0 1180.0 Reusable business metrics.
+self-test: 12.5</pre></div>
+<p><code>__name__</code> is <code>"__main__"</code> when the file is run as a script and the module name when imported. The guard lets one file be both a library and a script.</p>
+<h3 id="where-does-python-look">Where does Python look?</h3>
+<p>The current folder, then the folders in <code>sys.path</code> (including <code>site-packages</code>, where pip installs libraries). <code>ModuleNotFoundError</code> usually means: wrong environment, package not installed, or a typo. Never name your own file <code>pandas.py</code> or <code>random.py</code>: it will shadow the real library.</p>
+<h2 id="packages-and-project-layout">Packages and project layout</h2>
+<p>A <strong>package</strong> is a folder of modules (with an <code>__init__.py</code>). A clean data project:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">churn-project/
+├── pyproject.toml          # project metadata and dependencies
+├── README.md
+├── .gitignore              # venv, data, secrets, __pycache__
+├── data/                   # raw/ and processed/ (usually not committed)
+├── notebooks/              # exploration
+├── src/churn/
+│   ├── __init__.py
+│   ├── load.py             # read and validate data
+│   ├── features.py         # feature engineering
+│   └── train.py            # model training
+└── tests/
+    └── test_features.py</code></pre></div>
+<p>Import with <code>from churn.features import add_tenure_band</code>. Notebooks for exploring; <code>.py</code> modules for anything reused or scheduled.</p>
+<h2 id="the-standard-library-tour">The standard library tour</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> os, random, statistics, datetime <span class="hl-k">as</span> dt, itertools, textwrap, uuid, time
+<span class="hl-f">random.seed</span>(<span class="hl-n">42</span>)
+<span class="hl-f">print</span>(<span class="hl-f">random.randint</span>(<span class="hl-n">1</span>, <span class="hl-n">6</span>), <span class="hl-f">random.choice</span>([<span class="hl-s">&quot;N&quot;</span>, <span class="hl-s">&quot;S&quot;</span>, <span class="hl-s">&quot;E&quot;</span>]), <span class="hl-f">random.sample</span>(<span class="hl-f">range</span>(<span class="hl-n">100</span>), <span class="hl-n">3</span>), <span class="hl-f">round</span>(<span class="hl-f">random.random</span>(), <span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">statistics.stdev</span>([<span class="hl-n">2</span>, <span class="hl-n">4</span>, <span class="hl-n">4</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">5</span>, <span class="hl-n">7</span>, <span class="hl-n">9</span>]), <span class="hl-f">statistics.mode</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]))
+today = <span class="hl-f">dt.date</span>(<span class="hl-n">2025</span>, <span class="hl-n">10</span>, <span class="hl-n">27</span>); due = today + <span class="hl-f">dt.timedelta</span>(days=<span class="hl-n">45</span>)
+<span class="hl-f">print</span>(due, <span class="hl-f">due.strftime</span>(<span class="hl-s">&quot;%A&quot;</span>), (<span class="hl-f">dt.date</span>(<span class="hl-n">2026</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>) - today).days, <span class="hl-s">&quot;days to new year&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">os.cpu_count</span>() &gt; <span class="hl-n">0</span>, <span class="hl-f">os.getenv</span>(<span class="hl-s">&quot;HOME&quot;</span>) <span class="hl-k">is</span> <span class="hl-k">not</span> <span class="hl-k">None</span>, <span class="hl-f">textwrap.shorten</span>(<span class="hl-s">&quot;A very long product description here&quot;</span>, <span class="hl-n">20</span>), <span class="hl-f">len</span>(<span class="hl-f">str</span>(<span class="hl-f">uuid.uuid4</span>())))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 N [3, 94, 35] 0.245
+2.138089935299395 2
+2025-12-11 Thursday 66 days to new year
+True True A very long [...] 36</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Module</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pathlib</code>, <code>os</code>, <code>shutil</code>, <code>glob</code></td>
+<td>Files and folders</td>
+</tr>
+<tr>
+<td><code>datetime</code>, <code>zoneinfo</code>, <code>time</code></td>
+<td>Dates, time zones, timing</td>
+</tr>
+<tr>
+<td><code>math</code>, <code>statistics</code>, <code>random</code>, <code>decimal</code></td>
+<td>Numbers (<code>decimal</code> for money)</td>
+</tr>
+<tr>
+<td><code>collections</code>, <code>itertools</code>, <code>functools</code></td>
+<td>Data structures and iteration helpers</td>
+</tr>
+<tr>
+<td><code>csv</code>, <code>json</code>, <code>sqlite3</code>, <code>pickle</code></td>
+<td>Data formats and storage</td>
+</tr>
+<tr>
+<td><code>re</code></td>
+<td>Regular expressions</td>
+</tr>
+<tr>
+<td><code>logging</code>, <code>argparse</code>, <code>subprocess</code></td>
+<td>Scripts and tools</td>
+</tr>
+<tr>
+<td><code>urllib</code>, <code>http</code></td>
+<td>Web (most people use <code>requests</code>/<code>httpx</code>)</td>
+</tr>
+<tr>
+<td><code>concurrent.futures</code>, <code>asyncio</code></td>
+<td>Parallel and asynchronous work</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pip-virtual-environments-and-uv">pip, virtual environments and uv</h2>
+<p>Each project should have its <strong>own virtual environment</strong> so its library versions do not clash with other projects.</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text"># Create and activate an environment (built-in venv)
+python -m venv .venv
+source .venv/bin/activate          # macOS/Linux
+.venv\Scripts\activate             # Windows
+
+# Install, list, pin, reproduce
+pip install pandas scikit-learn matplotlib
+pip list
+pip freeze &gt; requirements.txt
+pip install -r requirements.txt
+
+# uv: a much faster modern alternative (by Astral)
+uv init churn-project &amp;&amp; cd churn-project
+uv add pandas scikit-learn
+uv run python src/churn/train.py</code></pre></div>
+<figure class="fig"><img src="../img/python-13-01.png" alt="The project isolation model: each project gets its own environment and its own library versions." loading="lazy"><figcaption>The project isolation model: each project gets its own environment and its own library versions.</figcaption></figure>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Conda, Anaconda, Colab</b></div><p><strong>Anaconda/Miniconda</strong> bundle Python with data libraries and the <code>conda</code> environment manager; popular in data science courses. <strong>Google Colab</strong> and <strong>Kaggle Notebooks</strong> run Python in the browser with libraries pre-installed: ideal for practice. Pick one tool per project and stick to it.</p></div>
+<h2 id="git-and-github-essentials">Git and GitHub essentials</h2>
+<p><strong>Git</strong> tracks changes to files; <strong>GitHub</strong> hosts repositories online for backup, collaboration and your portfolio.</p>
+<figure class="fig"><img src="../img/python-13-02.png" alt="The everyday Git cycle." loading="lazy"><figcaption>The everyday Git cycle.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">git init                              # start tracking a folder
+git status                            # what changed?
+git add analysis.py                   # stage a file  (git add . = everything)
+git commit -m &quot;Add churn EDA&quot;         # save a snapshot with a message
+git log --oneline                     # history
+git switch -c feature/rfm             # new branch
+git push -u origin feature/rfm        # upload the branch to GitHub
+git pull                              # download others&#x27; changes
+git clone https://github.com/user/repo.git
+git diff                              # unstaged changes
+git restore file.py                   # discard local changes to a file</code></pre></div>
+<p>A <code>.gitignore</code> keeps junk and secrets out:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">.venv/
+__pycache__/
+.ipynb_checkpoints/
+data/raw/
+*.env
+.DS_Store</code></pre></div>
+<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Never commit secrets</b></div><p>API keys, passwords and tokens belong in environment variables or a <code>.env</code> file listed in <code>.gitignore</code>. Read them with <code>os.getenv("OPENAI_API_KEY")</code>. If a key is ever pushed, revoke it immediately: deleting the commit is not enough.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A module is a <code>.py</code> file; a package is a folder of modules. Use standard aliases and avoid <code>import *</code>.</li>
+<li><code>if __name__ == "__main__":</code> separates script code from importable code.</li>
+<li>One virtual environment per project; pin versions in <code>requirements.txt</code> or <code>pyproject.toml</code> (pip, uv or conda).</li>
+<li>The standard library covers files, dates, maths, data formats, logging and more.</li>
+<li>Git: add → commit → push → pull request → merge; use <code>.gitignore</code> and never commit secrets.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-13-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>if __name__ == "__main__":</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Imports main</button><button type="button" class="opt" data-ok="1"><i>B</i>Runs the block only when the file is executed directly</button><button type="button" class="opt" data-ok="0"><i>C</i>Defines the main function</button><button type="button" class="opt" data-ok="0"><i>D</i>Speeds up the program</button></div><div class="qexp"><b>Answer: B.</b> When imported, <code>__name__</code> is the module name.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why use a virtual environment?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes Python faster</button><button type="button" class="opt" data-ok="1"><i>B</i>It isolates each project's library versions</button><button type="button" class="opt" data-ok="0"><i>C</i>It is required by Git</button><button type="button" class="opt" data-ok="0"><i>D</i>It encrypts the code</button></div><div class="qexp"><b>Answer: B.</b> Different projects may need different versions.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you record the exact installed versions for others?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>pip list</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>pip freeze &gt; requirements.txt</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>git add .</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>pip update</code></button></div><div class="qexp"><b>Answer: B.</b> Others recreate with <code>pip install -r requirements.txt</code>.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why should you not name your file <code>pandas.py</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is too long</button><button type="button" class="opt" data-ok="1"><i>B</i>It shadows the real pandas library on import</button><button type="button" class="opt" data-ok="0"><i>C</i>Git rejects it</button><button type="button" class="opt" data-ok="0"><i>D</i>It is reserved</button></div><div class="qexp"><b>Answer: B.</b> Python finds your file first.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which Git command uploads your commits to GitHub?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>git commit</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>git push</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>git add</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>git log</code></button></div><div class="qexp"><b>Answer: B.</b> Commit saves locally; push uploads.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where should API keys go?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In the code</button><button type="button" class="opt" data-ok="1"><i>B</i>In environment variables or an ignored .env file</button><button type="button" class="opt" data-ok="0"><i>C</i>In the README</button><button type="button" class="opt" data-ok="0"><i>D</i>In a commit message</button></div><div class="qexp"><b>Answer: B.</b> Never commit secrets.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Setup checklist</b></div><p>(1) Create a project folder with a virtual environment and install pandas and matplotlib. (2) Write a module <code>cleaning.py</code> with two functions and import it from a notebook. (3) Create a GitHub repository, add a <code>.gitignore</code> and a README, and push. (4) Create a branch, change the README and open a pull request to yourself.</p><details class="sol"><summary>Show solution</summary><p>Follow the commands in this lesson. Check with <code>python -c "import pandas; print(pandas.__version__)"</code> and <code>git log --oneline</code>. A good README states the question, the data source, how to run the code and the key findings with one chart.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between a module, a package and a library?</strong>
+A module is one file, a package is a folder of modules, and a library is a collection of packages distributed together (e.g. on PyPI).</p>
+<p><strong>Q: How do you make a Python project reproducible?</strong>
+Virtual environment, pinned dependencies, a README with run instructions, fixed random seeds, version control, and data lineage.</p>
+<p><strong>Q: git merge vs git rebase?</strong>
+Merge combines histories with a merge commit; rebase replays your commits on top of another branch for a linear history. Never rebase shared branches.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-12-files-exceptions-json-and-csv.html"><small>← Previous</small><b>Files, Exceptions, JSON and CSV</b></a><a class="next" href="python-14-debugging-testing-regular-expressions-and-code-quality.html"><small>Next →</small><b>Debugging, Testing, Regular Expressions and Code Quality</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#modules">Modules</a><a href="#packages-and-project-layout">Packages and project layout</a><a href="#the-standard-library-tour">The standard library tour</a><a href="#pip-virtual-environments-and-uv">pip, virtual environments and uv</a><a href="#git-and-github-essentials">Git and GitHub essentials</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script></body></html>

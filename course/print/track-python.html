@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Python for Data Science · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#7C3AED"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 5</div><h1>Python for Data Science</h1><p>Python from zero: data types, control flow, data structures, functions, OOP, files, NumPy, pandas, visualisation, dates, SQL connections, EDA and DSA for data roles.</p>
-<div class="cv-m"><span>11 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li><a href="#L-python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li><a href="#L-python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li><a href="#L-python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li><a href="#L-python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li><a href="#L-python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li><a href="#L-python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li><a href="#L-python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li><a href="#L-python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li><a href="#L-python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li><a href="#L-python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li></ol></section><article class="lesson-art bk" id="L-python-01"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 1</div><h1>Introduction to Python: Why, Install &amp; Jupyter Notebooks</h1>
+<div class="cv-m"><span>14 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li><a href="#L-python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li><a href="#L-python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li><a href="#L-python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li><a href="#L-python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li><a href="#L-python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li><a href="#L-python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li><a href="#L-python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li><a href="#L-python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li><a href="#L-python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li><a href="#L-python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li><a href="#L-python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li><a href="#L-python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li><a href="#L-python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li></ol></section><article class="lesson-art bk" id="L-python-01"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 1</div><h1>Introduction to Python: Why, Install &amp; Jupyter Notebooks</h1>
 <p class="sum">Learn what programming and Python are, how Python compares with other languages, how code runs (interpreters, compilers, bytecode), the properties of Python, and set up your environment (Anaconda, VS Code, Jupyter, Google Colab). Write and run your first cells, with markdown, magic commands and good notebook habits.</p><div class="tags"><span class="tag live">● Python class 1</span><span class="tag new">✦ Python 3.13, Jupyter, VS Code, Google Colab (2026)</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what a programming language is and why Python is the default language for data work</li><li>Describe the difference between compiled and interpreted languages and how Python runs your code</li><li>Install Python and Jupyter (or use Google Colab) and run code in cells</li><li>Use Markdown cells, keyboard shortcuts, magic commands and restart-and-run-all</li><li>Follow good habits: naming, comments, reproducibility and virtual environments</li></ul></div></div><div class="content"><h2 id="python-01-what-is-programming">What is programming?</h2>
 <p>A <strong>program</strong> is a set of precise instructions a computer follows. Computers only understand machine code (0s and 1s), so we write instructions in a <strong>programming language</strong> that humans can read, and a translator turns them into something the machine can run.</p>
@@ -2933,4 +2933,694 @@ A class attribute is shared by all instances (defined in the class body); an ins
 <p><strong>Q: Explain the four OOP pillars.</strong>
 Encapsulation (bundle and protect data), inheritance (reuse), polymorphism (same interface, different behaviour), abstraction (expose what, hide how).</p>
 <p><strong>Q: Inheritance or composition?</strong>
-Use inheritance for a true is-a relationship; use composition (objects holding other objects) for flexibility and lower coupling.</p></div></div></article></body></html>
+Use inheritance for a true is-a relationship; use composition (objects holding other objects) for flexibility and lower coupling.</p></div></div></article><article class="lesson-art bk" id="L-python-12"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 12</div><h1>Files, Exceptions, JSON and CSV</h1>
+<p class="sum">Read and write text, CSV and JSON files safely with pathlib and with-blocks, handle errors with try/except/else/finally, raise your own exceptions, and log what happened, using a small "load a messy file" project.</p><div class="tags"><span class="tag live">● Python class 10</span><span class="tag new">✦ Python 3.13</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Open, read and write text files with with-blocks and pathlib</li><li>Read and write CSV with the csv module and JSON with the json module</li><li>Handle errors with try, except, else and finally, and catch specific exceptions</li><li>Raise exceptions and define custom exception classes</li><li>Use logging instead of print for programs that run unattended</li></ul></div></div><div class="content"><h2 id="python-12-files-and-paths">Files and paths</h2>
+<p>Use <code>pathlib.Path</code> for paths (works on Windows, macOS and Linux) and a <code>with</code> block to open files: the file is closed automatically, even if an error happens.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pathlib <span class="hl-k">import</span> Path
+folder = <span class="hl-f">Path</span>(<span class="hl-s">&quot;demo_files&quot;</span>); <span class="hl-f">folder.mkdir</span>(exist_ok=<span class="hl-k">True</span>)
+notes = folder / <span class="hl-s">&quot;notes.txt&quot;</span>                              <span class="hl-c"># / joins path parts</span>
+<span class="hl-k">with</span> <span class="hl-f">open</span>(notes, <span class="hl-s">&quot;w&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:              <span class="hl-c"># &quot;w&quot; overwrites, &quot;a&quot; appends, &quot;r&quot; reads (default)</span>
+    <span class="hl-f">f.write</span>(<span class="hl-s">&quot;Line one\n&quot;</span>)
+    <span class="hl-f">f.writelines</span>([<span class="hl-s">&quot;Line two\n&quot;</span>, <span class="hl-s">&quot;Line three\n&quot;</span>])
+<span class="hl-k">with</span> <span class="hl-f">open</span>(notes, <span class="hl-s">&quot;a&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f: <span class="hl-f">print</span>(<span class="hl-s">&quot;Line four&quot;</span>, file=f)
+<span class="hl-f">print</span>(<span class="hl-f">notes.read_text</span>(encoding=<span class="hl-s">&quot;utf-8&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">notes.exists</span>(), notes.name, notes.stem, notes.suffix, <span class="hl-f">notes.stat</span>().st_size, <span class="hl-s">&quot;bytes&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Line one
+Line two
+Line three
+Line four
+
+True notes.txt notes .txt 39 bytes</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">with</span> <span class="hl-f">open</span>(notes, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+    <span class="hl-k">for</span> i, line <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(f, <span class="hl-n">1</span>):                    <span class="hl-c"># iterate line by line: constant memory for huge files</span>
+        <span class="hl-f">print</span>(i, <span class="hl-f">line.rstrip</span>(<span class="hl-s">&quot;\n&quot;</span>))
+<span class="hl-k">with</span> <span class="hl-f">open</span>(notes, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f: lines = <span class="hl-f">f.read</span>().<span class="hl-f">splitlines</span>()
+<span class="hl-f">print</span>(lines, <span class="hl-f">sorted</span>(p.name <span class="hl-k">for</span> p <span class="hl-k">in</span> <span class="hl-f">folder.glob</span>(<span class="hl-s">&quot;*.txt&quot;</span>)))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1 Line one
+2 Line two
+3 Line three
+4 Line four
+[&#x27;Line one&#x27;, &#x27;Line two&#x27;, &#x27;Line three&#x27;, &#x27;Line four&#x27;] [&#x27;notes.txt&#x27;]</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"r"</code></td>
+<td>Read (error if missing)</td>
+</tr>
+<tr>
+<td><code>"w"</code></td>
+<td>Write (creates or <strong>overwrites</strong>)</td>
+</tr>
+<tr>
+<td><code>"a"</code></td>
+<td>Append to the end</td>
+</tr>
+<tr>
+<td><code>"x"</code></td>
+<td>Create; error if it exists</td>
+</tr>
+<tr>
+<td><code>"b"</code> suffix</td>
+<td>Binary (<code>"rb"</code>, <code>"wb"</code>) for images, Excel, Parquet</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Always give the encoding</b></div><p><code>encoding="utf-8"</code> avoids garbled ₹, é or Hindi text and avoids differences between Windows and Linux defaults.</p></div>
+<h2 id="python-12-csv-files">CSV files</h2>
+<p>The standard <code>csv</code> module handles quoting and commas inside values. (For analysis you will usually use <code>pandas.read_csv</code>, Lesson 16.)</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> csv
+rows = [{<span class="hl-s">&quot;id&quot;</span>: <span class="hl-n">1</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;note&quot;</span>: <span class="hl-s">&quot;fast, friendly&quot;</span>}, {<span class="hl-s">&quot;id&quot;</span>: <span class="hl-n">2</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;note&quot;</span>: <span class="hl-s">&#x27;said &quot;ok&quot;&#x27;</span>}]
+<span class="hl-k">with</span> <span class="hl-f">open</span>(folder / <span class="hl-s">&quot;people.csv&quot;</span>, <span class="hl-s">&quot;w&quot;</span>, newline=<span class="hl-s">&quot;&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+    w = <span class="hl-f">csv.DictWriter</span>(f, fieldnames=[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;city&quot;</span>, <span class="hl-s">&quot;note&quot;</span>])
+    <span class="hl-f">w.writeheader</span>(); <span class="hl-f">w.writerows</span>(rows)
+<span class="hl-f">print</span>((folder / <span class="hl-s">&quot;people.csv&quot;</span>).<span class="hl-f">read_text</span>(encoding=<span class="hl-s">&quot;utf-8&quot;</span>))
+<span class="hl-k">with</span> <span class="hl-f">open</span>(folder / <span class="hl-s">&quot;people.csv&quot;</span>, newline=<span class="hl-s">&quot;&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+    <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">csv.DictReader</span>(f): <span class="hl-f">print</span>(r)                 <span class="hl-c"># every value is a string</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">id,city,note
+1,Pune,&quot;fast, friendly&quot;
+2,Delhi,&quot;said &quot;&quot;ok&quot;&quot;&quot;
+
+{&#x27;id&#x27;: &#x27;1&#x27;, &#x27;city&#x27;: &#x27;Pune&#x27;, &#x27;note&#x27;: &#x27;fast, friendly&#x27;}
+{&#x27;id&#x27;: &#x27;2&#x27;, &#x27;city&#x27;: &#x27;Delhi&#x27;, &#x27;note&#x27;: &#x27;said &quot;ok&quot;&#x27;}</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Stream a real 6,000-line CSV without pandas: total sales per region</span>
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> defaultdict
+totals = <span class="hl-f">defaultdict</span>(float)
+<span class="hl-k">with</span> <span class="hl-f">open</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, newline=<span class="hl-s">&quot;&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+    <span class="hl-k">for</span> row <span class="hl-k">in</span> <span class="hl-f">csv.DictReader</span>(f): totals[row[<span class="hl-s">&quot;region&quot;</span>]] += <span class="hl-f">float</span>(row[<span class="hl-s">&quot;sales&quot;</span>])
+<span class="hl-f">print</span>({k: <span class="hl-f">round</span>(v / 1e6, <span class="hl-n">1</span>) <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">sorted</span>(<span class="hl-f">totals.items</span>())})</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;East&#x27;: 46.5, &#x27;North&#x27;: 49.0, &#x27;South&#x27;: 54.0, &#x27;West&#x27;: 52.0}</pre></div>
+<h2 id="python-12-json-files">JSON files</h2>
+<p>JSON maps to Python like this: object ↔ dict, array ↔ list, string ↔ str, number ↔ int/float, true/false ↔ True/False, null ↔ None.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json
+config = {<span class="hl-s">&quot;source&quot;</span>: <span class="hl-s">&quot;superstore_sales.csv&quot;</span>, <span class="hl-s">&quot;regions&quot;</span>: [<span class="hl-s">&quot;North&quot;</span>, <span class="hl-s">&quot;South&quot;</span>], <span class="hl-s">&quot;min_sales&quot;</span>: <span class="hl-n">1000</span>, <span class="hl-s">&quot;debug&quot;</span>: <span class="hl-k">False</span>, <span class="hl-s">&quot;owner&quot;</span>: <span class="hl-k">None</span>}
+<span class="hl-k">with</span> <span class="hl-f">open</span>(folder / <span class="hl-s">&quot;config.json&quot;</span>, <span class="hl-s">&quot;w&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f: <span class="hl-f">json.dump</span>(config, f, indent=<span class="hl-n">2</span>)
+<span class="hl-k">with</span> <span class="hl-f">open</span>(folder / <span class="hl-s">&quot;config.json&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f: loaded = <span class="hl-f">json.load</span>(f)
+<span class="hl-f">print</span>(loaded == config, loaded[<span class="hl-s">&quot;regions&quot;</span>], <span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;price&quot;</span>: <span class="hl-n">4500.5</span>, <span class="hl-s">&quot;ok&quot;</span>: <span class="hl-k">True</span>, <span class="hl-s">&quot;x&quot;</span>: <span class="hl-k">None</span>}))
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>({<span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;₹&quot;</span>: <span class="hl-n">1</span>}, ensure_ascii=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True [&#x27;North&#x27;, &#x27;South&#x27;] {&quot;price&quot;: 4500.5, &quot;ok&quot;: true, &quot;x&quot;: null}
+{&quot;city&quot;: &quot;Pune&quot;, &quot;₹&quot;: 1}</pre></div>
+<p><code>json.dump</code>/<code>json.load</code> work with files; <code>json.dumps</code>/<code>json.loads</code> work with strings (the "s" is for string). Dates and sets are not JSON types: convert them first (<code>d.isoformat()</code>, <code>list(s)</code>).</p>
+<h2 id="python-12-exceptions">Exceptions</h2>
+<p>An <strong>exception</strong> is Python's way of reporting an error. Unhandled, it stops the program and prints a traceback. Handled, your program can recover.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">safe_ratio</span>(a, b):
+    <span class="hl-k">try</span>:
+        result = a / b
+    <span class="hl-k">except</span> ZeroDivisionError:
+        <span class="hl-f">print</span>(<span class="hl-s">&quot;  cannot divide by zero&quot;</span>)
+        <span class="hl-k">return</span> <span class="hl-k">None</span>
+    <span class="hl-k">except</span> TypeError <span class="hl-k">as</span> e:
+        <span class="hl-f">print</span>(<span class="hl-s">&quot;  wrong types:&quot;</span>, e)
+        <span class="hl-k">return</span> <span class="hl-k">None</span>
+    <span class="hl-k">else</span>:                        <span class="hl-c"># runs only when no exception happened</span>
+        <span class="hl-k">return</span> <span class="hl-f">round</span>(result, <span class="hl-n">2</span>)
+    <span class="hl-k">finally</span>:                     <span class="hl-c"># always runs: clean-up</span>
+        <span class="hl-f">print</span>(<span class="hl-s">&quot;  checked&quot;</span>, a, b)
+<span class="hl-f">print</span>(<span class="hl-f">safe_ratio</span>(<span class="hl-n">10</span>, <span class="hl-n">4</span>)); <span class="hl-f">print</span>(<span class="hl-f">safe_ratio</span>(<span class="hl-n">1</span>, <span class="hl-n">0</span>)); <span class="hl-f">print</span>(<span class="hl-f">safe_ratio</span>(<span class="hl-s">&quot;10&quot;</span>, <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  checked 10 4
+2.5
+  cannot divide by zero
+  checked 1 0
+None
+  wrong types: unsupported operand type(s) for /: &#x27;str&#x27; and &#x27;int&#x27;
+  checked 10 2
+None</pre></div>
+<figure class="fig"><img src="../img/python-12-01.png" alt="try / except / else / finally: which blocks run." loading="lazy"><figcaption>try / except / else / finally: which blocks run.</figcaption></figure>
+<h3 id="python-12-common-built-in-exceptions">Common built-in exceptions</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Exception</th>
+<th>Typical cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError</code></td>
+<td>Right type, wrong value: <code>int("abc")</code></td>
+</tr>
+<tr>
+<td><code>TypeError</code></td>
+<td>Wrong type: <code>"a" + 1</code></td>
+</tr>
+<tr>
+<td><code>KeyError</code></td>
+<td>Missing dict key</td>
+</tr>
+<tr>
+<td><code>IndexError</code></td>
+<td>List index out of range</td>
+</tr>
+<tr>
+<td><code>FileNotFoundError</code></td>
+<td>Missing file</td>
+</tr>
+<tr>
+<td><code>ZeroDivisionError</code></td>
+<td>Divide by zero</td>
+</tr>
+<tr>
+<td><code>AttributeError</code></td>
+<td>Object has no such attribute or method</td>
+</tr>
+<tr>
+<td><code>ImportError</code> / <code>ModuleNotFoundError</code></td>
+<td>Package not installed</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">tests = [<span class="hl-k">lambda</span>: <span class="hl-f">int</span>(<span class="hl-s">&quot;abc&quot;</span>), <span class="hl-k">lambda</span>: <span class="hl-s">&quot;a&quot;</span> + <span class="hl-n">1</span>, <span class="hl-k">lambda</span>: {}[<span class="hl-s">&quot;x&quot;</span>], <span class="hl-k">lambda</span>: [<span class="hl-n">1</span>][<span class="hl-n">5</span>], <span class="hl-k">lambda</span>: <span class="hl-f">open</span>(<span class="hl-s">&quot;missing.csv&quot;</span>), <span class="hl-k">lambda</span>: <span class="hl-k">None</span>.<span class="hl-f">upper</span>()]
+<span class="hl-k">for</span> t <span class="hl-k">in</span> tests:
+    <span class="hl-k">try</span>: <span class="hl-f">t</span>()
+    <span class="hl-k">except</span> Exception <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">f&quot;{type(e).__name__:&lt;18} {e}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">ValueError         invalid literal for int() with base 10: &#x27;abc&#x27;
+TypeError          can only concatenate str (not &quot;int&quot;) to str
+KeyError           &#x27;x&#x27;
+IndexError         list index out of range
+FileNotFoundError  [Errno 2] No such file or directory: &#x27;missing.csv&#x27;
+AttributeError     &#x27;NoneType&#x27; object has no attribute &#x27;upper&#x27;</pre></div>
+<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Do not swallow every error</b></div><p><code>except: pass</code> or <code>except Exception: pass</code> hides bugs. Catch the <strong>specific</strong> exceptions you expect, and let unexpected ones surface (or log them and re-raise).</p></div>
+<h3 id="python-12-raising-your-own-exceptions">Raising your own exceptions</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> <span class="hl-f">DataQualityError</span>(Exception):
+    <span class="hl-s">&quot;&quot;&quot;Raised when an input file fails validation.&quot;&quot;&quot;</span>
+
+<span class="hl-k">def</span> <span class="hl-f">validate</span>(df):
+    missing = {<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>} - <span class="hl-f">set</span>(df.columns)
+    <span class="hl-k">if</span> missing: <span class="hl-k">raise</span> <span class="hl-f">DataQualityError</span>(<span class="hl-s">f&quot;missing columns: {sorted(missing)}&quot;</span>)
+    <span class="hl-k">if</span> (df[<span class="hl-s">&quot;sales&quot;</span>] &lt; <span class="hl-n">0</span>).<span class="hl-f">any</span>(): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;negative sales found&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-k">True</span>
+
+<span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">for</span> d <span class="hl-k">in</span> (<span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;order_id&quot;</span>: [<span class="hl-n">1</span>], <span class="hl-s">&quot;sales&quot;</span>: [<span class="hl-n">5</span>]}), <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;order_id&quot;</span>: [<span class="hl-n">1</span>]}), <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;order_id&quot;</span>: [<span class="hl-n">1</span>], <span class="hl-s">&quot;sales&quot;</span>: [-<span class="hl-n">2</span>]})):
+    <span class="hl-k">try</span>: <span class="hl-f">print</span>(<span class="hl-s">&quot;valid:&quot;</span>, <span class="hl-f">validate</span>(d))
+    <span class="hl-k">except</span> (DataQualityError, ValueError) <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-f">type</span>(e).__name__, <span class="hl-s">&quot;-&gt;&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">valid: True
+DataQualityError -&gt; missing columns: [&#x27;sales&#x27;]
+ValueError -&gt; negative sales found</pre></div>
+<p>Use <code>raise ... from e</code> to wrap a low-level error in a clearer one while keeping the original cause.</p>
+<h2 id="python-12-logging">Logging</h2>
+<p><code>print</code> is for interactive work. Programs that run on a schedule (ETL jobs, APIs) should use <code>logging</code>, which adds timestamps and levels and can write to files.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> logging, io
+stream = <span class="hl-f">io.StringIO</span>()
+log = <span class="hl-f">logging.getLogger</span>(<span class="hl-s">&quot;etl&quot;</span>); <span class="hl-f">log.handlers.clear</span>(); <span class="hl-f">log.setLevel</span>(logging.INFO)
+h = <span class="hl-f">logging.StreamHandler</span>(stream); <span class="hl-f">h.setFormatter</span>(<span class="hl-f">logging.Formatter</span>(<span class="hl-s">&quot;%(levelname)s | %(name)s | %(message)s&quot;</span>)); <span class="hl-f">log.addHandler</span>(h)
+<span class="hl-f">log.debug</span>(<span class="hl-s">&quot;not shown: below INFO&quot;</span>); <span class="hl-f">log.info</span>(<span class="hl-s">&quot;loaded 6,323 rows&quot;</span>); <span class="hl-f">log.warning</span>(<span class="hl-s">&quot;12 rows had blank city&quot;</span>)
+<span class="hl-k">try</span>: <span class="hl-n">1</span> / <span class="hl-n">0</span>
+<span class="hl-k">except</span> ZeroDivisionError: <span class="hl-f">log.exception</span>(<span class="hl-s">&quot;step failed&quot;</span>)       <span class="hl-c"># logs the traceback too</span>
+<span class="hl-f">print</span>(<span class="hl-f">stream.getvalue</span>().<span class="hl-f">splitlines</span>()[:<span class="hl-n">3</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;INFO | etl | loaded 6,323 rows&#x27;, &#x27;WARNING | etl | 12 rows had blank city&#x27;, &#x27;ERROR | etl | step failed&#x27;]</pre></div>
+<p>Levels from low to high: <code>DEBUG</code>, <code>INFO</code>, <code>WARNING</code>, <code>ERROR</code>, <code>CRITICAL</code>.</p>
+<h2 id="python-12-project-load-a-messy-file-safely">Project: load a messy file safely</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">messy = <span class="hl-s">&quot;&quot;&quot;order_id,amount,city
+1,1200,Pune
+2,abc,Delhi
+3,,Kochi
+4,950,
+5,-40,Goa
+&quot;&quot;&quot;</span>
+(folder / <span class="hl-s">&quot;messy.csv&quot;</span>).<span class="hl-f">write_text</span>(messy, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">load_orders</span>(path):
+    good, bad = [], []
+    <span class="hl-k">with</span> <span class="hl-f">open</span>(path, newline=<span class="hl-s">&quot;&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+        <span class="hl-k">for</span> lineno, row <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(<span class="hl-f">csv.DictReader</span>(f), start=<span class="hl-n">2</span>):
+            <span class="hl-k">try</span>:
+                amount = <span class="hl-f">float</span>(row[<span class="hl-s">&quot;amount&quot;</span>])
+                <span class="hl-k">if</span> amount &lt; <span class="hl-n">0</span>: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;negative amount&quot;</span>)
+                <span class="hl-k">if</span> <span class="hl-k">not</span> row[<span class="hl-s">&quot;city&quot;</span>]: <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;blank city&quot;</span>)
+                <span class="hl-f">good.append</span>({<span class="hl-s">&quot;order_id&quot;</span>: <span class="hl-f">int</span>(row[<span class="hl-s">&quot;order_id&quot;</span>]), <span class="hl-s">&quot;amount&quot;</span>: amount, <span class="hl-s">&quot;city&quot;</span>: row[<span class="hl-s">&quot;city&quot;</span>]})
+            <span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e:
+                <span class="hl-f">bad.append</span>((lineno, <span class="hl-f">str</span>(e)))
+    <span class="hl-k">return</span> good, bad
+
+good, bad = <span class="hl-f">load_orders</span>(folder / <span class="hl-s">&quot;messy.csv&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;good:&quot;</span>, good); <span class="hl-f">print</span>(<span class="hl-s">&quot;rejected:&quot;</span>, bad)
+<span class="hl-k">with</span> <span class="hl-f">open</span>(folder / <span class="hl-s">&quot;rejected.json&quot;</span>, <span class="hl-s">&quot;w&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f: <span class="hl-f">json.dump</span>(bad, f)
+<span class="hl-k">import</span> shutil; <span class="hl-f">shutil.rmtree</span>(folder)                       <span class="hl-c"># tidy up the demo folder</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">good: [{&#x27;order_id&#x27;: 1, &#x27;amount&#x27;: 1200.0, &#x27;city&#x27;: &#x27;Pune&#x27;}]
+rejected: [(3, &quot;could not convert string to float: &#x27;abc&#x27;&quot;), (4, &quot;could not convert string to float: &#x27;&#x27;&quot;), (5, &#x27;blank city&#x27;), (6, &#x27;negative amount&#x27;)]</pre></div>
+<p>Real pipelines do exactly this: keep the good rows, quarantine and report the bad ones, never crash on one bad line.</p>
+<h2 id="python-12-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Use <code>pathlib.Path</code> and <code>with open(path, mode, encoding="utf-8")</code>; iterate a file line by line for big files.</li>
+<li><code>csv.DictReader</code>/<code>DictWriter</code> handle quoting (values are strings); <code>json.load</code>/<code>dump</code> convert JSON ↔ Python.</li>
+<li><code>try</code> / <code>except SpecificError</code> / <code>else</code> / <code>finally</code>; never use a bare <code>except: pass</code>.</li>
+<li><code>raise</code> your own exceptions (subclass <code>Exception</code>) to signal bad data clearly.</li>
+<li>Use <code>logging</code> with levels for unattended programs.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-12-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why use <code>with open(...) as f:</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is faster</button><button type="button" class="opt" data-ok="1"><i>B</i>The file is closed automatically, even if an error occurs</button><button type="button" class="opt" data-ok="0"><i>C</i>It reads the whole file</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required for CSV</button></div><div class="qexp"><b>Answer: B.</b> The context manager handles clean-up.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does mode <code>"w"</code> do to an existing file?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Appends</button><button type="button" class="opt" data-ok="1"><i>B</i>Overwrites it</button><button type="button" class="opt" data-ok="0"><i>C</i>Raises an error</button><button type="button" class="opt" data-ok="0"><i>D</i>Reads it</button></div><div class="qexp"><b>Answer: B.</b> Use <code>"a"</code> to append and <code>"x"</code> to refuse overwriting.</div></div><div class="qq"><p class="qtext"><b>3.</b> When does the <code>else</code> block of a <code>try</code> statement run?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Always</button><button type="button" class="opt" data-ok="1"><i>B</i>Only if no exception was raised in <code>try</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Only after an exception</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: B.</b> <code>finally</code> is the block that always runs.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>json.loads</code> take?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A file</button><button type="button" class="opt" data-ok="1"><i>B</i>A string</button><button type="button" class="opt" data-ok="0"><i>C</i>A dictionary</button><button type="button" class="opt" data-ok="0"><i>D</i>A path</button></div><div class="qexp"><b>Answer: B.</b> <code>load</code> takes a file object; <code>loads</code> takes a string.</div></div><div class="qq"><p class="qtext"><b>5.</b> What exception does <code>int("abc")</code> raise?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>TypeError</button><button type="button" class="opt" data-ok="1"><i>B</i>ValueError</button><button type="button" class="opt" data-ok="0"><i>C</i>KeyError</button><button type="button" class="opt" data-ok="0"><i>D</i>SyntaxError</button></div><div class="qexp"><b>Answer: B.</b> The type (str) is acceptable, the value is not.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why prefer <code>logging</code> over <code>print</code> for scheduled jobs?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is shorter</button><button type="button" class="opt" data-ok="1"><i>B</i>It adds levels and timestamps and can write to files and monitoring tools</button><button type="button" class="opt" data-ok="0"><i>C</i>print is deprecated</button><button type="button" class="opt" data-ok="0"><i>D</i>logging is faster</button></div><div class="qexp"><b>Answer: B.</b> You can filter by level and keep a history.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>File and error problems</b></div><p>(1) Write a function that counts lines, words and characters in a text file. (2) Read <code>superstore_sales.csv</code> with <code>csv.DictReader</code> and count rows per <code>category</code>. (3) Save that result as JSON and load it back. (4) Write <code>to_int(text, default=0)</code> that returns the default on <code>ValueError</code>. (5) Raise a custom <code>EmptyFileError</code> when a file has no data rows.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">wc</span>(path):
+    text = <span class="hl-f">Path</span>(path).<span class="hl-f">read_text</span>(encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-f">len</span>(<span class="hl-f">text.splitlines</span>()), <span class="hl-f">len</span>(<span class="hl-f">text.split</span>()), <span class="hl-f">len</span>(text)
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter
+<span class="hl-k">with</span> <span class="hl-f">open</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, newline=<span class="hl-s">&quot;&quot;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+    counts = <span class="hl-f">Counter</span>(r[<span class="hl-s">&quot;category&quot;</span>] <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">csv.DictReader</span>(f))
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;cat.json&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-f">json.dumps</span>(counts), encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">json.loads</span>(<span class="hl-f">Path</span>(<span class="hl-s">&quot;cat.json&quot;</span>).<span class="hl-f">read_text</span>(encoding=<span class="hl-s">&quot;utf-8&quot;</span>)))
+<span class="hl-k">def</span> <span class="hl-f">to_int</span>(text, default=<span class="hl-n">0</span>):
+    <span class="hl-k">try</span>: <span class="hl-k">return</span> <span class="hl-f">int</span>(text)
+    <span class="hl-k">except</span> ValueError: <span class="hl-k">return</span> default
+<span class="hl-k">class</span> <span class="hl-f">EmptyFileError</span>(Exception): <span class="hl-k">pass</span>
+<span class="hl-k">def</span> <span class="hl-f">check</span>(path):
+    <span class="hl-k">with</span> <span class="hl-f">open</span>(path, encoding=<span class="hl-s">&quot;utf-8&quot;</span>) <span class="hl-k">as</span> f:
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(<span class="hl-f">f.read</span>().<span class="hl-f">splitlines</span>()) &lt; <span class="hl-n">2</span>: <span class="hl-k">raise</span> <span class="hl-f">EmptyFileError</span>(path)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you read a 10 GB file in Python?</strong>
+Iterate it line by line (<code>for line in f</code>), or read in chunks (<code>pd.read_csv(..., chunksize=...)</code>), so memory stays constant.</p>
+<p><strong>Q: Difference between <code>except Exception</code> and a bare <code>except</code>?</strong>
+A bare <code>except</code> also catches <code>KeyboardInterrupt</code> and <code>SystemExit</code>; catch specific exceptions where possible.</p>
+<p><strong>Q: What is <code>finally</code> used for?</strong>
+Clean-up that must always happen, such as closing connections or releasing locks.</p>
+<p><strong>Q: How do you handle bad rows in an ETL job?</strong>
+Validate each row, keep good rows, write rejects with the reason to a quarantine file or table, log counts, and alert if the reject rate is too high.</p></div></div></article><article class="lesson-art bk" id="L-python-13"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 13</div><h1>Modules, Packages, Virtual Environments and Git</h1>
+<p class="sum">Organise code into modules and packages, install libraries with pip or uv inside virtual environments, pin dependencies, use the standard library, and version-control your projects with Git and GitHub.</p><div class="tags"><span class="tag live">● Python class 10</span><span class="tag new">✦ Python 3.13 · pip 25 · uv · Git 2.5x</span><span class="tag">Intermediate</span><span class="tag">⏱ 90 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Import modules in the different ways and explain if <strong>name</strong> == "<strong>main</strong>"</li><li>Create a package with <strong>init</strong>.py and a sensible project layout</li><li>Create virtual environments and install and pin packages with pip or uv</li><li>Use key standard-library modules (os, pathlib, datetime, random, math, statistics, collections)</li><li>Use the everyday Git workflow: init, add, commit, branch, push, pull request</li></ul></div></div><div class="content"><h2 id="python-13-modules">Modules</h2>
+<p>A <strong>module</strong> is any <code>.py</code> file. Importing it gives you its functions, classes and variables.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> math                                  <span class="hl-c"># whole module, use with prefix</span>
+<span class="hl-k">from</span> statistics <span class="hl-k">import</span> mean, median          <span class="hl-c"># specific names</span>
+<span class="hl-k">import</span> datetime <span class="hl-k">as</span> dt                        <span class="hl-c"># alias</span>
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter <span class="hl-k">as</span> C
+<span class="hl-f">print</span>(<span class="hl-f">math.sqrt</span>(<span class="hl-n">144</span>), math.pi, <span class="hl-f">mean</span>([<span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">10</span>]), <span class="hl-f">median</span>([<span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">10</span>]), <span class="hl-f">dt.date</span>(<span class="hl-n">2025</span>, <span class="hl-n">4</span>, <span class="hl-n">1</span>).<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%d %b %Y&quot;</span>), <span class="hl-f">C</span>(<span class="hl-s">&quot;aab&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">math.ceil</span>(<span class="hl-n">4.2</span>), <span class="hl-f">math.floor</span>(<span class="hl-n">4.8</span>), <span class="hl-f">math.log10</span>(<span class="hl-n">1000</span>), <span class="hl-f">round</span>(<span class="hl-f">math.exp</span>(<span class="hl-n">1</span>), <span class="hl-n">4</span>), <span class="hl-f">math.comb</span>(<span class="hl-n">5</span>, <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">12.0 3.141592653589793 6 5 01 Apr 2025 Counter({&#x27;a&#x27;: 2, &#x27;b&#x27;: 1})
+5 4 3.0 2.7183 10</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Style</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>import pandas as pd</code></td>
+<td>Standard aliases (<code>np</code>, <code>pd</code>, <code>plt</code>, <code>sns</code>)</td>
+</tr>
+<tr>
+<td><code>from pathlib import Path</code></td>
+<td>A few names used often</td>
+</tr>
+<tr>
+<td><code>from module import *</code></td>
+<td><strong>Avoid</strong>: hides where names come from</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="python-13-writing-your-own-module">Writing your own module</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pathlib <span class="hl-k">import</span> Path
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;metrics.py&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-s">&#x27;&#x27;&#x27;&quot;&quot;&quot;Reusable business metrics.&quot;&quot;&quot;
+GST = 0.18
+
+def margin_pct(profit, sales):
+    return round(100 * profit / sales, 1) if sales else None
+
+def with_gst(amount):
+    return round(amount * (1 + GST), 2)
+
+if __name__ == &quot;__main__&quot;:          # runs only when executed directly, not when imported
+    print(&quot;self-test:&quot;, margin_pct(25, 200))
+&#x27;&#x27;&#x27;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+<span class="hl-k">import</span> importlib, sys
+<span class="hl-k">if</span> <span class="hl-s">&quot;&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> sys.path: <span class="hl-f">sys.path.insert</span>(<span class="hl-n">0</span>, <span class="hl-s">&quot;&quot;</span>)        <span class="hl-c"># notebooks and scripts already search the current folder</span>
+<span class="hl-k">import</span> metrics
+<span class="hl-f">importlib.reload</span>(metrics)
+<span class="hl-f">print</span>(<span class="hl-f">metrics.margin_pct</span>(<span class="hl-n">30</span>, <span class="hl-n">120</span>), <span class="hl-f">metrics.with_gst</span>(<span class="hl-n">1000</span>), metrics.__doc__)
+<span class="hl-k">import</span> subprocess, sys
+<span class="hl-f">print</span>(<span class="hl-f">subprocess.run</span>([sys.executable, <span class="hl-s">&quot;metrics.py&quot;</span>], capture_output=<span class="hl-k">True</span>, text=<span class="hl-k">True</span>).<span class="hl-f">stdout.strip</span>())
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;metrics.py&quot;</span>).<span class="hl-f">unlink</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">25.0 1180.0 Reusable business metrics.
+self-test: 12.5</pre></div>
+<p><code>__name__</code> is <code>"__main__"</code> when the file is run as a script and the module name when imported. The guard lets one file be both a library and a script.</p>
+<h3 id="python-13-where-does-python-look">Where does Python look?</h3>
+<p>The current folder, then the folders in <code>sys.path</code> (including <code>site-packages</code>, where pip installs libraries). <code>ModuleNotFoundError</code> usually means: wrong environment, package not installed, or a typo. Never name your own file <code>pandas.py</code> or <code>random.py</code>: it will shadow the real library.</p>
+<h2 id="python-13-packages-and-project-layout">Packages and project layout</h2>
+<p>A <strong>package</strong> is a folder of modules (with an <code>__init__.py</code>). A clean data project:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">churn-project/
+├── pyproject.toml          # project metadata and dependencies
+├── README.md
+├── .gitignore              # venv, data, secrets, __pycache__
+├── data/                   # raw/ and processed/ (usually not committed)
+├── notebooks/              # exploration
+├── src/churn/
+│   ├── __init__.py
+│   ├── load.py             # read and validate data
+│   ├── features.py         # feature engineering
+│   └── train.py            # model training
+└── tests/
+    └── test_features.py</code></pre></div>
+<p>Import with <code>from churn.features import add_tenure_band</code>. Notebooks for exploring; <code>.py</code> modules for anything reused or scheduled.</p>
+<h2 id="python-13-the-standard-library-tour">The standard library tour</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> os, random, statistics, datetime <span class="hl-k">as</span> dt, itertools, textwrap, uuid, time
+<span class="hl-f">random.seed</span>(<span class="hl-n">42</span>)
+<span class="hl-f">print</span>(<span class="hl-f">random.randint</span>(<span class="hl-n">1</span>, <span class="hl-n">6</span>), <span class="hl-f">random.choice</span>([<span class="hl-s">&quot;N&quot;</span>, <span class="hl-s">&quot;S&quot;</span>, <span class="hl-s">&quot;E&quot;</span>]), <span class="hl-f">random.sample</span>(<span class="hl-f">range</span>(<span class="hl-n">100</span>), <span class="hl-n">3</span>), <span class="hl-f">round</span>(<span class="hl-f">random.random</span>(), <span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">statistics.stdev</span>([<span class="hl-n">2</span>, <span class="hl-n">4</span>, <span class="hl-n">4</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">5</span>, <span class="hl-n">7</span>, <span class="hl-n">9</span>]), <span class="hl-f">statistics.mode</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]))
+today = <span class="hl-f">dt.date</span>(<span class="hl-n">2025</span>, <span class="hl-n">10</span>, <span class="hl-n">27</span>); due = today + <span class="hl-f">dt.timedelta</span>(days=<span class="hl-n">45</span>)
+<span class="hl-f">print</span>(due, <span class="hl-f">due.strftime</span>(<span class="hl-s">&quot;%A&quot;</span>), (<span class="hl-f">dt.date</span>(<span class="hl-n">2026</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>) - today).days, <span class="hl-s">&quot;days to new year&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">os.cpu_count</span>() &gt; <span class="hl-n">0</span>, <span class="hl-f">os.getenv</span>(<span class="hl-s">&quot;HOME&quot;</span>) <span class="hl-k">is</span> <span class="hl-k">not</span> <span class="hl-k">None</span>, <span class="hl-f">textwrap.shorten</span>(<span class="hl-s">&quot;A very long product description here&quot;</span>, <span class="hl-n">20</span>), <span class="hl-f">len</span>(<span class="hl-f">str</span>(<span class="hl-f">uuid.uuid4</span>())))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 N [3, 94, 35] 0.245
+2.138089935299395 2
+2025-12-11 Thursday 66 days to new year
+True True A very long [...] 36</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Module</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pathlib</code>, <code>os</code>, <code>shutil</code>, <code>glob</code></td>
+<td>Files and folders</td>
+</tr>
+<tr>
+<td><code>datetime</code>, <code>zoneinfo</code>, <code>time</code></td>
+<td>Dates, time zones, timing</td>
+</tr>
+<tr>
+<td><code>math</code>, <code>statistics</code>, <code>random</code>, <code>decimal</code></td>
+<td>Numbers (<code>decimal</code> for money)</td>
+</tr>
+<tr>
+<td><code>collections</code>, <code>itertools</code>, <code>functools</code></td>
+<td>Data structures and iteration helpers</td>
+</tr>
+<tr>
+<td><code>csv</code>, <code>json</code>, <code>sqlite3</code>, <code>pickle</code></td>
+<td>Data formats and storage</td>
+</tr>
+<tr>
+<td><code>re</code></td>
+<td>Regular expressions</td>
+</tr>
+<tr>
+<td><code>logging</code>, <code>argparse</code>, <code>subprocess</code></td>
+<td>Scripts and tools</td>
+</tr>
+<tr>
+<td><code>urllib</code>, <code>http</code></td>
+<td>Web (most people use <code>requests</code>/<code>httpx</code>)</td>
+</tr>
+<tr>
+<td><code>concurrent.futures</code>, <code>asyncio</code></td>
+<td>Parallel and asynchronous work</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="python-13-pip-virtual-environments-and-uv">pip, virtual environments and uv</h2>
+<p>Each project should have its <strong>own virtual environment</strong> so its library versions do not clash with other projects.</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text"># Create and activate an environment (built-in venv)
+python -m venv .venv
+source .venv/bin/activate          # macOS/Linux
+.venv\Scripts\activate             # Windows
+
+# Install, list, pin, reproduce
+pip install pandas scikit-learn matplotlib
+pip list
+pip freeze &gt; requirements.txt
+pip install -r requirements.txt
+
+# uv: a much faster modern alternative (by Astral)
+uv init churn-project &amp;&amp; cd churn-project
+uv add pandas scikit-learn
+uv run python src/churn/train.py</code></pre></div>
+<figure class="fig"><img src="../img/python-13-01.png" alt="The project isolation model: each project gets its own environment and its own library versions." loading="lazy"><figcaption>The project isolation model: each project gets its own environment and its own library versions.</figcaption></figure>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Conda, Anaconda, Colab</b></div><p><strong>Anaconda/Miniconda</strong> bundle Python with data libraries and the <code>conda</code> environment manager; popular in data science courses. <strong>Google Colab</strong> and <strong>Kaggle Notebooks</strong> run Python in the browser with libraries pre-installed: ideal for practice. Pick one tool per project and stick to it.</p></div>
+<h2 id="python-13-git-and-github-essentials">Git and GitHub essentials</h2>
+<p><strong>Git</strong> tracks changes to files; <strong>GitHub</strong> hosts repositories online for backup, collaboration and your portfolio.</p>
+<figure class="fig"><img src="../img/python-13-02.png" alt="The everyday Git cycle." loading="lazy"><figcaption>The everyday Git cycle.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">git init                              # start tracking a folder
+git status                            # what changed?
+git add analysis.py                   # stage a file  (git add . = everything)
+git commit -m &quot;Add churn EDA&quot;         # save a snapshot with a message
+git log --oneline                     # history
+git switch -c feature/rfm             # new branch
+git push -u origin feature/rfm        # upload the branch to GitHub
+git pull                              # download others&#x27; changes
+git clone https://github.com/user/repo.git
+git diff                              # unstaged changes
+git restore file.py                   # discard local changes to a file</code></pre></div>
+<p>A <code>.gitignore</code> keeps junk and secrets out:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">.venv/
+__pycache__/
+.ipynb_checkpoints/
+data/raw/
+*.env
+.DS_Store</code></pre></div>
+<div class="co co-warning"><div class="co-h"><span class="pill">Warning</span><b>Never commit secrets</b></div><p>API keys, passwords and tokens belong in environment variables or a <code>.env</code> file listed in <code>.gitignore</code>. Read them with <code>os.getenv("OPENAI_API_KEY")</code>. If a key is ever pushed, revoke it immediately: deleting the commit is not enough.</p></div>
+<h2 id="python-13-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A module is a <code>.py</code> file; a package is a folder of modules. Use standard aliases and avoid <code>import *</code>.</li>
+<li><code>if __name__ == "__main__":</code> separates script code from importable code.</li>
+<li>One virtual environment per project; pin versions in <code>requirements.txt</code> or <code>pyproject.toml</code> (pip, uv or conda).</li>
+<li>The standard library covers files, dates, maths, data formats, logging and more.</li>
+<li>Git: add → commit → push → pull request → merge; use <code>.gitignore</code> and never commit secrets.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-13-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>if __name__ == "__main__":</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Imports main</button><button type="button" class="opt" data-ok="1"><i>B</i>Runs the block only when the file is executed directly</button><button type="button" class="opt" data-ok="0"><i>C</i>Defines the main function</button><button type="button" class="opt" data-ok="0"><i>D</i>Speeds up the program</button></div><div class="qexp"><b>Answer: B.</b> When imported, <code>__name__</code> is the module name.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why use a virtual environment?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes Python faster</button><button type="button" class="opt" data-ok="1"><i>B</i>It isolates each project's library versions</button><button type="button" class="opt" data-ok="0"><i>C</i>It is required by Git</button><button type="button" class="opt" data-ok="0"><i>D</i>It encrypts the code</button></div><div class="qexp"><b>Answer: B.</b> Different projects may need different versions.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you record the exact installed versions for others?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>pip list</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>pip freeze &gt; requirements.txt</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>git add .</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>pip update</code></button></div><div class="qexp"><b>Answer: B.</b> Others recreate with <code>pip install -r requirements.txt</code>.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why should you not name your file <code>pandas.py</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is too long</button><button type="button" class="opt" data-ok="1"><i>B</i>It shadows the real pandas library on import</button><button type="button" class="opt" data-ok="0"><i>C</i>Git rejects it</button><button type="button" class="opt" data-ok="0"><i>D</i>It is reserved</button></div><div class="qexp"><b>Answer: B.</b> Python finds your file first.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which Git command uploads your commits to GitHub?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>git commit</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>git push</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>git add</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>git log</code></button></div><div class="qexp"><b>Answer: B.</b> Commit saves locally; push uploads.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where should API keys go?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In the code</button><button type="button" class="opt" data-ok="1"><i>B</i>In environment variables or an ignored .env file</button><button type="button" class="opt" data-ok="0"><i>C</i>In the README</button><button type="button" class="opt" data-ok="0"><i>D</i>In a commit message</button></div><div class="qexp"><b>Answer: B.</b> Never commit secrets.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Setup checklist</b></div><p>(1) Create a project folder with a virtual environment and install pandas and matplotlib. (2) Write a module <code>cleaning.py</code> with two functions and import it from a notebook. (3) Create a GitHub repository, add a <code>.gitignore</code> and a README, and push. (4) Create a branch, change the README and open a pull request to yourself.</p><details class="sol"><summary>Show solution</summary><p>Follow the commands in this lesson. Check with <code>python -c "import pandas; print(pandas.__version__)"</code> and <code>git log --oneline</code>. A good README states the question, the data source, how to run the code and the key findings with one chart.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between a module, a package and a library?</strong>
+A module is one file, a package is a folder of modules, and a library is a collection of packages distributed together (e.g. on PyPI).</p>
+<p><strong>Q: How do you make a Python project reproducible?</strong>
+Virtual environment, pinned dependencies, a README with run instructions, fixed random seeds, version control, and data lineage.</p>
+<p><strong>Q: git merge vs git rebase?</strong>
+Merge combines histories with a merge commit; rebase replays your commits on top of another branch for a linear history. Never rebase shared branches.</p></div></div></article><article class="lesson-art bk" id="L-python-14"><div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 14</div><h1>Debugging, Testing, Regular Expressions and Code Quality</h1>
+<p class="sum">Find and fix bugs systematically, write automated tests with pytest, clean text with regular expressions, and keep code readable with PEP 8, type hints, linters and formatters.</p><div class="tags"><span class="tag live">● Python class 10</span><span class="tag new">✦ Python 3.13 · pytest 9 · ruff</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Read a traceback and debug with print, breakpoints and pdb</li><li>Write and run unit tests with assert and pytest, including parametrised tests</li><li>Use regular expressions to search, extract, validate and replace text</li><li>Apply PEP 8 naming and layout, type hints, and automatic tools (ruff, black, mypy)</li><li>Use AI assistants to debug and review code responsibly</li></ul></div></div><div class="content"><h2 id="python-14-reading-a-traceback">Reading a traceback</h2>
+<p>Read a traceback <strong>from the bottom up</strong>: the last line names the error, the lines above show where it happened.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">average</span>(values):
+    <span class="hl-k">return</span> <span class="hl-f">sum</span>(values) / <span class="hl-f">len</span>(values)
+<span class="hl-k">def</span> <span class="hl-f">report</span>(data):
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;Average: {average(data[&#x27;scores&#x27;]):.1f}&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">report</span>({<span class="hl-s">&quot;scores&quot;</span>: []}))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="err">ZeroDivisionError: division by zero</pre></div>
+<p>The last line says <code>ZeroDivisionError</code>; the frame above points at <code>average</code>, called from <code>report</code>. The fix is a guard for empty input:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">average</span>(values):
+    <span class="hl-k">return</span> <span class="hl-f">sum</span>(values) / <span class="hl-f">len</span>(values) <span class="hl-k">if</span> values <span class="hl-k">else</span> <span class="hl-k">None</span>
+<span class="hl-f">print</span>(<span class="hl-f">average</span>([]), <span class="hl-f">average</span>([<span class="hl-n">4</span>, <span class="hl-n">6</span>]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">None 5.0</pre></div>
+<h2 id="python-14-a-debugging-routine">A debugging routine</h2>
+<figure class="fig"><img src="../img/python-14-01.png" alt="A systematic debugging loop beats random changes." loading="lazy"><figcaption>A systematic debugging loop beats random changes.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Technique</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Print / f-string debugging</td>
+<td><code>print(f"{i=} {total=}")</code> shows names and values</td>
+</tr>
+<tr>
+<td><code>breakpoint()</code></td>
+<td>Pauses and opens the <code>pdb</code> debugger at that line</td>
+</tr>
+<tr>
+<td>IDE debugger</td>
+<td>VS Code / PyCharm: breakpoints, step over/into, watch variables</td>
+</tr>
+<tr>
+<td>Jupyter <code>%debug</code></td>
+<td>Post-mortem debugging after an error in a cell</td>
+</tr>
+<tr>
+<td>Rubber-duck</td>
+<td>Explain the code line by line to someone (or an AI)</td>
+</tr>
+<tr>
+<td>Bisect</td>
+<td>Comment out halves of the code to find the failing part</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">total = <span class="hl-n">0</span>
+<span class="hl-k">for</span> i, v <span class="hl-k">in</span> <span class="hl-f">enumerate</span>([<span class="hl-n">5</span>, <span class="hl-n">10</span>, <span class="hl-n">15</span>]):
+    total += v
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{i=} {v=} {total=}&quot;</span>)          <span class="hl-c"># the = specifier prints the name and the value</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">i=0 v=5 total=5
+i=1 v=10 total=15
+i=2 v=15 total=30</pre></div>
+<p>pdb commands: <code>n</code> (next line), <code>s</code> (step into), <code>c</code> (continue), <code>p var</code> (print), <code>l</code> (list code), <code>q</code> (quit).</p>
+<h2 id="python-14-testing">Testing</h2>
+<p>A <strong>test</strong> is code that checks other code. Tests catch regressions when you change things later.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">clean_city</span>(raw):
+    <span class="hl-k">return</span> <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">raw.split</span>()).<span class="hl-f">title</span>() <span class="hl-k">if</span> raw <span class="hl-k">else</span> <span class="hl-k">None</span>
+
+assert <span class="hl-f">clean_city</span>(<span class="hl-s">&quot;  new   delhi &quot;</span>) == <span class="hl-s">&quot;New Delhi&quot;</span>
+assert <span class="hl-f">clean_city</span>(<span class="hl-s">&quot;&quot;</span>) <span class="hl-k">is</span> <span class="hl-k">None</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;asserts passed&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">asserts passed</pre></div>
+<h3 id="python-14-pytest">pytest</h3>
+<p><code>pytest</code> finds files named <code>test_*.py</code> and runs functions named <code>test_*</code>. Plain <code>assert</code> statements give detailed failure messages.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pathlib <span class="hl-k">import</span> Path
+<span class="hl-k">import</span> subprocess, sys
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;tests_demo&quot;</span>).<span class="hl-f">mkdir</span>(exist_ok=<span class="hl-k">True</span>)
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;tests_demo/cleaning.py&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-s">&#x27;&#x27;&#x27;
+def clean_city(raw):
+    return &quot; &quot;.join(raw.split()).title() if raw else None
+
+def to_inr(value):
+    return f&quot;₹{value:,.0f}&quot;
+&#x27;&#x27;&#x27;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;tests_demo/test_cleaning.py&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-s">&#x27;&#x27;&#x27;
+import pytest
+from cleaning import clean_city, to_inr
+
+@pytest.mark.parametrize(&quot;raw, expected&quot;, [(&quot;  pune&quot;, &quot;Pune&quot;), (&quot;NEW  DELHI&quot;, &quot;New Delhi&quot;), (&quot;&quot;, None), (None, None)])
+def test_clean_city(raw, expected):
+    assert clean_city(raw) == expected
+
+def test_to_inr():
+    assert to_inr(1234567) == &quot;₹1,234,567&quot;
+
+def test_bad_input():
+    with pytest.raises(ValueError):          # a str cannot take the &#x27;,&#x27; number format
+        to_inr(&quot;abc&quot;)
+
+def test_deliberately_failing():
+    assert to_inr(1000) == &quot;₹1000&quot;          # wrong expectation, to show a failure report
+&#x27;&#x27;&#x27;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+r = <span class="hl-f">subprocess.run</span>([sys.executable, <span class="hl-s">&quot;-m&quot;</span>, <span class="hl-s">&quot;pytest&quot;</span>, <span class="hl-s">&quot;-q&quot;</span>, <span class="hl-s">&quot;--no-header&quot;</span>, <span class="hl-s">&quot;-p&quot;</span>, <span class="hl-s">&quot;no:cacheprovider&quot;</span>, <span class="hl-s">&quot;tests_demo&quot;</span>], capture_output=<span class="hl-k">True</span>, text=<span class="hl-k">True</span>)
+lines = <span class="hl-f">r.stdout.strip</span>().<span class="hl-f">splitlines</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>([l <span class="hl-k">for</span> l <span class="hl-k">in</span> lines <span class="hl-k">if</span> <span class="hl-s">&quot;assert&quot;</span> <span class="hl-k">in</span> l <span class="hl-k">or</span> <span class="hl-s">&quot;passed&quot;</span> <span class="hl-k">in</span> l <span class="hl-k">or</span> <span class="hl-s">&quot;failed&quot;</span> <span class="hl-k">in</span> l][-<span class="hl-n">4</span>:]))
+<span class="hl-k">import</span> shutil; <span class="hl-f">shutil.rmtree</span>(<span class="hl-s">&quot;tests_demo&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&gt;       assert to_inr(1000) == &quot;₹1000&quot;          # wrong expectation, to show a failure report
+E       AssertionError: assert &#x27;₹1,000&#x27; == &#x27;₹1000&#x27;
+1 failed, 6 passed in 0.02s</pre></div>
+<p>The report says which test failed and shows both values: <code>'₹1,000' == '₹1000'</code>. The function is right, so the test expectation is fixed.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>What to test in data work</b></div><p>Cleaning functions, metric calculations, edge cases (empty, missing, negative, duplicates), schema checks on loaded data (columns, types, ranges), and that a pipeline's row counts reconcile. Tools such as <strong>pandera</strong> and <strong>Great Expectations</strong> validate DataFrames.</p></div>
+<h2 id="python-14-regular-expressions">Regular expressions</h2>
+<p>A <strong>regular expression</strong> (regex) is a pattern for text. Python's <code>re</code> module searches, extracts, validates and replaces.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\d</code> / <code>\D</code></td>
+<td>A digit / a non-digit</td>
+</tr>
+<tr>
+<td><code>\w</code> / <code>\s</code></td>
+<td>Word character (letter, digit, _) / whitespace</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>Any character except newline</td>
+</tr>
+<tr>
+<td><code>[A-Z]</code>, <code>[^0-9]</code></td>
+<td>Character set / negated set</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>+</code>, <code>?</code></td>
+<td>0 or more, 1 or more, 0 or 1</td>
+</tr>
+<tr>
+<td><code>{3}</code>, <code>{2,4}</code></td>
+<td>Exactly 3, between 2 and 4</td>
+</tr>
+<tr>
+<td><code>^</code>, <code>$</code></td>
+<td>Start, end of string</td>
+</tr>
+<tr>
+<td><code>( )</code></td>
+<td>Capture group; <code>(?P&lt;name&gt; )</code> named group</td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>Or</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re
+text = <span class="hl-s">&quot;Call 98765-43210 or +91 91234 56789; email asha.k@gmail.com, ravi@skillnavora.in. Order #A-1029 on 2025-04-07.&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;\d{5}[- ]?\d{5}&quot;</span>, text))                              <span class="hl-c"># phone numbers</span>
+<span class="hl-f">print</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;[\w.+-]+@[\w-]+(?:\.[\w-]+)+&quot;</span>, text))                  <span class="hl-c"># emails (no trailing full stop)</span>
+m = <span class="hl-f">re.search</span>(r<span class="hl-s">&quot;(?P&lt;y&gt;\d{4})-(?P&lt;m&gt;\d{2})-(?P&lt;d&gt;\d{2})&quot;</span>, text)
+<span class="hl-f">print</span>(<span class="hl-f">m.group</span>(), m[<span class="hl-s">&quot;y&quot;</span>], <span class="hl-f">m.groupdict</span>())
+<span class="hl-f">print</span>(<span class="hl-f">re.sub</span>(r<span class="hl-s">&quot;\d&quot;</span>, <span class="hl-s">&quot;X&quot;</span>, <span class="hl-s">&quot;PAN ABCDE1234F&quot;</span>), <span class="hl-f">re.split</span>(r<span class="hl-s">&quot;[;,]\s*&quot;</span>, <span class="hl-s">&quot;a, b;c ,d&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">bool</span>(<span class="hl-f">re.fullmatch</span>(r<span class="hl-s">&quot;[A-Z]{5}\d{4}[A-Z]&quot;</span>, <span class="hl-s">&quot;ABCDE1234F&quot;</span>)), <span class="hl-f">bool</span>(<span class="hl-f">re.fullmatch</span>(r<span class="hl-s">&quot;[A-Z]{5}\d{4}[A-Z]&quot;</span>, <span class="hl-s">&quot;ABCD1234F&quot;</span>)))    <span class="hl-c"># PAN format</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;98765-43210&#x27;, &#x27;91234 56789&#x27;]
+[&#x27;asha.k@gmail.com&#x27;, &#x27;ravi@skillnavora.in&#x27;]
+2025-04-07 2025 {&#x27;y&#x27;: &#x27;2025&#x27;, &#x27;m&#x27;: &#x27;04&#x27;, &#x27;d&#x27;: &#x27;07&#x27;}
+PAN ABCDEXXXXF [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c &#x27;, &#x27;d&#x27;]
+True False</pre></div>
+<p>Always use <strong>raw strings</strong> <code>r"..."</code> for patterns, so <code>\d</code> is not treated as an escape. Test patterns at regex101.com.</p>
+<h3 id="python-14-regex-on-a-dataframe">Regex on a DataFrame</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+c = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;name&quot;</span>: [<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;Zoya&quot;</span>],
+                  <span class="hl-s">&quot;email&quot;</span>: [<span class="hl-s">&quot;asha@gmail.com&quot;</span>, <span class="hl-s">&quot;ravi@company&quot;</span>, <span class="hl-s">&quot;MEERA@Yahoo.co.in&quot;</span>, <span class="hl-s">&quot;kabir @gmail.com&quot;</span>, <span class="hl-k">None</span>],
+                  <span class="hl-s">&quot;phone&quot;</span>: [<span class="hl-s">&quot;98765 43210&quot;</span>, <span class="hl-s">&quot;+91-91234-56789&quot;</span>, <span class="hl-s">&quot;12345&quot;</span>, <span class="hl-s">&quot;9123456789&quot;</span>, <span class="hl-s">&quot;0987654321&quot;</span>]})
+c[<span class="hl-s">&quot;email_ok&quot;</span>] = c[<span class="hl-s">&quot;email&quot;</span>].<span class="hl-f">str.fullmatch</span>(r<span class="hl-s">&quot;[\w.+-]+@[\w-]+(?:\.[\w-]+)+&quot;</span>, na=<span class="hl-k">False</span>)
+c[<span class="hl-s">&quot;domain&quot;</span>] = c[<span class="hl-s">&quot;email&quot;</span>].<span class="hl-f">str.lower</span>().<span class="hl-f">str.extract</span>(r<span class="hl-s">&quot;@([\w.-]+)$&quot;</span>)[<span class="hl-n">0</span>]
+digits = c[<span class="hl-s">&quot;phone&quot;</span>].<span class="hl-f">str.replace</span>(r<span class="hl-s">&quot;\D&quot;</span>, <span class="hl-s">&quot;&quot;</span>, regex=<span class="hl-k">True</span>).str[-<span class="hl-n">10</span>:]
+c[<span class="hl-s">&quot;phone_ok&quot;</span>] = <span class="hl-f">digits.str.fullmatch</span>(r<span class="hl-s">&quot;[6-9]\d{9}&quot;</span>)
+<span class="hl-f">print</span>(c[[<span class="hl-s">&quot;name&quot;</span>, <span class="hl-s">&quot;email_ok&quot;</span>, <span class="hl-s">&quot;domain&quot;</span>, <span class="hl-s">&quot;phone_ok&quot;</span>]])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">    name  email_ok       domain  phone_ok
+0   Asha      True    gmail.com      True
+1   Ravi     False      company      True
+2  Meera      True  yahoo.co.in     False
+3  Kabir     False    gmail.com      True
+4   Zoya     False          NaN     False</pre></div>
+<p>pandas string methods (<code>.str.contains</code>, <code>.str.extract</code>, <code>.str.replace</code>, <code>.str.fullmatch</code>) accept regex and run on the whole column.</p>
+<h2 id="python-14-code-quality">Code quality</h2>
+<p><strong>PEP 8</strong> is Python's style guide. The essentials:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Rule</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>snake_case</code> for variables and functions</td>
+<td><code>total_sales</code>, <code>clean_city()</code></td>
+</tr>
+<tr>
+<td><code>PascalCase</code> for classes</td>
+<td><code>CleaningPipeline</code></td>
+</tr>
+<tr>
+<td><code>UPPER_CASE</code> for constants</td>
+<td><code>GST_RATE = 0.18</code></td>
+</tr>
+<tr>
+<td>4-space indentation, lines ≤ 79–100 chars</td>
+<td></td>
+</tr>
+<tr>
+<td>Spaces around operators, after commas</td>
+<td><code>x = a + b</code>, <code>f(a, b)</code></td>
+</tr>
+<tr>
+<td>Imports at the top, grouped std / third-party / local</td>
+<td></td>
+</tr>
+<tr>
+<td>Meaningful names over comments</td>
+<td><code>days_since_last_order</code>, not <code>d</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Let tools do the work:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">pip install ruff mypy
+ruff check .          # lint: unused imports, undefined names, bad patterns
+ruff format .         # auto-format (black-compatible)
+mypy src/             # check type hints
+pre-commit install    # run them automatically before each commit</code></pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Using AI to debug</b></div><p>Paste the <strong>full traceback and the smallest code that reproduces it</strong> into an AI assistant (Claude, ChatGPT, Copilot, Gemini). Ask it to explain the cause before proposing a fix, then run the fix and add a test. Never paste secrets or confidential data, and check that suggested library functions really exist.</p></div>
+<h2 id="python-14-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Read tracebacks bottom-up; reproduce, isolate, hypothesise, fix, then add a test.</li>
+<li>Debug with <code>print(f"{x=}")</code>, <code>breakpoint()</code>, an IDE debugger or <code>%debug</code>.</li>
+<li><code>pytest</code> runs <code>test_*</code> functions with plain <code>assert</code>; use <code>parametrize</code> for many cases and <code>pytest.raises</code> for errors.</li>
+<li>Regex: <code>re.search</code>, <code>findall</code>, <code>fullmatch</code>, <code>sub</code>, <code>split</code>; raw strings; pandas <code>.str</code> methods accept regex.</li>
+<li>Follow PEP 8 and automate it with ruff, a formatter and mypy.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-14-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Where do you start reading a Python traceback?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The first line</button><button type="button" class="opt" data-ok="1"><i>B</i>The last line, which names the error</button><button type="button" class="opt" data-ok="0"><i>C</i>The middle</button><button type="button" class="opt" data-ok="0"><i>D</i>The import lines</button></div><div class="qexp"><b>Answer: B.</b> Then read upward to find where it happened.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>print(f"{total=}")</code> print when total is 5?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>5</button><button type="button" class="opt" data-ok="1"><i>B</i>total=5</button><button type="button" class="opt" data-ok="0"><i>C</i>{total=5}</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> The <code>=</code> specifier is a debugging shortcut.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which file name will pytest discover by default?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>cleaning_tests.py</button><button type="button" class="opt" data-ok="1"><i>B</i>test_cleaning.py</button><button type="button" class="opt" data-ok="0"><i>C</i>tests.txt</button><button type="button" class="opt" data-ok="0"><i>D</i>cleaning.py</button></div><div class="qexp"><b>Answer: B.</b> Files <code>test_*.py</code> or <code>*_test.py</code>, functions <code>test_*</code>.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>\d{3}</code> match?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The letter d three times</button><button type="button" class="opt" data-ok="1"><i>B</i>Exactly three digits</button><button type="button" class="opt" data-ok="0"><i>C</i>Up to three digits</button><button type="button" class="opt" data-ok="0"><i>D</i>Any three characters</button></div><div class="qexp"><b>Answer: B.</b> <code>\d</code> is a digit; <code>{3}</code> repeats it exactly three times.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why use <code>r"..."</code> for regex patterns?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It runs faster</button><button type="button" class="opt" data-ok="1"><i>B</i>Backslashes are kept literally instead of being treated as escapes</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the pattern case-insensitive</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required by pandas</button></div><div class="qexp"><b>Answer: B.</b> Raw strings avoid double escaping.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which naming follows PEP 8 for a function?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>CalculateMargin</button><button type="button" class="opt" data-ok="1"><i>B</i>calculate_margin</button><button type="button" class="opt" data-ok="0"><i>C</i>CALCULATE_MARGIN</button><button type="button" class="opt" data-ok="0"><i>D</i>calculateMargin</button></div><div class="qexp"><b>Answer: B.</b> snake_case for functions and variables.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Write a regex that extracts all hashtags from a tweet. (2) Validate Indian PIN codes (6 digits, not starting with 0). (3) Write three pytest tests for a <code>percent_change</code> function, including the zero case. (4) Run <code>ruff check</code> on one of your notebooks exported as <code>.py</code> and fix the warnings.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re
+<span class="hl-f">print</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;#\w+&quot;</span>, <span class="hl-s">&quot;Loving #Python and #DataScience!&quot;</span>))
+pin = <span class="hl-f">re.compile</span>(r<span class="hl-s">&quot;[1-9]\d{5}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">bool</span>(<span class="hl-f">pin.fullmatch</span>(<span class="hl-s">&quot;411001&quot;</span>)), <span class="hl-f">bool</span>(<span class="hl-f">pin.fullmatch</span>(<span class="hl-s">&quot;011001&quot;</span>)))
+<span class="hl-c"># test_metrics.py</span>
+<span class="hl-c"># def test_up(): assert percent_change(100, 120) == 20</span>
+<span class="hl-c"># def test_down(): assert percent_change(100, 80) == -20</span>
+<span class="hl-c"># def test_zero(): assert percent_change(0, 5) is None</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you debug a function that gives wrong output only for some inputs?</strong>
+Reproduce with the smallest failing input, inspect intermediate values (prints or debugger), form a hypothesis, fix, and add the case as a regression test.</p>
+<p><strong>Q: Unit test vs integration test?</strong>
+A unit test checks one small function in isolation; an integration test checks that components work together (e.g. load → transform → write).</p>
+<p><strong>Q: Write a regex for a 10-digit Indian mobile number.</strong>
+<code>^[6-9]\d{9}$</code> (optionally allowing a <code>+91</code> prefix: <code>^(?:\+91[- ]?)?[6-9]\d{9}$</code>).</p></div></div></article></body></html>
