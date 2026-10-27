@@ -1,0 +1,65 @@
+<!--meta {"id":"s12","num":"S12","title":"Data Storytelling, Portfolio & Career","sub":"Turn analysis into decisions, build a portfolio on GitHub/Tableau Public/Netlify, and plan your data career","icon":"🗣️","courses":"Additional chapter · fills gaps common in technical courses: communication, portfolio, Git basics, career plan"} -->
+<div data-tab="Data storytelling">
+<p class="lead">An analysis only matters if someone acts on it. Storytelling is how you get from "here are 20 charts" to "do this, because of that".</p>
+<h3>The structure: Context → Insight → Action</h3>
+<table class="tbl"><tbody>
+<tr><td>Context</td><td>What question, for whom, and why now? "Monthly churn rose from 2.1% to 2.9%."</td></tr>
+<tr><td>Insight</td><td>The one finding that explains it: "80% of the increase is prepaid users in 3 cities after the price change."</td></tr>
+<tr><td>Action</td><td>A specific recommendation with expected impact: "Offer a ₹49 top-up pack in those cities; expected to save ~4,000 customers a month."</td></tr>
+</tbody></table>
+<h3>Chart and slide rules</h3>
+<ul class="check"><li>Title = the takeaway, not the topic ("South drives 60% of growth", not "Sales by region")</li><li>One message per chart; remove gridlines, 3D and legends you can replace with labels</li><li>Highlight the key bar/line in colour; everything else grey</li><li>Start bar axes at zero; label units (₹ lakh, %)</li><li>Executive summary first (pyramid principle); appendix for details</li><li>Say how confident you are and what you assumed</li></ul>
+<h3>Common mistakes</h3>
+<p>Too many numbers; no recommendation; pie charts with 10 slices; dual axes that mislead; mixing definitions (gross vs net revenue); presenting averages without spread.</p>
+</div>
+
+<div data-tab="Portfolio">
+<h3>Three projects that get interviews</h3>
+<table class="tbl"><thead><tr><th>Project</th><th>Skills shown</th><th>Example</th></tr></thead><tbody>
+<tr><td>SQL analysis</td><td>Joins, CTEs, window functions</td><td>E-commerce cohort retention and RFM in SQL with a README of findings</td></tr>
+<tr><td>Python end-to-end</td><td>Cleaning, EDA, stats test or ML model</td><td>Churn prediction with a clear business recommendation</td></tr>
+<tr><td>Dashboard</td><td>Power BI or Tableau design, DAX/LOD</td><td>Sales performance dashboard on Tableau Public / published Power BI</td></tr>
+</tbody></table>
+<h3>README template for each project</h3>
+<pre><code class="text"># Project title
+Business question: ...
+Data: source, size, period
+Approach: cleaning → analysis → model/dashboard (tools)
+Key findings: 3 bullets with numbers
+Recommendation and impact: ...
+Links: dashboard / notebook / slides</code></pre>
+<h3>Where to publish</h3>
+<ul><li><b>GitHub</b>: code, notebooks, READMEs (this handbook's repository is an example).</li><li><b>Tableau Public</b> / Power BI publish-to-web (public data only).</li><li><b>Netlify</b>: free hosting for an HTML portfolio or project pages (drag-and-drop a folder at app.netlify.com/drop).</li><li><b>LinkedIn</b>: a short post per project with one chart and the insight.</li></ul>
+</div>
+
+<div data-tab="Git & GitHub basics">
+<pre><code class="bash">git clone https://github.com/&lt;you&gt;/data-science-and-ai.git     # copy a repository
+cd data-science-and-ai
+git status                          # what changed
+git add .                           # stage changes
+git commit -m "Add SQL cohort project"
+git push                            # upload to GitHub
+git pull                            # get latest changes</code></pre>
+<p>No command line? Use <b>GitHub Desktop</b> or upload files on github.com (Add file → Upload files). Turn on <b>GitHub Pages</b> (Settings → Pages) to host an HTML site directly from the repository.</p>
+</div>
+
+<div data-tab="Career roadmap">
+<table class="tbl"><thead><tr><th>Role</th><th>Core skills</th><th>Typical first 90 days</th></tr></thead><tbody>
+<tr><td>Data Analyst</td><td>Excel, SQL, Power BI/Tableau, statistics, storytelling</td><td>Own a recurring report; automate it; deliver one insight</td></tr>
+<tr><td>Business Analyst</td><td>Requirements, process mapping, SQL, Excel, dashboards, stakeholder management</td><td>Map a process, define KPIs, build a tracker</td></tr>
+<tr><td>BI Developer</td><td>Data modelling, DAX/LOD, SQL, ETL, performance</td><td>Build a governed semantic model and dashboards</td></tr>
+<tr><td>Data Scientist</td><td>Python, statistics, ML, experimentation, MLOps basics</td><td>Ship a baseline model with a business metric</td></tr>
+<tr><td>AI/GenAI Analyst</td><td>Prompting, RAG basics, evaluation, automation tools, Python</td><td>Automate a text-heavy workflow with validation</td></tr>
+</tbody></table>
+<h3>Certifications worth considering</h3>
+<p>Microsoft PL-300 (Power BI Data Analyst), Tableau Desktop Foundations / Certified Data Analyst, Microsoft DP-600/700 (Fabric), Google Data Analytics Certificate, AWS/Azure AI fundamentals (AI-900), plus the AnalytixLabs programme certificate.</p>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn data storytelling]] · [[yt:storytelling with data Cole Nussbaumer Knaflic talk]]</li>
+<li>[[yt:Alex The Analyst data analyst portfolio project]] · [[yt:GitHub for beginners]]</li>
+<li>[[doc:Storytelling with Data (blog)|https://www.storytellingwithdata.com/blog]] · [[doc:GitHub Docs: Hello World|https://docs.github.com/en/get-started/start-your-journey/hello-world]]</li>
+<li>[[doc:Netlify Drop|https://app.netlify.com/drop]] · [[doc:GitHub Pages|https://pages.github.com/]]</li>
+</ul>
+</div>

@@ -1,0 +1,96 @@
+<!--meta {"id":"s4","num":"S4","title":"Tableau: Basic to Advanced","sub":"Connect, visualise, calculate, build dashboards and use Tableau's AI (Pulse, Agent, Tableau Next), updated for 2026","icon":"📉","courses":"Learning session · non-tech friendly · aligned to the Tableau Desktop Foundations and Data Analyst certifications"} -->
+<div data-tab="Roadmap">
+<figure><img src="img/dg/tableau_flow.png" alt="Tableau flow"><figcaption>From connection to published, AI-assisted dashboards.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Step</th><th>Skill</th><th>Milestone</th></tr></thead><tbody>
+<tr><td>1</td><td>Install, connect, first viz</td><td>Bar, line and map in 20 minutes</td></tr>
+<tr><td>2</td><td>Marks, filters, sorting, formatting</td><td>Clean, sorted, labelled views</td></tr>
+<tr><td>3</td><td>Calculated fields, parameters, sets, groups, bins</td><td>Dynamic Top N</td></tr>
+<tr><td>4</td><td>Table calculations and LOD expressions</td><td>% of total, running totals, cohorts</td></tr>
+<tr><td>5</td><td>Dashboards, actions, stories</td><td>An interactive executive dashboard</td></tr>
+<tr><td>6</td><td>Publishing, performance, AI features</td><td>Live on Tableau Public / Cloud</td></tr>
+</tbody></table>
+<p>Course reference: <a href="#m8">Tableau (course module)</a>. Practice: <a href="#case/tb_laptops">Laptops case</a>, <a href="#case/tb_sports">Sports Equipment case</a>.</p>
+</div>
+
+<div data-tab="1 · Start">
+<ol class="build"><li>Download <b>Tableau Public</b> (free, saves to the public web) or Tableau Desktop (trial/licensed). Tableau Cloud runs in the browser.</li><li>Connect → Microsoft Excel / Text file / SQL Server. Drag tables into the canvas; Tableau creates <b>relationships</b> (noodles) between them.</li><li>Go to Sheet 1. Left: Data pane with dimensions (blue) and measures (green). Centre: Columns/Rows shelves, Marks card, view.</li><li>Double-click Category, then Sales → a bar chart. Drag Order Date to Columns → line chart. Double-click State → map.</li><li><b>Show Me</b> suggests chart types for the fields you selected.</li></ol>
+<table class="tbl"><tbody><tr><td>Live vs Extract</td><td>Live queries the source; Extract (.hyper) is a fast snapshot refreshed on a schedule</td></tr><tr><td>Discrete vs continuous</td><td>Blue = headers; green = axis</td></tr><tr><td>Aggregation</td><td>Measures default to SUM; right-click → Measure → Average/Count/etc.</td></tr></tbody></table>
+</div>
+
+<div data-tab="2 · Marks & filters">
+<ul><li><b>Marks card</b>: Color, Size, Label, Detail, Tooltip, Shape, Path; mark type dropdown.</li><li>Sort by toolbar or field; nested sorts; sort by a different measure.</li><li><b>Filters</b>: dimension (pick values, wildcard, condition, Top N), measure (range), date (relative "last 3 months"). Show filter cards; apply to multiple sheets.</li><li>Formatting: Format → Workbook; remove gridlines; reference lines; consistent fonts; number formats (₹, K, M).</li><li>Hierarchies and drill (+/-); groups (combine members); bins (histograms).</li></ul>
+<p class="tip">Remember the order of operations: extract → data source → context → FIXED LOD → dimension filters → INCLUDE/EXCLUDE → measure filters → table calcs. Details in <a href="#m8/Filters, groups & sets">Tableau module</a>.</p>
+</div>
+
+<div data-tab="3 · Calculations">
+<pre><code class="tableau">// Row-level
+Profit            = [Sales] - [Cost]
+Profit Ratio      = SUM([Profit]) / SUM([Sales])                     // aggregate calc
+Order Size        = IF [Quantity] &gt;= 10 THEN "Bulk" ELSE "Single" END
+Days to Ship      = DATEDIFF('day', [Order Date], [Ship Date])
+Financial Year    = "FY" + STR(YEAR(DATEADD('month', 9, [Order Date])))   // Apr-Mar FY
+Clean City        = TRIM(PROPER([City]))
+Is Weekend        = DATEPART('weekday', [Order Date]) IN (1, 7)
+// Parameter-driven
+Top N Filter      = RANK(SUM([Sales])) &lt;= [Top N]                     // table-calc filter
+Measure Switch    = CASE [Choose Measure] WHEN "Sales" THEN SUM([Sales]) WHEN "Profit" THEN SUM([Profit]) END</code></pre>
+<table class="tbl"><tbody>
+<tr><td>Parameters</td><td>User inputs (number/date/string list); used in calcs, filters, reference lines. Parameter actions let a click set a parameter.</td></tr>
+<tr><td>Sets</td><td>In/out membership (top 10 customers); set actions make them interactive</td></tr>
+<tr><td>Groups / bins</td><td>Combine categories; bucket numbers</td></tr>
+<tr><td>Combined fields</td><td>Concatenate dimensions (used in the Laptops case for 32 groups)</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="4 · Table calcs & LOD">
+<h3>Table calculations (on the results in the view)</h3>
+<p>Running total, difference, % difference, % of total, rank, percentile, moving average, YoY growth. Always check <b>Compute Using</b>.</p>
+<h3>Level of Detail expressions</h3>
+<pre><code class="tableau">Customer First Order  = {FIXED [Customer ID] : MIN([Order Date])}         // cohort start
+Customer Lifetime $   = {FIXED [Customer ID] : SUM([Sales])}
+Orders per Customer   = {FIXED [Customer ID] : COUNTD([Order ID])}         // use as dimension → histogram
+Avg Order Value       = AVG({INCLUDE [Order ID] : SUM([Sales])})
+Diff from Avg Month   = SUM([Sales]) - SUM({EXCLUDE [Month] : AVG([Sales])})
+Share of Region       = SUM([Sales]) / SUM({FIXED [Region] : SUM([Sales])})</code></pre>
+<div class="card"><h4>Real example: customer cohorts</h4><p>Cohort Year = YEAR({FIXED [Customer ID] : MIN([Order Date])}). Put Cohort Year on Rows, YEAR(Order Date) on Columns, COUNTD(Customer ID) on Text → a retention table showing how many customers from each starting year keep buying.</p></div>
+</div>
+
+<div data-tab="5 · Dashboards">
+<ul><li>Size: fixed (1200×800) for desktop; add a phone layout (Device Preview).</li><li>Layout containers (horizontal/vertical) for alignment; padding; blank objects for spacing.</li><li><b>Actions</b>: Filter, Highlight, URL, Go to Sheet, Change Parameter, Change Set Values.</li><li>KPI tiles (BANs: big-ass numbers), trend, breakdowns, detail table; filters in one place.</li><li><b>Stories</b>: sequence of story points with captions for presentations.</li><li><b>Dashboard extensions</b> and Viz in Tooltip (a chart inside a tooltip).</li></ul>
+</div>
+
+<div data-tab="6 · Publish, performance & AI">
+<table class="tbl"><tbody>
+<tr><td>Tableau Public</td><td>Free; everything is public: ideal for a portfolio</td></tr>
+<tr><td>Tableau Cloud / Server</td><td>Secure sharing, schedules, subscriptions, data-driven alerts, row-level security via user filters/entitlements</td></tr>
+<tr><td>Performance</td><td>Extracts, fewer marks, context filters, avoid many quick filters with "only relevant values", Performance Recorder</td></tr>
+</tbody></table>
+<h3>Tableau AI in 2026</h3>
+<table class="tbl"><tbody>
+<tr><td><b>Tableau Pulse</b></td><td>Metrics on governed data sources delivered to email, Slack or the app, with AI-written insights and natural-language Q&amp;A ("Tableau Agent in Pulse"). Requires a Tableau+ licence for the AI features.</td></tr>
+<tr><td><b>Tableau Agent</b></td><td>Helps authors build calculations and visuals from prompts; in dashboards (beta on Cloud) offers overviews, insights and Q&amp;A that shows its reasoning</td></tr>
+<tr><td><b>Tableau Next</b></td><td>Salesforce's separate agentic analytics platform built on Data Cloud and Tableau Semantics, with agents for data prep (Data Pro), questions (Concierge) and monitoring (Inspector)</td></tr>
+<tr><td>Certification</td><td>Tableau Desktop Foundations replaced Desktop Specialist as the entry certificate; next is Tableau Certified Data Analyst</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Tableau vs Power BI?</summary><p>Both are leading BI tools. Tableau is strong in flexible visual exploration and design; Power BI is cheaper for Microsoft-365 organisations, with deep Excel/Fabric integration and DAX modelling. Choose by ecosystem and cost.</p></details>
+<details><summary>What is an LOD expression?</summary><p>A calculation that sets its own level of aggregation independent of the view: FIXED, INCLUDE or EXCLUDE.</p></details>
+<details><summary>Context filter use case?</summary><p>To make a filter apply before Top N or FIXED calculations, e.g. Top 10 products within the selected region.</p></details>
+<details><summary>Extract vs live?</summary><p>Extract is faster and works offline but needs refreshing; live is always current but depends on source speed.</p></details>
+<details><summary>How do you show the top N dynamically?</summary><p>Create a parameter and use it in a Top N filter or a RANK table-calc filter; show the parameter control.</p></details>
+<details><summary>Blending vs relationships?</summary><p>Relationships combine tables in one data source at the right level per view; blending combines separate data sources on a linking field per sheet, aggregating the secondary source.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn Tableau full course]] · [[yt:Simplilearn Tableau tutorial for beginners]]</li>
+<li>[[yt:Andy Kriebel Tableau tip]] · [[yt:Tableau LOD expressions explained]] · [[yt:Tableau Pulse demo]]</li>
+<li>[[yt:Alex The Analyst Tableau tutorial for beginners]]</li>
+<li>[[doc:Tableau new features|https://www.tableau.com/products/new-features]] · [[doc:Tableau free training videos|https://www.tableau.com/learn/training]]</li>
+<li>[[doc:Tableau Public|https://public.tableau.com/]] · [[doc:Workout Wednesday|https://workout-wednesday.com/]] · [[doc:Makeover Monday|https://makeovermonday.co.uk/]]</li>
+</ul>
+</div>

@@ -1,0 +1,226 @@
+<!--meta {"id":"m3","num":"03","title":"Data Visualization & Analytics","sub":"Advanced Excel, SQL Server and AI-assisted analytics (Power BI has its own section)","icon":"📊","courses":"Data Visualization & Analytics 2026 (BT DVA APR 2026, 24 classes + tests)"} -->
+<div data-tab="Overview">
+<p class="lead">DVA is the analyst toolkit: Excel for quick analysis and dashboards, SQL for querying databases, Power BI for interactive reporting, and newer AI tools that write formulas and queries for you. Power BI (Classes 18–21) is covered in its own <a href="#m7">Power BI</a> section.</p>
+<table class="tbl"><thead><tr><th>Class</th><th>Topics</th></tr></thead><tbody>
+<tr><td>1</td><td>Orientation</td></tr>
+<tr><td>2</td><td>Excel basics, data validation, formatting, custom and conditional formatting</td></tr>
+<tr><td>3</td><td>Aggregate functions (SUM, COUNT, COUNTA, COUNTBLANK, AVERAGE, MIN, MAX, SMALL, LARGE) and text functions (LEFT, RIGHT, MID, CONCAT, TEXTJOIN, LOWER, UPPER, PROPER, LEN, TRIM, FIND…)</td></tr>
+<tr><td>4</td><td>IF, IFS, nested IF; array functions; sort and filter; remove duplicates; UNIQUE; SUMPRODUCT</td></tr>
+<tr><td>5</td><td>Reverse lookup, INDEX/MATCH, CHOOSE, VLOOKUP + CHOOSE; pivot tables (cache, areas, filters, grand totals)</td></tr>
+<tr><td>6</td><td>Pivot refresh, grouping, bins, subtotals, MoM/YoY, calculated fields; Video Game Sales case</td></tr>
+<tr><td>8</td><td>Named ranges (static/dynamic); thermometer, Pareto, population pyramid and waterfall charts; Superstore case</td></tr>
+<tr><td>9</td><td>Dashboards, protection, Power Pivot, Power Query, Data Analysis ToolPak, Evaluate Formula</td></tr>
+<tr><td>10</td><td>SQL basics, ER diagrams, relationships, keys; DDL/DML/DQL/DCL/TCL</td></tr>
+<tr><td>11</td><td>Data types, variables, operators, comments; CREATE, ALTER, DROP, TRUNCATE; DML</td></tr>
+<tr><td>12</td><td>Constraints; DELETE vs DROP vs TRUNCATE; aliases; WHERE, ORDER BY, IN, LIKE, IS NULL</td></tr>
+<tr><td>13</td><td>GROUP BY / HAVING; aggregate, text, date and number functions; DATEPART; CASE WHEN; joins</td></tr>
+<tr><td>14</td><td>Joins case; UNION, UNION ALL, INTERSECT, EXCEPT; subqueries</td></tr>
+<tr><td>15</td><td>OFFSET/FETCH; window functions: OVER, PARTITION BY, RANK, DENSE_RANK, ROW_NUMBER, aggregate windows</td></tr>
+<tr><td>16</td><td>LEAD/LAG, EXISTS, correlated subqueries</td></tr>
+<tr><td>17</td><td>CTEs, views, stored procedures</td></tr>
+<tr><td>18</td><td>ROLLUP, CUBE, COALESCE; start of Power BI</td></tr>
+<tr><td>19–21</td><td>Power BI (see <a href="#m7">Power BI</a>)</td></tr>
+<tr><td>22</td><td>Unpivot; GenAI introduction, prompt engineering; AI vs GenAI vs agentic AI; AI in SQL; Docker; Metabase; MinusX</td></tr>
+<tr><td>23</td><td>Metabase and MinusX</td></tr>
+<tr><td>24</td><td>Gemini in Excel, Copilot for Excel, Frontier Office Agent</td></tr>
+</tbody></table>
+<p class="muted">Assessments: DVA MCQ/SQL test, DVA case study test, integrated DVA case study, DVA viva, integrated MCQ.</p>
+</div>
+
+<div data-tab="Excel: formulas">
+<h3>Logic (Class 4)</h3>
+<pre><code class="excel">=IF(C2&gt;=80,"A",IF(C2&gt;=60,"B","C"))                 nested IF
+=IFS(C2&gt;=80,"A", C2&gt;=60,"B", TRUE,"C")              IFS: first TRUE wins; TRUE acts as "else"
+=IF(AND(B2="Male",C2&gt;30),"Yes","No")                AND / OR inside IF
+=IFERROR(VLOOKUP(A2,Tbl,2,0),"Not found")           trap errors</code></pre>
+<h3>Lookups (Class 5)</h3>
+<table class="tbl"><thead><tr><th>Need</th><th>Formula</th></tr></thead><tbody>
+<tr><td>Classic lookup (result to the right)</td><td><code>=VLOOKUP(A2, Products!$A:$D, 3, FALSE)</code></td></tr>
+<tr><td>Horizontal table</td><td><code>=HLOOKUP(J2, LOCATION!$B$2:$M$3, 2, FALSE)</code></td></tr>
+<tr><td>Any direction (reverse lookup)</td><td><code>=INDEX(Sheet!$A:$A, MATCH(R2, Sheet!$B:$B, 0))</code></td></tr>
+<tr><td>Two-way lookup</td><td><code>=INDEX($B$2:$M$20, MATCH(name,$A$2:$A$20,0), MATCH(month,$B$1:$M$1,0))</code></td></tr>
+<tr><td>VLOOKUP leftwards with CHOOSE</td><td><code>=VLOOKUP(R2, CHOOSE({1,2}, Sheet!$B:$B, Sheet!$A:$A), 2, 0)</code></td></tr>
+<tr><td>Modern (365)</td><td><code>=XLOOKUP(A2, Ids, Names, "Not found")</code></td></tr>
+</tbody></table>
+<h3>Arrays, dynamic arrays, SUMPRODUCT</h3>
+<pre><code class="excel">=UNIQUE(B2:B500)                        distinct list (spills)
+=SORT(FILTER(A2:D500, C2:C500="East"), 4, -1)
+=SUMPRODUCT((B2:B500="East")*(D2:D500))  conditional sum without SUMIFS
+=SUMIFS(D:D, B:B, "East", C:C, "&gt;=2024-01-01")
+=COUNTIFS(K:K, $G5, I:I, H$4)           cross-tab counts
+=TEXTJOIN(", ", TRUE, UNIQUE(B2:B50))</code></pre>
+<h3>Text cleaning (Class 3)</h3>
+<pre><code class="excel">=PROPER(TRIM(A2))                         tidy names
+=LEFT(A2, FIND(" ", A2) - 1)              text before first space
+=MID(A2, FIND("@", A2) + 1, 100)          domain from email
+=SUBSTITUTE(A2, "$", "") * 1               strip a symbol and convert to number
+=TEXT(A2, "000")   =TEXT(B2, "dd mmm' yyyy")</code></pre>
+</div>
+
+<div data-tab="Excel: pivots & charts">
+<h3>Pivot tables (Classes 5–6)</h3>
+<ul><li>The pivot reads from a <b>pivot cache</b>, so changes to source data need <b>Refresh</b> (Alt+F5). Format the source as a Table so new rows are included.</li><li>Four areas: <b>Filters, Columns, Rows, Values</b>. Drag a field twice into Values to show count and %.</li><li><b>Group</b> dates into Years/Quarters/Months; group numbers into <b>bins</b> (0–100, 100–200…).</li><li><b>Show Values As</b>: % of Grand Total, % of Row, Difference From (previous) for MoM/YoY, Running Total.</li><li><b>Calculated field</b>: Profit % = Profit / Sales (operates on sums).</li><li>Design tab: Report Layout → Tabular, Repeat item labels, Subtotals off, Grand Totals off.</li><li>Slicers and timelines filter several pivots at once (Report Connections).</li></ul>
+<h3>Special charts (Class 8)</h3>
+<table class="tbl"><thead><tr><th>Chart</th><th>Purpose</th><th>How</th></tr></thead><tbody>
+<tr><td>Pareto</td><td>Find the vital few (80/20)</td><td>Sort desc, cumulative % on a secondary-axis line; or Insert → Histogram → Pareto</td></tr>
+<tr><td>Waterfall</td><td>Bridge from start to end value</td><td>Insert → Waterfall; set totals as "Set as total"</td></tr>
+<tr><td>Thermometer</td><td>Progress to target</td><td>Clustered column of target and actual, 100% overlap, actual on top</td></tr>
+<tr><td>Population pyramid</td><td>Two groups by age band</td><td>Make one series negative, bar chart, overlap 100%, number format <code>0;0</code></td></tr>
+</tbody></table>
+<h3>Named ranges</h3>
+<pre><code class="excel">Static:  Formulas → Define Name → SalesData = Sheet1!$A$1:$D$500
+Dynamic: =OFFSET(Sheet1!$A$1,0,0,COUNTA(Sheet1!$A:$A),4)   (grows with data)
+Better:  convert to a Table and use structured references: =SUM(Sales[Amount])</code></pre>
+<h3>Dashboards and the power tools (Class 9)</h3>
+<ul><li><b>Dashboard</b>: one sheet, KPIs at the top, 3–5 charts, slicers on the side, gridlines off, consistent colours.</li><li><b>Protection</b>: Review → Protect Sheet (lock formulas), Protect Workbook (structure).</li><li><b>Power Query</b>: repeatable cleaning: import → remove columns → change types → unpivot → merge → Close &amp; Load. Click Refresh next month and every step reruns.</li><li><b>Power Pivot</b>: data model with relationships across tables and DAX measures (same engine as Power BI).</li><li><b>Analysis ToolPak</b>: descriptive statistics, histogram, regression, t-test in a dialog.</li><li><b>Evaluate Formula</b> (Formulas tab) steps through a formula to debug it.</li></ul>
+</div>
+
+<div data-tab="SQL: core">
+<h3>Data types and DDL (Classes 10–12)</h3>
+<pre><code class="sql">CREATE TABLE Orders (
+    order_id    INT IDENTITY(1,1) PRIMARY KEY,
+    customer_id INT NOT NULL FOREIGN KEY REFERENCES Customer(customer_id),
+    order_date  DATE NOT NULL,
+    amount      DECIMAL(10,2) CHECK (amount &gt;= 0),
+    channel     VARCHAR(20) DEFAULT 'Web'
+);
+ALTER TABLE Orders ADD discount DECIMAL(5,2);
+ALTER TABLE Orders ALTER COLUMN channel VARCHAR(30);
+DECLARE @cutoff DATE = '2024-01-01';          -- variable
+SELECT * FROM Orders WHERE order_date &gt;= @cutoff;  -- single-line comment
+/* multi-line
+   comment */</code></pre>
+<table class="tbl"><thead><tr><th></th><th>DELETE</th><th>TRUNCATE</th><th>DROP</th></tr></thead><tbody>
+<tr><td>Removes</td><td>Chosen rows (WHERE)</td><td>All rows</td><td>Table + data</td></tr>
+<tr><td>Type</td><td>DML</td><td>DDL</td><td>DDL</td></tr>
+<tr><td>Identity reset</td><td>No</td><td>Yes</td><td>n/a</td></tr>
+<tr><td>Triggers fire</td><td>Yes</td><td>No</td><td>No</td></tr>
+<tr><td>Speed</td><td>Slower (row-logged)</td><td>Fast</td><td>Fast</td></tr>
+</tbody></table>
+<h3>Aggregation and CASE (Class 13)</h3>
+<pre><code class="sql">SELECT  c.city,
+        COUNT(DISTINCT o.order_id)                 AS orders,
+        SUM(o.amount)                              AS revenue,
+        AVG(o.amount)                              AS aov,
+        SUM(CASE WHEN o.amount &gt; 1000 THEN 1 ELSE 0 END) AS big_orders
+FROM    Orders o
+JOIN    Customer c ON o.customer_id = c.customer_id
+WHERE   YEAR(o.order_date) = 2024                  -- filters rows (before grouping)
+GROUP BY c.city
+HAVING  SUM(o.amount) &gt; 50000                      -- filters groups (after grouping)
+ORDER BY revenue DESC;</code></pre>
+<h4>Useful functions</h4>
+<table class="tbl"><tbody>
+<tr><td>Date</td><td><code>GETDATE(), DATEPART(QUARTER, d), DATENAME(WEEKDAY, d), DATEADD(DAY, -30, d), DATEDIFF(MONTH, a, b), EOMONTH(d), FORMAT(d,'yyyy-MM')</code></td></tr>
+<tr><td>Text</td><td><code>LEN, LEFT, RIGHT, SUBSTRING, CHARINDEX, REPLACE, UPPER, LOWER, TRIM, CONCAT, STRING_AGG</code></td></tr>
+<tr><td>Number</td><td><code>ROUND, CEILING, FLOOR, ABS, POWER, SQRT</code></td></tr>
+<tr><td>Conversion</td><td><code>CAST(x AS DATE), CONVERT(DATE, '28-02-2014', 105), TRY_CONVERT, ISNULL(x,0), COALESCE(a,b,c)</code></td></tr>
+</tbody></table>
+<h3>Joins and set operators (Classes 13–14)</h3>
+<div class="diagram"><div class="joins"><div><b>INNER</b><span class="v v-in"></span><small>matching rows</small></div><div><b>LEFT</b><span class="v v-left"></span><small>all left + matches</small></div><div><b>RIGHT</b><span class="v v-right"></span><small>all right + matches</small></div><div><b>FULL</b><span class="v v-out"></span><small>all rows both sides</small></div></div><p class="cap">Also: CROSS JOIN (every combination) and SELF JOIN (a table joined to itself, such as employee → manager).</p></div>
+<pre><code class="sql">SELECT name FROM Customers_2023
+UNION        SELECT name FROM Customers_2024;   -- distinct rows from both
+-- UNION ALL keeps duplicates (faster); INTERSECT = in both; EXCEPT = in first only
+
+-- Subqueries
+SELECT * FROM Orders WHERE amount &gt; (SELECT AVG(amount) FROM Orders);                 -- scalar
+SELECT * FROM Customer WHERE customer_id IN (SELECT customer_id FROM Orders);          -- list
+SELECT city, AVG(rev) FROM (SELECT customer_id, city, SUM(amount) rev FROM ... GROUP BY ...) t GROUP BY city;  -- derived table</code></pre>
+</div>
+
+<div data-tab="SQL: advanced">
+<h3>Window functions (Class 15)</h3>
+<p>A window function computes across related rows <b>without collapsing them</b>, unlike GROUP BY.</p>
+<pre><code class="sql">SELECT customer_id, order_date, amount,
+       ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date)        AS order_seq,
+       RANK()       OVER (ORDER BY amount DESC)                                AS rnk,        -- 1,2,2,4
+       DENSE_RANK() OVER (ORDER BY amount DESC)                                AS dense_rnk,  -- 1,2,2,3
+       SUM(amount)  OVER (PARTITION BY customer_id)                            AS cust_total,
+       SUM(amount)  OVER (PARTITION BY customer_id ORDER BY order_date
+                          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)    AS running_total,
+       AVG(amount)  OVER (ORDER BY order_date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS ma_3,
+       LAG(amount)  OVER (PARTITION BY customer_id ORDER BY order_date)        AS prev_amount,   -- Class 16
+       LEAD(order_date) OVER (PARTITION BY customer_id ORDER BY order_date)    AS next_order
+FROM Orders;
+
+-- Top N per group
+SELECT * FROM (
+  SELECT *, DENSE_RANK() OVER (PARTITION BY city ORDER BY revenue DESC) rk FROM CityCustomer
+) t WHERE rk &lt;= 3;
+
+-- Paging
+SELECT * FROM Orders ORDER BY order_date OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY;</code></pre>
+<h3>EXISTS and correlated subqueries (Class 16)</h3>
+<pre><code class="sql">-- customers who ordered at least once (stops at first match: efficient)
+SELECT c.* FROM Customer c WHERE EXISTS (SELECT 1 FROM Orders o WHERE o.customer_id = c.customer_id);
+-- correlated: inner query runs per outer row
+SELECT o.* FROM Orders o
+WHERE o.amount &gt; (SELECT AVG(o2.amount) FROM Orders o2 WHERE o2.customer_id = o.customer_id);</code></pre>
+<h3>CTEs, views, stored procedures (Class 17)</h3>
+<pre><code class="sql">WITH monthly AS (
+    SELECT FORMAT(order_date,'yyyy-MM') ym, SUM(amount) rev FROM Orders GROUP BY FORMAT(order_date,'yyyy-MM')
+)
+SELECT ym, rev, rev - LAG(rev) OVER (ORDER BY ym) AS mom_change,
+       100.0 * (rev - LAG(rev) OVER (ORDER BY ym)) / LAG(rev) OVER (ORDER BY ym) AS mom_pct
+FROM monthly;
+
+CREATE VIEW vw_city_revenue AS
+SELECT c.city, SUM(o.amount) revenue FROM Orders o JOIN Customer c ON o.customer_id = c.customer_id GROUP BY c.city;
+
+CREATE PROCEDURE usp_top_customers @n INT, @year INT AS
+BEGIN
+    SELECT TOP (@n) customer_id, SUM(amount) spend
+    FROM Orders WHERE YEAR(order_date) = @year
+    GROUP BY customer_id ORDER BY spend DESC;
+END;
+EXEC usp_top_customers @n = 10, @year = 2024;</code></pre>
+<h3>ROLLUP, CUBE, COALESCE (Class 18)</h3>
+<pre><code class="sql">SELECT COALESCE(region,'All regions') region, COALESCE(category,'All categories') category, SUM(sales) sales
+FROM Sales GROUP BY ROLLUP (region, category);   -- subtotals per region + grand total
+-- CUBE(region, category) adds subtotals for every combination (also per category)</code></pre>
+<h3>Unpivot (Class 22)</h3>
+<pre><code class="sql">SELECT product, month, units
+FROM MonthlySales UNPIVOT (units FOR month IN ([Jan],[Feb],[Mar])) u;</code></pre>
+</div>
+
+<div data-tab="AI for analytics">
+<h3>AI vs GenAI vs agentic AI (Class 22)</h3>
+<table class="tbl"><thead><tr><th></th><th>What it does</th><th>Example in analytics</th></tr></thead><tbody>
+<tr><td>AI / ML</td><td>Learns patterns to predict or classify</td><td>Churn model, demand forecast</td></tr>
+<tr><td>Generative AI</td><td>Creates new text, code, images from a prompt</td><td>Writes a SQL query or DAX measure from a sentence</td></tr>
+<tr><td>Agentic AI</td><td>Plans multi-step tasks and uses tools to act</td><td>Pulls data, builds the chart, writes the summary, emails it</td></tr>
+</tbody></table>
+<h3>Prompting for analysis</h3>
+<div class="card"><p><b>Role + context + task + format + constraints.</b> Example:</p><pre><code class="text">You are a SQL Server analyst. Tables: Orders(order_id, customer_id, order_date, amount),
+Customer(customer_id, city). Write ONE T-SQL query returning the top 3 cities by 2024 revenue
+with each city's share of total revenue (%), rounded to 1 decimal. Explain each clause in one line.</code></pre></div>
+<p class="tip">Always check AI-written queries against a small manual calculation. Watch for wrong join keys and for filters placed in HAVING instead of WHERE.</p>
+<h3>Tools covered (Classes 22–24)</h3>
+<ul><li><b>Docker</b>: runs an app in an isolated container; used to start Metabase locally with one command (<code>docker run -d -p 3000:3000 metabase/metabase</code>).</li><li><b>Metabase</b>: open-source BI. Connect a database, ask questions with a point-and-click builder or SQL, and pin results to dashboards.</li><li><b>MinusX</b>: an AI assistant that works inside tools such as Metabase and Jupyter to write and run queries from plain-English requests.</li><li><b>Gemini in Sheets/Excel and Copilot for Excel</b>: generate formulas, explain them, create pivots and charts, and summarise data from a prompt.</li><li><b>Office agents</b>: multi-step assistants that work across files (for example, build a workbook, then draft a report from it).</li></ul>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>WHERE vs HAVING?</summary><p>WHERE filters rows before grouping and cannot use aggregates. HAVING filters groups after GROUP BY and can use aggregates such as SUM().</p></details>
+<details><summary>RANK vs DENSE_RANK vs ROW_NUMBER?</summary><p>For values 100, 90, 90, 80: ROW_NUMBER gives 1,2,3,4; RANK gives 1,2,2,4; DENSE_RANK gives 1,2,2,3.</p></details>
+<details><summary>Find the second highest salary.</summary><pre><code class="sql">SELECT MAX(salary) FROM Emp WHERE salary &lt; (SELECT MAX(salary) FROM Emp);
+-- or: SELECT salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) r FROM Emp) t WHERE r = 2;</code></pre></details>
+<details><summary>CTE vs temp table vs view?</summary><p>A CTE exists only for one statement and improves readability. A temp table (#t) stores data for the session and can be indexed. A view is a saved query stored in the database.</p></details>
+<details><summary>Why use INDEX/MATCH over VLOOKUP?</summary><p>It can look left, does not break when columns are inserted, and only reads the two columns it needs.</p></details>
+<details><summary>How do you remove duplicates in SQL while keeping one row?</summary><pre><code class="sql">WITH d AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY email ORDER BY created DESC) rn FROM Users)
+DELETE FROM d WHERE rn &gt; 1;</code></pre></details>
+<details><summary>What does a pivot cache mean for you?</summary><p>Pivots read a snapshot of the source, so new or changed data appears only after Refresh. Pivots on the same source share a cache.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Leila Gharani XLOOKUP INDEX MATCH]] and [[yt:Leila Gharani Excel dashboard]].</li>
+<li>[[yt:Chandoo pivot tables tutorial]] and [[yt:Chandoo Power Query tutorial]].</li>
+<li>[[yt:Alex The Analyst SQL tutorial]], beginner to advanced SQL.</li>
+<li>[[yt:techTFQ SQL window functions]] and [[yt:techTFQ SQL interview questions]], great for practice.</li>
+<li>[[doc:Microsoft Learn: SELECT (T-SQL)|https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql]] · [[doc:Window functions (OVER clause)|https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql]]</li>
+<li>[[doc:Metabase documentation|https://www.metabase.com/docs/latest/]]</li>
+<li>Practice: [[doc:LeetCode SQL 50|https://leetcode.com/studyplan/top-sql-50/]] · [[doc:HackerRank SQL|https://www.hackerrank.com/domains/sql]]</li>
+</ul>
+</div>

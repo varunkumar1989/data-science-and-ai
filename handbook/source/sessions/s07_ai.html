@@ -1,0 +1,106 @@
+<!--meta {"id":"s7","num":"S7","title":"AI, Generative AI & Agentic AI (for non-tech learners)","sub":"How AI, LLMs, RAG and AI agents work, what they are good and bad at, and how to use them safely at work","icon":"🧠","courses":"Learning session · no technical background needed · complements the Generative AI course module"} -->
+<div data-tab="The big picture">
+<figure><img src="img/dg/ai_family.png" alt="AI family tree"><figcaption>Each layer is a subset of the one above: agentic AI is the newest layer, built on LLMs.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Term</th><th>Plain meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td>Artificial Intelligence</td><td>Machines doing tasks that normally need human intelligence</td><td>Chess engines, voice assistants</td></tr>
+<tr><td>Machine Learning</td><td>Learns patterns from data instead of hand-written rules</td><td>Credit scoring, fraud alerts</td></tr>
+<tr><td>Deep Learning</td><td>ML with large neural networks</td><td>Face unlock, speech-to-text</td></tr>
+<tr><td>Generative AI</td><td>Creates new content: text, images, audio, video, code</td><td>ChatGPT, Claude, Midjourney</td></tr>
+<tr><td>LLM</td><td>Large language model trained on huge text to predict the next word</td><td>GPT, Claude, Gemini, Llama, Grok</td></tr>
+<tr><td>Agentic AI</td><td>AI that plans steps and uses tools to complete a goal, checking its own progress</td><td>"Pull last week's sales, build the chart, draft the email"</td></tr>
+</tbody></table>
+<h3>A short timeline</h3>
+<table class="tbl"><tbody>
+<tr><td>1950s–1990s</td><td>Rule-based AI, early neural networks, expert systems</td></tr>
+<tr><td>2010s</td><td>Deep learning breakthroughs in images and speech</td></tr>
+<tr><td>2017</td><td>The Transformer architecture ("Attention Is All You Need")</td></tr>
+<tr><td>Nov 2022</td><td>ChatGPT launch brings generative AI to everyone</td></tr>
+<tr><td>2023–2024</td><td>Multimodal models (text + images + voice), copilots in Office and coding tools, RAG in enterprises</td></tr>
+<tr><td>2025–2026</td><td>Reasoning models, AI agents that browse, code and use apps; agent standards such as the Model Context Protocol (MCP); AI inside Excel, Power BI and Tableau</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="How LLMs work">
+<figure><img src="img/dg/llm_flow.png" alt="LLM next-token loop"><figcaption>An LLM writes one token at a time, each time predicting the most suitable next piece of text.</figcaption></figure>
+<div class="card"><h4>An analogy</h4><p>Imagine someone who has read most of the internet and can finish any sentence plausibly. They are brilliant at language and patterns, but they don't "look up" facts unless given a source, and they can sound confident while wrong. That's an LLM.</p></div>
+<table class="tbl"><tbody>
+<tr><td>Token</td><td>A word piece; pricing and limits are in tokens (~¾ of a word each)</td></tr>
+<tr><td>Context window</td><td>How much text the model can consider at once (a few pages to entire books)</td></tr>
+<tr><td>Training</td><td>Pre-training on huge text → instruction tuning → human-feedback tuning for helpfulness and safety</td></tr>
+<tr><td>Temperature</td><td>Creativity dial: low for facts and code, higher for ideas</td></tr>
+<tr><td>Hallucination</td><td>A fluent but false answer; always verify numbers, names and citations</td></tr>
+<tr><td>Knowledge cut-off</td><td>The model knows little after its training date unless it can search</td></tr>
+<tr><td>Multimodal</td><td>Reads images, PDFs, spreadsheets; speaks and listens</td></tr>
+<tr><td>Reasoning models</td><td>Spend extra "thinking" steps on hard problems (maths, code, planning)</td></tr>
+</tbody></table>
+<p>Prompting techniques (role, format, chain of thought, ask-before-answer, reverse prompting) are covered in <a href="#m6/Prompting techniques">Generative AI → Prompting</a>.</p>
+</div>
+
+<div data-tab="RAG & fine-tuning">
+<h3>Retrieval-Augmented Generation (RAG)</h3>
+<figure><img src="img/dg/rag.png" alt="RAG"><figcaption>RAG lets an LLM answer from your own documents: it searches first, then writes the answer using only what it found.</figcaption></figure>
+<ul><li><b>Embeddings</b> turn text into number vectors so that similar meanings are close together (cosine similarity, see <a href="#m1b/Building Blocks ML · Class 7">Building Blocks ML · Class 7</a>).</li><li>A <b>vector database</b> stores those vectors for fast similarity search (Pinecone, Chroma, pgvector, and now SQL Server 2025's VECTOR type).</li><li>Example: an HR bot that answers "How many casual leaves do I get?" from the company's policy PDF, quoting the clause.</li></ul>
+<h3>When to use what</h3>
+<table class="tbl"><thead><tr><th>Approach</th><th>Use when</th><th>Effort</th></tr></thead><tbody>
+<tr><td>Prompting</td><td>General tasks; give context in the prompt</td><td>Minutes</td></tr>
+<tr><td>RAG</td><td>Answers must come from your documents and stay current</td><td>Days</td></tr>
+<tr><td>Fine-tuning</td><td>A fixed style/format or specialised task at scale</td><td>Weeks, needs labelled examples</td></tr>
+<tr><td>Training from scratch</td><td>Almost never for a business</td><td>Huge</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Agentic AI">
+<figure><img src="img/dg/agent_loop.png" alt="agent loop"><figcaption>An agent loops: plan → act with a tool → observe → check the goal → adjust, with human approval for risky actions.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Component</th><th>What it means</th></tr></thead><tbody>
+<tr><td>Goal</td><td>A task, not a single question: "Prepare the weekly sales review"</td></tr>
+<tr><td>Planning</td><td>Breaks the goal into steps</td></tr>
+<tr><td>Tools</td><td>Things it can use: SQL database, Python, Excel, web search, email, calendar, CRM</td></tr>
+<tr><td>Memory</td><td>Keeps context across steps or sessions</td></tr>
+<tr><td>Guardrails</td><td>Permissions, approvals, logging, spending limits</td></tr>
+</tbody></table>
+<h3>Chatbot vs copilot vs agent</h3>
+<table class="tbl"><tbody>
+<tr><td>Chatbot</td><td>Answers questions in a conversation</td></tr>
+<tr><td>Copilot</td><td>Helps inside an app while you stay in control (Copilot in Excel, GitHub Copilot)</td></tr>
+<tr><td>Agent</td><td>Takes multi-step actions on its own toward a goal (Excel Agent Mode, Claude Code, ChatGPT agent, Tableau Next agents)</td></tr>
+</tbody></table>
+<h3>Agentic examples for data work</h3>
+<ul><li>Data-cleaning agent: profiles a new file, fixes types, flags anomalies, writes a summary.</li><li>Report agent: runs SQL every Monday, updates Power BI, writes commentary, emails stakeholders.</li><li>Research agent: gathers market data from the web with citations into a spreadsheet.</li><li>Coding agent: builds and tests a Python pipeline from a description.</li></ul>
+<p class="tip"><b>Model Context Protocol (MCP)</b> is an open standard for connecting AI assistants to tools and data sources (databases, Google Drive, GitHub, Slack) in a consistent way, so one agent can use many apps.</p>
+</div>
+
+<div data-tab="Using AI at work">
+<h3>High-value uses for analysts</h3>
+<table class="tbl"><tbody>
+<tr><td>Write and explain</td><td>Excel formulas, SQL, DAX, Python; explain someone else's code</td></tr>
+<tr><td>Clean and classify</td><td>Standardise names, categorise free-text feedback, extract fields from PDFs</td></tr>
+<tr><td>Analyse</td><td>Upload a CSV and ask for summaries, charts and tests (verify the numbers)</td></tr>
+<tr><td>Communicate</td><td>Draft executive summaries, slides, emails in the right tone</td></tr>
+<tr><td>Learn</td><td>Tutor mode: explain a concept, quiz you, review your answer</td></tr>
+</tbody></table>
+<h3>Risks and safe practice</h3>
+<ul class="check"><li>Verify facts and numbers; ask for sources; recompute key figures</li><li>Never paste confidential, customer or personal data into unapproved tools (India's DPDP Act 2023 governs personal data)</li><li>Use company-approved enterprise versions with data-protection terms</li><li>Watch for bias in outputs about people</li><li>Keep a human in the loop for decisions affecting customers or money</li><li>Label AI-generated content where required</li></ul>
+<h3>Glossary</h3>
+<p><b>Prompt</b> · <b>system prompt</b> · <b>token</b> · <b>context window</b> · <b>embedding</b> · <b>vector database</b> · <b>RAG</b> · <b>fine-tuning</b> · <b>hallucination</b> · <b>temperature</b> · <b>multimodal</b> · <b>agent</b> · <b>tool use / function calling</b> · <b>MCP</b> · <b>guardrails</b> · <b>evaluation (evals)</b> · <b>open-weight model</b> (downloadable, e.g. Llama, Mistral) vs <b>closed model</b> (API only).</p>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>AI vs ML vs generative AI vs agentic AI?</summary><p>AI is the broad field; ML learns from data; generative AI creates new content; agentic AI plans and acts with tools to complete goals.</p></details>
+<details><summary>How does an LLM generate text?</summary><p>It splits text into tokens and repeatedly predicts the next token using a transformer trained on vast text, sampling one token at a time.</p></details>
+<details><summary>What is RAG and why do companies use it?</summary><p>Retrieve relevant internal documents, then have the LLM answer from them. It reduces hallucinations, keeps answers current and cites sources without retraining.</p></details>
+<details><summary>What risks would you flag before using GenAI on customer data?</summary><p>Privacy and consent (DPDP), data leaving the company, hallucinated outputs, bias, security (prompt injection), and lack of audit trails.</p></details>
+<details><summary>Give an example of an AI agent in analytics.</summary><p>An agent that, every Monday, queries sales, refreshes the dashboard, spots anomalies, drafts a commentary and asks a human to approve before emailing.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn generative AI full course]] · [[yt:Simplilearn agentic AI tutorial]] · [[yt:Simplilearn what is AI]]</li>
+<li>[[yt:Andrej Karpathy intro to large language models]] · [[yt:3Blue1Brown large language models explained briefly]]</li>
+<li>[[yt:IBM Technology what is RAG]] · [[yt:IBM Technology what are AI agents]]</li>
+<li>[[doc:Google: Introduction to Generative AI (free course)|https://www.cloudskillsboost.google/course_templates/536]] · [[doc:DeepLearning.AI short courses|https://www.deeplearning.ai/short-courses/]]</li>
+<li>[[doc:Anthropic: Building effective agents|https://www.anthropic.com/engineering/building-effective-agents]] · [[doc:Model Context Protocol|https://modelcontextprotocol.io/]]</li>
+<li>[[doc:Microsoft: AI fundamentals learning path|https://learn.microsoft.com/en-us/training/paths/get-started-with-artificial-intelligence/]]</li>
+</ul>
+</div>

@@ -1,0 +1,342 @@
+<!--meta {"id":"m1b","num":"02","title":"Building Blocks of ML & Applied AI","sub":"Class 1 to Class 10: programming foundations, Statistics parts 1–4, Mathematics parts 1–5","icon":"🧮","courses":"Building Blocks of ML and Applied AI · 10 classes · modules: Programming Elements, Statistics Pre-Learning, Mathematics Foundation"} -->
+<div data-tab="Overview">
+<p class="lead">This pre-learning course prepares you for Python, statistics in Python, and the Machine Learning course. Class 1 teaches how programming works; Classes 2–5 are the four statistics pre-learning sessions; Classes 6–10 are the five mathematics sessions needed for machine learning.</p>
+<table class="tbl"><thead><tr><th>Class</th><th>Topic</th><th>Prepares you for</th></tr></thead><tbody>
+<tr><td><a href="#m1b/Building Blocks ML · Class 1">Building Blocks ML · Class 1</a></td><td>Introduction to programming: programs and business use, databases, IDE, languages, high vs low level, compiler vs interpreter, syntax, variables, naming conventions, data types, operators, control flow, functions and UDFs, logic building and pseudo-code</td><td>Python for Data Science</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 2">Building Blocks ML · Class 2</a></td><td>Statistics Part 1/4: introduction, data types, central tendency</td><td>Python Classes 13–14, 19–21</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 3">Building Blocks ML · Class 3</a></td><td>Statistics Part 2/4: dispersion, shape, z-scores, correlation</td><td>EDA in Python</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 4">Building Blocks ML · Class 4</a></td><td>Statistics Part 3/4: probability, distributions, sampling, CLT</td><td>Python Classes 19–20</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 5">Building Blocks ML · Class 5</a></td><td>Statistics Part 4/4: estimation, confidence intervals, hypothesis testing, tests, regression basics</td><td>Python Class 21, ML Classes 1–3</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 6">Building Blocks ML · Class 6</a></td><td>Mathematics Part 1/5: algebra, functions, exponents and logarithms</td><td>Link functions, log transforms</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 7">Building Blocks ML · Class 7</a></td><td>Mathematics Part 2/5: vectors and matrices</td><td>How data is stored for ML</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 8">Building Blocks ML · Class 8</a></td><td>Mathematics Part 3/5: matrix operations, inverse, systems of equations, eigenvalues</td><td>Linear regression, PCA</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 9">Building Blocks ML · Class 9</a></td><td>Mathematics Part 4/5: calculus: derivatives, partial derivatives, gradients, optimisation</td><td>Gradient descent (ML Class 5)</td></tr>
+<tr><td><a href="#m1b/Building Blocks ML · Class 10">Building Blocks ML · Class 10</a></td><td>Mathematics Part 5/5: probability for ML: sets, counting, conditional probability, Bayes, expectation</td><td>Naive Bayes, model evaluation</td></tr>
+</tbody></table>
+<figure><img src="img/dg/maths_ml.png" alt="why maths for ML"><figcaption>The three maths pillars of machine learning.</figcaption></figure>
+<div class="note-box">The course lists Classes 2–5 as "Statistics Part 1/4 to 4/4" and Classes 6–10 as "Mathematics Part 1/5 to 5/5" without sub-topics. The topic split shown here follows the standard order of these pre-learning syllabi. Statistics Parts 1–3 are the same lectures as <a href="#m1/Building Blocks · Class 6">Building Blocks Essentials Classes 6–8</a>, so those tabs summarise and add practice.</div>
+</div>
+
+<div data-tab="Building Blocks ML · Class 1">
+<h3>Building Blocks ML · Class 1: Introduction to programming</h3>
+<h4>1.1 Computer programs and their business use</h4>
+<p>A <b>program</b> is a precise set of instructions a computer follows to turn <b>input</b> into <b>output</b>. Businesses use programs to do repeatable work at scale without errors:</p>
+<table class="tbl"><thead><tr><th>Business area</th><th>Program does</th><th>Example</th></tr></thead><tbody>
+<tr><td>Banking</td><td>Validates and records transactions; flags fraud</td><td>UPI payment app checks balance, writes to ledger, sends SMS</td></tr>
+<tr><td>Retail / e-commerce</td><td>Pricing, inventory, recommendations</td><td>"Customers who bought this also bought…"</td></tr>
+<tr><td>Operations</td><td>Scheduling, routing, forecasting</td><td>Delivery app assigns the nearest rider</td></tr>
+<tr><td>Analytics</td><td>Cleans data, builds reports and models every day</td><td>Python script that emails a sales report at 9 AM</td></tr>
+</tbody></table>
+<h4>1.2 Databases and why software needs them</h4>
+<p>Programs forget everything when they stop. A <b>database</b> stores data permanently, lets many users read and write at once safely, enforces rules (an order must have a valid customer), and answers questions quickly with indexes. Almost every application is <b>front end</b> (screens) + <b>back end</b> (business logic program) + <b>database</b>.</p>
+<h4>1.3 IDE: Integrated Development Environment</h4>
+<p>An IDE is one application that combines a code <b>editor</b> (syntax colours, auto-complete), a way to <b>run</b> code, a <b>debugger</b> (pause and inspect), and file/project management.</p>
+<table class="tbl"><tbody>
+<tr><td>Jupyter Notebook / JupyterLab</td><td>Code + output + notes in cells; the standard for data analysis (used in this course)</td></tr>
+<tr><td>VS Code</td><td>Free general editor with Python and Jupyter extensions, Git, AI assistants</td></tr>
+<tr><td>PyCharm, Spyder</td><td>Python-focused IDEs (Spyder looks like RStudio/MATLAB)</td></tr>
+<tr><td>Google Colab</td><td>Free Jupyter in the browser, nothing to install</td></tr>
+<tr><td>SSMS</td><td>The IDE for SQL Server</td></tr>
+</tbody></table>
+<h4>1.4 Programming languages; high-level vs low-level</h4>
+<figure><img src="img/dg/lang_levels.png" alt="language levels"><figcaption>High-level languages read like English and run anywhere; they are translated down to the machine code a CPU executes.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Language</th><th>Typical use</th></tr></thead><tbody>
+<tr><td>Python</td><td>Data science, ML, automation, web back ends</td></tr>
+<tr><td>SQL</td><td>Querying databases</td></tr>
+<tr><td>R</td><td>Statistics and research</td></tr>
+<tr><td>Java / C#</td><td>Enterprise applications</td></tr>
+<tr><td>JavaScript</td><td>Web pages and apps</td></tr>
+<tr><td>C / C++</td><td>Systems, games, high performance (also inside NumPy)</td></tr>
+</tbody></table>
+<h4>1.5 Language translators: compiler vs interpreter</h4>
+<figure><img src="img/dg/compiler_interpreter.png" alt="compiler vs interpreter"><figcaption>A compiler translates the whole program before running; an interpreter translates and runs line by line.</figcaption></figure>
+<table class="tbl"><thead><tr><th></th><th>Compiler</th><th>Interpreter</th></tr></thead><tbody>
+<tr><td>Translates</td><td>Entire program at once into an executable</td><td>One statement at a time while running</td></tr>
+<tr><td>Errors</td><td>All reported before running</td><td>Stops at the first error it reaches</td></tr>
+<tr><td>Speed</td><td>Faster execution</td><td>Slower, but instant feedback, great for exploring data</td></tr>
+<tr><td>Examples</td><td>C, C++, Go, Rust</td><td>Python, R, JavaScript (Python first compiles to bytecode, then interprets it)</td></tr>
+</tbody></table>
+<h4>1.6 Why syntax rules?</h4>
+<p>Computers cannot guess intent. <b>Syntax</b> is the grammar of a language (brackets, colons, indentation, quotes). A syntax error means the translator cannot read the code at all; a <b>logic error</b> means it runs but gives the wrong answer (much harder to find).</p>
+<pre><code class="python">if amount &gt; 5000            # SyntaxError: missing colon
+    print("High value")
+
+total = price + quantity    # runs, but logic error: should be price * quantity</code></pre>
+<h4>1.7 Programming basics</h4>
+<h4>Variables</h4>
+<p>A variable is a named label pointing to a value in memory: <code>city = "Pune"</code>, <code>amount = 2499.0</code>. The value can change; the name lets you reuse it.</p>
+<h4>INC rules: Identifier Naming Conventions</h4>
+<table class="tbl"><thead><tr><th>Rule</th><th>Valid</th><th>Invalid</th></tr></thead><tbody>
+<tr><td>Start with a letter or underscore</td><td><code>total_sales</code>, <code>_temp</code></td><td><code>2nd_quarter</code></td></tr>
+<tr><td>Only letters, digits, underscore</td><td><code>sales_2026</code></td><td><code>sales-2026</code>, <code>sales 2026</code>, <code>sales$</code></td></tr>
+<tr><td>Case-sensitive</td><td><code>Sales</code> ≠ <code>sales</code></td><td></td></tr>
+<tr><td>Not a reserved keyword</td><td><code>class_name</code></td><td><code>class</code>, <code>for</code>, <code>if</code>, <code>True</code></td></tr>
+<tr><td>Convention: meaningful snake_case for variables, CamelCase for classes, UPPER_CASE for constants</td><td><code>avg_order_value</code>, <code>GST_RATE = 0.18</code></td><td><code>x1</code>, <code>a</code> (legal but unclear)</td></tr>
+</tbody></table>
+<h4>Data types</h4>
+<table class="tbl"><tbody>
+<tr><td>Integer</td><td><code>42</code></td><td>Counts, IDs</td></tr>
+<tr><td>Float</td><td><code>3.14</code>, <code>2499.0</code></td><td>Prices, measurements</td></tr>
+<tr><td>String</td><td><code>"Gurugram"</code></td><td>Text</td></tr>
+<tr><td>Boolean</td><td><code>True</code> / <code>False</code></td><td>Flags, conditions</td></tr>
+<tr><td>Collections</td><td>list <code>[1,2,3]</code>, tuple, dict <code>{"city":"Pune"}</code>, set</td><td>Groups of values</td></tr>
+<tr><td>None / NULL</td><td><code>None</code></td><td>"No value"</td></tr>
+</tbody></table>
+<h4>Operators</h4>
+<table class="tbl"><tbody>
+<tr><td>Arithmetic</td><td><code>+ - * / // % **</code> (// floor division, % remainder, ** power)</td></tr>
+<tr><td>Comparison</td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td></tr>
+<tr><td>Logical</td><td><code>and or not</code></td></tr>
+<tr><td>Assignment</td><td><code>= += -= *=</code></td></tr>
+<tr><td>Membership / identity</td><td><code>in</code>, <code>not in</code>, <code>is</code></td></tr>
+</tbody></table>
+<h4>1.8 Control flow: conditions and loops</h4>
+<figure><img src="img/dg/control_flow.png" alt="discount flowchart"><figcaption>Flowchart of a discount rule with conditions and a loop over orders.</figcaption></figure>
+<pre><code class="python">orders = [7200, 3100, 450]
+prime = [False, True, False]
+total = 0
+for amount, is_prime in zip(orders, prime):      # loop: repeat for each order
+    if amount &gt; 5000:                             # condition
+        discount = 0.10
+    elif is_prime:
+        discount = 0.05
+    else:
+        discount = 0
+    total += amount * (1 - discount)
+print(total)                                      # 6480 + 2945 + 450 = 9875.0
+
+n = 0
+while n &lt; 3:                                      # while loop: repeat until condition is false
+    n += 1</code></pre>
+<h4>1.9 Functions and UDFs</h4>
+<p>A <b>function</b> is a named, reusable block that takes inputs (parameters) and returns an output. Built-in functions come with the language (<code>len</code>, <code>sum</code>, <code>round</code>); <b>UDFs</b> (user-defined functions) are ones you write.</p>
+<pre><code class="python">def final_price(amount, is_prime=False):
+    """Return the amount after the store's discount rule."""
+    if amount &gt; 5000:
+        return amount * 0.90
+    if is_prime:
+        return amount * 0.95
+    return amount
+
+final_price(7200)          # 6480.0
+final_price(3100, True)    # 2945.0</code></pre>
+<p>Benefits: write once, test once, reuse everywhere; easier to read and fix. Excel equivalent: <code>LAMBDA</code>; SQL equivalent: user-defined functions and stored procedures.</p>
+<h4>1.10 Logic building and pseudo-code</h4>
+<p><b>Pseudo-code</b> describes an algorithm in plain structured English before writing real code. It separates <i>thinking</i> from <i>syntax</i>.</p>
+<pre><code class="text">PROBLEM: flag customers who have not ordered in 90 days
+
+FOR each customer
+    last_order = most recent order date for this customer
+    IF no orders OR (today - last_order) &gt; 90 days
+        mark customer as "At risk"
+    ELSE
+        mark customer as "Active"
+END FOR
+OUTPUT count of At risk customers</code></pre>
+<div class="steps"><div><b>1</b><span>Understand inputs and the exact output wanted.</span></div><div><b>2</b><span>Solve one example by hand.</span></div><div><b>3</b><span>Write the steps as pseudo-code / a flowchart.</span></div><div><b>4</b><span>Translate to code; test with normal and edge cases (empty list, zero, missing value).</span></div></div>
+</div>
+
+<div data-tab="Building Blocks ML · Class 2">
+<h3>Building Blocks ML · Class 2: Introduction to Statistics (Part 1/4)</h3>
+<p>Same lecture as <a href="#m1/Building Blocks · Class 6">Building Blocks Essentials · Class 6</a>: what statistics is, population vs sample, data types and scales, and measures of central tendency. Revision summary:</p>
+<ul><li>Descriptive statistics summarise; inferential statistics generalise from a sample to a population.</li><li>Scales: nominal, ordinal, interval, ratio. Numeric data is discrete or continuous.</li><li>Mean (symmetric data), median (skewed data), mode (categories), weighted mean (different quantities).</li></ul>
+<h4>Practice</h4>
+<div class="qa">
+<details><summary>Classify each: PIN code, customer rating 1–5, temperature in °C, monthly spend.</summary><p>PIN code: nominal (numbers used as labels). Rating: ordinal. Temperature °C: interval. Monthly spend: ratio.</p></details>
+<details><summary>Order values (₹): 450, 520, 480, 510, 9,800. Which average would you report and why?</summary><p>Median = 510. The single ₹9,800 order pulls the mean to 2,352, which no typical customer spends.</p></details>
+<details><summary>A shop sells 100 units at ₹50 and 20 units at ₹200. What is the average selling price?</summary><p>Weighted mean = (100×50 + 20×200) / 120 = 9,000 / 120 = ₹75, not the simple average of ₹125.</p></details>
+</div>
+<p>Python equivalents: <code>df["amt"].mean()</code>, <code>.median()</code>, <code>.mode()</code>, <code>np.average(x, weights=w)</code>.</p>
+</div>
+
+<div data-tab="Building Blocks ML · Class 3">
+<h3>Building Blocks ML · Class 3: Introduction to Statistics (Part 2/4)</h3>
+<p>Same lecture as <a href="#m1/Building Blocks · Class 7">Building Blocks Essentials · Class 7</a>: range, variance, standard deviation, coefficient of variation, percentiles and quartiles, skewness and kurtosis, box plots and outliers, z-scores, covariance and correlation.</p>
+<figure><img src="img/bb/boxplot.png" alt="box plot"><figcaption>Box plot anatomy and the 1.5 × IQR outlier rule.</figcaption></figure>
+<h4>Practice</h4>
+<div class="qa">
+<details><summary>Data: 2, 4, 4, 4, 5, 5, 7, 9. Find the mean and population SD.</summary><p>Mean = 40/8 = 5. Squared deviations: 9,1,1,1,0,0,4,16 = 32. Population variance = 32/8 = 4, SD = 2. (Sample SD = √(32/7) ≈ 2.14.)</p></details>
+<details><summary>Q1 = 40, Q3 = 60. Is 95 an outlier?</summary><p>IQR = 20; upper fence = 60 + 1.5×20 = 90. 95 &gt; 90, so yes.</p></details>
+<details><summary>r between ad spend and sales = 0.82. Can we say ads cause sales?</summary><p>No. It is a strong positive association; causation needs an experiment (A/B test) or a careful causal analysis, because festive seasons may drive both.</p></details>
+</div>
+<p>Python: <code>df.describe()</code>, <code>df["x"].std()</code>, <code>df["x"].quantile([.25,.75])</code>, <code>df["x"].skew()</code>, <code>df.corr(numeric_only=True)</code>.</p>
+</div>
+
+<div data-tab="Building Blocks ML · Class 4">
+<h3>Building Blocks ML · Class 4: Introduction to Statistics (Part 3/4)</h3>
+<p>Same lecture as <a href="#m1/Building Blocks · Class 8">Building Blocks Essentials · Class 8</a>: probability rules, conditional probability, Bayes, random variables, binomial/Poisson/normal distributions, expected value, sampling methods, sampling distribution and the CLT.</p>
+<figure><img src="img/bb/distributions.png" alt="distributions"><figcaption>The distributions you will meet most often.</figcaption></figure>
+<h4>Practice</h4>
+<div class="qa">
+<details><summary>A call centre gets 4 calls per minute on average. Probability of exactly 6 calls in a minute?</summary><p>Poisson: P(6) = e⁻⁴·4⁶/6! ≈ 0.104. Excel <code>=POISSON.DIST(6,4,FALSE)</code>; Python <code>stats.poisson.pmf(6,4)</code>.</p></details>
+<details><summary>30% of visitors buy. Probability that at least 1 of 5 visitors buys?</summary><p>1 − P(none) = 1 − 0.7⁵ = 1 − 0.168 = 0.832.</p></details>
+<details><summary>Heights ~ Normal(165, 8). What share is taller than 181 cm?</summary><p>z = (181−165)/8 = 2 → about 2.3% (1 − 0.9772).</p></details>
+<details><summary>Population SD of order value is ₹600. What is the standard error of the mean for n = 100?</summary><p>600/√100 = ₹60.</p></details>
+</div>
+</div>
+
+<div data-tab="Building Blocks ML · Class 5">
+<h3>Building Blocks ML · Class 5: Introduction to Statistics (Part 4/4) – inferential statistics</h3>
+<h4>5.1 Point and interval estimation</h4>
+<p>A <b>point estimate</b> is a single best guess (sample mean x̄ = ₹1,310). A <b>confidence interval</b> gives a range that captures the true value with a stated confidence:</p>
+<p class="formula">CI = x̄ ± z* · s/√n &nbsp; (z* = 1.96 for 95%; use t* for small samples)</p>
+<div class="card"><h4>Worked example</h4><p>n = 400 orders, x̄ = ₹1,310, s = ₹600. SE = 600/20 = 30. 95% CI = 1,310 ± 1.96×30 = <b>₹1,251 to ₹1,369</b>. Excel: <code>=CONFIDENCE.T(0.05,600,400)</code> returns the ± margin (≈ 59).</p></div>
+<figure><img src="img/bb/ci.png" alt="confidence intervals"><figcaption>"95% confidence" describes the method: about 95 of every 100 intervals built this way contain the true mean (generated data).</figcaption></figure>
+<p>Sample size for a margin E: n = (z*·σ / E)². To estimate average spend within ±₹50 with σ = 600: n = (1.96×600/50)² ≈ 554.</p>
+<h4>5.2 Hypothesis testing framework</h4>
+<div class="steps"><div><b>1</b><span>H0: no change / no difference. H1: what you want evidence for.</span></div><div><b>2</b><span>Choose α (usually 0.05).</span></div><div><b>3</b><span>Pick the test; compute the statistic.</span></div><div><b>4</b><span>p-value ≤ α → reject H0; else fail to reject.</span></div><div><b>5</b><span>State the business conclusion and the effect size.</span></div></div>
+<figure><img src="img/ml/c2_tails.png" alt="tails"><figcaption>Two-tailed vs one-tailed rejection regions at α = 0.05.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Question</th><th>Test</th><th>Excel</th></tr></thead><tbody>
+<tr><td>Mean vs a target</td><td>One-sample z / t</td><td><code>=T.TEST</code> needs two ranges; use <code>=T.DIST.2T(ABS(t),n-1)</code> on a computed t</td></tr>
+<tr><td>Two independent groups</td><td>Two-sample t</td><td><code>=T.TEST(A,B,2,3)</code> (two-tailed, unequal variance)</td></tr>
+<tr><td>Before / after, same units</td><td>Paired t</td><td><code>=T.TEST(Before,After,2,1)</code></td></tr>
+<tr><td>3+ groups</td><td>ANOVA</td><td>Data → Data Analysis → Anova: Single Factor</td></tr>
+<tr><td>Two categorical variables</td><td>Chi-square</td><td><code>=CHISQ.TEST(observed,expected)</code></td></tr>
+<tr><td>Two numeric variables</td><td>Correlation test / regression</td><td>Data Analysis → Regression</td></tr>
+</tbody></table>
+<h4>5.3 Errors</h4>
+<p><b>Type I</b> (false positive, probability α): concluding a new checkout works when it does not. <b>Type II</b> (false negative, β): missing a real improvement. <b>Power</b> = 1 − β; increase it with a bigger sample.</p>
+<h4>5.4 Simple linear regression</h4>
+<p>ŷ = b₀ + b₁x. Example: sales (₹ lakh) = 12 + 3.5 × ad spend (₹ lakh) means each extra lakh of ads is associated with ₹3.5 lakh more sales. <b>R²</b> = share of variation in y explained by x. Excel: <code>=SLOPE()</code>, <code>=INTERCEPT()</code>, <code>=RSQ()</code>, <code>=FORECAST.LINEAR()</code>, or add a trendline to a scatter chart with "Display equation".</p>
+<p class="tip">Full illustrated coverage of tests, p-values and errors: <a href="#ml/Class 1–2: Hypothesis testing">ML Classes 1–2</a>; worked cases: <a href="#case/py_hypothesis">Hypothesis Testing case</a>.</p>
+</div>
+
+<div data-tab="Building Blocks ML · Class 6">
+<h3>Building Blocks ML · Class 6: Introduction to Mathematics (Part 1/5) – algebra, functions, exponents and logs</h3>
+<h4>6.1 Algebra refresher</h4>
+<ul><li>Variables and expressions: revenue = price × quantity → R = p·q.</li><li>Solving linear equations: 3x + 5 = 20 → x = 5. Break-even: fixed cost ₹50,000, margin ₹250/unit → units = 50,000 / 250 = 200.</li><li>Inequalities: 0.18x ≤ 9,000 → x ≤ 50,000.</li><li>Summation notation: Σᵢ₌₁ⁿ xᵢ = x₁ + x₂ + … + xₙ (Excel SUM). Product notation Π.</li></ul>
+<h4>6.2 Functions and their shapes</h4>
+<figure><img src="img/bb/functions.png" alt="functions"><figcaption>Five shapes that appear throughout ML.</figcaption></figure>
+<table class="tbl"><tbody>
+<tr><td>Linear y = mx + c</td><td>m = slope (change in y per unit x), c = intercept. Linear regression.</td></tr>
+<tr><td>Quadratic y = ax² + bx + c</td><td>U-shape; squared error cost functions are quadratic, with one minimum.</td></tr>
+<tr><td>Exponential y = aᵇˣ / eˣ</td><td>Compound growth; viral spread.</td></tr>
+<tr><td>Logarithm y = log x</td><td>Inverse of exponential; compresses big ranges (income, population).</td></tr>
+<tr><td>Sigmoid σ(z) = 1/(1+e⁻ᶻ)</td><td>Squashes any number to 0–1: logistic regression probabilities.</td></tr>
+</tbody></table>
+<h4>6.3 Exponents and logarithms</h4>
+<table class="tbl"><tbody>
+<tr><td>aᵐ·aⁿ = aᵐ⁺ⁿ, (aᵐ)ⁿ = aᵐⁿ, a⁰ = 1, a⁻ⁿ = 1/aⁿ</td><td>Exponent rules</td></tr>
+<tr><td>log(ab) = log a + log b; log(a/b) = log a − log b; log(aⁿ) = n·log a</td><td>Log rules: turn products into sums</td></tr>
+<tr><td>ln x = logₑ x, e ≈ 2.718</td><td>Natural log used in ML and finance</td></tr>
+</tbody></table>
+<div class="card"><h4>Real-world use: CAGR</h4><p>Revenue grew from ₹2 crore to ₹3.2 crore in 4 years. CAGR = (3.2/2)^(1/4) − 1 = 1.6^0.25 − 1 ≈ <b>12.5%</b>. Excel <code>=(B2/A2)^(1/4)-1</code> or <code>=RRI(4,2,3.2)</code>.</p></div>
+<p>Why logs in data science: a log transform makes right-skewed data (income, sales) more symmetric; log-odds are the language of logistic regression; log-loss is a classification metric.</p>
+</div>
+
+<div data-tab="Building Blocks ML · Class 7">
+<h3>Building Blocks ML · Class 7: Introduction to Mathematics (Part 2/5) – vectors and matrices</h3>
+<h4>7.1 Scalars, vectors, matrices, tensors</h4>
+<table class="tbl"><tbody>
+<tr><td>Scalar</td><td>A single number: 5</td></tr>
+<tr><td>Vector</td><td>An ordered list: one customer = [age 32, income 4.5, visits 5]</td></tr>
+<tr><td>Matrix</td><td>A 2-D grid: n customers × p features (a DataFrame without labels)</td></tr>
+<tr><td>Tensor</td><td>3-D and higher: a batch of colour images = images × height × width × 3</td></tr>
+</tbody></table>
+<figure><img src="img/bb/vectors.png" alt="vectors"><figcaption>Left: adding vectors tip-to-tail. Right: each data row is a point (vector) in feature space; KNN and clustering measure distances between these points.</figcaption></figure>
+<h4>7.2 Vector operations</h4>
+<table class="tbl"><thead><tr><th>Operation</th><th>Example with a=[3,1], b=[1,2]</th><th>ML meaning</th></tr></thead><tbody>
+<tr><td>Addition</td><td>a + b = [4, 3]</td><td>Combining effects</td></tr>
+<tr><td>Scalar multiplication</td><td>2a = [6, 2]</td><td>Scaling features</td></tr>
+<tr><td>Dot product</td><td>a·b = 3×1 + 1×2 = 5</td><td>A linear model's prediction is a dot product: ŷ = w·x + b</td></tr>
+<tr><td>Magnitude (norm)</td><td>‖a‖ = √(9+1) ≈ 3.16</td><td>Size of a vector; regularisation penalties</td></tr>
+<tr><td>Euclidean distance</td><td>‖a − b‖ = √(4+1) ≈ 2.24</td><td>KNN, k-means</td></tr>
+<tr><td>Cosine similarity</td><td>a·b / (‖a‖‖b‖) = 5/(3.16×2.24) ≈ 0.71</td><td>Text and embedding similarity (search, RAG)</td></tr>
+</tbody></table>
+<h4>7.3 Matrices</h4>
+<figure><img src="img/bb/matrix.png" alt="matrix"><figcaption>A dataset with 4 rows and 3 features is a 4 × 3 matrix X.</figcaption></figure>
+<ul><li>Shape (rows × columns); element aᵢⱼ is row i, column j.</li><li>Special matrices: square, identity I (1s on the diagonal), diagonal, symmetric (A = Aᵀ), zero.</li><li>Transpose Aᵀ flips rows and columns.</li><li>Addition and scalar multiplication work element by element (same shape required).</li></ul>
+<pre><code class="python">import numpy as np
+X = np.array([[25, 3.1, 2], [32, 4.5, 5], [47, 8.2, 1], [51, 9.0, 7]])
+X.shape        # (4, 3)
+X.T.shape      # (3, 4)
+a, b = np.array([3, 1]), np.array([1, 2])
+a @ b          # 5  dot product
+np.linalg.norm(a - b)   # 2.236 distance</code></pre>
+</div>
+
+<div data-tab="Building Blocks ML · Class 8">
+<h3>Building Blocks ML · Class 8: Introduction to Mathematics (Part 3/5) – matrix operations</h3>
+<h4>8.1 Matrix multiplication</h4>
+<p>(m × n) · (n × p) → (m × p). Inner sizes must match. Each output cell = dot product of a row of the first with a column of the second. Order matters: AB ≠ BA in general.</p>
+<div class="card"><h4>Real-world example: billing</h4><p>Quantities Q (2 customers × 3 products) = [[2,1,0],[0,3,1]]; prices P (3 × 1) = [[500],[200],[1000]]. Bill = Q·P = [[2×500 + 1×200 + 0], [0 + 3×200 + 1×1000]] = <b>[[1,200],[1,600]]</b>. Excel: <code>=MMULT(Q,P)</code>. All predictions of a linear model at once: ŷ = Xw.</p></div>
+<h4>8.2 Determinant and inverse</h4>
+<ul><li>For A = [[a,b],[c,d]], det(A) = ad − bc. If det = 0 the matrix is <b>singular</b> (no inverse): its columns are redundant (perfect multicollinearity).</li><li>Inverse A⁻¹ satisfies A·A⁻¹ = I. For 2×2: A⁻¹ = (1/det)·[[d,−b],[−c,a]]. Excel <code>=MINVERSE()</code>, <code>=MDETERM()</code>.</li></ul>
+<h4>8.3 Systems of linear equations</h4>
+<p>2x + y = 1,100 and x + 3y = 1,800 (two baskets' totals) → A·[x,y] = b → [x,y] = A⁻¹b = [300, 500]: item prices ₹300 and ₹500.</p>
+<p>Linear regression's exact solution is the same idea: <b>w = (XᵀX)⁻¹Xᵀy</b> (the "normal equation").</p>
+<pre><code class="python">A = np.array([[2, 1], [1, 3]]); b = np.array([1100, 1800])
+np.linalg.solve(A, b)          # array([300., 500.])
+np.linalg.det(A)               # 5.0
+np.linalg.inv(A)</code></pre>
+<h4>8.4 Eigenvalues and eigenvectors (intuition)</h4>
+<p>For a square matrix A, an eigenvector v keeps its direction when multiplied: Av = λv; λ is how much it is stretched. In data, the eigenvectors of the covariance matrix point along the directions of greatest spread, which is exactly what <b>PCA</b> uses to compress many correlated features into a few components.</p>
+</div>
+
+<div data-tab="Building Blocks ML · Class 9">
+<h3>Building Blocks ML · Class 9: Introduction to Mathematics (Part 4/5) – calculus for optimisation</h3>
+<h4>9.1 Limits and the idea of a derivative</h4>
+<p>A derivative is the instantaneous rate of change: the slope of a curve at a point. f′(x) = lim(h→0) [f(x+h) − f(x)] / h.</p>
+<figure><img src="img/bb/derivative.png" alt="derivative tangents"><figcaption>Negative slope left of the minimum, zero at the minimum, positive to the right. Gradient descent always steps against the slope.</figcaption></figure>
+<h4>9.2 Differentiation rules</h4>
+<table class="tbl"><thead><tr><th>Rule</th><th>Formula</th><th>Example</th></tr></thead><tbody>
+<tr><td>Constant</td><td>d/dx(c) = 0</td><td>d/dx(7) = 0</td></tr>
+<tr><td>Power</td><td>d/dx(xⁿ) = n·xⁿ⁻¹</td><td>d/dx(x³) = 3x²</td></tr>
+<tr><td>Constant multiple / sum</td><td>(c·f)′ = c·f′; (f + g)′ = f′ + g′</td><td>d/dx(4x² + 3x) = 8x + 3</td></tr>
+<tr><td>Product</td><td>(fg)′ = f′g + fg′</td><td>Revenue = p·q(p)</td></tr>
+<tr><td>Chain</td><td>d/dx f(g(x)) = f′(g(x))·g′(x)</td><td>d/dx (2x+1)² = 2(2x+1)·2</td></tr>
+<tr><td>Exponential / log</td><td>(eˣ)′ = eˣ; (ln x)′ = 1/x</td><td>Used in logistic regression</td></tr>
+<tr><td>Sigmoid</td><td>σ′(z) = σ(z)(1 − σ(z))</td><td>Back-propagation in neural nets</td></tr>
+</tbody></table>
+<h4>9.3 Maxima, minima and optimisation</h4>
+<div class="card"><h4>Business example: best price</h4><p>Demand q = 1,000 − 20p. Revenue R = p·q = 1,000p − 20p². R′ = 1,000 − 40p = 0 → <b>p = ₹25</b>, q = 500, revenue ₹12,500. R″ = −40 &lt; 0 confirms a maximum.</p></div>
+<h4>9.4 Partial derivatives and the gradient</h4>
+<p>With several inputs, a partial derivative ∂f/∂x changes one input while holding the others fixed. The <b>gradient</b> ∇f is the vector of all partials; it points uphill. For the regression cost J(b₀,b₁) = (1/n)Σ(b₀ + b₁x − y)²:</p>
+<p class="formula">∂J/∂b₀ = (2/n)Σ(ŷ − y) &nbsp;&nbsp; ∂J/∂b₁ = (2/n)Σ(ŷ − y)·x</p>
+<p>Gradient descent update: b ← b − α·∇J. See it run on real numbers in <a href="#ml/Class 5: Gradient descent">ML Class 5</a>.</p>
+<h4>9.5 Integrals (one idea)</h4>
+<p>An integral is the area under a curve: probabilities for continuous distributions are areas under the density curve (P(Z ≤ 1.5) = 0.933).</p>
+</div>
+
+<div data-tab="Building Blocks ML · Class 10">
+<h3>Building Blocks ML · Class 10: Introduction to Mathematics (Part 5/5) – probability and sets for ML</h3>
+<h4>10.1 Sets</h4>
+<p>Union A ∪ B (either), intersection A ∩ B (both), complement Aᶜ, difference A − B. Venn diagrams. Same ideas as SQL UNION / INTERSECT / EXCEPT and pandas merges.</p>
+<h4>10.2 Counting: permutations and combinations</h4>
+<table class="tbl"><tbody>
+<tr><td>Factorial n!</td><td>5! = 120 ways to order 5 items</td></tr>
+<tr><td>Permutations nPr = n!/(n−r)!</td><td>Order matters: ways to pick 1st, 2nd, 3rd prize from 10 = 720</td></tr>
+<tr><td>Combinations nCr = n!/(r!(n−r)!)</td><td>Order doesn't matter: ways to choose 3 features out of 10 = 120 (Excel <code>=COMBIN(10,3)</code>)</td></tr>
+</tbody></table>
+<h4>10.3 Conditional probability, independence, Bayes</h4>
+<p>P(A|B) = P(A∩B)/P(B). Independent if P(A|B) = P(A). Bayes: P(A|B) = P(B|A)P(A)/P(B), the basis of <b>Naive Bayes</b> spam filters: P(spam | "free offer") from how often "free offer" appears in spam vs genuine mail.</p>
+<h4>10.4 Random variables, expectation, variance</h4>
+<ul><li>E[X] = Σ x·P(x) (discrete) — expected profit of a campaign.</li><li>Var(X) = E[X²] − (E[X])².</li><li>Joint and marginal distributions; covariance between two random variables.</li></ul>
+<div class="card"><h4>Real-world example: expected value of a decision</h4><p>A retention offer costs ₹200. If offered, 30% of at-risk customers stay, each worth ₹2,000 → expected gain = 0.3×2,000 − 200 = <b>₹400 per customer</b>. Positive, so offer it. Churn models supply the probabilities.</p></div>
+<h4>10.5 Likelihood and maximum likelihood (intuition)</h4>
+<p>Likelihood asks: given these parameters, how probable is the data we actually saw? Logistic regression picks coefficients that make the observed 0/1 outcomes most likely; minimising <b>log-loss</b> is the same thing.</p>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Compiler vs interpreter?</summary><p>A compiler translates the whole program into machine code before running (fast execution, all errors upfront); an interpreter translates and runs line by line (instant feedback, stops at the first error). Python is interpreted (via bytecode).</p></details>
+<details><summary>What is pseudo-code and why use it?</summary><p>Plain-language step-by-step logic written before coding. It lets you design and check the algorithm without worrying about syntax.</p></details>
+<details><summary>What is a confidence interval?</summary><p>A range built from sample data that, by the method used, captures the true population value a stated share of the time (e.g. 95%).</p></details>
+<details><summary>Why is the dot product important in ML?</summary><p>A linear model's prediction, a neural-network neuron's input, and cosine similarity between embeddings are all dot products.</p></details>
+<details><summary>What does a zero determinant mean for regression?</summary><p>XᵀX is not invertible because some features are exact linear combinations of others (perfect multicollinearity), so coefficients cannot be uniquely estimated.</p></details>
+<details><summary>Why do we need derivatives in ML?</summary><p>To find which direction to change parameters to reduce error; gradient descent uses the gradient of the cost function.</p></details>
+<details><summary>Explain Bayes' theorem with an example.</summary><p>It updates a prior belief with evidence. With 1% fraud and a test that is 95% sensitive with a 5% false-alarm rate, only about 16% of flagged transactions are fraud.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn programming basics for beginners]] · [[yt:CS50 lecture 0 scratch computational thinking]]</li>
+<li>[[yt:Simplilearn statistics for data science]] · [[yt:StatQuest confidence intervals clearly explained]]</li>
+<li>[[yt:3Blue1Brown essence of linear algebra]] · [[yt:3Blue1Brown essence of calculus]]</li>
+<li>[[yt:Khan Academy linear algebra]] · [[yt:Khan Academy probability and combinatorics]]</li>
+<li>[[yt:Simplilearn mathematics for machine learning]]</li>
+<li>[[doc:Mathematics for Machine Learning (free book, Deisenroth et al.)|https://mml-book.github.io/]]</li>
+<li>[[doc:Python official tutorial|https://docs.python.org/3/tutorial/]]</li>
+</ul>
+</div>

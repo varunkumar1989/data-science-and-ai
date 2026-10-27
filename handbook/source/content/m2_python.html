@@ -1,0 +1,308 @@
+<!--meta {"id":"m2","num":"02","title":"Python for Data Science","sub":"Core Python, NumPy, pandas, visualisation, statistics and first ML models","icon":"🐍","courses":"Python for Data Science 2026 (24 classes + 2 tests)"} -->
+<div data-tab="Overview">
+<p class="lead">Python turns repeatable analysis into code. This course moves from core syntax to pandas data wrangling, charts, statistical testing and the first two ML models (linear and logistic regression).</p>
+<table class="tbl"><thead><tr><th>Class</th><th>Topics</th><th>Jump to</th></tr></thead><tbody>
+<tr><td>1</td><td>Introduction to Python, Jupyter Notebook</td><td><a href="#m2/Core Python">Core Python</a></td></tr>
+<tr><td>2</td><td>Type conversion, print, f-strings, format, input</td><td><a href="#m2/Core Python">Core Python</a></td></tr>
+<tr><td>3</td><td>if / elif / else, while loops</td><td><a href="#m2/Core Python">Core Python</a></td></tr>
+<tr><td>4</td><td>for loops, OOP basics, string methods, indexing and slicing</td><td><a href="#m2/Core Python">Core Python</a></td></tr>
+<tr><td>5</td><td>Lists</td><td><a href="#m2/Data structures">Data structures</a></td></tr>
+<tr><td>6</td><td>Dictionaries, tuples, sets</td><td><a href="#m2/Data structures">Data structures</a></td></tr>
+<tr><td>7</td><td>User-defined functions, lambda, map, filter</td><td><a href="#m2/Functions & files">Functions &amp; files</a></td></tr>
+<tr><td>8</td><td>File handling, modules</td><td><a href="#m2/Functions & files">Functions &amp; files</a></td></tr>
+<tr><td>9–10</td><td>NumPy arrays and operations; reading data with pandas</td><td><a href="#m2/NumPy">NumPy</a></td></tr>
+<tr><td>11–12</td><td>DataFrames: subsetting, reordering, renaming, dropping, sorting, filtering</td><td><a href="#m2/pandas">pandas</a></td></tr>
+<tr><td>13–14</td><td>Type conversion, univariate analysis, aggregates, missing values</td><td><a href="#m2/pandas">pandas</a></td></tr>
+<tr><td>15</td><td>Joins, groupby, pivot_table</td><td><a href="#m2/pandas">pandas</a></td></tr>
+<tr><td>16–17</td><td>Visualisation; working with dates</td><td><a href="#m2/Visualisation">Visualisation</a></td></tr>
+<tr><td>18</td><td>Datetime, outliers, connecting to SQL</td><td><a href="#m2/Dates, outliers, SQL">Dates, outliers, SQL</a></td></tr>
+<tr><td>19</td><td>Subplots, probability distributions, normal distribution, CLT intro</td><td><a href="#m2/Statistics in Python">Statistics</a></td></tr>
+<tr><td>20</td><td>Sampling, CLT, introduction to hypothesis testing</td><td><a href="#m2/Statistics in Python">Statistics</a></td></tr>
+<tr><td>21</td><td>z-test, t-test, chi-square, ANOVA</td><td><a href="#m2/Statistics in Python">Statistics</a></td></tr>
+<tr><td>22</td><td>Introduction to machine learning</td><td><a href="#m2/Regression models">Regression</a></td></tr>
+<tr><td>23</td><td>Linear regression</td><td><a href="#m2/Regression models">Regression</a></td></tr>
+<tr><td>24</td><td>Logistic regression</td><td><a href="#m2/Regression models">Regression</a></td></tr>
+</tbody></table>
+<p class="tip">Case studies for this course (Retail, Credit Card, Insurance, Visualisation, Hypothesis Testing, E-commerce capstone and the two exercise notebooks) are fully solved on the real data under <a href="#cases">Case Studies</a>.</p>
+</div>
+
+<div data-tab="Core Python">
+<h3>Jupyter basics</h3>
+<p>A notebook mixes <b>code cells</b> and <b>markdown cells</b>. <span class="kbd">Shift</span>+<span class="kbd">Enter</span> runs a cell; <span class="kbd">Esc</span> then <span class="kbd">A</span>/<span class="kbd">B</span> inserts a cell above/below; <span class="kbd">Esc</span> <span class="kbd">M</span> makes markdown. The last expression in a cell is displayed automatically.</p>
+<h3>Variables, types and conversion (Class 2)</h3>
+<pre><code class="python">age = 34                 # int
+price = 99.5             # float
+name = "Asha"            # str
+active = True            # bool
+type(price)              # &lt;class 'float'&gt;
+int("42") + 1            # 43   (str -> int)
+float("3.5"); str(10)    # 3.5, '10'
+int(7.9)                 # 7    (truncates, does not round)
+print(f"{name} is {age} and paid ₹{price:,.2f}")   # f-string with format spec
+print("{} scored {:.1f}%".format(name, 87.456))     # str.format
+city = input("City? ")   # always returns a string</code></pre>
+<h4>Operators and precedence</h4>
+<p><code>**</code> → <code>* / // %</code> → <code>+ -</code> → comparisons → <code>not</code> → <code>and</code> → <code>or</code>. Example from the exercise: <code>5 + 4 * 9 % (3 + 1) / 6 - 1</code> = 4.0, because 36 % 4 = 0.</p>
+<h3>Conditions and loops (Classes 3–4)</h3>
+<pre><code class="python">score = 72
+if score &gt;= 80:
+    grade = "A"
+elif score &gt;= 60:
+    grade = "B"
+else:
+    grade = "C"
+
+n = 5
+while n &gt; 0:          # repeat until the condition is False
+    n -= 1
+
+for i in range(1, 11, 2):   # 1,3,5,7,9  (start, stop-exclusive, step)
+    if i == 7: break        # leave the loop
+    if i == 3: continue     # skip to next iteration
+    print(i)</code></pre>
+<h3>Strings: indexing, slicing, methods (Class 4)</h3>
+<pre><code class="python">s = "Data Science"
+s[0], s[-1]          # 'D', 'e'
+s[0:4], s[5:], s[::-1]   # 'Data', 'Science', 'ecneicS ataD'
+s.lower(), s.upper(), s.title()
+s.replace("Data", "Big"), s.split(" ")      # 'Big Science', ['Data','Science']
+"  hi ".strip(), s.find("S"), s.count("a"), s.startswith("Da")</code></pre>
+<h3>OOP in one example</h3>
+<pre><code class="python">class Account:
+    def __init__(self, owner, balance=0):   # constructor
+        self.owner, self.balance = owner, balance
+    def deposit(self, amt):                 # method
+        self.balance += amt
+        return self.balance
+acc = Account("Asha"); acc.deposit(500)     # 500</code></pre>
+<p class="tip">Everything in Python is an object. <code>"abc".upper()</code> is calling the <code>upper</code> method of a string object, which is why pandas code reads as <code>df.groupby(...).sum()</code>.</p>
+</div>
+
+<div data-tab="Data structures">
+<table class="tbl"><thead><tr><th></th><th>list</th><th>tuple</th><th>dict</th><th>set</th></tr></thead><tbody>
+<tr><td>Syntax</td><td><code>[1, 2, 2]</code></td><td><code>(1, 2)</code></td><td><code>{"a": 1}</code></td><td><code>{1, 2}</code></td></tr>
+<tr><td>Ordered</td><td>Yes</td><td>Yes</td><td>Yes (insertion)</td><td>No</td></tr>
+<tr><td>Mutable</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Duplicates</td><td>Allowed</td><td>Allowed</td><td>Keys unique</td><td>No</td></tr>
+<tr><td>Use for</td><td>Sequences you change</td><td>Fixed records, dict keys</td><td>Lookups by key</td><td>Unique values, membership</td></tr>
+</tbody></table>
+<pre><code class="python"># Lists (Class 5)
+nums = [5, 7, 22, 97]
+nums.append(54); nums.extend([1, 2]); nums.insert(0, 99)
+nums.remove(22); last = nums.pop(); nums.sort(reverse=True)
+squares = [x**2 for x in nums if x % 2]      # list comprehension with a filter
+
+# Dict, tuple, set (Class 6)
+emp = {"name": "Ravi", "dept": "Ops"}
+emp["salary"] = 50000; emp.get("age", "n/a")
+for k, v in emp.items(): print(k, v)
+point = (3, 4); x, y = point                  # tuple unpacking
+a, b = {1, 2, 3}, {2, 3, 4}
+a &amp; b, a | b, a - b                          # intersection, union, difference</code></pre>
+</div>
+
+<div data-tab="Functions & files">
+<h3>User-defined functions (Class 7)</h3>
+<pre><code class="python">def describe(*nums, decimals=2):            # *args collects positional values
+    """Return basic descriptives."""
+    mean = sum(nums) / len(nums)
+    return {"count": len(nums), "mean": round(mean, decimals), "max": max(nums)}
+
+def area(shape, **dims):                     # **kwargs collects named values
+    if shape == "square": return dims["side"] ** 2
+    if shape == "circle": return 3.1416 * dims["radius"] ** 2
+
+square = lambda x: x * x                     # anonymous one-line function
+list(map(square, [1, 2, 3]))                 # [1, 4, 9]
+list(filter(lambda x: x % 2, [1, 2, 3, 4]))  # [1, 3]</code></pre>
+<p class="tip">Scope: variables created inside a function are local. Return values instead of printing them, so the result can be reused.</p>
+<h3>Files and modules (Class 8)</h3>
+<pre><code class="python">with open("notes.txt", "w") as f:     # 'w' write, 'a' append, 'r' read
+    f.write("line 1\n")
+with open("notes.txt") as f:
+    lines = f.readlines()
+
+import math, os
+from datetime import date
+import numpy as np                     # alias convention</code></pre>
+<p>The <code>with</code> block closes the file automatically, even if an error happens.</p>
+<h3>Errors</h3>
+<pre><code class="python">try:
+    value = int("abc")
+except ValueError as e:
+    print("Not a number:", e)
+finally:
+    print("always runs")</code></pre>
+</div>
+
+<div data-tab="NumPy">
+<p>NumPy arrays hold one data type and support <b>vectorised</b> maths: an operation applies to every element without a Python loop, which is 10–100× faster.</p>
+<pre><code class="python">import numpy as np
+a = np.array([[1, 2, 3], [4, 5, 6]])
+a.shape, a.ndim, a.dtype        # (2, 3), 2, int64
+np.zeros((2, 3)); np.ones(3); np.arange(0, 10, 2); np.linspace(0, 1, 5)
+np.random.seed(1); np.random.randint(1, 10, size=5); np.random.normal(0, 1, 100)
+a * 10; a + a; a.T              # element-wise maths and transpose
+a[0, 1]; a[:, 1]; a[a &gt; 3]      # indexing, column slice, boolean mask
+a.sum(axis=0); a.mean(axis=1)   # axis=0 down columns, axis=1 across rows
+a.reshape(3, 2); np.where(a &gt; 3, "high", "low")
+a @ a.T                          # matrix multiplication</code></pre>
+<p class="tip"><b>Broadcasting</b>: NumPy stretches smaller arrays to match shapes, so <code>a - a.mean(axis=0)</code> subtracts each column's mean from that column.</p>
+</div>
+
+<div data-tab="pandas">
+<h3>Reading and inspecting (Classes 10–11)</h3>
+<pre><code class="python">import pandas as pd
+df = pd.read_csv("Transactions.csv")             # also read_excel, read_sql, read_json
+df.head(); df.tail(); df.shape; df.info(); df.describe()
+df.dtypes; df.columns; df["Store_type"].value_counts(); df.nunique()</code></pre>
+<h3>Selecting, filtering, sorting (Classes 11–12)</h3>
+<pre><code class="python">df["Qty"]                         # Series
+df[["cust_id", "total_amt"]]      # DataFrame
+df.loc[df["total_amt"] &gt; 0, ["cust_id", "Qty"]]   # label-based + boolean mask
+df.iloc[0:5, 0:3]                 # position-based
+df.query("Store_type == 'e-Shop' and Qty &gt; 2")
+df[df["city"].isin(["Pune", "Delhi"])]
+df.rename(columns={"Qty": "quantity"}); df.drop(columns=["Tax"])
+df.sort_values(["Store_type", "total_amt"], ascending=[True, False])
+df = df[["cust_id", "tran_date", "total_amt"]]    # reorder columns</code></pre>
+<h3>Cleaning (Classes 13–14)</h3>
+<pre><code class="python">df["amt"] = df["amt"].str.replace("$", "", regex=False).astype(float)
+df["date"] = pd.to_datetime(df["date"], dayfirst=True)
+df.isna().sum()
+df["age"] = df["age"].fillna(df["age"].mean())         # continuous -> mean/median
+df["city"] = df["city"].fillna(df["city"].mode()[0])   # categorical -> mode
+df.dropna(subset=["cust_id"]); df.drop_duplicates("cust_id", keep="last")</code></pre>
+<h3>Aggregating, joining, reshaping (Class 15)</h3>
+<pre><code class="python">df.groupby("Store_type")["total_amt"].agg(["sum", "mean", "count"])
+df.groupby(["city", "gender"], as_index=False).agg(spend=("total_amt", "sum"), orders=("tran_id", "nunique"))
+pd.merge(tran, cust, how="left", left_on="cust_id", right_on="customer_Id")   # inner/left/right/outer
+pd.concat([df_2015, df_2016], ignore_index=True)                               # stack rows
+df.pivot_table(index="city", columns="Store_type", values="total_amt", aggfunc="sum", fill_value=0)
+wide.melt(id_vars="id", var_name="year", value_name="sales")                   # wide -> long
+s.unstack(); df.stack()</code></pre>
+<div class="diagram"><div class="joins"><div><b>inner</b><span class="v v-in"></span><small>only matches</small></div><div><b>left</b><span class="v v-left"></span><small>all of left</small></div><div><b>right</b><span class="v v-right"></span><small>all of right</small></div><div><b>outer</b><span class="v v-out"></span><small>everything</small></div></div></div>
+<p class="tip">After every merge, check row counts. If rows increase unexpectedly, the right-hand key was not unique (a many-to-many join).</p>
+<h3>apply and lambda</h3>
+<pre><code class="python">df["band"] = df["age"].apply(lambda a: "Youth" if a &lt; 30 else "Adult")
+df["band"] = pd.cut(df["age"], [0, 18, 30, 60, 120], labels=["Child", "Youth", "Adult", "Senior"])
+df["flag"] = np.where((df["type"] == "Injury") &amp; (df["police"] == "No"), 1, 0)</code></pre>
+</div>
+
+<div data-tab="Visualisation">
+<h3>Which chart for which question</h3>
+<table class="tbl"><thead><tr><th>Question</th><th>Chart</th><th>Code</th></tr></thead><tbody>
+<tr><td>Distribution of one number</td><td>Histogram, box plot</td><td><code>df["amt"].plot.hist(bins=30)</code></td></tr>
+<tr><td>Compare categories</td><td>Bar (horizontal if labels are long)</td><td><code>s.plot.barh()</code></td></tr>
+<tr><td>Trend over time</td><td>Line</td><td><code>ts.plot(marker="o")</code></td></tr>
+<tr><td>Relationship of two numbers</td><td>Scatter</td><td><code>df.plot.scatter("x", "y")</code></td></tr>
+<tr><td>Part of a whole (few parts)</td><td>Pie / donut, or 100% stacked bar</td><td><code>s.plot.pie(autopct="%1.1f%%")</code></td></tr>
+<tr><td>Two categories × value</td><td>Grouped bar, heatmap</td><td><code>sns.heatmap(pivot, annot=True)</code></td></tr>
+</tbody></table>
+<pre><code class="python">import matplotlib.pyplot as plt, seaborn as sns
+fig, ax = plt.subplots(1, 2, figsize=(12, 4))        # subplots grid (Class 19)
+ax[0].plot(months, revenue, "r:o", label="Revenue")  # colour red, dotted, circle markers
+ax[0].set(title="Revenue", xlabel="Month", ylabel="₹"); ax[0].legend(loc="lower right")
+sns.boxplot(data=df, x="segment", y="claim_amount", ax=ax[1])
+plt.tight_layout(); plt.savefig("chart.png", dpi=150)</code></pre>
+</div>
+
+<div data-tab="Dates, outliers, SQL">
+<h3>Dates (Classes 17–18)</h3>
+<pre><code class="python">df["dt"] = pd.to_datetime(df["dt"], format="%d-%m-%Y")      # explicit format is safer
+df["dt"].dt.year, df["dt"].dt.month, df["dt"].dt.day_name(), df["dt"].dt.quarter
+df["dt"].dt.to_period("M")                                   # month bucket for grouping
+(df["resolved"] - df["received"]).dt.days                    # durations
+df.set_index("dt").resample("W")["sales"].sum()              # weekly totals
+pd.Timestamp("2018-10-01") - pd.Timedelta(days=20)
+pd.to_datetime("07Sep59", format="%d%b%y")                   # 2059! subtract 100 years if needed</code></pre>
+<h3>Outliers</h3>
+<figure><img src="img/ml/c6_outliers.png" alt="IQR fences and capping"><figcaption>IQR rule: values below Q1 − 1.5·IQR or above Q3 + 1.5·IQR are flagged. Capping at the 1st/99th percentile keeps the rows but limits their pull.</figcaption></figure>
+<pre><code class="python">q1, q3 = df["amt"].quantile([.25, .75]); iqr = q3 - q1
+mask = df["amt"].between(q1 - 1.5 * iqr, q3 + 1.5 * iqr)
+df["amt_capped"] = df["amt"].clip(df["amt"].quantile(.01), df["amt"].quantile(.99))
+z = (df["amt"] - df["amt"].mean()) / df["amt"].std(); df[z.abs() &gt; 3]   # z-score rule</code></pre>
+<h3>Connecting to SQL</h3>
+<pre><code class="python">import sqlalchemy as sa
+engine = sa.create_engine("mssql+pyodbc://@SERVER/RetailDB?driver=ODBC+Driver+17+for+SQL+Server&amp;trusted_connection=yes")
+df = pd.read_sql("SELECT * FROM Transactions WHERE Qty &gt; 0", engine)
+df.to_sql("clean_transactions", engine, if_exists="replace", index=False)</code></pre>
+</div>
+
+<div data-tab="Statistics in Python">
+<h3>Distributions and the CLT (Classes 19–20)</h3>
+<figure><img src="img/ml/c1_clt.png" alt="Central limit theorem demo"><figcaption>Even from a skewed population, the averages of samples form a normal curve. Its spread is the standard error, σ/√n.</figcaption></figure>
+<pre><code class="python">from scipy import stats
+stats.norm.cdf(1.96)            # 0.975  area to the left
+stats.norm.ppf(0.95)            # 1.645  z for 95% one-tailed
+stats.binom.pmf(3, n=10, p=.2)  # P(exactly 3 successes)
+stats.poisson.pmf(2, mu=4)      # P(2 events when 4 expected)
+sample = df["amt"].sample(100, random_state=1)   # simple random sampling
+df.groupby("city", group_keys=False).apply(lambda g: g.sample(frac=.1))   # stratified</code></pre>
+<h3>Choosing a test (Class 21)</h3>
+<table class="tbl"><thead><tr><th>Question</th><th>Data</th><th>Test</th><th>scipy</th></tr></thead><tbody>
+<tr><td>Is the mean equal to a target?</td><td>1 numeric sample</td><td>One-sample t (z if σ known, n large)</td><td><code>ttest_1samp(x, 10000)</code></td></tr>
+<tr><td>Do two groups differ?</td><td>Numeric × 2 independent groups</td><td>Two-sample t (Welch)</td><td><code>ttest_ind(a, b, equal_var=False)</code></td></tr>
+<tr><td>Before vs after on the same units?</td><td>Paired numeric</td><td>Paired t</td><td><code>ttest_rel(before, after)</code></td></tr>
+<tr><td>Do 3+ groups differ?</td><td>Numeric × 3+ groups</td><td>One-way ANOVA</td><td><code>f_oneway(g1, g2, g3)</code></td></tr>
+<tr><td>Are two categories related?</td><td>Category × category counts</td><td>Chi-square independence</td><td><code>chi2_contingency(pd.crosstab(a, b))</code></td></tr>
+<tr><td>Are two numbers related?</td><td>Numeric × numeric</td><td>Pearson (or Spearman for ranks)</td><td><code>pearsonr(x, y)</code></td></tr>
+</tbody></table>
+<p>Hypothesis testing is covered in depth, with pictures, in <a href="#ml/Class 1–2: Hypothesis testing">ML Classes 1–2</a>.</p>
+</div>
+
+<div data-tab="Regression models">
+<h3>Machine learning in one line (Class 22)</h3>
+<p>Learn a function <i>f</i> from past examples (X → y) so it predicts y for new X. <b>Regression</b> predicts a number; <b>classification</b> predicts a class.</p>
+<h3>Linear regression (Class 23)</h3>
+<p>ŷ = β₀ + β₁x₁ + … + βₚxₚ. The βs are chosen to minimise the sum of squared errors (OLS).</p>
+<pre><code class="python">import statsmodels.formula.api as smf
+m = smf.ols("sales ~ tv + radio + C(region)", data=df).fit()
+print(m.summary())          # coefficients, p-values, R², adjusted R²
+
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=.3, random_state=42)
+lr = LinearRegression().fit(X_tr, y_tr); pred = lr.predict(X_te)
+r2_score(y_te, pred), mean_absolute_error(y_te, pred), mean_squared_error(y_te, pred) ** .5</code></pre>
+<table class="tbl"><thead><tr><th>Assumption</th><th>Check</th><th>If violated</th></tr></thead><tbody>
+<tr><td>Linearity</td><td>Residuals vs fitted plot shows no pattern</td><td>Transform x (log, square) or use a non-linear model</td></tr>
+<tr><td>Independence of errors</td><td>Durbin–Watson ≈ 2</td><td>Add lag features (time series)</td></tr>
+<tr><td>Constant variance (homoscedasticity)</td><td>No funnel in residual plot</td><td>Log-transform y</td></tr>
+<tr><td>Normal errors</td><td>Q-Q plot of residuals</td><td>Transform y; large n is forgiving</td></tr>
+<tr><td>No multicollinearity</td><td>VIF &lt; 5 (or 10)</td><td>Drop or combine correlated features</td></tr>
+</tbody></table>
+<h3>Logistic regression (Class 24)</h3>
+<figure><img src="img/ml/c4_models.png" alt="linear, non-linear and sigmoid"><figcaption>Logistic regression feeds a linear score through the sigmoid to get a probability between 0 and 1.</figcaption></figure>
+<pre><code class="python">from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, roc_auc_score
+clf = LogisticRegression(max_iter=1000).fit(X_tr, y_tr)
+prob = clf.predict_proba(X_te)[:, 1]; pred = (prob &gt;= 0.5).astype(int)
+print(classification_report(y_te, pred)); roc_auc_score(y_te, prob)
+np.exp(clf.coef_)        # odds ratios: how much the odds multiply per unit increase</code></pre>
+<p>Metrics (confusion matrix, precision, recall, ROC/AUC) are explained with pictures in <a href="#ml/Class 7: KNN & metrics">ML Class 7</a>.</p>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>List vs tuple?</summary><p>Lists are mutable and used for collections that change; tuples are immutable, slightly faster, and can be dictionary keys.</p></details>
+<details><summary>loc vs iloc?</summary><p><code>loc</code> selects by label (and accepts boolean masks); <code>iloc</code> selects by integer position. <code>loc</code> slices include the end label; <code>iloc</code> slices exclude the end position.</p></details>
+<details><summary>How do you handle missing values?</summary><p>First find why they are missing. Then drop rows (if few and random), impute (mean/median for numbers, mode for categories, or model-based), or add a "was missing" flag. Never impute the target.</p></details>
+<details><summary>merge vs concat vs join?</summary><p><code>merge</code> joins on key columns (like SQL JOIN); <code>concat</code> stacks frames along rows or columns; <code>join</code> is a shortcut that merges on the index.</p></details>
+<details><summary>What is a p-value?</summary><p>The probability of seeing data at least this extreme if the null hypothesis were true. Small p (below α, often 0.05) means the data is unlikely under H0, so we reject H0. It is not the probability that H0 is true.</p></details>
+<details><summary>R² vs adjusted R²?</summary><p>R² is the share of variance explained and never falls when you add features. Adjusted R² penalises extra features, so it only rises if a new feature genuinely helps.</p></details>
+<details><summary>Why is logistic regression called regression if it classifies?</summary><p>It regresses the log-odds of the outcome on the features linearly; classification only happens when you apply a cut-off to the predicted probability.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Corey Schafer Python tutorial for beginners]], clear core Python.</li>
+<li>[[yt:Corey Schafer pandas tutorial]] and [[yt:Keith Galli complete pandas tutorial]], hands-on pandas.</li>
+<li>[[yt:codebasics numpy tutorial]] and [[yt:codebasics matplotlib tutorial]].</li>
+<li>[[yt:StatQuest linear regression clearly explained]] and [[yt:StatQuest logistic regression]].</li>
+<li>[[doc:pandas user guide|https://pandas.pydata.org/docs/user_guide/index.html]] · [[doc:10 minutes to pandas|https://pandas.pydata.org/docs/user_guide/10min.html]]</li>
+<li>[[doc:SciPy stats reference|https://docs.scipy.org/doc/scipy/reference/stats.html]] · [[doc:scikit-learn user guide|https://scikit-learn.org/stable/user_guide.html]]</li>
+</ul>
+</div>

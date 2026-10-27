@@ -1,0 +1,188 @@
+<!--meta {"id":"m7","num":"07","title":"Power BI","sub":"Power Query, data modelling, DAX, visuals, interactivity and the Power BI Service","icon":"📈","courses":"DVA Classes 18–21 (Power BI) · Power BI module · Power BI Services"} -->
+<div data-tab="Overview">
+<p class="lead">Power BI turns raw tables into interactive reports. The workflow is always the same: <b>get and clean data</b> (Power Query) → <b>model</b> it (relationships, star schema) → <b>calculate</b> (DAX) → <b>visualise</b> → <b>publish and share</b> (Power BI Service).</p>
+<div class="flow"><span>Get data</span><span>Transform (Power Query / M)</span><span>Model (relationships)</span><span>DAX measures</span><span>Report visuals</span><span>Publish to Service</span></div>
+<table class="tbl"><thead><tr><th>Class</th><th>Topics</th></tr></thead><tbody>
+<tr><td>DVA 18</td><td>Power BI components, the three views, ETL, HR analysis</td></tr>
+<tr><td>DVA 19</td><td>Small multiples, DAX measures and calculated columns, cards, matrix</td></tr>
+<tr><td>DVA 20</td><td>AdventureWorks case, hierarchies, tooltips, KPI and gauge visuals, filter levels, edit interactions</td></tr>
+<tr><td>DVA 21</td><td>Parameters, dynamic measures, Q&amp;A, forecasting, buttons, bookmarks, drill-through, connectivity modes</td></tr>
+<tr><td>DVA 22</td><td>Unpivot (Power Query)</td></tr>
+</tbody></table>
+<div class="note-box">The two Power BI case studies on the LMS (Basic and E-commerce) could not be downloaded (the transfer failed twice), so they are not solved here. The <a href="#m7/Practice project">Practice project</a> tab gives a full build you can do on the AdventureWorks sample or the E-commerce data from the Python capstone.</div>
+</div>
+
+<div data-tab="Components & views">
+<table class="tbl"><thead><tr><th>Component</th><th>What it is</th></tr></thead><tbody>
+<tr><td>Power BI Desktop</td><td>Free Windows app where you build reports (.pbix)</td></tr>
+<tr><td>Power BI Service</td><td>Cloud (app.powerbi.com) to publish, share, schedule refresh, build dashboards</td></tr>
+<tr><td>Power BI Mobile</td><td>Phone/tablet apps to view reports</td></tr>
+<tr><td>Gateway</td><td>Bridge that lets the cloud refresh data from on-premises sources</td></tr>
+<tr><td>Report Server</td><td>On-premises hosting option</td></tr>
+</tbody></table>
+<h3>The three views in Desktop</h3>
+<div class="grid3"><div class="card"><h4>Report view</h4><p>Canvas where you place visuals, slicers and pages.</p></div><div class="card"><h4>Table (Data) view</h4><p>See the loaded rows, add calculated columns, set data types and formats.</p></div><div class="card"><h4>Model view</h4><p>Tables and relationships: cardinality, cross-filter direction, hide fields.</p></div></div>
+<h3>Connectivity modes (Class 21)</h3>
+<table class="tbl"><thead><tr><th>Mode</th><th>How</th><th>Pros</th><th>Cons</th></tr></thead><tbody>
+<tr><td>Import</td><td>Data copied into the compressed in-memory model</td><td>Fastest; full DAX and Power Query</td><td>Needs scheduled refresh; size limits</td></tr>
+<tr><td>DirectQuery</td><td>Queries the source on every interaction</td><td>Always current; very large data</td><td>Slower; some DAX/transform limits; load on source</td></tr>
+<tr><td>Live connection</td><td>Connects to an existing semantic model (Analysis Services / published dataset)</td><td>One governed model for many reports</td><td>Cannot change the model in the report</td></tr>
+<tr><td>Composite</td><td>Mix of Import and DirectQuery tables</td><td>Balance of speed and freshness</td><td>More complex</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Power Query">
+<h3>ETL with Power Query (Class 18)</h3>
+<p>Home → Transform data opens the Power Query Editor. Every click is recorded as an <b>Applied Step</b> in the M language, so refreshing next month replays all cleaning automatically.</p>
+<table class="tbl"><thead><tr><th>Task</th><th>Where</th></tr></thead><tbody>
+<tr><td>Set data types</td><td>Click the icon left of the column header (check dates and decimals first)</td></tr>
+<tr><td>Remove / choose columns</td><td>Home → Choose Columns</td></tr>
+<tr><td>Promote headers</td><td>Home → Use First Row as Headers</td></tr>
+<tr><td>Split column</td><td>Transform → Split Column → By Delimiter</td></tr>
+<tr><td>Replace values / errors</td><td>Transform → Replace Values; right-click → Replace Errors</td></tr>
+<tr><td>Unpivot (Class 22)</td><td>Select ID columns → Transform → Unpivot Other Columns (wide months → rows)</td></tr>
+<tr><td>Merge queries</td><td>Home → Merge Queries (a join: left outer, inner, anti…)</td></tr>
+<tr><td>Append queries</td><td>Home → Append (stack tables with the same columns)</td></tr>
+<tr><td>Conditional column</td><td>Add Column → Conditional Column (if/else without code)</td></tr>
+<tr><td>Group by</td><td>Transform → Group By</td></tr>
+<tr><td>Column profiling</td><td>View → Column quality / distribution / profile</td></tr>
+</tbody></table>
+<pre><code class="m">let
+    Source   = Csv.Document(File.Contents("C:\Data\HR.csv"), [Delimiter=",", Encoding=65001]),
+    Headers  = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Types    = Table.TransformColumnTypes(Headers, {{"HireDate", type date}, {"Salary", Currency.Type}}),
+    Active   = Table.SelectRows(Types, each [Status] = "Active")
+in
+    Active</code></pre>
+</div>
+
+<div data-tab="Data modelling">
+<h3>Star schema</h3>
+<div class="diagram"><div class="star"><div class="dim">Date</div><div class="dim">Product</div><div class="fact">FactSales<br><small>keys + numbers</small></div><div class="dim">Customer</div><div class="dim">Territory</div></div><p class="cap">One central <b>fact</b> table (events with numbers: sales, quantity) linked to <b>dimension</b> tables (descriptions to slice by). One-to-many from each dimension to the fact.</p></div>
+<ul><li><b>Cardinality</b>: one-to-many (preferred), one-to-one, many-to-many (avoid unless needed).</li><li><b>Cross-filter direction</b>: single (dimension filters fact) is the default and safest; both-directions can cause ambiguity.</li><li><b>Active vs inactive relationships</b>: only one active path between two tables; activate another inside a measure with <code>USERELATIONSHIP</code> (for example, Ship Date vs Order Date).</li><li><b>Date table</b>: create one continuous calendar and Mark as Date Table so time-intelligence functions work.</li></ul>
+<pre><code class="dax">Date = ADDCOLUMNS ( CALENDAR ( DATE(2020,1,1), DATE(2026,12,31) ),
+        "Year", YEAR([Date]), "Month", FORMAT([Date], "MMM"), "MonthNo", MONTH([Date]),
+        "Quarter", "Q" &amp; QUARTER([Date]) )</code></pre>
+<h3>Hierarchies (Class 20)</h3>
+<p>Drag Month onto Year in the Fields pane (or right-click → Create hierarchy) to build Year → Quarter → Month → Day, or Category → Sub-category → Product. Visuals then get drill-down arrows.</p>
+</div>
+
+<div data-tab="DAX">
+<h3>Calculated column vs measure (Class 19)</h3>
+<table class="tbl"><thead><tr><th></th><th>Calculated column</th><th>Measure</th></tr></thead><tbody>
+<tr><td>Computed</td><td>Once per row at refresh, stored</td><td>At query time, for the current filter context</td></tr>
+<tr><td>Use for</td><td>Categorising rows, slicer/axis fields (Age band)</td><td>Aggregations shown in visuals (Total Sales, Margin %)</td></tr>
+<tr><td>Example</td><td><code>Profit = Sales[Revenue] - Sales[Cost]</code></td><td><code>Total Profit = SUM(Sales[Profit])</code></td></tr>
+</tbody></table>
+<p class="tip">Rule of thumb: if you will put it on an axis or slicer, use a column; if it is a number to aggregate, use a measure. Measures keep the model small.</p>
+<h3>Must-know DAX</h3>
+<pre><code class="dax">Total Sales      = SUM ( Sales[SalesAmount] )
+Orders           = DISTINCTCOUNT ( Sales[OrderID] )
+Avg Order Value  = DIVIDE ( [Total Sales], [Orders] )            -- DIVIDE avoids divide-by-zero errors
+Margin %         = DIVIDE ( [Total Profit], [Total Sales] )
+Sales East       = CALCULATE ( [Total Sales], Territory[Region] = "East" )   -- change filter context
+% of All Sales   = DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], ALL ( Product ) ) )
+Sales LY         = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+YoY %            = DIVIDE ( [Total Sales] - [Sales LY], [Sales LY] )
+Sales YTD        = TOTALYTD ( [Total Sales], 'Date'[Date] )
+Sales MTD        = TOTALMTD ( [Total Sales], 'Date'[Date] )
+Running Total    = CALCULATE ( [Total Sales], FILTER ( ALL ( 'Date' ), 'Date'[Date] &lt;= MAX ( 'Date'[Date] ) ) )
+Product Rank     = RANKX ( ALL ( Product[ProductName] ), [Total Sales] )
+High Value Cust  = COUNTROWS ( FILTER ( Customer, [Total Sales] &gt; 10000 ) )
+Revenue (iter)   = SUMX ( Sales, Sales[Qty] * Sales[UnitPrice] )            -- row-by-row then sum
+Ship Sales       = CALCULATE ( [Total Sales], USERELATIONSHIP ( Sales[ShipDate], 'Date'[Date] ) )
+Age Band (col)   = SWITCH ( TRUE(), Emp[Age] &lt; 30, "Under 30", Emp[Age] &lt; 45, "30-44", "45+" )</code></pre>
+<h3>Filter context in one picture</h3>
+<p>A measure has no single value; it is recomputed for every cell of a visual using the filters coming from rows/columns, slicers, page and report filters. <code>CALCULATE</code> is the function that <b>modifies</b> that filter context; <code>ALL</code> removes filters; <code>FILTER</code> returns a filtered table to iterate.</p>
+<h3>Variables</h3>
+<pre><code class="dax">Growth Label =
+VAR cur = [Total Sales]
+VAR ly  = [Sales LY]
+RETURN IF ( ISBLANK ( ly ), "New", FORMAT ( DIVIDE ( cur - ly, ly ), "0.0%" ) )</code></pre>
+</div>
+
+<div data-tab="Visuals & interactivity">
+<h3>Visual picker</h3>
+<table class="tbl"><tbody>
+<tr><td>Card / Multi-row card</td><td>Headline KPIs (Total Sales, Orders)</td></tr>
+<tr><td>KPI visual</td><td>Value vs target with trend (Class 20)</td></tr>
+<tr><td>Gauge</td><td>Progress toward a target value</td></tr>
+<tr><td>Matrix</td><td>Pivot-table style with drill-down and subtotals</td></tr>
+<tr><td>Clustered bar / column</td><td>Compare categories</td></tr>
+<tr><td>Line / area</td><td>Trends over time; Analytics pane → <b>Forecast</b> (Class 21)</td></tr>
+<tr><td>Small multiples</td><td>Same chart repeated per category (Class 19): field well "Small multiples"</td></tr>
+<tr><td>Map / filled map</td><td>Geography</td></tr>
+<tr><td>Decomposition tree, Key influencers</td><td>AI visuals to explain a metric</td></tr>
+<tr><td>Q&amp;A visual</td><td>Type a question in plain English ("total sales by region last year")</td></tr>
+</tbody></table>
+<h3>Filters (Class 20)</h3>
+<p>Levels: <b>visual</b> → <b>page</b> → <b>report</b> (all pages), plus <b>drill-through</b> filters. Types: basic, advanced, Top N, relative date.</p>
+<h3>Interactivity toolkit (Classes 20–21)</h3>
+<table class="tbl"><tbody>
+<tr><td>Edit interactions</td><td>Format → Edit interactions: choose whether a selected visual filters, highlights or ignores each other visual</td></tr>
+<tr><td>Tooltips</td><td>Add fields to Tooltips, or build a tooltip report page (Page information → Allow use as tooltip)</td></tr>
+<tr><td>Drill-through</td><td>Detail page with a drill-through field; right-click a data point → Drill through</td></tr>
+<tr><td>Bookmarks</td><td>Save a state (filters, visible visuals); combine with the Selection pane for show/hide toggles</td></tr>
+<tr><td>Buttons</td><td>Actions: page navigation, bookmark, back, drill-through, Q&amp;A</td></tr>
+<tr><td>Field parameters</td><td>Modeling → New parameter → Fields: let users switch the measure or axis on a visual (dynamic measures)</td></tr>
+<tr><td>What-if parameters</td><td>Modeling → New parameter → Numeric range: creates a slicer + value measure for scenarios (discount %)</td></tr>
+<tr><td>Sync slicers</td><td>View → Sync slicers across pages</td></tr>
+</tbody></table>
+<pre><code class="dax">-- dynamic measure without field parameters
+Selected Metric =
+SWITCH ( SELECTEDVALUE ( MetricPicker[Metric] ),
+    "Sales",  [Total Sales],
+    "Profit", [Total Profit],
+    "Orders", [Orders] )</code></pre>
+</div>
+
+<div data-tab="Power BI Service">
+<h3>Publish and share</h3>
+<div class="steps"><div><b>1</b><span>Desktop → Home → <b>Publish</b> → choose a workspace.</span></div><div><b>2</b><span>The Service now holds a <b>semantic model</b> (dataset) and a <b>report</b>.</span></div><div><b>3</b><span>Pin visuals to a <b>dashboard</b> (single-page, tiles from many reports).</span></div><div><b>4</b><span>Dataset settings → <b>Scheduled refresh</b> (needs a gateway for on-premises sources).</span></div><div><b>5</b><span>Share: workspace roles (Admin, Member, Contributor, Viewer), share links, or package as an <b>App</b>.</span></div></div>
+<table class="tbl"><tbody>
+<tr><td>Report vs dashboard</td><td>Report: multi-page, interactive, built in Desktop. Dashboard: one canvas of pinned tiles in the Service; supports data alerts.</td></tr>
+<tr><td>Row-level security</td><td>Modeling → Manage roles (e.g. <code>[Region] = "East"</code>); assign users in the Service so each person sees only their data</td></tr>
+<tr><td>Subscriptions and alerts</td><td>Email a report on a schedule; alert when a card/KPI tile crosses a threshold</td></tr>
+<tr><td>Export</td><td>PDF, PowerPoint, Excel (Analyze in Excel)</td></tr>
+<tr><td>Licences</td><td>Free (personal), Pro (share with Pro users), Premium Per User / Fabric capacity (large models, wider sharing)</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Practice project">
+<h3>Build: Sales performance report (AdventureWorks style)</h3>
+<ol class="build">
+<li><b>Data</b>: FactSales + Product, Customer, Territory, Date tables (AdventureWorks sample, or the E-commerce CSVs from the Python capstone: ORDERS, ORDER_ITEMS, PRODUCTS, CUSTOMERS, ORDER_PAYMENTS, ORDER_REVIEW_RATINGS).</li>
+<li><b>Power Query</b>: fix types, trim text, build a Date table, unpivot any wide tables.</li>
+<li><b>Model</b>: star schema, one-to-many single direction, mark the Date table.</li>
+<li><b>Measures</b>: Total Sales, Orders, AOV, Margin %, Sales LY, YoY %, YTD, Rank.</li>
+<li><b>Page 1, Executive</b>: 4 KPI cards, sales trend with forecast, sales by category (bar), map by state, slicers for year and channel.</li>
+<li><b>Page 2, Product</b>: matrix Category → Sub-category → Product with drill-down, Top-N filter, Pareto (column + cumulative % line).</li>
+<li><b>Page 3, Customer drill-through</b>: details for one customer/state; tooltips page.</li>
+<li><b>Interactivity</b>: field parameter to switch Sales/Profit/Orders; bookmarks for "chart view / table view"; navigation buttons.</li>
+<li><b>Publish</b>: workspace, dashboard with pinned KPIs, scheduled refresh, RLS by region.</li>
+</ol>
+<p class="tip">Interview tip: be ready to explain every measure you used and why it is a measure, not a column.</p>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Measure vs calculated column?</summary><p>Columns are computed per row at refresh and stored (good for slicers/axes). Measures are computed at query time in the current filter context (good for aggregations) and do not increase model size.</p></details>
+<details><summary>What does CALCULATE do?</summary><p>It evaluates an expression in a modified filter context: it can add, replace or remove filters. It is how you build "sales for East", "% of total" and time-intelligence measures.</p></details>
+<details><summary>SUM vs SUMX?</summary><p>SUM adds one column. SUMX iterates row by row over a table, evaluates an expression per row (Qty × Price) and then sums the results.</p></details>
+<details><summary>Import vs DirectQuery?</summary><p>Import copies data into memory: fastest, needs refresh. DirectQuery queries the source live: always current and suits very large data, but slower with some limitations.</p></details>
+<details><summary>Why a star schema?</summary><p>Simple one-to-many filters, fewer ambiguous paths, smaller and faster models, and DAX that behaves predictably.</p></details>
+<details><summary>How do you implement row-level security?</summary><p>Create roles with DAX filters in Desktop (Manage roles), test with View as, publish, then assign users or groups to roles in the Service.</p></details>
+<details><summary>Report vs dashboard?</summary><p>A report is multi-page and fully interactive; a dashboard is a single page of pinned tiles from one or more reports, built in the Service, and supports alerts.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Guy in a Cube Power BI]], tips from Microsoft engineers.</li>
+<li>[[yt:SQLBI DAX CALCULATE explained]], the authority on DAX.</li>
+<li>[[yt:Pragmatic Works Power BI full course]] and [[yt:codebasics Power BI tutorial]]</li>
+<li>[[yt:Leila Gharani Power BI tutorial for beginners]]</li>
+<li>[[doc:Microsoft Learn: Power BI documentation|https://learn.microsoft.com/en-us/power-bi/]] · [[doc:DAX function reference|https://learn.microsoft.com/en-us/dax/dax-function-reference]]</li>
+<li>[[doc:DAX Guide (SQLBI)|https://dax.guide/]] · [[doc:Star schema guidance|https://learn.microsoft.com/en-us/power-bi/guidance/star-schema]]</li>
+</ul>
+</div>

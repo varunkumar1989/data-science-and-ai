@@ -1,0 +1,249 @@
+<!--meta {"id":"s1","num":"S1","title":"Advanced Excel: Basic to Advanced","sub":"Every Excel skill an analyst needs, from the first click to Power Query, dynamic arrays, VBA and Copilot","icon":"📗","courses":"Learning session · non-tech friendly · companion workbook: Excel_Basic_to_Advanced.xlsx (one sheet per topic, live formulas)"} -->
+<div data-tab="Roadmap">
+<p class="lead">This session takes you from opening Excel for the first time to building automated dashboards. Each level builds on the previous one. Every topic has a matching sheet in the <b>Excel Basic-to-Advanced workbook</b> (see Downloads) with live examples you can edit.</p>
+<table class="tbl"><thead><tr><th>Level</th><th>You will learn</th><th>Workbook sheets</th></tr></thead><tbody>
+<tr><td>1 · Foundations</td><td>Interface, data entry, cell references, formatting, number formats</td><td>01 Environment, 02 References, 03 Custom Formats</td></tr>
+<tr><td>2 · Core functions</td><td>Math, text, date/time, aggregate and conditional aggregates</td><td>04 Number, 05 Text, 06 Date &amp; Time, 07 Aggregate</td></tr>
+<tr><td>3 · Logic &amp; lookups</td><td>IF family, error handling, VLOOKUP, INDEX/MATCH, XLOOKUP</td><td>08 Logical, 09 Lookup</td></tr>
+<tr><td>4 · Data tools</td><td>Sort, filter, tables, validation, conditional formatting, cleaning</td><td>10 Conditional Formatting, 11 Validation, 12 Sort &amp; Filter</td></tr>
+<tr><td>5 · Analysis</td><td>Pivot tables, slicers, what-if analysis, statistics</td><td>13 Pivot Data, 14 What-If</td></tr>
+<tr><td>6 · Modern Excel</td><td>Dynamic arrays, LET, LAMBDA, GROUPBY, REGEX</td><td>15 Dynamic Arrays</td></tr>
+<tr><td>7 · Power tools</td><td>Power Query, Power Pivot, DAX, data model</td><td>16 Power Query Steps</td></tr>
+<tr><td>8 · Charts &amp; dashboards</td><td>Chart choice, combo/Pareto/waterfall, sparklines, dashboard design</td><td>17 Charts, 18 Dashboard Case Study</td></tr>
+<tr><td>9 · Automation &amp; AI</td><td>Macros/VBA, Office Scripts, Power Automate, Copilot, Python in Excel</td><td>19 Automation &amp; AI</td></tr>
+</tbody></table>
+<figure><img src="img/dg/excel_terms.png" alt="Excel terms"><figcaption>The building blocks of every workbook.</figcaption></figure>
+<p class="tip">Learn by doing: open the workbook, change the blue input cells, and watch the black formula cells update. That feedback loop is how Excel skill sticks.</p>
+</div>
+
+<div data-tab="Level 1 · Foundations">
+<h3>Getting around</h3>
+<ul><li>Enter data: type and press <span class="kbd">Enter</span> (down) or <span class="kbd">Tab</span> (right). <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> fills the same value into all selected cells.</li><li>Edit: <span class="kbd">F2</span>; undo <span class="kbd">Ctrl</span>+<span class="kbd">Z</span>; repeat <span class="kbd">F4</span>.</li><li>Series: type 1, 2 and drag; or type Jan and drag; double-click the fill handle to fill down to the end of adjacent data.</li><li>Flash Fill <span class="kbd">Ctrl</span>+<span class="kbd">E</span>: type the first answer by hand; Excel copies the pattern.</li></ul>
+<h3>How Excel stores values</h3>
+<table class="tbl"><tbody>
+<tr><td>Numbers</td><td>Right-aligned by default. Up to 15 significant digits (longer IDs like card numbers must be stored as text).</td></tr>
+<tr><td>Text</td><td>Left-aligned. Numbers stored as text show a green triangle; fix with "Convert to Number" or <code>=VALUE()</code>.</td></tr>
+<tr><td>Dates</td><td>Serial numbers: 1 = 1 Jan 1900; 1 Oct 2026 = 46296. Times are fractions of a day (0.5 = noon).</td></tr>
+<tr><td>Booleans / errors</td><td>TRUE/FALSE; errors such as #N/A, #VALUE!, #DIV/0!, #REF!, #NAME?, #SPILL!</td></tr>
+</tbody></table>
+<h3>Cell references</h3>
+<table class="tbl"><thead><tr><th>Reference</th><th>Copy down</th><th>Copy right</th><th>Typical use</th></tr></thead><tbody>
+<tr><td>A1</td><td>A2, A3…</td><td>B1, C1…</td><td>Row-by-row calculations</td></tr>
+<tr><td>$A$1</td><td>stays</td><td>stays</td><td>A fixed rate (GST, exchange rate)</td></tr>
+<tr><td>A$1</td><td>stays</td><td>B$1…</td><td>Header row in a grid</td></tr>
+<tr><td>$A1</td><td>$A2…</td><td>stays</td><td>First column in a grid</td></tr>
+<tr><td>Sheet2!B5 / 'Sales Data'!B5</td><td colspan="2">Another sheet (quote names with spaces)</td><td>Link inputs</td></tr>
+<tr><td>Sales[Amount]</td><td colspan="2">Structured reference to a Table column</td><td>Auto-expanding formulas</td></tr>
+<tr><td>Named range GST_Rate</td><td colspan="2">Formulas → Define Name</td><td>Readable formulas: <code>=Amount*GST_Rate</code></td></tr>
+</tbody></table>
+<h3>Formatting essentials</h3>
+<ul><li>Format Cells <span class="kbd">Ctrl</span>+<span class="kbd">1</span>: Number, Alignment (wrap, merge vs <b>Center Across Selection</b>, which is safer), Font, Border, Fill, Protection.</li><li>Cell Styles and Format Painter (double-click to paint many times).</li><li>Custom number formats: see the table in <a href="#m1/Building Blocks · Class 1">Building Blocks · Class 1</a>, including the Indian lakh format and ▲▼ indicators.</li></ul>
+</div>
+
+<div data-tab="Level 2 · Core functions">
+<h3>The 40 functions that cover most analyst work</h3>
+<table class="tbl"><thead><tr><th>Group</th><th>Functions</th><th>Real example</th></tr></thead><tbody>
+<tr><td>Math</td><td>SUM, PRODUCT, ROUND/ROUNDUP/ROUNDDOWN, INT, MOD, ABS, POWER, SQRT, CEILING.MATH, FLOOR.MATH, RAND, RANDBETWEEN, SUMPRODUCT</td><td><code>=SUMPRODUCT(Qty,Price)</code> total sales without a helper column</td></tr>
+<tr><td>Text</td><td>LEFT, RIGHT, MID, LEN, FIND, SEARCH, SUBSTITUTE, REPLACE, TRIM, CLEAN, UPPER, LOWER, PROPER, TEXT, VALUE, CONCAT, TEXTJOIN, EXACT, REPT</td><td><code>=PROPER(TRIM(A2))</code> tidy imported names</td></tr>
+<tr><td>Date &amp; time</td><td>TODAY, NOW, DATE, YEAR, MONTH, DAY, EOMONTH, EDATE, WEEKDAY, WEEKNUM, NETWORKDAYS(.INTL), WORKDAY, DATEDIF, YEARFRAC, HOUR, MINUTE</td><td><code>=EOMONTH(TODAY(),-1)+1</code> first day of this month</td></tr>
+<tr><td>Aggregate</td><td>COUNT, COUNTA, COUNTBLANK, AVERAGE, MEDIAN, MODE, MIN, MAX, SMALL, LARGE, RANK.EQ, PERCENTILE, QUARTILE, STDEV.S</td><td><code>=RANK.EQ(H2,$H$2:$H$100)</code> sales-rep ranking</td></tr>
+<tr><td>Conditional aggregate</td><td>SUMIF(S), COUNTIF(S), AVERAGEIF(S), MAXIFS, MINIFS</td><td><code>=MAXIFS(Amount,City,"Pune")</code> biggest Pune order</td></tr>
+<tr><td>Visible-rows aggregate</td><td>SUBTOTAL, AGGREGATE</td><td><code>=SUBTOTAL(109,H:H)</code> sum of filtered rows</td></tr>
+</tbody></table>
+<h3>Criteria tricks in SUMIFS / COUNTIFS</h3>
+<pre><code class="excel">=SUMIFS(Amount, City, "Pune")                         exact match
+=SUMIFS(Amount, Product, "*phone*")                   wildcard: contains "phone"
+=SUMIFS(Amount, Amount, "&gt;=10000")                    comparison as text
+=SUMIFS(Amount, Date, "&gt;="&amp;$K$1, Date, "&lt;="&amp;$K$2)    between two dates held in cells
+=SUM(SUMIFS(Amount, City, {"Pune","Mumbai"}))          OR across two cities
+=COUNTIFS(Region, "&lt;&gt;North")                         not equal
+=COUNTIF(A:A, A2)&gt;1                                    duplicate check</code></pre>
+<h3>Text recipes</h3>
+<pre><code class="excel">First name               =LEFT(A2, FIND(" ", A2) - 1)
+Last name                =RIGHT(A2, LEN(A2) - FIND(" ", A2))
+Email domain             =MID(B2, FIND("@", B2) + 1, 100)
+Mask a phone number      ="XXXXXX" &amp; RIGHT(C2, 4)
+Count words              =LEN(TRIM(A2)) - LEN(SUBSTITUTE(A2, " ", "")) + 1
+Pad an ID to 6 digits    =TEXT(D2, "000000")</code></pre>
+<h3>Date recipes</h3>
+<pre><code class="excel">Age in years             =DATEDIF(DOB, TODAY(), "Y")
+Financial year (Apr–Mar) ="FY" &amp; IF(MONTH(B2)&gt;=4, YEAR(B2)+1, YEAR(B2))
+Quarter (Apr start)      ="Q" &amp; ROUNDUP(MOD(MONTH(B2)-4, 12)/3 + 0.01, 0)
+Weekday name             =TEXT(B2, "dddd")
+Due date in 10 workdays  =WORKDAY(B2, 10, Holidays)
+Hours between times      =(End - Start) * 24</code></pre>
+</div>
+
+<div data-tab="Level 3 · Logic & lookups">
+<h3>Logical functions</h3>
+<pre><code class="excel">=IF(H2&gt;=50000, "Key account", "Regular")
+=IF(H2&gt;=50000, "Gold", IF(H2&gt;=20000, "Silver", "Bronze"))          nested IF
+=IFS(H2&gt;=50000, "Gold", H2&gt;=20000, "Silver", TRUE, "Bronze")         IFS (365/2019+)
+=SWITCH(D2, "N", "North", "S", "South", "Other")                      match exact values
+=IF(AND(Status="Paid", Days&lt;=30), "On time", "Late")
+=IF(OR(City="Pune", City="Mumbai"), "Maharashtra", "Other")
+=IFERROR(H2/G2, 0)          =IFNA(VLOOKUP(...), "Not found")         error handling
+=ISBLANK(A2)  =ISNUMBER(SEARCH("pro", B2))  =ISERROR(...)             IS functions</code></pre>
+<h3>Lookups: the evolution</h3>
+<table class="tbl"><thead><tr><th>Function</th><th>Formula (find a product's price)</th><th>Pros</th><th>Cons</th></tr></thead><tbody>
+<tr><td>VLOOKUP</td><td><code>=VLOOKUP(A2, Products!$A:$C, 3, FALSE)</code></td><td>Known everywhere</td><td>Only looks right; breaks if a column is inserted; FALSE is easy to forget</td></tr>
+<tr><td>HLOOKUP</td><td><code>=HLOOKUP(J2, $B$1:$M$2, 2, FALSE)</code></td><td>Horizontal tables</td><td>Same limits</td></tr>
+<tr><td>INDEX + MATCH</td><td><code>=INDEX(Products!C:C, MATCH(A2, Products!A:A, 0))</code></td><td>Any direction, robust, fast</td><td>Two functions to learn</td></tr>
+<tr><td>Two-way INDEX/MATCH</td><td><code>=INDEX(Grid, MATCH(rep,Reps,0), MATCH(month,Months,0))</code></td><td>Row + column lookup</td><td></td></tr>
+<tr><td>XLOOKUP (365/2021)</td><td><code>=XLOOKUP(A2, Products[ID], Products[Price], "Missing")</code></td><td>Any direction, default not-found, last-match search, returns whole rows</td><td>Not in Excel 2016/2019</td></tr>
+<tr><td>Approximate match</td><td><code>=VLOOKUP(Score, Slabs, 2, TRUE)</code> or <code>=XLOOKUP(Score, Slab, Rate, , -1)</code></td><td>Tax slabs, grade bands, commission tiers</td><td>Slab table must be sorted ascending</td></tr>
+<tr><td>CHOOSE</td><td><code>=CHOOSE(WEEKDAY(B2,2), "Mon","Tue",...)</code></td><td>Pick from a list by position; enables left VLOOKUP</td><td></td></tr>
+<tr><td>INDIRECT / OFFSET</td><td><code>=SUM(INDIRECT(A1&amp;"!H:H"))</code></td><td>Dynamic references</td><td>Volatile (slow); avoid in big files</td></tr>
+</tbody></table>
+<div class="card"><h4>Real example: commission slabs</h4><p>Slab table: 0 → 2%, 1,00,000 → 3%, 5,00,000 → 5%. Rep sales ₹3,40,000. <code>=XLOOKUP(340000, Slab, Rate, , -1)</code> finds the largest slab ≤ sales → 3% → commission ₹10,200.</p></div>
+</div>
+
+<div data-tab="Level 4 · Data tools">
+<h3>Excel Tables (Ctrl+T): do this first, always</h3>
+<ul><li>Formulas fill down automatically and use names: <code>=[@Qty]*[@Price]</code>.</li><li>New rows are included in pivots, charts and formulas automatically.</li><li>Built-in Total Row, slicers and banded styles.</li></ul>
+<h3>Cleaning toolkit</h3>
+<table class="tbl"><tbody>
+<tr><td>Remove Duplicates</td><td>Data → Remove Duplicates (choose key columns)</td></tr>
+<tr><td>Text to Columns</td><td>Split by delimiter or fixed width; also converts text dates</td></tr>
+<tr><td>Find &amp; Replace</td><td>Wildcards * and ?; replace double spaces; Options → match entire cell</td></tr>
+<tr><td>Go To Special → Blanks</td><td>Fill blanks with the value above: select, type <code>=</code> + up arrow, <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span></td></tr>
+<tr><td>TRIM/CLEAN/PROPER</td><td>Fix spaces, non-printing characters, case</td></tr>
+<tr><td>Data Validation</td><td>Drop-down lists (List source), whole number limits, dates, custom formula rules (<code>=COUNTIF(A:A,A2)=1</code> blocks duplicates), input messages and error alerts</td></tr>
+<tr><td>Copilot "Clean data" (365)</td><td>Detects inconsistent text, spaces and number formats and suggests fixes</td></tr>
+</tbody></table>
+<h3>Sorting and filtering</h3>
+<p>Multi-level and custom-list sorts; filter by value, colour, number/date conditions; Advanced Filter with criteria ranges; <code>SUBTOTAL</code>/<code>AGGREGATE</code> for visible rows; the modern <code>=FILTER()</code> and <code>=SORT()</code> formulas return live results without touching the source.</p>
+<h3>Conditional formatting</h3>
+<p>Rules, data bars, colour scales, icon sets, and formula-based rules (highlight the row, overdue items, weekends, duplicates). Manage rules: Home → Conditional Formatting → Manage Rules to set order and "Stop If True".</p>
+<h3>Protection and collaboration</h3>
+<p>Unlock input cells (Format Cells → Protection → uncheck Locked), then Review → Protect Sheet. Protect Workbook locks structure. Co-authoring in OneDrive/SharePoint; comments with @mentions; Show Changes history.</p>
+</div>
+
+<div data-tab="Level 5 · Analysis">
+<h3>Pivot tables step by step</h3>
+<div class="steps"><div><b>1</b><span>Click in a clean Table → Insert → PivotTable → New Worksheet.</span></div><div><b>2</b><span>Drag fields: Rows (City), Columns (Year), Values (Sum of Amount), Filters (Category).</span></div><div><b>3</b><span>Value Field Settings: Sum/Count/Average; <b>Show Values As</b> % of Grand Total, % of Row, Difference From previous (MoM/YoY), Running Total, Rank.</span></div><div><b>4</b><span>Group dates (Years, Quarters, Months) and numbers into bins.</span></div><div><b>5</b><span>Insert Slicers and a Timeline; connect them to several pivots via Report Connections.</span></div><div><b>6</b><span>Design: Tabular layout, repeat labels, subtotals on/off, styles. Refresh with <span class="kbd">Alt</span>+<span class="kbd">F5</span>; Refresh All <span class="kbd">Ctrl</span>+<span class="kbd">Alt</span>+<span class="kbd">F5</span>.</span></div></div>
+<ul><li><b>Calculated field</b>: Margin % = Profit / Sales (works on sums).</li><li><b>GETPIVOTDATA</b>: pull a number from a pivot into a report cell that survives re-layout.</li><li><b>Pivot charts</b> follow the pivot's filters and slicers.</li><li>Formula alternatives in 365: <code>=GROUPBY()</code> and <code>=PIVOTBY()</code> give pivot results that update automatically.</li></ul>
+<h3>What-if analysis</h3>
+<table class="tbl"><tbody>
+<tr><td>Goal Seek</td><td>Data → What-If → Goal Seek: "What price gives ₹10 lakh profit?" Set cell = profit, To value = 1000000, By changing = price</td></tr>
+<tr><td>Scenario Manager</td><td>Save Best / Base / Worst sets of inputs and produce a summary report</td></tr>
+<tr><td>Data Table</td><td>One- or two-variable sensitivity grid: EMI for different rates × tenures</td></tr>
+<tr><td>Solver (add-in)</td><td>Optimise with constraints: product mix that maximises profit within machine hours</td></tr>
+<tr><td>Forecast Sheet</td><td>Data → Forecast Sheet: exponential-smoothing forecast with confidence bounds (<code>FORECAST.ETS</code>)</td></tr>
+</tbody></table>
+<div class="card"><h4>Real example: loan EMI</h4><p>₹10 lakh, 9% annual, 5 years: <code>=PMT(9%/12, 60, -1000000)</code> = <b>₹20,758</b> per month. A two-variable Data Table shows EMI for 8–11% × 3–7 years in one grid.</p></div>
+<h3>Statistics in Excel</h3>
+<p>Enable the <b>Analysis ToolPak</b> (File → Options → Add-ins): Descriptive Statistics, Histogram, Correlation, Regression, t-Tests, ANOVA. Functions: CORREL, SLOPE, INTERCEPT, RSQ, FORECAST.LINEAR, T.TEST, CHISQ.TEST, NORM.DIST.</p>
+</div>
+
+<div data-tab="Level 6 · Modern Excel">
+<h3>Dynamic arrays (Excel 365 / 2021+)</h3>
+<p>One formula returns many values that "spill" into neighbouring cells. Refer to the whole spill with <code>#</code>: <code>=SUM(F2#)</code>. A #SPILL! error means something blocks the spill range.</p>
+<table class="tbl"><thead><tr><th>Function</th><th>Example</th><th>Returns</th></tr></thead><tbody>
+<tr><td>UNIQUE</td><td><code>=UNIQUE(Sales[City])</code></td><td>Distinct cities</td></tr>
+<tr><td>SORT / SORTBY</td><td><code>=SORT(Sales, 5, -1)</code></td><td>Table sorted by 5th column descending</td></tr>
+<tr><td>FILTER</td><td><code>=FILTER(Sales, (Sales[City]="Pune")*(Sales[Amount]&gt;5000), "None")</code></td><td>Rows meeting both conditions (* = AND, + = OR)</td></tr>
+<tr><td>SEQUENCE</td><td><code>=SEQUENCE(12,1,DATE(2026,4,1),31)</code></td><td>Series of numbers/dates</td></tr>
+<tr><td>XLOOKUP / XMATCH</td><td><code>=XLOOKUP(A2, IDs, Sales[[Name]:[City]])</code></td><td>Several columns at once</td></tr>
+<tr><td>TAKE / DROP / CHOOSECOLS / CHOOSEROWS</td><td><code>=TAKE(SORT(Sales,5,-1), 10)</code></td><td>Top 10 rows</td></tr>
+<tr><td>VSTACK / HSTACK</td><td><code>=VSTACK(Jan!A2:E100, Feb!A2:E100)</code></td><td>Append sheets</td></tr>
+<tr><td>TEXTSPLIT / TEXTBEFORE / TEXTAFTER</td><td><code>=TEXTSPLIT(A2, ",")</code></td><td>Split text to columns</td></tr>
+<tr><td>GROUPBY / PIVOTBY / PERCENTOF</td><td><code>=GROUPBY(Sales[City], Sales[Amount], SUM, , , -2)</code></td><td>Summary sorted by total</td></tr>
+<tr><td>REGEXTEST / REGEXEXTRACT / REGEXREPLACE</td><td><code>=REGEXEXTRACT(A2, "[A-Z]{5}[0-9]{4}[A-Z]")</code></td><td>PAN-format code from text</td></tr>
+</tbody></table>
+<h3>LET and LAMBDA</h3>
+<pre><code class="excel">=LET(sales, SUM(Sales[Amount]), cost, SUM(Sales[Cost]),
+     margin, (sales - cost) / sales,
+     TEXT(margin, "0.0%"))                                  name intermediate results
+
+Define a reusable function: Formulas → Name Manager → New
+   Name:  GSTINCL     Refers to:  =LAMBDA(amount, rate, amount * (1 + rate))
+Use:   =GSTINCL(H2, 18%)</code></pre>
+</div>
+
+<div data-tab="Level 7 · Power tools">
+<h3>Power Query: repeatable data cleaning</h3>
+<div class="steps"><div><b>1</b><span>Data → Get Data → From File/Folder/Database/Web. "From Folder" combines every monthly file in a folder automatically.</span></div><div><b>2</b><span>In the editor: set types, remove columns, filter rows, split columns, replace values, trim, fill down, unpivot, merge (join) and append queries, group by, add conditional and custom columns.</span></div><div><b>3</b><span>Close &amp; Load to a Table or only to the Data Model.</span></div><div><b>4</b><span>Next month: drop the new file in the folder → Refresh. Every step reruns.</span></div></div>
+<p class="tip">Power Query records each click as an M-language step (Applied Steps). The same engine is in Power BI, so this skill transfers directly.</p>
+<h3>Power Pivot and the Data Model</h3>
+<ul><li>Load several tables (Sales, Products, Calendar) and connect them with relationships (Data → Relationships or the Diagram View), instead of VLOOKUPs.</li><li>Write DAX measures: <code>Total Sales := SUM(Sales[Amount])</code>, <code>Sales LY := CALCULATE([Total Sales], SAMEPERIODLASTYEAR(Calendar[Date]))</code>.</li><li>Pivot tables built on the Data Model can handle millions of rows and use those measures.</li></ul>
+</div>
+
+<div data-tab="Level 8 · Charts & dashboards">
+<figure><img src="img/bb/chart_types.png" alt="chart chooser"><figcaption>Start from the question, not the chart gallery.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Advanced chart</th><th>Use</th><th>How</th></tr></thead><tbody>
+<tr><td>Combo (column + line, secondary axis)</td><td>Revenue and margin % together</td><td>Change Chart Type → Combo</td></tr>
+<tr><td>Pareto</td><td>80/20: few products, most complaints</td><td>Insert → Statistic → Pareto</td></tr>
+<tr><td>Waterfall</td><td>Profit bridge: revenue → costs → profit</td><td>Insert → Waterfall; set totals</td></tr>
+<tr><td>Histogram / Box &amp; Whisker</td><td>Distributions</td><td>Insert → Statistic charts</td></tr>
+<tr><td>Funnel</td><td>Visit → cart → checkout → paid</td><td>Insert → Funnel</td></tr>
+<tr><td>Map chart</td><td>Sales by state</td><td>Insert → Maps (needs region names)</td></tr>
+<tr><td>Sparklines</td><td>Mini trend inside a cell</td><td>Insert → Sparklines</td></tr>
+<tr><td>Dynamic chart</td><td>Chart changes with a drop-down</td><td>Chart on a FILTER/INDEX result driven by a validation list</td></tr>
+</tbody></table>
+<h3>Dashboard design rules</h3>
+<ul class="check"><li>One screen; KPIs in the top row (cards with value + vs target + trend arrow)</li><li>Main trend chart, then breakdowns; details last</li><li>Slicers/timelines on one side, connected to all pivots</li><li>Consistent colours: one highlight colour, greys for context</li><li>Gridlines off, aligned shapes, titles that state the insight</li><li>Raw data and calculations on hidden or separate sheets; protect the dashboard</li></ul>
+<p>The workbook's <b>18 Dashboard Case Study</b> sheet builds a monthly sales dashboard for a sample retailer with live KPIs, a store league table and charts.</p>
+</div>
+
+<div data-tab="Level 9 · Automation & AI">
+<h3>Macros and VBA</h3>
+<ol><li>Show the Developer tab (File → Options → Customize Ribbon).</li><li>Record Macro → do the steps (format, sort, filter) → Stop. Use Relative References for steps that should work from the current cell.</li><li>Save as <b>.xlsm</b>. Run from View → Macros or assign to a button.</li><li>Edit in the VBA editor (<span class="kbd">Alt</span>+<span class="kbd">F11</span>):</li></ol>
+<pre><code class="text">Sub FormatReport()
+    Dim ws As Worksheet
+    For Each ws In ThisWorkbook.Worksheets          ' loop every sheet
+        ws.Rows(1).Font.Bold = True
+        ws.Columns("A:H").AutoFit
+    Next ws
+    MsgBox "Formatted " &amp; ThisWorkbook.Worksheets.Count &amp; " sheets"
+End Sub</code></pre>
+<h3>Office Scripts and Power Automate (cloud)</h3>
+<p>Excel for the web → Automate tab → Record Actions creates a TypeScript Office Script. Power Automate can run it on a schedule or when a file arrives: e.g. "every Monday 9 AM, refresh the sales workbook and email the summary to the team".</p>
+<h3>AI in Excel</h3>
+<table class="tbl"><tbody>
+<tr><td>Copilot chat</td><td>"Show sales by city as a chart", "Add a column for margin %", "What are the top 3 insights?"</td></tr>
+<tr><td>Formula help</td><td>Generate, explain ("Explain this formula") and fix formulas from the error indicator</td></tr>
+<tr><td><code>=COPILOT()</code></td><td>AI inside a cell: classify reviews, extract cities, summarise comments row by row</td></tr>
+<tr><td>Agent Mode</td><td>Multi-step builds (a full model or dashboard) from a single request</td></tr>
+<tr><td>Python in Excel <code>=PY()</code></td><td>pandas, seaborn and scikit-learn inside the grid, run in Microsoft's cloud</td></tr>
+<tr><td>External assistants</td><td>ChatGPT, Claude or Gemini to write formulas, VBA or Power Query M; always test on a copy</td></tr>
+</tbody></table>
+<div class="warn">Check AI-written formulas on a few rows you can verify by hand, and keep sensitive data out of tools your company has not approved.</div>
+</div>
+
+<div data-tab="Errors & auditing">
+<table class="tbl"><thead><tr><th>Error</th><th>Cause</th><th>Fix</th></tr></thead><tbody>
+<tr><td>#N/A</td><td>Lookup value not found (extra spaces, text vs number)</td><td>TRIM, VALUE, IFNA/XLOOKUP not-found argument</td></tr>
+<tr><td>#VALUE!</td><td>Wrong type (text in maths)</td><td>Clean the input; VALUE()</td></tr>
+<tr><td>#DIV/0!</td><td>Divide by zero/blank</td><td><code>=IFERROR(a/b,0)</code> or <code>=IF(b=0,"",a/b)</code></td></tr>
+<tr><td>#REF!</td><td>Referenced cell deleted</td><td>Undo; rebuild with INDEX/MATCH or Tables</td></tr>
+<tr><td>#NAME?</td><td>Misspelt function or unquoted text; function not in your Excel version</td><td>Check spelling and version</td></tr>
+<tr><td>#SPILL!</td><td>Dynamic array blocked</td><td>Clear the cells in the way</td></tr>
+<tr><td>#NUM!</td><td>Impossible number (IRR not converging, SQRT of negative)</td><td>Check inputs</td></tr>
+<tr><td>Circular reference</td><td>Formula refers to itself</td><td>Formulas → Error Checking → Circular References</td></tr>
+</tbody></table>
+<p><b>Auditing tools</b> (Formulas tab): Trace Precedents/Dependents, Evaluate Formula (step through), Watch Window, Show Formulas (<span class="kbd">Ctrl</span>+<span class="kbd">`</span>), Inquire add-in to compare workbooks.</p>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>VLOOKUP vs INDEX/MATCH vs XLOOKUP?</summary><p>VLOOKUP looks only to the right and breaks when columns move. INDEX/MATCH looks any direction and is robust. XLOOKUP does both in one function with a built-in not-found value and is the modern default in Excel 365.</p></details>
+<details><summary>How would you find duplicates?</summary><p>Conditional formatting → Duplicate Values; <code>=COUNTIF($A:$A,A2)&gt;1</code>; or UNIQUE / Remove Duplicates to get a clean list.</p></details>
+<details><summary>What is a pivot cache and why does it matter?</summary><p>A snapshot of the source data stored with the pivot; you must Refresh to see changes. Pivots built from the same source can share one cache.</p></details>
+<details><summary>When would you use Power Query instead of formulas?</summary><p>When the same cleaning must be repeated on new files (monthly exports), when combining many files, or when the data is too messy for formulas. It is recorded once and refreshed.</p></details>
+<details><summary>How do you make a chart update automatically?</summary><p>Base it on an Excel Table or a dynamic array formula; new rows are then included without editing the chart range.</p></details>
+<details><summary>What does SUMPRODUCT do?</summary><p>Multiplies arrays element by element and sums the results, so it can do weighted sums and multi-condition counts without helper columns.</p></details>
+<details><summary>How do you protect formulas but let users enter data?</summary><p>Unlock input cells, keep formula cells locked, then Protect Sheet (optionally with a password and allowed actions).</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn Excel full course]] · [[yt:Simplilearn advanced Excel tutorial]] · [[yt:Simplilearn Excel pivot table tutorial]]</li>
+<li>[[yt:Leila Gharani XLOOKUP]] · [[yt:Leila Gharani dynamic arrays FILTER SORT UNIQUE]] · [[yt:Leila Gharani Power Query]]</li>
+<li>[[yt:Chandoo Excel dashboard tutorial]] · [[yt:ExcelIsFun Excel basics to advanced]] · [[yt:MyOnlineTrainingHub Excel GROUPBY PIVOTBY]]</li>
+<li>[[yt:Kenji Excel copilot tutorial]] · [[yt:Excel VBA macros for beginners]]</li>
+<li>[[doc:Microsoft Excel help and learning|https://support.microsoft.com/en-us/excel]] · [[doc:Excel functions (alphabetical)|https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188]]</li>
+<li>[[doc:Excel Campus: 2025 updates|https://www.excelcampus.com/tips-shortcuts/17-new-excel-updates-from-2025/]] · [[doc:Excel blog (What's new)|https://techcommunity.microsoft.com/category/microsoft-365/blog/excelblog]]</li>
+</ul>
+</div>

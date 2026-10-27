@@ -1,0 +1,230 @@
+<!--meta {"id":"s5","num":"S5","title":"Python: Basic to Advanced (for non-tech learners)","sub":"Learn Python step by step with everyday business examples: from your first line of code to pandas, charts, automation and ML","icon":"🐍","courses":"Learning session · no programming background needed · runs in Google Colab or Jupyter"} -->
+<div data-tab="Start here">
+<p class="lead">If you can write an Excel formula, you can learn Python. Python is a set of instructions written in near-English that the computer follows exactly. Analysts use it because it repeats work perfectly, handles millions of rows, and connects Excel, databases, the web and AI.</p>
+<figure><img src="img/dg/python_ecosystem.png" alt="Python ecosystem"><figcaption>Core Python first, then the libraries that make it a data tool.</figcaption></figure>
+<h3>Set up in 5 minutes</h3>
+<ul><li><b>Easiest</b>: open <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a> with a Google account → New notebook. Nothing to install.</li><li><b>On your laptop</b>: install Anaconda (includes Python, Jupyter, pandas) → launch Jupyter Notebook; or install Python + VS Code.</li><li>Run a cell with <span class="kbd">Shift</span>+<span class="kbd">Enter</span>.</li></ul>
+<h3>Excel → Python translation</h3>
+<table class="tbl"><thead><tr><th>Excel</th><th>Python (pandas)</th></tr></thead><tbody>
+<tr><td>Open a file</td><td><code>df = pd.read_excel("sales.xlsx")</code></td></tr>
+<tr><td>Filter</td><td><code>df[df["City"] == "Pune"]</code></td></tr>
+<tr><td>Sort</td><td><code>df.sort_values("Amount", ascending=False)</code></td></tr>
+<tr><td>New column =C2*D2</td><td><code>df["Total"] = df["Qty"] * df["Price"]</code></td></tr>
+<tr><td>SUMIFS / pivot</td><td><code>df.groupby("City")["Amount"].sum()</code> / <code>df.pivot_table(...)</code></td></tr>
+<tr><td>VLOOKUP</td><td><code>df.merge(products, on="ProductID", how="left")</code></td></tr>
+<tr><td>Remove duplicates</td><td><code>df.drop_duplicates()</code></td></tr>
+<tr><td>Chart</td><td><code>df.plot.bar(x="City", y="Amount")</code></td></tr>
+</tbody></table>
+<h3>30-day plan</h3>
+<table class="tbl"><tbody><tr><td>Days 1–7</td><td>Levels 1–2 (basics, data structures), 30 minutes daily</td></tr><tr><td>Days 8–12</td><td>Level 3 (functions, files, errors)</td></tr><tr><td>Days 13–22</td><td>Levels 4–5 (pandas + charts) on your own Excel files</td></tr><tr><td>Days 23–27</td><td>Level 7 automation: automate one weekly report</td></tr><tr><td>Days 28–30</td><td>Mini project: clean → analyse → chart → one-page summary</td></tr></tbody></table>
+</div>
+
+<div data-tab="Level 1 · Basics">
+<pre><code class="python">print("Hello, Data!")               # show something
+name = "Asha"                       # variable = a labelled box holding a value
+orders = 12                         # int (whole number)
+avg_value = 1310.50                 # float (decimal)
+is_prime = True                     # bool (True/False)
+print(f"{name} placed {orders} orders worth ₹{orders * avg_value:,.0f}")   # f-string
+# Asha placed 12 orders worth ₹15,726
+
+type(avg_value)                     # float
+int("42") + 1                       # 43  convert text to number
+round(1310.567, 1)                  # 1310.6
+
+city = input("Enter city: ")        # ask the user (always returns text)
+
+# Decisions
+amount = 7200
+if amount &gt; 5000:
+    print("Free delivery")
+elif amount &gt; 2000:
+    print("₹49 delivery")
+else:
+    print("₹99 delivery")
+
+# Repetition
+for month in ["Jan", "Feb", "Mar"]:
+    print("Report for", month)
+for i in range(1, 6):               # 1,2,3,4,5
+    print(i * 100)</code></pre>
+<p class="tip">Indentation (4 spaces) is part of Python's grammar: it shows which lines belong inside an if or for. A missing colon or wrong indent is the most common beginner error.</p>
+</div>
+
+<div data-tab="Level 2 · Data structures">
+<pre><code class="python">cities = ["Pune", "Delhi", "Mumbai"]          # list: ordered, changeable
+cities.append("Chennai"); cities[0]; cities[-1]; len(cities)
+sales = {"Pune": 120000, "Delhi": 95000}      # dict: key → value (like a lookup table)
+sales["Mumbai"] = 87000
+for city, value in sales.items():
+    print(city, value)
+point = (28.46, 77.03)                        # tuple: fixed (latitude, longitude)
+unique_ids = set([101, 102, 101])             # set: unique values → {101, 102}
+
+# List comprehension: build a list in one line
+amounts = [450, 7200, 3100, 980]
+big = [a for a in amounts if a &gt; 1000]         # [7200, 3100]
+with_gst = [round(a * 1.18) for a in amounts]  # add 18% GST
+
+# Strings
+email = "  Asha.Verma@Example.com "
+email.strip().lower()                          # 'asha.verma@example.com'
+email.split("@")[1]                            # domain part
+"Pune" in "Pune, Maharashtra"                  # True</code></pre>
+</div>
+
+<div data-tab="Level 3 · Functions, files, errors">
+<pre><code class="python">def delivery_fee(amount, is_prime=False):
+    """Return the delivery fee for an order."""
+    if is_prime or amount &gt; 5000:
+        return 0
+    return 49 if amount &gt; 2000 else 99
+
+delivery_fee(1500)          # 99
+delivery_fee(1500, True)    # 0
+
+gst = lambda x: x * 0.18    # small one-line function
+list(map(gst, [100, 200]))  # [18.0, 36.0]
+
+# Files
+with open("notes.txt", "w") as f:
+    f.write("Report generated\n")
+import csv, os, datetime
+os.listdir(".")             # files in the folder
+
+# Errors: handle them instead of crashing
+try:
+    rate = int("18%")
+except ValueError:
+    rate = 18
+    print("Could not read the rate; using 18")</code></pre>
+<p>Modules: <code>import math</code>, <code>from datetime import date</code>, <code>import pandas as pd</code>. Install new ones with <code>pip install package-name</code> (in Colab: <code>!pip install ...</code>).</p>
+</div>
+
+<div data-tab="Level 4 · pandas">
+<h3>A complete mini-analysis</h3>
+<pre><code class="python">import pandas as pd
+df = pd.read_csv("orders.csv", parse_dates=["order_date"])   # or read_excel / read_sql
+
+df.shape                      # (rows, columns)
+df.head()                     # first 5 rows
+df.info()                     # columns, types, missing values
+df.describe()                 # quick statistics
+
+# Clean
+df = df.drop_duplicates()
+df["city"] = df["city"].str.strip().str.title()
+df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+df["amount"] = df["amount"].fillna(df["amount"].median())
+
+# New columns
+df["month"] = df["order_date"].dt.to_period("M")
+df["band"] = pd.cut(df["amount"], [0, 2000, 10000, float("inf")], labels=["Low", "Medium", "High"])
+
+# Questions
+df[df["city"] == "Pune"]["amount"].sum()                         # Pune revenue
+df.groupby("city")["amount"].agg(["count", "sum", "mean"]).sort_values("sum", ascending=False)
+df.pivot_table(index="city", columns="month", values="amount", aggfunc="sum", fill_value=0)
+top5 = df.groupby("customer_id")["amount"].sum().nlargest(5)
+
+# Combine with another table (VLOOKUP)
+products = pd.read_excel("products.xlsx")
+df = df.merge(products[["product_id", "category"]], on="product_id", how="left")
+
+# Save
+df.to_excel("clean_orders.xlsx", index=False)</code></pre>
+<p>Full pandas reference: <a href="#m2/pandas">Python module → pandas</a>. 90 practice exercises solved: <a href="#case/py_pandas90">Data Manipulation exercise</a>.</p>
+</div>
+
+<div data-tab="Level 5 · Charts">
+<pre><code class="python">import matplotlib.pyplot as plt
+import seaborn as sns
+
+monthly = df.groupby("month")["amount"].sum()
+monthly.plot(kind="line", marker="o", title="Monthly revenue")
+plt.ylabel("₹"); plt.show()
+
+df.groupby("city")["amount"].sum().sort_values().plot(kind="barh", title="Revenue by city")
+sns.histplot(df["amount"], bins=30)                        # distribution
+sns.boxplot(data=df, x="city", y="amount")                 # spread and outliers
+sns.heatmap(df.corr(numeric_only=True), annot=True)       # correlations
+
+import plotly.express as px                                # interactive charts
+px.bar(df, x="city", y="amount", color="band").show()</code></pre>
+</div>
+
+<div data-tab="Level 6 · Stats & ML">
+<pre><code class="python">from scipy import stats
+a = df[df.city == "Pune"]["amount"]; b = df[df.city == "Delhi"]["amount"]
+stats.ttest_ind(a, b, equal_var=False)           # do Pune and Delhi spend differently?
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+X = df[["amount", "orders_last_90d", "days_since_last"]]
+y = df["churned"]                                 # 1 = left, 0 = stayed
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=1)
+model = LogisticRegression(max_iter=1000).fit(X_tr, y_tr)
+print(classification_report(y_te, model.predict(X_te)))</code></pre>
+<p>Explained without jargon in <a href="#s6">Machine Learning for non-tech</a>.</p>
+</div>
+
+<div data-tab="Level 7 · Automation">
+<pre><code class="python"># Combine every monthly Excel file in a folder into one
+import glob
+files = glob.glob("reports/sales_*.xlsx")
+all_sales = pd.concat([pd.read_excel(f).assign(source=f) for f in files], ignore_index=True)
+
+# Write a formatted Excel report with several sheets
+with pd.ExcelWriter("weekly_report.xlsx") as xw:
+    all_sales.groupby("city")["amount"].sum().to_excel(xw, sheet_name="By city")
+    all_sales.to_excel(xw, sheet_name="Data", index=False)
+
+# Get data from a web API
+import requests
+rates = requests.get("https://api.frankfurter.app/latest?from=USD&amp;to=INR").json()
+
+# Read from a database
+import sqlalchemy as sa
+engine = sa.create_engine("mssql+pyodbc://@localhost/RetailDB?driver=ODBC+Driver+18+for+SQL+Server&amp;trusted_connection=yes&amp;TrustServerCertificate=yes")
+orders = pd.read_sql("SELECT * FROM Orders WHERE order_date &gt;= '2026-10-01'", engine)</code></pre>
+<p>Schedule the script with Windows Task Scheduler, cron, or a cloud scheduler; see <a href="#s11">Automation on Data</a>.</p>
+</div>
+
+<div data-tab="Level 8 · Advanced">
+<table class="tbl"><tbody>
+<tr><td>OOP (classes)</td><td>Bundle data + behaviour: <code>class Report: def __init__(self, df): ...</code></td></tr>
+<tr><td>Comprehensions &amp; generators</td><td><code>{k: v for k, v in ...}</code>; <code>yield</code> to stream large files</td></tr>
+<tr><td>Decorators</td><td>Wrap functions (timing, caching: <code>@functools.lru_cache</code>)</td></tr>
+<tr><td>Vectorisation</td><td>Use pandas/NumPy column operations instead of loops (10–100× faster)</td></tr>
+<tr><td>Virtual environments</td><td><code>python -m venv .venv</code> or conda; pin versions in requirements.txt</td></tr>
+<tr><td>Git &amp; GitHub</td><td>Version control and portfolio (see ML Ops module)</td></tr>
+<tr><td>Testing</td><td><code>pytest</code> for functions that compute money</td></tr>
+<tr><td>Type hints &amp; linting</td><td><code>def fee(amount: float) -&gt; int:</code>; ruff/black for clean code</td></tr>
+<tr><td>Big data</td><td>Polars, DuckDB, PySpark when pandas runs out of memory</td></tr>
+<tr><td>Apps</td><td>Streamlit dashboards and Flask/FastAPI APIs</td></tr>
+</tbody></table>
+<h3>Coding with AI assistants</h3>
+<ul><li>Ask for small pieces with context: "pandas DataFrame df has columns city, amount, order_date. Write code for monthly revenue by city as a pivot table."</li><li>Ask it to explain errors: paste the code and the full error message.</li><li>Use Colab's AI, GitHub Copilot, Cursor or Claude Code inside the editor; review every line before trusting it.</li></ul>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>List vs tuple vs dict vs set?</summary><p>List: ordered, changeable. Tuple: ordered, fixed. Dict: key-value lookups. Set: unique values, fast membership tests.</p></details>
+<details><summary>How do you handle missing values in pandas?</summary><p>Find them with <code>isna().sum()</code>; drop with <code>dropna</code> or fill with <code>fillna</code> (median for skewed numbers, mode for categories), or flag them.</p></details>
+<details><summary>merge vs concat?</summary><p>merge joins on key columns (like VLOOKUP/SQL JOIN); concat stacks DataFrames on top of or beside each other.</p></details>
+<details><summary>What does groupby do?</summary><p>Split rows into groups, apply an aggregation to each, combine the results: like SUMIFS or a pivot table.</p></details>
+<details><summary>Why avoid loops over DataFrame rows?</summary><p>They are slow; vectorised column operations run in optimised C code.</p></details>
+<details><summary>What is a virtual environment?</summary><p>An isolated set of packages for one project, so versions don't clash between projects.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn Python full course]] · [[yt:Simplilearn Python for data science]] · [[yt:Simplilearn pandas tutorial]]</li>
+<li>[[yt:Corey Schafer Python beginner tutorial]] · [[yt:Keith Galli pandas tutorial]] · [[yt:freeCodeCamp Python for everybody]]</li>
+<li>[[yt:Automate the Boring Stuff with Python]]</li>
+<li>[[doc:Google Colab|https://colab.research.google.com/]] · [[doc:Python tutorial|https://docs.python.org/3/tutorial/]] · [[doc:pandas: getting started|https://pandas.pydata.org/docs/getting_started/index.html]]</li>
+<li>[[doc:Kaggle Learn: Python and pandas (free)|https://www.kaggle.com/learn]] · [[doc:Automate the Boring Stuff (free online book)|https://automatetheboringstuff.com/]]</li>
+</ul>
+</div>

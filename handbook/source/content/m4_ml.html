@@ -1,0 +1,356 @@
+<!--meta {"id":"ml","num":"04","title":"ML, Text Mining & Intro to AI","sub":"Illustrated notes for Classes 1–7 (completed), plus a preview of what comes next","icon":"🤖","courses":"Machine Learning using Python (Online) Oct 2026 · trainer Sandeep Ravula · 26 classes · completed through Class 7"} -->
+<div data-tab="Overview">
+<p class="lead">This course has two modules: <b>Machine Learning with Python</b> and <b>Intro to AI and Neural Networks</b>. Classes 1–7 are complete. These notes follow the class topics in order and add worked pictures and code so you can revise without rewatching 3-hour recordings.</p>
+<div class="note-box"><b>How these notes were made:</b> written from the official class topic list for each session plus standard references. The class videos themselves were not transcribed, so if your trainer used a specific example, add your own notes next to the matching section. Charts use either generated data (labelled) or scikit-learn's built-in breast-cancer dataset so every number shown is real output.</div>
+<table class="tbl"><thead><tr><th>Class</th><th>Date</th><th>Topics</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1</td><td>Sat 4 Oct</td><td>Hypothesis testing, CLT, parametric vs non-parametric tests, case study introduction</td><td><a href="#ml/Class 1–2: Hypothesis testing">open</a></td></tr>
+<tr><td>2</td><td>Fri 10 Oct</td><td>Tests from the case study; p-value, alpha, critical value; one- and two-tailed tests</td><td><a href="#ml/Class 1–2: Hypothesis testing">open</a></td></tr>
+<tr><td>3</td><td>Sat 11 Oct</td><td>Concluding hypothesis testing; introduction to ML; types of business problems; business → statistical problem; types of ML systems</td><td><a href="#ml/Class 3: Intro to ML">open</a></td></tr>
+<tr><td>4</td><td>Fri 17 Oct</td><td>Analytics / ML project life cycle; linear vs non-linear models; linear equation; link functions</td><td><a href="#ml/Class 4: Lifecycle & models">open</a></td></tr>
+<tr><td>5</td><td>Sat 18 Oct</td><td>Gradient descent for linear regression in Python</td><td><a href="#ml/Class 5: Gradient descent">open</a></td></tr>
+<tr><td>6</td><td>Fri 24 Oct</td><td>Pre-processing (missing values, outliers, categorical encoding); overfitting/underfitting; segmentation intro (heuristic, RFM)</td><td><a href="#ml/Class 6: Pre-processing & fit">open</a></td></tr>
+<tr><td>7</td><td>Sat 25 Oct</td><td>KNN classifier and regressor; GridSearchCV; Bankloans case study; classification metrics</td><td><a href="#ml/Class 7: KNN & metrics">open</a></td></tr>
+<tr><td>8</td><td>Fri 31 Oct, 2 PM</td><td>Next class</td><td><a href="#ml/Coming next">preview</a></td></tr>
+</tbody></table>
+<p class="tip">A 7-day revision plan: Day 1 hypothesis-test picker table · Day 2 redo the Insurance case hypothesis questions · Day 3 ML problem types · Day 4 run the gradient-descent code and change α · Day 5 pre-processing pipeline · Day 6 KNN + GridSearchCV · Day 7 explain every metric from one confusion matrix.</p>
+</div>
+
+<div data-tab="Class 1–2: Hypothesis testing">
+<h3>Why we test hypotheses</h3>
+<p>We almost never see the whole population. We see a <b>sample</b> and must decide whether a pattern in it is real or just sampling noise. Hypothesis testing is a formal way to make that call while controlling how often we are fooled.</p>
+<h3>The Central Limit Theorem (CLT)</h3>
+<figure><img src="img/ml/c1_clt.png" alt="CLT"><figcaption>Population: right-skewed (exponential, σ = 2). Means of samples of size 2, 10 and 50 become more normal and narrower. Standard errors measured: 1.42, 0.64 and 0.28, matching σ/√n = 1.41, 0.63 and 0.28.</figcaption></figure>
+<ul><li>For a large enough sample (rule of thumb n ≥ 30), the <b>sampling distribution of the mean</b> is approximately normal, whatever the population's shape.</li><li>Its centre is the population mean μ; its spread, the <b>standard error</b>, is σ/√n.</li><li>This is why z- and t-tests work on non-normal business data such as order values.</li></ul>
+<h3>The 6-step recipe</h3>
+<div class="steps">
+<div><b>1</b><span>State H0 (no effect / no difference / equals a value) and H1 (what you want evidence for).</span></div>
+<div><b>2</b><span>Choose α, the risk of a false alarm you accept (usually 0.05).</span></div>
+<div><b>3</b><span>Pick the test from the data type and question (table below).</span></div>
+<div><b>4</b><span>Compute the test statistic (z, t, χ², F) from the sample.</span></div>
+<div><b>5</b><span>Get the p-value (or compare the statistic with the critical value).</span></div>
+<div><b>6</b><span>Decide (p &lt; α → reject H0) and translate into business language.</span></div>
+</div>
+<h3>p-value, α and critical value</h3>
+<figure><img src="img/ml/c2_pvalue.png" alt="p-value area"><figcaption>If the observed z is 2.3, the p-value for a right-tailed test is the area beyond 2.3 (0.0107). It is below α = 0.05, so H0 is rejected.</figcaption></figure>
+<table class="tbl"><tbody>
+<tr><td><b>α (significance level)</b></td><td>Chosen before the test. The probability of rejecting H0 when it is actually true.</td></tr>
+<tr><td><b>p-value</b></td><td>Computed from the data. The probability, assuming H0 is true, of getting a result at least as extreme as the one observed.</td></tr>
+<tr><td><b>Critical value</b></td><td>The cut-off on the statistic's scale that matches α: 1.96 (two-tailed, 5%), 1.645 (one-tailed, 5%), 2.576 (two-tailed, 1%).</td></tr>
+<tr><td><b>Decision rule</b></td><td>p ≤ α ⟺ |statistic| ≥ critical value → reject H0. Both rules always agree.</td></tr>
+</tbody></table>
+<h3>One-tailed vs two-tailed</h3>
+<figure><img src="img/ml/c2_tails.png" alt="rejection regions"><figcaption>Red areas are the rejection regions for α = 0.05.</figcaption></figure>
+<ul><li><b>Two-tailed</b> (H1: μ ≠ μ0): you care about a difference in either direction. "Is the average claim different from $10,000?"</li><li><b>Right-tailed</b> (H1: μ &gt; μ0): "Has the average claim <i>risen</i> above $10,000?" (Insurance case Q18).</li><li><b>Left-tailed</b> (H1: μ &lt; μ0): "Did the new process <i>reduce</i> delivery time?"</li><li>scipy returns two-tailed p-values; for a one-tailed test halve it, but only when the statistic points in the H1 direction.</li></ul>
+<h3>Errors and power</h3>
+<figure><img src="img/ml/c2_errors.png" alt="type I and II errors"><figcaption>Shrinking α moves the critical line right: fewer false alarms (Type I) but more missed effects (Type II). A larger sample narrows both curves and raises power.</figcaption></figure>
+<table class="tbl"><thead><tr><th></th><th>H0 actually true</th><th>H0 actually false</th></tr></thead><tbody>
+<tr><td>Reject H0</td><td class="bad">Type I error (α), false positive</td><td class="good">Correct (power = 1 − β)</td></tr>
+<tr><td>Do not reject H0</td><td class="good">Correct</td><td class="bad">Type II error (β), false negative</td></tr>
+</tbody></table>
+<h3>Parametric vs non-parametric tests</h3>
+<table class="tbl"><thead><tr><th>Situation</th><th>Parametric (assumes normality / equal variance)</th><th>Non-parametric alternative (ranks, fewer assumptions)</th></tr></thead><tbody>
+<tr><td>1 sample vs a value</td><td>One-sample t / z</td><td>Wilcoxon signed-rank</td></tr>
+<tr><td>2 independent groups</td><td>Two-sample t (Welch if variances differ)</td><td>Mann–Whitney U</td></tr>
+<tr><td>2 paired measurements</td><td>Paired t</td><td>Wilcoxon signed-rank</td></tr>
+<tr><td>3+ groups</td><td>One-way ANOVA</td><td>Kruskal–Wallis</td></tr>
+<tr><td>Association of 2 numbers</td><td>Pearson r</td><td>Spearman ρ</td></tr>
+<tr><td>Association of 2 categories</td><td colspan="2">Chi-square test of independence (works on counts; needs expected count ≥ 5 in most cells)</td></tr>
+</tbody></table>
+<p>Assumption checks: <code>stats.shapiro(x)</code> (normality, p &gt; 0.05 means no evidence against normal) and <code>stats.levene(a, b)</code> (equal variances).</p>
+<h3>Choosing the right test: decision guide</h3>
+<div class="flowchart">
+<div class="fq">What is the outcome?</div>
+<div class="fr"><div class="fb"><b>Numeric</b><br>How many groups?<div class="fl">1 vs target → <i>one-sample t</i><br>2 independent → <i>two-sample t</i><br>2 paired → <i>paired t</i><br>3+ → <i>ANOVA</i></div></div>
+<div class="fb"><b>Categorical</b><br>Compared with?<div class="fl">another category → <i>chi-square independence</i><br>expected proportions → <i>chi-square goodness of fit</i><br>one proportion → <i>z-test for proportion</i></div></div>
+<div class="fb"><b>Two numeric variables</b><br>Relationship?<div class="fl">linear → <i>Pearson</i><br>monotonic / ranks / outliers → <i>Spearman</i></div></div></div></div>
+<h3>Python template</h3>
+<pre><code class="python">from scipy import stats
+# 1-sample, right-tailed: has the mean claim risen above 10,000?
+t, p_two = stats.ttest_1samp(claims_2018, 10000)
+p = p_two / 2 if t &gt; 0 else 1 - p_two / 2
+# 2 independent groups
+stats.ttest_ind(male, female, equal_var=False)
+# paired: same 12 orders priced by two experts
+stats.ttest_rel(barry, mary)
+# 3+ groups
+stats.f_oneway(*[g["days"] for _, g in df.groupby("priority")])
+# categories
+chi2, p, dof, expected = stats.chi2_contingency(pd.crosstab(df["age_group"], df["segment"]))
+# non-parametric
+stats.mannwhitneyu(a, b); stats.kruskal(g1, g2, g3); stats.spearmanr(x, y)</code></pre>
+<h3>Worked examples from your case studies</h3>
+<table class="tbl"><thead><tr><th>Question</th><th>Test</th><th>Result on the real data</th></tr></thead><tbody>
+<tr><td>Do Mary and Barry quote differently for the same 12 orders?</td><td>Paired t</td><td>t = 2.52, p = 0.028 → reject H0: Barry quotes higher on average (124.3 vs 114.8)</td></tr>
+<tr><td>Did re-engineering change the critical-incident rate?</td><td>Two-sample t (Welch)</td><td>CI fell from 53.9% to 23.4%, p = 0.046 → significant at 5%</td></tr>
+<tr><td>Is the 2018 mean claim above $10,000?</td><td>One-sample t, right-tailed</td><td>mean 12,743, t = 4.48, p &lt; 0.001 → significant rise</td></tr>
+<tr><td>Do high-priority jobs finish faster?</td><td>One-way ANOVA</td><td>F = 1.81, p = 0.164 → no evidence the priority system works</td></tr>
+</tbody></table>
+<p>Full code and outputs: <a href="#case/py_hypothesis">Hypothesis Testing case</a> and <a href="#case/py_insurance">Insurance case Q16–20</a>.</p>
+<h3>Common mistakes</h3>
+<ul><li>Saying "accept H0". We only <i>fail to reject</i> it; absence of evidence is not proof of no effect.</li><li>Using an independent t-test on paired data.</li><li>Running many tests and reporting only the significant one (multiple-testing problem). Correct with Bonferroni (α / number of tests).</li><li>Confusing statistical significance with business importance. With huge samples, tiny differences become "significant"; report the effect size too.</li></ul>
+</div>
+
+<div data-tab="Class 3: Intro to ML">
+<h3>What machine learning is</h3>
+<p>Traditional programming: <b>rules + data → answers</b>. Machine learning: <b>data + answers → rules</b> (a model), which then gives answers for new data.</p>
+<div class="flow"><span>Historical data with outcomes</span><span>Learning algorithm</span><span>Model f(x)</span><span>Predictions for new cases</span></div>
+<h3>Types of business problems</h3>
+<table class="tbl"><thead><tr><th>Business question</th><th>Problem type</th><th>Output</th><th>Typical models</th></tr></thead><tbody>
+<tr><td>How much will this customer spend next month?</td><td>Regression</td><td>Number</td><td>Linear regression, KNN regressor, trees, boosting</td></tr>
+<tr><td>Will this applicant default?</td><td>Classification</td><td>Class / probability</td><td>Logistic regression, KNN, trees, random forest</td></tr>
+<tr><td>Which customers are similar?</td><td>Segmentation / clustering</td><td>Group labels</td><td>Heuristic rules, RFM, k-means, hierarchical</td></tr>
+<tr><td>What sells together?</td><td>Association</td><td>Rules (A → B)</td><td>Apriori, market-basket analysis</td></tr>
+<tr><td>How many orders next week?</td><td>Forecasting</td><td>Future values</td><td>Moving averages, ARIMA, Prophet</td></tr>
+<tr><td>Is this transaction unusual?</td><td>Anomaly detection</td><td>Score / flag</td><td>z-score rules, isolation forest</td></tr>
+<tr><td>What are customers complaining about?</td><td>Text mining</td><td>Topics, sentiment</td><td>Bag-of-words, TF-IDF, sentiment models</td></tr>
+</tbody></table>
+<h3>Converting a business problem into a statistical problem</h3>
+<div class="steps">
+<div><b>1</b><span><b>Business goal</b>: "Reduce loan losses."</span></div>
+<div><b>2</b><span><b>Decision</b> the model supports: approve or reject an application.</span></div>
+<div><b>3</b><span><b>Target variable (y)</b>: default = 1 if the customer missed 90+ days within 12 months, else 0.</span></div>
+<div><b>4</b><span><b>Unit of analysis</b>: one row per application. <b>Features (X)</b>: age, income, debt-to-income, employment years, past defaults.</span></div>
+<div><b>5</b><span><b>Problem type</b>: binary classification. <b>Success metric</b>: recall on defaulters at an acceptable precision, plus the money saved.</span></div>
+</div>
+<p class="tip">Most project failures start at step 3: a vague target. Write the exact definition of y, including the time window, before touching any model.</p>
+<h3>Types of ML systems</h3>
+<div class="grid3">
+<div class="card"><h4>Supervised</h4><p>Learns from labelled examples (X, y). Regression and classification.</p><p class="muted">Loan default, price prediction</p></div>
+<div class="card"><h4>Unsupervised</h4><p>No labels; finds structure. Clustering, dimensionality reduction, association.</p><p class="muted">Customer segments, PCA</p></div>
+<div class="card"><h4>Reinforcement</h4><p>An agent learns by trial and reward over time.</p><p class="muted">Bidding, robotics, game play</p></div>
+</div>
+<table class="tbl"><thead><tr><th>Other ways to classify ML systems</th><th></th></tr></thead><tbody>
+<tr><td>Batch (offline) vs online learning</td><td>Retrain on the full dataset periodically, or update continuously as new data streams in.</td></tr>
+<tr><td>Instance-based vs model-based</td><td>KNN memorises training points and compares new ones (instance-based); regression learns parameters and discards the data (model-based).</td></tr>
+<tr><td>Parametric vs non-parametric models</td><td>Fixed number of parameters (linear regression) vs complexity growing with data (KNN, trees).</td></tr>
+<tr><td>Semi-supervised / self-supervised</td><td>A few labels plus many unlabelled rows; or labels created from the data itself (how LLMs are pre-trained).</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Class 4: Lifecycle & models">
+<h3>Analytics / ML project life cycle</h3>
+<div class="cycle">
+<div><b>1. Business understanding</b><span>Goal, decision, success metric, constraints</span></div>
+<div><b>2. Data understanding</b><span>Sources, data audit, EDA, quality issues</span></div>
+<div><b>3. Data preparation</b><span>Clean, impute, treat outliers, encode, feature engineering</span></div>
+<div><b>4. Modelling</b><span>Split train/test, try models, tune hyper-parameters</span></div>
+<div><b>5. Evaluation</b><span>Metrics on unseen data, business sense-check</span></div>
+<div><b>6. Deployment &amp; monitoring</b><span>API / batch scoring, drift checks, retraining (see ML Ops)</span></div>
+</div>
+<p class="cap">This is the CRISP-DM cycle. Arrows loop back: evaluation often sends you back to data preparation.</p>
+<h3>The linear equation</h3>
+<p>ŷ = β₀ + β₁x₁ + β₂x₂ + … + βₚxₚ</p>
+<ul><li><b>β₀ (intercept)</b>: predicted y when every x is 0.</li><li><b>βⱼ (coefficient)</b>: change in y for a one-unit increase in xⱼ, holding the other features fixed.</li><li>"Linear" means linear in the <b>parameters</b>. ŷ = β₀ + β₁x + β₂x² is still a linear model (a polynomial feature), which is why linear regression can fit curves.</li></ul>
+<h3>Linear vs non-linear models</h3>
+<figure><img src="img/ml/c4_models.png" alt="linear, non-linear, sigmoid"><figcaption>Left: a straight-line relationship. Middle: a curved one that a straight line cannot capture. Right: the sigmoid link used by logistic regression.</figcaption></figure>
+<table class="tbl"><thead><tr><th></th><th>Linear models</th><th>Non-linear models</th></tr></thead><tbody>
+<tr><td>Examples</td><td>Linear and logistic regression</td><td>KNN, decision trees, random forest, boosting, neural networks</td></tr>
+<tr><td>Strengths</td><td>Fast, interpretable coefficients, little data needed</td><td>Capture interactions and curves automatically</td></tr>
+<tr><td>Weaknesses</td><td>Miss non-linear patterns unless you engineer features</td><td>Need more data, harder to explain, can overfit</td></tr>
+</tbody></table>
+<h3>Link functions (generalised linear models)</h3>
+<p>A link function connects the linear score z = β₀ + β₁x … to the kind of target you have.</p>
+<table class="tbl"><thead><tr><th>Target</th><th>Link</th><th>Model</th><th>Inverse (prediction)</th></tr></thead><tbody>
+<tr><td>Continuous number</td><td>Identity: z = μ</td><td>Linear regression</td><td>ŷ = z</td></tr>
+<tr><td>Yes/No (probability)</td><td>Logit: z = ln(p / (1 − p))</td><td>Logistic regression</td><td>p = 1 / (1 + e⁻ᶻ)</td></tr>
+<tr><td>Counts (claims, calls)</td><td>Log: z = ln(μ)</td><td>Poisson regression</td><td>ŷ = eᶻ</td></tr>
+</tbody></table>
+<p class="tip">Odds = p/(1 − p). If p = 0.8, odds = 4 ("4 to 1"). A logistic coefficient of 0.7 multiplies the odds by e^0.7 ≈ 2.0 per unit increase in that feature.</p>
+</div>
+
+<div data-tab="Class 5: Gradient descent">
+<h3>The problem gradient descent solves</h3>
+<p>For linear regression we want β₀, β₁ that minimise the cost (mean squared error):</p>
+<p class="formula">J(β₀, β₁) = (1/n) Σ (β₀ + β₁xᵢ − yᵢ)²</p>
+<p>Gradient descent starts with a guess and repeatedly steps <b>downhill</b>, opposite the gradient:</p>
+<p class="formula">β₀ ← β₀ − α · (2/n) Σ(ŷᵢ − yᵢ)  &nbsp;&nbsp;&nbsp; β₁ ← β₁ − α · (2/n) Σ(ŷᵢ − yᵢ)·xᵢ</p>
+<figure><img src="img/ml/c5_gd_1d.png" alt="1D gradient descent"><figcaption>One parameter: big steps where the slope is steep, small steps near the bottom.</figcaption></figure>
+<h3>From-scratch implementation</h3>
+<pre><code class="python">import numpy as np
+rng = np.random.default_rng(42)
+X = rng.uniform(0, 10, 100)
+Y = 4 + 3 * X + rng.normal(0, 2, 100)          # true line: y = 4 + 3x (+ noise)
+
+def gradient_descent(X, Y, lr=0.02, iters=3000):
+    b0, b1 = 0.0, 0.0
+    for _ in range(iters):
+        err = (b0 + b1 * X) - Y                 # prediction error
+        b0 -= lr * 2 * err.mean()               # dJ/db0
+        b1 -= lr * 2 * (err * X).mean()         # dJ/db1
+    return b0, b1
+
+b0, b1 = gradient_descent(X, Y)
+print(round(b0, 3), round(b1, 3))               # 3.723  3.025
+print(np.polyfit(X, Y, 1)[::-1].round(3))       # [3.723 3.025]  closed-form OLS agrees</code></pre>
+<figure><img src="img/ml/c5_gd.png" alt="gradient descent diagnostics"><figcaption>Left: cost per iteration for a small and a good learning rate (log scales). Middle: the path of (β₀, β₁) on the cost surface toward the OLS solution (★). Right: a learning rate just a little too large makes the cost explode.</figcaption></figure>
+<h3>Learning rate α and convergence</h3>
+<ul><li><b>Too small</b>: correct but slow (grey line).</li><li><b>Too large</b>: overshoots and diverges (red panel); here α = 0.036 explodes while 0.02 converges.</li><li><b>Feature scaling</b> (standardising X) makes the cost surface rounder, so one α works for all parameters and convergence is much faster.</li><li>Stop when the cost changes less than a tolerance, or after a fixed number of iterations.</li></ul>
+<h3>Flavours</h3>
+<table class="tbl"><tbody>
+<tr><td>Batch GD</td><td>Uses all rows per step: stable, slow on big data.</td></tr>
+<tr><td>Stochastic GD (SGD)</td><td>One row per step: noisy, fast, can escape shallow dips.</td></tr>
+<tr><td>Mini-batch GD</td><td>32–512 rows per step: the standard in deep learning.</td></tr>
+</tbody></table>
+<p class="tip">Why learn this if <code>LinearRegression()</code> solves it directly? Because logistic regression, neural networks and boosting have no closed-form answer; they are all trained with gradient-based optimisation.</p>
+</div>
+
+<div data-tab="Class 6: Pre-processing & fit">
+<h3>Pre-processing pipeline</h3>
+<div class="flow"><span>Data audit</span><span>Missing values</span><span>Outliers</span><span>Encoding</span><span>Scaling</span><span>Train/test split</span></div>
+<p class="tip">Split first, then <b>fit</b> imputers, scalers and encoders on the training set only and apply them to the test set. Fitting on all the data leaks test information into training (data leakage).</p>
+<h3>Missing value imputation</h3>
+<table class="tbl"><thead><tr><th>Method</th><th>When</th><th>Code</th></tr></thead><tbody>
+<tr><td>Drop rows</td><td>Very few rows, missing at random</td><td><code>df.dropna(subset=["income"])</code></td></tr>
+<tr><td>Drop column</td><td>Mostly empty (for example &gt; 40–50%) and not critical</td><td><code>df.drop(columns=["col"])</code></td></tr>
+<tr><td>Mean / median</td><td>Numeric; median if skewed</td><td><code>SimpleImputer(strategy="median")</code></td></tr>
+<tr><td>Mode / "Missing" label</td><td>Categorical</td><td><code>SimpleImputer(strategy="most_frequent")</code></td></tr>
+<tr><td>Group-wise</td><td>Value depends on a group</td><td><code>df.groupby("city")["income"].transform(lambda s: s.fillna(s.median()))</code></td></tr>
+<tr><td>Model-based</td><td>Strong relationships between columns</td><td><code>KNNImputer(n_neighbors=5)</code></td></tr>
+<tr><td>Missing flag</td><td>Missingness itself is informative</td><td><code>df["income_missing"] = df["income"].isna().astype(int)</code></td></tr>
+</tbody></table>
+<h3>Outlier treatment</h3>
+<figure><img src="img/ml/c6_outliers.png" alt="outliers"><figcaption>Generated data: Q1 = 44.1, Q3 = 56.7, fences at 25.3 and 75.6. Three planted extreme values sit outside the fences. Capping keeps the rows but limits their influence.</figcaption></figure>
+<ul><li><b>Detect</b>: box plot / IQR fences, z-score above 3, domain rules (age &gt; 100).</li><li><b>Treat</b>: correct data-entry errors; cap (winsorise) at P1/P99; log-transform skewed variables; or keep them if they are real and important (fraud).</li><li>KNN and linear regression are sensitive to outliers; tree models are much less so.</li></ul>
+<h3>Categorical encoding</h3>
+<table class="tbl"><thead><tr><th>Method</th><th>Example</th><th>Use for</th></tr></thead><tbody>
+<tr><td>One-hot (dummy)</td><td>city → city_Delhi, city_Pune (0/1)</td><td>Nominal categories. <code>pd.get_dummies(df, columns=["city"], drop_first=True)</code></td></tr>
+<tr><td>Label / ordinal</td><td>Low=0, Medium=1, High=2</td><td>Ordered categories. <code>OrdinalEncoder(categories=[["Low","Medium","High"]])</code></td></tr>
+<tr><td>Frequency / target encoding</td><td>city → share of rows or mean of y</td><td>High-cardinality columns (hundreds of values); fit on train only</td></tr>
+</tbody></table>
+<p class="tip"><code>drop_first=True</code> avoids the dummy-variable trap (perfect multicollinearity) in linear and logistic regression.</p>
+<h3>Overfitting and underfitting</h3>
+<figure><img src="img/ml/c6_fit.png" alt="under and overfitting"><figcaption>Generated data from a sine curve. Degree 1 is too simple (high bias); degree 15 memorises noise (high variance) and its test error shoots up. The sweet spot is where test error is lowest.</figcaption></figure>
+<table class="tbl"><thead><tr><th></th><th>Underfitting</th><th>Overfitting</th></tr></thead><tbody>
+<tr><td>Symptom</td><td>Poor on train and test</td><td>Great on train, poor on test</td></tr>
+<tr><td>Cause</td><td>Model too simple, missing features</td><td>Model too complex, too little data, leakage</td></tr>
+<tr><td>Fix</td><td>Add features, more flexible model, less regularisation</td><td>More data, simpler model, regularisation, cross-validation, feature selection; for KNN raise K</td></tr>
+</tbody></table>
+<h3>Segmentation: heuristic and RFM</h3>
+<p><b>Heuristic segmentation</b> uses business rules ("salaried, age 25–35, spend &gt; ₹50k = Young Affluent"). It is quick and explainable but relies on judgement. <b>RFM</b> is a data-driven heuristic:</p>
+<table class="tbl"><tbody><tr><td><b>R</b>ecency</td><td>Days since last purchase (lower is better)</td></tr><tr><td><b>F</b>requency</td><td>Number of purchases</td></tr><tr><td><b>M</b>onetary</td><td>Total spend</td></tr></tbody></table>
+<pre><code class="python">snap = tx["date"].max() + pd.Timedelta(days=1)
+rfm = tx.groupby("cust_id").agg(recency=("date", lambda d: (snap - d.max()).days),
+                                frequency=("txn_id", "nunique"), monetary=("amount", "sum"))
+rfm["R"] = pd.qcut(rfm["recency"], 4, labels=[4, 3, 2, 1]).astype(int)          # recent = 4
+rfm["F"] = pd.qcut(rfm["frequency"].rank(method="first"), 4, labels=[1, 2, 3, 4]).astype(int)
+rfm["M"] = pd.qcut(rfm["monetary"], 4, labels=[1, 2, 3, 4]).astype(int)
+rfm["score"] = rfm[["R", "F", "M"]].sum(axis=1)                                  # 3 .. 12
+rfm["segment"] = pd.cut(rfm["score"], [2, 5, 8, 10, 12], labels=["Lost / at risk", "Needs attention", "Loyal", "Champions"])</code></pre>
+<figure><img src="img/ml/c6_rfm.png" alt="RFM"><figcaption>Generated customers. Right: average spend is highest where both R and F scores are high, so those customers deserve retention offers first.</figcaption></figure>
+</div>
+
+<div data-tab="Class 7: KNN & metrics">
+<h3>K-Nearest Neighbours</h3>
+<figure><img src="img/ml/c7_knn_idea.png" alt="KNN idea" class="narrow"><figcaption>Generated points. A new customer is classified by a vote of its 5 closest neighbours.</figcaption></figure>
+<ol><li>Choose K and a distance measure.</li><li>Compute the distance from the new point to every training point.</li><li>Take the K closest.</li><li><b>Classifier</b>: majority vote (or probability = share of votes). <b>Regressor</b>: average of the neighbours' y values.</li></ol>
+<table class="tbl"><tbody>
+<tr><td>Euclidean (p = 2)</td><td>√Σ(aᵢ − bᵢ)², straight-line distance</td></tr>
+<tr><td>Manhattan (p = 1)</td><td>Σ|aᵢ − bᵢ|, grid distance; more robust with many features</td></tr>
+<tr><td>weights="distance"</td><td>Closer neighbours get a bigger vote</td></tr>
+</tbody></table>
+<div class="warn"><b>Always scale features for KNN.</b> Distance is dominated by the largest-scale column: income in lakhs would drown out age in years. Use <code>StandardScaler</code> inside a Pipeline.</div>
+<h3>Choosing K</h3>
+<figure><img src="img/ml/c7_k_curve.png" alt="K vs accuracy"><figcaption>Breast-cancer data (scikit-learn). K = 1 scores 100% on train (memorisation) but lower in cross-validation. Very large K smooths too much. Pick K where CV accuracy peaks; odd K avoids ties in binary problems.</figcaption></figure>
+<h3>GridSearchCV</h3>
+<p>Tries every combination of hyper-parameters with k-fold cross-validation on the training set and keeps the best.</p>
+<pre><code class="python">from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score
+
+data = load_breast_cancer(); X, y = data.data, 1 - data.target        # 1 = malignant (positive class)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+
+pipe = Pipeline([("scale", StandardScaler()), ("knn", KNeighborsClassifier())])
+grid = {"knn__n_neighbors": range(1, 26, 2), "knn__weights": ["uniform", "distance"], "knn__p": [1, 2]}
+gs = GridSearchCV(pipe, grid, cv=5, scoring="recall", n_jobs=-1).fit(X_tr, y_tr)
+print(gs.best_params_)        # {'knn__n_neighbors': 9, 'knn__p': 1, 'knn__weights': 'uniform'}
+print(round(gs.best_score_, 4))   # 0.9253  mean CV recall
+
+best = gs.best_estimator_
+pred = best.predict(X_te); prob = best.predict_proba(X_te)[:, 1]
+print(confusion_matrix(y_te, pred))     # [[107   0]
+                                        #  [  7  57]]
+print(classification_report(y_te, pred, target_names=["benign", "malignant"]))
+print(roc_auc_score(y_te, prob))        # 0.9989</code></pre>
+<figure><img src="img/ml/c7_grid.png" alt="grid search heatmap"><figcaption>Cross-validated recall for each K and distance metric. Scoring is set to recall because missing a malignant case is the costly error.</figcaption></figure>
+<p class="tip">Regression version: <code>KNeighborsRegressor</code> with <code>scoring="neg_root_mean_squared_error"</code>; evaluate with RMSE, MAE and R².</p>
+<h3>Classification metrics from one confusion matrix</h3>
+<figure><img src="img/ml/c7_cm_roc.png" alt="confusion matrix and ROC"><figcaption>Test set of 171 cases: TN = 107, FP = 0, FN = 7, TP = 57.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Metric</th><th>Formula</th><th>Value here</th><th>Question it answers</th></tr></thead><tbody>
+<tr><td>Accuracy</td><td>(TP + TN) / all</td><td>(57 + 107) / 171 = <b>0.959</b></td><td>How often is the model right overall? Misleading when classes are imbalanced.</td></tr>
+<tr><td>Precision</td><td>TP / (TP + FP)</td><td>57 / 57 = <b>1.000</b></td><td>When it says "positive", how often is it right?</td></tr>
+<tr><td>Recall (sensitivity, TPR)</td><td>TP / (TP + FN)</td><td>57 / 64 = <b>0.891</b></td><td>Of all actual positives, how many did it catch?</td></tr>
+<tr><td>Specificity (TNR)</td><td>TN / (TN + FP)</td><td>107 / 107 = <b>1.000</b></td><td>Of all actual negatives, how many did it clear?</td></tr>
+<tr><td>F1 score</td><td>2·P·R / (P + R)</td><td><b>0.942</b></td><td>Single balance of precision and recall</td></tr>
+<tr><td>ROC-AUC</td><td>Area under TPR vs FPR curve</td><td><b>0.999</b></td><td>How well does the score rank positives above negatives, across all cut-offs?</td></tr>
+</tbody></table>
+<h3>Choosing the cut-off</h3>
+<figure><img src="img/ml/c7_threshold.png" alt="precision recall vs threshold"><figcaption>Lowering the probability cut-off catches more positives (recall up) at the cost of more false alarms (precision down).</figcaption></figure>
+<table class="tbl"><thead><tr><th>Business case</th><th>Costlier error</th><th>Optimise</th></tr></thead><tbody>
+<tr><td>Loan default (Bankloans)</td><td>Approving a defaulter (FN)</td><td>Recall on defaulters, then precision</td></tr>
+<tr><td>Spam filter</td><td>Blocking a real email (FP)</td><td>Precision</td></tr>
+<tr><td>Disease screening</td><td>Missing a sick patient (FN)</td><td>Recall</td></tr>
+<tr><td>Marketing campaign with limited budget</td><td>Wasting offers (FP)</td><td>Precision in the top decile (lift)</td></tr>
+</tbody></table>
+<h3>Bankloans case study, solved on the course file</h3>
+<p><code>bankloans.csv</code> ships with the ML Ops module materials (it is the same dataset used for the Flask banking app). It has 850 applicants: 700 with a known <code>default</code> value (26.1% defaulted) and 150 new applicants with a blank default to be scored. Features: age, ed (education level), employ (years with employer), address (years at address), income, debtinc (debt-to-income %), creddebt and othdebt (credit-card and other debt).</p>
+<pre><code class="python">bank = pd.read_csv("bankloans.csv")
+known, new = bank[bank["default"].notna()], bank[bank["default"].isna()]       # 700 / 150
+cap = lambda s: s.clip(s.quantile(.01), s.quantile(.99))                        # outlier capping (as in class)
+X = known.drop(columns="default").apply(cap); y = known["default"].astype(int)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+
+pipe = Pipeline([("scale", StandardScaler()), ("knn", KNeighborsClassifier())])
+gs = GridSearchCV(pipe, {"knn__n_neighbors": range(3, 40, 2), "knn__weights": ["uniform", "distance"]},
+                  cv=5, scoring="roc_auc").fit(X_tr, y_tr)
+gs.best_params_        # {'knn__n_neighbors': 35, 'knn__weights': 'distance'}
+gs.best_score_         # 0.811 CV AUC  (test AUC 0.835)
+prob = gs.best_estimator_.predict_proba(X_te)[:, 1]
+pred_05 = (prob &gt;= 0.5).astype(int);  pred_03 = (prob &gt;= 0.3).astype(int)</code></pre>
+<figure><img src="img/ml/c7_bank_cm.png" alt="Bankloans confusion matrices at two cut-offs"><figcaption>Test set of 210 applicants (55 defaulters). The default 0.5 cut-off catches only 19 of 55 defaulters (recall 0.35). Lowering it to 0.3 catches 44 (recall 0.80) at the cost of more false alarms (precision 0.70 → 0.55).</figcaption></figure>
+<table class="tbl"><thead><tr><th>Cut-off</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead><tbody>
+<tr><td>0.5</td><td>0.790</td><td>0.704</td><td>0.345</td><td>0.463</td></tr>
+<tr><td>0.3</td><td>0.776</td><td>0.550</td><td>0.800</td><td>0.652</td></tr>
+</tbody></table>
+<p><b>Business reading:</b> accuracy barely changes, but at 0.3 the bank catches 80% of future defaulters instead of 35%. Because a bad loan usually costs far more than a rejected good customer, the lower cut-off is the better business choice. Scoring the 150 new applicants at 0.3 flags 31.3% of them for review.</p>
+<p class="tip">In the ML Ops module the same data trains a random forest (with RFE feature selection) that is pickled and served through Flask. See <a href="#m5/Banking app walkthrough">ML Ops → Banking app</a>.</p>
+</div>
+
+<div data-tab="Coming next">
+<p class="muted">Preview only: these topics have not been taught yet. Typical order for the rest of the ML and Intro-to-AI modules is below; confirm with each class title as it is published.</p>
+<div class="grid2">
+<div class="card"><h4>Supervised models</h4><ul><li>Regularised regression: Ridge, Lasso, ElasticNet</li><li>Decision trees (Gini, entropy, pruning)</li><li>Ensembles: bagging, random forest, gradient boosting, XGBoost</li><li>Naive Bayes, SVM</li><li>Imbalanced data: class weights, SMOTE</li></ul></div>
+<div class="card"><h4>Unsupervised and text</h4><ul><li>K-means, hierarchical clustering, silhouette score</li><li>PCA for dimensionality reduction</li><li>Text mining: tokenisation, stop words, stemming/lemmatisation, bag-of-words, TF-IDF, sentiment, topic models</li><li>Time series forecasting</li></ul></div>
+<div class="card"><h4>Intro to AI and neural networks</h4><ul><li>Perceptron, activation functions, back-propagation</li><li>Keras / TensorFlow basics</li><li>CNNs (images) and RNN/LSTM (sequences)</li><li>Transformers and the link to LLMs</li></ul></div>
+<div class="card"><h4>How to prepare</h4><ul><li>Revise Class 5 (gradient descent): neural nets use the same idea.</li><li>Revise Class 6 (overfitting): trees and boosting are tuned against it.</li><li>Practise <code>Pipeline</code> + <code>GridSearchCV</code>: every later model plugs into it.</li></ul></div>
+</div>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Explain the p-value to a business stakeholder.</summary><p>"If there were truly no difference, a result this large would happen only about p×100 times in 100 by chance. Because that is rare (below 5%), we treat the difference as real."</p></details>
+<details><summary>Type I vs Type II error with an example?</summary><p>In fraud detection, Type I is blocking a genuine transaction (false alarm); Type II is letting a fraud through (miss). Lowering α reduces Type I but increases Type II unless you collect more data.</p></details>
+<details><summary>When would you use a non-parametric test?</summary><p>Small samples that are clearly non-normal, ordinal data (ratings), or heavy outliers. Example: Mann–Whitney U instead of a two-sample t-test.</p></details>
+<details><summary>Why must features be scaled for KNN but not for decision trees?</summary><p>KNN uses distances, so large-scale features dominate. Trees split one feature at a time on thresholds, so scale does not change the splits.</p></details>
+<details><summary>What does a small K vs a large K do in KNN?</summary><p>Small K follows individual points: low bias, high variance (overfits). Large K averages many points: high bias, low variance (underfits). Choose K by cross-validation.</p></details>
+<details><summary>Why is accuracy a poor metric for imbalanced data?</summary><p>If 2% of loans default, predicting "no default" for everyone is 98% accurate and useless. Use recall, precision, F1, PR-AUC or ROC-AUC instead.</p></details>
+<details><summary>What is data leakage?</summary><p>When information unavailable at prediction time sneaks into training, such as scaling on the full dataset before splitting, or using a feature recorded after the outcome. It produces great test scores that collapse in production.</p></details>
+<details><summary>What does the learning rate do in gradient descent?</summary><p>It sets the step size. Too small converges slowly; too large overshoots and can diverge. Scaling features lets a single learning rate work well.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:StatQuest hypothesis testing and the null hypothesis]] · [[yt:StatQuest p-values what they are and how to interpret them]]</li>
+<li>[[yt:StatQuest central limit theorem clearly explained]] · [[yt:StatQuest gradient descent step by step]]</li>
+<li>[[yt:StatQuest k-nearest neighbors clearly explained]] · [[yt:StatQuest ROC and AUC clearly explained]] · [[yt:StatQuest confusion matrix]]</li>
+<li>[[yt:StatQuest bias and variance]] · [[yt:StatQuest cross validation]]</li>
+<li>[[yt:Krish Naik KNN algorithm]] and [[yt:codebasics machine learning tutorial python]], applied walkthroughs.</li>
+<li>[[yt:Andrew Ng machine learning specialization gradient descent]], the classic explanation.</li>
+<li>[[doc:scikit-learn: nearest neighbors|https://scikit-learn.org/stable/modules/neighbors.html]] · [[doc:GridSearchCV|https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html]] · [[doc:Model evaluation metrics|https://scikit-learn.org/stable/modules/model_evaluation.html]]</li>
+<li>[[doc:SciPy statistical tests|https://docs.scipy.org/doc/scipy/reference/stats.html#statistical-tests]]</li>
+</ul>
+</div>

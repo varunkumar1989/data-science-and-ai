@@ -1,0 +1,146 @@
+<!--meta {"id":"m6","num":"06","title":"Generative AI","sub":"How LLMs work, prompting techniques, and using AI for slides, web pages, sheets, code and images","icon":"✨","courses":"Generative AI SP (26 classes, task-based videos)"} -->
+<div data-tab="Overview">
+<p class="lead">This course is practical: understand what a large language model (LLM) is, learn named prompting techniques, then apply them to real tasks such as presentations, web pages, spreadsheets, code and images.</p>
+<table class="tbl"><thead><tr><th>Class</th><th>Topic</th><th>Date · length</th><th>Notes</th></tr></thead><tbody><tr><td>Generative AI · Class 1</td><td>Introduction to LLMs – Part 1</td><td></td><td><a href="#m6/How LLMs work">How LLMs work</a></td></tr><tr><td>Generative AI · Class 2</td><td>Introduction to LLMs – Part 2: basics of LLMs and key terminologies</td><td></td><td><a href="#m6/How LLMs work">How LLMs work</a></td></tr><tr><td>Generative AI · Class 3</td><td>Introduction to LLMs – Part 3: working of LLMs</td><td></td><td><a href="#m6/How LLMs work">How LLMs work</a></td></tr><tr><td>Generative AI · Class 4</td><td>Introduction to LLMs – Part 4: applications of LLMs</td><td></td><td><a href="#m6/How LLMs work">How LLMs work</a></td></tr><tr><td>Generative AI · Class 5</td><td>Introduction to the ChatGPT interface: creating an account, website and services, 3.5 vs 4 vs Turbo, tokens, OpenAI Playground, pricing</td><td></td><td><a href="#m6/How LLMs work">How LLMs work</a></td></tr><tr><td>Generative AI · Class 6</td><td>Introduction to prompting techniques</td><td></td><td><a href="#m6/Prompting techniques">Prompting techniques</a></td></tr><tr><td>Generative AI · Class 7</td><td>PT1 – specifying output formats</td><td></td><td><a href="#m6/Prompting techniques">Prompting techniques</a></td></tr><tr><td>Generative AI · Class 8</td><td>PT2 – assigning a role/character, setting comprehension level, tone</td><td></td><td><a href="#m6/Prompting techniques">Prompting techniques</a></td></tr><tr><td>Generative AI · Class 9</td><td>PT4 – reverse prompting</td><td></td><td><a href="#m6/Prompting techniques">Prompting techniques</a></td></tr><tr><td>Generative AI · Class 10</td><td>PT6 – chain of thought; PT7 – ask before you answer / tell me what I don't know</td><td></td><td><a href="#m6/Prompting techniques">Prompting techniques</a></td></tr><tr><td>Generative AI · Class 11</td><td>Making presentations (Part 1)</td><td></td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 12</td><td>Making presentations (Part 2)</td><td></td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 13</td><td>Making presentations (Part 3)</td><td></td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 14</td><td>Creating webpages</td><td></td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 15</td><td>Using ChatGPT in Google Sheets (Part 1)</td><td></td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 16</td><td>Using ChatGPT in Google Sheets (Part 2)</td><td>9 Mar 2024 · 19:40</td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 17</td><td>Automating tasks in Google Sheets</td><td>10 Mar 2024 · 21:34</td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 18</td><td>Using ChatGPT for writing better code</td><td>16 Mar 2024 · 20:16</td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 19</td><td>Google Bard – Part 1 (now Gemini)</td><td>17 Mar 2024 · 31:25</td><td><a href="#m6/Applied use cases">Applied use cases</a></td></tr><tr><td>Generative AI · Class 20</td><td>Introduction to image generation</td><td>23 Mar 2024 · 10:36</td><td><a href="#m6/Image generation">Image generation</a></td></tr><tr><td>Generative AI · Class 21</td><td>Midjourney Part 1</td><td>24 Mar 2024 · 36:25</td><td><a href="#m6/Image generation">Image generation</a></td></tr><tr><td>Generative AI · Class 22</td><td>Midjourney Part 2</td><td>30 Mar 2024 · 46:14</td><td><a href="#m6/Image generation">Image generation</a></td></tr><tr><td>Generative AI · Class 23</td><td>Midjourney Part 3</td><td>31 Mar 2024 · 22:11</td><td><a href="#m6/Image generation">Image generation</a></td></tr><tr><td>Generative AI · Class 24</td><td>Midjourney Part 4 (list of artists by style)</td><td>6 Apr 2024 · 28:09</td><td><a href="#m6/Image generation">Image generation</a></td></tr><tr><td>Generative AI · Class 25</td><td>DALL·E introduction and usage</td><td>7 Apr 2024 · 47:33</td><td><a href="#m6/Image generation">Image generation</a></td></tr><tr><td>Generative AI · Class 26</td><td>Gen AI MCQ; summary of prompt starters + use cases (e-books)</td><td></td><td><a href="#m6/Prompt library">Prompt library</a></td></tr></tbody></table><p class="muted">Dates and lengths shown for Classes 16–26 are from the LMS class list. The course note says most videos are task-based with no separate material, so practise alongside each video.</p>
+<p class="tip">The recorded classes use the ChatGPT versions of their time (3.5, 4, 4-Turbo) and Bard. Interfaces and model names change often; the techniques stay the same.</p>
+</div>
+
+<div data-tab="How LLMs work">
+<h3>What an LLM is</h3>
+<p>A large language model is a neural network (a <b>transformer</b>) trained on huge amounts of text to do one thing extremely well: <b>predict the next token</b>. Answering questions, summarising and coding all emerge from repeating that prediction one token at a time.</p>
+<div class="flow"><span>Your prompt</span><span>Split into tokens</span><span>Transformer predicts next-token probabilities</span><span>Sample one token</span><span>Append and repeat</span></div>
+<h3>How they are built</h3>
+<table class="tbl"><tbody>
+<tr><td><b>Pre-training</b></td><td>Learn language and facts by predicting the next token on web pages, books and code (self-supervised).</td></tr>
+<tr><td><b>Instruction tuning</b></td><td>Fine-tune on example prompts and good answers so the model follows instructions.</td></tr>
+<tr><td><b>RLHF / preference tuning</b></td><td>Humans rank answers; the model is tuned toward preferred, helpful and safe responses.</td></tr>
+</tbody></table>
+<h3>Key terms</h3>
+<table class="tbl"><tbody>
+<tr><td>Token</td><td>A chunk of text (roughly ¾ of an English word). Pricing and limits are counted in tokens.</td></tr>
+<tr><td>Context window</td><td>The maximum tokens the model can consider at once (prompt + conversation + answer).</td></tr>
+<tr><td>Temperature</td><td>Randomness of sampling. Low (0–0.3) = focused and repeatable; high (0.8+) = creative and varied.</td></tr>
+<tr><td>Top-p</td><td>Sample only from the smallest set of tokens whose probabilities add up to p.</td></tr>
+<tr><td>Hallucination</td><td>Confident but false output. Verify facts, numbers and citations.</td></tr>
+<tr><td>Embedding</td><td>A vector representing meaning; similar texts have nearby vectors. Used for search and RAG.</td></tr>
+<tr><td>RAG</td><td>Retrieval-augmented generation: fetch relevant documents and include them in the prompt so answers are grounded.</td></tr>
+<tr><td>System prompt</td><td>Standing instructions that shape every answer (role, rules, style).</td></tr>
+<tr><td>Multimodal</td><td>Handles images, audio or files as well as text.</td></tr>
+</tbody></table>
+<h3>The ChatGPT interface (Class 5)</h3>
+<ul><li><b>Chat</b>: conversation with memory of the current thread. Start a new chat for an unrelated task so old context does not leak in.</li><li><b>Model picker</b>: faster/cheaper vs more capable models. In the class: 3.5 (fast), 4 (stronger reasoning), 4-Turbo (larger context, cheaper than 4).</li><li><b>Playground / API</b>: control system prompt, temperature and max tokens directly; pay per input and output token.</li><li><b>Custom instructions</b>: tell it once about you and how you want answers.</li></ul>
+<h3>Applications (Class 4)</h3>
+<div class="grid3"><div class="card"><h4>Write</h4><p>Emails, reports, summaries, rewriting for tone</p></div><div class="card"><h4>Analyse</h4><p>Explain data, draft SQL/Excel formulas, classify feedback</p></div><div class="card"><h4>Create</h4><p>Slides, web pages, images, code, learning material</p></div></div>
+<h3>Limits to remember</h3>
+<ul><li>Knowledge has a cut-off date unless the tool can browse.</li><li>It can be wrong confidently, so check numbers by calculation.</li><li>Do not paste confidential or personal data into tools your organisation has not approved.</li></ul>
+</div>
+
+<div data-tab="Prompting techniques">
+<h3>The anatomy of a strong prompt</h3>
+<div class="anatomy"><span><b>Role</b> Who should answer</span><span><b>Context</b> Background and audience</span><span><b>Task</b> Exactly what to do</span><span><b>Format</b> Shape of the output</span><span><b>Constraints</b> Length, tone, must/must-not</span><span><b>Examples</b> One good sample</span></div>
+<h3>The techniques taught</h3>
+<table class="tbl"><thead><tr><th>Technique</th><th>Idea</th><th>Example prompt</th></tr></thead><tbody>
+<tr><td><b>PT1 Output formats</b></td><td>Ask for a specific structure</td><td>"List the 5 KPIs as a table with columns KPI, formula, why it matters." Also: JSON, bullet list, CSV, markdown, a fixed word count.</td></tr>
+<tr><td><b>PT2 Role</b></td><td>Assign an expert persona</td><td>"You are a senior data analyst at a bank. Review this SQL query for errors."</td></tr>
+<tr><td><b>PT2 Comprehension level</b></td><td>Set the audience's level</td><td>"Explain gradient descent to a 12-year-old." / "…to a statistics PhD."</td></tr>
+<tr><td><b>PT2 Tone</b></td><td>Control the voice</td><td>"Rewrite this delay notice in a warm, apologetic but confident tone."</td></tr>
+<tr><td><b>PT4 Reverse prompting</b></td><td>Show the output you like and ask for the prompt that produces it</td><td>"Here is a product description I love. Write the prompt that would generate descriptions like this for other products."</td></tr>
+<tr><td><b>Few-shot</b></td><td>Give 2–3 input → output examples first</td><td>"Review: 'Late delivery' → Negative, Delivery. Review: 'Great fit' → Positive, Product. Review: '…' → "</td></tr>
+<tr><td><b>PT6 Chain of thought</b></td><td>Ask it to reason step by step before answering</td><td>"Work out the profit step by step, showing each calculation, then give the final number."</td></tr>
+<tr><td><b>PT7 Ask before you answer</b></td><td>Make it ask clarifying questions first</td><td>"Before you write my study plan, ask me up to 5 questions about my schedule and goals."</td></tr>
+<tr><td><b>Iterative refinement</b></td><td>Treat the first answer as a draft</td><td>"Shorter. Remove jargon. Add one real example. Keep the table."</td></tr>
+</tbody></table>
+<h3>Before and after</h3>
+<div class="grid2"><div class="card bad-card"><h4>Weak</h4><p>"Write about churn."</p></div><div class="card good-card"><h4>Strong</h4><p>"You are a telecom retention analyst. In 150 words for a non-technical manager, explain the top 3 reasons customers churn in prepaid mobile and one action for each. Format: numbered list. Avoid jargon."</p></div></div>
+<p class="tip">If the answer is wrong, do not just say "try again". Say what is wrong and what to keep.</p>
+</div>
+
+<div data-tab="Applied use cases">
+<h3>Presentations (Classes 11–13)</h3>
+<div class="steps"><div><b>1</b><span>Ask for an outline: "Create a 10-slide outline for a 15-minute talk on X for Y audience. Title + 3 bullets per slide + speaker note."</span></div><div><b>2</b><span>Refine the storyline (problem → insight → recommendation).</span></div><div><b>3</b><span>Convert to slides: paste into a slide tool with AI design (Gamma, Copilot in PowerPoint, Canva), or ask for VBA/python-pptx code that builds the deck.</span></div><div><b>4</b><span>Add your real charts and numbers; check every fact.</span></div></div>
+<h3>Web pages (Class 14)</h3>
+<pre><code class="text">Create a single-file responsive landing page (HTML + CSS + a little JS) for a data analytics
+bootcamp. Sections: hero with CTA, 3 benefits, curriculum accordion, testimonials placeholder,
+FAQ, footer. Colour palette navy and amber. Mobile-first. No external libraries.</code></pre>
+<p>Save the answer as <code>index.html</code>, open it in a browser, and iterate ("make the hero shorter", "add a pricing table"). Host it free on Netlify or GitHub Pages.</p>
+<h3>ChatGPT in Google Sheets (Classes 15–17)</h3>
+<ul><li>Add-ons such as "GPT for Sheets" add formulas like <code>=GPT("Classify sentiment as Positive/Negative/Neutral", A2)</code> that run per row: classify feedback, extract entities, translate, clean text.</li><li>Native AI in Sheets (Gemini) and Excel (Copilot) can now create formulas, pivots and charts from a prompt.</li><li><b>Automation</b>: ask ChatGPT to write Google Apps Script, for example "Write an Apps Script that emails me every Monday a summary of rows where Status = 'Overdue'". Paste it in Extensions → Apps Script and add a time-driven trigger.</li></ul>
+<div class="warn">Per-row AI formulas cost tokens and can change on recalculation. Paste results as values once you are happy.</div>
+<h3>Better code (Class 18)</h3>
+<table class="tbl"><tbody>
+<tr><td>Write</td><td>"Write a pandas function that … Include docstring and type hints."</td></tr>
+<tr><td>Explain</td><td>"Explain this code line by line for a beginner."</td></tr>
+<tr><td>Debug</td><td>Paste the error message <i>and</i> the code: "Why does this raise KeyError, and how do I fix it?"</td></tr>
+<tr><td>Refactor</td><td>"Make this faster and more readable; keep behaviour identical."</td></tr>
+<tr><td>Test</td><td>"Write pytest tests including edge cases (empty input, nulls)."</td></tr>
+<tr><td>Convert</td><td>"Convert this Excel formula / SQL query to pandas."</td></tr>
+</tbody></table>
+<h3>Google Bard → Gemini (Class 19)</h3>
+<p>Google's assistant (renamed Gemini in 2024) is strong at live web results and integrates with Gmail, Docs, Sheets and Drive. Compare answers across assistants for important work; they make different mistakes.</p>
+</div>
+
+<div data-tab="Image generation">
+<h3>How image models work (Class 20)</h3>
+<p>Diffusion models start from random noise and remove it step by step, guided by your text prompt, until an image matching the description appears.</p>
+<h3>Prompt formula</h3>
+<div class="anatomy"><span><b>Subject</b> what</span><span><b>Details</b> clothing, objects, action</span><span><b>Setting</b> where, when</span><span><b>Style</b> photo, watercolour, 3D, flat vector</span><span><b>Lighting / mood</b> golden hour, moody</span><span><b>Camera</b> close-up, wide, 35mm</span></div>
+<pre><code class="text">A product photo of a matte-black smartwatch on a marble desk, soft morning window light,
+shallow depth of field, minimalist, high detail --ar 4:5 --v 6</code></pre>
+<h3>Midjourney essentials (Classes 21–24)</h3>
+<table class="tbl"><tbody>
+<tr><td><code>/imagine</code></td><td>Generate 4 images from a prompt</td></tr>
+<tr><td>U1–U4 / V1–V4</td><td>Upscale or create variations of an image</td></tr>
+<tr><td><code>--ar 16:9</code></td><td>Aspect ratio</td></tr>
+<tr><td><code>--v</code></td><td>Model version</td></tr>
+<tr><td><code>--stylize</code> / <code>--s</code></td><td>How strongly Midjourney's own aesthetic is applied</td></tr>
+<tr><td><code>--chaos</code></td><td>Variety between the 4 results</td></tr>
+<tr><td><code>--no text</code></td><td>Negative prompt: exclude something</td></tr>
+<tr><td><code>--seed</code></td><td>Reproduce a similar result</td></tr>
+<tr><td>Image prompts</td><td>Paste an image URL before the text to guide style or composition</td></tr>
+<tr><td><code>/describe</code></td><td>Upload an image and get prompts that describe it (reverse prompting for images)</td></tr>
+</tbody></table>
+<h3>DALL·E (Class 25)</h3>
+<ul><li>Available inside ChatGPT: describe the image conversationally and ask for edits ("make the background blue", "add a laptop on the table").</li><li>Good at following detailed instructions and placing text; Midjourney is often preferred for artistic quality.</li></ul>
+<div class="warn">Check usage rights before commercial use, avoid real people's likeness and trademarks, and label AI-generated images where required.</div>
+</div>
+
+<div data-tab="Prompt library">
+<h3>Ready-to-use prompt starters (Class 26)</h3>
+<div class="prompts">
+<div class="card"><h4>Learn a topic</h4><pre><code class="text">Act as my tutor for [topic]. Ask me 3 questions to gauge my level, then teach the
+concept in 5 short steps with one example each, and end with a 5-question quiz.</code></pre></div>
+<div class="card"><h4>Summarise a document</h4><pre><code class="text">Summarise the text below for a busy manager: 5 bullet key points, 3 risks,
+2 decisions needed. Max 150 words. Quote numbers exactly as written.</code></pre></div>
+<div class="card"><h4>Data analysis helper</h4><pre><code class="text">You are a data analyst. Columns: [list]. Suggest 8 business questions this data can
+answer, the chart for each, and the pandas code to produce it.</code></pre></div>
+<div class="card"><h4>SQL from English</h4><pre><code class="text">Tables: [schema]. Write a SQL Server query that [question]. Return one result
+table. Then explain each clause in one line.</code></pre></div>
+<div class="card"><h4>Interview prep</h4><pre><code class="text">Ask me 10 interview questions for a [role] one at a time. After each answer,
+score it out of 10 and show a stronger answer.</code></pre></div>
+<div class="card"><h4>E-book outline (use case)</h4><pre><code class="text">Create an outline for a 10-chapter beginner e-book on [topic] for [audience].
+For each chapter: title, 3 learning outcomes, one practical exercise.
+Then write chapter 1 in a friendly tone, about 800 words.</code></pre></div>
+</div>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>What is the difference between AI, ML, deep learning and generative AI?</summary><p>AI is the broad goal of machines doing intelligent tasks; ML learns patterns from data; deep learning uses multi-layer neural networks; generative AI is deep learning that creates new content (text, images, code).</p></details>
+<details><summary>Why do LLMs hallucinate, and how do you reduce it?</summary><p>They generate the most plausible next tokens, not verified facts. Reduce it by grounding with documents (RAG), asking for sources, lowering temperature, and checking outputs.</p></details>
+<details><summary>What does temperature do?</summary><p>It controls randomness. Low temperature for factual or code tasks, higher for brainstorming and creative writing.</p></details>
+<details><summary>Explain chain-of-thought prompting.</summary><p>Asking the model to reason through intermediate steps before giving the answer. It improves multi-step maths and logic, and lets you check the reasoning.</p></details>
+<details><summary>What is RAG?</summary><p>Retrieval-augmented generation: search a knowledge base for relevant chunks (using embeddings), add them to the prompt, and have the model answer from them. It keeps answers current and grounded without retraining.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Andrej Karpathy intro to large language models]], the best one-hour overview.</li>
+<li>[[yt:3Blue1Brown but what is a GPT visual intro to transformers]]</li>
+<li>[[yt:Google prompting essentials]] and [[yt:prompt engineering tutorial for beginners]]</li>
+<li>[[yt:Midjourney beginner guide parameters]]</li>
+<li>[[doc:OpenAI prompt engineering guide|https://platform.openai.com/docs/guides/prompt-engineering]] · [[doc:Anthropic prompt engineering overview|https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview]]</li>
+<li>[[doc:Midjourney documentation|https://docs.midjourney.com/]]</li>
+<li>[[doc:DeepLearning.AI short courses (free)|https://www.deeplearning.ai/short-courses/]]</li>
+</ul>
+</div>

@@ -1,0 +1,64 @@
+<!--meta {"id":"s10","num":"S10","title":"Reverse Engineering for Non-Tech Learners","sub":"Learn fast by taking finished work apart: dashboards, Excel models, SQL, notebooks, ML models, metrics and AI prompts","icon":"🔍","courses":"Learning session · a skill-building method used by analysts to understand inherited work and learn from good examples"} -->
+<div data-tab="The method">
+<p class="lead">Reverse engineering means starting from a finished result and working backwards to understand how it was built. For a non-technical learner it is the fastest way to learn: instead of a blank page, you study a working example, rebuild a small version, and compare.</p>
+<figure><img src="img/dg/reverse_eng.png" alt="reverse engineering steps"><figcaption>Six steps that work for any artefact.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Step</th><th>Questions to ask</th></tr></thead><tbody>
+<tr><td>1 Observe</td><td>What question does this answer? Who uses it? Which numbers matter most?</td></tr>
+<tr><td>2 Decompose</td><td>What are the parts (pages, sheets, CTEs, cells, features)? Which part feeds which?</td></tr>
+<tr><td>3 Trace</td><td>For one number: which data, which filters, which formula produced it?</td></tr>
+<tr><td>4 Rebuild</td><td>Recreate one part on a small sample yourself</td></tr>
+<tr><td>5 Compare</td><td>Do your numbers match? If not, what is different (filter, join, definition)?</td></tr>
+<tr><td>6 Document &amp; improve</td><td>Write the logic in plain English; note risks and improvements</td></tr>
+</tbody></table>
+<div class="warn">Only reverse-engineer work you are allowed to access: your company's files, public examples (Tableau Public, Kaggle notebooks, GitHub), or your own course material. Respect licences, terms of service and confidentiality.</div>
+</div>
+
+<div data-tab="Excel workbooks">
+<ul><li><b>Show Formulas</b> (<span class="kbd">Ctrl</span>+<span class="kbd">`</span>) to see all logic at once.</li><li><b>Trace Precedents / Dependents</b> (Formulas tab) draws arrows from inputs to outputs; <b>Evaluate Formula</b> steps through a formula one calculation at a time.</li><li><b>Name Manager</b> lists named ranges and LAMBDA functions; <b>Go To Special → Formulas / Constants</b> highlights hard-coded numbers hiding among formulas.</li><li>Data → Queries &amp; Connections shows Power Query steps; Data → Relationships / Power Pivot shows the data model.</li><li><b>Inquire</b> add-in (Workbook Analysis, Compare Files) or Copilot's "Explain this formula".</li></ul>
+<div class="card"><h4>Exercise</h4><p>Take a finished dashboard workbook (e.g. a free Excel dashboard template). Pick the headline KPI, trace it back to raw data, write the calculation in one sentence, then rebuild it on a new sheet with your own formula and check it matches.</p></div>
+</div>
+
+<div data-tab="SQL queries">
+<ol><li>Format the query (SSMS: Edit → Advanced; or an online formatter) so each clause is on its own line.</li><li>Read in <b>execution order</b>: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.</li><li>For nested queries, read the <b>innermost</b> subquery first; for CTEs read top to bottom and run each CTE alone: <code>WITH a AS (...) SELECT * FROM a;</code></li><li>Check row counts after each join to spot duplication.</li><li>Replace the final SELECT with <code>SELECT TOP 20 *</code> at each stage to see intermediate data.</li><li>Look at the execution plan (<span class="kbd">Ctrl</span>+<span class="kbd">M</span>) to understand how tables are combined.</li><li>Ask an AI assistant: "Explain this query line by line for a beginner and describe the business question it answers."</li></ol>
+</div>
+
+<div data-tab="Dashboards">
+<h3>Power BI</h3>
+<ul><li>Model view: tables, relationships, direction.</li><li>Select a visual → see fields in the Build pane; check visual/page/report filters.</li><li>Right-click a measure → see its DAX; use the DAX query view to evaluate it alone.</li><li>Performance Analyzer → Copy query shows the exact DAX each visual runs.</li><li>Open a .pbip project to read the model as TMDL text.</li></ul>
+<h3>Tableau</h3>
+<ul><li>On Tableau Public, many authors allow "Download" of the .twbx: open each sheet and look at shelves, the Marks card and filters.</li><li>Right-click calculated fields → Edit to read formulas; check Compute Using on table calcs.</li><li>Dashboard → Actions shows interactivity.</li></ul>
+<div class="card"><h4>Exercise</h4><p>Pick a Tableau Public "Viz of the Day". Identify its chart types, the calculated fields it must need, and rebuild one chart with a similar public dataset.</p></div>
+</div>
+
+<div data-tab="Notebooks & ML models">
+<h3>Python notebooks (Kaggle, GitHub)</h3>
+<ul><li>Run cell by cell; after each, print <code>df.shape</code>, <code>df.head()</code> to see what changed.</li><li>Write a one-line comment above each cell in your own words.</li><li>Change one parameter at a time and observe the effect.</li></ul>
+<h3>ML models</h3>
+<table class="tbl"><tbody>
+<tr><td>What does it predict?</td><td>Find the target column and the business decision it supports</td></tr>
+<tr><td>What drives it?</td><td>Feature importance, coefficients, SHAP summary plots</td></tr>
+<tr><td>How does it behave?</td><td>Score a few hand-made examples ("what if income doubles?") – sensitivity analysis</td></tr>
+<tr><td>How good is it?</td><td>Recompute the confusion matrix on a hold-out sample</td></tr>
+<tr><td>Is it fair?</td><td>Compare error rates across groups</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Metrics, apps & AI">
+<h3>Reverse-engineer a business metric</h3>
+<p>Build a <b>metric tree</b>: Revenue = Orders × AOV; Orders = Visitors × Conversion; AOV = Items per order × Price per item. When a number moves, walk down the tree to find which branch moved.</p>
+<h3>Reverse-engineer a product (case-study thinking)</h3>
+<p>Look at a feature (e.g. "Frequently bought together") and ask: what data does it need (order history), what algorithm (association rules), what metric would prove it works (attach rate, AOV)? This is how product and data interview cases are answered.</p>
+<h3>Reverse prompting (AI)</h3>
+<p>Give an AI an output you like (a report, an email, a chart description) and ask: "Write the prompt that would produce this." Save the resulting prompt as a template. Covered in <a href="#m6/Prompting techniques">Generative AI → PT4 Reverse prompting</a>.</p>
+<h3>Public web data (responsibly)</h3>
+<p>Browser developer tools (F12 → Network) show the data a public page loads (often JSON). Use official APIs or downloads where provided, follow the site's terms, and never collect personal data.</p>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Excel trace precedents evaluate formula tutorial]] · [[yt:how to read complex SQL queries]]</li>
+<li>[[yt:Power BI performance analyzer tutorial]] · [[yt:Tableau Public download workbook learn]]</li>
+<li>[[yt:SHAP values explained simply]]</li>
+<li>[[doc:Tableau Public Viz of the Day|https://public.tableau.com/app/discover/viz-of-the-day]] · [[doc:Kaggle Code (public notebooks)|https://www.kaggle.com/code]]</li>
+</ul>
+</div>

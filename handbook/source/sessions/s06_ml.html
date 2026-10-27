@@ -1,0 +1,130 @@
+<!--meta {"id":"s6","num":"S6","title":"Machine Learning: Basic to Advanced (for non-tech learners)","sub":"What ML is, every major algorithm in plain English, how models are judged, and how they reach production","icon":"🤖","courses":"Learning session · no maths background needed · links to the illustrated ML Class 1–7 notes for depth"} -->
+<div data-tab="What ML is">
+<p class="lead">Machine learning is teaching a computer by <b>examples</b> instead of rules. Show it thousands of past loan applications labelled "repaid" or "defaulted", and it learns the pattern well enough to judge a new application.</p>
+<div class="grid2"><div class="card"><h4>Traditional rule</h4><p>IF income &lt; 3 lakh AND existing loans &gt; 2 THEN reject. A person writes and maintains every rule.</p></div><div class="card"><h4>Machine learning</h4><p>Feed 50,000 past applications with outcomes. The algorithm finds the combinations of income, debt, age and history that predict default, and outputs a probability.</p></div></div>
+<figure><img src="img/dg/ml_types.png" alt="types of ML"><figcaption>The three families of machine learning and their main tasks.</figcaption></figure>
+<h3>Everyday examples</h3>
+<table class="tbl"><thead><tr><th>Where you see it</th><th>Task</th><th>Type</th></tr></thead><tbody>
+<tr><td>Gmail spam folder</td><td>Spam or not</td><td>Classification</td></tr>
+<tr><td>Zomato delivery time estimate</td><td>Minutes to deliver</td><td>Regression</td></tr>
+<tr><td>Netflix / Spotify recommendations</td><td>What you'll like next</td><td>Recommendation</td></tr>
+<tr><td>Bank fraud SMS</td><td>Unusual transaction</td><td>Anomaly detection</td></tr>
+<tr><td>Customer segments in marketing</td><td>Group similar customers</td><td>Clustering</td></tr>
+<tr><td>Google Maps traffic, UPI demand planning</td><td>Future values</td><td>Forecasting</td></tr>
+<tr><td>Review sentiment, ChatGPT</td><td>Understand/generate text</td><td>NLP / deep learning</td></tr>
+</tbody></table>
+<h3>Key words</h3>
+<table class="tbl"><tbody>
+<tr><td>Features (X)</td><td>Inputs: income, age, number of orders</td></tr>
+<tr><td>Target / label (y)</td><td>What to predict: default yes/no, next month's sales</td></tr>
+<tr><td>Training</td><td>The algorithm adjusts itself to fit past examples</td></tr>
+<tr><td>Model</td><td>The learned pattern, saved and reused</td></tr>
+<tr><td>Prediction / inference</td><td>Applying the model to new data</td></tr>
+<tr><td>Train / test split</td><td>Learn on 70–80%, check on the unseen 20–30%</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="The ML workflow">
+<figure><img src="img/dg/ml_workflow.png" alt="ML workflow"><figcaption>Every ML project follows this loop. Most time goes into the first four boxes.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Step</th><th>Plain English</th><th>Example: predicting churn for a telecom</th></tr></thead><tbody>
+<tr><td>Define</td><td>What decision will the prediction support?</td><td>Who to call with a retention offer this month</td></tr>
+<tr><td>Target</td><td>Exact definition of the outcome</td><td>Churn = ports out within 60 days</td></tr>
+<tr><td>Data</td><td>Gather history with known outcomes</td><td>12 months of usage, bills, complaints, plan</td></tr>
+<tr><td>Clean &amp; explore</td><td>Fix gaps, errors, outliers; look at patterns</td><td>Missing tenure, duplicate accounts</td></tr>
+<tr><td>Features</td><td>Turn raw data into useful signals</td><td>Drop in data usage, complaints last 30 days, days since recharge</td></tr>
+<tr><td>Train &amp; tune</td><td>Try models; tune settings with cross-validation</td><td>Logistic regression vs random forest vs XGBoost</td></tr>
+<tr><td>Evaluate</td><td>Test on unseen data with business metrics</td><td>Catches 75% of churners in the top 20% risk list</td></tr>
+<tr><td>Deploy &amp; monitor</td><td>Score customers regularly; watch accuracy</td><td>Weekly scores to the CRM; retrain quarterly</td></tr>
+</tbody></table>
+<p>Deep dive with real data and charts: <a href="#ml/Class 3: Intro to ML">ML Class 3</a>, <a href="#ml/Class 4: Lifecycle & models">Class 4</a>, <a href="#ml/Class 6: Pre-processing & fit">Class 6</a>.</p>
+</div>
+
+<div data-tab="Algorithms explained">
+<table class="tbl"><thead><tr><th>Algorithm</th><th>Plain-English idea</th><th>Good for</th><th>Watch out</th></tr></thead><tbody>
+<tr><td>Linear regression</td><td>Draws the best straight line through the points</td><td>Sales vs ad spend; price estimates; explaining drivers</td><td>Only straight-line relationships unless you add features</td></tr>
+<tr><td>Logistic regression</td><td>Linear score squeezed into a 0–1 probability</td><td>Credit risk, churn; explainable (regulators like it)</td><td>Misses complex interactions</td></tr>
+<tr><td>Decision tree</td><td>A flowchart of yes/no questions learnt from data</td><td>Easy-to-explain rules</td><td>One deep tree overfits</td></tr>
+<tr><td>Random forest</td><td>Hundreds of trees on random samples vote</td><td>Strong all-rounder for tables</td><td>Less interpretable, bigger</td></tr>
+<tr><td>Gradient boosting (XGBoost, LightGBM, CatBoost)</td><td>Trees built one after another, each fixing the previous errors</td><td>Best accuracy on most business tabular data</td><td>Needs tuning; can overfit</td></tr>
+<tr><td>K-nearest neighbours</td><td>"You are like your closest neighbours"</td><td>Simple baselines, recommendations</td><td>Needs scaling; slow on big data</td></tr>
+<tr><td>Naive Bayes</td><td>Bayes' rule assuming features independent</td><td>Spam and text classification</td><td>Independence assumption is rough</td></tr>
+<tr><td>Support vector machine</td><td>Widest possible margin between classes</td><td>Smaller, high-dimensional data</td><td>Slow on large data; hard to explain</td></tr>
+<tr><td>K-means clustering</td><td>Puts customers into K groups around centres</td><td>Segmentation</td><td>Choose K (elbow/silhouette); scale features</td></tr>
+<tr><td>Hierarchical clustering</td><td>Builds a tree of nested groups (dendrogram)</td><td>Small data, exploring structure</td><td>Slow for big data</td></tr>
+<tr><td>PCA</td><td>Compresses many correlated columns into a few</td><td>Visualising, removing redundancy</td><td>Components are hard to name</td></tr>
+<tr><td>Association rules (Apriori)</td><td>"Bread → butter" with support, confidence, lift</td><td>Market basket, cross-sell</td><td>Many trivial rules</td></tr>
+<tr><td>Time-series (ARIMA, ETS, Prophet)</td><td>Uses trend + seasonality to forecast</td><td>Demand, cash flow, call volumes</td><td>Breaks when patterns shift</td></tr>
+<tr><td>Neural networks / deep learning</td><td>Layers of simple units learning complex patterns</td><td>Images, speech, text, LLMs</td><td>Needs lots of data and compute</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Is the model good?">
+<h3>Regression metrics</h3>
+<table class="tbl"><tbody>
+<tr><td>MAE</td><td>Average size of error: "off by ₹1,200 on average"</td></tr>
+<tr><td>RMSE</td><td>Like MAE but punishes big misses more</td></tr>
+<tr><td>MAPE</td><td>Average % error: "forecast is 8% off"</td></tr>
+<tr><td>R²</td><td>Share of variation explained (0 to 1)</td></tr>
+</tbody></table>
+<h3>Classification metrics</h3>
+<figure><img src="img/ml/c7_cm_roc.png" alt="confusion matrix ROC"><figcaption>Confusion matrix and ROC curve (see ML Class 7 for the full worked example).</figcaption></figure>
+<table class="tbl"><tbody>
+<tr><td>Accuracy</td><td>Share of correct predictions. Misleading if one class is rare.</td></tr>
+<tr><td>Precision</td><td>Of those flagged, how many were right? (Avoid wasting offers/false alarms.)</td></tr>
+<tr><td>Recall</td><td>Of the real positives, how many did we catch? (Don't miss fraud or disease.)</td></tr>
+<tr><td>F1</td><td>Balance of precision and recall</td></tr>
+<tr><td>ROC-AUC</td><td>How well the model ranks positives above negatives (0.5 random, 1.0 perfect)</td></tr>
+<tr><td>Lift / gains</td><td>"Top 10% of scores contain 40% of churners" – the metric business teams love</td></tr>
+</tbody></table>
+<h3>Overfitting in one sentence</h3>
+<p>A model that memorises the training data (like a student memorising last year's paper) scores brilliantly in practice and fails the real exam. We prevent it with test sets, cross-validation, simpler models and more data. Picture: <a href="#ml/Class 6: Pre-processing & fit">ML Class 6</a>.</p>
+</div>
+
+<div data-tab="Advanced topics">
+<table class="tbl"><tbody>
+<tr><td>Feature engineering</td><td>Ratios, recency, trends, date parts, text length; often matters more than the algorithm</td></tr>
+<tr><td>Imbalanced data</td><td>Class weights, SMOTE oversampling, choosing the right threshold</td></tr>
+<tr><td>Hyper-parameter tuning</td><td>GridSearchCV, RandomizedSearchCV, Bayesian search (Optuna)</td></tr>
+<tr><td>Ensembles</td><td>Bagging, boosting, stacking several models</td></tr>
+<tr><td>Explainability</td><td>Feature importance, SHAP values ("income lowered this applicant's risk by 8 points"), partial dependence</td></tr>
+<tr><td>Text mining / NLP</td><td>Tokenise → clean (stop words, lemmatise) → bag-of-words / TF-IDF / embeddings → classify sentiment or topics</td></tr>
+<tr><td>Recommenders</td><td>Collaborative filtering, matrix factorisation, embeddings</td></tr>
+<tr><td>Deep learning</td><td>CNNs for images, RNN/LSTM and Transformers for sequences and text</td></tr>
+<tr><td>AutoML / no-code</td><td>Azure AutoML, Google Vertex AI, DataRobot, H2O, PyCaret; Copilot or ChatGPT data analysis for quick models</td></tr>
+<tr><td>MLOps</td><td>Versioning, deployment, monitoring and retraining (see <a href="#m5">ML Ops module</a>)</td></tr>
+<tr><td>Responsible AI</td><td>Fairness across groups, privacy (DPDP Act in India), transparency, human review of high-impact decisions</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Use cases by industry">
+<table class="tbl"><thead><tr><th>Industry</th><th>Use case</th><th>Typical model</th><th>Business metric</th></tr></thead><tbody>
+<tr><td>Banking</td><td>Credit scoring, fraud, collections priority</td><td>Logistic regression, gradient boosting</td><td>Default rate, fraud loss, recovery %</td></tr>
+<tr><td>Retail / e-commerce</td><td>Demand forecasting, recommendations, churn, pricing</td><td>Time series, collaborative filtering, boosting</td><td>Stock-outs, conversion, AOV</td></tr>
+<tr><td>Telecom</td><td>Churn prediction, network fault prediction</td><td>Boosting, survival models</td><td>Churn rate, retention ROI</td></tr>
+<tr><td>Healthcare</td><td>Readmission risk, image diagnosis support</td><td>Logistic regression, CNNs</td><td>Readmissions, sensitivity</td></tr>
+<tr><td>Operations / call centres</td><td>Call-volume forecasting, staffing, intent routing</td><td>ETS/ARIMA, text classification</td><td>Service level, AHT, cost per contact</td></tr>
+<tr><td>HR</td><td>Attrition risk, resume screening (with bias checks)</td><td>Logistic regression, NLP</td><td>Attrition, time-to-hire</td></tr>
+<tr><td>Marketing</td><td>Segmentation, propensity to buy, uplift modelling</td><td>K-means, boosting</td><td>Campaign ROI, CAC</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Explain machine learning to a 10-year-old.</summary><p>It's like learning to recognise dogs: after seeing many pictures labelled "dog" and "not dog", you can tell for a new picture. The computer does the same with data.</p></details>
+<details><summary>Supervised vs unsupervised?</summary><p>Supervised learns from examples with known answers (predict churn). Unsupervised finds structure without answers (group customers).</p></details>
+<details><summary>What is overfitting and how do you prevent it?</summary><p>Memorising noise in training data so the model fails on new data. Prevent with train/test splits, cross-validation, simpler models, regularisation and more data.</p></details>
+<details><summary>Precision vs recall with a business example?</summary><p>Fraud: recall = share of frauds caught; precision = share of alerts that were real fraud. Missing fraud is costly, so prioritise recall while keeping alerts manageable.</p></details>
+<details><summary>Why is random forest better than one decision tree?</summary><p>Averaging many trees trained on different samples reduces variance, so predictions are more stable and accurate.</p></details>
+<details><summary>How do you explain a model's prediction to a manager?</summary><p>Show the top drivers (feature importance or SHAP), a few example customers, and the business result (e.g. calls saved, revenue protected).</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn machine learning full course]] · [[yt:Simplilearn machine learning tutorial for beginners]]</li>
+<li>[[yt:StatQuest machine learning playlist]] · [[yt:Andrew Ng machine learning specialization]]</li>
+<li>[[yt:codebasics machine learning tutorial python]] · [[yt:Krish Naik complete machine learning playlist]]</li>
+<li>[[doc:Google Machine Learning Crash Course|https://developers.google.com/machine-learning/crash-course]] · [[doc:Kaggle Learn: Intro to ML|https://www.kaggle.com/learn/intro-to-machine-learning]]</li>
+<li>[[doc:scikit-learn: choosing the right estimator|https://scikit-learn.org/stable/machine_learning_map.html]]</li>
+</ul>
+</div>

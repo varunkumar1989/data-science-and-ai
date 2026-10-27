@@ -1,0 +1,495 @@
+<!--meta {"id":"m1","num":"01","title":"Building Blocks Essentials","sub":"Class 1 to Class 8: Excel, RDBMS, DDL, SELECT & joins, SQL Server setup, Statistics parts 1–3","icon":"🧱","courses":"Building Blocks Essentials · 8 classes · modules: Excel Pre-Learning, SQL Pre-Learning, Building Blocks Assessment"} -->
+<div data-tab="Overview">
+<p class="lead">Building Blocks Essentials is the foundation course of the programme. It teaches the three skills every data role uses daily: <b>Excel</b> for quick analysis, <b>SQL</b> for pulling data out of databases, and <b>statistics</b> for reading numbers correctly. Every later course (Python, Data Visualization, ML) assumes you know this material.</p>
+<figure><img src="img/dg/ds_lifecycle.png" alt="Data science life cycle"><figcaption>Where Building Blocks fits: Excel and SQL power the "collect, clean, explore" steps; statistics powers "explore" and "model".</figcaption></figure>
+<table class="tbl"><thead><tr><th>Class</th><th>Title</th><th>What it covers</th></tr></thead><tbody>
+<tr><td><a href="#m1/Building Blocks · Class 1">Building Blocks · Class 1</a></td><td>Microsoft Excel and basic functionality</td><td>Excel environment, terminology, key features, shortcuts; Number, Date &amp; Time, Text and Aggregate functions; formatting and custom number formats; conditional formatting (incl. custom rules); freeze panes; sorting and filters; basic charts</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 2">Building Blocks · Class 2</a></td><td>Introduction to RDBMS</td><td>Server, database, DBMS, RDBMS; database design and structure; key RDBMS vendors; ER diagrams; keys and constraints; relationships and metadata; introduction to SQL; MS SQL Server and SSMS</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 3">Building Blocks · Class 3</a></td><td>Data Definition Language</td><td>Create, drop and select databases; create and drop tables; data types; inserting values; UPDATE; ALTER; primary and foreign keys with constraints; TRUNCATE; best practices</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 4">Building Blocks · Class 4</a></td><td>Data extraction with SELECT</td><td>Subsetting, sorting, filtering, removing duplicates; operators; order of operations; text, date, number and aggregate functions; joins (LEFT, RIGHT, INNER, OUTER, SELF, CROSS, NATURAL); appending; set operators; subqueries; business use cases</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 5">Building Blocks · Class 5</a></td><td>SQL recitation: SQL Server setup</td><td>Installing SQL Server and SSMS, the query editor, importing flat files</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 6">Building Blocks · Class 6</a></td><td>Statistics Part 1/4</td><td>What statistics is, data types and scales, population vs sample, central tendency</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 7">Building Blocks · Class 7</a></td><td>Statistics Part 2/4</td><td>Dispersion, percentiles, shape, box plots, z-scores, correlation</td></tr>
+<tr><td><a href="#m1/Building Blocks · Class 8">Building Blocks · Class 8</a></td><td>Statistics Part 3/4</td><td>Probability, distributions, sampling, Central Limit Theorem</td></tr>
+</tbody></table>
+<div class="note-box">The course page labels Classes 6–8 as "pre-learning sessions on STATISTICS (Parts 1–3 of 4) that should be covered before statistics in Python for Data Science". Part 4/4 is taught in <a href="#m1b/Building Blocks ML · Class 5">Building Blocks of ML &amp; Applied AI · Class 5</a>. The class titles do not list sub-topics, so the split of statistics topics across Parts 1–4 below follows the standard order of an introductory statistics course.</div>
+<p class="tip">Also see <a href="#m1/What's new 2025–26">What's new 2025–26</a> for the Excel and SQL Server changes released after these classes were recorded, and the <a href="#s1">Advanced Excel</a> and <a href="#s2">SQL</a> learning sessions for the full basic-to-advanced path.</p>
+</div>
+
+<div data-tab="Building Blocks · Class 1">
+<h3>Building Blocks · Class 1: Introduction to Microsoft Excel and basic functionality</h3>
+<h4>1.1 The Excel environment</h4>
+<figure><img src="img/dg/excel_terms.png" alt="Excel terminology"><figcaption>Workbook → worksheets → rows × columns → cells. A modern worksheet has 1,048,576 rows and 16,384 columns (A to XFD).</figcaption></figure>
+<table class="tbl"><thead><tr><th>Part of the screen</th><th>What it does</th></tr></thead><tbody>
+<tr><td>Ribbon</td><td>Tabs (Home, Insert, Page Layout, Formulas, Data, Review, View) holding groups of commands</td></tr>
+<tr><td>Quick Access Toolbar</td><td>Your favourite commands (Save, Undo); right-click any command → Add to QAT</td></tr>
+<tr><td>Name Box</td><td>Shows the active cell address; type a name or address and press Enter to jump there</td></tr>
+<tr><td>Formula Bar</td><td>Shows the real content of a cell: the formula, not just the result</td></tr>
+<tr><td>Status bar</td><td>Select numbers to see instant Sum, Average and Count; right-click it to add Min/Max</td></tr>
+<tr><td>Sheet tabs</td><td>Switch, rename (double-click), colour, move or copy sheets</td></tr>
+<tr><td>File → Options</td><td>Calculation mode, autosave, language, add-ins (Analysis ToolPak)</td></tr>
+</tbody></table>
+<h4>1.2 Terminology</h4>
+<table class="tbl"><tbody>
+<tr><td><b>Workbook</b></td><td>The file (.xlsx; .xlsm if it has macros; .xlsb binary; .csv plain text, one sheet, no formatting)</td></tr>
+<tr><td><b>Worksheet</b></td><td>One grid inside the workbook</td></tr>
+<tr><td><b>Cell / address</b></td><td>Intersection of a column and row, e.g. C7</td></tr>
+<tr><td><b>Range</b></td><td>A block of cells, e.g. A1:D20; non-adjacent ranges use a comma: A1:A5,C1:C5</td></tr>
+<tr><td><b>Formula</b></td><td>Starts with <code>=</code>; can use operators, references and functions: <code>=B2*C2</code></td></tr>
+<tr><td><b>Function</b></td><td>A built-in formula with a name and arguments: <code>=SUM(B2:B10)</code></td></tr>
+<tr><td><b>Argument</b></td><td>An input to a function, separated by commas</td></tr>
+<tr><td><b>Relative / absolute reference</b></td><td>A1 shifts when copied; $A$1 stays fixed; A$1 / $A1 are mixed. Press <span class="kbd">F4</span> to cycle</td></tr>
+<tr><td><b>Table</b></td><td>A range converted with <span class="kbd">Ctrl</span>+<span class="kbd">T</span>: banded, auto-expanding, uses names like <code>Sales[Amount]</code></td></tr>
+</tbody></table>
+<figure><img src="img/dg/excel_formula_anatomy.png" alt="Anatomy of a formula"><figcaption>Anatomy of a formula: equals sign, function name, then arguments in brackets.</figcaption></figure>
+<h4>1.3 Key functionalities</h4>
+<ul><li><b>AutoFill and Flash Fill</b>: drag the fill handle to continue a series (Jan, Feb…); <span class="kbd">Ctrl</span>+<span class="kbd">E</span> Flash Fill learns a pattern from one example (first names from full names).</li><li><b>Paste Special</b> (<span class="kbd">Ctrl</span>+<span class="kbd">Alt</span>+<span class="kbd">V</span>): values only, formats, transpose, multiply a range by a number.</li><li><b>Find &amp; Replace</b> (<span class="kbd">Ctrl</span>+<span class="kbd">H</span>), Go To Special (blanks, formulas, errors).</li><li><b>Text to Columns</b> (Data tab): split "Gurugram, Haryana" into two columns.</li><li><b>Remove Duplicates</b>, <b>Data Validation</b> (drop-down lists), <b>Protect Sheet</b>.</li></ul>
+<h4>1.4 Shortcuts</h4>
+<div class="grid2"><table class="tbl"><thead><tr><th colspan="2">Navigate and select</th></tr></thead><tbody>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Arrow</span></td><td>Jump to the last filled cell in a direction</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">Arrow</span></td><td>Select to the edge of data</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Home</span> / <span class="kbd">End</span></td><td>Go to A1 / last used cell</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Space</span> / <span class="kbd">Shift</span>+<span class="kbd">Space</span></td><td>Select column / row</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">PgUp/PgDn</span></td><td>Previous / next sheet</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">G</span> or <span class="kbd">F5</span></td><td>Go To</td></tr>
+</tbody></table><table class="tbl"><thead><tr><th colspan="2">Edit and format</th></tr></thead><tbody>
+<tr><td><span class="kbd">F2</span></td><td>Edit cell</td></tr>
+<tr><td><span class="kbd">F4</span></td><td>Toggle $ references / repeat last action</td></tr>
+<tr><td><span class="kbd">Alt</span>+<span class="kbd">=</span></td><td>AutoSum</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">1</span></td><td>Format Cells</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">$ % #</span></td><td>Currency / percent / date format</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">;</span> / <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">;</span></td><td>Today's date / current time</td></tr>
+<tr><td><span class="kbd">Alt</span>+<span class="kbd">Enter</span></td><td>New line inside a cell</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">L</span></td><td>Toggle filters</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">`</span></td><td>Show formulas instead of results</td></tr>
+</tbody></table></div>
+<h4>1.5 Functions: four families with real examples</h4>
+<p class="muted">Example sheet: an electronics retailer's orders. Columns: A Order ID, B Order Date, C Customer, D City, E Product, F Qty, G Unit Price, H Amount.</p>
+<table class="tbl"><thead><tr><th>Family</th><th>Function</th><th>Real-world formula</th><th>Result / meaning</th></tr></thead><tbody>
+<tr><td rowspan="6">Number</td><td>ROUND</td><td><code>=ROUND(H2*18%,2)</code></td><td>GST at 18%, rounded to paise</td></tr>
+<tr><td>ROUNDUP / ROUNDDOWN</td><td><code>=ROUNDUP(F2/12,0)</code></td><td>Cartons needed when 12 fit per carton</td></tr>
+<tr><td>INT / TRUNC</td><td><code>=INT(H2/1000)</code></td><td>Whole thousands</td></tr>
+<tr><td>MOD</td><td><code>=MOD(A2,2)=0</code></td><td>TRUE for even order IDs (alternate-row checks)</td></tr>
+<tr><td>ABS</td><td><code>=ABS(Actual-Target)</code></td><td>Size of a miss, ignoring sign</td></tr>
+<tr><td>CEILING / FLOOR, RAND, RANDBETWEEN</td><td><code>=CEILING(G2,10)</code></td><td>Price rounded up to the next ₹10</td></tr>
+<tr><td rowspan="7">Date &amp; Time</td><td>TODAY / NOW</td><td><code>=TODAY()-B2</code></td><td>Days since the order</td></tr>
+<tr><td>YEAR / MONTH / DAY</td><td><code>=YEAR(B2)</code></td><td>Order year for grouping</td></tr>
+<tr><td>TEXT</td><td><code>=TEXT(B2,"mmm-yy")</code></td><td>"Oct-26" month label</td></tr>
+<tr><td>DATE</td><td><code>=DATE(2026,4,1)</code></td><td>Start of the Indian financial year</td></tr>
+<tr><td>EOMONTH / EDATE</td><td><code>=EOMONTH(B2,0)</code></td><td>Month-end date (billing cut-off); <code>EDATE(B2,3)</code> = 3 months later</td></tr>
+<tr><td>DATEDIF</td><td><code>=DATEDIF(DOB,TODAY(),"Y")</code></td><td>Age in completed years (hidden function, still works)</td></tr>
+<tr><td>WEEKDAY / NETWORKDAYS / WORKDAY</td><td><code>=NETWORKDAYS(B2,DeliveredOn)</code></td><td>Working days to deliver (excludes weekends, optional holiday list)</td></tr>
+<tr><td rowspan="8">Text</td><td>LEFT / RIGHT / MID</td><td><code>=LEFT(A2,3)</code></td><td>Region prefix "NOR" from "NOR-1042"</td></tr>
+<tr><td>LEN</td><td><code>=LEN(Phone)=10</code></td><td>Valid 10-digit mobile number?</td></tr>
+<tr><td>FIND / SEARCH</td><td><code>=MID(Email,FIND("@",Email)+1,50)</code></td><td>Email domain</td></tr>
+<tr><td>TRIM / CLEAN</td><td><code>=TRIM(C2)</code></td><td>Removes extra spaces from imported names</td></tr>
+<tr><td>UPPER / LOWER / PROPER</td><td><code>=PROPER(C2)</code></td><td>"ravi kumar" → "Ravi Kumar"</td></tr>
+<tr><td>CONCAT / &amp; / TEXTJOIN</td><td><code>=TEXTJOIN(", ",TRUE,D2:D6)</code></td><td>One cell listing cities, skipping blanks</td></tr>
+<tr><td>SUBSTITUTE / REPLACE</td><td><code>=SUBSTITUTE(G2,"₹","")*1</code></td><td>Strip a symbol and convert to a number</td></tr>
+<tr><td>VALUE / TEXT</td><td><code>=VALUE("1,250")</code></td><td>Text that looks like a number → a real number</td></tr>
+<tr><td rowspan="6">Aggregate</td><td>SUM / AVERAGE</td><td><code>=SUM(H2:H500)</code></td><td>Total revenue</td></tr>
+<tr><td>COUNT / COUNTA / COUNTBLANK</td><td><code>=COUNTBLANK(D2:D500)</code></td><td>Orders missing a city</td></tr>
+<tr><td>MIN / MAX / SMALL / LARGE</td><td><code>=LARGE(H2:H500,3)</code></td><td>Third-largest order</td></tr>
+<tr><td>SUMIF / SUMIFS</td><td><code>=SUMIFS(H:H,D:D,"Pune",B:B,"&gt;="&amp;DATE(2026,4,1))</code></td><td>Pune revenue this financial year</td></tr>
+<tr><td>COUNTIF / COUNTIFS</td><td><code>=COUNTIFS(D:D,"Delhi",H:H,"&gt;10000")</code></td><td>Big Delhi orders</td></tr>
+<tr><td>AVERAGEIF(S), MEDIAN, MODE</td><td><code>=AVERAGEIFS(H:H,E:E,"Laptop")</code></td><td>Average laptop order value</td></tr>
+</tbody></table>
+<h4>1.6 Formatting and custom number formatting</h4>
+<p>Formatting changes how a value <b>looks</b>, never the value itself. 0.18 formatted as % shows 18% but is still 0.18 in formulas.</p>
+<table class="tbl"><thead><tr><th>Custom format (Ctrl+1 → Custom)</th><th>Value</th><th>Shows as</th><th>Use</th></tr></thead><tbody>
+<tr><td><code>#,##0</code></td><td>1250000</td><td>1,250,000</td><td>Thousands separators</td></tr>
+<tr><td><code>[&gt;=10000000]##\,##\,##\,##0;[&gt;=100000]##\,##\,##0;##,##0</code></td><td>1250000</td><td>12,50,000</td><td>Indian lakh/crore grouping</td></tr>
+<tr><td><code>0.0,,"M"</code></td><td>1250000</td><td>1.3M</td><td>Millions in dashboards (each comma divides by 1,000)</td></tr>
+<tr><td><code>"₹"#,##0.00</code></td><td>99.5</td><td>₹99.50</td><td>Currency</td></tr>
+<tr><td><code>000</code></td><td>7</td><td>007</td><td>Fixed-length IDs</td></tr>
+<tr><td><code>dd mmm' yyyy</code></td><td>09-05-1986</td><td>09 May' 1986</td><td>Readable dates</td></tr>
+<tr><td><code>0 "kg"</code></td><td>80</td><td>80 kg</td><td>Units while staying numeric</td></tr>
+<tr><td><code>[Green]▲0%;[Red]▼0%;0%</code></td><td>0.12 / −0.05</td><td>▲12% / ▼5%</td><td>Positive;negative;zero sections</td></tr>
+<tr><td><code>;;;</code></td><td>anything</td><td>(hidden)</td><td>Hide values but keep them</td></tr>
+</tbody></table>
+<p class="tip">A format has up to four sections separated by semicolons: <b>positive;negative;zero;text</b>. Conditions in square brackets, e.g. <code>[&lt;100000]</code>, can replace the default sections.</p>
+<h4>1.7 Conditional formatting and custom rules</h4>
+<ul><li><b>Highlight Cells Rules</b>: greater than, between, duplicate values, text contains.</li><li><b>Top/Bottom</b>: top 10 items, top 10%, above average.</li><li><b>Data Bars, Colour Scales, Icon Sets</b>: in-cell visuals for a quick heatmap.</li><li><b>Custom rule with a formula</b> (New Rule → Use a formula): the formula must return TRUE/FALSE for the <b>first</b> cell of the selection; lock columns with $.</li></ul>
+<pre><code class="excel">Highlight the whole row when Amount &gt; 50,000        select A2:H500 →  =$H2&gt;50000
+Overdue invoices (due date passed, unpaid)          =AND($E2&lt;TODAY(),$F2="Unpaid")
+Weekend orders                                       =WEEKDAY($B2,2)&gt;5
+Every other row (zebra)                              =MOD(ROW(),2)=0
+Duplicate customer IDs                               =COUNTIF($A$2:$A$500,$A2)&gt;1</code></pre>
+<h4>1.8 Freezing panes</h4>
+<p>View → Freeze Panes keeps headers visible while scrolling. <b>Freeze Top Row</b> or <b>First Column</b>, or select cell B2 and choose Freeze Panes to lock both row 1 and column A (everything above and left of the selected cell is frozen). Split (View → Split) shows two parts of a sheet side by side.</p>
+<h4>1.9 Sorting and filters</h4>
+<ul><li>Sort A→Z / Z→A on one column; <b>Custom Sort</b> for multiple levels (City A→Z, then Amount largest first) or by cell colour, or by a custom list (Jan, Feb, Mar…).</li><li>Filter (<span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">L</span>): pick values, Text/Number/Date filters (Top 10, Between, This Month), filter by colour.</li><li><b>Advanced Filter</b> (Data → Advanced): criteria range with AND (same row) / OR (different rows); copy unique records to another location.</li><li>Use <code>SUBTOTAL(9,H2:H500)</code> or <code>AGGREGATE</code> to sum only visible (filtered) rows.</li></ul>
+<h4>1.10 Charts: concept and creation</h4>
+<figure><img src="img/bb/chart_types.png" alt="chart types"><figcaption>Pick the chart from the question: compare, trend, share, relationship, or two measures together.</figcaption></figure>
+<div class="steps"><div><b>1</b><span>Select the data, including headers (or click inside a Table).</span></div><div><b>2</b><span>Insert → Recommended Charts, or choose Column/Line/Pie (<span class="kbd">Alt</span>+<span class="kbd">F1</span> inserts a default chart instantly; <span class="kbd">F11</span> on a new sheet).</span></div><div><b>3</b><span>Use the <b>+</b> button for chart elements: title, axis titles, data labels, legend.</span></div><div><b>4</b><span>Chart Design → Change Chart Type → Combo for two measures (revenue bars + margin % line on a secondary axis).</span></div><div><b>5</b><span>Format: remove clutter (gridlines, 3D), sort bars, write the insight in the title ("South leads with 34% of sales").</span></div></div>
+<p class="tip">Practise every Class 1 topic in the <a href="#downloads">Excel Basic-to-Advanced workbook</a>: one sheet per topic with live formulas.</p>
+</div>
+
+<div data-tab="Building Blocks · Class 2">
+<h3>Building Blocks · Class 2: Introduction to RDBMS</h3>
+<h4>2.1 Server, database, DBMS, RDBMS</h4>
+<figure><img src="img/dg/rdbms_stack.png" alt="server database DBMS"><figcaption>Users and tools connect to a server; the RDBMS software on it manages databases, and each database holds related tables.</figcaption></figure>
+<table class="tbl"><tbody>
+<tr><td><b>Server</b></td><td>A computer (physical or cloud) that runs database software and answers requests over a network. In SQL Server one machine can host several <i>instances</i>.</td></tr>
+<tr><td><b>Database (DB)</b></td><td>An organised collection of related data, e.g. RetailDB with Customer, Orders and Product tables.</td></tr>
+<tr><td><b>DBMS</b></td><td>Software to create, read, update and secure data (handles storage, concurrency, backup, permissions).</td></tr>
+<tr><td><b>RDBMS</b></td><td>A DBMS that stores data in <b>tables (relations)</b> of rows and columns linked by keys, and is queried with SQL. Follows ACID properties: Atomicity, Consistency, Isolation, Durability.</td></tr>
+</tbody></table>
+<div class="grid2"><div class="card"><h4>Excel sheet vs database table</h4><ul><li>Excel: ~1M rows per sheet, one user editing, any value in any cell.</li><li>Database: billions of rows, thousands of users, every column has a fixed data type and rules.</li></ul></div><div class="card"><h4>Real example</h4><p>When you order on a food app, the order row is written to an Orders table, linked by customer_id to Customer and by restaurant_id to Restaurant. Analysts later query those same tables for reports.</p></div></div>
+<h4>2.2 Database design and structure</h4>
+<ul><li><b>Table</b> (relation/entity) → <b>row</b> (record/tuple) → <b>column</b> (field/attribute).</li><li><b>Schema</b>: a named container of objects (dbo.Customer, sales.Orders).</li><li><b>Normalisation</b>: split data so each fact is stored once. 1NF: one value per cell, no repeating groups. 2NF: every non-key column depends on the whole key. 3NF: no column depends on another non-key column (store city once in a City table, not in every order).</li><li><b>OLTP vs OLAP</b>: transactional systems (normalised, fast writes) vs analytics warehouses (star schemas, fast reads).</li></ul>
+<h4>2.3 Key RDBMS vendors</h4>
+<table class="tbl"><thead><tr><th>Product</th><th>Vendor</th><th>Notes</th></tr></thead><tbody>
+<tr><td>SQL Server / Azure SQL</td><td>Microsoft</td><td>Used in this course; T-SQL dialect; free Developer and Express editions</td></tr>
+<tr><td>MySQL</td><td>Oracle (open source)</td><td>Popular for web apps</td></tr>
+<tr><td>PostgreSQL</td><td>Open source</td><td>Feature-rich; very popular in start-ups and cloud</td></tr>
+<tr><td>Oracle Database</td><td>Oracle</td><td>Large enterprises, banking</td></tr>
+<tr><td>SQLite</td><td>Open source</td><td>File-based, inside phones and apps</td></tr>
+<tr><td>Cloud warehouses</td><td>Snowflake, Google BigQuery, Amazon Redshift, Databricks SQL, Microsoft Fabric</td><td>Analytics at scale; standard SQL with small dialect differences</td></tr>
+</tbody></table>
+<h4>2.4 Entity Relationship Diagram (ERD)</h4>
+<figure><img src="img/dg/er_retail.png" alt="ER diagram retail"><figcaption>Crow's-foot ERD for a retail database. "||--o{" reads "exactly one … zero or many".</figcaption></figure>
+<h4>2.5 Keys and constraints</h4>
+<table class="tbl"><thead><tr><th>Key / constraint</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td>Primary key (PK)</td><td>Uniquely identifies each row; not NULL; one per table</td><td>customer_id</td></tr>
+<tr><td>Foreign key (FK)</td><td>References a PK in another table; enforces referential integrity</td><td>Orders.customer_id → Customer.customer_id</td></tr>
+<tr><td>Candidate key</td><td>Any minimal column set that could be the PK</td><td>customer_id, email, PAN</td></tr>
+<tr><td>Alternate key</td><td>A candidate key not chosen as PK</td><td>email</td></tr>
+<tr><td>Composite key</td><td>PK made of 2+ columns</td><td>(order_id, line_no)</td></tr>
+<tr><td>Super key</td><td>Any unique column set, even with extra columns</td><td>(customer_id, name)</td></tr>
+<tr><td>Surrogate vs natural key</td><td>System-generated ID vs a real-world identifier</td><td>IDENTITY(1,1) vs PAN number</td></tr>
+<tr><td>NOT NULL · UNIQUE · CHECK · DEFAULT</td><td>Column rules</td><td><code>CHECK (qty &gt; 0)</code>, <code>DEFAULT GETDATE()</code></td></tr>
+</tbody></table>
+<h4>2.6 Relationships and metadata</h4>
+<ul><li><b>One-to-one</b>: employee ↔ employee_passport. <b>One-to-many</b>: customer → orders (most common). <b>Many-to-many</b>: students ↔ courses, implemented with a bridge table Enrolment(student_id, course_id).</li><li><b>Metadata</b> is data about data: table names, column names, types, keys, row counts. Query it with <code>SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Customer';</code> or <code>EXEC sp_help 'Customer';</code></li></ul>
+<h4>2.7 SQL, SQL Server and SSMS</h4>
+<p><b>SQL</b> (Structured Query Language) is the standard language for relational databases. It is <b>declarative</b>: you say <i>what</i> you want; the engine decides <i>how</i>. <b>T-SQL</b> is Microsoft's dialect (adds variables, TOP, procedures). <b>SSMS</b> (SQL Server Management Studio) is the free Windows tool for connecting to SQL Server, browsing objects in Object Explorer and running queries.</p>
+<figure><img src="img/dg/sql_families.png" alt="SQL sub-languages"><figcaption>The five SQL sub-languages.</figcaption></figure>
+</div>
+
+<div data-tab="Building Blocks · Class 3">
+<h3>Building Blocks · Class 3: Data Definition Language</h3>
+<h4>3.1 Create, select and drop a database</h4>
+<pre><code class="sql">CREATE DATABASE RetailDB;           -- create
+USE RetailDB;                       -- select it for the following statements
+SELECT name FROM sys.databases;     -- list databases
+-- DROP DATABASE RetailDB;          -- deletes the database and ALL its data (irreversible)</code></pre>
+<h4>3.2 Data types</h4>
+<table class="tbl"><thead><tr><th>Category</th><th>Types</th><th>Use for</th></tr></thead><tbody>
+<tr><td>Whole numbers</td><td>TINYINT (0–255), SMALLINT, INT (±2.1 billion), BIGINT</td><td>IDs, counts</td></tr>
+<tr><td>Exact decimals</td><td>DECIMAL(p,s) / NUMERIC, MONEY</td><td>Money: DECIMAL(10,2) = up to 99,999,999.99</td></tr>
+<tr><td>Approximate</td><td>FLOAT, REAL</td><td>Scientific values (never for money)</td></tr>
+<tr><td>Text</td><td>CHAR(n) fixed, VARCHAR(n) variable, NVARCHAR(n) Unicode (Hindi, emojis), VARCHAR(MAX)</td><td>Names, codes, comments</td></tr>
+<tr><td>Date &amp; time</td><td>DATE, TIME, DATETIME2, DATETIMEOFFSET (with time zone)</td><td>Order dates, timestamps</td></tr>
+<tr><td>Other</td><td>BIT (0/1), UNIQUEIDENTIFIER, VARBINARY, JSON (SQL Server 2025), VECTOR (2025)</td><td>Flags, GUIDs, files, documents, AI embeddings</td></tr>
+</tbody></table>
+<h4>3.3 Create and drop tables, with keys and constraints</h4>
+<pre><code class="sql">CREATE TABLE Customer (
+    customer_id INT IDENTITY(1001,1) PRIMARY KEY,           -- auto number 1001, 1002...
+    full_name   NVARCHAR(80) NOT NULL,
+    email       VARCHAR(120) UNIQUE,
+    city        VARCHAR(40)  DEFAULT 'Gurugram',
+    dob         DATE CHECK (dob &lt; '2010-01-01')
+);
+CREATE TABLE Orders (
+    order_id    INT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date  DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
+    amount      DECIMAL(10,2) CHECK (amount &gt;= 0),
+    CONSTRAINT fk_orders_customer FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+-- DROP TABLE Orders;   (drop the child first: Customer cannot be dropped while Orders references it)</code></pre>
+<h4>3.4 Insert values</h4>
+<pre><code class="sql">INSERT INTO Customer (full_name, email, city, dob)
+VALUES ('Asha Verma', 'asha@example.com', 'Pune', '1994-03-12'),
+       ('Ravi Kumar', 'ravi@example.com', DEFAULT, '1989-11-02');     -- multi-row insert (max 1000 rows per VALUES)
+INSERT INTO Orders VALUES (1, 1001, '2026-10-01', 2499.00);            -- all columns in table order
+INSERT INTO Orders_Archive SELECT * FROM Orders WHERE order_date &lt; '2026-01-01';   -- insert from a query</code></pre>
+<h4>3.5 Modify records: UPDATE (always with WHERE)</h4>
+<pre><code class="sql">UPDATE Customer SET city = 'Noida' WHERE customer_id = 1002;
+UPDATE Orders   SET amount = amount * 1.05 WHERE order_date &gt;= '2026-10-01';   -- 5% price revision
+-- Without WHERE every row changes. Run the same WHERE as a SELECT first to check the rows.</code></pre>
+<h4>3.6 ALTER: change the table's properties</h4>
+<pre><code class="sql">ALTER TABLE Customer ADD phone VARCHAR(15);                       -- add a column
+ALTER TABLE Customer ALTER COLUMN city VARCHAR(60);              -- change type/size
+ALTER TABLE Customer DROP COLUMN phone;                          -- remove a column
+ALTER TABLE Orders ADD CONSTRAINT chk_amount CHECK (amount &lt; 1000000);
+ALTER TABLE Orders DROP CONSTRAINT chk_amount;
+EXEC sp_rename 'Customer.full_name', 'customer_name', 'COLUMN';  -- rename a column</code></pre>
+<h4>3.7 DELETE vs TRUNCATE vs DROP</h4>
+<table class="tbl"><thead><tr><th></th><th>DELETE</th><th>TRUNCATE TABLE</th><th>DROP TABLE</th></tr></thead><tbody>
+<tr><td>Removes</td><td>Rows matching WHERE (or all)</td><td>All rows, keeps structure</td><td>Rows + structure + constraints</td></tr>
+<tr><td>Language</td><td>DML</td><td>DDL</td><td>DDL</td></tr>
+<tr><td>Identity counter</td><td>Continues</td><td>Resets to seed</td><td>Gone</td></tr>
+<tr><td>Works with FK references</td><td>Yes (if rules allow)</td><td>Not if referenced by a FK</td><td>Not while referenced</td></tr>
+<tr><td>Rollback in a transaction</td><td>Yes</td><td>Yes in SQL Server (inside BEGIN TRAN)</td><td>Yes in SQL Server (inside BEGIN TRAN)</td></tr>
+</tbody></table>
+<h4>3.8 Best practices and key takeaways</h4>
+<ul class="check"><li>Name consistently: singular or plural tables, snake_case columns, <code>pk_</code>/<code>fk_</code>/<code>chk_</code> constraint prefixes</li><li>Choose the smallest correct type: DATE not VARCHAR for dates, DECIMAL for money</li><li>Every table gets a primary key; every relationship gets a foreign key</li><li>List columns in INSERT; never rely on column order</li><li>Wrap risky changes in a transaction: <code>BEGIN TRAN … ROLLBACK / COMMIT</code></li><li>Keep scripts in files (and Git) so the database can be rebuilt</li></ul>
+</div>
+
+<div data-tab="Building Blocks · Class 4">
+<h3>Building Blocks · Class 4: Data extraction with SELECT</h3>
+<p class="muted">Examples use the retail tables: Customer(customer_id, name, gender, city, dob), Orders(order_id, customer_id, order_date, store_type, amount), Product(product_id, product_name, category, price), Order_Item(order_id, product_id, qty).</p>
+<h4>4.1 Subsetting, sorting, filtering, removing duplicates</h4>
+<pre><code class="sql">SELECT * FROM Customer;                                   -- all columns (avoid in production)
+SELECT name, city FROM Customer;                          -- subset columns
+SELECT TOP 10 order_id, amount FROM Orders ORDER BY amount DESC;   -- top 10 orders
+SELECT DISTINCT city FROM Customer;                       -- remove duplicates
+SELECT * FROM Orders WHERE store_type = 'e-Shop' AND amount &gt; 5000;
+SELECT * FROM Orders ORDER BY order_date DESC, amount ASC;         -- multi-level sort</code></pre>
+<h4>4.2 Operators</h4>
+<table class="tbl"><thead><tr><th>Type</th><th>Operators</th><th>Example</th></tr></thead><tbody>
+<tr><td>Assignment</td><td><code>=</code> in SET and variables</td><td><code>DECLARE @fy DATE = '2026-04-01';</code></td></tr>
+<tr><td>Arithmetic</td><td><code>+ - * / %</code></td><td><code>amount * 0.18 AS gst</code>; integer division: <code>7/2 = 3</code>, use <code>7/2.0</code></td></tr>
+<tr><td>Comparison (conditional)</td><td><code>= &lt;&gt; != &gt; &lt; &gt;= &lt;=</code></td><td><code>WHERE amount &lt;&gt; 0</code></td></tr>
+<tr><td>Range / list</td><td><code>BETWEEN … AND</code>, <code>IN (…)</code></td><td><code>WHERE city IN ('Pune','Delhi')</code></td></tr>
+<tr><td>Wildcards with LIKE</td><td><code>%</code> any chars, <code>_</code> one char, <code>[a-c]</code> set, <code>[^a]</code> not</td><td><code>WHERE name LIKE 'A%'</code>; <code>LIKE '_a%'</code></td></tr>
+<tr><td>NULL handling</td><td><code>IS NULL</code>, <code>IS NOT NULL</code>, <code>ISNULL()</code>, <code>COALESCE()</code></td><td><code>COALESCE(phone, email, 'no contact')</code></td></tr>
+<tr><td>Logical</td><td><code>AND OR NOT</code></td><td><code>WHERE NOT (city = 'Delhi' OR amount &lt; 100)</code></td></tr>
+</tbody></table>
+<p class="tip">Precedence: brackets → arithmetic → comparison → NOT → AND → OR. <code>WHERE a OR b AND c</code> means <code>a OR (b AND c)</code>; add brackets to be clear.</p>
+<h4>4.3 Sequence of operations</h4>
+<figure><img src="img/dg/sql_order.png" alt="logical order of SQL"><figcaption>SQL is written SELECT-first but executed FROM-first. That is why a SELECT alias cannot be used in WHERE, but can be used in ORDER BY.</figcaption></figure>
+<h4>4.4 Functions</h4>
+<table class="tbl"><thead><tr><th>Group</th><th>Functions</th><th>Business example</th></tr></thead><tbody>
+<tr><td>Text</td><td>LEN, LEFT, RIGHT, SUBSTRING, CHARINDEX, UPPER, LOWER, TRIM, REPLACE, CONCAT, STRING_AGG</td><td><code>UPPER(LEFT(city,3))</code> city code; <code>STRING_AGG(product_name, ', ')</code> products per order</td></tr>
+<tr><td>Date &amp; time</td><td>GETDATE, YEAR, MONTH, DATEPART, DATENAME, DATEADD, DATEDIFF, EOMONTH, FORMAT, CONVERT</td><td><code>DATEDIFF(DAY, order_date, GETDATE())</code> days since order</td></tr>
+<tr><td>Number</td><td>ROUND, CEILING, FLOOR, ABS, POWER, SQRT</td><td><code>ROUND(AVG(amount), 2)</code></td></tr>
+<tr><td>Aggregate</td><td>COUNT, COUNT(DISTINCT), SUM, AVG, MIN, MAX</td><td><code>COUNT(DISTINCT customer_id)</code> active customers</td></tr>
+<tr><td>Conversion / logic</td><td>CAST, CONVERT, TRY_CONVERT, CASE, IIF</td><td><code>CASE WHEN amount &gt;= 10000 THEN 'High' ELSE 'Normal' END</code></td></tr>
+</tbody></table>
+<pre><code class="sql">SELECT city,
+       COUNT(*)                     AS orders,
+       SUM(o.amount)                AS revenue,
+       ROUND(AVG(o.amount), 0)      AS avg_order_value
+FROM Orders o JOIN Customer c ON o.customer_id = c.customer_id
+WHERE o.order_date &gt;= '2026-04-01'
+GROUP BY city
+HAVING SUM(o.amount) &gt; 100000
+ORDER BY revenue DESC;</code></pre>
+<h4>4.5 Joins: extracting data from multiple tables</h4>
+<figure><img src="img/dg/joins.png" alt="joins"><figcaption>The six join types.</figcaption></figure>
+<pre><code class="sql">-- INNER: orders with their customer
+SELECT o.order_id, c.name, o.amount FROM Orders o INNER JOIN Customer c ON o.customer_id = c.customer_id;
+-- LEFT: every customer, even those who never ordered (find inactive customers)
+SELECT c.name FROM Customer c LEFT JOIN Orders o ON c.customer_id = o.customer_id WHERE o.order_id IS NULL;
+-- RIGHT: mirror of LEFT;  FULL OUTER: unmatched rows from both sides (data reconciliation)
+SELECT a.id, b.id FROM System_A a FULL OUTER JOIN System_B b ON a.id = b.id WHERE a.id IS NULL OR b.id IS NULL;
+-- SELF: employee with manager name
+SELECT e.name AS employee, m.name AS manager FROM Employee e LEFT JOIN Employee m ON e.manager_id = m.emp_id;
+-- CROSS: every store × every month (to build a complete calendar grid)
+SELECT s.store_id, m.month_start FROM Store s CROSS JOIN Months m;
+-- NATURAL JOIN joins automatically on same-named columns. It exists in MySQL/PostgreSQL/Oracle
+-- but NOT in SQL Server; always write explicit ON conditions instead.</code></pre>
+<h4>4.6 Appending datasets and set operators</h4>
+<figure><img src="img/dg/set_ops.png" alt="set operators"><figcaption>Set operators combine rows (vertically); joins combine columns (horizontally). Both queries must have the same number of columns with compatible types.</figcaption></figure>
+<pre><code class="sql">SELECT customer_id FROM Orders_2023
+UNION ALL SELECT customer_id FROM Orders_2024;      -- append (fast, keeps duplicates)
+SELECT customer_id FROM Orders_2023
+EXCEPT    SELECT customer_id FROM Orders_2024;      -- churned customers</code></pre>
+<h4>4.7 Subqueries</h4>
+<pre><code class="sql">-- Ordinary (nested) subquery in WHERE
+SELECT * FROM Orders WHERE amount &gt; (SELECT AVG(amount) FROM Orders);
+SELECT name FROM Customer WHERE customer_id IN (SELECT customer_id FROM Orders WHERE store_type = 'Flagship store');
+-- Inline view (derived table) in FROM
+SELECT city, AVG(cust_rev) AS avg_revenue_per_customer
+FROM (SELECT c.city, c.customer_id, SUM(o.amount) AS cust_rev
+      FROM Customer c JOIN Orders o ON c.customer_id = o.customer_id
+      GROUP BY c.city, c.customer_id) AS t
+GROUP BY city;</code></pre>
+<h4>4.8 Business use cases</h4>
+<table class="tbl"><thead><tr><th>Business question</th><th>SQL pattern</th></tr></thead><tbody>
+<tr><td>Top 5 cities by revenue this FY</td><td>JOIN + WHERE date + GROUP BY + ORDER BY + TOP 5</td></tr>
+<tr><td>Customers who never ordered</td><td>LEFT JOIN … WHERE right.key IS NULL (or NOT EXISTS)</td></tr>
+<tr><td>Repeat customers (more than 3 orders)</td><td>GROUP BY customer HAVING COUNT(*) &gt; 3</td></tr>
+<tr><td>Share of revenue by store type</td><td>SUM(amount) * 100.0 / (SELECT SUM(amount) FROM Orders)</td></tr>
+<tr><td>Orders above average</td><td>Subquery in WHERE</td></tr>
+<tr><td>Return rate by category</td><td>SUM(CASE WHEN qty &lt; 0 THEN 1 ELSE 0 END) * 1.0 / COUNT(*)</td></tr>
+</tbody></table>
+<p class="tip">Full worked practice with real results: <a href="#case/sql_retail">SQL Retail case study</a> (15 questions) and <a href="#case/sql_mobile">SQL Mobile case study</a>.</p>
+</div>
+
+<div data-tab="Building Blocks · Class 5">
+<h3>Building Blocks · Class 5: SQL recitation – installing SQL Server, SSMS and importing data</h3>
+<figure><img src="img/dg/ssms_import.png" alt="SSMS import steps"><figcaption>From installation to your first query on imported data.</figcaption></figure>
+<h4>5.1 Install SQL Server</h4>
+<ol><li>Download <b>SQL Server Developer</b> (free, full features, non-production) or <b>Express</b> (free, small production) from Microsoft's SQL Server downloads page. The current release is SQL Server 2025.</li><li>Choose <b>Basic</b> installation (or Custom to pick the instance name). Note the instance name shown at the end, e.g. <code>localhost\SQLEXPRESS</code> or <code>localhost</code> for a default instance.</li><li>Install <b>SSMS</b> separately (it is a different download). Recent SSMS versions (21 and later) install through the Visual Studio Installer and add a dark theme and optional Copilot.</li></ol>
+<h4>5.2 Connect and use the IDE</h4>
+<ul><li>Connect dialog: Server type <i>Database Engine</i>; Server name from step 2; Authentication <i>Windows Authentication</i>. If a certificate warning appears on a local machine, tick <i>Trust server certificate</i>.</li><li><b>Object Explorer</b> (left): Databases → Tables → Columns, Keys, Constraints, Indexes. Right-click a table → <i>Select Top 1000 Rows</i>.</li><li><b>Query editor</b>: New Query (<span class="kbd">Ctrl</span>+<span class="kbd">N</span>); pick the database in the toolbar drop-down or write <code>USE RetailDB;</code>; run with <span class="kbd">F5</span>; run only the highlighted lines by selecting them first; <span class="kbd">Ctrl</span>+<span class="kbd">R</span> hides the results pane; IntelliSense refresh <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">R</span>.</li><li>Results to Grid (<span class="kbd">Ctrl</span>+<span class="kbd">D</span>) or Text (<span class="kbd">Ctrl</span>+<span class="kbd">T</span>); right-click the grid → Save Results As CSV.</li></ul>
+<h4>5.3 Import flat files (CSV / TXT)</h4>
+<ol><li>Right-click the database → <b>Tasks → Import Flat File</b>.</li><li>Browse to <code>Transactions.csv</code>; table name defaults to the file name.</li><li><b>Preview</b> the first rows. In <b>Modify Columns</b>, set data types (DATE for dates, DECIMAL for amounts), mark a primary key, and allow NULLs where needed.</li><li>Finish, then check: <code>SELECT COUNT(*) FROM Transactions;</code> should match the file's row count.</li></ol>
+<div class="warn"><b>Common import errors:</b> dates in dd-mm-yyyy fail as DATE → import as VARCHAR, then convert with <code>TRY_CONVERT(DATE, tran_date, 105)</code>; amounts with commas or ₹ → import as text and clean; text longer than the default nvarchar(50) → widen the column in Modify Columns.</div>
+<p>For Excel files use <b>Tasks → Import Data</b> (SQL Server Import and Export Wizard), or save the sheet as CSV first. For repeatable loads write <code>BULK INSERT</code>:</p>
+<pre><code class="sql">BULK INSERT dbo.Transactions
+FROM 'C:\Data\Transactions.csv'
+WITH (FORMAT = 'CSV', FIRSTROW = 2, FIELDTERMINATOR = ',', ROWTERMINATOR = '0x0a');</code></pre>
+</div>
+
+<div data-tab="Building Blocks · Class 6">
+<h3>Building Blocks · Class 6: Introduction to Statistics (Part 1/4)</h3>
+<figure><img src="img/dg/stats_map.png" alt="map of statistics"><figcaption>Statistics in one picture: descriptive (Parts 1–2) and inferential (Parts 3–4).</figcaption></figure>
+<h4>6.1 What statistics is and why analysts need it</h4>
+<p>Statistics is the science of <b>collecting, summarising and drawing conclusions from data</b> while measuring uncertainty. Example: an e-commerce firm sees average order value rise from ₹1,240 to ₹1,310 after a new checkout. Statistics answers whether that rise is real or just normal week-to-week noise.</p>
+<h4>6.2 Population vs sample, parameter vs statistic</h4>
+<table class="tbl"><thead><tr><th></th><th>Population</th><th>Sample</th></tr></thead><tbody>
+<tr><td>Meaning</td><td>Every unit you care about (all 2 crore customers)</td><td>The subset you actually observe (5,000 surveyed customers)</td></tr>
+<tr><td>Summary is called</td><td>Parameter</td><td>Statistic</td></tr>
+<tr><td>Mean / SD symbols</td><td>μ, σ</td><td>x̄, s</td></tr>
+<tr><td>Size</td><td>N</td><td>n</td></tr>
+</tbody></table>
+<h4>6.3 Types of data and measurement scales</h4>
+<table class="tbl"><thead><tr><th>Scale</th><th>Type</th><th>Can you…</th><th>Example</th></tr></thead><tbody>
+<tr><td>Nominal</td><td>Categorical</td><td>Count, mode only</td><td>City, payment mode, gender</td></tr>
+<tr><td>Ordinal</td><td>Categorical (ordered)</td><td>Rank, median</td><td>Rating Poor &lt; Average &lt; Good; education level</td></tr>
+<tr><td>Interval</td><td>Numeric, no true zero</td><td>Add/subtract</td><td>Temperature in °C, calendar year</td></tr>
+<tr><td>Ratio</td><td>Numeric, true zero</td><td>All maths incl. ratios</td><td>Sales, weight, age, delivery time</td></tr>
+</tbody></table>
+<p>Numeric data is <b>discrete</b> (countable: items in cart) or <b>continuous</b> (measurable: weight). Data is also <b>cross-sectional</b> (many customers at one time), <b>time series</b> (one metric over time) or <b>panel</b> (many customers over time); and <b>structured</b> (tables) or <b>unstructured</b> (reviews, images).</p>
+<h4>6.4 Measures of central tendency</h4>
+<table class="tbl"><thead><tr><th>Measure</th><th>How</th><th>Excel</th><th>Best when</th></tr></thead><tbody>
+<tr><td>Mean</td><td>Σx / n</td><td><code>=AVERAGE()</code></td><td>Symmetric numeric data</td></tr>
+<tr><td>Median</td><td>Middle value of sorted data (average of the two middles if n is even)</td><td><code>=MEDIAN()</code></td><td>Skewed data: salaries, house prices, delivery times</td></tr>
+<tr><td>Mode</td><td>Most frequent value</td><td><code>=MODE.SNGL()</code></td><td>Categories: most common shoe size</td></tr>
+<tr><td>Weighted mean</td><td>Σ(w·x) / Σw</td><td><code>=SUMPRODUCT(x,w)/SUM(w)</code></td><td>Average price across products sold in different quantities</td></tr>
+<tr><td>Trimmed mean</td><td>Mean after dropping top/bottom x%</td><td><code>=TRIMMEAN(range,0.1)</code></td><td>Judges' scores, outlier-prone data</td></tr>
+<tr><td>Geometric mean</td><td>(x₁·x₂·…·xₙ)^(1/n)</td><td><code>=GEOMEAN()</code></td><td>Average growth rates (CAGR)</td></tr>
+</tbody></table>
+<div class="card"><h4>Worked example: why the median matters</h4><p>Salaries of 6 employees (₹ lakh): 4, 5, 5, 6, 7, 45. Mean = 72/6 = <b>12</b>; median = (5+6)/2 = <b>5.5</b>; mode = <b>5</b>. One senior salary pulls the mean far above what a typical employee earns, so report the median.</p></div>
+</div>
+
+<div data-tab="Building Blocks · Class 7">
+<h3>Building Blocks · Class 7: Introduction to Statistics (Part 2/4)</h3>
+<h4>7.1 Measures of dispersion (spread)</h4>
+<table class="tbl"><thead><tr><th>Measure</th><th>Formula</th><th>Excel</th><th>Note</th></tr></thead><tbody>
+<tr><td>Range</td><td>max − min</td><td><code>=MAX()-MIN()</code></td><td>Very sensitive to outliers</td></tr>
+<tr><td>Variance (sample)</td><td>s² = Σ(x − x̄)² / (n − 1)</td><td><code>=VAR.S()</code></td><td>Squared units</td></tr>
+<tr><td>Standard deviation</td><td>s = √s²</td><td><code>=STDEV.S()</code> (population: <code>STDEV.P</code>)</td><td>Same units as data</td></tr>
+<tr><td>Coefficient of variation</td><td>s / x̄ × 100%</td><td><code>=STDEV.S()/AVERAGE()</code></td><td>Compare consistency of things on different scales</td></tr>
+<tr><td>IQR</td><td>Q3 − Q1</td><td><code>=QUARTILE.INC(r,3)-QUARTILE.INC(r,1)</code></td><td>Robust to outliers</td></tr>
+</tbody></table>
+<div class="card"><h4>Worked example: two delivery partners</h4><p>Partner A delivery times (min): 28, 30, 31, 29, 32 → mean 30, SD ≈ 1.6. Partner B: 15, 45, 20, 40, 30 → mean 30, SD ≈ 12.7. Same average, but A is far more reliable. Customers feel the spread, not the mean.</p></div>
+<h4>7.2 Percentiles and quartiles</h4>
+<p>The p-th percentile is the value below which p% of observations fall. Q1 = 25th, Q2 = median, Q3 = 75th percentile. "Your score is at the 90th percentile" means you beat 90% of test-takers. Excel: <code>=PERCENTILE.INC(range,0.9)</code>, <code>=PERCENTRANK.INC(range,x)</code>.</p>
+<h4>7.3 Shape: skewness and kurtosis</h4>
+<figure><img src="img/bb/skew.png" alt="skewness"><figcaption>Generated data. In right-skewed data the long tail drags the mean above the median.</figcaption></figure>
+<p>Excel: <code>=SKEW()</code> (positive = right tail) and <code>=KURT()</code> (positive = heavier tails than normal, more extreme values).</p>
+<h4>7.4 Box plot and outliers</h4>
+<figure><img src="img/bb/boxplot.png" alt="box plot anatomy"><figcaption>The box spans Q1–Q3; whiskers reach the last points within 1.5 × IQR; points beyond are flagged as outliers.</figcaption></figure>
+<h4>7.5 Standardisation: z-scores</h4>
+<figure><img src="img/bb/zscore.png" alt="z-score"><figcaption>A z-score says how many standard deviations a value is from the mean, so different scales can be compared.</figcaption></figure>
+<p>Excel: <code>=STANDARDIZE(x, mean, sd)</code>; probability below: <code>=NORM.S.DIST(z,TRUE)</code>. Rule of thumb: |z| &gt; 3 is unusual.</p>
+<h4>7.6 Relationship between two variables: covariance and correlation</h4>
+<figure><img src="img/bb/correlation.png" alt="correlation"><figcaption>Pearson's r runs from −1 to +1 and only measures straight-line association.</figcaption></figure>
+<ul><li>Covariance: direction of joint movement, but its size depends on units. <code>=COVARIANCE.S()</code></li><li>Correlation r = cov / (sₓ·sᵧ): unit-free. <code>=CORREL()</code>. |r| &gt; 0.7 strong, 0.3–0.7 moderate, &lt; 0.3 weak.</li><li><b>Correlation is not causation</b>: ice-cream sales and AC sales both rise in summer because of heat, not because of each other.</li></ul>
+<h4>7.7 Visualising distributions</h4>
+<p>Histogram (Insert → Statistic Chart → Histogram; set bin width), box &amp; whisker chart, frequency table with <code>=FREQUENCY()</code> or a pivot with grouped values.</p>
+</div>
+
+<div data-tab="Building Blocks · Class 8">
+<h3>Building Blocks · Class 8: Introduction to Statistics (Part 3/4)</h3>
+<h4>8.1 Probability basics</h4>
+<table class="tbl"><tbody>
+<tr><td>Experiment, outcome, event</td><td>Show an ad (experiment); click/no-click (outcomes); "user clicks" (event)</td></tr>
+<tr><td>Probability</td><td>P(A) = favourable / total, between 0 and 1. Empirical: 230 clicks out of 10,000 views → P = 0.023</td></tr>
+<tr><td>Complement</td><td>P(not A) = 1 − P(A)</td></tr>
+<tr><td>Addition rule</td><td>P(A or B) = P(A) + P(B) − P(A and B)</td></tr>
+<tr><td>Multiplication (independent)</td><td>P(A and B) = P(A) × P(B): two independent servers both failing</td></tr>
+<tr><td>Conditional</td><td>P(A | B) = P(A and B) / P(B): probability of purchase given the user added to cart</td></tr>
+<tr><td>Bayes' theorem</td><td>P(A | B) = P(B | A) · P(A) / P(B)</td></tr>
+</tbody></table>
+<div class="card"><h4>Worked Bayes example: fraud alert</h4><p>1% of transactions are fraud. The rule flags 95% of frauds and wrongly flags 5% of genuine ones. If a transaction is flagged, P(fraud | flag) = 0.95×0.01 / (0.95×0.01 + 0.05×0.99) = 0.0095 / 0.059 = <b>16%</b>. Most alerts are false alarms because fraud is rare. This is why analysts look at precision, not just detection rate.</p></div>
+<h4>8.2 Random variables and probability distributions</h4>
+<figure><img src="img/bb/distributions.png" alt="distributions"><figcaption>Discrete (bars) vs continuous (curves) distributions with business examples.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Distribution</th><th>Models</th><th>Excel</th></tr></thead><tbody>
+<tr><td>Bernoulli / Binomial</td><td>Number of successes in n yes/no trials</td><td><code>=BINOM.DIST(k,n,p,FALSE)</code></td></tr>
+<tr><td>Poisson</td><td>Count of events in a fixed interval (calls per hour)</td><td><code>=POISSON.DIST(k,λ,FALSE)</code></td></tr>
+<tr><td>Uniform</td><td>All values equally likely</td><td><code>=RAND()</code></td></tr>
+<tr><td>Normal</td><td>Symmetric bell curve (heights, errors, sums of many effects)</td><td><code>=NORM.DIST(x,μ,σ,TRUE)</code></td></tr>
+<tr><td>Exponential</td><td>Time between events</td><td><code>=EXPON.DIST()</code></td></tr>
+<tr><td>t, χ², F</td><td>Sampling distributions used by tests (Part 4)</td><td><code>T.DIST, CHISQ.DIST, F.DIST</code></td></tr>
+</tbody></table>
+<p>Expected value E[X] = Σ x·P(x): if a lottery ticket wins ₹1,000 with probability 0.001, its expected value is ₹1, so a ₹10 ticket loses ₹9 on average.</p>
+<h4>8.3 Sampling methods</h4>
+<figure><img src="img/dg/sampling.png" alt="sampling methods"><figcaption>Probability methods (random, stratified, cluster, systematic) allow valid inference; convenience samples are biased.</figcaption></figure>
+<p>Biases to watch: selection bias (only app users surveyed), non-response bias, survivorship bias (studying only successful start-ups).</p>
+<h4>8.4 Sampling distribution and the Central Limit Theorem</h4>
+<figure><img src="img/ml/c1_clt.png" alt="CLT"><figcaption>Means of repeated samples form a normal curve, whatever the population shape, with spread σ/√n (the standard error).</figcaption></figure>
+<ul><li>Bigger samples → smaller standard error → more precise estimates (4× the sample halves the error).</li><li>The CLT is what lets us use z- and t-tests on skewed business data (Part 4).</li></ul>
+</div>
+
+<div data-tab="What's new 2025–26">
+<h3>What changed since these classes were recorded</h3>
+<h4>Excel (Microsoft 365) – new functions and features</h4>
+<table class="tbl"><thead><tr><th>Feature</th><th>What it does</th><th>Example</th></tr></thead><tbody>
+<tr><td>XLOOKUP / XMATCH</td><td>Lookup in any direction with a built-in "not found" value</td><td><code>=XLOOKUP(A2,Products[ID],Products[Price],"Missing")</code></td></tr>
+<tr><td>Dynamic arrays: FILTER, SORT, SORTBY, UNIQUE, SEQUENCE</td><td>One formula spills a whole result range</td><td><code>=SORT(FILTER(Sales,Sales[City]="Pune"),4,-1)</code></td></tr>
+<tr><td>LET / LAMBDA</td><td>Name parts of a formula; create your own reusable functions</td><td><code>=LET(t,SUM(H:H),g,t*18%,t+g)</code></td></tr>
+<tr><td>TEXTSPLIT, TEXTBEFORE, TEXTAFTER, VSTACK, HSTACK, TAKE, DROP</td><td>Modern text and array shaping</td><td><code>=TEXTBEFORE(A2,"@")</code></td></tr>
+<tr><td>GROUPBY, PIVOTBY, PERCENTOF</td><td>Pivot-table results from a formula</td><td><code>=GROUPBY(Sales[City],Sales[Amount],SUM)</code></td></tr>
+<tr><td>REGEXTEST, REGEXEXTRACT, REGEXREPLACE</td><td>Pattern matching in text</td><td><code>=REGEXTEST(B2,"^[6-9]\d{9}$")</code> valid Indian mobile</td></tr>
+<tr><td>TRIMRANGE and trim references (A:.A)</td><td>Ignore empty trailing rows in whole-column references</td><td><code>=SUM(H:.H)</code></td></tr>
+<tr><td>TRANSLATE, DETECTLANGUAGE</td><td>Translate text inside a cell</td><td><code>=TRANSLATE(A2,"en","hi")</code></td></tr>
+<tr><td>IMPORTCSV / IMPORTTEXT (2026)</td><td>Pull a CSV file into the sheet as a dynamic array</td><td><code>=IMPORTCSV("C:\data\sales.csv")</code></td></tr>
+<tr><td>Python in Excel (<code>=PY()</code>) + Python editor</td><td>Run pandas and charts inside cells (cloud-executed)</td><td><code>=PY(xl("Sales[#All]",headers=True).describe())</code></td></tr>
+<tr><td>Copilot in Excel</td><td>Generate and explain formulas, fix errors, clean data, analyse text, build PivotTables and charts from a prompt</td><td>"Add a column with profit margin and highlight negatives"</td></tr>
+<tr><td><code>=COPILOT()</code> function</td><td>Calls AI inside a formula, row by row</td><td><code>=COPILOT("Classify this review as Positive/Negative/Neutral",C2)</code></td></tr>
+<tr><td>Agent Mode</td><td>Multi-step tasks (build a model or dashboard) from chat</td><td>"Create a monthly sales dashboard from this table"</td></tr>
+<tr><td>Other</td><td>PivotTable auto-refresh, Show Changes history (one year), dark mode for the grid, Power Query in Excel for the web</td><td></td></tr>
+</tbody></table>
+<p class="muted">Availability depends on your Microsoft 365 plan, channel and region; Copilot features need a Copilot licence. Excel 2019/2021 standalone versions do not receive these.</p>
+<h4>SQL Server – newer T-SQL features</h4>
+<table class="tbl"><thead><tr><th>Release</th><th>Feature</th><th>Example</th></tr></thead><tbody>
+<tr><td>2022</td><td>GREATEST / LEAST</td><td><code>SELECT GREATEST(q1, q2, q3, q4) AS best_quarter</code></td></tr>
+<tr><td>2022</td><td>DATETRUNC, DATE_BUCKET</td><td><code>DATETRUNC(MONTH, order_date)</code> first day of the month</td></tr>
+<tr><td>2022</td><td>GENERATE_SERIES</td><td><code>SELECT value FROM GENERATE_SERIES(1, 12)</code> month numbers</td></tr>
+<tr><td>2022</td><td>IS [NOT] DISTINCT FROM</td><td>NULL-safe comparison</td></tr>
+<tr><td>2022</td><td>WINDOW clause, STRING_SPLIT with ordinal, APPROX_PERCENTILE_CONT</td><td>Reuse a window definition</td></tr>
+<tr><td>2025</td><td>Regular expressions: REGEXP_LIKE, REGEXP_REPLACE, REGEXP_SUBSTR, REGEXP_INSTR, REGEXP_COUNT</td><td><code>WHERE REGEXP_LIKE(email, '^[^@]+@[^@]+\.[a-z]{2,}$')</code></td></tr>
+<tr><td>2025</td><td>Native JSON data type, JSON indexes, JSON aggregates (JSON_OBJECTAGG, JSON_ARRAYAGG)</td><td>Store API responses efficiently</td></tr>
+<tr><td>2025</td><td>VECTOR data type, VECTOR_DISTANCE, DiskANN vector index (preview)</td><td>Similarity search on AI embeddings</td></tr>
+<tr><td>2025</td><td>Fuzzy string matching (preview), external AI model definitions, change event streaming (preview)</td><td>Match "Gurgaon" with "Gurugram"</td></tr>
+</tbody></table>
+<p class="muted">SQL Server 2025 became generally available in November 2025. Regex and vector functions also exist in Azure SQL Database.</p>
+</div>
+
+<div data-tab="Practice & case study">
+<h3>Real-world mini case: "Mumbai Electronics" monthly review</h3>
+<p>A 6-store electronics chain shares an Orders export (Order ID, Date, Store, City, Category, Qty, Unit Price, Customer Type). The manager asks five questions. The answer to each uses only Building Blocks skills.</p>
+<table class="tbl"><thead><tr><th>Question</th><th>Excel (Class 1)</th><th>SQL (Classes 2–4)</th><th>Statistics (Classes 6–8)</th></tr></thead><tbody>
+<tr><td>Revenue by store this month?</td><td><code>=SUMIFS(Amount,Store,A2,Date,"&gt;="&amp;EOMONTH(TODAY(),-1)+1)</code></td><td><code>GROUP BY store WHERE order_date &gt;= DATETRUNC(MONTH, GETDATE())</code></td><td>Mean and median order value per store</td></tr>
+<tr><td>Which store is most consistent?</td><td><code>=STDEV.S</code> of daily sales ÷ mean (CV)</td><td><code>STDEV(daily_total)</code> in a derived table</td><td>Coefficient of variation</td></tr>
+<tr><td>Highlight loss-making lines</td><td>Conditional formatting <code>=$J2&lt;0</code></td><td><code>WHERE margin &lt; 0</code></td><td>Share of loss lines</td></tr>
+<tr><td>Are big orders unusual?</td><td><code>=STANDARDIZE(H2,AVERAGE(H:H),STDEV.S(H:H))</code></td><td><code>(amount - AVG(amount) OVER()) / STDEV(amount) OVER()</code></td><td>|z| &gt; 3 → outlier</td></tr>
+<tr><td>Probability a walk-in buys a warranty</td><td><code>=COUNTIFS(Type,"Walk-in",Warranty,"Yes")/COUNTIF(Type,"Walk-in")</code></td><td><code>AVG(CASE WHEN warranty='Yes' THEN 1.0 ELSE 0 END)</code></td><td>Conditional probability</td></tr>
+</tbody></table>
+<p>The <b>Excel workbook</b> in Downloads includes a "Case Study – Sales Dashboard" sheet with this scenario built out using live formulas.</p>
+<p>More practice on the real course data: <a href="#case/xl_sports">Excel Sportsmen case</a>, <a href="#case/xl_complaints">Excel Consumer Complaints case</a>, <a href="#case/sql_retail">SQL Retail case</a>.</p>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>What is the difference between a function and a formula in Excel?</summary><p>A formula is anything starting with = (=A1+B1). A function is a named, built-in calculation used inside a formula (SUM, VLOOKUP).</p></details>
+<details><summary>Relative vs absolute reference?</summary><p>A1 changes when copied; $A$1 stays fixed; A$1 and $A1 lock only the row or column. Use $ for constants such as a tax-rate cell.</p></details>
+<details><summary>How do you sum only visible rows after filtering?</summary><p><code>=SUBTOTAL(109,range)</code> or <code>=AGGREGATE(9,5,range)</code>. SUM includes hidden rows.</p></details>
+<details><summary>What is a primary key vs a foreign key?</summary><p>A primary key uniquely identifies rows in its own table; a foreign key in another table points to that primary key and enforces that the referenced row exists.</p></details>
+<details><summary>DELETE vs TRUNCATE?</summary><p>DELETE removes selected rows and fires triggers; TRUNCATE removes all rows quickly, resets identity, and cannot be used on a table referenced by a foreign key.</p></details>
+<details><summary>Why can't I use a column alias in WHERE?</summary><p>WHERE is evaluated before SELECT, so the alias does not exist yet. Repeat the expression or wrap the query in a subquery/CTE.</p></details>
+<details><summary>Mean vs median: which would you report for delivery time?</summary><p>Median (and the 90th percentile), because delivery times are right-skewed: a few very late orders inflate the mean.</p></details>
+<details><summary>What does a standard deviation tell a manager?</summary><p>How much individual values typically differ from the average. Two stores with equal average sales but different SD differ in predictability.</p></details>
+<details><summary>Explain the Central Limit Theorem simply.</summary><p>If you take many reasonably large samples and compute each sample's average, those averages form a bell curve around the true average, even if the original data is skewed. This makes confidence intervals and tests possible.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn Excel full course]] · [[yt:Simplilearn SQL full course]] · [[yt:Simplilearn statistics for data science full course]]</li>
+<li>[[yt:Leila Gharani Excel functions you need to know]] · [[yt:Chandoo conditional formatting formulas]]</li>
+<li>[[yt:Alex The Analyst SQL basics tutorial]] · [[yt:install SQL Server and SSMS step by step]]</li>
+<li>[[yt:StatQuest statistics fundamentals]] · [[yt:Khan Academy statistics and probability]]</li>
+<li>[[doc:Microsoft: What's new in Excel (Tech Community blog)|https://techcommunity.microsoft.com/category/microsoft-365/blog/excelblog]] · [[doc:Excel functions by category|https://support.microsoft.com/en-us/office/excel-functions-by-category-5f91f4e9-7b42-46d2-9bd1-63f26a86c0eb]]</li>
+<li>[[doc:Microsoft Learn: What's new in SQL Server 2025|https://learn.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-2025]] · [[doc:Regex support GA announcement|https://devblogs.microsoft.com/azure-sql/general-availability-announcement-regex-support-in-sql-server-2025-azure-sql/]]</li>
+<li>[[doc:Download SQL Server|https://www.microsoft.com/en-us/sql-server/sql-server-downloads]] · [[doc:Download SSMS|https://learn.microsoft.com/en-us/ssms/install/install]]</li>
+<li>[[doc:Excel Campus: 17 Excel updates from 2025|https://www.excelcampus.com/tips-shortcuts/17-new-excel-updates-from-2025/]]</li>
+</ul>
+</div>

@@ -1,0 +1,162 @@
+<!--meta {"id":"m8","num":"08","title":"Tableau","sub":"Marks, table calculations, filters, calculated fields, parameters, LODs and dashboards","icon":"📉","courses":"Tableau (Self-paced) V7 (9 classes)"} -->
+<div data-tab="Overview">
+<p class="lead">Tableau is drag-and-drop visual analytics. You drop <b>dimensions</b> and <b>measures</b> on shelves, and Tableau writes the query and draws the chart. Mastery comes from understanding the order Tableau filters and computes things.</p>
+<table class="tbl"><thead><tr><th>Class</th><th>Topics</th></tr></thead><tbody>
+<tr><td>1</td><td>Introduction and file types</td></tr>
+<tr><td>2</td><td>Working in Tableau: connecting data, the workspace</td></tr>
+<tr><td>3</td><td>Visuals and the Marks card</td></tr>
+<tr><td>4</td><td>Table calculations</td></tr>
+<tr><td>5</td><td>Filters, groups, bins, hierarchies</td></tr>
+<tr><td>6</td><td>Calculated fields, parameters, dashboards</td></tr>
+<tr><td>7</td><td>Visualisations, detailed dashboards, analytics pane, data blending</td></tr>
+<tr><td>8</td><td>Level of Detail (LOD) expressions</td></tr>
+<tr><td>9</td><td>Workbook optimisation and best practices</td></tr>
+</tbody></table>
+<p class="tip">Both Tableau case studies (Laptops and Sports Equipment) are solved under <a href="#cases">Case Studies</a> with the exact Tableau steps and the answer numbers computed from the data, so you can check your workbook.</p>
+</div>
+
+<div data-tab="Basics & Marks">
+<h3>File types (Class 1)</h3>
+<table class="tbl"><tbody>
+<tr><td>.twb</td><td>Workbook: visual definitions only, no data</td></tr>
+<tr><td>.twbx</td><td>Packaged workbook: workbook + data extract + images (submit case studies in this)</td></tr>
+<tr><td>.hyper (.tde older)</td><td>Extract: compressed snapshot of the data</td></tr>
+<tr><td>.tds / .tdsx</td><td>Saved data source (connection + metadata)</td></tr>
+<tr><td>.tbm</td><td>Bookmark of a single worksheet</td></tr>
+</tbody></table>
+<h3>Key ideas (Class 2)</h3>
+<div class="grid2"><div class="card"><h4>Dimensions vs measures</h4><p><b>Dimensions</b> (blue when discrete) are categories that slice data: Region, Product. <b>Measures</b> are numbers that get aggregated: SUM(Sales).</p></div><div class="card"><h4>Discrete vs continuous</h4><p><b>Blue pills</b> are discrete and create headers. <b>Green pills</b> are continuous and create axes. A date can be either.</p></div></div>
+<ul><li><b>Live vs extract</b>: live queries the source; an extract is a fast snapshot that needs refreshing.</li><li><b>Joins</b> (row level, in the physical layer), <b>relationships</b> (logical layer, the default since 2020.2: tables stay separate and join only as needed), and <b>blending</b> (Class 7: combine a secondary source per sheet on a linking field; aggregated at the link level).</li></ul>
+<h3>The Marks card (Class 3)</h3>
+<table class="tbl"><tbody>
+<tr><td>Mark type</td><td>Automatic, bar, line, area, circle, square, text, map, pie, Gantt, polygon</td></tr>
+<tr><td>Color</td><td>Categories or a gradient for a measure</td></tr>
+<tr><td>Size</td><td>Encode a measure in mark size</td></tr>
+<tr><td>Label</td><td>Show values on marks</td></tr>
+<tr><td>Detail</td><td>Split marks by a field without colour (one dot per store)</td></tr>
+<tr><td>Tooltip</td><td>Extra fields on hover</td></tr>
+<tr><td>Shape / Path / Angle</td><td>Shapes for categories; line order; pie slice size</td></tr>
+</tbody></table>
+<h3>Chart cookbook</h3>
+<table class="tbl"><thead><tr><th>Chart</th><th>Build</th></tr></thead><tbody>
+<tr><td>Bar</td><td>Dimension on Rows, measure on Columns; sort</td></tr>
+<tr><td>Line (trend)</td><td>Continuous MONTH(Date) on Columns, measure on Rows</td></tr>
+<tr><td>Dual axis</td><td>Two measures on Rows → right-click second → Dual Axis → Synchronize Axis; set marks bar + line</td></tr>
+<tr><td>Scatter</td><td>Measure on Columns and Rows; dimension on Detail; Analytics → Trend Line</td></tr>
+<tr><td>Pie</td><td>Marks = Pie; dimension on Color; measure on Angle; labels = % of total</td></tr>
+<tr><td>Highlight table / heatmap</td><td>Dimensions on Rows and Columns, measure on Color, mark = Square</td></tr>
+<tr><td>Map</td><td>Double-click a geographic field (Country, State, Postcode) or use lat/long</td></tr>
+<tr><td>Pareto</td><td>Sorted bars + running-total % line on a dual axis</td></tr>
+<tr><td>Bullet / Gantt / Box plot</td><td>Show Me suggestions with the needed fields</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Table calculations">
+<p>Table calculations run <b>on the results already in the view</b> (after aggregation). Right-click a measure → Quick Table Calculation, then <b>Compute Using</b> controls the direction (Table across, down, Pane, or specific dimensions).</p>
+<table class="tbl"><thead><tr><th>Quick calc</th><th>Business use</th><th>Function</th></tr></thead><tbody>
+<tr><td>Running total</td><td>Cumulative sales, Pareto line</td><td><code>RUNNING_SUM(SUM([Sales]))</code></td></tr>
+<tr><td>Difference</td><td>Change vs previous month</td><td><code>ZN(SUM([Sales])) - LOOKUP(ZN(SUM([Sales])), -1)</code></td></tr>
+<tr><td>Percent difference</td><td>MoM %</td><td>(current − previous) / previous</td></tr>
+<tr><td>Percent of total</td><td>Market share</td><td><code>SUM([Sales]) / TOTAL(SUM([Sales]))</code></td></tr>
+<tr><td>Rank</td><td>Top products</td><td><code>RANK(SUM([Sales]))</code></td></tr>
+<tr><td>Moving average</td><td>Smooth trends (3-month)</td><td><code>WINDOW_AVG(SUM([Sales]), -2, 0)</code></td></tr>
+<tr><td>YoY growth</td><td>Year-over-year %</td><td>Quick calc → Year over Year Growth</td></tr>
+<tr><td>Percentile</td><td>Position in distribution</td><td><code>RANK_PERCENTILE(SUM([Sales]))</code></td></tr>
+</tbody></table>
+<p class="tip">If a table calc gives strange numbers, the problem is almost always <b>Compute Using</b>. Check the yellow highlight in Edit Table Calculation.</p>
+</div>
+
+<div data-tab="Filters, groups & sets">
+<h3>Order of operations (memorise this)</h3>
+<div class="flowv"><span>Extract filters</span><span>Data source filters</span><span>Context filters</span><span>FIXED LOD calculations</span><span>Dimension filters (incl. Top N)</span><span>INCLUDE / EXCLUDE LODs</span><span>Measure filters</span><span>Table calculations and table-calc filters</span></div>
+<p class="cap">Example: to get "Top 15 products <i>in 2014</i>", put Year in <b>context</b> (right-click → Add to Context) so the year filter is applied before the Top N.</p>
+<h3>Class 5 tools</h3>
+<table class="tbl"><tbody>
+<tr><td>Groups</td><td>Combine members into a new category (e.g. Laptops + Tablets = Devices). Right-click field → Create → Group, or select marks → paperclip.</td></tr>
+<tr><td>Bins</td><td>Turn a continuous measure into ranges (age 0–10, 10–20) for histograms. Right-click → Create → Bins.</td></tr>
+<tr><td>Hierarchies</td><td>Drag one dimension onto another (Category → Sub-category → Product) for +/- drill-down.</td></tr>
+<tr><td>Sets</td><td>In/Out membership by a condition or Top N (Top 5 product types by quantity); can be dynamic and combined; used for comparisons and highlighting.</td></tr>
+<tr><td>Combined fields</td><td>Select several dimensions → Create → Combined Field (used in the Laptops case to make 32 configuration groups).</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Calculations & parameters">
+<h3>Calculated fields (Class 6)</h3>
+<pre><code class="tableau">// Row-level
+Profit            = [Revenue] * [Gross margin]
+Distance          = SQRT( SQUARE([C OSx] - [St OS X]) + SQUARE([C OSy] - [St OS Y]) )
+Order Size        = IF [Quantity] &gt;= 100 THEN "Bulk" ELSEIF [Quantity] &gt;= 20 THEN "Medium" ELSE "Small" END
+Region Group      = CASE [Retailer Country] WHEN "Canada" THEN "Americas" WHEN "France" THEN "Europe" ELSE "Other" END
+Year              = YEAR([Order Date])        Days to ship = DATEDIFF('day', [Order Date], [Ship Date])
+Clean Name        = TRIM(UPPER([Name]))       Contains = CONTAINS([Product], "Pro")
+// Aggregate
+Margin %          = SUM([Profit]) / SUM([Revenue])
+Avg price         = SUM([Revenue]) / SUM([Quantity])</code></pre>
+<h3>Parameters</h3>
+<p>A parameter is a user-controlled variable (number, date, string list). On its own it does nothing; you must use it in a calculation, filter, reference line or Top N.</p>
+<pre><code class="tableau">// Dynamic Top N:     Set/Filter → Top → By field → Top [Top N] by SUM(Quantity)
+// Dynamic year:      Year Filter = YEAR([Order Date]) = [Select Year]   → put on Filters = True
+// Measure switcher:
+Selected Measure =
+CASE [Select Measure]
+  WHEN "Revenue"  THEN SUM([Revenue])
+  WHEN "Profit"   THEN SUM([Profit])
+  WHEN "Quantity" THEN SUM([Quantity])
+END</code></pre>
+<p>Right-click the parameter → Show Parameter to let viewers change it.</p>
+</div>
+
+<div data-tab="LOD expressions">
+<h3>Why LODs (Class 8)</h3>
+<p>Normally a measure is aggregated at the level of the dimensions in the view. A <b>Level of Detail</b> expression lets you compute at a different level, independent of the view.</p>
+<table class="tbl"><thead><tr><th>Type</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td><code>{FIXED [dim] : agg}</code></td><td>Compute at exactly these dimensions, ignoring the view (and dimension filters unless in context)</td><td><code>{FIXED [Customer ID] : MIN([Order Date])}</code> = first purchase date (cohorts)</td></tr>
+<tr><td><code>{INCLUDE [dim] : agg}</code></td><td>Add a finer dimension than the view, then re-aggregate</td><td><code>AVG({INCLUDE [Order ID] : SUM([Sales])})</code> = average order value by region</td></tr>
+<tr><td><code>{EXCLUDE [dim] : agg}</code></td><td>Remove a dimension from the view's level</td><td><code>SUM([Sales]) - SUM({EXCLUDE [Month] : AVG([Sales])})</code> = difference from the average month</td></tr>
+<tr><td><code>{agg}</code></td><td>Table-scoped: one value for the whole data source</td><td><code>{SUM([Sales])}</code> = grand total</td></tr>
+</tbody></table>
+<pre><code class="tableau">Customer Lifetime Sales = {FIXED [Customer ID] : SUM([Sales])}
+Cohort Year             = YEAR({FIXED [Customer ID] : MIN([Order Date])})
+Orders per Customer     = {FIXED [Customer ID] : COUNTD([Order ID])}       // then use as a dimension to histogram
+Share of Region         = SUM([Sales]) / SUM({FIXED [Region] : SUM([Sales])})
+Store Avg Price         = {FIXED [Store Postcode] : AVG([Retail Price])}   // Laptops case Q5</code></pre>
+<p class="tip">FIXED is computed <b>before</b> dimension filters. If a FIXED number ignores your filter, add that filter to context.</p>
+</div>
+
+<div data-tab="Dashboards & stories">
+<h3>Dashboard build (Classes 6–7)</h3>
+<ul><li>Set a fixed size (e.g. 1200 × 800) or Automatic; plan a grid with containers (horizontal/vertical) for alignment.</li><li>KPIs on top, main chart centre, detail or table bottom, filters on the right.</li><li><b>Actions</b> (Dashboard → Actions): Filter (click one chart to filter others), Highlight, URL, Go to Sheet, Change Parameter, Change Set Values.</li><li>Use as Filter: the funnel icon on a sheet makes it filter the others.</li><li>Apply a quick filter to "All using this data source" or selected worksheets.</li><li>Show/hide buttons and floating legends keep the layout clean.</li></ul>
+<h3>Analytics pane (Class 7)</h3>
+<p>Drag on: constant/average lines, reference bands, distribution bands, box plots, totals, trend lines (with R² and p-value), forecast, clusters.</p>
+<h3>Stories</h3>
+<p>A Story is a sequence of story points, each a sheet or dashboard with a caption. Use it for presentations: one insight per point, written as a headline ("Proximity drives store sales").</p>
+</div>
+
+<div data-tab="Optimisation & best practice">
+<h3>Performance (Class 9)</h3>
+<ul class="check"><li>Use extracts; hide unused fields before extracting; aggregate the extract to the level you need</li><li>Filter early: extract and data-source filters, then context filters</li><li>Prefer relationships/joins on integers; avoid blending large sources</li><li>Fewer marks per view (thousands, not millions); fewer sheets per dashboard</li><li>Avoid many quick filters with "Only relevant values" on large data</li><li>Use Boolean and integer calcs instead of string comparisons where possible</li><li>Help → Settings and Performance → Start Performance Recording to find slow queries</li></ul>
+<h3>Design best practice</h3>
+<ul><li>One question per sheet; title states the insight.</li><li>Consistent colours: one highlight colour, greys for context.</li><li>Sort bars; start bar axes at zero; avoid 3D and too many pie slices.</li><li>Label directly instead of relying on legends.</li><li>Use tooltips for detail rather than crowding the chart.</li></ul>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Dimension vs measure, discrete vs continuous?</summary><p>Dimensions are categorical fields that slice; measures are numeric and aggregated. Discrete (blue) creates headers; continuous (green) creates axes. A field's colour depends on how it is used, not its data type alone.</p></details>
+<details><summary>Join vs relationship vs blend?</summary><p>A join physically merges tables row by row before analysis. A relationship keeps tables separate and joins at the right level for each view (avoids duplication). Blending combines two separate data sources per sheet, aggregated at the linking field.</p></details>
+<details><summary>Explain FIXED vs INCLUDE vs EXCLUDE.</summary><p>FIXED computes at the stated dimensions regardless of the view. INCLUDE adds a finer dimension then aggregates to the view. EXCLUDE removes a view dimension from the calculation.</p></details>
+<details><summary>Why would a Top N filter return the wrong products after another filter?</summary><p>Top N and other dimension filters are evaluated independently at the same stage, so the Top N is computed on the full data, not on the filtered subset. Put the other filter in context so it is applied first.</p></details>
+<details><summary>Context filter: when and why?</summary><p>To make a filter apply before Top N, FIXED LODs and other dimension filters; also to improve performance by shrinking the data early.</p></details>
+<details><summary>What is a table calculation and what does Compute Using do?</summary><p>A calculation on the aggregated results in the view (running total, % of total, rank). Compute Using sets the direction/partition across which it runs.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Andy Kriebel Tableau tip]], hundreds of short how-tos.</li>
+<li>[[yt:Tableau LOD expressions explained]] and [[yt:Tableau table calculations explained]]</li>
+<li>[[yt:Alex The Analyst Tableau tutorial for beginners]]</li>
+<li>[[doc:Tableau Help: order of operations|https://help.tableau.com/current/pro/desktop/en-us/order_of_operations.htm]]</li>
+<li>[[doc:Tableau Help: LOD expressions|https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm]]</li>
+<li>[[doc:Tableau Public gallery (inspiration)|https://public.tableau.com/app/discover]] · Practice: [[doc:Workout Wednesday|https://workout-wednesday.com/]]</li>
+</ul>
+</div>

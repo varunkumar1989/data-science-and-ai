@@ -1,0 +1,214 @@
+<!--meta {"id":"m5","num":"05","title":"ML Ops & Model Deployment","sub":"Take a trained model to production: Git, Conda, Flask, Heroku and Azure","icon":"🚀","courses":"ML Ops & Model Deployment (self-paced, 6 classes)"} -->
+<div data-tab="Overview">
+<p class="lead">A model in a notebook helps nobody. ML Ops is the set of practices that gets a model into a product <b>reliably</b>, keeps it <b>working</b>, and makes it <b>reproducible</b>. It combines machine learning, DevOps and data engineering.</p>
+<table class="tbl"><thead><tr><th>Class</th><th>Topic</th><th>Jump to</th></tr></thead><tbody>
+<tr><td>1</td><td>Introduction to MLOps</td><td><a href="#m5/MLOps concepts">MLOps concepts</a></td></tr>
+<tr><td>2</td><td>Version control with Git</td><td><a href="#m5/Git">Git</a></td></tr>
+<tr><td>3</td><td>Conda environments and Flask</td><td><a href="#m5/Conda & Flask">Conda &amp; Flask</a></td></tr>
+<tr><td>4</td><td>Banking application with Flask</td><td><a href="#m5/Banking app walkthrough">Banking app</a></td></tr>
+<tr><td>5</td><td>Deploying the app to Heroku</td><td><a href="#m5/Deploy: Heroku & Azure">Deploy</a></td></tr>
+<tr><td>6</td><td>Deploying the app to Azure</td><td><a href="#m5/Deploy: Heroku & Azure">Deploy</a></td></tr>
+</tbody></table>
+<p class="muted">Module materials used for these notes: the course slide deck "Machine Learning Operations – MLOps", the e-book "Practical MLOps", and the <code>bankin_app_flask</code> project (application.py, the HTML form, the training notebook and bankloans.csv).</p>
+</div>
+
+<div data-tab="MLOps concepts">
+<h3>Three artifacts, three pipelines</h3>
+<div class="grid3">
+<div class="card"><h4>1. Data engineering</h4><ul><li>Ingestion (CSV, databases, Spark, HDFS)</li><li>Exploration and validation (profiling, schema checks)</li><li>Wrangling / cleaning</li><li>Labelling</li><li>Splitting into train, validation and test</li></ul></div>
+<div class="card"><h4>2. Model engineering</h4><ul><li>Training (feature engineering, hyper-parameter tuning)</li><li>Evaluation against the business objective</li><li>Testing on a hold-out set ("model acceptance test")</li><li>Packaging (pickle, joblib, ONNX, PMML)</li></ul></div>
+<div class="card"><h4>3. Deployment (code engineering)</h4><ul><li>Serving the model (REST API, batch job)</li><li>Performance monitoring on live data</li><li>Logging every prediction request</li><li>Triggering re-training</li></ul></div>
+</div>
+<h3>DevOps vs MLOps</h3>
+<table class="tbl"><thead><tr><th></th><th>DevOps</th><th>MLOps</th></tr></thead><tbody>
+<tr><td>What changes</td><td>Code</td><td>Code + data + model</td></tr>
+<tr><td>Continuous Integration</td><td>Test code and components</td><td>Also validate data, schemas and models</td></tr>
+<tr><td>Continuous Delivery</td><td>Ship a software package</td><td>Ship a <i>training pipeline</i> that produces and deploys a prediction service</td></tr>
+<tr><td>Continuous Training</td><td>n/a</td><td>Automatically retrain and redeploy models</td></tr>
+<tr><td>Failure mode</td><td>Bugs</td><td>Bugs plus silent decay as data drifts (training–serving skew)</td></tr>
+<tr><td>Team</td><td>Developers + operations</td><td>Data scientists + ML engineers + data engineers + DevOps</td></tr>
+</tbody></table>
+<h3>MLOps maturity levels</h3>
+<div class="levels">
+<div><b>Level 0: Manual</b><p>Notebook-driven. A data scientist hands a pickled model to engineers. Rare releases, no CI/CD, no monitoring. Fine for models that rarely change.</p></div>
+<div><b>Level 1: ML pipeline automation</b><p>The whole training pipeline is deployed and runs automatically (continuous training) on triggers: schedule, new data, performance drop or data drift. Needs data and model validation, a feature store and metadata tracking.</p></div>
+<div><b>Level 2: CI/CD pipeline automation</b><p>Pipelines themselves are built, tested and deployed automatically. Components: source control, test and build services, deployment services, model registry, feature store. For teams retraining daily or hourly.</p></div>
+</div>
+<h3>Key terms</h3>
+<table class="tbl"><tbody>
+<tr><td>Experiment tracking</td><td>Log parameters, metrics, data versions and artifacts for every training run so runs can be compared and reproduced (MLflow, Weights &amp; Biases).</td></tr>
+<tr><td>Model registry</td><td>Versioned store of trained models with stages (staging, production, archived).</td></tr>
+<tr><td>Feature store</td><td>One place that defines, stores and serves features so training and serving use identical logic.</td></tr>
+<tr><td>Data drift</td><td>Input distribution changes (customers get younger, incomes rise).</td></tr>
+<tr><td>Concept drift</td><td>The relationship between X and y changes (a recession changes who defaults).</td></tr>
+<tr><td>Training–serving skew</td><td>Features computed differently in training and in production.</td></tr>
+<tr><td>Canary / A-B deployment</td><td>Send a small share of traffic to the new model first, compare, then roll out.</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Git">
+<h3>Why version control</h3>
+<p>Git records every change to your code, lets several people work in parallel on <b>branches</b>, and lets you return to any earlier version. GitHub (or Azure Repos, GitLab) hosts the shared copy; Heroku and Azure deploy straight from it.</p>
+<div class="flow"><span>Working directory</span><span>git add → Staging area</span><span>git commit → Local repo</span><span>git push → Remote (GitHub)</span></div>
+<pre><code class="bash">git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git init                         # start tracking a folder
+git status                       # what changed?
+git add application.py templates/   # stage files  (git add . = everything)
+git commit -m "Add Flask app for loan default model"
+git remote add origin https://github.com/&lt;user&gt;/bank-app.git
+git push -u origin main
+git clone https://github.com/&lt;user&gt;/bank-app.git   # copy a repo
+git pull                         # get latest changes
+git log --oneline                # history
+git checkout -b feature-ui       # new branch
+git merge feature-ui             # merge it back (from main)
+git diff                         # line-by-line changes</code></pre>
+<p class="tip">Add a <code>.gitignore</code> for <code>__pycache__/</code>, <code>.ipynb_checkpoints/</code>, <code>.env</code> and large raw data. Never commit passwords or API keys.</p>
+</div>
+
+<div data-tab="Conda & Flask">
+<h3>Conda environments (Class 3)</h3>
+<p>Each project gets its own isolated set of packages, so a model trained with scikit-learn 1.0 keeps working even if another project needs 1.5.</p>
+<pre><code class="bash">conda create -n bankapp python=3.10 -y
+conda activate bankapp
+pip install flask pandas scikit-learn gunicorn
+conda list                          # what is installed (the project's conda_info.txt / package_info.txt)
+pip freeze &gt; requirements.txt       # pin versions for deployment
+conda env export &gt; environment.yml  # full conda spec
+conda deactivate</code></pre>
+<div class="warn">Pin the same scikit-learn version for training and serving. A pickled model often fails to load, or behaves differently, under another version.</div>
+<h3>Flask in five minutes</h3>
+<p>Flask is a lightweight Python web framework. A <b>route</b> maps a URL to a Python function; the function returns a page or data.</p>
+<pre><code class="python">from flask import Flask, request, jsonify, render_template
+app = Flask(__name__)
+
+@app.route("/")                          # GET http://127.0.0.1:5000/
+def home():
+    return render_template("index.html") # file in templates/
+
+@app.route("/api/predict", methods=["POST"])
+def predict_api():
+    data = request.get_json()            # {"employ": 10, "income": 50, ...}
+    return jsonify({"default": int(model.predict(pd.DataFrame([data]))[0])})
+
+if __name__ == "__main__":
+    app.run(debug=True)                  # dev server only; use gunicorn in production</code></pre>
+<table class="tbl"><tbody>
+<tr><td>GET</td><td>Ask for something (open a page)</td></tr>
+<tr><td>POST</td><td>Send data (submit a form, call the prediction API)</td></tr>
+<tr><td>templates/</td><td>HTML files rendered with Jinja (<code>{{ prediction }}</code>)</td></tr>
+<tr><td>static/</td><td>CSS, JS, images</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Banking app walkthrough">
+<h3>The project (Class 4)</h3>
+<pre><code class="text">bankin_app_flask/
+├── Banking Application Model.ipynb   train + pickle the model
+├── bankloans.csv                     850 applicants (700 with known default)
+├── RF_model_example.pkl              the saved random forest
+├── application.py                    Flask app that serves it
+├── templates/index.html              input form
+└── requirements.txt                  packages for the server</code></pre>
+<h4>Step 1: train and save the model (notebook)</h4>
+<pre><code class="python">bankloans = pd.read_csv("bankloans.csv")
+people_with_info = bankloans[bankloans.default.notnull()]      # 700 rows for training
+people_with_info = people_with_info.apply(lambda x: x.clip(x.quantile(.01), x.quantile(.99)))   # cap outliers
+# feature selection: Recursive Feature Elimination with a random forest
+rfe = RFE(estimator=RandomForestClassifier(), n_features_to_select=5).fit(x_train, y_train)
+# chosen features: employ, income, debtinc, creddebt, othdebt
+cv_rf = GridSearchCV(RandomForestClassifier(oob_score=True, random_state=1024),
+                     {"n_estimators": [10, 20, 40, 80, 100], "max_depth": [1, 2, 3]}, cv=5).fit(x_train, y_train)
+pickle.dump(cv_rf.best_estimator_, open("RF_model_example.pkl", "wb"))</code></pre>
+<h4>Step 2: serve it (application.py from the course)</h4>
+<pre><code class="python">import pickle
+import pandas as pd
+from flask import Flask, render_template, request
+
+model = pickle.load(open('RF_model_example.pkl', 'rb'))   # load once at start-up
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        return render_template('index.html')               # show the form
+    else:
+        form_inputs = pd.DataFrame(request.form.to_dict(), index=[0])   # form fields -> 1-row frame
+        prediction = model.predict(form_inputs.astype(float))
+        return str(prediction)
+
+if __name__ == "__main__":
+    app.run(debug=True)</code></pre>
+<h4>Step 3: the form (templates/index.html)</h4>
+<pre><code class="html">&lt;title&gt;Bank application&lt;/title&gt;
+&lt;form method="post"&gt;
+    employ:   &lt;input type="text" name='employ'&gt;
+    income:   &lt;input type="text" name='income'&gt;
+    debtinc:  &lt;input type="text" name='debtinc'&gt;
+    creddebt: &lt;input type="text" name='creddebt'&gt;
+    othdebt:  &lt;input type="text" name='othdebt'&gt;
+    &lt;input type="submit"&gt;
+&lt;/form&gt;</code></pre>
+<div class="warn"><b>The input names must match the training column names and order</b> (employ, income, debtinc, creddebt, othdebt). If the form sends columns in a different order, the model silently predicts on the wrong features.</div>
+<h4>Run it locally</h4>
+<pre><code class="bash">conda activate bankapp
+python application.py          # open http://127.0.0.1:5000</code></pre>
+<h4>Improvements worth making</h4>
+<ul><li>Return a friendly page: "Likely to default (probability 0.72)" using <code>predict_proba</code> and a business cut-off (see <a href="#ml/Class 7: KNN & metrics">ML Class 7</a> for why 0.5 may be wrong).</li><li>Validate inputs (no blanks, sensible ranges) before predicting.</li><li>Log every request and prediction for monitoring.</li><li>Add a JSON <code>/api/predict</code> route so other systems can call the model.</li></ul>
+</div>
+
+<div data-tab="Deploy: Heroku & Azure">
+<h3>Production checklist</h3>
+<ul class="check"><li><code>requirements.txt</code> with pinned versions, including <code>gunicorn</code></li><li>Model file committed (or downloaded at start-up)</li><li>No <code>debug=True</code> in production</li><li>Port and secrets read from environment variables</li></ul>
+<h3>Heroku (Class 5)</h3>
+<pre><code class="text">Procfile                       (no extension)
+web: gunicorn application:app  # module_name:flask_object</code></pre>
+<pre><code class="bash">heroku login
+heroku create bank-default-app
+git push heroku main           # Heroku builds from requirements.txt and starts the Procfile
+heroku logs --tail             # debug start-up errors
+heroku open</code></pre>
+<p class="tip">Heroku ended its free plan in November 2022, so deployments now need a paid dyno. Render, Railway and PythonAnywhere offer similar git-push deployment with free or low-cost tiers; the Procfile/gunicorn pattern is the same.</p>
+<h3>Azure App Service (Class 6)</h3>
+<div class="steps">
+<div><b>1</b><span>Azure Portal → Create a resource → <b>Web App</b>. Runtime stack: Python 3.x; OS: Linux; pick a resource group, region and pricing plan.</span></div>
+<div><b>2</b><span>Deployment Center → Source: <b>GitHub</b> → choose repository and branch. Azure creates a GitHub Actions workflow that builds and deploys on every push.</span></div>
+<div><b>3</b><span>Configuration → General settings → Startup command: <code>gunicorn --bind=0.0.0.0 --timeout 600 application:app</code>. (Azure auto-detects <code>application.py</code> / <code>app.py</code> with an <code>app</code> object.)</span></div>
+<div><b>4</b><span>Browse to <code>https://&lt;app-name&gt;.azurewebsites.net</code>. Check Log stream if it fails to start.</span></div>
+</div>
+<pre><code class="bash"># CLI alternative from the project folder
+az login
+az webapp up --name bank-default-app --runtime "PYTHON:3.10" --sku B1</code></pre>
+<h3>Beyond a single app</h3>
+<table class="tbl"><tbody>
+<tr><td>Docker</td><td>Package app + environment into an image that runs identically anywhere</td></tr>
+<tr><td>Batch scoring</td><td>Score a whole table nightly and write results to a database (often simpler than an API)</td></tr>
+<tr><td>Managed ML platforms</td><td>Azure ML, AWS SageMaker, Google Vertex AI: registry, endpoints, monitoring built in</td></tr>
+<tr><td>MLflow</td><td>Open-source experiment tracking, model registry and serving</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>What is MLOps and why is it needed?</summary><p>Practices that combine ML, DevOps and data engineering to deploy and maintain models reliably. It is needed because models depend on data that changes, so they decay silently without versioning, monitoring and automated retraining.</p></details>
+<details><summary>How is CI/CD different for ML?</summary><p>CI also validates data and models, not only code. CD deploys a training pipeline that produces a prediction service. Continuous training (CT) is new: retraining automatically on triggers such as drift.</p></details>
+<details><summary>Data drift vs concept drift?</summary><p>Data drift: the distribution of inputs changes. Concept drift: the link between inputs and the target changes. Both lower accuracy; detect them by monitoring input statistics and live performance.</p></details>
+<details><summary>Why use a virtual environment?</summary><p>To isolate each project's package versions so a model trained with one version can be loaded and served with exactly the same versions.</p></details>
+<details><summary>Why gunicorn instead of app.run()?</summary><p>Flask's built-in server is single-threaded and meant for development. Gunicorn is a production WSGI server that runs multiple workers and handles concurrent requests.</p></details>
+<details><summary>How would you monitor a deployed credit-risk model?</summary><p>Log inputs and predictions; track input distributions against training (PSI), approval and default rates over time, and the model's precision/recall once outcomes arrive; alert and retrain when thresholds are crossed.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Krish Naik deploy machine learning model using flask]] and [[yt:Krish Naik end to end ML project deployment]]</li>
+<li>[[yt:freeCodeCamp git and github for beginners crash course]]</li>
+<li>[[yt:Corey Schafer Flask tutorial]]</li>
+<li>[[yt:deploy flask app to azure app service]]</li>
+<li>[[doc:Flask quickstart|https://flask.palletsprojects.com/en/stable/quickstart/]] · [[doc:Conda: managing environments|https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html]]</li>
+<li>[[doc:Azure: Quickstart deploy a Python web app|https://learn.microsoft.com/en-us/azure/app-service/quickstart-python]] · [[doc:Heroku Python getting started|https://devcenter.heroku.com/articles/getting-started-with-python]]</li>
+<li>[[doc:Google Cloud: MLOps continuous delivery and automation pipelines|https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning]] (source of the level 0/1/2 model)</li>
+<li>[[doc:MLflow documentation|https://mlflow.org/docs/latest/index.html]]</li>
+</ul>
+</div>

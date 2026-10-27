@@ -1,0 +1,129 @@
+<!--meta {"id":"s9","num":"S9","title":"Interview Questions & Answers","sub":"68 questions with model answers: HR, Excel, SQL, statistics, Python, Power BI/Tableau, ML, GenAI, case studies and guesstimates","icon":"🎯","courses":"Learning session · for Data Analyst, Business Analyst, BI Developer and junior Data Scientist roles"} -->
+<div data-tab="How interviews work">
+<figure><img src="img/dg/interview_flow.png" alt="interview flow"><figcaption>A typical analytics hiring process.</figcaption></figure>
+<ul><li><b>Resume</b>: one page; each bullet = action + tool + measurable result ("Built a Power BI dashboard tracking 12 KPIs, cutting weekly reporting from 6 hours to 30 minutes").</li><li><b>Portfolio</b>: 3 projects on GitHub/Tableau Public/Netlify: one SQL, one Python, one dashboard, each with a business question, approach, and result.</li><li><b>Technical round</b>: live SQL (most common), Excel tasks, Python/pandas, statistics questions.</li><li><b>Case round</b>: business problem → metrics → analysis plan → recommendation.</li><li><b>Behavioural</b>: STAR method (Situation, Task, Action, Result) with numbers.</li></ul>
+</div>
+
+<div data-tab="HR & behavioural">
+<div class="qa">
+<details><summary>Tell me about yourself.</summary><p>Present → past → future in 60–90 seconds: "I'm a [role] with [x] years in [domain]. Recently I [project with a number]. Before that I [relevant experience]. I'm now moving into data analytics because [reason], and I've built [projects/certification]. This role fits because [company link]."</p></details>
+<details><summary>Why data analytics?</summary><p>Connect a real moment: "In operations I saw decisions made on gut feel; when I built a simple Excel tracker, call volume forecasting improved and we staffed better. I want to do that full-time with stronger tools."</p></details>
+<details><summary>Describe a time you found an insight that changed a decision.</summary><p>STAR: Situation (rising complaints), Task (find the cause), Action (pivot by issue + Pareto showed 3 issues = 70%), Result (process fix reduced complaints 25% in a quarter).</p></details>
+<details><summary>How do you handle a stakeholder who disagrees with your numbers?</summary><p>Walk through definitions and sources together, reconcile differences on a small sample, document the agreed definition, and fix the metric dictionary.</p></details>
+<details><summary>How do you prioritise multiple urgent requests?</summary><p>Clarify business impact and deadlines, agree priority with the manager, communicate timelines, and automate recurring requests.</p></details>
+<details><summary>What is your biggest weakness?</summary><p>A real, improving one: "I used to over-polish reports; now I share a draft early to confirm direction, then refine."</p></details>
+</div>
+</div>
+
+<div data-tab="Excel">
+<div class="qa">
+<details><summary>VLOOKUP vs INDEX/MATCH vs XLOOKUP?</summary><p>VLOOKUP: right-only, column-number fragile. INDEX/MATCH: any direction, robust. XLOOKUP: any direction, built-in not-found and match modes, returns arrays; Excel 365/2021.</p></details>
+<details><summary>How do you remove duplicates while keeping the latest record?</summary><p>Sort by date descending, then Data → Remove Duplicates on the key; or Power Query: sort, then Remove Duplicates (keeps first).</p></details>
+<details><summary>Count unique customers who bought in Pune.</summary><p><code>=COUNTA(UNIQUE(FILTER(Cust, City="Pune")))</code> (365) or a pivot with "Add to Data Model" → Distinct Count.</p></details>
+<details><summary>What is a pivot table's "Show Values As"?</summary><p>Displays values as % of total/row/column, difference from previous, running total, rank, etc., without formulas.</p></details>
+<details><summary>Explain absolute vs relative references with an example.</summary><p><code>=B2*$F$1</code> copied down multiplies each row's B by the fixed rate in F1.</p></details>
+<details><summary>How do you handle #N/A from lookups?</summary><p>Find the cause (trailing spaces, number stored as text, missing key), clean with TRIM/VALUE, and show a friendly value with IFNA or XLOOKUP's if_not_found.</p></details>
+<details><summary>What is Power Query and why use it?</summary><p>Excel's ETL tool: records cleaning steps once and replays them on refresh; combines files and sources.</p></details>
+<details><summary>SUMIFS with an OR condition?</summary><p><code>=SUM(SUMIFS(Amt, City, {"Pune","Mumbai"}))</code>.</p></details>
+<details><summary>How do you build a dynamic chart?</summary><p>Base it on a Table or a FILTER/INDEX range driven by a drop-down; the chart updates automatically.</p></details>
+<details><summary>Goal Seek vs Solver?</summary><p>Goal Seek changes one input to hit one target; Solver optimises an objective with multiple variables and constraints.</p></details>
+</div>
+</div>
+
+<div data-tab="SQL">
+<div class="qa">
+<details><summary>Order of execution of a SELECT?</summary><p>FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → TOP/OFFSET.</p></details>
+<details><summary>Find the 3rd highest salary in each department.</summary><pre><code class="sql">SELECT * FROM (SELECT dept, name, salary, DENSE_RANK() OVER (PARTITION BY dept ORDER BY salary DESC) r FROM Emp) t WHERE r = 3;</code></pre></details>
+<details><summary>Customers who ordered in January but not February.</summary><pre><code class="sql">SELECT customer_id FROM Orders WHERE order_date &gt;= '2026-01-01' AND order_date &lt; '2026-02-01'
+EXCEPT
+SELECT customer_id FROM Orders WHERE order_date &gt;= '2026-02-01' AND order_date &lt; '2026-03-01';</code></pre></details>
+<details><summary>Running total of sales by date.</summary><pre><code class="sql">SELECT sale_date, amount, SUM(amount) OVER (ORDER BY sale_date ROWS UNBOUNDED PRECEDING) AS running_total FROM Sales;</code></pre></details>
+<details><summary>Month-over-month growth.</summary><pre><code class="sql">WITH m AS (SELECT DATETRUNC(MONTH, order_date) mth, SUM(amount) rev FROM Orders GROUP BY DATETRUNC(MONTH, order_date))
+SELECT mth, rev, 100.0*(rev - LAG(rev) OVER (ORDER BY mth)) / NULLIF(LAG(rev) OVER (ORDER BY mth),0) AS mom_pct FROM m;</code></pre></details>
+<details><summary>Delete duplicates keeping one row.</summary><pre><code class="sql">WITH d AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY email ORDER BY id) rn FROM Users) DELETE FROM d WHERE rn &gt; 1;</code></pre></details>
+<details><summary>Employees earning more than their manager.</summary><pre><code class="sql">SELECT e.name FROM Emp e JOIN Emp m ON e.manager_id = m.emp_id WHERE e.salary &gt; m.salary;</code></pre></details>
+<details><summary>Percentage of total revenue by category.</summary><pre><code class="sql">SELECT category, SUM(amount) rev, 100.0*SUM(amount)/SUM(SUM(amount)) OVER () AS pct FROM Sales GROUP BY category;</code></pre></details>
+<details><summary>Users active 3 consecutive days.</summary><pre><code class="sql">WITH d AS (SELECT DISTINCT user_id, CAST(login_time AS DATE) dt FROM Logins),
+g AS (SELECT user_id, dt, DATEADD(DAY, -ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY dt), dt) grp FROM d)
+SELECT DISTINCT user_id FROM g GROUP BY user_id, grp HAVING COUNT(*) &gt;= 3;</code></pre></details>
+<details><summary>INNER vs LEFT join row counts: when can LEFT return more rows than the left table?</summary><p>When the right table has multiple matches per key (one-to-many), each left row repeats for every match.</p></details>
+<details><summary>CTE vs subquery vs temp table vs view?</summary><p>CTE: readable, one statement. Subquery: inline. Temp table: stored for the session, indexable. View: saved query object in the database.</p></details>
+<details><summary>What is normalisation?</summary><p>Organising tables so each fact is stored once (1NF, 2NF, 3NF), reducing redundancy and update errors.</p></details>
+</div>
+</div>
+
+<div data-tab="Statistics">
+<div class="qa">
+<details><summary>Mean vs median: when to use which?</summary><p>Median for skewed data or outliers (income, delivery time); mean for symmetric data.</p></details>
+<details><summary>What is a p-value?</summary><p>The probability of results at least this extreme if H0 were true. Below α (0.05) → reject H0. It is not the probability H0 is true.</p></details>
+<details><summary>Type I vs Type II error?</summary><p>Type I: false positive (reject a true H0). Type II: false negative (miss a real effect).</p></details>
+<details><summary>Explain a 95% confidence interval.</summary><p>A range built so that 95% of intervals made the same way would contain the true value.</p></details>
+<details><summary>What is the Central Limit Theorem?</summary><p>Sample means from large enough samples are approximately normal, centred on the population mean with standard error σ/√n.</p></details>
+<details><summary>How would you design an A/B test for a new checkout page?</summary><p>Define the primary metric (conversion) and guardrails (AOV, errors); compute sample size for the minimum detectable effect; randomise users 50/50; run full weeks; test with a two-proportion z-test; check for novelty effects.</p></details>
+<details><summary>Correlation vs causation?</summary><p>Correlation is association; causation needs experiments or causal methods to rule out confounders.</p></details>
+<details><summary>Which test compares average spend across 4 regions?</summary><p>One-way ANOVA (Kruskal–Wallis if data is very skewed/small).</p></details>
+<details><summary>What is standard deviation in plain words?</summary><p>The typical distance of values from the average.</p></details>
+<details><summary>Simpson's paradox?</summary><p>A trend in combined data reverses within subgroups because of a confounding variable (e.g. overall conversion falls while every channel improves, due to a mix shift).</p></details>
+</div>
+</div>
+
+<div data-tab="Python">
+<div class="qa">
+<details><summary>loc vs iloc?</summary><p>loc by labels/boolean masks (end inclusive); iloc by integer positions (end exclusive).</p></details>
+<details><summary>apply vs vectorisation?</summary><p>Vectorised column operations are much faster; use apply only when logic can't be vectorised.</p></details>
+<details><summary>How do you merge two DataFrames like VLOOKUP?</summary><p><code>df.merge(lookup, on="key", how="left")</code>; check row counts before and after.</p></details>
+<details><summary>Group and aggregate multiple metrics.</summary><p><code>df.groupby("city").agg(orders=("id","nunique"), revenue=("amount","sum"))</code></p></details>
+<details><summary>Handle outliers?</summary><p>Detect with IQR or z-score; investigate; cap (clip), transform (log) or remove with justification.</p></details>
+<details><summary>What is a lambda?</summary><p>A small anonymous one-line function, e.g. <code>lambda x: x * 1.18</code>.</p></details>
+<details><summary>Difference between a list and a NumPy array?</summary><p>Arrays hold one data type and support fast vectorised maths; lists hold anything and need loops.</p></details>
+<details><summary>How do you read only some columns of a big CSV?</summary><p><code>pd.read_csv(f, usecols=[...], dtype={...}, chunksize=100000)</code>.</p></details>
+</div>
+</div>
+
+<div data-tab="Power BI & Tableau">
+<div class="qa">
+<details><summary>Measure vs calculated column (Power BI)?</summary><p>Columns are stored per row at refresh; measures compute at query time in filter context.</p></details>
+<details><summary>What does CALCULATE do?</summary><p>Evaluates an expression with modified filter context; the core of DAX.</p></details>
+<details><summary>Star schema?</summary><p>Fact table linked to dimension tables with one-to-many relationships; simple, fast, predictable.</p></details>
+<details><summary>Row-level security?</summary><p>Roles with DAX filters (static or USERPRINCIPALNAME-based) assigned to users in the service.</p></details>
+<details><summary>Import vs DirectQuery?</summary><p>Import caches data (fast, needs refresh); DirectQuery queries live (current, slower).</p></details>
+<details><summary>Tableau LOD expressions?</summary><p>FIXED/INCLUDE/EXCLUDE set the aggregation level independent of the view.</p></details>
+<details><summary>Tableau context filter?</summary><p>A filter applied before Top N and FIXED LODs, also improving performance.</p></details>
+<details><summary>How do you design a dashboard for executives?</summary><p>Start from their decisions; 4–6 KPIs with targets and trends at the top; drill-downs below; one message per page; consistent colours; mobile layout.</p></details>
+</div>
+</div>
+
+<div data-tab="ML & GenAI">
+<div class="qa">
+<details><summary>Supervised vs unsupervised learning?</summary><p>Supervised uses labelled outcomes (predict churn); unsupervised finds structure without labels (segments).</p></details>
+<details><summary>Bias–variance trade-off?</summary><p>Simple models underfit (high bias); complex models overfit (high variance); choose complexity by validation error.</p></details>
+<details><summary>Precision vs recall?</summary><p>Precision: of predicted positives, share correct. Recall: of actual positives, share found.</p></details>
+<details><summary>How do you handle class imbalance?</summary><p>Stratified splits, class weights, resampling (SMOTE), threshold tuning, and metrics like recall, F1, PR-AUC.</p></details>
+<details><summary>Why scale features?</summary><p>Distance-based (KNN, k-means) and gradient-based models are sensitive to feature scale.</p></details>
+<details><summary>Random forest vs gradient boosting?</summary><p>RF averages independent trees (robust, less tuning); boosting builds trees sequentially to fix errors (often more accurate, needs tuning).</p></details>
+<details><summary>What is cross-validation?</summary><p>Splitting training data into k folds, training on k−1 and validating on 1, rotating, to estimate performance reliably.</p></details>
+<details><summary>What is an LLM hallucination and how do you reduce it?</summary><p>A confident false output. Reduce with RAG/grounding, asking for sources, lower temperature, and verification.</p></details>
+<details><summary>What is RAG?</summary><p>Retrieve relevant documents by embedding similarity and give them to the LLM to answer from.</p></details>
+<details><summary>How have you used GenAI in analytics?</summary><p>Example: classify 10,000 free-text complaints into themes with an LLM, validate on a 300-row hand-labelled sample (92% agreement), then trend themes in Power BI.</p></details>
+</div>
+</div>
+
+<div data-tab="Case & guesstimates">
+<h3>Case framework</h3>
+<div class="steps"><div><b>1</b><span>Clarify the goal and the metric (what does "success" mean?).</span></div><div><b>2</b><span>Break the metric into drivers (revenue = users × conversion × AOV).</span></div><div><b>3</b><span>Hypothesise causes; say which data would confirm each.</span></div><div><b>4</b><span>Analyse by segments: time, channel, region, product, new vs repeat.</span></div><div><b>5</b><span>Recommend, quantify impact, mention risks and next steps.</span></div></div>
+<div class="qa">
+<details><summary>Sales dropped 15% last month. How do you investigate?</summary><p>Confirm data correctness; check seasonality/YoY; decompose into traffic × conversion × AOV; segment by region, channel, category, new vs returning; check external events (competitor sale, stock-outs, app outage); find the segment explaining most of the drop; recommend actions.</p></details>
+<details><summary>Which metrics would you track for a food-delivery app?</summary><p>North star: orders delivered per week. Drivers: active users, order frequency, conversion, AOV, delivery time, cancellation rate, restaurant availability, rating; guardrails: refunds, delivery partner earnings.</p></details>
+<details><summary>Guesstimate: daily UPI transactions in a city of 1 crore people.</summary><p>Adults with smartphones ~60% → 60 lakh; UPI users ~70% → 42 lakh; average 1.5 transactions/day → ~63 lakh transactions/day. State assumptions clearly; the structure matters more than the number.</p></details>
+<details><summary>How would you measure whether a new feature worked?</summary><p>A/B test with a pre-defined primary metric and guardrails; if not possible, difference-in-differences against a comparable group.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn data analyst interview questions and answers]] · [[yt:Simplilearn SQL interview questions]] · [[yt:Simplilearn Power BI interview questions]]</li>
+<li>[[yt:techTFQ SQL interview questions]] · [[yt:Alex The Analyst data analyst interview]]</li>
+<li>[[doc:DataLemur (SQL and statistics interview practice)|https://datalemur.com/]] · [[doc:StrataScratch|https://www.stratascratch.com/]] · [[doc:LeetCode SQL 50|https://leetcode.com/studyplan/top-sql-50/]]</li>
+<li>Course-specific Q&amp;A also sits in the Interview Q&amp;A tab of every module and session.</li>
+</ul>
+</div>

@@ -1,0 +1,133 @@
+<!--meta {"id":"s11","num":"S11","title":"Automation on Data","sub":"Automate the boring work with Excel, SQL, Python, Power BI, Tableau and ML/AI, with a complete weekly-report example","icon":"⚙️","courses":"Additional chapter · from manual copy-paste to scheduled, self-refreshing pipelines"} -->
+<div data-tab="Why & how">
+<p class="lead">Automation turns a report you rebuild every week into one that rebuilds itself. It saves hours, removes copy-paste errors, and frees you to analyse instead of assemble.</p>
+<figure><img src="img/dg/automation_ladder.png" alt="automation ladder"><figcaption>The automation ladder: climb one rung at a time.</figcaption></figure>
+<figure><img src="img/dg/automation_pipeline.png" alt="automated pipeline"><figcaption>A typical automated analytics pipeline with a scheduler driving each step.</figcaption></figure>
+<h3>What to automate first</h3>
+<table class="tbl"><thead><tr><th>Signal</th><th>Example</th></tr></thead><tbody>
+<tr><td>Repeated on a schedule</td><td>Weekly MIS, month-end reconciliation</td></tr>
+<tr><td>Same steps every time</td><td>Download → clean → pivot → paste into PPT</td></tr>
+<tr><td>Error-prone</td><td>Manual VLOOKUPs across 10 files</td></tr>
+<tr><td>Time-consuming</td><td>More than 30 minutes per run</td></tr>
+</tbody></table>
+<p class="tip">ROI check: (minutes saved per run × runs per year) vs build time. A 2-hour weekly task automated in 8 hours pays back in a month.</p>
+</div>
+
+<div data-tab="Excel">
+<table class="tbl"><thead><tr><th>Technique</th><th>Automates</th><th>How</th></tr></thead><tbody>
+<tr><td>Tables + formulas</td><td>Calculations on new rows</td><td>Ctrl+T; structured references</td></tr>
+<tr><td>Power Query</td><td>Import, clean, combine</td><td>Get Data → From Folder; Refresh All; set "Refresh on open"</td></tr>
+<tr><td>Pivot auto-refresh</td><td>Summaries</td><td>PivotTable Options → Refresh data when opening the file; auto-refresh (365)</td></tr>
+<tr><td>Macros / VBA</td><td>Formatting, exporting PDFs, emailing</td><td>Record a macro; edit in Alt+F11</td></tr>
+<tr><td>Office Scripts + Power Automate</td><td>Cloud runs on a schedule or trigger</td><td>Automate tab → Record; Power Automate "Run script" on a recurrence</td></tr>
+<tr><td>Copilot Agent Mode</td><td>Multi-step builds from a prompt</td><td>"Refresh, update the summary and highlight anomalies"</td></tr>
+</tbody></table>
+<pre><code class="text">' VBA: save every sheet as a separate PDF
+Sub ExportSheetsToPDF()
+    Dim ws As Worksheet
+    For Each ws In ThisWorkbook.Worksheets
+        ws.ExportAsFixedFormat Type:=xlTypePDF, _
+            Filename:=ThisWorkbook.Path &amp; "\" &amp; ws.Name &amp; ".pdf"
+    Next ws
+End Sub</code></pre>
+</div>
+
+<div data-tab="SQL">
+<pre><code class="sql">-- 1. A view: the cleaned, reusable dataset every report reads
+CREATE VIEW rpt.vw_weekly_sales AS
+SELECT DATETRUNC(WEEK, o.order_date) AS week_start, c.city, p.category,
+       SUM(oi.qty * oi.price) AS revenue, COUNT(DISTINCT o.order_id) AS orders
+FROM Orders o JOIN Customer c ON o.customer_id = c.customer_id
+JOIN Order_Item oi ON o.order_id = oi.order_id JOIN Product p ON oi.product_id = p.product_id
+GROUP BY DATETRUNC(WEEK, o.order_date), c.city, p.category;
+
+-- 2. A stored procedure that loads a summary table
+CREATE PROCEDURE rpt.usp_load_weekly AS
+BEGIN
+    TRUNCATE TABLE rpt.weekly_sales;
+    INSERT INTO rpt.weekly_sales SELECT * FROM rpt.vw_weekly_sales;
+END;
+-- 3. Schedule it: SQL Server Agent → Jobs → New Job → Step: EXEC rpt.usp_load_weekly → Schedule: Mondays 06:00
+--    (Express edition has no Agent: use Windows Task Scheduler with sqlcmd, or Azure Data Factory / Fabric pipelines)</code></pre>
+<p>Also: triggers (react to inserts/updates, e.g. audit logs), <code>MERGE</code> for incremental upserts, Database Mail for alert emails.</p>
+</div>
+
+<div data-tab="Python">
+<pre><code class="python"># weekly_report.py — pull data, build Excel report, email it
+import pandas as pd, sqlalchemy as sa, smtplib, datetime as dt
+from email.message import EmailMessage
+
+engine = sa.create_engine("mssql+pyodbc://@localhost/RetailDB?driver=ODBC+Driver+18+for+SQL+Server&amp;trusted_connection=yes&amp;TrustServerCertificate=yes")
+df = pd.read_sql("SELECT * FROM rpt.weekly_sales WHERE week_start &gt;= DATEADD(WEEK, -8, GETDATE())", engine)
+
+summary = df.pivot_table(index="city", columns="week_start", values="revenue", aggfunc="sum").round(0)
+out = f"weekly_sales_{dt.date.today():%Y%m%d}.xlsx"
+with pd.ExcelWriter(out) as xw:
+    summary.to_excel(xw, sheet_name="Summary")
+    df.to_excel(xw, sheet_name="Data", index=False)
+
+msg = EmailMessage(); msg["Subject"] = "Weekly sales report"; msg["From"] = "reports@company.com"; msg["To"] = "team@company.com"
+msg.set_content("Attached: last 8 weeks by city.")
+msg.add_attachment(open(out, "rb").read(), maintype="application", subtype="octet-stream", filename=out)
+with smtplib.SMTP("smtp.company.com", 587) as s:
+    s.starttls(); s.login("reports@company.com", "USE_A_SECRET_STORE"); s.send_message(msg)</code></pre>
+<table class="tbl"><thead><tr><th>Schedule with</th><th>How</th></tr></thead><tbody>
+<tr><td>Windows Task Scheduler</td><td>Create Basic Task → Weekly → Start a program: <code>python C:\jobs\weekly_report.py</code></td></tr>
+<tr><td>cron (Linux/Mac)</td><td><code>0 7 * * 1 /usr/bin/python3 /jobs/weekly_report.py</code> (Mondays 07:00)</td></tr>
+<tr><td>Cloud</td><td>GitHub Actions schedule, Azure Functions, AWS Lambda, Fabric notebooks</td></tr>
+<tr><td>Orchestrators</td><td>Apache Airflow, Prefect, Dagster for multi-step pipelines with retries and monitoring</td></tr>
+</tbody></table>
+<div class="warn">Never hard-code passwords in scripts; use environment variables or a secrets manager.</div>
+</div>
+
+<div data-tab="Power BI & Tableau">
+<h3>Power BI</h3>
+<ul><li><b>Scheduled refresh</b> of semantic models (gateway for on-premises data); <b>incremental refresh</b> for large tables.</li><li><b>Subscriptions</b>: email report snapshots on a schedule; <b>data alerts</b> on dashboard tiles.</li><li><b>Power Automate</b>: trigger flows from an alert, a button in the report, or after refresh ("refresh dataset then post to Teams").</li><li><b>Fabric</b>: Data Factory pipelines and notebooks feed Lakehouse tables; Direct Lake reports update without import refresh.</li><li><b>Copilot</b> summaries for automated narrative.</li></ul>
+<h3>Tableau</h3>
+<ul><li><b>Extract refresh schedules</b> on Tableau Cloud/Server.</li><li><b>Tableau Prep</b> flows scheduled with Prep Conductor for repeatable cleaning.</li><li><b>Subscriptions</b> and <b>data-driven alerts</b>.</li><li><b>Tableau Pulse</b> pushes metric changes with AI-written insights to email or Slack.</li></ul>
+</div>
+
+<div data-tab="ML & AI">
+<table class="tbl"><thead><tr><th>Automation</th><th>Example</th><th>Tools</th></tr></thead><tbody>
+<tr><td>Batch scoring</td><td>Score all customers for churn every Sunday; write scores to SQL for the CRM and Power BI</td><td>Python script + scheduler; Azure ML / Fabric</td></tr>
+<tr><td>Retraining triggers</td><td>Retrain when accuracy drops or data drifts</td><td>MLflow, Azure ML pipelines</td></tr>
+<tr><td>Anomaly alerts</td><td>Flag days when sales fall outside expected range</td><td>Prophet/ETS forecast + rule; Power BI anomaly detection</td></tr>
+<tr><td>LLM text classification</td><td>Tag 10,000 complaints by theme nightly</td><td>OpenAI/Anthropic API, Excel <code>=COPILOT()</code> for small sets</td></tr>
+<tr><td>AI agents</td><td>"Every Monday: query sales, update dashboard, write commentary, ask for approval, email"</td><td>Copilot Studio, ChatGPT/Claude agents, n8n/Power Automate with AI steps</td></tr>
+</tbody></table>
+<pre><code class="python"># Nightly: classify new complaints with an LLM (pattern; use your company-approved provider)
+import pandas as pd
+from anthropic import Anthropic          # or the OpenAI / Azure OpenAI SDK
+client = Anthropic()                     # API key from environment variable
+themes = ["Delivery delay", "Refund", "Product quality", "App issue", "Other"]
+def classify(text):
+    r = client.messages.create(model="claude-haiku-4-5-20251001", max_tokens=10,
+        messages=[{"role": "user", "content": f"Classify into one of {themes}. Reply with the label only.\n\n{text}"}])
+    return r.content[0].text.strip()
+new = pd.read_csv("complaints_today.csv")
+new["theme"] = new["complaint_text"].map(classify)
+new.to_csv("complaints_tagged.csv", index=False)</code></pre>
+<p class="tip">Validate AI labels on a hand-checked sample (say 200 rows) before trusting them, and re-check monthly.</p>
+</div>
+
+<div data-tab="End-to-end example">
+<h3>Weekly sales review, fully automated</h3>
+<div class="steps">
+<div><b>1</b><span><b>06:00 Mon</b> – SQL Agent runs <code>usp_load_weekly</code>: cleaned weekly table updated.</span></div>
+<div><b>2</b><span><b>06:15</b> – Python scores churn risk for active customers and writes scores back to SQL.</span></div>
+<div><b>3</b><span><b>06:30</b> – Power BI scheduled refresh; Copilot summary updated.</span></div>
+<div><b>4</b><span><b>06:45</b> – Power Automate checks KPIs; if revenue is down more than 10% week on week, posts an alert in Teams with the top 3 contributing cities.</span></div>
+<div><b>5</b><span><b>07:00</b> – Subscription emails the report PDF to managers; analyst reviews exceptions only.</span></div>
+</div>
+<p><b>Before:</b> 4 hours every Monday of downloads, VLOOKUPs and copy-paste. <b>After:</b> 15 minutes reviewing exceptions.</p>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn Excel VBA tutorial]] · [[yt:Simplilearn Power Automate tutorial]] · [[yt:Simplilearn Python automation]]</li>
+<li>[[yt:Leila Gharani Office Scripts Power Automate Excel]] · [[yt:SQL Server Agent job schedule tutorial]]</li>
+<li>[[yt:Power BI scheduled refresh gateway tutorial]] · [[yt:Tableau Prep Conductor schedule flow]]</li>
+<li>[[doc:Automate the Boring Stuff with Python|https://automatetheboringstuff.com/]] · [[doc:Power Automate documentation|https://learn.microsoft.com/en-us/power-automate/]]</li>
+<li>[[doc:Office Scripts in Excel|https://learn.microsoft.com/en-us/office/dev/scripts/overview/excel]] · [[doc:Apache Airflow|https://airflow.apache.org/docs/]]</li>
+</ul>
+</div>

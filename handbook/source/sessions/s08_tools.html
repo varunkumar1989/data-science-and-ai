@@ -1,0 +1,91 @@
+<!--meta {"id":"s8","num":"S8","title":"Tools for Data Science & AI","sub":"ChatGPT, Claude, Gemini, Copilot, Grok, Perplexity, Lovable, NotebookLM, Cursor and the core data stack: what each is for and how to use it","icon":"🧰","courses":"Learning session · tool landscape as of October 2026 · features and plans change often, so check each vendor's site"} -->
+<div data-tab="Tool map">
+<figure><img src="img/dg/tools_map.png" alt="AI tools map"><figcaption>Seven groups of AI tools an analyst uses.</figcaption></figure>
+<h3>Which tool when</h3>
+<table class="tbl"><thead><tr><th>I need to…</th><th>First choice</th><th>Alternatives</th></tr></thead><tbody>
+<tr><td>Write/fix an Excel formula, SQL or Python</td><td>ChatGPT or Claude</td><td>Copilot in Excel, Gemini, GitHub Copilot</td></tr>
+<tr><td>Analyse an uploaded CSV/Excel and make charts</td><td>ChatGPT data analysis</td><td>Claude (analysis + artifacts), Julius AI, Copilot in Excel, Gemini in Sheets</td></tr>
+<tr><td>Research a topic with sources</td><td>Perplexity</td><td>ChatGPT / Gemini deep research, Claude research, Grok DeepSearch</td></tr>
+<tr><td>Study from my own PDFs and notes</td><td>NotebookLM</td><td>Claude Projects, ChatGPT Projects</td></tr>
+<tr><td>Real-time public sentiment / news on X</td><td>Grok</td><td>Perplexity</td></tr>
+<tr><td>Build a small web app or dashboard without coding</td><td>Lovable</td><td>Bolt, v0, Replit, Claude artifacts</td></tr>
+<tr><td>Write production code in an editor</td><td>GitHub Copilot or Cursor</td><td>Claude Code, Gemini in Colab</td></tr>
+<tr><td>AI inside Office documents</td><td>Microsoft 365 Copilot</td><td>Gemini in Google Workspace</td></tr>
+<tr><td>Automate workflows between apps</td><td>Power Automate (Microsoft shops)</td><td>Zapier, Make, n8n</td></tr>
+<tr><td>Slides from an outline</td><td>Copilot in PowerPoint / Gamma</td><td>Canva Magic, Claude/ChatGPT drafts</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="AI assistants">
+<table class="tbl"><thead><tr><th>Tool (maker)</th><th>Best at</th><th>Data-science uses</th><th>Notes</th></tr></thead><tbody>
+<tr><td><b>ChatGPT</b> (OpenAI)</td><td>All-round assistant; runs Python on uploaded files; image generation; voice; custom GPTs; agent mode</td><td>Upload sales.xlsx → "clean it, show monthly trend, test if Pune differs from Delhi"; write SQL/DAX; explain errors</td><td>Free tier; Plus/Pro/Team/Enterprise paid plans. The course's GenAI classes used ChatGPT 3.5/4.</td></tr>
+<tr><td><b>Claude</b> (Anthropic)</td><td>Long documents, careful reasoning and writing, coding; Artifacts (interactive pages/dashboards); Projects with your files; Claude Code for agentic coding</td><td>Read a 100-page report and extract KPIs; build an interactive dashboard as an artifact; refactor a Python pipeline</td><td>Free, Pro, Max, Team, Enterprise plans. Also available inside Excel's Agent Mode and via API.</td></tr>
+<tr><td><b>Gemini</b> (Google)</td><td>Google Workspace integration (Sheets, Docs, Gmail, Drive), multimodal input, Deep Research</td><td>Gemini in Sheets: formulas, tables, analysis; Gemini in Colab: write and fix notebook code</td><td>Free tier; Google AI plans; Workspace business plans</td></tr>
+<tr><td><b>Microsoft Copilot</b></td><td>Microsoft 365 apps: Excel (formulas, analysis, Agent Mode, <code>=COPILOT()</code>), PowerPoint, Word, Teams meeting recaps; Analyst and Researcher agents</td><td>"Analyse this table and add a pivot of sales by region"; turn Excel findings into a PowerPoint</td><td>Free Copilot app; Microsoft 365 Copilot licence for work data</td></tr>
+<tr><td><b>Grok</b> (xAI)</td><td>Real-time information from X (Twitter) and the web; DeepSearch; witty conversational style</td><td>Track brand sentiment or trending topics; quick current-events context</td><td>Available in X and the Grok app; free and paid tiers. Verify claims; social posts are noisy.</td></tr>
+<tr><td><b>Perplexity</b></td><td>Answer engine with citations for every claim; Pro/Deep Research; Spaces for collections; Comet AI browser</td><td>Market sizing, competitor research, finding datasets and documentation with sources</td><td>Free and Pro; best for research, not for heavy file analysis</td></tr>
+<tr><td>Others</td><td>Meta AI (in WhatsApp/Instagram), DeepSeek and Qwen (open-weight models), Mistral (European), Microsoft Copilot Studio (build your own agents)</td><td>Low-cost or self-hosted alternatives</td><td>Check data-privacy terms before uploading work data</td></tr>
+</tbody></table>
+<h3>One task, different assistants: prompt templates</h3>
+<pre><code class="text">ANALYSE (ChatGPT / Claude / Julius)
+"You are a data analyst. The attached file has one row per order (columns: order_id, date,
+city, category, amount). 1) Check data quality and list issues. 2) Monthly revenue trend
+chart. 3) Top 5 cities and their share. 4) Three insights for a sales manager in plain English.
+Show the code you ran."
+
+RESEARCH (Perplexity)
+"Size of India's quick-commerce market in 2025–26 with sources; list 5 credible reports and
+their estimates in a table with publication dates."
+
+LEARN (NotebookLM)
+Upload: course PDFs and your notes → "Make a 20-question quiz on hypothesis testing and an
+audio overview I can listen to on my commute."
+
+BUILD (Lovable)
+"Build a web app where a store manager uploads a CSV of daily sales and sees KPI cards, a
+monthly trend chart and a top-products table. Clean, mobile-friendly design."</code></pre>
+</div>
+
+<div data-tab="Build, code & research">
+<table class="tbl"><thead><tr><th>Tool</th><th>What it is</th><th>Use it for</th></tr></thead><tbody>
+<tr><td><b>Lovable</b></td><td>AI app builder: describe an app in chat and it generates a full-stack web app (React front end, Supabase database/auth), with GitHub sync and one-click hosting</td><td>Prototypes, internal tools, a portfolio app (e.g. a churn-risk calculator) without writing code</td></tr>
+<tr><td>Bolt, v0 (Vercel), Replit</td><td>Similar prompt-to-app builders; v0 focuses on UI; Replit has a full cloud IDE and agent</td><td>Quick front ends, dashboards, demos</td></tr>
+<tr><td><b>NotebookLM</b> (Google)</td><td>Research notebook grounded only in sources you upload; cites passages; generates study guides, mind maps and audio/video overviews</td><td>Revising course material, summarising long reports</td></tr>
+<tr><td><b>GitHub Copilot</b></td><td>AI pair programmer inside VS Code, JetBrains, GitHub; chat and agent modes</td><td>Python, SQL, notebooks, unit tests</td></tr>
+<tr><td><b>Cursor</b></td><td>AI-first code editor (VS Code-based) that edits across a whole project</td><td>Larger refactors, building pipelines</td></tr>
+<tr><td><b>Claude Code</b></td><td>Agentic coding tool that reads a codebase, runs commands and makes changes</td><td>Automating data pipelines, building apps end to end</td></tr>
+<tr><td><b>Julius AI</b></td><td>Chat-based data analyst for non-technical users: upload data, get charts and stats</td><td>Fast exploratory analysis</td></tr>
+<tr><td>Hex, Deepnote</td><td>Collaborative AI notebooks mixing SQL, Python and charts</td><td>Team analytics</td></tr>
+<tr><td>Gamma, Canva, Copilot in PowerPoint</td><td>AI presentations from prompts or documents</td><td>Turning analysis into slides</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Core data stack">
+<table class="tbl"><thead><tr><th>Category</th><th>Tools</th><th>Learn first</th></tr></thead><tbody>
+<tr><td>Spreadsheets</td><td>Excel (365), Google Sheets</td><td>Excel</td></tr>
+<tr><td>Databases &amp; SQL</td><td>SQL Server + SSMS, MySQL, PostgreSQL, SQLite, DuckDB; cloud: Snowflake, BigQuery, Databricks, Microsoft Fabric, Amazon Redshift</td><td>SQL Server or PostgreSQL</td></tr>
+<tr><td>Programming</td><td>Python (pandas, NumPy, matplotlib/seaborn/plotly, scikit-learn, statsmodels), R</td><td>Python</td></tr>
+<tr><td>Notebooks / IDEs</td><td>Jupyter, Google Colab, VS Code, PyCharm</td><td>Jupyter + VS Code</td></tr>
+<tr><td>BI</td><td>Power BI, Tableau, Looker Studio (free), Metabase (open source), Qlik</td><td>Power BI (and Tableau)</td></tr>
+<tr><td>Data engineering</td><td>Power Query, dbt, Airflow, Azure Data Factory, Fabric pipelines</td><td>Power Query</td></tr>
+<tr><td>ML / MLOps</td><td>scikit-learn, XGBoost, TensorFlow/PyTorch, MLflow, Azure ML, Vertex AI, SageMaker</td><td>scikit-learn</td></tr>
+<tr><td>Version control</td><td>Git, GitHub</td><td>GitHub for your portfolio</td></tr>
+<tr><td>Automation</td><td>Power Automate, Zapier, Make, n8n, Windows Task Scheduler, cron</td><td>Power Automate</td></tr>
+<tr><td>Collaboration</td><td>Jira, Confluence, Notion, Teams, Slack</td><td>Jira basics</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="Safe & smart use">
+<ul class="check"><li>Use your company's approved AI tools for work data; personal accounts may use your inputs for training unless you opt out</li><li>Mask personal data (names, phone, PAN, Aadhaar) before uploading</li><li>Recalculate any number you will present; ask the tool to show its code</li><li>Ask for sources (Perplexity, deep research) and open them</li><li>Keep prompts that work in a personal library</li><li>Compare two assistants on important questions; they make different mistakes</li><li>Declare AI assistance where your organisation or course requires it</li></ul>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn ChatGPT tutorial for beginners]] · [[yt:Simplilearn AI tools for data analysis]]</li>
+<li>[[yt:Claude AI tutorial for data analysis]] · [[yt:Perplexity AI tutorial for research]] · [[yt:NotebookLM tutorial]]</li>
+<li>[[yt:Lovable AI tutorial build app]] · [[yt:Microsoft Copilot in Excel tutorial]] · [[yt:GitHub Copilot for data science]]</li>
+<li>[[doc:ChatGPT|https://chatgpt.com/]] · [[doc:Claude|https://claude.ai/]] · [[doc:Gemini|https://gemini.google.com/]] · [[doc:Microsoft Copilot|https://copilot.microsoft.com/]] · [[doc:Grok|https://grok.com/]] · [[doc:Perplexity|https://www.perplexity.ai/]]</li>
+<li>[[doc:Lovable|https://lovable.dev/]] · [[doc:NotebookLM|https://notebooklm.google/]] · [[doc:Cursor|https://cursor.com/]] · [[doc:GitHub Copilot|https://github.com/features/copilot]] · [[doc:Julius AI|https://julius.ai/]]</li>
+<li>[[doc:CompareGen: AI tools for data analysis 2026|https://www.comparegen.ai/blog/best-ai-data-analysis-tools-2026]]</li>
+</ul>
+</div>

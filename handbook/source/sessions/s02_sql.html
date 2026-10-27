@@ -1,0 +1,266 @@
+<!--meta {"id":"s2","num":"S2","title":"SQL: Basic to Advanced","sub":"Query, combine and analyse data in databases, from SELECT to window functions, CTEs, performance and analytics patterns","icon":"🗄️","courses":"Learning session · non-tech friendly · examples in SQL Server (T-SQL) with notes for MySQL/PostgreSQL"} -->
+<div data-tab="Roadmap">
+<p class="lead">SQL is the most-asked skill in data analyst job descriptions. You write a sentence-like query describing the data you want, and the database returns it. This session goes from your first query to the patterns used in real analytics teams.</p>
+<table class="tbl"><thead><tr><th>Stage</th><th>Topics</th><th>Practice</th></tr></thead><tbody>
+<tr><td>1 · Foundations</td><td>Tables, keys, data types, SELECT, WHERE, ORDER BY, DISTINCT, TOP</td><td><a href="#m1/Building Blocks · Class 4">Building Blocks · Class 4</a></td></tr>
+<tr><td>2 · Summaries</td><td>Aggregates, GROUP BY, HAVING, CASE</td><td>SQL Retail case Q1–Q10</td></tr>
+<tr><td>3 · Combining</td><td>Joins, set operators, subqueries</td><td>SQL Retail case Q11–Q15</td></tr>
+<tr><td>4 · Advanced querying</td><td>CTEs, window functions, pivot/unpivot, date logic</td><td>SQL Mobile case</td></tr>
+<tr><td>5 · Building</td><td>DDL, DML, constraints, views, procedures, functions, transactions</td><td>Create your own RetailDB</td></tr>
+<tr><td>6 · Performance</td><td>Indexes, execution plans, sargable filters</td><td>Compare plans</td></tr>
+<tr><td>7 · Analytics patterns</td><td>Top-N per group, running totals, MoM growth, cohorts, retention, funnels, dedupe, gaps &amp; islands</td><td>Patterns tab</td></tr>
+</tbody></table>
+<figure><img src="img/dg/sql_order.png" alt="SQL logical order"><figcaption>Memorise this order: it explains most "why doesn't my query work" moments.</figcaption></figure>
+</div>
+
+<div data-tab="1 · Foundations">
+<pre><code class="sql">-- Read a table
+SELECT TOP 100 * FROM Orders;
+-- Choose and rename columns, calculate
+SELECT order_id, amount, amount * 0.18 AS gst, amount * 1.18 AS amount_incl_gst FROM Orders;
+-- Filter rows
+SELECT * FROM Orders
+WHERE order_date &gt;= '2026-04-01' AND store_type IN ('e-Shop','MBR') AND amount BETWEEN 1000 AND 50000;
+-- Patterns and NULLs
+SELECT * FROM Customer WHERE name LIKE 'Ra%' AND email IS NOT NULL;
+-- Unique values and sorting
+SELECT DISTINCT city FROM Customer ORDER BY city;
+SELECT TOP 5 WITH TIES product_id, price FROM Product ORDER BY price DESC;   -- ties included</code></pre>
+<table class="tbl"><thead><tr><th>Concept</th><th>Remember</th></tr></thead><tbody>
+<tr><td>NULL</td><td>"Unknown". <code>NULL = NULL</code> is not TRUE; use IS NULL. Aggregates ignore NULLs; COUNT(*) counts rows, COUNT(col) counts non-NULL values.</td></tr>
+<tr><td>Strings</td><td>Single quotes: 'Pune'. Dates as 'YYYY-MM-DD' strings are safest.</td></tr>
+<tr><td>Integer division</td><td><code>5/2 = 2</code> in SQL Server; write <code>5/2.0</code> or <code>CAST(x AS DECIMAL(10,2))</code>.</td></tr>
+<tr><td>Comments</td><td><code>-- one line</code>, <code>/* block */</code></td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="2 · Summaries">
+<pre><code class="sql">SELECT store_type,
+       COUNT(*)                        AS orders,
+       COUNT(DISTINCT customer_id)     AS customers,
+       SUM(amount)                     AS revenue,
+       AVG(amount * 1.0)               AS aov,
+       MIN(order_date)                 AS first_order,
+       MAX(order_date)                 AS last_order
+FROM Orders
+WHERE amount &gt; 0                         -- row filter (before grouping)
+GROUP BY store_type
+HAVING SUM(amount) &gt; 1000000             -- group filter (after grouping)
+ORDER BY revenue DESC;</code></pre>
+<h3>CASE: if-then logic in SQL</h3>
+<pre><code class="sql">SELECT order_id, amount,
+       CASE WHEN amount &gt;= 10000 THEN 'High'
+            WHEN amount &gt;=  2000 THEN 'Medium'
+            ELSE 'Low' END                          AS order_band
+FROM Orders;
+
+-- Conditional aggregation (pivot-like counts in one pass)
+SELECT city,
+       SUM(CASE WHEN gender = 'F' THEN 1 ELSE 0 END)      AS female,
+       SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END)      AS male,
+       AVG(CASE WHEN qty &lt; 0 THEN 1.0 ELSE 0 END)        AS return_rate
+FROM Orders o JOIN Customer c ON o.customer_id = c.customer_id
+GROUP BY city;</code></pre>
+<h3>Functions you will use daily</h3>
+<table class="tbl"><tbody>
+<tr><td>Dates</td><td><code>GETDATE(), CAST(GETDATE() AS DATE), YEAR(d), DATEPART(QUARTER,d), DATENAME(WEEKDAY,d), DATEADD(MONTH,-1,d), DATEDIFF(DAY,a,b), EOMONTH(d), DATETRUNC(MONTH,d), FORMAT(d,'yyyy-MM')</code></td></tr>
+<tr><td>Text</td><td><code>LEN, LEFT, RIGHT, SUBSTRING, CHARINDEX, REPLACE, TRIM, UPPER, CONCAT, CONCAT_WS, STRING_AGG, STRING_SPLIT</code></td></tr>
+<tr><td>Numbers</td><td><code>ROUND, CEILING, FLOOR, ABS, POWER, SQRT, GREATEST, LEAST</code></td></tr>
+<tr><td>NULL &amp; type</td><td><code>ISNULL, COALESCE, NULLIF (avoid divide by zero: x / NULLIF(y,0)), CAST, TRY_CONVERT</code></td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="3 · Combining">
+<figure><img src="img/dg/joins.png" alt="joins"><figcaption>Joins add columns from another table; set operators add rows.</figcaption></figure>
+<pre><code class="sql">-- Orders with customer and product details
+SELECT o.order_id, c.name, c.city, p.product_name, oi.qty, oi.qty * p.price AS line_value
+FROM Orders o
+JOIN Customer   c  ON o.customer_id = c.customer_id
+JOIN Order_Item oi ON o.order_id    = oi.order_id
+JOIN Product    p  ON oi.product_id = p.product_id;
+
+-- Anti-join: products never sold
+SELECT p.* FROM Product p
+WHERE NOT EXISTS (SELECT 1 FROM Order_Item oi WHERE oi.product_id = p.product_id);
+
+-- Join on two keys (category + sub-category)
+... JOIN prod_cat_info pc ON t.prod_cat_code = pc.prod_cat_code AND t.prod_subcat_code = pc.prod_sub_cat_code</code></pre>
+<div class="warn"><b>Join fan-out:</b> if the right table has several rows per key, rows multiply and SUMs inflate. Check counts before and after a join, and aggregate the many-side first if needed.</div>
+<h3>Subqueries</h3>
+<table class="tbl"><tbody>
+<tr><td>Scalar</td><td><code>WHERE amount &gt; (SELECT AVG(amount) FROM Orders)</code></td></tr>
+<tr><td>List (IN)</td><td><code>WHERE customer_id IN (SELECT customer_id FROM Orders WHERE YEAR(order_date)=2026)</code></td></tr>
+<tr><td>Derived table (inline view)</td><td><code>FROM (SELECT ... GROUP BY ...) AS t</code></td></tr>
+<tr><td>Correlated</td><td>Inner query uses outer row: orders above that customer's own average</td></tr>
+<tr><td>EXISTS / NOT EXISTS</td><td>Stops at first match; NULL-safe, often faster than IN / NOT IN</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="4 · Advanced querying">
+<h3>CTEs (WITH): readable step-by-step queries</h3>
+<pre><code class="sql">WITH monthly AS (
+    SELECT DATETRUNC(MONTH, order_date) AS month, SUM(amount) AS revenue
+    FROM Orders GROUP BY DATETRUNC(MONTH, order_date)
+),
+growth AS (
+    SELECT month, revenue,
+           LAG(revenue) OVER (ORDER BY month) AS prev_revenue
+    FROM monthly
+)
+SELECT month, revenue,
+       ROUND(100.0 * (revenue - prev_revenue) / NULLIF(prev_revenue, 0), 1) AS mom_growth_pct
+FROM growth ORDER BY month;</code></pre>
+<h3>Window functions</h3>
+<table class="tbl"><thead><tr><th>Function</th><th>Use</th></tr></thead><tbody>
+<tr><td>ROW_NUMBER, RANK, DENSE_RANK, NTILE(4)</td><td>Rankings, top-N per group, quartiles</td></tr>
+<tr><td>SUM/AVG/COUNT … OVER (PARTITION BY …)</td><td>Group totals next to each row (% of total)</td></tr>
+<tr><td>… OVER (ORDER BY … ROWS BETWEEN …)</td><td>Running totals, moving averages</td></tr>
+<tr><td>LAG / LEAD</td><td>Previous/next row: MoM change, days between orders</td></tr>
+<tr><td>FIRST_VALUE / LAST_VALUE</td><td>First purchase category per customer</td></tr>
+<tr><td>PERCENT_RANK, CUME_DIST, PERCENTILE_CONT</td><td>Percentiles and distributions</td></tr>
+</tbody></table>
+<pre><code class="sql">SELECT customer_id, order_date, amount,
+       ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date)        AS order_no,
+       SUM(amount)  OVER (PARTITION BY customer_id ORDER BY order_date
+                          ROWS UNBOUNDED PRECEDING)                            AS lifetime_value_so_far,
+       DATEDIFF(DAY, LAG(order_date) OVER (PARTITION BY customer_id ORDER BY order_date), order_date) AS days_since_prev,
+       100.0 * amount / SUM(amount) OVER ()                                    AS pct_of_all_revenue
+FROM Orders;</code></pre>
+<h3>Pivot and unpivot</h3>
+<pre><code class="sql">SELECT * FROM (SELECT city, store_type, amount FROM Sales) s
+PIVOT (SUM(amount) FOR store_type IN ([e-Shop],[MBR],[TeleShop],[Flagship store])) p;
+
+SELECT product, month, units
+FROM MonthlyUnits UNPIVOT (units FOR month IN ([Jan],[Feb],[Mar])) u;</code></pre>
+<h3>Recursive CTE (hierarchies, date series)</h3>
+<pre><code class="sql">WITH org AS (
+    SELECT emp_id, name, manager_id, 1 AS lvl FROM Employee WHERE manager_id IS NULL
+    UNION ALL
+    SELECT e.emp_id, e.name, e.manager_id, o.lvl + 1 FROM Employee e JOIN org o ON e.manager_id = o.emp_id
+)
+SELECT * FROM org ORDER BY lvl;</code></pre>
+</div>
+
+<div data-tab="5 · Building">
+<h3>DDL and DML recap</h3>
+<p>CREATE / ALTER / DROP / TRUNCATE build structure; INSERT / UPDATE / DELETE / MERGE change rows. Full syntax with examples: <a href="#m1/Building Blocks · Class 3">Building Blocks · Class 3</a>.</p>
+<pre><code class="sql">-- Upsert: update existing customers, insert new ones
+MERGE Customer AS tgt
+USING Staging_Customer AS src ON tgt.customer_id = src.customer_id
+WHEN MATCHED THEN UPDATE SET tgt.city = src.city, tgt.email = src.email
+WHEN NOT MATCHED THEN INSERT (customer_id, name, city, email) VALUES (src.customer_id, src.name, src.city, src.email);</code></pre>
+<h3>Views, stored procedures, functions</h3>
+<pre><code class="sql">CREATE VIEW vw_monthly_sales AS
+SELECT DATETRUNC(MONTH, order_date) AS month, store_type, SUM(amount) AS revenue
+FROM Orders GROUP BY DATETRUNC(MONTH, order_date), store_type;
+
+CREATE PROCEDURE usp_sales_by_city @from DATE, @to DATE AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT c.city, SUM(o.amount) AS revenue
+    FROM Orders o JOIN Customer c ON o.customer_id = c.customer_id
+    WHERE o.order_date BETWEEN @from AND @to
+    GROUP BY c.city ORDER BY revenue DESC;
+END;
+EXEC usp_sales_by_city '2026-04-01', '2026-09-30';
+
+CREATE FUNCTION dbo.fn_fy(@d DATE) RETURNS VARCHAR(6) AS
+BEGIN RETURN 'FY' + CAST(YEAR(@d) + CASE WHEN MONTH(@d) &gt;= 4 THEN 1 ELSE 0 END AS VARCHAR(4)); END;</code></pre>
+<h3>Transactions</h3>
+<pre><code class="sql">BEGIN TRY
+    BEGIN TRAN;
+        UPDATE Account SET balance = balance - 5000 WHERE acc_id = 1;
+        UPDATE Account SET balance = balance + 5000 WHERE acc_id = 2;
+    COMMIT;              -- both or nothing (atomicity)
+END TRY
+BEGIN CATCH
+    ROLLBACK; THROW;
+END CATCH;</code></pre>
+<p>Temp tables (<code>#tmp</code>) hold intermediate results for a session; table variables (<code>@t</code>) for small sets.</p>
+</div>
+
+<div data-tab="6 · Performance">
+<ul><li><b>Indexes</b> are like a book index: a <b>clustered</b> index sorts the table itself (usually the primary key); <b>non-clustered</b> indexes are extra sorted lookups. <code>CREATE INDEX ix_orders_date ON Orders(order_date) INCLUDE (amount);</code></li><li>Read the <b>execution plan</b> (<span class="kbd">Ctrl</span>+<span class="kbd">M</span> in SSMS): look for table scans on large tables and big estimated vs actual row differences.</li><li>Write <b>sargable</b> filters (index-friendly): <code>WHERE order_date &gt;= '2026-01-01' AND order_date &lt; '2027-01-01'</code> instead of <code>WHERE YEAR(order_date) = 2026</code>.</li><li>Select only needed columns; filter early; avoid functions on indexed columns; prefer EXISTS over IN for large subqueries; avoid SELECT DISTINCT as a fix for bad joins.</li><li>Use <code>SET STATISTICS IO, TIME ON</code> to measure.</li></ul>
+</div>
+
+<div data-tab="7 · Analytics patterns">
+<pre><code class="sql">-- 1. Top 3 products per category
+SELECT * FROM (
+  SELECT category, product_name, SUM(line_value) AS sales,
+         DENSE_RANK() OVER (PARTITION BY category ORDER BY SUM(line_value) DESC) AS rk
+  FROM vw_order_lines GROUP BY category, product_name) t
+WHERE rk &lt;= 3;
+
+-- 2. Remove duplicates, keep the latest row
+WITH d AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY email ORDER BY updated_at DESC) rn FROM Customer_Raw)
+DELETE FROM d WHERE rn &gt; 1;
+
+-- 3. Monthly cohort retention
+WITH first_month AS (
+  SELECT customer_id, DATETRUNC(MONTH, MIN(order_date)) AS cohort FROM Orders GROUP BY customer_id),
+activity AS (
+  SELECT DISTINCT o.customer_id, f.cohort, DATEDIFF(MONTH, f.cohort, DATETRUNC(MONTH, o.order_date)) AS month_no
+  FROM Orders o JOIN first_month f ON o.customer_id = f.customer_id)
+SELECT cohort, month_no, COUNT(*) AS active_customers,
+       100.0 * COUNT(*) / FIRST_VALUE(COUNT(*)) OVER (PARTITION BY cohort ORDER BY month_no) AS retention_pct
+FROM activity GROUP BY cohort, month_no ORDER BY cohort, month_no;
+
+-- 4. Funnel conversion
+SELECT COUNT(DISTINCT CASE WHEN event = 'view'     THEN user_id END) AS viewers,
+       COUNT(DISTINCT CASE WHEN event = 'add_cart' THEN user_id END) AS carted,
+       COUNT(DISTINCT CASE WHEN event = 'purchase' THEN user_id END) AS buyers
+FROM Events WHERE event_date = '2026-10-26';
+
+-- 5. 7-day moving average of daily sales
+SELECT sale_date, daily_sales,
+       AVG(daily_sales) OVER (ORDER BY sale_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma_7d
+FROM DailySales;
+
+-- 6. Customers whose spend dropped more than 50% vs previous year
+WITH y AS (SELECT customer_id, YEAR(order_date) AS yr, SUM(amount) AS spend
+           FROM Orders GROUP BY customer_id, YEAR(order_date)),
+     z AS (SELECT *, LAG(spend) OVER (PARTITION BY customer_id ORDER BY yr) AS prev_spend FROM y)
+SELECT customer_id, yr, spend, prev_spend
+FROM z WHERE spend &lt; 0.5 * prev_spend;      -- filter on a window result in the outer query</code></pre>
+<p class="tip">Pattern 6 shows a dialect difference: Snowflake, BigQuery and Databricks support <code>QUALIFY</code> to filter on window results; in SQL Server, wrap the query in a CTE and filter in the outer WHERE.</p>
+</div>
+
+<div data-tab="Dialects & new features">
+<table class="tbl"><thead><tr><th>Task</th><th>SQL Server</th><th>MySQL</th><th>PostgreSQL</th></tr></thead><tbody>
+<tr><td>First N rows</td><td><code>SELECT TOP 10</code></td><td><code>LIMIT 10</code></td><td><code>LIMIT 10</code></td></tr>
+<tr><td>Today</td><td><code>GETDATE()</code></td><td><code>NOW()</code></td><td><code>NOW()</code> / <code>CURRENT_DATE</code></td></tr>
+<tr><td>Add days</td><td><code>DATEADD(DAY,7,d)</code></td><td><code>DATE_ADD(d, INTERVAL 7 DAY)</code></td><td><code>d + INTERVAL '7 day'</code></td></tr>
+<tr><td>Null replace</td><td><code>ISNULL / COALESCE</code></td><td><code>IFNULL / COALESCE</code></td><td><code>COALESCE</code></td></tr>
+<tr><td>Concatenate</td><td><code>CONCAT, +</code></td><td><code>CONCAT</code></td><td><code>||, CONCAT</code></td></tr>
+<tr><td>Auto number</td><td><code>IDENTITY(1,1)</code></td><td><code>AUTO_INCREMENT</code></td><td><code>GENERATED ALWAYS AS IDENTITY</code></td></tr>
+<tr><td>Regex</td><td><code>REGEXP_LIKE</code> (2025)</td><td><code>REGEXP_LIKE</code></td><td><code>~</code>, <code>regexp_match</code></td></tr>
+</tbody></table>
+<p>Newer SQL Server features (2022 and 2025: GREATEST/LEAST, DATETRUNC, GENERATE_SERIES, WINDOW clause, regex, JSON type, VECTOR type) are listed with examples in <a href="#m1/What's new 2025–26">Building Blocks · What's new</a>.</p>
+<h3>AI and SQL</h3>
+<ul><li>Copilot in SSMS and in Azure SQL / Fabric can write and explain queries from English.</li><li>ChatGPT, Claude or Gemini: give the schema (table and column names, types, keys) and a precise question; ask for one query plus a line-by-line explanation; run it on a small sample and check against a manual count.</li><li>Text-to-SQL tools in BI products (Metabase, Power BI Q&amp;A, Tableau Agent) do the same inside dashboards.</li></ul>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>WHERE vs HAVING?</summary><p>WHERE filters rows before grouping (no aggregates); HAVING filters groups after GROUP BY (can use aggregates).</p></details>
+<details><summary>INNER vs LEFT JOIN with an example.</summary><p>INNER returns only customers who have orders; LEFT returns all customers, with NULL order columns for those without orders.</p></details>
+<details><summary>Second highest salary?</summary><pre><code class="sql">SELECT MAX(salary) FROM Emp WHERE salary &lt; (SELECT MAX(salary) FROM Emp);</code></pre></details>
+<details><summary>RANK vs DENSE_RANK vs ROW_NUMBER?</summary><p>For 100, 90, 90, 80 → ROW_NUMBER 1,2,3,4; RANK 1,2,2,4; DENSE_RANK 1,2,2,3.</p></details>
+<details><summary>UNION vs UNION ALL?</summary><p>UNION removes duplicates (sort cost); UNION ALL keeps all rows and is faster.</p></details>
+<details><summary>What is a CTE and when is it better than a subquery?</summary><p>A named temporary result defined with WITH for one statement. It makes multi-step logic readable, can be referenced more than once, and can be recursive.</p></details>
+<details><summary>How do you find duplicate rows?</summary><pre><code class="sql">SELECT email, COUNT(*) FROM Customer GROUP BY email HAVING COUNT(*) &gt; 1;</code></pre></details>
+<details><summary>What is an index and its trade-off?</summary><p>A sorted structure that speeds reads on the indexed columns; it costs storage and slows inserts/updates because the index must be maintained.</p></details>
+<details><summary>Why does NOT IN return no rows sometimes?</summary><p>If the subquery returns a NULL, <code>x NOT IN (…, NULL)</code> is never TRUE. Use NOT EXISTS.</p></details>
+<details><summary>Primary key vs unique constraint?</summary><p>One primary key per table, never NULL, usually the clustered index; several unique constraints allowed, and they allow one NULL in SQL Server.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn SQL full course]] · [[yt:Simplilearn SQL interview questions and answers]]</li>
+<li>[[yt:Alex The Analyst SQL tutorial]] · [[yt:techTFQ SQL window functions]] · [[yt:techTFQ SQL query practice]]</li>
+<li>[[yt:Kudvenkat SQL Server tutorial]] · [[yt:Brent Ozar how to think like the SQL Server engine]]</li>
+<li>[[doc:Microsoft Learn: T-SQL reference|https://learn.microsoft.com/en-us/sql/t-sql/language-reference]] · [[doc:What's new in SQL Server 2025|https://learn.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-2025]]</li>
+<li>Practice: [[doc:LeetCode SQL 50|https://leetcode.com/studyplan/top-sql-50/]] · [[doc:HackerRank SQL|https://www.hackerrank.com/domains/sql]] · [[doc:SQLZoo|https://sqlzoo.net/]] · [[doc:DataLemur SQL interview questions|https://datalemur.com/]]</li>
+</ul>
+</div>

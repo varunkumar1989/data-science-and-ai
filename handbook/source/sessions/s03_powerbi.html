@@ -1,0 +1,140 @@
+<!--meta {"id":"s3","num":"S3","title":"Power BI: Basic to Advanced","sub":"From your first report to DAX, data modelling, Copilot, Fabric and deployment, updated for 2026","icon":"📈","courses":"Learning session · non-tech friendly · aligned to the PL-300 Power BI Data Analyst certification"} -->
+<div data-tab="Roadmap">
+<p class="lead">Power BI turns spreadsheets and databases into interactive dashboards that refresh themselves. This session builds the skill in seven steps; the course notes in <a href="#m7">Power BI (course module)</a> stay the quick reference.</p>
+<figure><img src="img/dg/powerbi_arch.png" alt="Power BI architecture"><figcaption>The Power BI flow: get data → Power Query → model + DAX → report → publish → share, refresh, Copilot.</figcaption></figure>
+<table class="tbl"><thead><tr><th>Step</th><th>Skill</th><th>Milestone</th></tr></thead><tbody>
+<tr><td>1</td><td>Install, interface, first report</td><td>A 1-page sales report in 30 minutes</td></tr>
+<tr><td>2</td><td>Power Query</td><td>Clean and combine monthly files automatically</td></tr>
+<tr><td>3</td><td>Data modelling</td><td>Star schema with a date table</td></tr>
+<tr><td>4</td><td>DAX: basic → advanced</td><td>Time intelligence, ranking, dynamic measures</td></tr>
+<tr><td>5</td><td>Visual design &amp; interactivity</td><td>Drill-through, bookmarks, field parameters</td></tr>
+<tr><td>6</td><td>Service, Fabric &amp; security</td><td>Published app with scheduled refresh and RLS</td></tr>
+<tr><td>7</td><td>Copilot, performance, DevOps</td><td>Fast, AI-assisted, version-controlled reports</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="1 · First report">
+<ol class="build"><li>Install <b>Power BI Desktop</b> free from the Microsoft Store (Windows). Mac users can use the Power BI service in a browser or a Windows VM.</li><li><b>Get data → Excel workbook</b> → tick the Sales table → <b>Transform Data</b> (always check types first) → Close &amp; Apply.</li><li>Report view: click a <b>Card</b> visual, drag Amount → shows Total Sales.</li><li>Add a <b>Clustered column chart</b>: Axis = City, Values = Amount; sort descending.</li><li>Add a <b>Line chart</b>: X-axis = Order Date (Month), Values = Amount.</li><li>Add a <b>Slicer</b> on Store Type; click values and watch all visuals filter together (cross-filtering).</li><li>Format: theme (View → Themes), titles that state the insight, consistent colours.</li><li>Save as .pbix; Publish to a workspace to share.</li></ol>
+<table class="tbl"><thead><tr><th>Pane / view</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Report view</td><td>Canvas and pages</td></tr><tr><td>Table view</td><td>Look at rows, set formats, add calculated columns</td></tr><tr><td>Model view</td><td>Relationships and properties</td></tr><tr><td>DAX query view / TMDL view</td><td>Write and test DAX queries; edit the model as code</td></tr>
+<tr><td>Visualizations / Data / Filters panes</td><td>Choose visuals, fields, filter levels</td></tr>
+</tbody></table>
+</div>
+
+<div data-tab="2 · Power Query">
+<p>Home → Transform data. Every action becomes an <b>Applied Step</b>; refreshing replays them on new data.</p>
+<table class="tbl"><thead><tr><th>Need</th><th>Do this</th></tr></thead><tbody>
+<tr><td>Combine 12 monthly files</td><td>Get Data → Folder → Combine &amp; Transform</td></tr>
+<tr><td>Fix types</td><td>Icon left of each header; set Date, Decimal, Text (locale for dd-mm-yyyy: Using Locale → English (India))</td></tr>
+<tr><td>Wide months to rows</td><td>Select ID columns → Unpivot Other Columns</td></tr>
+<tr><td>Lookup another table</td><td>Merge Queries (Left Outer) → expand the needed column</td></tr>
+<tr><td>Stack tables</td><td>Append Queries</td></tr>
+<tr><td>Fill blanks from above</td><td>Transform → Fill → Down</td></tr>
+<tr><td>Categories without code</td><td>Add Column → Conditional Column</td></tr>
+<tr><td>Data quality check</td><td>View → Column quality, distribution, profile (based on entire data)</td></tr>
+<tr><td>Parameterise a source path</td><td>Manage Parameters → use in Source step</td></tr>
+</tbody></table>
+<p class="tip"><b>Query folding</b>: with databases, Power Query translates steps into SQL that runs on the server. Keep foldable steps (filters, column selection) early; right-click a step → View Native Query to check.</p>
+</div>
+
+<div data-tab="3 · Data modelling">
+<div class="diagram"><div class="star"><div class="dim">Date</div><div class="dim">Product</div><div class="fact">FactSales<br><small>keys + numbers</small></div><div class="dim">Customer</div><div class="dim">Store</div></div><p class="cap">Star schema: one fact table in the middle, dimension tables around it, one-to-many relationships flowing from dimension to fact.</p></div>
+<ul><li>Facts = events with numbers (sales lines, transactions). Dimensions = descriptions (who, what, where, when).</li><li>Relationships: one-to-many, single direction by default; avoid bi-directional unless needed.</li><li><b>Date table</b>: one row per day covering the full range; mark as date table; use it for all time slicing.</li><li>Hide technical columns (keys) from report view; set sort-by columns (Month name sorted by month number); set default summarisation; organise measures in a measure table.</li><li>Role-playing dates (order vs ship date): one active relationship, others activated with <code>USERELATIONSHIP</code>.</li></ul>
+</div>
+
+<div data-tab="4 · DAX">
+<h3>Level 1: basic measures</h3>
+<pre><code class="dax">Total Sales   = SUM ( Sales[Amount] )
+Orders        = DISTINCTCOUNT ( Sales[OrderID] )
+AOV           = DIVIDE ( [Total Sales], [Orders] )
+Total Cost    = SUMX ( Sales, Sales[Qty] * RELATED ( Product[UnitCost] ) )
+Margin %      = DIVIDE ( [Total Sales] - [Total Cost], [Total Sales] )</code></pre>
+<h3>Level 2: CALCULATE and filter context</h3>
+<p>Every visual cell evaluates a measure under filters from rows, columns, slicers and filters. <b>CALCULATE</b> changes those filters.</p>
+<pre><code class="dax">Sales Pune        = CALCULATE ( [Total Sales], Customer[City] = "Pune" )
+Sales All Cities  = CALCULATE ( [Total Sales], ALL ( Customer[City] ) )
+% of All Cities   = DIVIDE ( [Total Sales], [Sales All Cities] )
+Sales Ignoring Slicers Except Year = CALCULATE ( [Total Sales], ALLEXCEPT ( 'Date', 'Date'[Year] ) )
+Big Orders        = CALCULATE ( [Orders], Sales[Amount] &gt; 10000 )</code></pre>
+<h3>Level 3: time intelligence</h3>
+<pre><code class="dax">Sales YTD      = TOTALYTD ( [Total Sales], 'Date'[Date], "31/3" )          -- Indian FY ends 31 March
+Sales LY       = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+YoY %          = DIVIDE ( [Total Sales] - [Sales LY], [Sales LY] )
+Sales Last 3M  = CALCULATE ( [Total Sales], DATESINPERIOD ( 'Date'[Date], MAX ( 'Date'[Date] ), -3, MONTH ) )
+MoM %          = VAR prev = CALCULATE ( [Total Sales], DATEADD ( 'Date'[Date], -1, MONTH ) )
+                 RETURN DIVIDE ( [Total Sales] - prev, prev )</code></pre>
+<h3>Level 4: advanced patterns</h3>
+<pre><code class="dax">Product Rank   = RANKX ( ALLSELECTED ( Product[Name] ), [Total Sales], , DESC, DENSE )
+Top 5 Sales    = CALCULATE ( [Total Sales], TOPN ( 5, ALL ( Product[Name] ), [Total Sales] ) )
+New Customers  = COUNTROWS ( FILTER ( VALUES ( Sales[CustomerID] ),
+                     CALCULATE ( MIN ( Sales[Date] ) ) &gt;= MIN ( 'Date'[Date] ) ) )
+Pareto Cum %   = VAR cur = [Total Sales]
+                 VAR tbl = ADDCOLUMNS ( ALLSELECTED ( Product[Name] ), "s", [Total Sales] )
+                 RETURN DIVIDE ( SUMX ( FILTER ( tbl, [s] &gt;= cur ), [s] ), SUMX ( tbl, [s] ) )
+Selected Metric = SWITCH ( SELECTEDVALUE ( Metric[Name] ),
+                     "Sales", [Total Sales], "Margin %", [Margin %], [Orders] )</code></pre>
+<h3>Visual calculations (generally available since May 2026)</h3>
+<p>Select a visual → <b>New visual calculation</b>. Write simpler DAX that runs on the visual's own grid, without touching the model:</p>
+<pre><code class="dax">Running Total = RUNNINGSUM ( [Sales] )
+Moving Avg 3  = MOVINGAVERAGE ( [Sales], 3 )
+% of Parent   = DIVIDE ( [Sales], COLLAPSE ( [Sales], ROWS ) )
+vs Previous   = [Sales] - PREVIOUS ( [Sales] )</code></pre>
+<p class="tip">Rule of thumb: model measures for numbers reused across reports; visual calculations for one-off running totals, ranks and comparisons in a single visual.</p>
+</div>
+
+<div data-tab="5 · Visuals & interactivity">
+<table class="tbl"><tbody>
+<tr><td>Cards / KPI / Gauge</td><td>Headline numbers vs target</td></tr>
+<tr><td>Bar, column, line, combo, area, ribbon, waterfall, funnel, scatter, map</td><td>Standard analysis visuals</td></tr>
+<tr><td>Matrix</td><td>Pivot-style table with drill-down, conditional formatting and custom totals</td></tr>
+<tr><td>Decomposition tree, Key influencers, Smart narrative</td><td>AI visuals that explain a metric</td></tr>
+<tr><td>Small multiples</td><td>One chart repeated per category</td></tr>
+<tr><td>Gantt (preview, Oct 2026)</td><td>Project timelines natively</td></tr>
+</tbody></table>
+<h3>Interactivity</h3>
+<ul><li><b>Edit interactions</b>: filter vs highlight vs none per visual pair.</li><li><b>Drill-through</b> pages and <b>tooltip pages</b>.</li><li><b>Bookmarks</b> + Selection pane + Buttons: toggles, guided stories, reset filters.</li><li><b>Field parameters</b>: let users switch the measure or the axis.</li><li><b>Slicers</b>: list, dropdown, button slicer, date range; sync across pages.</li><li><b>Personal bookmarks</b> and personalise visuals for viewers in the service.</li></ul>
+<h3>Design checklist</h3>
+<ul class="check"><li>Top-left = most important KPI; Z-pattern layout</li><li>Max 6–8 visuals per page; one message per page</li><li>Colour has meaning (red = bad), consistent theme JSON</li><li>Accessible: contrast, alt text, tab order</li><li>Titles state insights; units in labels (₹ lakh)</li></ul>
+</div>
+
+<div data-tab="6 · Service, Fabric & security">
+<ul><li><b>Workspaces</b> (team folders) with roles Admin / Member / Contributor / Viewer; <b>Apps</b> package reports for wide audiences.</li><li><b>Semantic model</b> (dataset) settings: credentials, scheduled refresh (up to 8/day on Pro, 48 on Premium/Fabric capacity), <b>incremental refresh</b> for large facts, on-premises data gateway.</li><li><b>Row-level security</b>: roles with DAX filters such as <code>[Region] = "North"</code> or dynamic <code>[Email] = USERPRINCIPALNAME()</code>; assign users in the service. Object-level security hides tables/columns.</li><li><b>Dashboards</b> with pinned tiles and data alerts; <b>subscriptions</b> by email; export to PDF/PowerPoint; Analyze in Excel.</li><li><b>Microsoft Fabric</b>: the wider platform (OneLake, Lakehouse, Warehouse, Data Factory pipelines, notebooks, Direct Lake mode). Microsoft is moving enterprise capacity from Premium P-SKUs to Fabric F-SKUs.</li><li><b>Licences</b>: Free (personal use), Pro (share with Pro users), Premium Per User, Fabric capacity (share with free viewers on F64 and above).</li></ul>
+</div>
+
+<div data-tab="7 · Copilot, performance & DevOps">
+<h3>Copilot in Power BI</h3>
+<table class="tbl"><tbody>
+<tr><td>Report creation</td><td>"Create a page showing sales trend, top products and regional split"</td></tr>
+<tr><td>Summaries</td><td>Copilot Summarize at report and visual level in the service (May 2026)</td></tr>
+<tr><td>Q&amp;A over the model</td><td>Ask questions in English; answers respect RLS</td></tr>
+<tr><td>DAX help</td><td>Write and explain measures in the DAX query view</td></tr>
+<tr><td>Prep data for AI</td><td>Add synonyms, descriptions and verified answers so Copilot answers correctly</td></tr>
+</tbody></table>
+<p class="muted">Copilot needs a paid Fabric capacity (F2 or above) or Premium, and an admin must enable it.</p>
+<h3>Performance</h3>
+<ul><li>View → <b>Performance Analyzer</b>: time per visual (DAX query, visual display).</li><li>Smaller model = faster: remove unused columns, reduce cardinality (split datetime into date and time), prefer measures over calculated columns, integers for keys.</li><li>External tools: DAX Studio (query timing, VertiPaq Analyzer), Tabular Editor (bulk editing, best-practice analyser).</li></ul>
+<h3>Version control and deployment</h3>
+<ul><li>Save as <b>Power BI Project (.pbip)</b>: report (PBIR format) and model (<b>TMDL</b>) as text files that work with Git.</li><li>Deployment pipelines: Development → Test → Production workspaces.</li><li>Fabric Git integration with Azure DevOps or GitHub.</li></ul>
+</div>
+
+<div data-tab="Interview Q&A">
+<div class="qa">
+<details><summary>Measure vs calculated column?</summary><p>A column is computed per row at refresh and stored (use for slicing); a measure is computed at query time in the current filter context (use for aggregation).</p></details>
+<details><summary>Explain filter context vs row context.</summary><p>Filter context = filters applied to the model by the visual, slicers and CALCULATE. Row context = the current row inside a calculated column or an iterator (SUMX). CALCULATE converts row context into filter context (context transition).</p></details>
+<details><summary>What is a star schema and why use it?</summary><p>A central fact table linked one-to-many to dimension tables. It keeps DAX simple and fast and avoids ambiguous filter paths.</p></details>
+<details><summary>Import vs DirectQuery vs Direct Lake?</summary><p>Import: data cached in memory, fastest, needs refresh. DirectQuery: live queries to the source, current but slower. Direct Lake (Fabric): reads Delta tables in OneLake directly with import-like speed.</p></details>
+<details><summary>How do you implement dynamic RLS?</summary><p>Have a user–region mapping table, relate it to the model, and use a role filter like <code>[Email] = USERPRINCIPALNAME()</code>.</p></details>
+<details><summary>What are visual calculations?</summary><p>DAX calculations defined on a visual that operate on the visual's data grid (running sums, moving averages, previous value) without adding model measures.</p></details>
+<details><summary>How would you speed up a slow report?</summary><p>Use Performance Analyzer to find slow visuals; optimise DAX (variables, avoid FILTER on whole tables), reduce model size, limit visuals per page, use aggregations or incremental refresh.</p></details>
+</div>
+</div>
+
+<div data-tab="Resources">
+<ul class="res">
+<li>[[yt:Simplilearn Power BI full course]] · [[yt:Simplilearn Power BI tutorial for beginners]]</li>
+<li>[[yt:Guy in a Cube Power BI]] · [[yt:SQLBI CALCULATE explained]] · [[yt:Power BI visual calculations tutorial]]</li>
+<li>[[yt:Pragmatic Works Power BI full course]] · [[yt:codebasics Power BI project]]</li>
+<li>[[doc:Microsoft Learn: Power BI|https://learn.microsoft.com/en-us/power-bi/]] · [[doc:PL-300 study guide|https://learn.microsoft.com/en-us/credentials/certifications/power-bi-data-analyst-associate/]]</li>
+<li>[[doc:Power BI monthly feature summaries (blog)|https://community.fabric.microsoft.com/t5/Power-BI-Updates-Blog/bg-p/fbc_pbiupdatesblog]] · [[doc:DAX Guide|https://dax.guide/]]</li>
+</ul>
+</div>
