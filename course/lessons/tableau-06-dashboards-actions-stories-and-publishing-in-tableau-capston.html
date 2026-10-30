@@ -1,0 +1,215 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboards, Actions, Stories and Publishing in Tableau (Capstone) · Tableau Lesson 6 · Data Science &amp; AI Handbook</title><meta name="description" content="Turn sheets into an interactive dashboard and a data story. Plan the layout with containers, add filter, highlight, URL, parameter and set actions, design for phones, tell a story with Story Points, publish to Tableau Public or Cloud, and complete two capstones, a Superstore India sales dashboard and the video-game regional sales case study from class."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tableau"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tableau">Tableau</a><span>/</span><b>Lesson 6</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#4E79A7">Tableau</div>
+<ol class="side-l"><li class=""><a href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html" data-lid="tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li class=""><a href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html" data-lid="tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li class=""><a href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html" data-lid="tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li class=""><a href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html" data-lid="tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li class=""><a href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html" data-lid="tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li class="on"><a href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html" data-lid="tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tableau-06">
+<div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 6 of 6</div><h1>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</h1>
+<p class="sum">Turn sheets into an interactive dashboard and a data story. Plan the layout with containers, add filter, highlight, URL, parameter and set actions, design for phones, tell a story with Story Points, publish to Tableau Public or Cloud, and complete two capstones, a Superstore India sales dashboard and the video-game regional sales case study from class.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 180 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tableau/Tableau_06_Dashboards_Actions_Stories_and_Publishing_in_Tableau_Capstone.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tableau-06">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Lay out a dashboard with tiled and floating objects, containers and device layouts</li><li>Add filter, highlight, URL, go-to-sheet, parameter and set actions</li><li>Build a Story with Story Points that explains an insight step by step</li><li>Publish to Tableau Public or Cloud and set up refresh, permissions and subscriptions</li><li>Deliver an executive dashboard and a written insight summary</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/video_game_sales.csv" download>video_game_sales.csv</a></div></div></div>
+<div class="content"><h2 id="plan-before-you-build">Plan before you build</h2>
+<figure class="fig"><img src="../img/tableau-06-01.png" alt="The order that keeps dashboards clear: questions first, layout last." loading="lazy"><figcaption>The order that keeps dashboards clear: questions first, layout last.</figcaption></figure>
+<p>People read a screen in a <strong>Z-pattern</strong>: top-left first. Put the KPI cards across the top, the main trend or map in the middle, and the detail (tables, Top N) at the bottom. Keep to about 5–7 views and one colour meaning per dashboard (for example orange = loss everywhere).</p>
+<h2 id="building-the-dashboard">Building the dashboard</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Element</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Size</strong></td>
+<td>Fixed (e.g. 1200 × 800) for predictable layouts, Automatic or Range for flexible screens</td>
+</tr>
+<tr>
+<td><strong>Tiled vs floating</strong></td>
+<td>Tiled objects snap into a grid; floating objects sit on top (legends, logos). Prefer tiled.</td>
+</tr>
+<tr>
+<td><strong>Containers</strong></td>
+<td>Horizontal and vertical containers group objects; <em>Distribute Contents Evenly</em> keeps KPI cards equal</td>
+</tr>
+<tr>
+<td><strong>Objects</strong></td>
+<td>Text (titles), Image (logo), Web Page (not on Tableau Public), Blank (spacing), Navigation and Download buttons, Extension</td>
+</tr>
+<tr>
+<td><strong>Show/Hide button</strong></td>
+<td>Collapsible filter panel on a floating container</td>
+</tr>
+<tr>
+<td><strong>Device layouts</strong></td>
+<td>Device Preview → Phone: stack KPIs and one chart vertically</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="kpi-cards">KPI cards</h3>
+<p>Each card is a sheet: the measure on <strong>Text</strong>, Mark type Text, a formatted label such as <code>₹&lt;SUM(Sales)&gt; cr</code>, and a small YoY calculation in the second line with ▲/▼ and colour.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+y = <span class="hl-f">df.groupby</span>(df.order_date.dt.year).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), customers=(<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>))
+cur, prev = y.loc[<span class="hl-n">2025</span>], y.loc[<span class="hl-n">2024</span>]
+<span class="hl-k">for</span> k <span class="hl-k">in</span> y.columns:
+    unit = 1e7 <span class="hl-k">if</span> k <span class="hl-k">in</span> (<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>) <span class="hl-k">else</span> <span class="hl-n">1</span>
+    val = <span class="hl-s">f&quot;₹{cur[k] / unit:,.2f} cr&quot;</span> <span class="hl-k">if</span> unit &gt; <span class="hl-n">1</span> <span class="hl-k">else</span> <span class="hl-s">f&quot;{cur[k]:,.0f}&quot;</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{k:10s} 2025: {val:&gt;12s}   YoY {cur[k] / prev[k] - 1:+.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;margin     2025: {cur.profit / cur.sales:.1%}   (2024: {prev.profit / prev.sales:.1%})&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">sales      2025:     ₹7.84 cr   YoY +19.8%
+profit     2025:     ₹0.75 cr   YoY +22.1%
+orders     2025:        1,232   YoY +13.5%
+customers  2025:          623   YoY +5.6%
+margin     2025: 9.6%   (2024: 9.4%)</pre></div>
+<figure class="fig"><img src="../img/tableau-06-02.png" alt="The KPI row for the 2025 Superstore India dashboard (values from the data above)." loading="lazy"><figcaption>The KPI row for the 2025 Superstore India dashboard (values from the data above).</figcaption></figure>
+<h2 id="dashboard-actions">Dashboard actions</h2>
+<p><strong>Dashboard → Actions → Add Action</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Action</th>
+<th>What happens</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Filter</strong></td>
+<td>Clicking a mark filters other sheets</td>
+<td>Click a state on the map → the bar charts show only that state</td>
+</tr>
+<tr>
+<td><strong>Highlight</strong></td>
+<td>Matching marks stay bright, others fade</td>
+<td>Hover a category to highlight it everywhere</td>
+</tr>
+<tr>
+<td><strong>Go to Sheet</strong></td>
+<td>Navigates to another dashboard</td>
+<td>Click a KPI to open a detail page</td>
+</tr>
+<tr>
+<td><strong>URL</strong></td>
+<td>Opens a web page, with field values in the link</td>
+<td>Open a product page or a Google search for the customer</td>
+</tr>
+<tr>
+<td><strong>Change Parameter</strong></td>
+<td>Clicking sets a parameter value</td>
+<td>Click a region to set the "Selected region" parameter used in titles</td>
+</tr>
+<tr>
+<td><strong>Change Set Values</strong></td>
+<td>Clicking adds/removes marks from a set</td>
+<td>Drill-in: show sub-categories only for the clicked category (set on a calculation)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Choose <strong>Run action on: Select / Hover / Menu</strong> and what happens <strong>when clearing the selection</strong> (show all values is the usual choice). Use <em>Use as Filter</em> (the funnel icon on a sheet) for the quick version.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>The &quot;drill-in&quot; pattern with a set action</b></div><p>Create a set on Category; a calculation <code>IF [Category Set] THEN [Sub-Category] ELSE [Category] END</code> on Rows; a Change Set Values action targeting the set. Clicking a category expands it to its sub-categories in the same chart, and clicking again collapses it.</p></div>
+<h2 id="stories">Stories</h2>
+<p>A <strong>Story</strong> is a sequence of <strong>Story Points</strong>, each a captioned snapshot of a sheet or dashboard with its filters. Use it for a presentation: "1. Sales grew 20% in 2025 → 2. Growth came from Technology in the South → 3. Tables and Bookcases lose money → 4. Recommendation".</p>
+<h2 id="publishing-and-sharing">Publishing and sharing</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Destination</th>
+<th>How</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tableau Public</strong></td>
+<td>File → Save to Tableau Public</td>
+<td>Free; public; you can allow viewers to download the workbook; embed code for your portfolio site</td>
+</tr>
+<tr>
+<td><strong>Tableau Cloud / Server</strong></td>
+<td>Server → Publish Workbook</td>
+<td>Choose project, permissions, embedded or prompted credentials, refresh schedule</td>
+</tr>
+<tr>
+<td>Subscriptions and alerts</td>
+<td>On the published view</td>
+<td>Email snapshots on a schedule; alerts when a measure crosses a threshold</td>
+</tr>
+<tr>
+<td>Export</td>
+<td>Worksheet/Dashboard → Export Image, PowerPoint, PDF, Crosstab</td>
+<td>For offline reports</td>
+</tr>
+<tr>
+<td>Embedding</td>
+<td>Share → copy embed code</td>
+<td>Place a dashboard inside a website or portal</td>
+</tr>
+</tbody>
+</table></div>
+<p>Before publishing: give every sheet a clear title, hide unused sheets (right-click the dashboard tab → Hide All Sheets), add tooltips in plain language, set the default filters, and test on the phone layout.</p>
+<h2 id="capstone-1-superstore-india-executive-dashboard">Capstone 1: Superstore India executive dashboard</h2>
+<p>Build a one-page dashboard for the Head of Sales:</p>
+<ol>
+<li><strong>KPI row</strong>: Sales, Profit, Margin, Orders for the selected year with YoY change.</li>
+<li><strong>Trend</strong>: monthly Sales (bars) and Margin (line) on a dual axis.</li>
+<li><strong>Map</strong>: filled map of profit margin by state (diverging palette).</li>
+<li><strong>Category → sub-category</strong> bars with the drill-in set action; loss-makers in orange.</li>
+<li><strong>Top 10 customers</strong> table with a Top N parameter.</li>
+<li>Filters: Year (single value), Region, Segment, applied to all sheets.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">d25 = df[df.order_date.dt.year == <span class="hl-n">2025</span>]
+sub = <span class="hl-f">d25.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+sub[<span class="hl-s">&quot;margin %&quot;</span>] = (sub.profit / sub.sales * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;2025 loss-making sub-categories:&quot;</span>); <span class="hl-f">print</span>(sub[sub.profit &lt; <span class="hl-n">0</span>].<span class="hl-f">round</span>(<span class="hl-n">0</span>))
+st = <span class="hl-f">d25.groupby</span>(<span class="hl-s">&quot;state&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)); st[<span class="hl-s">&quot;margin %&quot;</span>] = st.profit / st.sales * <span class="hl-n">100</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nHighest and lowest margin states:&quot;</span>, st[<span class="hl-s">&quot;margin %&quot;</span>].<span class="hl-f">idxmax</span>(), <span class="hl-s">f&quot;{st[&#x27;margin %&#x27;].max():.1f}%&quot;</span>, <span class="hl-s">&quot;|&quot;</span>, st[<span class="hl-s">&quot;margin %&quot;</span>].<span class="hl-f">idxmin</span>(), <span class="hl-s">f&quot;{st[&#x27;margin %&#x27;].min():.1f}%&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2025 loss-making sub-categories:
+                  sales    profit  margin %
+sub_category                               
+Bookcases     3918268.0 -169018.0      -4.0
+Tables        5297064.0 -286188.0      -5.0
+
+Highest and lowest margin states: West Bengal 13.7% | Telangana 7.5%</pre></div>
+<p>Write three insight sentences under the dashboard, for example: what grew, what lost money, and what you recommend (discount caps on loss-making sub-categories, focus on the highest-margin states).</p>
+<h2 id="capstone-2-regional-video-game-sales-the-class-case-study">Capstone 2: Regional video-game sales (the class case study)</h2>
+<p>The same business case you solved in Excel in class: <em>how do video-game sales vary across North America, Europe, Japan and other regions, and where are the opportunities?</em></p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">vg = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;video_game_sales.csv&quot;</span>)
+<span class="hl-f">print</span>(vg.shape, <span class="hl-s">&quot;| years&quot;</span>, <span class="hl-f">vg.year.min</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">vg.year.max</span>())
+regions = [<span class="hl-s">&quot;na_sales&quot;</span>, <span class="hl-s">&quot;eu_sales&quot;</span>, <span class="hl-s">&quot;jp_sales&quot;</span>, <span class="hl-s">&quot;other_sales&quot;</span>]
+best_genre = <span class="hl-f">vg.groupby</span>(<span class="hl-s">&quot;genre&quot;</span>)[regions].<span class="hl-f">sum</span>().<span class="hl-f">idxmax</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Best genre by region:&quot;</span>, <span class="hl-f">best_genre.to_dict</span>())
+vg[<span class="hl-s">&quot;decade&quot;</span>] = (vg.year // <span class="hl-n">10</span> * <span class="hl-n">10</span>).<span class="hl-f">astype</span>(str) + <span class="hl-s">&quot;s&quot;</span>
+<span class="hl-f">print</span>((<span class="hl-f">vg.groupby</span>(<span class="hl-s">&quot;decade&quot;</span>)[regions].<span class="hl-f">sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(2400, 11) | years 2010 to 2025
+Best genre by region: {&#x27;na_sales&#x27;: &#x27;Sports&#x27;, &#x27;eu_sales&#x27;: &#x27;Sports&#x27;, &#x27;jp_sales&#x27;: &#x27;Role-Playing&#x27;, &#x27;other_sales&#x27;: &#x27;Sports&#x27;}
+        na_sales  eu_sales  jp_sales  other_sales
+decade                                           
+2010s      312.5     249.4     136.8        108.9
+2020s      188.1     148.9      83.8         62.6</pre></div>
+<p>Tableau tasks:
+1. <strong>Pivot</strong> the four regional sales columns into Region / Sales on the Data Source page (select the columns → Pivot), so Region becomes one dimension.
+2. Top 5 games per region: Region on Rows, Name on Rows, SUM(Sales) on Columns, a <strong>Top 5 by Sales computed per region</strong> using <code>RANK(SUM([Sales]))</code> with Compute Using = Name, filtered ≤ 5.
+3. Regional sales by decade: a calculated field <code>STR(INT(YEAR([Year])/10)*10) + "s"</code> (or <code>([Year] // 10) * 10</code> if Year is a number) and a stacked bar coloured by Region.
+4. Best genre in each region: highlight table of Genre × Region with the maximum per region marked using <code>WINDOW_MAX</code>.
+5. A stacked bar of regional distribution over time with a clear title, then assemble all four into a dashboard with a Region filter action.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Plan the questions and the layout before building; use containers and a Z-pattern.</li>
+<li>Actions make dashboards interactive: filter, highlight, go to sheet, URL, parameter and set actions.</li>
+<li>Stories present insights step by step.</li>
+<li>Publish to Tableau Public for portfolios and to Cloud/Server for work, with refresh schedules and permissions.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which action makes clicking a state on a map filter every other chart?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A filter action (or Use as Filter)</button><button type="button" class="opt" data-ok="0"><i>B</i>A highlight action</button><button type="button" class="opt" data-ok="0"><i>C</i>A URL action</button><button type="button" class="opt" data-ok="0"><i>D</i>A story point</button></div><div class="qexp"><b>Answer: A.</b> Filter actions pass the selected values to target sheets.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which feature expands a category into its sub-categories in place when clicked?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A set action with a calculation that switches between Category and Sub-Category</button><button type="button" class="opt" data-ok="0"><i>B</i>A Story</button><button type="button" class="opt" data-ok="0"><i>C</i>A blend</button><button type="button" class="opt" data-ok="0"><i>D</i>A data source filter</button></div><div class="qexp"><b>Answer: A.</b> Change Set Values drives the drill-in pattern.</div></div><div class="qq"><p class="qtext"><b>3.</b> Where should the KPI cards usually go?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Across the top-left of the dashboard</button><button type="button" class="opt" data-ok="0"><i>B</i>Bottom right</button><button type="button" class="opt" data-ok="0"><i>C</i>In a hidden sheet</button><button type="button" class="opt" data-ok="0"><i>D</i>In a tooltip only</button></div><div class="qexp"><b>Answer: A.</b> Readers start top-left (Z-pattern).</div></div><div class="qq"><p class="qtext"><b>4.</b> What is a Story in Tableau?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A sequence of captioned story points showing sheets or dashboards</button><button type="button" class="opt" data-ok="0"><i>B</i>A type of chart</button><button type="button" class="opt" data-ok="0"><i>C</i>An extract</button><button type="button" class="opt" data-ok="0"><i>D</i>A calculated field</button></div><div class="qexp"><b>Answer: A.</b> Stories present an analysis step by step.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is NOT available on Tableau Public?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Keeping your workbook private on the server</button><button type="button" class="opt" data-ok="0"><i>B</i>Saving to your public profile</button><button type="button" class="opt" data-ok="0"><i>C</i>Dashboards with actions</button><button type="button" class="opt" data-ok="0"><i>D</i>Calculated fields</button></div><div class="qexp"><b>Answer: A.</b> Everything saved to Tableau Public is public.</div></div><div class="qq"><p class="qtext"><b>6.</b> How do you make one Region filter apply to all sheets on a dashboard?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Apply to Worksheets → All Using This Data Source (or Selected Worksheets)</button><button type="button" class="opt" data-ok="0"><i>B</i>Duplicate the filter on every sheet</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a parameter only</button><button type="button" class="opt" data-ok="0"><i>D</i>Add it to context</button></div><div class="qexp"><b>Answer: A.</b> One filter can drive many sheets.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Capstone deliverables</b></div><p>Publish both dashboards to Tableau Public. For each, write: the audience, three questions it answers, three insights with numbers, and two recommendations. Add the links to your resume and LinkedIn Featured section.</p><details class="sol"><summary>Show solution</summary><p>Superstore: KPI row, dual-axis trend, margin map, drill-in category chart, Top N customers, three filters applied to all sheets, filter actions from the map and the category chart. Video games: pivoted regions, Top 5 per region (RANK table calc), decade stacked bar, genre × region highlight table, filter action on Region. Insights should quote numbers from your own views.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you design a dashboard for executives?</strong>
+Start from their decisions: 3–5 KPIs with comparisons at the top, one trend, one breakdown, one exception list; consistent colours; filters applied to all sheets; tooltips that explain; a phone layout; and a short written insight.</p>
+<p><strong>Q: Filter action vs highlight action?</strong>
+A filter action removes non-selected data from target sheets; a highlight action keeps all data but fades the non-matching marks, preserving context.</p>
+<p><strong>Q: How do you share a Tableau dashboard securely?</strong>
+Publish to Tableau Cloud or Server with project permissions, use row-level security (user filters or entitlement tables with USERNAME()), schedule extract refreshes, and share via links, subscriptions or embedding with authentication. Never use Tableau Public for confidential data.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.tableau.com/learn/training">Tableau free training videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://public.tableau.com/app/discover">Tableau Public gallery (Viz of the Day) ↗</a></li><li><a target="_blank" rel="noopener" href="https://help.tableau.com/current/pro/desktop/en-us/functions.htm">Tableau functions reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://workout-wednesday.com/">Workout Wednesday challenges ↗</a></li><li><a target="_blank" rel="noopener" href="https://makeovermonday.co.uk/">Makeover Monday datasets ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html"><small>← Previous</small><b>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#plan-before-you-build">Plan before you build</a><a href="#building-the-dashboard">Building the dashboard</a><a href="#dashboard-actions">Dashboard actions</a><a href="#stories">Stories</a><a href="#publishing-and-sharing">Publishing and sharing</a><a href="#capstone-1-superstore-india-executive-dashboard">Capstone 1: Superstore India executive dashboard</a><a href="#capstone-2-regional-video-game-sales-the-class-case-study">Capstone 2: Regional video-game sales (the class case study)</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

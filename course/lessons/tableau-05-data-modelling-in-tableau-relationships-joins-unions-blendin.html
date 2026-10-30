@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep · Tableau Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Combine and shape data in Tableau. Understand the logical layer (relationships) and the physical layer (joins), when to union or blend, how row duplication inflates totals, live connections vs extracts, data interpreter and pivoting, and how Tableau Prep Builder cleans data in repeatable flows, using the Adventure Cycles star schema."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tableau"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tableau">Tableau</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#4E79A7">Tableau</div>
+<ol class="side-l"><li class=""><a href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html" data-lid="tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li class=""><a href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html" data-lid="tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li class=""><a href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html" data-lid="tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li class=""><a href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html" data-lid="tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li class="on"><a href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html" data-lid="tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li class=""><a href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html" data-lid="tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tableau-05">
+<div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 5 of 6</div><h1>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</h1>
+<p class="sum">Combine and shape data in Tableau. Understand the logical layer (relationships) and the physical layer (joins), when to union or blend, how row duplication inflates totals, live connections vs extracts, data interpreter and pivoting, and how Tableau Prep Builder cleans data in repeatable flows, using the Adventure Cycles star schema.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tableau/Tableau_05_Data_Modelling_in_Tableau_Relationships_Joins_Unions_Blending_Extracts.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tableau-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build a relationships-based data model and explain why it avoids duplicated totals</li><li>Choose between relationships, joins, unions and blends</li><li>Pivot, split and clean data on the Data Source page and in Tableau Prep</li><li>Decide between live connections and extracts, and plan refreshes</li><li>Explain the logical vs physical layer in an interview</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/adventure_cycles/fact_sales.csv" download>adventure_cycles/fact_sales.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_product.csv" download>adventure_cycles/dim_product.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_territory.csv" download>adventure_cycles/dim_territory.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_customer.csv" download>adventure_cycles/dim_customer.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_date.csv" download>adventure_cycles/dim_date.csv</a></div></div></div>
+<div class="content"><h2 id="the-two-layers-of-a-tableau-data-source">The two layers of a Tableau data source</h2>
+<figure class="fig"><img src="../img/tableau-05-01.png" alt="Relationships live in the logical layer; joins and unions live inside a logical table (physical layer)." loading="lazy"><figcaption>Relationships live in the logical layer; joins and unions live inside a logical table (physical layer).</figcaption></figure>
+<p>When you drag a second table onto the canvas, Tableau draws a <strong>relationship</strong> (a flexible "noodle") and asks for the matching fields. Tableau then generates the right join for each sheet, using only the tables that sheet needs and aggregating each table at its own level.</p>
+<h2 id="the-adventure-cycles-star-schema">The Adventure Cycles star schema</h2>
+<p>The same star schema used in the Power BI lessons: one fact table of 9,000 sales lines and four dimension tables.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+base = <span class="hl-s">&quot;adventure_cycles/&quot;</span>
+fact = <span class="hl-f">pd.read_csv</span>(base + <span class="hl-s">&quot;fact_sales.csv&quot;</span>)
+dims = {n: <span class="hl-f">pd.read_csv</span>(base + <span class="hl-s">f&quot;dim_{n}.csv&quot;</span>) <span class="hl-k">for</span> n <span class="hl-k">in</span> [<span class="hl-s">&quot;product&quot;</span>, <span class="hl-s">&quot;territory&quot;</span>, <span class="hl-s">&quot;customer&quot;</span>, <span class="hl-s">&quot;date&quot;</span>]}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;fact_sales:&quot;</span>, fact.shape, <span class="hl-f">list</span>(fact.columns))
+<span class="hl-k">for</span> n, d <span class="hl-k">in</span> <span class="hl-f">dims.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;dim_{n}:&quot;</span>, d.shape, <span class="hl-f">list</span>(d.columns)[:<span class="hl-n">6</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">fact_sales: (9000, 9) [&#x27;order_number&#x27;, &#x27;order_date&#x27;, &#x27;product_key&#x27;, &#x27;customer_key&#x27;, &#x27;territory_key&#x27;, &#x27;quantity&#x27;, &#x27;unit_price&#x27;, &#x27;sales_amount&#x27;, &#x27;total_cost&#x27;]
+dim_product: (45, 6) [&#x27;product_key&#x27;, &#x27;product&#x27;, &#x27;subcategory&#x27;, &#x27;category&#x27;, &#x27;list_price&#x27;, &#x27;standard_cost&#x27;]
+dim_territory: (6, 3) [&#x27;territory_key&#x27;, &#x27;territory&#x27;, &#x27;country&#x27;]
+dim_customer: (1200, 5) [&#x27;customer_key&#x27;, &#x27;customer_name&#x27;, &#x27;gender&#x27;, &#x27;age_band&#x27;, &#x27;territory_key&#x27;]
+dim_date: (1096, 6) [&#x27;date&#x27;, &#x27;year&#x27;, &#x27;quarter&#x27;, &#x27;month_no&#x27;, &#x27;month&#x27;, &#x27;weekday&#x27;]</pre></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build the model with relationships</b></div><ol>
+<li>Connect to the folder of CSVs (Text file → choose <code>fact_sales.csv</code>). Drag it to the canvas.</li>
+<li>Drag <code>dim_product.csv</code> next to it; Tableau suggests the relationship on the shared key (ProductKey). Check it in the relationship dialog.</li>
+<li>Repeat for territory, customer and date.</li>
+<li>Go to a sheet: the Data pane shows each table as a folder. Build Sales by Category: Tableau relates only fact and product for this view.</li>
+</ol></div>
+<h2 id="why-joins-can-inflate-totals">Why joins can inflate totals</h2>
+<p>A join merges tables <strong>before</strong> aggregation. If a table on one side has several matching rows, the other side's rows are repeated, and SUM counts them more than once. Relationships avoid this because each table is aggregated at its own level before combining.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A targets table at territory + year level (one row per territory per year), related to line-level sales</span>
+fact[<span class="hl-s">&quot;year&quot;</span>] = <span class="hl-f">pd.to_datetime</span>(fact.order_date).dt.year
+targets = fact[[<span class="hl-s">&quot;territory_key&quot;</span>, <span class="hl-s">&quot;year&quot;</span>]].<span class="hl-f">drop_duplicates</span>().<span class="hl-f">assign</span>(target=10_00_00_000)   <span class="hl-c"># ₹10 crore each</span>
+joined = <span class="hl-f">fact.merge</span>(targets, on=[<span class="hl-s">&quot;territory_key&quot;</span>, <span class="hl-s">&quot;year&quot;</span>])                                 <span class="hl-c"># physical join at line level</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;territories x years:&quot;</span>, <span class="hl-f">len</span>(targets), <span class="hl-s">&quot;| sales lines:&quot;</span>, <span class="hl-f">len</span>(fact))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;true total target: ₹&quot;</span>, <span class="hl-s">f&quot;{targets.target.sum():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;SUM(target) after a row-level join: ₹&quot;</span>, <span class="hl-s">f&quot;{joined.target.sum():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;inflation factor:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">joined.target.sum</span>() / <span class="hl-f">targets.target.sum</span>()), <span class="hl-s">&quot;x&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">territories x years: 18 | sales lines: 9000
+true total target: ₹ 1,800,000,000
+SUM(target) after a row-level join: ₹ 900,000,000,000
+inflation factor: 500 x</pre></div>
+<p>The join repeats each territory's target once per sales line, so SUM(target) is wildly overstated. With a <strong>relationship</strong> between the sales table and a targets table on territory and year, Tableau aggregates targets at their own level and the total is correct.</p>
+<h2 id="relationships-joins-unions-and-blends">Relationships, joins, unions and blends</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Combines</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Relationship</strong></td>
+<td>Tables at different levels, related on keys</td>
+<td>Default for star schemas and multi-level data</td>
+</tr>
+<tr>
+<td><strong>Join</strong> (inner, left, right, full)</td>
+<td>Columns from tables into one flat table</td>
+<td>Same grain, or when you need row-level calcs across tables</td>
+</tr>
+<tr>
+<td><strong>Union</strong></td>
+<td>Rows of tables with the same columns</td>
+<td>Monthly files, one sheet per year</td>
+</tr>
+<tr>
+<td><strong>Blend</strong></td>
+<td>Two separate data sources, linked in a sheet on a common dimension (orange chain icon)</td>
+<td>Sources that cannot be joined (e.g. a Google Sheet of targets with a SQL database); aggregated before linking</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Wildcard union</b></div><p>On the Data Source page, drag <strong>New Union</strong> onto a table and choose <strong>Wildcard (automatic)</strong> with a pattern such as <code>sales_2025_*.csv</code>. Every new monthly file in the folder is picked up on refresh, and Tableau adds a <em>Path</em> or <em>Sheet</em> column so you know where each row came from.</p></div>
+<h2 id="cleaning-on-the-data-source-page">Cleaning on the Data Source page</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Messy Excel with titles, blank rows, merged cells</td>
+<td><strong>Use Data Interpreter</strong></td>
+</tr>
+<tr>
+<td>Months as columns (Jan, Feb, …)</td>
+<td>Select the columns → <strong>Pivot</strong> → rename "Pivot Field Names" to Month</td>
+</tr>
+<tr>
+<td>"City, State" in one column</td>
+<td>Column menu → <strong>Split</strong> / Custom Split</td>
+</tr>
+<tr>
+<td>Wrong types</td>
+<td>Click the type icon</td>
+</tr>
+<tr>
+<td>Unneeded columns</td>
+<td>Hide</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">wide = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;region&quot;</span>: [<span class="hl-s">&quot;East&quot;</span>, <span class="hl-s">&quot;North&quot;</span>], <span class="hl-s">&quot;Jan&quot;</span>: [<span class="hl-n">120</span>, <span class="hl-n">140</span>], <span class="hl-s">&quot;Feb&quot;</span>: [<span class="hl-n">130</span>, <span class="hl-n">150</span>], <span class="hl-s">&quot;Mar&quot;</span>: [<span class="hl-n">125</span>, <span class="hl-n">160</span>]})
+long = <span class="hl-f">wide.melt</span>(id_vars=<span class="hl-s">&quot;region&quot;</span>, var_name=<span class="hl-s">&quot;month&quot;</span>, value_name=<span class="hl-s">&quot;sales&quot;</span>)   <span class="hl-c"># Tableau Pivot</span>
+<span class="hl-f">print</span>(wide, <span class="hl-s">&quot;\n&quot;</span>); <span class="hl-f">print</span>(long)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region  Jan  Feb  Mar
+0   East  120  130  125
+1  North  140  150  160 
+
+  region month  sales
+0   East   Jan    120
+1  North   Jan    140
+2   East   Feb    130
+3  North   Feb    150
+4   East   Mar    125
+5  North   Mar    160</pre></div>
+<h2 id="live-connection-vs-extract">Live connection vs extract</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Live</th>
+<th>Extract (.hyper)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Freshness</td>
+<td>Always current</td>
+<td>As of the last refresh</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Depends on the database</td>
+<td>Fast, columnar, compressed</td>
+</tr>
+<tr>
+<td>Works offline</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Good for</td>
+<td>Real-time ops, governed warehouses with fast engines (Snowflake, BigQuery, Databricks)</td>
+<td>Most dashboards, files, slow sources, Tableau Public</td>
+</tr>
+<tr>
+<td>Refresh</td>
+<td>Not needed</td>
+<td>Full or incremental, scheduled on Tableau Cloud/Server</td>
+</tr>
+</tbody>
+</table></div>
+<p>Extract options: keep only needed fields (<strong>Hide all unused fields</strong>), add extract filters, aggregate to visible dimensions, and use <strong>incremental refresh</strong> on a date or ID column for large tables.</p>
+<h2 id="tableau-prep-builder">Tableau Prep Builder</h2>
+<p>Prep is a separate app for repeatable cleaning flows. A flow is a left-to-right chain of steps:</p>
+<figure class="fig"><img src="../img/tableau-05-02.png" alt="A typical Tableau Prep flow." loading="lazy"><figcaption>A typical Tableau Prep flow.</figcaption></figure>
+<p>Useful steps: <strong>Clean</strong> (profile pane shows each field's distribution; fix types, trim spaces, <em>Group and Replace</em> to merge spelling variants such as "Bengaluru"/"Bangalore"), <strong>Aggregate</strong>, <strong>Pivot</strong> (columns to rows and back), <strong>Join</strong> (with a join-clause summary that shows unmatched rows), <strong>Union</strong>, <strong>New Rows</strong> (fill missing dates) and <strong>Script</strong> (Python/R). Outputs can be scheduled with Tableau Prep Conductor on Cloud/Server.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Relationships (logical layer) are the default; they join at query time at the right level and avoid duplicated totals.</li>
+<li>Joins flatten tables first and can inflate SUMs when grains differ; unions stack rows; blends link separate sources per sheet.</li>
+<li>Use Data Interpreter, Pivot and Split for quick fixes; use Tableau Prep for repeatable flows.</li>
+<li>Extracts are fast snapshots; live connections are always current.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Sales lines are joined to a territory-level targets table and SUM(Target) is far too high. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The join repeated each target once per sales line</button><button type="button" class="opt" data-ok="0"><i>B</i>Targets are text</button><button type="button" class="opt" data-ok="0"><i>C</i>The extract is stale</button><button type="button" class="opt" data-ok="0"><i>D</i>A context filter is missing</button></div><div class="qexp"><b>Answer: A.</b> Different grains duplicate rows; use a relationship.</div></div><div class="qq"><p class="qtext"><b>2.</b> Twelve monthly CSVs with identical columns should be combined. Which method?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Union (ideally a wildcard union)</button><button type="button" class="opt" data-ok="0"><i>B</i>Join</button><button type="button" class="opt" data-ok="0"><i>C</i>Blend</button><button type="button" class="opt" data-ok="0"><i>D</i>Relationship</button></div><div class="qexp"><b>Answer: A.</b> Unions stack rows of same-shaped tables.</div></div><div class="qq"><p class="qtext"><b>3.</b> When is data blending the right choice?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When two sources cannot be joined in one data source and you link them on a common dimension in a sheet</button><button type="button" class="opt" data-ok="0"><i>B</i>For every star schema</button><button type="button" class="opt" data-ok="0"><i>C</i>To union files</button><button type="button" class="opt" data-ok="0"><i>D</i>To speed up extracts</button></div><div class="qexp"><b>Answer: A.</b> Blends combine separate sources after aggregation.</div></div><div class="qq"><p class="qtext"><b>4.</b> Your Excel sheet has a title row and merged headers. What helps first?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Data Interpreter</button><button type="button" class="opt" data-ok="0"><i>B</i>A FIXED LOD</button><button type="button" class="opt" data-ok="0"><i>C</i>A parameter</button><button type="button" class="opt" data-ok="0"><i>D</i>A table calculation</button></div><div class="qexp"><b>Answer: A.</b> Data Interpreter detects the real table.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is TRUE about extracts?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>They are fast compressed snapshots that need refreshing</button><button type="button" class="opt" data-ok="0"><i>B</i>They always show real-time data</button><button type="button" class="opt" data-ok="0"><i>C</i>They cannot be filtered</button><button type="button" class="opt" data-ok="0"><i>D</i>They only work on Tableau Server</button></div><div class="qexp"><b>Answer: A.</b> Schedule full or incremental refreshes.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where do relationships live?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In the logical layer</button><button type="button" class="opt" data-ok="0"><i>B</i>In the physical layer</button><button type="button" class="opt" data-ok="0"><i>C</i>In Tableau Prep only</button><button type="button" class="opt" data-ok="0"><i>D</i>In the Marks card</button></div><div class="qexp"><b>Answer: A.</b> Double-click a logical table to see its physical joins.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Build a relationships model of the Adventure Cycles tables and a sheet of Sales by Category and Country. Then create a small targets table (Country, Year, Target) in Excel, relate it on Country and Year, and show Sales vs Target as a bullet chart. Finally, simulate the join problem: join the targets instead, and compare SUM(Target).</p><details class="sol"><summary>Show solution</summary><p>Relate fact_sales to each dimension on its key; relate the targets table to the territory dimension on Country (and to the date table on Year). With relationships, SUM(Target) by Country equals the targets you typed. With a physical join to the fact table, each target repeats per sales line and the sum is inflated.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Relationships vs joins in Tableau?</strong>
+Relationships keep tables separate in the logical layer and Tableau generates the right joins per query, aggregating each table at its native level, so totals are not duplicated. Joins merge tables in the physical layer into one table before aggregation, which can duplicate rows when grains differ.</p>
+<p><strong>Q: When would you use data blending?</strong>
+When the data is in separate sources that cannot be related in one data source, such as a published data source plus a local spreadsheet of targets. Blends link on common dimensions and aggregate the secondary source first; they are slower and less flexible than relationships.</p>
+<p><strong>Q: How do you make a slow dashboard faster?</strong>
+Use an extract with only needed fields and rows, data source or context filters, fewer marks and quick filters, avoid high-cardinality filters showing all values, and check the Performance Recorder.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.tableau.com/learn/training">Tableau free training videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://public.tableau.com/app/discover">Tableau Public gallery (Viz of the Day) ↗</a></li><li><a target="_blank" rel="noopener" href="https://help.tableau.com/current/pro/desktop/en-us/functions.htm">Tableau functions reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://workout-wednesday.com/">Workout Wednesday challenges ↗</a></li><li><a target="_blank" rel="noopener" href="https://makeovermonday.co.uk/">Makeover Monday datasets ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html"><small>← Previous</small><b>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</b></a><a class="next" href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html"><small>Next →</small><b>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-two-layers-of-a-tableau-data-source">The two layers of a Tableau data source</a><a href="#the-adventure-cycles-star-schema">The Adventure Cycles star schema</a><a href="#why-joins-can-inflate-totals">Why joins can inflate totals</a><a href="#relationships-joins-unions-and-blends">Relationships, joins, unions and blends</a><a href="#cleaning-on-the-data-source-page">Cleaning on the Data Source page</a><a href="#live-connection-vs-extract">Live connection vs extract</a><a href="#tableau-prep-builder">Tableau Prep Builder</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,1641 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Tableau · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
+<section class="cover" style="--tc:#4E79A7"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 4</div><h1>Tableau</h1><p>Tableau Public and Desktop: connecting data, dimensions and measures, every core chart, calculated fields, table calculations and LOD expressions, filters, parameters and sets, data modelling, dashboards, stories and publishing.</p>
+<div class="cv-m"><span>6 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li><a href="#L-tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li><a href="#L-tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li><a href="#L-tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li><a href="#L-tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li><a href="#L-tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></section><article class="lesson-art bk" id="L-tableau-01"><div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 1</div><h1>Getting Started with Tableau: Interface, Data Connections and Your First Views</h1>
+<p class="sum">Understand the Tableau product family, install Tableau Public, connect to the Superstore India data, read the Data Source page, learn dimensions vs measures and discrete vs continuous fields, master the Marks card and shelves, build and sort your first views, and save them to Tableau Public.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Describe Tableau Desktop, Public, Cloud, Server, Prep and Pulse, and when each is used</li><li>Connect to a CSV, check data types and rename or hide fields on the Data Source page</li><li>Explain dimensions vs measures and discrete (blue) vs continuous (green) fields</li><li>Build bar, line and text-table views with the Columns, Rows, Marks, Filters and Pages shelves</li><li>Sort, label, format and save a workbook to Tableau Public</li></ul></div></div><div class="content"><h2 id="tableau-01-what-is-tableau">What is Tableau?</h2>
+<p><strong>Tableau</strong> is a visual analytics platform: you drag fields onto shelves and Tableau writes the query, aggregates the data and draws the chart. It is owned by Salesforce and, with Power BI, is one of the two BI tools most often named in Indian analyst job posts. Where Power BI leans on DAX formulas and the Microsoft stack, Tableau is known for fast visual exploration and highly customisable charts.</p>
+<figure class="fig"><img src="../img/tableau-01-01.png" alt="The Tableau product family. You build in Desktop (or Public), share on Cloud/Server/Public, and prepare data in Prep." loading="lazy"><figcaption>The Tableau product family. You build in Desktop (or Public), share on Cloud/Server/Public, and prepare data in Prep.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Product</th>
+<th>What it is</th>
+<th>Cost (2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tableau Public</strong> (desktop app + website)</td>
+<td>Free version of Desktop; workbooks are saved <strong>publicly</strong> on public.tableau.com</td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>Tableau Desktop</strong></td>
+<td>Full authoring tool; saves locally, connects to databases</td>
+<td>Paid (Creator licence)</td>
+</tr>
+<tr>
+<td><strong>Tableau Cloud</strong></td>
+<td>Tableau's hosted service for sharing, refresh schedules and permissions</td>
+<td>Paid, per user</td>
+</tr>
+<tr>
+<td><strong>Tableau Server</strong></td>
+<td>The same as Cloud, but installed on your company's own servers</td>
+<td>Paid</td>
+</tr>
+<tr>
+<td><strong>Tableau Prep Builder</strong></td>
+<td>Visual tool to clean, join and reshape data before analysis</td>
+<td>Included with Creator</td>
+</tr>
+<tr>
+<td><strong>Tableau Pulse / Tableau Agent</strong></td>
+<td>AI features: metric digests in plain language and an assistant that helps write calculations and build views</td>
+<td>Cloud add-ons</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Which one should you install?</b></div><p>Learners should install <strong>Tableau Public</strong> (free). It has almost every authoring feature of Desktop. The two limits: workbooks are saved to your public profile (so never use confidential data) and it connects mainly to files (Excel, CSV, text, JSON, PDF, spatial) and Google Sheets rather than company databases. Your public profile also works as a portfolio for interviews.</p></div>
+<h2 id="tableau-01-install-and-connect">Install and connect</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Install Tableau Public and connect to Superstore</b></div><ol>
+<li>Go to public.tableau.com → <strong>Create</strong> → download <strong>Tableau Public</strong> for Windows or Mac and install it; sign up for a free profile.</li>
+<li>Open Tableau Public. On the <strong>Connect</strong> pane choose <strong>Text file</strong> and pick <code>superstore_sales.csv</code> (for an Excel file choose <strong>Microsoft Excel</strong>).</li>
+<li>The <strong>Data Source page</strong> opens: the table appears in the canvas and a preview grid below it.</li>
+<li>Check each column's <strong>data type icon</strong> (Abc = string, # = number, calendar = date, globe = geographic). Click an icon to change it.</li>
+<li>Click <strong>Sheet 1</strong> at the bottom to start building.</li>
+</ol></div>
+<p>The data you connect to is the same Superstore India file used in the Excel and Power BI lessons. Check its size before you build anything:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+<span class="hl-f">print</span>(df.shape)
+<span class="hl-f">print</span>(<span class="hl-f">df.dtypes.astype</span>(str).<span class="hl-f">value_counts</span>().<span class="hl-f">to_dict</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Orders from&quot;</span>, <span class="hl-f">df.order_date.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">df.order_date.max</span>().<span class="hl-f">date</span>())
+<span class="hl-f">df.head</span>(<span class="hl-n">3</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(6323, 19)
+{&#x27;object&#x27;: 12, &#x27;float64&#x27;: 3, &#x27;int64&#x27;: 2, &#x27;datetime64[ns]&#x27;: 2}
+Orders from 2023-01-01 to 2025-12-31</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>row_id</th>
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>ship_date</th>
+      <th>ship_mode</th>
+      <th>customer_id</th>
+      <th>customer_name</th>
+      <th>segment</th>
+      <th>city</th>
+      <th>state</th>
+      <th>region</th>
+      <th>product_id</th>
+      <th>category</th>
+      <th>sub_category</th>
+      <th>product_name</th>
+      <th>sales</th>
+      <th>quantity</th>
+      <th>discount</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>2023-01-05</td>
+      <td>Second Class</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+      <td>Karnataka</td>
+      <td>South</td>
+      <td>P0059</td>
+      <td>Technology</td>
+      <td>Phones</td>
+      <td>Nova Phone 223</td>
+      <td>36,000</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3,472.55</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>2023-01-05</td>
+      <td>Second Class</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+      <td>Karnataka</td>
+      <td>South</td>
+      <td>P0050</td>
+      <td>Office Supplies</td>
+      <td>Appliances</td>
+      <td>Orbit Appliance 798</td>
+      <td>3,850</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1,169.54</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>2023-01-05</td>
+      <td>Second Class</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+      <td>Karnataka</td>
+      <td>South</td>
+      <td>P0011</td>
+      <td>Furniture</td>
+      <td>Tables</td>
+      <td>Orbit Table 248</td>
+      <td>62,080</td>
+      <td>4</td>
+      <td>0</td>
+      <td>6,044.47</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 19 columns</div></div>
+<p>6,323 rows (order lines) and 19 columns: Tableau will show these as <strong>fields</strong> in the Data pane.</p>
+<h3 id="tableau-01-the-data-source-page">The Data Source page</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Where</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rename a field</td>
+<td>Click the column header → Rename</td>
+<td>Friendly names such as "Sub-Category"</td>
+</tr>
+<tr>
+<td>Hide a field</td>
+<td>Column menu → Hide</td>
+<td>Remove IDs you will never use</td>
+</tr>
+<tr>
+<td>Change type / geographic role</td>
+<td>Click the type icon</td>
+<td>Make <code>state</code> a <strong>State/Province</strong> so it maps</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>Column menu → Split</td>
+<td><code>customer_name</code> → first and last name</td>
+</tr>
+<tr>
+<td>Pivot</td>
+<td>Select columns → Pivot</td>
+<td>Turn month columns into rows</td>
+</tr>
+<tr>
+<td>Data Interpreter</td>
+<td>Left pane checkbox</td>
+<td>Clean messy Excel sheets with titles and merged cells</td>
+</tr>
+<tr>
+<td>Live vs Extract</td>
+<td>Top right</td>
+<td>Extract (.hyper) is a fast snapshot; Live queries the source every time</td>
+</tr>
+<tr>
+<td>Filters (data source)</td>
+<td>Top right → Add</td>
+<td>Keep only the rows the workbook needs</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="tableau-01-the-workspace">The workspace</h2>
+<figure class="fig"><img src="../img/tableau-01-02.png" alt="The Tableau worksheet layout. Drag fields from the Data pane onto shelves and the Marks card." loading="lazy"><figcaption>The Tableau worksheet layout. Drag fields from the Data pane onto shelves and the Marks card.</figcaption></figure>
+<h2 id="tableau-01-dimensions-vs-measures-discrete-vs-continuous">Dimensions vs measures, discrete vs continuous</h2>
+<p>Tableau sorts every field in two ways, and the colour of a pill tells you which:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Meaning</th>
+<th>Example</th>
+<th>What it creates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dimension</strong></td>
+<td>Categories you slice by</td>
+<td>Region, Category, Customer Name</td>
+<td>Groups (one mark per value)</td>
+</tr>
+<tr>
+<td><strong>Measure</strong></td>
+<td>Numbers you aggregate</td>
+<td>Sales, Profit, Quantity</td>
+<td>SUM, AVG, COUNT…</td>
+</tr>
+<tr>
+<td><strong>Discrete</strong> (blue pill)</td>
+<td>Separate values</td>
+<td>Region, YEAR(Order Date) as "2023, 2024"</td>
+<td><strong>Headers</strong></td>
+</tr>
+<tr>
+<td><strong>Continuous</strong> (green pill)</td>
+<td>An unbroken range</td>
+<td>SUM(Sales), exact date</td>
+<td><strong>Axes</strong></td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/tableau-01-03.png" alt="Blue (discrete) pills create headers; green (continuous) pills create axes." loading="lazy"><figcaption>Blue (discrete) pills create headers; green (continuous) pills create axes.</figcaption></figure>
+<p>A measure dropped into the view is <strong>aggregated</strong> (default SUM). Right-click the pill → <strong>Measure</strong> to switch to Average, Median, Count, Count (Distinct), Minimum, Maximum, Standard deviation and so on.</p>
+<h2 id="tableau-01-your-first-views">Your first views</h2>
+<h3 id="tableau-01-sales-by-region-bar-chart">Sales by region (bar chart)</h3>
+<p>Drag <strong>Region</strong> to Rows and <strong>Sales</strong> to Columns. Tableau writes the equivalent of <code>SELECT region, SUM(sales) FROM superstore GROUP BY region</code> and draws one bar per region:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">by_region = (<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">sum</span>() / 1e7).<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>)
+by_region.columns = [<span class="hl-s">&quot;Sales (₹ crore)&quot;</span>, <span class="hl-s">&quot;Profit (₹ crore)&quot;</span>]
+by_region</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales (₹ crore)</th>
+      <th>Profit (₹ crore)</th>
+    </tr>
+    <tr>
+      <th>region</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>South</th>
+      <td>5.40</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>West</th>
+      <td>5.20</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>North</th>
+      <td>4.90</td>
+      <td>0.46</td>
+    </tr>
+    <tr>
+      <th>East</th>
+      <td>4.65</td>
+      <td>0.44</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<figure class="fig"><img src="../img/tableau-01-04.png" alt="The view you get: SUM(Sales) by Region, sorted descending, with labels." loading="lazy"><figcaption>The view you get: SUM(Sales) by Region, sorted descending, with labels.</figcaption></figure>
+<p>The default Tableau colours (blue #4E79A7, orange #F28E2B, red #E15759…) are the <strong>Tableau 10</strong> palette used in the figures in this track.</p>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Sort, label and colour it</b></div><ol>
+<li>Hover the Sales axis and click the <strong>sort</strong> icon, or click the toolbar sort descending button.</li>
+<li>Click <strong>Label</strong> on the Marks card → tick <em>Show mark labels</em>.</li>
+<li>Drag <strong>Profit</strong> onto <strong>Color</strong>: bars are shaded by profit, so sales and margin show together.</li>
+<li>Right-click the Sales axis → <strong>Format</strong> → Numbers → Currency (Custom) → Display units: <em>Crores</em> is not built in, so use a calculated field <code>[Sales]/1e7</code> named "Sales (₹ cr)" (Lesson 3), or show <em>Millions</em>.</li>
+<li>Double-click the sheet tab and rename it "Sales by Region".</li>
+</ol></div>
+<h3 id="tableau-01-sales-over-time-line-chart">Sales over time (line chart)</h3>
+<p>Drag <strong>Order Date</strong> to Columns: Tableau shows <strong>YEAR(Order Date)</strong> as a discrete header. Click the <strong>+</strong> on the pill to drill down to Quarter and Month. Right-click the pill and choose the <strong>green</strong> "Month" (continuous) to draw a single timeline, or the <strong>blue</strong> "Month" (discrete) to compare the same month across years.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = <span class="hl-f">df.set_index</span>(<span class="hl-s">&quot;order_date&quot;</span>).<span class="hl-f">sales.resample</span>(<span class="hl-s">&quot;ME&quot;</span>).<span class="hl-f">sum</span>() / 1e5
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Months:&quot;</span>, <span class="hl-f">len</span>(m), <span class="hl-s">&quot;| best month:&quot;</span>, <span class="hl-f">m.idxmax</span>().<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%b %Y&quot;</span>), <span class="hl-s">f&quot;₹{m.max():.1f} lakh&quot;</span>, <span class="hl-s">&quot;| weakest:&quot;</span>, <span class="hl-f">m.idxmin</span>().<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%b %Y&quot;</span>), <span class="hl-s">f&quot;₹{m.min():.1f} lakh&quot;</span>)
+yearly = (<span class="hl-f">df.groupby</span>(df.order_date.dt.year).<span class="hl-f">sales.sum</span>() / 1e7).<span class="hl-f">round</span>(<span class="hl-n">2</span>); yearly</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Months: 36 | best month: Nov 2025 ₹102.8 lakh | weakest: Jan 2023 ₹24.5 lakh</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+    </tr>
+    <tr>
+      <th>order_date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2023</th>
+      <td>5.76</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>6.54</td>
+    </tr>
+    <tr>
+      <th>2025</th>
+      <td>7.84</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 1 columns</div></div>
+<h3 id="tableau-01-text-table-crosstab">Text table (crosstab)</h3>
+<p>Put <strong>Category</strong> on Rows, <strong>YEAR(Order Date)</strong> on Columns and <strong>Sales</strong> on <strong>Text</strong>. Add <strong>Analysis → Totals → Show Row Grand Totals</strong>. This is Tableau's pivot table:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">ct = <span class="hl-f">pd.crosstab</span>(df.category, df.order_date.dt.year, values=df.sales, aggfunc=<span class="hl-s">&quot;sum&quot;</span>, margins=<span class="hl-k">True</span>, margins_name=<span class="hl-s">&quot;Grand Total&quot;</span>) / 1e5
+<span class="hl-f">ct.round</span>(<span class="hl-n">1</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_date</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+      <th>Grand Total</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furniture</th>
+      <td>99.5</td>
+      <td>121.3</td>
+      <td>127.6</td>
+      <td>348.4</td>
+    </tr>
+    <tr>
+      <th>Office Supplies</th>
+      <td>26.1</td>
+      <td>35.5</td>
+      <td>39.7</td>
+      <td>101.3</td>
+    </tr>
+    <tr>
+      <th>Technology</th>
+      <td>450.8</td>
+      <td>497.2</td>
+      <td>616.5</td>
+      <td>1,564.4</td>
+    </tr>
+    <tr>
+      <th>Grand Total</th>
+      <td>576.4</td>
+      <td>654.0</td>
+      <td>783.8</td>
+      <td>2,014.1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 4 columns</div></div>
+<h2 id="tableau-01-show-me">Show Me</h2>
+<p><strong>Show Me</strong> (top right) highlights the chart types that fit the fields you have selected and states what it needs, e.g. "<em>1 date, 1 or more dimensions, 1 or more measures</em>" for a line chart. It is a fast start, but learn to build each chart by hand: interviewers often ask <em>how</em> you would build a view.</p>
+<h2 id="tableau-01-saving-and-sharing">Saving and sharing</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Format</th>
+<th>What it contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.twb</code> workbook</td>
+<td>Sheets, dashboards and the connection, <strong>no data</strong></td>
+</tr>
+<tr>
+<td><code>.twbx</code> packaged workbook</td>
+<td>Workbook <strong>plus</strong> a copy of the data/extract: share this one</td>
+</tr>
+<tr>
+<td><code>.hyper</code> extract</td>
+<td>Tableau's compressed, fast data snapshot</td>
+</tr>
+<tr>
+<td>Tableau Public profile</td>
+<td><strong>File → Save to Tableau Public</strong>; anyone can view and download it</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Beginner mistakes</b></div><ul>
+<li>Saving confidential company data to Tableau Public: everything there is public.</li>
+<li>Sending a <code>.twb</code> file: the receiver cannot open it without your data. Send <code>.twbx</code>.</li>
+<li>Leaving a date as a string ("Abc"): you lose drill-down and date functions. Change the type on the Data Source page.</li>
+<li>Using a measure that should be a dimension (e.g. Postal Code as SUM): right-click → Convert to Dimension.</li>
+</ul></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Tableau in 2026</b></div><ul>
+<li><strong>Tableau Agent</strong> (formerly Einstein Copilot for Tableau) suggests calculations and builds views from a typed question in Tableau Cloud.</li>
+<li><strong>Tableau Pulse</strong> sends plain-language metric summaries ("Sales are up 8% this week, driven by the West region") to email and Slack.</li>
+<li><strong>Tableau Next</strong> is Salesforce's agent-based analytics layer on top of Data Cloud. Desktop and Public remain the tools you learn first.</li>
+</ul></div>
+<h2 id="tableau-01-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Tableau turns drag-and-drop into queries: shelves define the structure, the Marks card defines the look.</li>
+<li>Dimensions slice, measures aggregate; blue pills are discrete (headers), green pills are continuous (axes).</li>
+<li>Start with Tableau Public, connect to a file, fix data types on the Data Source page, then build.</li>
+<li>Share packaged workbooks (<code>.twbx</code>) or publish to Tableau Public/Cloud.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does a green pill on Columns create?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A continuous axis</button><button type="button" class="opt" data-ok="0"><i>B</i>A set of headers</button><button type="button" class="opt" data-ok="0"><i>C</i>A filter</button><button type="button" class="opt" data-ok="0"><i>D</i>A calculated field</button></div><div class="qexp"><b>Answer: A.</b> Green = continuous = axis; blue = discrete = headers.</div></div><div class="qq"><p class="qtext"><b>2.</b> You drag Sales into the view. What does Tableau show by default?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SUM(Sales) for each combination of the dimensions in the view</button><button type="button" class="opt" data-ok="0"><i>B</i>Every row's sales value</button><button type="button" class="opt" data-ok="0"><i>C</i>The average sales</button><button type="button" class="opt" data-ok="0"><i>D</i>The count of rows</button></div><div class="qexp"><b>Answer: A.</b> Measures are aggregated, and SUM is the default.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which file should you email a colleague so they can open your work with the data?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A packaged workbook (.twbx)</button><button type="button" class="opt" data-ok="0"><i>B</i>A workbook (.twb)</button><button type="button" class="opt" data-ok="0"><i>C</i>A .hyper file only</button><button type="button" class="opt" data-ok="0"><i>D</i>A screenshot</button></div><div class="qexp"><b>Answer: A.</b> .twbx bundles the workbook with its data.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the main limitation of Tableau Public?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Workbooks are saved publicly and it connects mainly to files</button><button type="button" class="opt" data-ok="0"><i>B</i>It cannot draw maps</button><button type="button" class="opt" data-ok="0"><i>C</i>It has no calculated fields</button><button type="button" class="opt" data-ok="0"><i>D</i>It only works on Mac</button></div><div class="qexp"><b>Answer: A.</b> Never put confidential data on Tableau Public.</div></div><div class="qq"><p class="qtext"><b>5.</b> State is shown as "Abc" and will not draw a map. What do you do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Assign the geographic role State/Province</button><button type="button" class="opt" data-ok="0"><i>B</i>Convert it to a measure</button><button type="button" class="opt" data-ok="0"><i>C</i>Delete the field</button><button type="button" class="opt" data-ok="0"><i>D</i>Use a dual axis</button></div><div class="qexp"><b>Answer: A.</b> Geographic roles give a field latitude and longitude.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which feature suggests chart types for the selected fields?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Show Me</button><button type="button" class="opt" data-ok="0"><i>B</i>Pages shelf</button><button type="button" class="opt" data-ok="0"><i>C</i>Data Interpreter</button><button type="button" class="opt" data-ok="0"><i>D</i>Extract</button></div><div class="qexp"><b>Answer: A.</b> Show Me lists the chart types and what each needs.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Connect to <code>superstore_sales.csv</code> in Tableau Public and build three sheets: (1) Sales by Category sorted descending with labels; (2) a continuous monthly Sales line with Profit on Color; (3) a text table of Segment × Year with grand totals. Save as a packaged workbook and publish to your Tableau Public profile.</p><details class="sol"><summary>Show solution</summary><p>Sheet 1: Category on Rows, SUM(Sales) on Columns, sort descending, Label on. Sheet 2: MONTH(Order Date) continuous (green) on Columns, SUM(Sales) on Rows, SUM(Profit) on Color. Sheet 3: Segment on Rows, YEAR(Order Date) on Columns, SUM(Sales) on Text, Analysis → Totals → Show Row and Column Grand Totals. File → Save to Tableau Public.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between a dimension and a measure?</strong>
+A dimension is a categorical field used to group the data (Region, Category); a measure is a numeric field that Tableau aggregates (SUM of Sales). Each mark represents one combination of the dimensions in the view.</p>
+<p><strong>Q: Discrete vs continuous?</strong>
+Discrete fields (blue) create headers and distinct colours; continuous fields (green) create axes and colour gradients. Dates can be either: discrete YEAR gives "2023, 2024" headers, continuous MONTH gives a timeline.</p>
+<p><strong>Q: .twb vs .twbx vs .hyper?</strong>
+.twb is the workbook definition without data; .twbx packages the workbook with its data or extract; .hyper is the extract file itself.</p>
+<p><strong>Q: Live connection or extract?</strong>
+Live always shows current data but depends on the source's speed; an extract is a fast, compressed snapshot that you refresh on a schedule. Use extracts for speed and offline work, live for real-time needs or very large governed warehouses.</p></div></div></article><article class="lesson-art bk" id="L-tableau-02"><div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 2</div><h1>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</h1>
+<p class="sum">Build every core chart in Tableau and know when to use each: bar, stacked and side-by-side bars, line and area, pie and donut, treemap, highlight table, scatter plot, histogram with bins, box plot, filled and symbol maps, dual-axis combo charts, bullet charts and a Pareto chart, all on the Superstore India data.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 150 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose the right chart for comparison, trend, part-to-whole, distribution, relationship and geography questions</li><li>Build bar, line, area, pie, donut, treemap and highlight-table views</li><li>Create bins and histograms, box plots and scatter plots with trend lines</li><li>Map states with geographic roles, and combine two measures with dual and blended axes</li><li>Build a bullet chart and a Pareto (80/20) chart</li></ul></div></div><div class="content"><h2 id="tableau-02-choose-the-chart-from-the-question">Choose the chart from the question</h2>
+<figure class="fig"><img src="../img/tableau-02-01.png" alt="Match the business question to the chart family." loading="lazy"><figcaption>Match the business question to the chart family.</figcaption></figure>
+<p>All examples below use the Superstore India data. The tables show the numbers your Tableau view should display, computed here with pandas so you can check your work.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+df[<span class="hl-s">&quot;year&quot;</span>] = df.order_date.dt.year
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(df), <span class="hl-s">&quot;order lines,&quot;</span>, <span class="hl-f">df.order_id.nunique</span>(), <span class="hl-s">&quot;orders,&quot;</span>, <span class="hl-f">df.customer_id.nunique</span>(), <span class="hl-s">&quot;customers&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6323 order lines, 3200 orders, 785 customers</pre></div>
+<h2 id="tableau-02-bar-charts">Bar charts</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Variant</th>
+<th>Build</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar</td>
+<td>Dimension on Rows, measure on Columns</td>
+<td>Ranking categories</td>
+</tr>
+<tr>
+<td>Stacked bar</td>
+<td>Add a second dimension to <strong>Color</strong></td>
+<td>Total and composition</td>
+</tr>
+<tr>
+<td>Side-by-side bar</td>
+<td>Second dimension on Columns <em>before</em> the measure (or Show Me → side-by-side)</td>
+<td>Comparing subgroups directly</td>
+</tr>
+<tr>
+<td>100% stacked</td>
+<td>Stacked bar + Quick Table Calculation → <strong>Percent of Total</strong> (compute using the colour dimension)</td>
+<td>Mix comparisons</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">seg = <span class="hl-f">pd.crosstab</span>(df.category, df.segment, values=df.sales, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e7
+<span class="hl-f">seg.round</span>(<span class="hl-n">2</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>segment</th>
+      <th>Consumer</th>
+      <th>Corporate</th>
+      <th>Home Office</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furniture</th>
+      <td>1.70</td>
+      <td>1.03</td>
+      <td>0.75</td>
+    </tr>
+    <tr>
+      <th>Office Supplies</th>
+      <td>0.47</td>
+      <td>0.32</td>
+      <td>0.23</td>
+    </tr>
+    <tr>
+      <th>Technology</th>
+      <td>7.69</td>
+      <td>4.56</td>
+      <td>3.39</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<figure class="fig"><img src="../img/tableau-02-02.png" alt="Stacked bar: Sales by Category, coloured by Segment (₹ crore)." loading="lazy"><figcaption>Stacked bar: Sales by Category, coloured by Segment (₹ crore).</figcaption></figure>
+<h2 id="tableau-02-line-and-area-charts">Line and area charts</h2>
+<p>Put a <strong>continuous</strong> date (green MONTH(Order Date)) on Columns and Sales on Rows for one timeline. Put <strong>YEAR</strong> on Color and a <strong>discrete</strong> MONTH on Columns to compare the same months across years (seasonality).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">pv = <span class="hl-f">df.pivot_table</span>(index=df.order_date.dt.month, columns=<span class="hl-s">&quot;year&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e5
+pv.index.name = <span class="hl-s">&quot;month&quot;</span>
+<span class="hl-f">pv.round</span>(<span class="hl-n">1</span>).<span class="hl-f">head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>24.5</td>
+      <td>60.2</td>
+      <td>53.6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>38.6</td>
+      <td>24.6</td>
+      <td>38.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>34.4</td>
+      <td>59.4</td>
+      <td>65.1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>39.3</td>
+      <td>46.2</td>
+      <td>67.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>48.4</td>
+      <td>52.5</td>
+      <td>64.2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>57.9</td>
+      <td>40.1</td>
+      <td>39.7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 3 columns</div></div>
+<figure class="fig"><img src="../img/tableau-02-03.png" alt="Discrete month on Columns, Year on Color: each year is a line, so seasonality is easy to compare." loading="lazy"><figcaption>Discrete month on Columns, Year on Color: each year is a line, so seasonality is easy to compare.</figcaption></figure>
+<p>An <strong>area chart</strong> is the same view with Mark type = Area; stack a dimension on Color to show how the total is built up.</p>
+<h2 id="tableau-02-part-to-whole-pie-donut-treemap">Part-to-whole: pie, donut, treemap</h2>
+<ul>
+<li><strong>Pie</strong>: Mark type Pie, dimension on Color, measure on <strong>Angle</strong>. Use for 2–5 slices only.</li>
+<li><strong>Donut</strong>: two pies on a dual axis. Put <code>AVG(0)</code> (type <code>avg(0)</code> on Rows) twice, make the second smaller and white, turn on dual axis, and put the total on the inner label.</li>
+<li><strong>Treemap</strong>: dimension on <strong>Detail/Label</strong>, measure on <strong>Size</strong> and <strong>Color</strong>. Good for many categories (e.g. the 13 sub-categories).</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sub = (<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)) / 1e5).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>)
+sub[<span class="hl-s">&quot;margin %&quot;</span>] = (sub.profit / sub.sales * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">sub.round</span>(<span class="hl-n">1</span>).<span class="hl-f">head</span>(<span class="hl-n">8</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>margin %</th>
+    </tr>
+    <tr>
+      <th>sub_category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Copiers</th>
+      <td>787.5</td>
+      <td>84.4</td>
+      <td>10.7</td>
+    </tr>
+    <tr>
+      <th>Machines</th>
+      <td>425.9</td>
+      <td>51.9</td>
+      <td>12.2</td>
+    </tr>
+    <tr>
+      <th>Phones</th>
+      <td>319.2</td>
+      <td>36.6</td>
+      <td>11.5</td>
+    </tr>
+    <tr>
+      <th>Tables</th>
+      <td>140.5</td>
+      <td>-8.2</td>
+      <td>-5.8</td>
+    </tr>
+    <tr>
+      <th>Bookcases</th>
+      <td>112.7</td>
+      <td>-4.2</td>
+      <td>-3.7</td>
+    </tr>
+    <tr>
+      <th>Chairs</th>
+      <td>80.9</td>
+      <td>3.4</td>
+      <td>4.2</td>
+    </tr>
+    <tr>
+      <th>Appliances</th>
+      <td>63.3</td>
+      <td>9.4</td>
+      <td>14.9</td>
+    </tr>
+    <tr>
+      <th>Accessories</th>
+      <td>31.8</td>
+      <td>3.7</td>
+      <td>11.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 3 columns</div></div>
+<h2 id="tableau-02-highlight-table-heat-map">Highlight table (heat map)</h2>
+<p>Category on Rows, YEAR on Columns, Sales on <strong>Text</strong> and <strong>Color</strong>, Mark type <strong>Square</strong>. Tableau shades each cell, so high and low cells stand out without reading every number.</p>
+<h2 id="tableau-02-distribution-histogram-and-box-plot">Distribution: histogram and box plot</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Histogram of order value</b></div><ol>
+<li>Right-click <strong>Sales</strong> → Create → <strong>Bins</strong>; set the bin size (e.g. ₹10,000). A new dimension "Sales (bin)" appears.</li>
+<li>Drag <strong>Sales (bin)</strong> to Columns and <strong>CNT(Sales)</strong> (or Number of Records) to Rows.</li>
+<li>Or select Sales and pick the histogram in Show Me: it creates the bins for you.</li>
+</ol></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">bins = <span class="hl-f">pd.cut</span>(df.sales, bins=[<span class="hl-n">0</span>, <span class="hl-n">5000</span>, <span class="hl-n">10000</span>, <span class="hl-n">20000</span>, <span class="hl-n">50000</span>, <span class="hl-n">100000</span>, <span class="hl-f">df.sales.max</span>()], right=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-f">bins.value_counts</span>().<span class="hl-f">sort_index</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;median line value: ₹&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">df.sales.median</span>()), <span class="hl-s">&quot;| mean: ₹&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">df.sales.mean</span>()))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">sales
+[0.0, 5000.0)           2530
+[5000.0, 10000.0)        829
+[10000.0, 20000.0)       896
+[20000.0, 50000.0)       942
+[50000.0, 100000.0)      546
+[100000.0, 619290.0)     579
+Name: count, dtype: int64
+median line value: ₹ 8430 | mean: ₹ 31854</pre></div>
+<p>The mean is well above the median: a few large orders pull it up (right skew). A <strong>box plot</strong> (Show Me → box-and-whisker) shows the median, quartiles and outliers per category at a glance.</p>
+<h2 id="tableau-02-relationship-scatter-plot">Relationship: scatter plot</h2>
+<p>Put SUM(Sales) on Columns, SUM(Profit) on Rows and <strong>Sub-Category</strong> on Detail: one dot per sub-category. Add <strong>Analytics pane → Trend Line</strong> (linear) and hover it to read R² and the p-value.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>]].<span class="hl-f">agg</span>({<span class="hl-s">&quot;sales&quot;</span>: <span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>: <span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>: <span class="hl-s">&quot;mean&quot;</span>})
+<span class="hl-f">print</span>(<span class="hl-s">&quot;correlation sales vs profit across sub-categories:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">s.sales.corr</span>(s.profit), <span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;correlation avg discount vs profit margin:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">s.discount.corr</span>(s.profit / s.sales), <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">correlation sales vs profit across sub-categories: 0.95
+correlation avg discount vs profit margin: -0.88</pre></div>
+<h2 id="tableau-02-maps">Maps</h2>
+<ol>
+<li>Make sure <strong>State</strong> has the geographic role <em>State/Province</em> (and the country is India: Map → Edit Locations).</li>
+<li>Double-click State: Tableau adds Latitude/Longitude (generated) and draws a <strong>symbol map</strong>. Change Mark type to <strong>Map</strong> for a <strong>filled (choropleth) map</strong>.</li>
+<li>Put Sales on Color for a filled map, or on Size for a symbol map. Use Profit on Color with a diverging palette (orange-blue) to show loss-making states.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">st = (<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;state&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">sum</span>() / 1e5).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>)
+<span class="hl-f">st.head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>profit</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Maharashtra</th>
+      <td>256.7</td>
+      <td>24.4</td>
+    </tr>
+    <tr>
+      <th>Delhi</th>
+      <td>156.6</td>
+      <td>17.3</td>
+    </tr>
+    <tr>
+      <th>Kerala</th>
+      <td>147.1</td>
+      <td>12.6</td>
+    </tr>
+    <tr>
+      <th>Madhya Pradesh</th>
+      <td>144.1</td>
+      <td>12.7</td>
+    </tr>
+    <tr>
+      <th>West Bengal</th>
+      <td>138.9</td>
+      <td>14.6</td>
+    </tr>
+    <tr>
+      <th>Karnataka</th>
+      <td>136.3</td>
+      <td>11.8</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 2 columns</div></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Indian maps</b></div><p>Tableau's built-in geocoding knows Indian states and many districts and cities. If a name does not match (old spellings, "Orissa" vs "Odisha"), use <strong>Map → Edit Locations</strong> to match it, or join a custom latitude/longitude file.</p></div>
+<h2 id="tableau-02-dual-axis-and-combo-charts">Dual-axis and combo charts</h2>
+<p>Show two measures with different scales, e.g. Sales as bars and Profit margin as a line:</p>
+<ol>
+<li>Continuous MONTH(Order Date) on Columns; SUM(Sales) and the margin calculation on Rows.</li>
+<li>Right-click the second pill → <strong>Dual Axis</strong>. Set the Marks card for Sales to <strong>Bar</strong> and for margin to <strong>Line</strong>.</li>
+<li>Right-click the right axis → <strong>Synchronize Axis</strong> only when both measures share units (Sales and Profit); never synchronise ₹ with %.</li>
+</ol>
+<p>A <strong>blended axis</strong> (drag a second measure onto the <em>existing</em> axis until the double-ruler icon shows) puts two measures with the same unit on one axis, using Measure Names on Color.</p>
+<h2 id="tableau-02-bullet-chart-actual-vs-target">Bullet chart (actual vs target)</h2>
+<p>Select a measure and a target (e.g. Sales and a target field) → Show Me → <strong>Bullet graph</strong>. The bar is the actual, the reference line is the target, and the shaded bands are % of target (60%, 80%). If the bars and lines come out the wrong way round, right-click the axis → <strong>Swap Reference Line Fields</strong>.</p>
+<h2 id="tableau-02-pareto-chart-8020">Pareto chart (80/20)</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build a Pareto of products</b></div><ol>
+<li>Product Name on Columns sorted by SUM(Sales) descending; SUM(Sales) on Rows as bars.</li>
+<li>Drag SUM(Sales) to Rows again → Quick Table Calculation → <strong>Running Total</strong>, then Edit Table Calculation → <em>Add secondary calculation</em> → <strong>Percent of Total</strong>.</li>
+<li>Make it dual axis; set the second mark to Line; add a reference line at 80%.</li>
+<li>Optional: replace Product Name on Columns with a table calc <code>INDEX()/SIZE()</code> so the x-axis reads "% of products".</li>
+</ol></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">p = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>).<span class="hl-f">sales.sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>)
+cum = <span class="hl-f">p.cumsum</span>() / <span class="hl-f">p.sum</span>()
+n80 = <span class="hl-f">int</span>((cum &lt; .<span class="hl-n">8</span>).<span class="hl-f">sum</span>()) + <span class="hl-n">1</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{n80} of {len(p)} products ({n80 / len(p):.0%}) make 80% of sales&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">21 of 78 products (27%) make 80% of sales</pre></div>
+<p>Sales are concentrated: about a quarter of the products bring in 80% of sales, close to the classic 80/20 rule. Those top products deserve the best stock availability and marketing. A Pareto chart shows how concentrated a business really is, so you can judge whether a "focus on the top products" strategy makes sense.</p>
+<h2 id="tableau-02-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Pick the chart from the question: compare, trend, part-to-whole, distribution, relationship, geography.</li>
+<li>Continuous dates draw timelines; discrete dates compare periods.</li>
+<li>Bins create histograms; the Analytics pane adds trend lines, reference lines and box plots.</li>
+<li>Assign geographic roles before mapping; use filled maps for rates and symbol maps for totals.</li>
+<li>Dual axis combines two marks (bar + line); synchronise only when units match.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which chart best shows how a single order-value variable is distributed?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Histogram</button><button type="button" class="opt" data-ok="0"><i>B</i>Pie chart</button><button type="button" class="opt" data-ok="0"><i>C</i>Treemap</button><button type="button" class="opt" data-ok="0"><i>D</i>Line chart</button></div><div class="qexp"><b>Answer: A.</b> Histograms show distributions; create bins first.</div></div><div class="qq"><p class="qtext"><b>2.</b> How do you get Profit as a line on top of Sales bars with its own scale?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Put both on Rows, use Dual Axis, set one mark to Bar and the other to Line</button><button type="button" class="opt" data-ok="0"><i>B</i>Put Profit on Color</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a blended axis</button><button type="button" class="opt" data-ok="0"><i>D</i>Synchronise the axes</button></div><div class="qexp"><b>Answer: A.</b> Dual axis gives two independent axes and separate mark types.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is the right way to show 13 sub-categories as a part-to-whole?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Treemap or sorted bar chart</button><button type="button" class="opt" data-ok="0"><i>B</i>Pie chart with 13 slices</button><button type="button" class="opt" data-ok="0"><i>C</i>Scatter plot</button><button type="button" class="opt" data-ok="0"><i>D</i>Line chart</button></div><div class="qexp"><b>Answer: A.</b> Pies stop being readable beyond about five slices.</div></div><div class="qq"><p class="qtext"><b>4.</b> You want each year as its own line to compare seasonality. What goes on Columns?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Discrete MONTH(Order Date)</button><button type="button" class="opt" data-ok="0"><i>B</i>Continuous MONTH(Order Date)</button><button type="button" class="opt" data-ok="0"><i>C</i>YEAR(Order Date) only</button><button type="button" class="opt" data-ok="0"><i>D</i>Sales</button></div><div class="qexp"><b>Answer: A.</b> Discrete month gives Jan–Dec headers; Year goes on Color.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does the Pareto line show?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The running total of sales as a percent of the grand total</button><button type="button" class="opt" data-ok="0"><i>B</i>Profit margin</button><button type="button" class="opt" data-ok="0"><i>C</i>Average sales</button><button type="button" class="opt" data-ok="0"><i>D</i>The number of orders</button></div><div class="qexp"><b>Answer: A.</b> Running total + percent of total secondary calculation.</div></div><div class="qq"><p class="qtext"><b>6.</b> When should you synchronise a dual axis?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When both measures share the same unit and scale makes sense</button><button type="button" class="opt" data-ok="0"><i>B</i>Always</button><button type="button" class="opt" data-ok="0"><i>C</i>When one is in ₹ and the other in %</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: A.</b> Synchronising ₹ with % distorts the chart.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Build: (1) a side-by-side bar of Sales by Region and Segment; (2) a filled map of Profit by State with a diverging palette; (3) a histogram of Sales with ₹10,000 bins; (4) a dual-axis chart of monthly Sales (bars) and Profit (line); (5) a Pareto chart of sub-categories with an 80% reference line.</p><details class="sol"><summary>Show solution</summary><p>Use the steps in each section. For the map, set Profit on Color → Edit Colors → Orange-Blue Diverging, centre 0. For the Pareto use Running Total + Percent of Total, compute using Sub-Category, then Analytics → Reference Line → Constant 0.8 on the line axis.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Dual axis vs blended axis?</strong>
+A dual axis gives two independent axes (left and right) and allows different mark types; a blended axis puts several measures on one shared axis (same unit) using Measure Names/Values.</p>
+<p><strong>Q: How do you build a Pareto chart in Tableau?</strong>
+Sort the dimension by the measure, show bars, add the measure again with a Running Total table calculation and a secondary Percent of Total, make it dual axis as a line, and add an 80% reference line.</p>
+<p><strong>Q: Filled map or symbol map?</strong>
+Filled maps suit rates and ratios (profit margin by state) because area does not scale with value; symbol maps with size suit totals (sales by city).</p></div></div></article><article class="lesson-art bk" id="L-tableau-03"><div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 3</div><h1>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</h1>
+<p class="sum">Write calculated fields (row-level and aggregate), use string, date, number and logical functions, handle nulls, then master table calculations (running total, percent of total, difference and growth, rank, moving average, and Compute Using) and Level of Detail expressions (FIXED, INCLUDE, EXCLUDE), with every result checked against pandas.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write row-level and aggregate calculated fields and know which one a question needs</li><li>Use IF/ELSEIF, CASE, IIF, ZN, IFNULL, DATEDIFF, DATETRUNC and string functions</li><li>Apply quick table calculations and control them with Compute Using</li><li>Write FIXED, INCLUDE and EXCLUDE LOD expressions and explain where they sit in the order of operations</li><li>Solve classic interview problems: profit margin, customer first-purchase cohorts and percent of total</li></ul></div></div><div class="content"><h2 id="tableau-03-three-kinds-of-calculation">Three kinds of calculation</h2>
+<figure class="fig"><img src="../img/tableau-03-01.png" alt="Where each kind of calculation is computed." loading="lazy"><figcaption>Where each kind of calculation is computed.</figcaption></figure>
+<p>Create one with <strong>Analysis → Create Calculated Field</strong> (or right-click a field → Create → Calculated Field). Field names go in square brackets; comments start with <code>//</code>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+<span class="hl-f">print</span>(df[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>]].<span class="hl-f">describe</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>).loc[[<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;min&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">         sales    profit  discount
+mean   31854.1    2902.4       0.1
+min       42.0  -75873.8       0.0
+max   619290.0  149424.9       0.4</pre></div>
+<h2 id="tableau-03-row-level-vs-aggregate-the-profit-margin-trap">Row-level vs aggregate: the profit-margin trap</h2>
+<p>The most common beginner bug in Tableau (and Power BI) is averaging ratios.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Calculated field</th>
+<th>Formula</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Margin (row)</td>
+<td><code>[Profit] / [Sales]</code></td>
+<td>Margin of each order line; in the view it becomes SUM or AVG of those ratios: <strong>wrong</strong></td>
+</tr>
+<tr>
+<td>Margin (aggregate)</td>
+<td><code>SUM([Profit]) / SUM([Sales])</code></td>
+<td>Total profit ÷ total sales for whatever the mark represents: <strong>right</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">by_cat = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;category&quot;</span>).<span class="hl-f">apply</span>(<span class="hl-k">lambda</span> g: <span class="hl-f">pd.Series</span>({
+    <span class="hl-s">&quot;aggregate margin %&quot;</span>: <span class="hl-f">g.profit.sum</span>() / <span class="hl-f">g.sales.sum</span>() * <span class="hl-n">100</span>,
+    <span class="hl-s">&quot;average of row margins %&quot;</span>: (g.profit / g.sales).<span class="hl-f">mean</span>() * <span class="hl-n">100</span>}), include_groups=<span class="hl-k">False</span>)
+<span class="hl-f">by_cat.round</span>(<span class="hl-n">2</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>aggregate margin %</th>
+      <th>average of row margins %</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furniture</th>
+      <td>-2.35</td>
+      <td>-2.38</td>
+    </tr>
+    <tr>
+      <th>Office Supplies</th>
+      <td>14.95</td>
+      <td>13.76</td>
+    </tr>
+    <tr>
+      <th>Technology</th>
+      <td>11.29</td>
+      <td>9.95</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 2 columns</div></div>
+<p>The two columns differ because the average of row ratios gives a ₹500 order the same weight as a ₹5 lakh order. Format the aggregate field as a percentage (right-click → Default Properties → Number Format → Percentage).</p>
+<h2 id="tableau-03-useful-functions">Useful functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Tableau</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logic</td>
+<td><code>IF … THEN … ELSEIF … ELSE … END</code></td>
+<td><code>IF SUM([Profit]) &lt; 0 THEN "Loss" ELSE "Profit" END</code></td>
+</tr>
+<tr>
+<td>Logic</td>
+<td><code>CASE [Region] WHEN "South" THEN … END</code>, <code>IIF(test, then, else)</code></td>
+<td>Short mappings</td>
+</tr>
+<tr>
+<td>Nulls</td>
+<td><code>ZN([Profit])</code>, <code>IFNULL([x], 0)</code>, <code>ISNULL([x])</code></td>
+<td>Replace nulls with 0</td>
+</tr>
+<tr>
+<td>Dates</td>
+<td><code>DATEDIFF('day', [Order Date], [Ship Date])</code>, <code>DATETRUNC('month', [Order Date])</code>, <code>DATEPART('weekday', …)</code>, <code>DATEADD</code>, <code>TODAY()</code></td>
+<td>Shipping days, month start</td>
+</tr>
+<tr>
+<td>Strings</td>
+<td><code>LEFT</code>, <code>RIGHT</code>, <code>MID</code>, <code>SPLIT([Customer Name], " ", 1)</code>, <code>CONTAINS</code>, <code>UPPER</code>, <code>TRIM</code>, <code>REPLACE</code></td>
+<td>First name</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td><code>ROUND</code>, <code>ABS</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>INT</code></td>
+<td>Rounding</td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>STR()</code>, <code>INT()</code>, <code>FLOAT()</code>, <code>DATE()</code></td>
+<td>Conversions</td>
+</tr>
+<tr>
+<td>Aggregates</td>
+<td><code>SUM</code>, <code>AVG</code>, <code>COUNT</code>, <code>COUNTD</code>, <code>MIN</code>, <code>MAX</code>, <code>MEDIAN</code>, <code>ATTR</code></td>
+<td><code>COUNTD([Order ID])</code> = orders</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">df[<span class="hl-s">&quot;ship_days&quot;</span>] = (df.ship_date - df.order_date).dt.days           <span class="hl-c"># DATEDIFF(&#x27;day&#x27;, [Order Date], [Ship Date])</span>
+df[<span class="hl-s">&quot;first_name&quot;</span>] = <span class="hl-f">df.customer_name.str.split</span>(<span class="hl-s">&quot; &quot;</span>).str[<span class="hl-n">0</span>]          <span class="hl-c"># SPLIT([Customer Name], &quot; &quot;, 1)</span>
+df[<span class="hl-s">&quot;order_size&quot;</span>] = <span class="hl-f">np.select</span>([df.sales &gt;= <span class="hl-n">50000</span>, df.sales &gt;= <span class="hl-n">10000</span>], [<span class="hl-s">&quot;Large&quot;</span>, <span class="hl-s">&quot;Medium&quot;</span>], <span class="hl-s">&quot;Small&quot;</span>)   <span class="hl-c"># IF/ELSEIF</span>
+<span class="hl-f">print</span>(<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;ship_mode&quot;</span>).<span class="hl-f">ship_days.mean</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>())
+<span class="hl-f">print</span>(<span class="hl-f">df.order_size.value_counts</span>().<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">ship_mode
+Same Day          0.0
+First Class       1.5
+Second Class      3.0
+Standard Class    5.6
+Name: ship_days, dtype: float64
+{&#x27;Small&#x27;: 3359, &#x27;Medium&#x27;: 1838, &#x27;Large&#x27;: 1126}</pre></div>
+<h2 id="tableau-03-table-calculations">Table calculations</h2>
+<p>A table calculation works on the <strong>numbers already in the view</strong>, so its result depends on the layout. Right-click a measure → <strong>Quick Table Calculation</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Quick table calc</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Running Total</td>
+<td>Cumulative sales through the year</td>
+</tr>
+<tr>
+<td>Difference / Percent Difference</td>
+<td>Month-on-month or year-on-year change</td>
+</tr>
+<tr>
+<td>Percent of Total</td>
+<td>Share of each category</td>
+</tr>
+<tr>
+<td>Rank</td>
+<td>Top products</td>
+</tr>
+<tr>
+<td>Percentile</td>
+<td>Position in a distribution</td>
+</tr>
+<tr>
+<td>Moving Average</td>
+<td>Smooth noisy monthly data (Edit → previous 2 values + current)</td>
+</tr>
+<tr>
+<td>YTD Total / YTD Growth / YoY Growth</td>
+<td>Financial reporting</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="tableau-03-compute-using-addressing-and-partitioning">Compute Using (addressing and partitioning)</h3>
+<p><strong>Compute Using</strong> tells Tableau the direction of the calculation. Fields it computes <em>along</em> are <strong>addressing</strong> fields; the remaining fields <strong>partition</strong> the view into separate calculations. Example: Category on Rows, MONTH on Columns, Running Total of Sales:</p>
+<ul>
+<li>Compute Using <strong>Table (across)</strong> → running total along months, restarting for each category (partitioned by Category).</li>
+<li>Compute Using <strong>Table (down)</strong> → running total down the categories within each month.</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = df[df.order_date.dt.year == <span class="hl-n">2025</span>].<span class="hl-f">assign</span>(month=<span class="hl-k">lambda</span> x: <span class="hl-f">x.order_date.dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>))
+t = <span class="hl-f">m.pivot_table</span>(index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;month&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e5
+running = <span class="hl-f">t.cumsum</span>(axis=<span class="hl-n">1</span>)              <span class="hl-c"># Table (across): restarts per category</span>
+<span class="hl-f">print</span>(running.iloc[:, [<span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, -<span class="hl-n">1</span>]].<span class="hl-f">round</span>(<span class="hl-n">1</span>))
+share = <span class="hl-f">t.sum</span>(axis=<span class="hl-n">1</span>) / <span class="hl-f">t.values.sum</span>() * <span class="hl-n">100</span>   <span class="hl-c"># Percent of Total, Table (down)</span>
+<span class="hl-f">print</span>((share).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">month            2025-01  2025-02  2025-03  2025-12
+category                                           
+Furniture           12.9     16.8     28.7    127.6
+Office Supplies      2.6      4.8      9.4     39.7
+Technology          38.0     70.8    119.4    616.5
+{&#x27;Furniture&#x27;: 16.3, &#x27;Office Supplies&#x27;: 5.1, &#x27;Technology&#x27;: 78.7}</pre></div>
+<p>Common table-calculation functions you write yourself: <code>RUNNING_SUM(SUM([Sales]))</code>, <code>WINDOW_AVG(SUM([Sales]), -2, 0)</code> (3-month moving average), <code>LOOKUP(SUM([Sales]), -1)</code> (previous value), <code>RANK(SUM([Sales]))</code>, <code>INDEX()</code>, <code>SIZE()</code>, <code>TOTAL(SUM([Sales]))</code>.</p>
+<p>YoY growth as a calculation: <code>(SUM([Sales]) - LOOKUP(SUM([Sales]), -1)) / ABS(LOOKUP(SUM([Sales]), -1))</code> with YEAR(Order Date) in the view.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">y = <span class="hl-f">df.groupby</span>(df.order_date.dt.year).<span class="hl-f">sales.sum</span>()
+<span class="hl-f">print</span>(((y / <span class="hl-f">y.shift</span>(<span class="hl-n">1</span>) - <span class="hl-n">1</span>) * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">dropna</span>().<span class="hl-f">to_dict</span>(), <span class="hl-s">&quot;% YoY&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{2024: 13.5, 2025: 19.8} % YoY</pre></div>
+<h2 id="tableau-03-level-of-detail-lod-expressions">Level of Detail (LOD) expressions</h2>
+<p>LODs compute an aggregate at a level <strong>you</strong> choose, regardless of the dimensions in the view.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{FIXED [Dim] : AGG([Measure])}</code></td>
+<td>Exactly at [Dim], ignoring the view (but after context filters)</td>
+<td><code>{FIXED [Customer ID] : MIN([Order Date])}</code> first purchase</td>
+</tr>
+<tr>
+<td><code>{INCLUDE [Dim] : AGG(...)}</code></td>
+<td>View's dimensions <strong>plus</strong> [Dim]</td>
+<td>Average sales <strong>per customer</strong> by region</td>
+</tr>
+<tr>
+<td><code>{EXCLUDE [Dim] : AGG(...)}</code></td>
+<td>View's dimensions <strong>minus</strong> [Dim]</td>
+<td>Region total next to each category, for % of region</td>
+</tr>
+<tr>
+<td><code>{ : SUM([Sales])}</code></td>
+<td>Table-scoped (grand total)</td>
+<td>% of grand total without table calcs</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="tableau-03-fixed-customer-cohorts-by-first-purchase-year">FIXED: customer cohorts by first-purchase year</h3>
+<p><code>[First Purchase] = {FIXED [Customer ID] : MIN([Order Date])}</code>, then <code>YEAR([First Purchase])</code> on Rows and <code>COUNTD([Customer ID])</code> gives new customers per year: an acquisition cohort.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">first = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">order_date.min</span>().<span class="hl-f">rename</span>(<span class="hl-s">&quot;first_purchase&quot;</span>)
+d2 = <span class="hl-f">df.merge</span>(first, on=<span class="hl-s">&quot;customer_id&quot;</span>)
+cohort = <span class="hl-f">d2.groupby</span>([<span class="hl-f">d2.first_purchase.dt.year.rename</span>(<span class="hl-s">&quot;cohort&quot;</span>), <span class="hl-f">d2.order_date.dt.year.rename</span>(<span class="hl-s">&quot;order year&quot;</span>)]).<span class="hl-f">customer_id.nunique</span>().<span class="hl-f">unstack</span>(fill_value=<span class="hl-n">0</span>)
+cohort</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order year</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+    </tr>
+    <tr>
+      <th>cohort</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2023</th>
+      <td>540</td>
+      <td>397</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>0</td>
+      <td>193</td>
+      <td>156</td>
+    </tr>
+    <tr>
+      <th>2025</th>
+      <td>0</td>
+      <td>0</td>
+      <td>52</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<p>Read it row by row: customers acquired in 2023 (first row) and how many of them bought again in 2024 and 2025. This retention table is a favourite interview task.</p>
+<h3 id="tableau-03-include-average-sales-per-customer-by-region">INCLUDE: average sales per customer by region</h3>
+<p><code>AVG({INCLUDE [Customer ID] : SUM([Sales])})</code> with Region in the view first sums sales per customer <em>within</em> each region, then averages those customer totals.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">per_cust = <span class="hl-f">df.groupby</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;customer_id&quot;</span>]).<span class="hl-f">sales.sum</span>().<span class="hl-f">groupby</span>(<span class="hl-s">&quot;region&quot;</span>).<span class="hl-f">mean</span>() / 1e3
+<span class="hl-f">print</span>((per_cust).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">rename</span>(<span class="hl-s">&quot;avg sales per customer (₹ thousand)&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">region
+East     238.4
+North    263.5
+South    261.9
+West     262.4
+Name: avg sales per customer (₹ thousand), dtype: float64</pre></div>
+<h3 id="tableau-03-exclude-share-of-the-region">EXCLUDE: share of the region</h3>
+<p>With Region and Category in the view, <code>SUM([Sales]) / SUM({EXCLUDE [Category] : SUM([Sales])})</code> gives each category's share of its region.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rc = <span class="hl-f">df.groupby</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>]).<span class="hl-f">sales.sum</span>()
+(rc / <span class="hl-f">rc.groupby</span>(level=<span class="hl-n">0</span>).<span class="hl-f">transform</span>(<span class="hl-s">&quot;sum&quot;</span>) * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">unstack</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>Furniture</th>
+      <th>Office Supplies</th>
+      <th>Technology</th>
+    </tr>
+    <tr>
+      <th>region</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>East</th>
+      <td>17.1</td>
+      <td>5.9</td>
+      <td>77.1</td>
+    </tr>
+    <tr>
+      <th>North</th>
+      <td>16.3</td>
+      <td>4.5</td>
+      <td>79.2</td>
+    </tr>
+    <tr>
+      <th>South</th>
+      <td>17.8</td>
+      <td>4.6</td>
+      <td>77.6</td>
+    </tr>
+    <tr>
+      <th>West</th>
+      <td>18.0</td>
+      <td>5.2</td>
+      <td>76.8</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<h2 id="tableau-03-order-of-operations">Order of operations</h2>
+<p>Filters and calculations run in a fixed order. This explains most "why did my number not change?" questions:</p>
+<figure class="fig"><img src="../img/tableau-03-02.png" alt="Tableau&#x27;s order of operations (simplified). FIXED LODs ignore normal dimension filters unless the filter is added to context." loading="lazy"><figcaption>Tableau's order of operations (simplified). FIXED LODs ignore normal dimension filters unless the filter is added to context.</figcaption></figure>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Make a FIXED LOD respect a filter</b></div><p>A FIXED LOD is computed before dimension filters, so filtering Region does not change <code>{FIXED [Customer ID] : MIN([Order Date])}</code>. To make it respect the filter, right-click the filter → <strong>Add to Context</strong>.</p></div>
+<h2 id="tableau-03-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Row-level calculations run per row; aggregate calculations run on marks: compute margins as SUM/SUM.</li>
+<li>Table calculations work on the view's numbers; Compute Using sets the direction (addressing) and the restart points (partitioning).</li>
+<li>FIXED sets an exact level; INCLUDE adds a level; EXCLUDE removes one.</li>
+<li>FIXED LODs run before dimension filters; use context filters when they must respect a filter.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which formula gives the correct profit margin for a category?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SUM([Profit]) / SUM([Sales])</button><button type="button" class="opt" data-ok="0"><i>B</i>AVG([Profit] / [Sales])</button><button type="button" class="opt" data-ok="0"><i>C</i>[Profit] / [Sales] summed</button><button type="button" class="opt" data-ok="0"><i>D</i>MAX([Profit]) / MAX([Sales])</button></div><div class="qexp"><b>Answer: A.</b> Divide the totals; do not average row ratios.</div></div><div class="qq"><p class="qtext"><b>2.</b> You want each customer's first order date regardless of the view. Which expression?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>{FIXED [Customer ID] : MIN([Order Date])}</button><button type="button" class="opt" data-ok="0"><i>B</i>{INCLUDE [Customer ID] : MIN([Order Date])}</button><button type="button" class="opt" data-ok="0"><i>C</i>RUNNING_MIN([Order Date])</button><button type="button" class="opt" data-ok="0"><i>D</i>MIN([Order Date])</button></div><div class="qexp"><b>Answer: A.</b> FIXED computes at exactly the customer level.</div></div><div class="qq"><p class="qtext"><b>3.</b> A running total restarts for every category. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Category is partitioning the calculation (Compute Using is across months)</button><button type="button" class="opt" data-ok="0"><i>B</i>The data is wrong</button><button type="button" class="opt" data-ok="0"><i>C</i>It is a FIXED LOD</button><button type="button" class="opt" data-ok="0"><i>D</i>The filter is in context</button></div><div class="qexp"><b>Answer: A.</b> Fields not used for addressing partition the calculation.</div></div><div class="qq"><p class="qtext"><b>4.</b> Your FIXED LOD ignores the Region filter. How do you fix it?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Add the Region filter to context</button><button type="button" class="opt" data-ok="0"><i>B</i>Use a measure filter</button><button type="button" class="opt" data-ok="0"><i>C</i>Change to a table calculation</button><button type="button" class="opt" data-ok="0"><i>D</i>Hide the field</button></div><div class="qexp"><b>Answer: A.</b> Context filters run before FIXED LODs.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which table-calculation function returns the previous value in the partition?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>LOOKUP(SUM([Sales]), -1)</button><button type="button" class="opt" data-ok="0"><i>B</i>INDEX()</button><button type="button" class="opt" data-ok="0"><i>C</i>SIZE()</button><button type="button" class="opt" data-ok="0"><i>D</i>TOTAL(SUM([Sales]))</button></div><div class="qexp"><b>Answer: A.</b> LOOKUP with offset −1 looks one mark back.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which expression gives each category's share of its region with Region and Category in the view?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SUM([Sales]) / SUM({EXCLUDE [Category] : SUM([Sales])})</button><button type="button" class="opt" data-ok="0"><i>B</i>SUM([Sales]) / SUM([Sales])</button><button type="button" class="opt" data-ok="0"><i>C</i>{FIXED [Category] : SUM([Sales])}</button><button type="button" class="opt" data-ok="0"><i>D</i>RANK(SUM([Sales]))</button></div><div class="qexp"><b>Answer: A.</b> EXCLUDE removes Category, leaving the region total.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Create: (1) a "Profit status" field that labels each sub-category Loss or Profit and colour a bar chart with it; (2) a 3-month moving average of monthly sales; (3) a cohort table of customers by first-purchase year and order year; (4) a percent-of-region field with EXCLUDE; (5) a Top-N rank of products by profit.</p><details class="sol"><summary>Show solution</summary><p>(1) <code>IF SUM([Profit]) &lt; 0 THEN "Loss" ELSE "Profit" END</code> on Color. (2) <code>WINDOW_AVG(SUM([Sales]), -2, 0)</code> with continuous MONTH on Columns. (3) <code>{FIXED [Customer ID] : MIN([Order Date])}</code>, YEAR of it on Rows, YEAR(Order Date) on Columns, COUNTD([Customer ID]) on Text. (4) As in the lesson. (5) <code>RANK(SUM([Profit]))</code> computed along Product Name, then filter rank ≤ 10 (a table-calculation filter).</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain FIXED, INCLUDE and EXCLUDE.</strong>
+FIXED aggregates at exactly the listed dimensions, ignoring the view; INCLUDE adds dimensions to the view's level (finer), then the result is re-aggregated; EXCLUDE removes dimensions from the view's level (coarser). FIXED runs before dimension filters; INCLUDE and EXCLUDE run after them.</p>
+<p><strong>Q: Table calculation vs LOD expression?</strong>
+A table calculation runs last, on the aggregated numbers in the view, and depends on layout (Compute Using). An LOD runs in the data source query at a level you define and can be used as a dimension, e.g. for cohorts.</p>
+<p><strong>Q: Why might a running total be wrong?</strong>
+Usually Compute Using: it is computing along the wrong field, or a dimension is partitioning it. Check Edit Table Calculation → Specific Dimensions and the sort order.</p></div></div></article><article class="lesson-art bk" id="L-tableau-04"><div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 4</div><h1>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</h1>
+<p class="sum">Control what a view shows and let users interact with it. Learn every filter type and where it sits in the order of operations, context filters and Top N, groups, hierarchies, bins, sets (fixed, conditional, top) and combined sets, and parameters for dynamic Top N, measure swapping and what-if analysis.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Use dimension, measure, date, context, data-source and table-calculation filters correctly</li><li>Build hierarchies and groups, and explain groups vs sets</li><li>Create fixed, conditional and Top N sets and use IN/OUT in calculations</li><li>Create parameters for Top N, measure selection and what-if discount scenarios</li><li>Combine filters, sets and parameters into interactive views</li></ul></div></div><div class="content"><h2 id="tableau-04-filters">Filters</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Filter</th>
+<th>How</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dimension</strong> filter</td>
+<td>Drag a dimension to Filters → General / Wildcard / Condition / Top tabs</td>
+<td>e.g. Region = South</td>
+</tr>
+<tr>
+<td><strong>Measure</strong> filter</td>
+<td>Drag a measure to Filters → choose aggregation → range</td>
+<td>e.g. SUM(Profit) &lt; 0 (loss-making items)</td>
+</tr>
+<tr>
+<td><strong>Date</strong> filter</td>
+<td>Relative dates (last 3 months), range of dates, or discrete years/months</td>
+<td>Relative dates update automatically</td>
+</tr>
+<tr>
+<td><strong>Context</strong> filter</td>
+<td>Right-click a filter → Add to Context (grey pill)</td>
+<td>Runs first; Top N and FIXED LODs respect it</td>
+</tr>
+<tr>
+<td><strong>Data source</strong> filter</td>
+<td>Data Source page → Filters → Add</td>
+<td>Applies to every sheet; good for security and speed</td>
+</tr>
+<tr>
+<td><strong>Extract</strong> filter</td>
+<td>When creating an extract</td>
+<td>Shrinks the extract itself</td>
+</tr>
+<tr>
+<td><strong>Table-calc</strong> filter</td>
+<td>Filter on a table calc such as <code>LAST()=0</code> or rank</td>
+<td>Hides marks without changing other calculations</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Show Filter</strong> (right-click the pill → Show Filter) puts an interactive control on the sheet: single value list, dropdown, multiple values, slider, wildcard match. <strong>Apply to Worksheets → All Using This Data Source / Selected Worksheets</strong> makes one filter drive several sheets on a dashboard.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+loss = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">profit.sum</span>().<span class="hl-f">sort_values</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Loss-making sub-categories (measure filter SUM(Profit) &lt; 0):&quot;</span>)
+<span class="hl-f">print</span>((loss[loss &lt; <span class="hl-n">0</span>] / 1e5).<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Loss-making sub-categories (measure filter SUM(Profit) &lt; 0):
+sub_category
+Tables      -8.2
+Bookcases   -4.2
+Name: profit, dtype: float64</pre></div>
+<h3 id="tableau-04-top-n-and-context">Top N and context</h3>
+<p>Top N is computed <strong>after</strong> context filters but <strong>before</strong> ordinary dimension filters. So "Top 5 products <strong>in the South</strong>" needs the Region filter in context; otherwise Tableau finds the national Top 5 first and then keeps only those that happen to be in the South.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">top_all = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>).<span class="hl-f">sales.sum</span>().<span class="hl-f">nlargest</span>(<span class="hl-n">5</span>)
+south = df[df.region == <span class="hl-s">&quot;South&quot;</span>]
+top_south = <span class="hl-f">south.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>).<span class="hl-f">sales.sum</span>().<span class="hl-f">nlargest</span>(<span class="hl-n">5</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;National top 5:&quot;</span>, <span class="hl-f">list</span>(top_all.index))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;South top 5 (Region in context):&quot;</span>, <span class="hl-f">list</span>(top_south.index))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Overlap:&quot;</span>, <span class="hl-f">len</span>(<span class="hl-f">set</span>(top_all.index) &amp; <span class="hl-f">set</span>(top_south.index)), <span class="hl-s">&quot;of 5&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">National top 5: [&#x27;Orbit Copier 746&#x27;, &#x27;Apex Copier 347&#x27;, &#x27;Vertex Copier 262&#x27;, &#x27;Zenith Copier 719&#x27;, &#x27;Zenith Machine 401&#x27;]
+South top 5 (Region in context): [&#x27;Orbit Copier 746&#x27;, &#x27;Vertex Copier 262&#x27;, &#x27;Zenith Machine 401&#x27;, &#x27;Apex Copier 347&#x27;, &#x27;Pioneer Copier 366&#x27;]
+Overlap: 4 of 5</pre></div>
+<h2 id="tableau-04-hierarchies-groups-and-bins">Hierarchies, groups and bins</h2>
+<ul>
+<li><strong>Hierarchy</strong>: drag Sub-Category onto Category in the Data pane → name it "Product hierarchy". A <strong>+</strong> on the pill drills down. Date fields have a built-in Year → Quarter → Month → Day hierarchy.</li>
+<li><strong>Group</strong>: select marks or right-click a field → Create → Group, e.g. group Indian states into "North-East". A group is a new dimension; its members are fixed.</li>
+<li><strong>Bins</strong>: equal-width buckets of a measure (Lesson 2).</li>
+</ul>
+<h2 id="tableau-04-sets">Sets</h2>
+<p>A <strong>set</strong> is a subset of a dimension that is either <strong>IN</strong> or <strong>OUT</strong>.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Set type</th>
+<th>Created by</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixed (manual)</td>
+<td>Select members</td>
+<td>Six key accounts</td>
+</tr>
+<tr>
+<td>Conditional</td>
+<td>Condition tab, e.g. SUM(Profit) &gt; 0</td>
+<td>Profitable customers</td>
+</tr>
+<tr>
+<td>Top</td>
+<td>Top tab, e.g. Top 10 by SUM(Sales)</td>
+<td>Top 10 customers</td>
+</tr>
+<tr>
+<td>Combined</td>
+<td>Two sets → Create Combined Set (union, intersection, difference)</td>
+<td>Top customers who are also unprofitable</td>
+</tr>
+</tbody>
+</table></div>
+<p>Use a set on <strong>Color</strong> to show IN vs OUT, on Filters to keep only members, or in calculations: <code>IF [Top Customers] THEN [Sales] END</code>. <strong>Set actions</strong> (Lesson 6) let users change a set by clicking marks.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cust = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+top10 = <span class="hl-f">cust.sales.nlargest</span>(<span class="hl-n">10</span>).index
+in_set = <span class="hl-f">cust.index.isin</span>(top10)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Top 10 customers (IN): {cust.sales[in_set].sum() / cust.sales.sum():.1%} of sales&quot;</span>)
+unprofitable = cust.index[cust.profit &lt; <span class="hl-n">0</span>]
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Customers in Top 10 AND unprofitable (combined set, intersection):&quot;</span>, <span class="hl-f">len</span>(<span class="hl-f">set</span>(top10) &amp; <span class="hl-f">set</span>(unprofitable)))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;All unprofitable customers:&quot;</span>, <span class="hl-f">len</span>(unprofitable), <span class="hl-s">&quot;of&quot;</span>, <span class="hl-f">len</span>(cust))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Top 10 customers (IN): 5.3% of sales
+Customers in Top 10 AND unprofitable (combined set, intersection): 1
+All unprofitable customers: 142 of 785</pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Groups vs sets</b></div><p>A <strong>group</strong> combines members into new categories (many buckets, fixed). A <strong>set</strong> splits a dimension into IN/OUT, can be dynamic (conditional or Top N) and can be changed by users with set actions.</p></div>
+<h2 id="tableau-04-parameters">Parameters</h2>
+<p>A <strong>parameter</strong> is a single user-controlled value (number, string, date or list) that does nothing until a calculation, filter or reference line uses it. Right-click → <strong>Show Parameter</strong>.</p>
+<h3 id="tableau-04-1-dynamic-top-n">1. Dynamic Top N</h3>
+<ol>
+<li>Create parameter <strong>Top N</strong> (integer, range 5–20, step 5).</li>
+<li>Product Name filter → Top tab → By field → Top <strong>[Top N]</strong> by SUM(Sales).</li>
+<li>Show the parameter: users choose 5, 10, 15 or 20.</li>
+</ol>
+<h3 id="tableau-04-2-measure-swap">2. Measure swap</h3>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">// Parameter &quot;Choose measure&quot;: list of strings Sales, Profit, Quantity
+CASE [Choose measure]
+WHEN &quot;Sales&quot; THEN SUM([Sales])
+WHEN &quot;Profit&quot; THEN SUM([Profit])
+WHEN &quot;Quantity&quot; THEN SUM([Quantity])
+END</code></pre></div>
+<p>Put this calculated field on the axis; one chart now shows whichever measure the user picks. Use a dynamic title: <code>&lt;Parameters.Choose measure&gt; by Region</code>.</p>
+<h3 id="tableau-04-3-what-if-extra-discount">3. What-if: extra discount</h3>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">// Parameter &quot;Extra discount&quot; : float 0.00–0.20
+[Sales] * (1 - [Extra discount])                     // projected sales
+[Profit] - [Sales] * [Extra discount]                // projected profit</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> extra <span class="hl-k">in</span> (<span class="hl-n">0</span>, .<span class="hl-n">05</span>, .<span class="hl-n">10</span>):
+    proj_profit = (df.profit - df.sales * extra).<span class="hl-f">sum</span>()
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;extra discount {extra:.0%}: projected profit ₹{proj_profit / 1e7:.2f} crore&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">extra discount 0%: projected profit ₹1.84 crore
+extra discount 5%: projected profit ₹0.83 crore
+extra discount 10%: projected profit ₹-0.18 crore</pre></div>
+<p>With margins around 9%, a further 10% discount turns the whole business loss-making. That is exactly the kind of insight a what-if parameter makes obvious to a manager.</p>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Dynamic parameters and zone visibility</b></div><p>Parameters can refresh their list and default value from a field when the workbook opens (<em>When workbook opens → value of field</em>). Combined with <strong>dynamic zone visibility</strong> (show or hide a dashboard container based on a boolean field or parameter), they power menus and drill-in panels without bookmarks.</p></div>
+<h2 id="tableau-04-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Pick the right filter level: data source → context → dimension → measure → table calc.</li>
+<li>Top N and FIXED LODs ignore normal dimension filters unless those filters are in context.</li>
+<li>Groups make fixed buckets; sets make IN/OUT subsets that can be dynamic and combined.</li>
+<li>Parameters are user inputs: wire them into filters, calculations, titles and reference lines.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> You need "Top 10 products within the selected region". What must you do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Add the Region filter to context</button><button type="button" class="opt" data-ok="0"><i>B</i>Use a measure filter</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a group</button><button type="button" class="opt" data-ok="0"><i>D</i>Hide the other regions</button></div><div class="qexp"><b>Answer: A.</b> Top N runs before normal dimension filters.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which object can a user change by clicking marks on a dashboard?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A set (through a set action)</button><button type="button" class="opt" data-ok="0"><i>B</i>A group</button><button type="button" class="opt" data-ok="0"><i>C</i>A bin</button><button type="button" class="opt" data-ok="0"><i>D</i>A hierarchy</button></div><div class="qexp"><b>Answer: A.</b> Set actions update set membership.</div></div><div class="qq"><p class="qtext"><b>3.</b> A parameter on its own does nothing. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It must be referenced by a calculation, filter or reference line</button><button type="button" class="opt" data-ok="0"><i>B</i>It needs an extract</button><button type="button" class="opt" data-ok="0"><i>C</i>It must be added to context</button><button type="button" class="opt" data-ok="0"><i>D</i>It only works on Tableau Server</button></div><div class="qexp"><b>Answer: A.</b> Parameters are inputs that something must use.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which filter applies to every sheet using the data source and is good for row-level restrictions?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Data source filter</button><button type="button" class="opt" data-ok="0"><i>B</i>Table-calculation filter</button><button type="button" class="opt" data-ok="0"><i>C</i>Measure filter</button><button type="button" class="opt" data-ok="0"><i>D</i>Page shelf</button></div><div class="qexp"><b>Answer: A.</b> Data source filters run near the start for all sheets.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which set type keeps the 10 largest customers by sales, updating as data changes?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Top set</button><button type="button" class="opt" data-ok="0"><i>B</i>Fixed set</button><button type="button" class="opt" data-ok="0"><i>C</i>Group</button><button type="button" class="opt" data-ok="0"><i>D</i>Combined set</button></div><div class="qexp"><b>Answer: A.</b> The Top tab makes a dynamic set.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which calculation swaps the measure shown in a chart?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A CASE on a string parameter returning SUM([Sales]), SUM([Profit]) or SUM([Quantity])</button><button type="button" class="opt" data-ok="0"><i>B</i>A FIXED LOD</button><button type="button" class="opt" data-ok="0"><i>C</i>A group</button><button type="button" class="opt" data-ok="0"><i>D</i>A data source filter</button></div><div class="qexp"><b>Answer: A.</b> The parameter value chooses the branch.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Build: (1) a dynamic Top N products chart with a parameter and Region in context; (2) a Top 20 customers set shown on Color in a scatter of Sales vs Profit; (3) a measure-swap chart with a dynamic title; (4) a what-if discount parameter showing projected profit by Category.</p><details class="sol"><summary>Show solution</summary><p>Follow the three parameter recipes. For (2): Customer Name on Detail, SUM(Sales) and SUM(Profit) on the axes, the Top 20 set on Color. For (4): a "Projected profit" calculated field <code>SUM([Profit]) - SUM([Sales]) * [Extra discount]</code> by Category with the parameter shown as a slider.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between a set and a group?</strong>
+A group merges members into new categories and is static; a set divides members into IN/OUT, can be conditional or Top N, can be combined with other sets and changed through set actions.</p>
+<p><strong>Q: What is a context filter and when do you use it?</strong>
+A filter that runs before other dimension filters, Top N filters and FIXED LODs. Use it for dependent Top N, to make FIXED LODs respect a filter, and to speed up large workbooks by reducing the data early.</p>
+<p><strong>Q: Parameter vs filter?</strong>
+A filter removes data; a parameter is a single input value that you can use anywhere: in calculations, Top N, reference lines, titles, or to swap measures and dimensions.</p></div></div></article><article class="lesson-art bk" id="L-tableau-05"><div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 5</div><h1>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</h1>
+<p class="sum">Combine and shape data in Tableau. Understand the logical layer (relationships) and the physical layer (joins), when to union or blend, how row duplication inflates totals, live connections vs extracts, data interpreter and pivoting, and how Tableau Prep Builder cleans data in repeatable flows, using the Adventure Cycles star schema.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build a relationships-based data model and explain why it avoids duplicated totals</li><li>Choose between relationships, joins, unions and blends</li><li>Pivot, split and clean data on the Data Source page and in Tableau Prep</li><li>Decide between live connections and extracts, and plan refreshes</li><li>Explain the logical vs physical layer in an interview</li></ul></div></div><div class="content"><h2 id="tableau-05-the-two-layers-of-a-tableau-data-source">The two layers of a Tableau data source</h2>
+<figure class="fig"><img src="../img/tableau-05-01.png" alt="Relationships live in the logical layer; joins and unions live inside a logical table (physical layer)." loading="lazy"><figcaption>Relationships live in the logical layer; joins and unions live inside a logical table (physical layer).</figcaption></figure>
+<p>When you drag a second table onto the canvas, Tableau draws a <strong>relationship</strong> (a flexible "noodle") and asks for the matching fields. Tableau then generates the right join for each sheet, using only the tables that sheet needs and aggregating each table at its own level.</p>
+<h2 id="tableau-05-the-adventure-cycles-star-schema">The Adventure Cycles star schema</h2>
+<p>The same star schema used in the Power BI lessons: one fact table of 9,000 sales lines and four dimension tables.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+base = <span class="hl-s">&quot;adventure_cycles/&quot;</span>
+fact = <span class="hl-f">pd.read_csv</span>(base + <span class="hl-s">&quot;fact_sales.csv&quot;</span>)
+dims = {n: <span class="hl-f">pd.read_csv</span>(base + <span class="hl-s">f&quot;dim_{n}.csv&quot;</span>) <span class="hl-k">for</span> n <span class="hl-k">in</span> [<span class="hl-s">&quot;product&quot;</span>, <span class="hl-s">&quot;territory&quot;</span>, <span class="hl-s">&quot;customer&quot;</span>, <span class="hl-s">&quot;date&quot;</span>]}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;fact_sales:&quot;</span>, fact.shape, <span class="hl-f">list</span>(fact.columns))
+<span class="hl-k">for</span> n, d <span class="hl-k">in</span> <span class="hl-f">dims.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;dim_{n}:&quot;</span>, d.shape, <span class="hl-f">list</span>(d.columns)[:<span class="hl-n">6</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">fact_sales: (9000, 9) [&#x27;order_number&#x27;, &#x27;order_date&#x27;, &#x27;product_key&#x27;, &#x27;customer_key&#x27;, &#x27;territory_key&#x27;, &#x27;quantity&#x27;, &#x27;unit_price&#x27;, &#x27;sales_amount&#x27;, &#x27;total_cost&#x27;]
+dim_product: (45, 6) [&#x27;product_key&#x27;, &#x27;product&#x27;, &#x27;subcategory&#x27;, &#x27;category&#x27;, &#x27;list_price&#x27;, &#x27;standard_cost&#x27;]
+dim_territory: (6, 3) [&#x27;territory_key&#x27;, &#x27;territory&#x27;, &#x27;country&#x27;]
+dim_customer: (1200, 5) [&#x27;customer_key&#x27;, &#x27;customer_name&#x27;, &#x27;gender&#x27;, &#x27;age_band&#x27;, &#x27;territory_key&#x27;]
+dim_date: (1096, 6) [&#x27;date&#x27;, &#x27;year&#x27;, &#x27;quarter&#x27;, &#x27;month_no&#x27;, &#x27;month&#x27;, &#x27;weekday&#x27;]</pre></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build the model with relationships</b></div><ol>
+<li>Connect to the folder of CSVs (Text file → choose <code>fact_sales.csv</code>). Drag it to the canvas.</li>
+<li>Drag <code>dim_product.csv</code> next to it; Tableau suggests the relationship on the shared key (ProductKey). Check it in the relationship dialog.</li>
+<li>Repeat for territory, customer and date.</li>
+<li>Go to a sheet: the Data pane shows each table as a folder. Build Sales by Category: Tableau relates only fact and product for this view.</li>
+</ol></div>
+<h2 id="tableau-05-why-joins-can-inflate-totals">Why joins can inflate totals</h2>
+<p>A join merges tables <strong>before</strong> aggregation. If a table on one side has several matching rows, the other side's rows are repeated, and SUM counts them more than once. Relationships avoid this because each table is aggregated at its own level before combining.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A targets table at territory + year level (one row per territory per year), related to line-level sales</span>
+fact[<span class="hl-s">&quot;year&quot;</span>] = <span class="hl-f">pd.to_datetime</span>(fact.order_date).dt.year
+targets = fact[[<span class="hl-s">&quot;territory_key&quot;</span>, <span class="hl-s">&quot;year&quot;</span>]].<span class="hl-f">drop_duplicates</span>().<span class="hl-f">assign</span>(target=10_00_00_000)   <span class="hl-c"># ₹10 crore each</span>
+joined = <span class="hl-f">fact.merge</span>(targets, on=[<span class="hl-s">&quot;territory_key&quot;</span>, <span class="hl-s">&quot;year&quot;</span>])                                 <span class="hl-c"># physical join at line level</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;territories x years:&quot;</span>, <span class="hl-f">len</span>(targets), <span class="hl-s">&quot;| sales lines:&quot;</span>, <span class="hl-f">len</span>(fact))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;true total target: ₹&quot;</span>, <span class="hl-s">f&quot;{targets.target.sum():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;SUM(target) after a row-level join: ₹&quot;</span>, <span class="hl-s">f&quot;{joined.target.sum():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;inflation factor:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">joined.target.sum</span>() / <span class="hl-f">targets.target.sum</span>()), <span class="hl-s">&quot;x&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">territories x years: 18 | sales lines: 9000
+true total target: ₹ 1,800,000,000
+SUM(target) after a row-level join: ₹ 900,000,000,000
+inflation factor: 500 x</pre></div>
+<p>The join repeats each territory's target once per sales line, so SUM(target) is wildly overstated. With a <strong>relationship</strong> between the sales table and a targets table on territory and year, Tableau aggregates targets at their own level and the total is correct.</p>
+<h2 id="tableau-05-relationships-joins-unions-and-blends">Relationships, joins, unions and blends</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Combines</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Relationship</strong></td>
+<td>Tables at different levels, related on keys</td>
+<td>Default for star schemas and multi-level data</td>
+</tr>
+<tr>
+<td><strong>Join</strong> (inner, left, right, full)</td>
+<td>Columns from tables into one flat table</td>
+<td>Same grain, or when you need row-level calcs across tables</td>
+</tr>
+<tr>
+<td><strong>Union</strong></td>
+<td>Rows of tables with the same columns</td>
+<td>Monthly files, one sheet per year</td>
+</tr>
+<tr>
+<td><strong>Blend</strong></td>
+<td>Two separate data sources, linked in a sheet on a common dimension (orange chain icon)</td>
+<td>Sources that cannot be joined (e.g. a Google Sheet of targets with a SQL database); aggregated before linking</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Wildcard union</b></div><p>On the Data Source page, drag <strong>New Union</strong> onto a table and choose <strong>Wildcard (automatic)</strong> with a pattern such as <code>sales_2025_*.csv</code>. Every new monthly file in the folder is picked up on refresh, and Tableau adds a <em>Path</em> or <em>Sheet</em> column so you know where each row came from.</p></div>
+<h2 id="tableau-05-cleaning-on-the-data-source-page">Cleaning on the Data Source page</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Messy Excel with titles, blank rows, merged cells</td>
+<td><strong>Use Data Interpreter</strong></td>
+</tr>
+<tr>
+<td>Months as columns (Jan, Feb, …)</td>
+<td>Select the columns → <strong>Pivot</strong> → rename "Pivot Field Names" to Month</td>
+</tr>
+<tr>
+<td>"City, State" in one column</td>
+<td>Column menu → <strong>Split</strong> / Custom Split</td>
+</tr>
+<tr>
+<td>Wrong types</td>
+<td>Click the type icon</td>
+</tr>
+<tr>
+<td>Unneeded columns</td>
+<td>Hide</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">wide = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;region&quot;</span>: [<span class="hl-s">&quot;East&quot;</span>, <span class="hl-s">&quot;North&quot;</span>], <span class="hl-s">&quot;Jan&quot;</span>: [<span class="hl-n">120</span>, <span class="hl-n">140</span>], <span class="hl-s">&quot;Feb&quot;</span>: [<span class="hl-n">130</span>, <span class="hl-n">150</span>], <span class="hl-s">&quot;Mar&quot;</span>: [<span class="hl-n">125</span>, <span class="hl-n">160</span>]})
+long = <span class="hl-f">wide.melt</span>(id_vars=<span class="hl-s">&quot;region&quot;</span>, var_name=<span class="hl-s">&quot;month&quot;</span>, value_name=<span class="hl-s">&quot;sales&quot;</span>)   <span class="hl-c"># Tableau Pivot</span>
+<span class="hl-f">print</span>(wide, <span class="hl-s">&quot;\n&quot;</span>); <span class="hl-f">print</span>(long)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region  Jan  Feb  Mar
+0   East  120  130  125
+1  North  140  150  160 
+
+  region month  sales
+0   East   Jan    120
+1  North   Jan    140
+2   East   Feb    130
+3  North   Feb    150
+4   East   Mar    125
+5  North   Mar    160</pre></div>
+<h2 id="tableau-05-live-connection-vs-extract">Live connection vs extract</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Live</th>
+<th>Extract (.hyper)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Freshness</td>
+<td>Always current</td>
+<td>As of the last refresh</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Depends on the database</td>
+<td>Fast, columnar, compressed</td>
+</tr>
+<tr>
+<td>Works offline</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Good for</td>
+<td>Real-time ops, governed warehouses with fast engines (Snowflake, BigQuery, Databricks)</td>
+<td>Most dashboards, files, slow sources, Tableau Public</td>
+</tr>
+<tr>
+<td>Refresh</td>
+<td>Not needed</td>
+<td>Full or incremental, scheduled on Tableau Cloud/Server</td>
+</tr>
+</tbody>
+</table></div>
+<p>Extract options: keep only needed fields (<strong>Hide all unused fields</strong>), add extract filters, aggregate to visible dimensions, and use <strong>incremental refresh</strong> on a date or ID column for large tables.</p>
+<h2 id="tableau-05-tableau-prep-builder">Tableau Prep Builder</h2>
+<p>Prep is a separate app for repeatable cleaning flows. A flow is a left-to-right chain of steps:</p>
+<figure class="fig"><img src="../img/tableau-05-02.png" alt="A typical Tableau Prep flow." loading="lazy"><figcaption>A typical Tableau Prep flow.</figcaption></figure>
+<p>Useful steps: <strong>Clean</strong> (profile pane shows each field's distribution; fix types, trim spaces, <em>Group and Replace</em> to merge spelling variants such as "Bengaluru"/"Bangalore"), <strong>Aggregate</strong>, <strong>Pivot</strong> (columns to rows and back), <strong>Join</strong> (with a join-clause summary that shows unmatched rows), <strong>Union</strong>, <strong>New Rows</strong> (fill missing dates) and <strong>Script</strong> (Python/R). Outputs can be scheduled with Tableau Prep Conductor on Cloud/Server.</p>
+<h2 id="tableau-05-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Relationships (logical layer) are the default; they join at query time at the right level and avoid duplicated totals.</li>
+<li>Joins flatten tables first and can inflate SUMs when grains differ; unions stack rows; blends link separate sources per sheet.</li>
+<li>Use Data Interpreter, Pivot and Split for quick fixes; use Tableau Prep for repeatable flows.</li>
+<li>Extracts are fast snapshots; live connections are always current.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Sales lines are joined to a territory-level targets table and SUM(Target) is far too high. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The join repeated each target once per sales line</button><button type="button" class="opt" data-ok="0"><i>B</i>Targets are text</button><button type="button" class="opt" data-ok="0"><i>C</i>The extract is stale</button><button type="button" class="opt" data-ok="0"><i>D</i>A context filter is missing</button></div><div class="qexp"><b>Answer: A.</b> Different grains duplicate rows; use a relationship.</div></div><div class="qq"><p class="qtext"><b>2.</b> Twelve monthly CSVs with identical columns should be combined. Which method?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Union (ideally a wildcard union)</button><button type="button" class="opt" data-ok="0"><i>B</i>Join</button><button type="button" class="opt" data-ok="0"><i>C</i>Blend</button><button type="button" class="opt" data-ok="0"><i>D</i>Relationship</button></div><div class="qexp"><b>Answer: A.</b> Unions stack rows of same-shaped tables.</div></div><div class="qq"><p class="qtext"><b>3.</b> When is data blending the right choice?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When two sources cannot be joined in one data source and you link them on a common dimension in a sheet</button><button type="button" class="opt" data-ok="0"><i>B</i>For every star schema</button><button type="button" class="opt" data-ok="0"><i>C</i>To union files</button><button type="button" class="opt" data-ok="0"><i>D</i>To speed up extracts</button></div><div class="qexp"><b>Answer: A.</b> Blends combine separate sources after aggregation.</div></div><div class="qq"><p class="qtext"><b>4.</b> Your Excel sheet has a title row and merged headers. What helps first?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Data Interpreter</button><button type="button" class="opt" data-ok="0"><i>B</i>A FIXED LOD</button><button type="button" class="opt" data-ok="0"><i>C</i>A parameter</button><button type="button" class="opt" data-ok="0"><i>D</i>A table calculation</button></div><div class="qexp"><b>Answer: A.</b> Data Interpreter detects the real table.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is TRUE about extracts?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>They are fast compressed snapshots that need refreshing</button><button type="button" class="opt" data-ok="0"><i>B</i>They always show real-time data</button><button type="button" class="opt" data-ok="0"><i>C</i>They cannot be filtered</button><button type="button" class="opt" data-ok="0"><i>D</i>They only work on Tableau Server</button></div><div class="qexp"><b>Answer: A.</b> Schedule full or incremental refreshes.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where do relationships live?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In the logical layer</button><button type="button" class="opt" data-ok="0"><i>B</i>In the physical layer</button><button type="button" class="opt" data-ok="0"><i>C</i>In Tableau Prep only</button><button type="button" class="opt" data-ok="0"><i>D</i>In the Marks card</button></div><div class="qexp"><b>Answer: A.</b> Double-click a logical table to see its physical joins.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Build a relationships model of the Adventure Cycles tables and a sheet of Sales by Category and Country. Then create a small targets table (Country, Year, Target) in Excel, relate it on Country and Year, and show Sales vs Target as a bullet chart. Finally, simulate the join problem: join the targets instead, and compare SUM(Target).</p><details class="sol"><summary>Show solution</summary><p>Relate fact_sales to each dimension on its key; relate the targets table to the territory dimension on Country (and to the date table on Year). With relationships, SUM(Target) by Country equals the targets you typed. With a physical join to the fact table, each target repeats per sales line and the sum is inflated.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Relationships vs joins in Tableau?</strong>
+Relationships keep tables separate in the logical layer and Tableau generates the right joins per query, aggregating each table at its native level, so totals are not duplicated. Joins merge tables in the physical layer into one table before aggregation, which can duplicate rows when grains differ.</p>
+<p><strong>Q: When would you use data blending?</strong>
+When the data is in separate sources that cannot be related in one data source, such as a published data source plus a local spreadsheet of targets. Blends link on common dimensions and aggregate the secondary source first; they are slower and less flexible than relationships.</p>
+<p><strong>Q: How do you make a slow dashboard faster?</strong>
+Use an extract with only needed fields and rows, data source or context filters, fewer marks and quick filters, avoid high-cardinality filters showing all values, and check the Performance Recorder.</p></div></div></article><article class="lesson-art bk" id="L-tableau-06"><div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 6</div><h1>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</h1>
+<p class="sum">Turn sheets into an interactive dashboard and a data story. Plan the layout with containers, add filter, highlight, URL, parameter and set actions, design for phones, tell a story with Story Points, publish to Tableau Public or Cloud, and complete two capstones, a Superstore India sales dashboard and the video-game regional sales case study from class.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 180 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Lay out a dashboard with tiled and floating objects, containers and device layouts</li><li>Add filter, highlight, URL, go-to-sheet, parameter and set actions</li><li>Build a Story with Story Points that explains an insight step by step</li><li>Publish to Tableau Public or Cloud and set up refresh, permissions and subscriptions</li><li>Deliver an executive dashboard and a written insight summary</li></ul></div></div><div class="content"><h2 id="tableau-06-plan-before-you-build">Plan before you build</h2>
+<figure class="fig"><img src="../img/tableau-06-01.png" alt="The order that keeps dashboards clear: questions first, layout last." loading="lazy"><figcaption>The order that keeps dashboards clear: questions first, layout last.</figcaption></figure>
+<p>People read a screen in a <strong>Z-pattern</strong>: top-left first. Put the KPI cards across the top, the main trend or map in the middle, and the detail (tables, Top N) at the bottom. Keep to about 5–7 views and one colour meaning per dashboard (for example orange = loss everywhere).</p>
+<h2 id="tableau-06-building-the-dashboard">Building the dashboard</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Element</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Size</strong></td>
+<td>Fixed (e.g. 1200 × 800) for predictable layouts, Automatic or Range for flexible screens</td>
+</tr>
+<tr>
+<td><strong>Tiled vs floating</strong></td>
+<td>Tiled objects snap into a grid; floating objects sit on top (legends, logos). Prefer tiled.</td>
+</tr>
+<tr>
+<td><strong>Containers</strong></td>
+<td>Horizontal and vertical containers group objects; <em>Distribute Contents Evenly</em> keeps KPI cards equal</td>
+</tr>
+<tr>
+<td><strong>Objects</strong></td>
+<td>Text (titles), Image (logo), Web Page (not on Tableau Public), Blank (spacing), Navigation and Download buttons, Extension</td>
+</tr>
+<tr>
+<td><strong>Show/Hide button</strong></td>
+<td>Collapsible filter panel on a floating container</td>
+</tr>
+<tr>
+<td><strong>Device layouts</strong></td>
+<td>Device Preview → Phone: stack KPIs and one chart vertically</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="tableau-06-kpi-cards">KPI cards</h3>
+<p>Each card is a sheet: the measure on <strong>Text</strong>, Mark type Text, a formatted label such as <code>₹&lt;SUM(Sales)&gt; cr</code>, and a small YoY calculation in the second line with ▲/▼ and colour.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+y = <span class="hl-f">df.groupby</span>(df.order_date.dt.year).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), customers=(<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>))
+cur, prev = y.loc[<span class="hl-n">2025</span>], y.loc[<span class="hl-n">2024</span>]
+<span class="hl-k">for</span> k <span class="hl-k">in</span> y.columns:
+    unit = 1e7 <span class="hl-k">if</span> k <span class="hl-k">in</span> (<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>) <span class="hl-k">else</span> <span class="hl-n">1</span>
+    val = <span class="hl-s">f&quot;₹{cur[k] / unit:,.2f} cr&quot;</span> <span class="hl-k">if</span> unit &gt; <span class="hl-n">1</span> <span class="hl-k">else</span> <span class="hl-s">f&quot;{cur[k]:,.0f}&quot;</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{k:10s} 2025: {val:&gt;12s}   YoY {cur[k] / prev[k] - 1:+.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;margin     2025: {cur.profit / cur.sales:.1%}   (2024: {prev.profit / prev.sales:.1%})&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">sales      2025:     ₹7.84 cr   YoY +19.8%
+profit     2025:     ₹0.75 cr   YoY +22.1%
+orders     2025:        1,232   YoY +13.5%
+customers  2025:          623   YoY +5.6%
+margin     2025: 9.6%   (2024: 9.4%)</pre></div>
+<figure class="fig"><img src="../img/tableau-06-02.png" alt="The KPI row for the 2025 Superstore India dashboard (values from the data above)." loading="lazy"><figcaption>The KPI row for the 2025 Superstore India dashboard (values from the data above).</figcaption></figure>
+<h2 id="tableau-06-dashboard-actions">Dashboard actions</h2>
+<p><strong>Dashboard → Actions → Add Action</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Action</th>
+<th>What happens</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Filter</strong></td>
+<td>Clicking a mark filters other sheets</td>
+<td>Click a state on the map → the bar charts show only that state</td>
+</tr>
+<tr>
+<td><strong>Highlight</strong></td>
+<td>Matching marks stay bright, others fade</td>
+<td>Hover a category to highlight it everywhere</td>
+</tr>
+<tr>
+<td><strong>Go to Sheet</strong></td>
+<td>Navigates to another dashboard</td>
+<td>Click a KPI to open a detail page</td>
+</tr>
+<tr>
+<td><strong>URL</strong></td>
+<td>Opens a web page, with field values in the link</td>
+<td>Open a product page or a Google search for the customer</td>
+</tr>
+<tr>
+<td><strong>Change Parameter</strong></td>
+<td>Clicking sets a parameter value</td>
+<td>Click a region to set the "Selected region" parameter used in titles</td>
+</tr>
+<tr>
+<td><strong>Change Set Values</strong></td>
+<td>Clicking adds/removes marks from a set</td>
+<td>Drill-in: show sub-categories only for the clicked category (set on a calculation)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Choose <strong>Run action on: Select / Hover / Menu</strong> and what happens <strong>when clearing the selection</strong> (show all values is the usual choice). Use <em>Use as Filter</em> (the funnel icon on a sheet) for the quick version.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>The &quot;drill-in&quot; pattern with a set action</b></div><p>Create a set on Category; a calculation <code>IF [Category Set] THEN [Sub-Category] ELSE [Category] END</code> on Rows; a Change Set Values action targeting the set. Clicking a category expands it to its sub-categories in the same chart, and clicking again collapses it.</p></div>
+<h2 id="tableau-06-stories">Stories</h2>
+<p>A <strong>Story</strong> is a sequence of <strong>Story Points</strong>, each a captioned snapshot of a sheet or dashboard with its filters. Use it for a presentation: "1. Sales grew 20% in 2025 → 2. Growth came from Technology in the South → 3. Tables and Bookcases lose money → 4. Recommendation".</p>
+<h2 id="tableau-06-publishing-and-sharing">Publishing and sharing</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Destination</th>
+<th>How</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tableau Public</strong></td>
+<td>File → Save to Tableau Public</td>
+<td>Free; public; you can allow viewers to download the workbook; embed code for your portfolio site</td>
+</tr>
+<tr>
+<td><strong>Tableau Cloud / Server</strong></td>
+<td>Server → Publish Workbook</td>
+<td>Choose project, permissions, embedded or prompted credentials, refresh schedule</td>
+</tr>
+<tr>
+<td>Subscriptions and alerts</td>
+<td>On the published view</td>
+<td>Email snapshots on a schedule; alerts when a measure crosses a threshold</td>
+</tr>
+<tr>
+<td>Export</td>
+<td>Worksheet/Dashboard → Export Image, PowerPoint, PDF, Crosstab</td>
+<td>For offline reports</td>
+</tr>
+<tr>
+<td>Embedding</td>
+<td>Share → copy embed code</td>
+<td>Place a dashboard inside a website or portal</td>
+</tr>
+</tbody>
+</table></div>
+<p>Before publishing: give every sheet a clear title, hide unused sheets (right-click the dashboard tab → Hide All Sheets), add tooltips in plain language, set the default filters, and test on the phone layout.</p>
+<h2 id="tableau-06-capstone-1-superstore-india-executive-dashboard">Capstone 1: Superstore India executive dashboard</h2>
+<p>Build a one-page dashboard for the Head of Sales:</p>
+<ol>
+<li><strong>KPI row</strong>: Sales, Profit, Margin, Orders for the selected year with YoY change.</li>
+<li><strong>Trend</strong>: monthly Sales (bars) and Margin (line) on a dual axis.</li>
+<li><strong>Map</strong>: filled map of profit margin by state (diverging palette).</li>
+<li><strong>Category → sub-category</strong> bars with the drill-in set action; loss-makers in orange.</li>
+<li><strong>Top 10 customers</strong> table with a Top N parameter.</li>
+<li>Filters: Year (single value), Region, Segment, applied to all sheets.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">d25 = df[df.order_date.dt.year == <span class="hl-n">2025</span>]
+sub = <span class="hl-f">d25.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+sub[<span class="hl-s">&quot;margin %&quot;</span>] = (sub.profit / sub.sales * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;2025 loss-making sub-categories:&quot;</span>); <span class="hl-f">print</span>(sub[sub.profit &lt; <span class="hl-n">0</span>].<span class="hl-f">round</span>(<span class="hl-n">0</span>))
+st = <span class="hl-f">d25.groupby</span>(<span class="hl-s">&quot;state&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)); st[<span class="hl-s">&quot;margin %&quot;</span>] = st.profit / st.sales * <span class="hl-n">100</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nHighest and lowest margin states:&quot;</span>, st[<span class="hl-s">&quot;margin %&quot;</span>].<span class="hl-f">idxmax</span>(), <span class="hl-s">f&quot;{st[&#x27;margin %&#x27;].max():.1f}%&quot;</span>, <span class="hl-s">&quot;|&quot;</span>, st[<span class="hl-s">&quot;margin %&quot;</span>].<span class="hl-f">idxmin</span>(), <span class="hl-s">f&quot;{st[&#x27;margin %&#x27;].min():.1f}%&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2025 loss-making sub-categories:
+                  sales    profit  margin %
+sub_category                               
+Bookcases     3918268.0 -169018.0      -4.0
+Tables        5297064.0 -286188.0      -5.0
+
+Highest and lowest margin states: West Bengal 13.7% | Telangana 7.5%</pre></div>
+<p>Write three insight sentences under the dashboard, for example: what grew, what lost money, and what you recommend (discount caps on loss-making sub-categories, focus on the highest-margin states).</p>
+<h2 id="tableau-06-capstone-2-regional-video-game-sales-the-class-case-study">Capstone 2: Regional video-game sales (the class case study)</h2>
+<p>The same business case you solved in Excel in class: <em>how do video-game sales vary across North America, Europe, Japan and other regions, and where are the opportunities?</em></p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">vg = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;video_game_sales.csv&quot;</span>)
+<span class="hl-f">print</span>(vg.shape, <span class="hl-s">&quot;| years&quot;</span>, <span class="hl-f">vg.year.min</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">vg.year.max</span>())
+regions = [<span class="hl-s">&quot;na_sales&quot;</span>, <span class="hl-s">&quot;eu_sales&quot;</span>, <span class="hl-s">&quot;jp_sales&quot;</span>, <span class="hl-s">&quot;other_sales&quot;</span>]
+best_genre = <span class="hl-f">vg.groupby</span>(<span class="hl-s">&quot;genre&quot;</span>)[regions].<span class="hl-f">sum</span>().<span class="hl-f">idxmax</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Best genre by region:&quot;</span>, <span class="hl-f">best_genre.to_dict</span>())
+vg[<span class="hl-s">&quot;decade&quot;</span>] = (vg.year // <span class="hl-n">10</span> * <span class="hl-n">10</span>).<span class="hl-f">astype</span>(str) + <span class="hl-s">&quot;s&quot;</span>
+<span class="hl-f">print</span>((<span class="hl-f">vg.groupby</span>(<span class="hl-s">&quot;decade&quot;</span>)[regions].<span class="hl-f">sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(2400, 11) | years 2010 to 2025
+Best genre by region: {&#x27;na_sales&#x27;: &#x27;Sports&#x27;, &#x27;eu_sales&#x27;: &#x27;Sports&#x27;, &#x27;jp_sales&#x27;: &#x27;Role-Playing&#x27;, &#x27;other_sales&#x27;: &#x27;Sports&#x27;}
+        na_sales  eu_sales  jp_sales  other_sales
+decade                                           
+2010s      312.5     249.4     136.8        108.9
+2020s      188.1     148.9      83.8         62.6</pre></div>
+<p>Tableau tasks:
+1. <strong>Pivot</strong> the four regional sales columns into Region / Sales on the Data Source page (select the columns → Pivot), so Region becomes one dimension.
+2. Top 5 games per region: Region on Rows, Name on Rows, SUM(Sales) on Columns, a <strong>Top 5 by Sales computed per region</strong> using <code>RANK(SUM([Sales]))</code> with Compute Using = Name, filtered ≤ 5.
+3. Regional sales by decade: a calculated field <code>STR(INT(YEAR([Year])/10)*10) + "s"</code> (or <code>([Year] // 10) * 10</code> if Year is a number) and a stacked bar coloured by Region.
+4. Best genre in each region: highlight table of Genre × Region with the maximum per region marked using <code>WINDOW_MAX</code>.
+5. A stacked bar of regional distribution over time with a clear title, then assemble all four into a dashboard with a Region filter action.</p>
+<h2 id="tableau-06-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Plan the questions and the layout before building; use containers and a Z-pattern.</li>
+<li>Actions make dashboards interactive: filter, highlight, go to sheet, URL, parameter and set actions.</li>
+<li>Stories present insights step by step.</li>
+<li>Publish to Tableau Public for portfolios and to Cloud/Server for work, with refresh schedules and permissions.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which action makes clicking a state on a map filter every other chart?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A filter action (or Use as Filter)</button><button type="button" class="opt" data-ok="0"><i>B</i>A highlight action</button><button type="button" class="opt" data-ok="0"><i>C</i>A URL action</button><button type="button" class="opt" data-ok="0"><i>D</i>A story point</button></div><div class="qexp"><b>Answer: A.</b> Filter actions pass the selected values to target sheets.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which feature expands a category into its sub-categories in place when clicked?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A set action with a calculation that switches between Category and Sub-Category</button><button type="button" class="opt" data-ok="0"><i>B</i>A Story</button><button type="button" class="opt" data-ok="0"><i>C</i>A blend</button><button type="button" class="opt" data-ok="0"><i>D</i>A data source filter</button></div><div class="qexp"><b>Answer: A.</b> Change Set Values drives the drill-in pattern.</div></div><div class="qq"><p class="qtext"><b>3.</b> Where should the KPI cards usually go?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Across the top-left of the dashboard</button><button type="button" class="opt" data-ok="0"><i>B</i>Bottom right</button><button type="button" class="opt" data-ok="0"><i>C</i>In a hidden sheet</button><button type="button" class="opt" data-ok="0"><i>D</i>In a tooltip only</button></div><div class="qexp"><b>Answer: A.</b> Readers start top-left (Z-pattern).</div></div><div class="qq"><p class="qtext"><b>4.</b> What is a Story in Tableau?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A sequence of captioned story points showing sheets or dashboards</button><button type="button" class="opt" data-ok="0"><i>B</i>A type of chart</button><button type="button" class="opt" data-ok="0"><i>C</i>An extract</button><button type="button" class="opt" data-ok="0"><i>D</i>A calculated field</button></div><div class="qexp"><b>Answer: A.</b> Stories present an analysis step by step.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is NOT available on Tableau Public?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Keeping your workbook private on the server</button><button type="button" class="opt" data-ok="0"><i>B</i>Saving to your public profile</button><button type="button" class="opt" data-ok="0"><i>C</i>Dashboards with actions</button><button type="button" class="opt" data-ok="0"><i>D</i>Calculated fields</button></div><div class="qexp"><b>Answer: A.</b> Everything saved to Tableau Public is public.</div></div><div class="qq"><p class="qtext"><b>6.</b> How do you make one Region filter apply to all sheets on a dashboard?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Apply to Worksheets → All Using This Data Source (or Selected Worksheets)</button><button type="button" class="opt" data-ok="0"><i>B</i>Duplicate the filter on every sheet</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a parameter only</button><button type="button" class="opt" data-ok="0"><i>D</i>Add it to context</button></div><div class="qexp"><b>Answer: A.</b> One filter can drive many sheets.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Capstone deliverables</b></div><p>Publish both dashboards to Tableau Public. For each, write: the audience, three questions it answers, three insights with numbers, and two recommendations. Add the links to your resume and LinkedIn Featured section.</p><details class="sol"><summary>Show solution</summary><p>Superstore: KPI row, dual-axis trend, margin map, drill-in category chart, Top N customers, three filters applied to all sheets, filter actions from the map and the category chart. Video games: pivoted regions, Top 5 per region (RANK table calc), decade stacked bar, genre × region highlight table, filter action on Region. Insights should quote numbers from your own views.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you design a dashboard for executives?</strong>
+Start from their decisions: 3–5 KPIs with comparisons at the top, one trend, one breakdown, one exception list; consistent colours; filters applied to all sheets; tooltips that explain; a phone layout; and a short written insight.</p>
+<p><strong>Q: Filter action vs highlight action?</strong>
+A filter action removes non-selected data from target sheets; a highlight action keeps all data but fades the non-matching marks, preserving context.</p>
+<p><strong>Q: How do you share a Tableau dashboard securely?</strong>
+Publish to Tableau Cloud or Server with project permissions, use row-level security (user filters or entitlement tables with USERNAME()), schedule extract refreshes, and share via links, subscriptions or embedding with authentication. Never use Tableau Public for confidential data.</p></div></div></article></body></html>

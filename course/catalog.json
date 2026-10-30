@@ -396,6 +396,82 @@
    "track_pdf": "Track_03_Power_BI.pdf"
   },
   {
+   "id": "tableau",
+   "name": "Tableau",
+   "color": "#4E79A7",
+   "desc": "Tableau Public and Desktop: connecting data, dimensions and measures, every core chart, calculated fields, table calculations and LOD expressions, filters, parameters and sets, data modelling, dashboards, stories and publishing.",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "Getting Started with Tableau: Interface, Data Connections and Your First Views",
+     "page": "lessons/tableau-01-getting-started-with-tableau-interface-data-connections-and.html",
+     "file": "tableau-01-getting-started-with-tableau-interface-data-connections-and.html",
+     "track": "tableau",
+     "pdf": "Tableau_01_Getting_Started_with_Tableau_Interface_Data_Connections_and_Your_First.pdf",
+     "pdf_path": "pdf/tableau/Tableau_01_Getting_Started_with_Tableau_Interface_Data_Connections_and_Your_First.pdf",
+     "live": ""
+    },
+    {
+     "n": 2,
+     "num": 2,
+     "title": "Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto",
+     "page": "lessons/tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html",
+     "file": "tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html",
+     "track": "tableau",
+     "pdf": "Tableau_02_Charts_in_Tableau_From_Bar_and_Line_to_Maps_Dual_Axis_Histograms_and_P.pdf",
+     "pdf_path": "pdf/tableau/Tableau_02_Charts_in_Tableau_From_Bar_and_Line_to_Maps_Dual_Axis_Histograms_and_P.pdf",
+     "live": ""
+    },
+    {
+     "n": 3,
+     "num": 3,
+     "title": "Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions",
+     "page": "lessons/tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html",
+     "file": "tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html",
+     "track": "tableau",
+     "pdf": "Tableau_03_Calculations_in_Tableau_Calculated_Fields_Table_Calculations_and_LOD_E.pdf",
+     "pdf_path": "pdf/tableau/Tableau_03_Calculations_in_Tableau_Calculated_Fields_Table_Calculations_and_LOD_E.pdf",
+     "live": ""
+    },
+    {
+     "n": 4,
+     "num": 4,
+     "title": "Filters, Parameters, Sets, Groups and Hierarchies in Tableau",
+     "page": "lessons/tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html",
+     "file": "tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html",
+     "track": "tableau",
+     "pdf": "Tableau_04_Filters_Parameters_Sets_Groups_and_Hierarchies_in_Tableau.pdf",
+     "pdf_path": "pdf/tableau/Tableau_04_Filters_Parameters_Sets_Groups_and_Hierarchies_in_Tableau.pdf",
+     "live": ""
+    },
+    {
+     "n": 5,
+     "num": 5,
+     "title": "Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep",
+     "page": "lessons/tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html",
+     "file": "tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html",
+     "track": "tableau",
+     "pdf": "Tableau_05_Data_Modelling_in_Tableau_Relationships_Joins_Unions_Blending_Extracts.pdf",
+     "pdf_path": "pdf/tableau/Tableau_05_Data_Modelling_in_Tableau_Relationships_Joins_Unions_Blending_Extracts.pdf",
+     "live": ""
+    },
+    {
+     "n": 6,
+     "num": 6,
+     "title": "Dashboards, Actions, Stories and Publishing in Tableau (Capstone)",
+     "page": "lessons/tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html",
+     "file": "tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html",
+     "track": "tableau",
+     "pdf": "Tableau_06_Dashboards_Actions_Stories_and_Publishing_in_Tableau_Capstone.pdf",
+     "pdf_path": "pdf/tableau/Tableau_06_Dashboards_Actions_Stories_and_Publishing_in_Tableau_Capstone.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_04_Tableau.pdf",
+   "track_pdf": "Track_04_Tableau.pdf"
+  },
+  {
    "id": "ai-analytics",
    "name": "AI for Data Analysis",
    "color": "#DB2777",
@@ -446,8 +522,8 @@
      "live": "DVA with AI · wrap-up"
     }
    ],
-   "pdf": "pdf/tracks/Track_04_AI_for_Data_Analysis.pdf",
-   "track_pdf": "Track_04_AI_for_Data_Analysis.pdf"
+   "pdf": "pdf/tracks/Track_05_AI_for_Data_Analysis.pdf",
+   "track_pdf": "Track_05_AI_for_Data_Analysis.pdf"
   },
   {
    "id": "python",
@@ -775,8 +851,8 @@
      "live": "Python capstone"
     }
    ],
-   "pdf": "pdf/tracks/Track_05_Python_for_Data_Science.pdf",
-   "track_pdf": "Track_05_Python_for_Data_Science.pdf"
+   "pdf": "pdf/tracks/Track_06_Python_for_Data_Science.pdf",
+   "track_pdf": "Track_06_Python_for_Data_Science.pdf"
   },
   {
    "id": "ml",
@@ -1093,8 +1169,8 @@
      "live": "ML capstone"
     }
    ],
-   "pdf": "pdf/tracks/Track_06_Statistics_Machine_Learning.pdf",
-   "track_pdf": "Track_06_Statistics_Machine_Learning.pdf"
+   "pdf": "pdf/tracks/Track_07_Statistics_Machine_Learning.pdf",
+   "track_pdf": "Track_07_Statistics_Machine_Learning.pdf"
   },
   {
    "id": "genai",
@@ -1235,8 +1311,8 @@
      "live": "GenAI Launchpad capstone"
     }
    ],
-   "pdf": "pdf/tracks/Track_07_Generative_AI_Agentic_AI.pdf",
-   "track_pdf": "Track_07_Generative_AI_Agentic_AI.pdf"
+   "pdf": "pdf/tracks/Track_08_Generative_AI_Agentic_AI.pdf",
+   "track_pdf": "Track_08_Generative_AI_Agentic_AI.pdf"
   },
   {
    "id": "career",
@@ -1289,9 +1365,9 @@
      "live": "Career track"
     }
    ],
-   "pdf": "pdf/tracks/Track_08_Capstone_Portfolio_Interviews.pdf",
-   "track_pdf": "Track_08_Capstone_Portfolio_Interviews.pdf"
+   "pdf": "pdf/tracks/Track_09_Capstone_Portfolio_Interviews.pdf",
+   "track_pdf": "Track_09_Capstone_Portfolio_Interviews.pdf"
   }
  ],
- "lesson_count": 110
+ "lesson_count": 116
 }

@@ -1,0 +1,347 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto · Tableau Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Build every core chart in Tableau and know when to use each: bar, stacked and side-by-side bars, line and area, pie and donut, treemap, highlight table, scatter plot, histogram with bins, box plot, filled and symbol maps, dual-axis combo charts, bullet charts and a Pareto chart, all on the Superstore India data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tableau"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tableau">Tableau</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#4E79A7">Tableau</div>
+<ol class="side-l"><li class=""><a href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html" data-lid="tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li class="on"><a href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html" data-lid="tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li class=""><a href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html" data-lid="tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li class=""><a href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html" data-lid="tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li class=""><a href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html" data-lid="tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li class=""><a href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html" data-lid="tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tableau-02">
+<div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 2 of 6</div><h1>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</h1>
+<p class="sum">Build every core chart in Tableau and know when to use each: bar, stacked and side-by-side bars, line and area, pie and donut, treemap, highlight table, scatter plot, histogram with bins, box plot, filled and symbol maps, dual-axis combo charts, bullet charts and a Pareto chart, all on the Superstore India data.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tableau/Tableau_02_Charts_in_Tableau_From_Bar_and_Line_to_Maps_Dual_Axis_Histograms_and_P.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tableau-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose the right chart for comparison, trend, part-to-whole, distribution, relationship and geography questions</li><li>Build bar, line, area, pie, donut, treemap and highlight-table views</li><li>Create bins and histograms, box plots and scatter plots with trend lines</li><li>Map states with geographic roles, and combine two measures with dual and blended axes</li><li>Build a bullet chart and a Pareto (80/20) chart</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="choose-the-chart-from-the-question">Choose the chart from the question</h2>
+<figure class="fig"><img src="../img/tableau-02-01.png" alt="Match the business question to the chart family." loading="lazy"><figcaption>Match the business question to the chart family.</figcaption></figure>
+<p>All examples below use the Superstore India data. The tables show the numbers your Tableau view should display, computed here with pandas so you can check your work.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+df[<span class="hl-s">&quot;year&quot;</span>] = df.order_date.dt.year
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(df), <span class="hl-s">&quot;order lines,&quot;</span>, <span class="hl-f">df.order_id.nunique</span>(), <span class="hl-s">&quot;orders,&quot;</span>, <span class="hl-f">df.customer_id.nunique</span>(), <span class="hl-s">&quot;customers&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6323 order lines, 3200 orders, 785 customers</pre></div>
+<h2 id="bar-charts">Bar charts</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Variant</th>
+<th>Build</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar</td>
+<td>Dimension on Rows, measure on Columns</td>
+<td>Ranking categories</td>
+</tr>
+<tr>
+<td>Stacked bar</td>
+<td>Add a second dimension to <strong>Color</strong></td>
+<td>Total and composition</td>
+</tr>
+<tr>
+<td>Side-by-side bar</td>
+<td>Second dimension on Columns <em>before</em> the measure (or Show Me → side-by-side)</td>
+<td>Comparing subgroups directly</td>
+</tr>
+<tr>
+<td>100% stacked</td>
+<td>Stacked bar + Quick Table Calculation → <strong>Percent of Total</strong> (compute using the colour dimension)</td>
+<td>Mix comparisons</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">seg = <span class="hl-f">pd.crosstab</span>(df.category, df.segment, values=df.sales, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e7
+<span class="hl-f">seg.round</span>(<span class="hl-n">2</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>segment</th>
+      <th>Consumer</th>
+      <th>Corporate</th>
+      <th>Home Office</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furniture</th>
+      <td>1.70</td>
+      <td>1.03</td>
+      <td>0.75</td>
+    </tr>
+    <tr>
+      <th>Office Supplies</th>
+      <td>0.47</td>
+      <td>0.32</td>
+      <td>0.23</td>
+    </tr>
+    <tr>
+      <th>Technology</th>
+      <td>7.69</td>
+      <td>4.56</td>
+      <td>3.39</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<figure class="fig"><img src="../img/tableau-02-02.png" alt="Stacked bar: Sales by Category, coloured by Segment (₹ crore)." loading="lazy"><figcaption>Stacked bar: Sales by Category, coloured by Segment (₹ crore).</figcaption></figure>
+<h2 id="line-and-area-charts">Line and area charts</h2>
+<p>Put a <strong>continuous</strong> date (green MONTH(Order Date)) on Columns and Sales on Rows for one timeline. Put <strong>YEAR</strong> on Color and a <strong>discrete</strong> MONTH on Columns to compare the same months across years (seasonality).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">pv = <span class="hl-f">df.pivot_table</span>(index=df.order_date.dt.month, columns=<span class="hl-s">&quot;year&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e5
+pv.index.name = <span class="hl-s">&quot;month&quot;</span>
+<span class="hl-f">pv.round</span>(<span class="hl-n">1</span>).<span class="hl-f">head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>24.5</td>
+      <td>60.2</td>
+      <td>53.6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>38.6</td>
+      <td>24.6</td>
+      <td>38.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>34.4</td>
+      <td>59.4</td>
+      <td>65.1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>39.3</td>
+      <td>46.2</td>
+      <td>67.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>48.4</td>
+      <td>52.5</td>
+      <td>64.2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>57.9</td>
+      <td>40.1</td>
+      <td>39.7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 3 columns</div></div>
+<figure class="fig"><img src="../img/tableau-02-03.png" alt="Discrete month on Columns, Year on Color: each year is a line, so seasonality is easy to compare." loading="lazy"><figcaption>Discrete month on Columns, Year on Color: each year is a line, so seasonality is easy to compare.</figcaption></figure>
+<p>An <strong>area chart</strong> is the same view with Mark type = Area; stack a dimension on Color to show how the total is built up.</p>
+<h2 id="part-to-whole-pie-donut-treemap">Part-to-whole: pie, donut, treemap</h2>
+<ul>
+<li><strong>Pie</strong>: Mark type Pie, dimension on Color, measure on <strong>Angle</strong>. Use for 2–5 slices only.</li>
+<li><strong>Donut</strong>: two pies on a dual axis. Put <code>AVG(0)</code> (type <code>avg(0)</code> on Rows) twice, make the second smaller and white, turn on dual axis, and put the total on the inner label.</li>
+<li><strong>Treemap</strong>: dimension on <strong>Detail/Label</strong>, measure on <strong>Size</strong> and <strong>Color</strong>. Good for many categories (e.g. the 13 sub-categories).</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sub = (<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>)) / 1e5).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>)
+sub[<span class="hl-s">&quot;margin %&quot;</span>] = (sub.profit / sub.sales * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">sub.round</span>(<span class="hl-n">1</span>).<span class="hl-f">head</span>(<span class="hl-n">8</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>margin %</th>
+    </tr>
+    <tr>
+      <th>sub_category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Copiers</th>
+      <td>787.5</td>
+      <td>84.4</td>
+      <td>10.7</td>
+    </tr>
+    <tr>
+      <th>Machines</th>
+      <td>425.9</td>
+      <td>51.9</td>
+      <td>12.2</td>
+    </tr>
+    <tr>
+      <th>Phones</th>
+      <td>319.2</td>
+      <td>36.6</td>
+      <td>11.5</td>
+    </tr>
+    <tr>
+      <th>Tables</th>
+      <td>140.5</td>
+      <td>-8.2</td>
+      <td>-5.8</td>
+    </tr>
+    <tr>
+      <th>Bookcases</th>
+      <td>112.7</td>
+      <td>-4.2</td>
+      <td>-3.7</td>
+    </tr>
+    <tr>
+      <th>Chairs</th>
+      <td>80.9</td>
+      <td>3.4</td>
+      <td>4.2</td>
+    </tr>
+    <tr>
+      <th>Appliances</th>
+      <td>63.3</td>
+      <td>9.4</td>
+      <td>14.9</td>
+    </tr>
+    <tr>
+      <th>Accessories</th>
+      <td>31.8</td>
+      <td>3.7</td>
+      <td>11.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 3 columns</div></div>
+<h2 id="highlight-table-heat-map">Highlight table (heat map)</h2>
+<p>Category on Rows, YEAR on Columns, Sales on <strong>Text</strong> and <strong>Color</strong>, Mark type <strong>Square</strong>. Tableau shades each cell, so high and low cells stand out without reading every number.</p>
+<h2 id="distribution-histogram-and-box-plot">Distribution: histogram and box plot</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Histogram of order value</b></div><ol>
+<li>Right-click <strong>Sales</strong> → Create → <strong>Bins</strong>; set the bin size (e.g. ₹10,000). A new dimension "Sales (bin)" appears.</li>
+<li>Drag <strong>Sales (bin)</strong> to Columns and <strong>CNT(Sales)</strong> (or Number of Records) to Rows.</li>
+<li>Or select Sales and pick the histogram in Show Me: it creates the bins for you.</li>
+</ol></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">bins = <span class="hl-f">pd.cut</span>(df.sales, bins=[<span class="hl-n">0</span>, <span class="hl-n">5000</span>, <span class="hl-n">10000</span>, <span class="hl-n">20000</span>, <span class="hl-n">50000</span>, <span class="hl-n">100000</span>, <span class="hl-f">df.sales.max</span>()], right=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-f">bins.value_counts</span>().<span class="hl-f">sort_index</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;median line value: ₹&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">df.sales.median</span>()), <span class="hl-s">&quot;| mean: ₹&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">df.sales.mean</span>()))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">sales
+[0.0, 5000.0)           2530
+[5000.0, 10000.0)        829
+[10000.0, 20000.0)       896
+[20000.0, 50000.0)       942
+[50000.0, 100000.0)      546
+[100000.0, 619290.0)     579
+Name: count, dtype: int64
+median line value: ₹ 8430 | mean: ₹ 31854</pre></div>
+<p>The mean is well above the median: a few large orders pull it up (right skew). A <strong>box plot</strong> (Show Me → box-and-whisker) shows the median, quartiles and outliers per category at a glance.</p>
+<h2 id="relationship-scatter-plot">Relationship: scatter plot</h2>
+<p>Put SUM(Sales) on Columns, SUM(Profit) on Rows and <strong>Sub-Category</strong> on Detail: one dot per sub-category. Add <strong>Analytics pane → Trend Line</strong> (linear) and hover it to read R² and the p-value.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>]].<span class="hl-f">agg</span>({<span class="hl-s">&quot;sales&quot;</span>: <span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>: <span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>: <span class="hl-s">&quot;mean&quot;</span>})
+<span class="hl-f">print</span>(<span class="hl-s">&quot;correlation sales vs profit across sub-categories:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">s.sales.corr</span>(s.profit), <span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;correlation avg discount vs profit margin:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">s.discount.corr</span>(s.profit / s.sales), <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">correlation sales vs profit across sub-categories: 0.95
+correlation avg discount vs profit margin: -0.88</pre></div>
+<h2 id="maps">Maps</h2>
+<ol>
+<li>Make sure <strong>State</strong> has the geographic role <em>State/Province</em> (and the country is India: Map → Edit Locations).</li>
+<li>Double-click State: Tableau adds Latitude/Longitude (generated) and draws a <strong>symbol map</strong>. Change Mark type to <strong>Map</strong> for a <strong>filled (choropleth) map</strong>.</li>
+<li>Put Sales on Color for a filled map, or on Size for a symbol map. Use Profit on Color with a diverging palette (orange-blue) to show loss-making states.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">st = (<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;state&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">sum</span>() / 1e5).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>)
+<span class="hl-f">st.head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>profit</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Maharashtra</th>
+      <td>256.7</td>
+      <td>24.4</td>
+    </tr>
+    <tr>
+      <th>Delhi</th>
+      <td>156.6</td>
+      <td>17.3</td>
+    </tr>
+    <tr>
+      <th>Kerala</th>
+      <td>147.1</td>
+      <td>12.6</td>
+    </tr>
+    <tr>
+      <th>Madhya Pradesh</th>
+      <td>144.1</td>
+      <td>12.7</td>
+    </tr>
+    <tr>
+      <th>West Bengal</th>
+      <td>138.9</td>
+      <td>14.6</td>
+    </tr>
+    <tr>
+      <th>Karnataka</th>
+      <td>136.3</td>
+      <td>11.8</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 2 columns</div></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Indian maps</b></div><p>Tableau's built-in geocoding knows Indian states and many districts and cities. If a name does not match (old spellings, "Orissa" vs "Odisha"), use <strong>Map → Edit Locations</strong> to match it, or join a custom latitude/longitude file.</p></div>
+<h2 id="dual-axis-and-combo-charts">Dual-axis and combo charts</h2>
+<p>Show two measures with different scales, e.g. Sales as bars and Profit margin as a line:</p>
+<ol>
+<li>Continuous MONTH(Order Date) on Columns; SUM(Sales) and the margin calculation on Rows.</li>
+<li>Right-click the second pill → <strong>Dual Axis</strong>. Set the Marks card for Sales to <strong>Bar</strong> and for margin to <strong>Line</strong>.</li>
+<li>Right-click the right axis → <strong>Synchronize Axis</strong> only when both measures share units (Sales and Profit); never synchronise ₹ with %.</li>
+</ol>
+<p>A <strong>blended axis</strong> (drag a second measure onto the <em>existing</em> axis until the double-ruler icon shows) puts two measures with the same unit on one axis, using Measure Names on Color.</p>
+<h2 id="bullet-chart-actual-vs-target">Bullet chart (actual vs target)</h2>
+<p>Select a measure and a target (e.g. Sales and a target field) → Show Me → <strong>Bullet graph</strong>. The bar is the actual, the reference line is the target, and the shaded bands are % of target (60%, 80%). If the bars and lines come out the wrong way round, right-click the axis → <strong>Swap Reference Line Fields</strong>.</p>
+<h2 id="pareto-chart-8020">Pareto chart (80/20)</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build a Pareto of products</b></div><ol>
+<li>Product Name on Columns sorted by SUM(Sales) descending; SUM(Sales) on Rows as bars.</li>
+<li>Drag SUM(Sales) to Rows again → Quick Table Calculation → <strong>Running Total</strong>, then Edit Table Calculation → <em>Add secondary calculation</em> → <strong>Percent of Total</strong>.</li>
+<li>Make it dual axis; set the second mark to Line; add a reference line at 80%.</li>
+<li>Optional: replace Product Name on Columns with a table calc <code>INDEX()/SIZE()</code> so the x-axis reads "% of products".</li>
+</ol></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">p = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>).<span class="hl-f">sales.sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>)
+cum = <span class="hl-f">p.cumsum</span>() / <span class="hl-f">p.sum</span>()
+n80 = <span class="hl-f">int</span>((cum &lt; .<span class="hl-n">8</span>).<span class="hl-f">sum</span>()) + <span class="hl-n">1</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{n80} of {len(p)} products ({n80 / len(p):.0%}) make 80% of sales&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">21 of 78 products (27%) make 80% of sales</pre></div>
+<p>Sales are concentrated: about a quarter of the products bring in 80% of sales, close to the classic 80/20 rule. Those top products deserve the best stock availability and marketing. A Pareto chart shows how concentrated a business really is, so you can judge whether a "focus on the top products" strategy makes sense.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Pick the chart from the question: compare, trend, part-to-whole, distribution, relationship, geography.</li>
+<li>Continuous dates draw timelines; discrete dates compare periods.</li>
+<li>Bins create histograms; the Analytics pane adds trend lines, reference lines and box plots.</li>
+<li>Assign geographic roles before mapping; use filled maps for rates and symbol maps for totals.</li>
+<li>Dual axis combines two marks (bar + line); synchronise only when units match.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which chart best shows how a single order-value variable is distributed?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Histogram</button><button type="button" class="opt" data-ok="0"><i>B</i>Pie chart</button><button type="button" class="opt" data-ok="0"><i>C</i>Treemap</button><button type="button" class="opt" data-ok="0"><i>D</i>Line chart</button></div><div class="qexp"><b>Answer: A.</b> Histograms show distributions; create bins first.</div></div><div class="qq"><p class="qtext"><b>2.</b> How do you get Profit as a line on top of Sales bars with its own scale?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Put both on Rows, use Dual Axis, set one mark to Bar and the other to Line</button><button type="button" class="opt" data-ok="0"><i>B</i>Put Profit on Color</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a blended axis</button><button type="button" class="opt" data-ok="0"><i>D</i>Synchronise the axes</button></div><div class="qexp"><b>Answer: A.</b> Dual axis gives two independent axes and separate mark types.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is the right way to show 13 sub-categories as a part-to-whole?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Treemap or sorted bar chart</button><button type="button" class="opt" data-ok="0"><i>B</i>Pie chart with 13 slices</button><button type="button" class="opt" data-ok="0"><i>C</i>Scatter plot</button><button type="button" class="opt" data-ok="0"><i>D</i>Line chart</button></div><div class="qexp"><b>Answer: A.</b> Pies stop being readable beyond about five slices.</div></div><div class="qq"><p class="qtext"><b>4.</b> You want each year as its own line to compare seasonality. What goes on Columns?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Discrete MONTH(Order Date)</button><button type="button" class="opt" data-ok="0"><i>B</i>Continuous MONTH(Order Date)</button><button type="button" class="opt" data-ok="0"><i>C</i>YEAR(Order Date) only</button><button type="button" class="opt" data-ok="0"><i>D</i>Sales</button></div><div class="qexp"><b>Answer: A.</b> Discrete month gives Jan–Dec headers; Year goes on Color.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does the Pareto line show?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The running total of sales as a percent of the grand total</button><button type="button" class="opt" data-ok="0"><i>B</i>Profit margin</button><button type="button" class="opt" data-ok="0"><i>C</i>Average sales</button><button type="button" class="opt" data-ok="0"><i>D</i>The number of orders</button></div><div class="qexp"><b>Answer: A.</b> Running total + percent of total secondary calculation.</div></div><div class="qq"><p class="qtext"><b>6.</b> When should you synchronise a dual axis?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When both measures share the same unit and scale makes sense</button><button type="button" class="opt" data-ok="0"><i>B</i>Always</button><button type="button" class="opt" data-ok="0"><i>C</i>When one is in ₹ and the other in %</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: A.</b> Synchronising ₹ with % distorts the chart.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Build: (1) a side-by-side bar of Sales by Region and Segment; (2) a filled map of Profit by State with a diverging palette; (3) a histogram of Sales with ₹10,000 bins; (4) a dual-axis chart of monthly Sales (bars) and Profit (line); (5) a Pareto chart of sub-categories with an 80% reference line.</p><details class="sol"><summary>Show solution</summary><p>Use the steps in each section. For the map, set Profit on Color → Edit Colors → Orange-Blue Diverging, centre 0. For the Pareto use Running Total + Percent of Total, compute using Sub-Category, then Analytics → Reference Line → Constant 0.8 on the line axis.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Dual axis vs blended axis?</strong>
+A dual axis gives two independent axes (left and right) and allows different mark types; a blended axis puts several measures on one shared axis (same unit) using Measure Names/Values.</p>
+<p><strong>Q: How do you build a Pareto chart in Tableau?</strong>
+Sort the dimension by the measure, show bars, add the measure again with a Running Total table calculation and a secondary Percent of Total, make it dual axis as a line, and add an 80% reference line.</p>
+<p><strong>Q: Filled map or symbol map?</strong>
+Filled maps suit rates and ratios (profit margin by state) because area does not scale with value; symbol maps with size suit totals (sales by city).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.tableau.com/learn/training">Tableau free training videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://public.tableau.com/app/discover">Tableau Public gallery (Viz of the Day) ↗</a></li><li><a target="_blank" rel="noopener" href="https://help.tableau.com/current/pro/desktop/en-us/functions.htm">Tableau functions reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://workout-wednesday.com/">Workout Wednesday challenges ↗</a></li><li><a target="_blank" rel="noopener" href="https://makeovermonday.co.uk/">Makeover Monday datasets ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html"><small>← Previous</small><b>Getting Started with Tableau: Interface, Data Connections and Your First Views</b></a><a class="next" href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html"><small>Next →</small><b>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#choose-the-chart-from-the-question">Choose the chart from the question</a><a href="#bar-charts">Bar charts</a><a href="#line-and-area-charts">Line and area charts</a><a href="#part-to-whole-pie-donut-treemap">Part-to-whole: pie, donut, treemap</a><a href="#highlight-table-heat-map">Highlight table (heat map)</a><a href="#distribution-histogram-and-box-plot">Distribution: histogram and box plot</a><a href="#relationship-scatter-plot">Relationship: scatter plot</a><a href="#maps">Maps</a><a href="#dual-axis-and-combo-charts">Dual-axis and combo charts</a><a href="#bullet-chart-actual-vs-target">Bullet chart (actual vs target)</a><a href="#pareto-chart-8020">Pareto chart (80/20)</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

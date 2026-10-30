@@ -1,0 +1,357 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions · Tableau Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Write calculated fields (row-level and aggregate), use string, date, number and logical functions, handle nulls, then master table calculations (running total, percent of total, difference and growth, rank, moving average, and Compute Using) and Level of Detail expressions (FIXED, INCLUDE, EXCLUDE), with every result checked against pandas."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tableau"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tableau">Tableau</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#4E79A7">Tableau</div>
+<ol class="side-l"><li class=""><a href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html" data-lid="tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li class=""><a href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html" data-lid="tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li class="on"><a href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html" data-lid="tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li class=""><a href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html" data-lid="tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li class=""><a href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html" data-lid="tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li class=""><a href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html" data-lid="tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tableau-03">
+<div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 3 of 6</div><h1>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</h1>
+<p class="sum">Write calculated fields (row-level and aggregate), use string, date, number and logical functions, handle nulls, then master table calculations (running total, percent of total, difference and growth, rank, moving average, and Compute Using) and Level of Detail expressions (FIXED, INCLUDE, EXCLUDE), with every result checked against pandas.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tableau/Tableau_03_Calculations_in_Tableau_Calculated_Fields_Table_Calculations_and_LOD_E.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tableau-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write row-level and aggregate calculated fields and know which one a question needs</li><li>Use IF/ELSEIF, CASE, IIF, ZN, IFNULL, DATEDIFF, DATETRUNC and string functions</li><li>Apply quick table calculations and control them with Compute Using</li><li>Write FIXED, INCLUDE and EXCLUDE LOD expressions and explain where they sit in the order of operations</li><li>Solve classic interview problems: profit margin, customer first-purchase cohorts and percent of total</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="three-kinds-of-calculation">Three kinds of calculation</h2>
+<figure class="fig"><img src="../img/tableau-03-01.png" alt="Where each kind of calculation is computed." loading="lazy"><figcaption>Where each kind of calculation is computed.</figcaption></figure>
+<p>Create one with <strong>Analysis → Create Calculated Field</strong> (or right-click a field → Create → Calculated Field). Field names go in square brackets; comments start with <code>//</code>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+<span class="hl-f">print</span>(df[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>]].<span class="hl-f">describe</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>).loc[[<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;min&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">         sales    profit  discount
+mean   31854.1    2902.4       0.1
+min       42.0  -75873.8       0.0
+max   619290.0  149424.9       0.4</pre></div>
+<h2 id="row-level-vs-aggregate-the-profit-margin-trap">Row-level vs aggregate: the profit-margin trap</h2>
+<p>The most common beginner bug in Tableau (and Power BI) is averaging ratios.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Calculated field</th>
+<th>Formula</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Margin (row)</td>
+<td><code>[Profit] / [Sales]</code></td>
+<td>Margin of each order line; in the view it becomes SUM or AVG of those ratios: <strong>wrong</strong></td>
+</tr>
+<tr>
+<td>Margin (aggregate)</td>
+<td><code>SUM([Profit]) / SUM([Sales])</code></td>
+<td>Total profit ÷ total sales for whatever the mark represents: <strong>right</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">by_cat = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;category&quot;</span>).<span class="hl-f">apply</span>(<span class="hl-k">lambda</span> g: <span class="hl-f">pd.Series</span>({
+    <span class="hl-s">&quot;aggregate margin %&quot;</span>: <span class="hl-f">g.profit.sum</span>() / <span class="hl-f">g.sales.sum</span>() * <span class="hl-n">100</span>,
+    <span class="hl-s">&quot;average of row margins %&quot;</span>: (g.profit / g.sales).<span class="hl-f">mean</span>() * <span class="hl-n">100</span>}), include_groups=<span class="hl-k">False</span>)
+<span class="hl-f">by_cat.round</span>(<span class="hl-n">2</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>aggregate margin %</th>
+      <th>average of row margins %</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furniture</th>
+      <td>-2.35</td>
+      <td>-2.38</td>
+    </tr>
+    <tr>
+      <th>Office Supplies</th>
+      <td>14.95</td>
+      <td>13.76</td>
+    </tr>
+    <tr>
+      <th>Technology</th>
+      <td>11.29</td>
+      <td>9.95</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 2 columns</div></div>
+<p>The two columns differ because the average of row ratios gives a ₹500 order the same weight as a ₹5 lakh order. Format the aggregate field as a percentage (right-click → Default Properties → Number Format → Percentage).</p>
+<h2 id="useful-functions">Useful functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Tableau</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logic</td>
+<td><code>IF … THEN … ELSEIF … ELSE … END</code></td>
+<td><code>IF SUM([Profit]) &lt; 0 THEN "Loss" ELSE "Profit" END</code></td>
+</tr>
+<tr>
+<td>Logic</td>
+<td><code>CASE [Region] WHEN "South" THEN … END</code>, <code>IIF(test, then, else)</code></td>
+<td>Short mappings</td>
+</tr>
+<tr>
+<td>Nulls</td>
+<td><code>ZN([Profit])</code>, <code>IFNULL([x], 0)</code>, <code>ISNULL([x])</code></td>
+<td>Replace nulls with 0</td>
+</tr>
+<tr>
+<td>Dates</td>
+<td><code>DATEDIFF('day', [Order Date], [Ship Date])</code>, <code>DATETRUNC('month', [Order Date])</code>, <code>DATEPART('weekday', …)</code>, <code>DATEADD</code>, <code>TODAY()</code></td>
+<td>Shipping days, month start</td>
+</tr>
+<tr>
+<td>Strings</td>
+<td><code>LEFT</code>, <code>RIGHT</code>, <code>MID</code>, <code>SPLIT([Customer Name], " ", 1)</code>, <code>CONTAINS</code>, <code>UPPER</code>, <code>TRIM</code>, <code>REPLACE</code></td>
+<td>First name</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td><code>ROUND</code>, <code>ABS</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>INT</code></td>
+<td>Rounding</td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>STR()</code>, <code>INT()</code>, <code>FLOAT()</code>, <code>DATE()</code></td>
+<td>Conversions</td>
+</tr>
+<tr>
+<td>Aggregates</td>
+<td><code>SUM</code>, <code>AVG</code>, <code>COUNT</code>, <code>COUNTD</code>, <code>MIN</code>, <code>MAX</code>, <code>MEDIAN</code>, <code>ATTR</code></td>
+<td><code>COUNTD([Order ID])</code> = orders</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">df[<span class="hl-s">&quot;ship_days&quot;</span>] = (df.ship_date - df.order_date).dt.days           <span class="hl-c"># DATEDIFF(&#x27;day&#x27;, [Order Date], [Ship Date])</span>
+df[<span class="hl-s">&quot;first_name&quot;</span>] = <span class="hl-f">df.customer_name.str.split</span>(<span class="hl-s">&quot; &quot;</span>).str[<span class="hl-n">0</span>]          <span class="hl-c"># SPLIT([Customer Name], &quot; &quot;, 1)</span>
+df[<span class="hl-s">&quot;order_size&quot;</span>] = <span class="hl-f">np.select</span>([df.sales &gt;= <span class="hl-n">50000</span>, df.sales &gt;= <span class="hl-n">10000</span>], [<span class="hl-s">&quot;Large&quot;</span>, <span class="hl-s">&quot;Medium&quot;</span>], <span class="hl-s">&quot;Small&quot;</span>)   <span class="hl-c"># IF/ELSEIF</span>
+<span class="hl-f">print</span>(<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;ship_mode&quot;</span>).<span class="hl-f">ship_days.mean</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>())
+<span class="hl-f">print</span>(<span class="hl-f">df.order_size.value_counts</span>().<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">ship_mode
+Same Day          0.0
+First Class       1.5
+Second Class      3.0
+Standard Class    5.6
+Name: ship_days, dtype: float64
+{&#x27;Small&#x27;: 3359, &#x27;Medium&#x27;: 1838, &#x27;Large&#x27;: 1126}</pre></div>
+<h2 id="table-calculations">Table calculations</h2>
+<p>A table calculation works on the <strong>numbers already in the view</strong>, so its result depends on the layout. Right-click a measure → <strong>Quick Table Calculation</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Quick table calc</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Running Total</td>
+<td>Cumulative sales through the year</td>
+</tr>
+<tr>
+<td>Difference / Percent Difference</td>
+<td>Month-on-month or year-on-year change</td>
+</tr>
+<tr>
+<td>Percent of Total</td>
+<td>Share of each category</td>
+</tr>
+<tr>
+<td>Rank</td>
+<td>Top products</td>
+</tr>
+<tr>
+<td>Percentile</td>
+<td>Position in a distribution</td>
+</tr>
+<tr>
+<td>Moving Average</td>
+<td>Smooth noisy monthly data (Edit → previous 2 values + current)</td>
+</tr>
+<tr>
+<td>YTD Total / YTD Growth / YoY Growth</td>
+<td>Financial reporting</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="compute-using-addressing-and-partitioning">Compute Using (addressing and partitioning)</h3>
+<p><strong>Compute Using</strong> tells Tableau the direction of the calculation. Fields it computes <em>along</em> are <strong>addressing</strong> fields; the remaining fields <strong>partition</strong> the view into separate calculations. Example: Category on Rows, MONTH on Columns, Running Total of Sales:</p>
+<ul>
+<li>Compute Using <strong>Table (across)</strong> → running total along months, restarting for each category (partitioned by Category).</li>
+<li>Compute Using <strong>Table (down)</strong> → running total down the categories within each month.</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = df[df.order_date.dt.year == <span class="hl-n">2025</span>].<span class="hl-f">assign</span>(month=<span class="hl-k">lambda</span> x: <span class="hl-f">x.order_date.dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>))
+t = <span class="hl-f">m.pivot_table</span>(index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;month&quot;</span>, values=<span class="hl-s">&quot;sales&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e5
+running = <span class="hl-f">t.cumsum</span>(axis=<span class="hl-n">1</span>)              <span class="hl-c"># Table (across): restarts per category</span>
+<span class="hl-f">print</span>(running.iloc[:, [<span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, -<span class="hl-n">1</span>]].<span class="hl-f">round</span>(<span class="hl-n">1</span>))
+share = <span class="hl-f">t.sum</span>(axis=<span class="hl-n">1</span>) / <span class="hl-f">t.values.sum</span>() * <span class="hl-n">100</span>   <span class="hl-c"># Percent of Total, Table (down)</span>
+<span class="hl-f">print</span>((share).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">to_dict</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">month            2025-01  2025-02  2025-03  2025-12
+category                                           
+Furniture           12.9     16.8     28.7    127.6
+Office Supplies      2.6      4.8      9.4     39.7
+Technology          38.0     70.8    119.4    616.5
+{&#x27;Furniture&#x27;: 16.3, &#x27;Office Supplies&#x27;: 5.1, &#x27;Technology&#x27;: 78.7}</pre></div>
+<p>Common table-calculation functions you write yourself: <code>RUNNING_SUM(SUM([Sales]))</code>, <code>WINDOW_AVG(SUM([Sales]), -2, 0)</code> (3-month moving average), <code>LOOKUP(SUM([Sales]), -1)</code> (previous value), <code>RANK(SUM([Sales]))</code>, <code>INDEX()</code>, <code>SIZE()</code>, <code>TOTAL(SUM([Sales]))</code>.</p>
+<p>YoY growth as a calculation: <code>(SUM([Sales]) - LOOKUP(SUM([Sales]), -1)) / ABS(LOOKUP(SUM([Sales]), -1))</code> with YEAR(Order Date) in the view.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">y = <span class="hl-f">df.groupby</span>(df.order_date.dt.year).<span class="hl-f">sales.sum</span>()
+<span class="hl-f">print</span>(((y / <span class="hl-f">y.shift</span>(<span class="hl-n">1</span>) - <span class="hl-n">1</span>) * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">dropna</span>().<span class="hl-f">to_dict</span>(), <span class="hl-s">&quot;% YoY&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{2024: 13.5, 2025: 19.8} % YoY</pre></div>
+<h2 id="level-of-detail-lod-expressions">Level of Detail (LOD) expressions</h2>
+<p>LODs compute an aggregate at a level <strong>you</strong> choose, regardless of the dimensions in the view.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{FIXED [Dim] : AGG([Measure])}</code></td>
+<td>Exactly at [Dim], ignoring the view (but after context filters)</td>
+<td><code>{FIXED [Customer ID] : MIN([Order Date])}</code> first purchase</td>
+</tr>
+<tr>
+<td><code>{INCLUDE [Dim] : AGG(...)}</code></td>
+<td>View's dimensions <strong>plus</strong> [Dim]</td>
+<td>Average sales <strong>per customer</strong> by region</td>
+</tr>
+<tr>
+<td><code>{EXCLUDE [Dim] : AGG(...)}</code></td>
+<td>View's dimensions <strong>minus</strong> [Dim]</td>
+<td>Region total next to each category, for % of region</td>
+</tr>
+<tr>
+<td><code>{ : SUM([Sales])}</code></td>
+<td>Table-scoped (grand total)</td>
+<td>% of grand total without table calcs</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="fixed-customer-cohorts-by-first-purchase-year">FIXED: customer cohorts by first-purchase year</h3>
+<p><code>[First Purchase] = {FIXED [Customer ID] : MIN([Order Date])}</code>, then <code>YEAR([First Purchase])</code> on Rows and <code>COUNTD([Customer ID])</code> gives new customers per year: an acquisition cohort.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">first = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">order_date.min</span>().<span class="hl-f">rename</span>(<span class="hl-s">&quot;first_purchase&quot;</span>)
+d2 = <span class="hl-f">df.merge</span>(first, on=<span class="hl-s">&quot;customer_id&quot;</span>)
+cohort = <span class="hl-f">d2.groupby</span>([<span class="hl-f">d2.first_purchase.dt.year.rename</span>(<span class="hl-s">&quot;cohort&quot;</span>), <span class="hl-f">d2.order_date.dt.year.rename</span>(<span class="hl-s">&quot;order year&quot;</span>)]).<span class="hl-f">customer_id.nunique</span>().<span class="hl-f">unstack</span>(fill_value=<span class="hl-n">0</span>)
+cohort</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order year</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+    </tr>
+    <tr>
+      <th>cohort</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2023</th>
+      <td>540</td>
+      <td>397</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>0</td>
+      <td>193</td>
+      <td>156</td>
+    </tr>
+    <tr>
+      <th>2025</th>
+      <td>0</td>
+      <td>0</td>
+      <td>52</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<p>Read it row by row: customers acquired in 2023 (first row) and how many of them bought again in 2024 and 2025. This retention table is a favourite interview task.</p>
+<h3 id="include-average-sales-per-customer-by-region">INCLUDE: average sales per customer by region</h3>
+<p><code>AVG({INCLUDE [Customer ID] : SUM([Sales])})</code> with Region in the view first sums sales per customer <em>within</em> each region, then averages those customer totals.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">per_cust = <span class="hl-f">df.groupby</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;customer_id&quot;</span>]).<span class="hl-f">sales.sum</span>().<span class="hl-f">groupby</span>(<span class="hl-s">&quot;region&quot;</span>).<span class="hl-f">mean</span>() / 1e3
+<span class="hl-f">print</span>((per_cust).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">rename</span>(<span class="hl-s">&quot;avg sales per customer (₹ thousand)&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">region
+East     238.4
+North    263.5
+South    261.9
+West     262.4
+Name: avg sales per customer (₹ thousand), dtype: float64</pre></div>
+<h3 id="exclude-share-of-the-region">EXCLUDE: share of the region</h3>
+<p>With Region and Category in the view, <code>SUM([Sales]) / SUM({EXCLUDE [Category] : SUM([Sales])})</code> gives each category's share of its region.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rc = <span class="hl-f">df.groupby</span>([<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>]).<span class="hl-f">sales.sum</span>()
+(rc / <span class="hl-f">rc.groupby</span>(level=<span class="hl-n">0</span>).<span class="hl-f">transform</span>(<span class="hl-s">&quot;sum&quot;</span>) * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">unstack</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>Furniture</th>
+      <th>Office Supplies</th>
+      <th>Technology</th>
+    </tr>
+    <tr>
+      <th>region</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>East</th>
+      <td>17.1</td>
+      <td>5.9</td>
+      <td>77.1</td>
+    </tr>
+    <tr>
+      <th>North</th>
+      <td>16.3</td>
+      <td>4.5</td>
+      <td>79.2</td>
+    </tr>
+    <tr>
+      <th>South</th>
+      <td>17.8</td>
+      <td>4.6</td>
+      <td>77.6</td>
+    </tr>
+    <tr>
+      <th>West</th>
+      <td>18.0</td>
+      <td>5.2</td>
+      <td>76.8</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<h2 id="order-of-operations">Order of operations</h2>
+<p>Filters and calculations run in a fixed order. This explains most "why did my number not change?" questions:</p>
+<figure class="fig"><img src="../img/tableau-03-02.png" alt="Tableau&#x27;s order of operations (simplified). FIXED LODs ignore normal dimension filters unless the filter is added to context." loading="lazy"><figcaption>Tableau's order of operations (simplified). FIXED LODs ignore normal dimension filters unless the filter is added to context.</figcaption></figure>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Make a FIXED LOD respect a filter</b></div><p>A FIXED LOD is computed before dimension filters, so filtering Region does not change <code>{FIXED [Customer ID] : MIN([Order Date])}</code>. To make it respect the filter, right-click the filter → <strong>Add to Context</strong>.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Row-level calculations run per row; aggregate calculations run on marks: compute margins as SUM/SUM.</li>
+<li>Table calculations work on the view's numbers; Compute Using sets the direction (addressing) and the restart points (partitioning).</li>
+<li>FIXED sets an exact level; INCLUDE adds a level; EXCLUDE removes one.</li>
+<li>FIXED LODs run before dimension filters; use context filters when they must respect a filter.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which formula gives the correct profit margin for a category?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SUM([Profit]) / SUM([Sales])</button><button type="button" class="opt" data-ok="0"><i>B</i>AVG([Profit] / [Sales])</button><button type="button" class="opt" data-ok="0"><i>C</i>[Profit] / [Sales] summed</button><button type="button" class="opt" data-ok="0"><i>D</i>MAX([Profit]) / MAX([Sales])</button></div><div class="qexp"><b>Answer: A.</b> Divide the totals; do not average row ratios.</div></div><div class="qq"><p class="qtext"><b>2.</b> You want each customer's first order date regardless of the view. Which expression?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>{FIXED [Customer ID] : MIN([Order Date])}</button><button type="button" class="opt" data-ok="0"><i>B</i>{INCLUDE [Customer ID] : MIN([Order Date])}</button><button type="button" class="opt" data-ok="0"><i>C</i>RUNNING_MIN([Order Date])</button><button type="button" class="opt" data-ok="0"><i>D</i>MIN([Order Date])</button></div><div class="qexp"><b>Answer: A.</b> FIXED computes at exactly the customer level.</div></div><div class="qq"><p class="qtext"><b>3.</b> A running total restarts for every category. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Category is partitioning the calculation (Compute Using is across months)</button><button type="button" class="opt" data-ok="0"><i>B</i>The data is wrong</button><button type="button" class="opt" data-ok="0"><i>C</i>It is a FIXED LOD</button><button type="button" class="opt" data-ok="0"><i>D</i>The filter is in context</button></div><div class="qexp"><b>Answer: A.</b> Fields not used for addressing partition the calculation.</div></div><div class="qq"><p class="qtext"><b>4.</b> Your FIXED LOD ignores the Region filter. How do you fix it?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Add the Region filter to context</button><button type="button" class="opt" data-ok="0"><i>B</i>Use a measure filter</button><button type="button" class="opt" data-ok="0"><i>C</i>Change to a table calculation</button><button type="button" class="opt" data-ok="0"><i>D</i>Hide the field</button></div><div class="qexp"><b>Answer: A.</b> Context filters run before FIXED LODs.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which table-calculation function returns the previous value in the partition?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>LOOKUP(SUM([Sales]), -1)</button><button type="button" class="opt" data-ok="0"><i>B</i>INDEX()</button><button type="button" class="opt" data-ok="0"><i>C</i>SIZE()</button><button type="button" class="opt" data-ok="0"><i>D</i>TOTAL(SUM([Sales]))</button></div><div class="qexp"><b>Answer: A.</b> LOOKUP with offset −1 looks one mark back.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which expression gives each category's share of its region with Region and Category in the view?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SUM([Sales]) / SUM({EXCLUDE [Category] : SUM([Sales])})</button><button type="button" class="opt" data-ok="0"><i>B</i>SUM([Sales]) / SUM([Sales])</button><button type="button" class="opt" data-ok="0"><i>C</i>{FIXED [Category] : SUM([Sales])}</button><button type="button" class="opt" data-ok="0"><i>D</i>RANK(SUM([Sales]))</button></div><div class="qexp"><b>Answer: A.</b> EXCLUDE removes Category, leaving the region total.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Create: (1) a "Profit status" field that labels each sub-category Loss or Profit and colour a bar chart with it; (2) a 3-month moving average of monthly sales; (3) a cohort table of customers by first-purchase year and order year; (4) a percent-of-region field with EXCLUDE; (5) a Top-N rank of products by profit.</p><details class="sol"><summary>Show solution</summary><p>(1) <code>IF SUM([Profit]) &lt; 0 THEN "Loss" ELSE "Profit" END</code> on Color. (2) <code>WINDOW_AVG(SUM([Sales]), -2, 0)</code> with continuous MONTH on Columns. (3) <code>{FIXED [Customer ID] : MIN([Order Date])}</code>, YEAR of it on Rows, YEAR(Order Date) on Columns, COUNTD([Customer ID]) on Text. (4) As in the lesson. (5) <code>RANK(SUM([Profit]))</code> computed along Product Name, then filter rank ≤ 10 (a table-calculation filter).</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain FIXED, INCLUDE and EXCLUDE.</strong>
+FIXED aggregates at exactly the listed dimensions, ignoring the view; INCLUDE adds dimensions to the view's level (finer), then the result is re-aggregated; EXCLUDE removes dimensions from the view's level (coarser). FIXED runs before dimension filters; INCLUDE and EXCLUDE run after them.</p>
+<p><strong>Q: Table calculation vs LOD expression?</strong>
+A table calculation runs last, on the aggregated numbers in the view, and depends on layout (Compute Using). An LOD runs in the data source query at a level you define and can be used as a dimension, e.g. for cohorts.</p>
+<p><strong>Q: Why might a running total be wrong?</strong>
+Usually Compute Using: it is computing along the wrong field, or a dimension is partitioning it. Check Edit Table Calculation → Specific Dimensions and the sort order.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.tableau.com/learn/training">Tableau free training videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://public.tableau.com/app/discover">Tableau Public gallery (Viz of the Day) ↗</a></li><li><a target="_blank" rel="noopener" href="https://help.tableau.com/current/pro/desktop/en-us/functions.htm">Tableau functions reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://workout-wednesday.com/">Workout Wednesday challenges ↗</a></li><li><a target="_blank" rel="noopener" href="https://makeovermonday.co.uk/">Makeover Monday datasets ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html"><small>← Previous</small><b>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</b></a><a class="next" href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html"><small>Next →</small><b>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#three-kinds-of-calculation">Three kinds of calculation</a><a href="#row-level-vs-aggregate-the-profit-margin-trap">Row-level vs aggregate: the profit-margin trap</a><a href="#useful-functions">Useful functions</a><a href="#table-calculations">Table calculations</a><a href="#level-of-detail-lod-expressions">Level of Detail (LOD) expressions</a><a href="#order-of-operations">Order of operations</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

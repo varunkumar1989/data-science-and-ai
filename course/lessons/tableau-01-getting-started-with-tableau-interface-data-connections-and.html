@@ -1,0 +1,456 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Getting Started with Tableau: Interface, Data Connections and Your First Views · Tableau Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand the Tableau product family, install Tableau Public, connect to the Superstore India data, read the Data Source page, learn dimensions vs measures and discrete vs continuous fields, master the Marks card and shelves, build and sort your first views, and save them to Tableau Public."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tableau"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tableau">Tableau</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#4E79A7">Tableau</div>
+<ol class="side-l"><li class="on"><a href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html" data-lid="tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li class=""><a href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html" data-lid="tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li class=""><a href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html" data-lid="tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li class=""><a href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html" data-lid="tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li class=""><a href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html" data-lid="tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li class=""><a href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html" data-lid="tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tableau-01">
+<div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 1 of 6</div><h1>Getting Started with Tableau: Interface, Data Connections and Your First Views</h1>
+<p class="sum">Understand the Tableau product family, install Tableau Public, connect to the Superstore India data, read the Data Source page, learn dimensions vs measures and discrete vs continuous fields, master the Marks card and shelves, build and sort your first views, and save them to Tableau Public.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tableau/Tableau_01_Getting_Started_with_Tableau_Interface_Data_Connections_and_Your_First.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tableau-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Describe Tableau Desktop, Public, Cloud, Server, Prep and Pulse, and when each is used</li><li>Connect to a CSV, check data types and rename or hide fields on the Data Source page</li><li>Explain dimensions vs measures and discrete (blue) vs continuous (green) fields</li><li>Build bar, line and text-table views with the Columns, Rows, Marks, Filters and Pages shelves</li><li>Sort, label, format and save a workbook to Tableau Public</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-tableau">What is Tableau?</h2>
+<p><strong>Tableau</strong> is a visual analytics platform: you drag fields onto shelves and Tableau writes the query, aggregates the data and draws the chart. It is owned by Salesforce and, with Power BI, is one of the two BI tools most often named in Indian analyst job posts. Where Power BI leans on DAX formulas and the Microsoft stack, Tableau is known for fast visual exploration and highly customisable charts.</p>
+<figure class="fig"><img src="../img/tableau-01-01.png" alt="The Tableau product family. You build in Desktop (or Public), share on Cloud/Server/Public, and prepare data in Prep." loading="lazy"><figcaption>The Tableau product family. You build in Desktop (or Public), share on Cloud/Server/Public, and prepare data in Prep.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Product</th>
+<th>What it is</th>
+<th>Cost (2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tableau Public</strong> (desktop app + website)</td>
+<td>Free version of Desktop; workbooks are saved <strong>publicly</strong> on public.tableau.com</td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>Tableau Desktop</strong></td>
+<td>Full authoring tool; saves locally, connects to databases</td>
+<td>Paid (Creator licence)</td>
+</tr>
+<tr>
+<td><strong>Tableau Cloud</strong></td>
+<td>Tableau's hosted service for sharing, refresh schedules and permissions</td>
+<td>Paid, per user</td>
+</tr>
+<tr>
+<td><strong>Tableau Server</strong></td>
+<td>The same as Cloud, but installed on your company's own servers</td>
+<td>Paid</td>
+</tr>
+<tr>
+<td><strong>Tableau Prep Builder</strong></td>
+<td>Visual tool to clean, join and reshape data before analysis</td>
+<td>Included with Creator</td>
+</tr>
+<tr>
+<td><strong>Tableau Pulse / Tableau Agent</strong></td>
+<td>AI features: metric digests in plain language and an assistant that helps write calculations and build views</td>
+<td>Cloud add-ons</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Which one should you install?</b></div><p>Learners should install <strong>Tableau Public</strong> (free). It has almost every authoring feature of Desktop. The two limits: workbooks are saved to your public profile (so never use confidential data) and it connects mainly to files (Excel, CSV, text, JSON, PDF, spatial) and Google Sheets rather than company databases. Your public profile also works as a portfolio for interviews.</p></div>
+<h2 id="install-and-connect">Install and connect</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Install Tableau Public and connect to Superstore</b></div><ol>
+<li>Go to public.tableau.com → <strong>Create</strong> → download <strong>Tableau Public</strong> for Windows or Mac and install it; sign up for a free profile.</li>
+<li>Open Tableau Public. On the <strong>Connect</strong> pane choose <strong>Text file</strong> and pick <code>superstore_sales.csv</code> (for an Excel file choose <strong>Microsoft Excel</strong>).</li>
+<li>The <strong>Data Source page</strong> opens: the table appears in the canvas and a preview grid below it.</li>
+<li>Check each column's <strong>data type icon</strong> (Abc = string, # = number, calendar = date, globe = geographic). Click an icon to change it.</li>
+<li>Click <strong>Sheet 1</strong> at the bottom to start building.</li>
+</ol></div>
+<p>The data you connect to is the same Superstore India file used in the Excel and Power BI lessons. Check its size before you build anything:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+<span class="hl-f">print</span>(df.shape)
+<span class="hl-f">print</span>(<span class="hl-f">df.dtypes.astype</span>(str).<span class="hl-f">value_counts</span>().<span class="hl-f">to_dict</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Orders from&quot;</span>, <span class="hl-f">df.order_date.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">df.order_date.max</span>().<span class="hl-f">date</span>())
+<span class="hl-f">df.head</span>(<span class="hl-n">3</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(6323, 19)
+{&#x27;object&#x27;: 12, &#x27;float64&#x27;: 3, &#x27;int64&#x27;: 2, &#x27;datetime64[ns]&#x27;: 2}
+Orders from 2023-01-01 to 2025-12-31</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>row_id</th>
+      <th>order_id</th>
+      <th>order_date</th>
+      <th>ship_date</th>
+      <th>ship_mode</th>
+      <th>customer_id</th>
+      <th>customer_name</th>
+      <th>segment</th>
+      <th>city</th>
+      <th>state</th>
+      <th>region</th>
+      <th>product_id</th>
+      <th>category</th>
+      <th>sub_category</th>
+      <th>product_name</th>
+      <th>sales</th>
+      <th>quantity</th>
+      <th>discount</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>2023-01-05</td>
+      <td>Second Class</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+      <td>Karnataka</td>
+      <td>South</td>
+      <td>P0059</td>
+      <td>Technology</td>
+      <td>Phones</td>
+      <td>Nova Phone 223</td>
+      <td>36,000</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3,472.55</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>2023-01-05</td>
+      <td>Second Class</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+      <td>Karnataka</td>
+      <td>South</td>
+      <td>P0050</td>
+      <td>Office Supplies</td>
+      <td>Appliances</td>
+      <td>Orbit Appliance 798</td>
+      <td>3,850</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1,169.54</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>IN-2023-00001</td>
+      <td>2023-01-01</td>
+      <td>2023-01-05</td>
+      <td>Second Class</td>
+      <td>C0765</td>
+      <td>Ishaan Gupta</td>
+      <td>Consumer</td>
+      <td>Bengaluru</td>
+      <td>Karnataka</td>
+      <td>South</td>
+      <td>P0011</td>
+      <td>Furniture</td>
+      <td>Tables</td>
+      <td>Orbit Table 248</td>
+      <td>62,080</td>
+      <td>4</td>
+      <td>0</td>
+      <td>6,044.47</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 19 columns</div></div>
+<p>6,323 rows (order lines) and 19 columns: Tableau will show these as <strong>fields</strong> in the Data pane.</p>
+<h3 id="the-data-source-page">The Data Source page</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Where</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rename a field</td>
+<td>Click the column header → Rename</td>
+<td>Friendly names such as "Sub-Category"</td>
+</tr>
+<tr>
+<td>Hide a field</td>
+<td>Column menu → Hide</td>
+<td>Remove IDs you will never use</td>
+</tr>
+<tr>
+<td>Change type / geographic role</td>
+<td>Click the type icon</td>
+<td>Make <code>state</code> a <strong>State/Province</strong> so it maps</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>Column menu → Split</td>
+<td><code>customer_name</code> → first and last name</td>
+</tr>
+<tr>
+<td>Pivot</td>
+<td>Select columns → Pivot</td>
+<td>Turn month columns into rows</td>
+</tr>
+<tr>
+<td>Data Interpreter</td>
+<td>Left pane checkbox</td>
+<td>Clean messy Excel sheets with titles and merged cells</td>
+</tr>
+<tr>
+<td>Live vs Extract</td>
+<td>Top right</td>
+<td>Extract (.hyper) is a fast snapshot; Live queries the source every time</td>
+</tr>
+<tr>
+<td>Filters (data source)</td>
+<td>Top right → Add</td>
+<td>Keep only the rows the workbook needs</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-workspace">The workspace</h2>
+<figure class="fig"><img src="../img/tableau-01-02.png" alt="The Tableau worksheet layout. Drag fields from the Data pane onto shelves and the Marks card." loading="lazy"><figcaption>The Tableau worksheet layout. Drag fields from the Data pane onto shelves and the Marks card.</figcaption></figure>
+<h2 id="dimensions-vs-measures-discrete-vs-continuous">Dimensions vs measures, discrete vs continuous</h2>
+<p>Tableau sorts every field in two ways, and the colour of a pill tells you which:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Meaning</th>
+<th>Example</th>
+<th>What it creates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dimension</strong></td>
+<td>Categories you slice by</td>
+<td>Region, Category, Customer Name</td>
+<td>Groups (one mark per value)</td>
+</tr>
+<tr>
+<td><strong>Measure</strong></td>
+<td>Numbers you aggregate</td>
+<td>Sales, Profit, Quantity</td>
+<td>SUM, AVG, COUNT…</td>
+</tr>
+<tr>
+<td><strong>Discrete</strong> (blue pill)</td>
+<td>Separate values</td>
+<td>Region, YEAR(Order Date) as "2023, 2024"</td>
+<td><strong>Headers</strong></td>
+</tr>
+<tr>
+<td><strong>Continuous</strong> (green pill)</td>
+<td>An unbroken range</td>
+<td>SUM(Sales), exact date</td>
+<td><strong>Axes</strong></td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/tableau-01-03.png" alt="Blue (discrete) pills create headers; green (continuous) pills create axes." loading="lazy"><figcaption>Blue (discrete) pills create headers; green (continuous) pills create axes.</figcaption></figure>
+<p>A measure dropped into the view is <strong>aggregated</strong> (default SUM). Right-click the pill → <strong>Measure</strong> to switch to Average, Median, Count, Count (Distinct), Minimum, Maximum, Standard deviation and so on.</p>
+<h2 id="your-first-views">Your first views</h2>
+<h3 id="sales-by-region-bar-chart">Sales by region (bar chart)</h3>
+<p>Drag <strong>Region</strong> to Rows and <strong>Sales</strong> to Columns. Tableau writes the equivalent of <code>SELECT region, SUM(sales) FROM superstore GROUP BY region</code> and draws one bar per region:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">by_region = (<span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[[<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">sum</span>() / 1e7).<span class="hl-f">round</span>(<span class="hl-n">2</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>)
+by_region.columns = [<span class="hl-s">&quot;Sales (₹ crore)&quot;</span>, <span class="hl-s">&quot;Profit (₹ crore)&quot;</span>]
+by_region</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sales (₹ crore)</th>
+      <th>Profit (₹ crore)</th>
+    </tr>
+    <tr>
+      <th>region</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>South</th>
+      <td>5.40</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>West</th>
+      <td>5.20</td>
+      <td>0.47</td>
+    </tr>
+    <tr>
+      <th>North</th>
+      <td>4.90</td>
+      <td>0.46</td>
+    </tr>
+    <tr>
+      <th>East</th>
+      <td>4.65</td>
+      <td>0.44</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<figure class="fig"><img src="../img/tableau-01-04.png" alt="The view you get: SUM(Sales) by Region, sorted descending, with labels." loading="lazy"><figcaption>The view you get: SUM(Sales) by Region, sorted descending, with labels.</figcaption></figure>
+<p>The default Tableau colours (blue #4E79A7, orange #F28E2B, red #E15759…) are the <strong>Tableau 10</strong> palette used in the figures in this track.</p>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Sort, label and colour it</b></div><ol>
+<li>Hover the Sales axis and click the <strong>sort</strong> icon, or click the toolbar sort descending button.</li>
+<li>Click <strong>Label</strong> on the Marks card → tick <em>Show mark labels</em>.</li>
+<li>Drag <strong>Profit</strong> onto <strong>Color</strong>: bars are shaded by profit, so sales and margin show together.</li>
+<li>Right-click the Sales axis → <strong>Format</strong> → Numbers → Currency (Custom) → Display units: <em>Crores</em> is not built in, so use a calculated field <code>[Sales]/1e7</code> named "Sales (₹ cr)" (Lesson 3), or show <em>Millions</em>.</li>
+<li>Double-click the sheet tab and rename it "Sales by Region".</li>
+</ol></div>
+<h3 id="sales-over-time-line-chart">Sales over time (line chart)</h3>
+<p>Drag <strong>Order Date</strong> to Columns: Tableau shows <strong>YEAR(Order Date)</strong> as a discrete header. Click the <strong>+</strong> on the pill to drill down to Quarter and Month. Right-click the pill and choose the <strong>green</strong> "Month" (continuous) to draw a single timeline, or the <strong>blue</strong> "Month" (discrete) to compare the same month across years.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = <span class="hl-f">df.set_index</span>(<span class="hl-s">&quot;order_date&quot;</span>).<span class="hl-f">sales.resample</span>(<span class="hl-s">&quot;ME&quot;</span>).<span class="hl-f">sum</span>() / 1e5
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Months:&quot;</span>, <span class="hl-f">len</span>(m), <span class="hl-s">&quot;| best month:&quot;</span>, <span class="hl-f">m.idxmax</span>().<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%b %Y&quot;</span>), <span class="hl-s">f&quot;₹{m.max():.1f} lakh&quot;</span>, <span class="hl-s">&quot;| weakest:&quot;</span>, <span class="hl-f">m.idxmin</span>().<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%b %Y&quot;</span>), <span class="hl-s">f&quot;₹{m.min():.1f} lakh&quot;</span>)
+yearly = (<span class="hl-f">df.groupby</span>(df.order_date.dt.year).<span class="hl-f">sales.sum</span>() / 1e7).<span class="hl-f">round</span>(<span class="hl-n">2</span>); yearly</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Months: 36 | best month: Nov 2025 ₹102.8 lakh | weakest: Jan 2023 ₹24.5 lakh</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+    </tr>
+    <tr>
+      <th>order_date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2023</th>
+      <td>5.76</td>
+    </tr>
+    <tr>
+      <th>2024</th>
+      <td>6.54</td>
+    </tr>
+    <tr>
+      <th>2025</th>
+      <td>7.84</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 1 columns</div></div>
+<h3 id="text-table-crosstab">Text table (crosstab)</h3>
+<p>Put <strong>Category</strong> on Rows, <strong>YEAR(Order Date)</strong> on Columns and <strong>Sales</strong> on <strong>Text</strong>. Add <strong>Analysis → Totals → Show Row Grand Totals</strong>. This is Tableau's pivot table:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">ct = <span class="hl-f">pd.crosstab</span>(df.category, df.order_date.dt.year, values=df.sales, aggfunc=<span class="hl-s">&quot;sum&quot;</span>, margins=<span class="hl-k">True</span>, margins_name=<span class="hl-s">&quot;Grand Total&quot;</span>) / 1e5
+<span class="hl-f">ct.round</span>(<span class="hl-n">1</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_date</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+      <th>Grand Total</th>
+    </tr>
+    <tr>
+      <th>category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furniture</th>
+      <td>99.5</td>
+      <td>121.3</td>
+      <td>127.6</td>
+      <td>348.4</td>
+    </tr>
+    <tr>
+      <th>Office Supplies</th>
+      <td>26.1</td>
+      <td>35.5</td>
+      <td>39.7</td>
+      <td>101.3</td>
+    </tr>
+    <tr>
+      <th>Technology</th>
+      <td>450.8</td>
+      <td>497.2</td>
+      <td>616.5</td>
+      <td>1,564.4</td>
+    </tr>
+    <tr>
+      <th>Grand Total</th>
+      <td>576.4</td>
+      <td>654.0</td>
+      <td>783.8</td>
+      <td>2,014.1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 4 columns</div></div>
+<h2 id="show-me">Show Me</h2>
+<p><strong>Show Me</strong> (top right) highlights the chart types that fit the fields you have selected and states what it needs, e.g. "<em>1 date, 1 or more dimensions, 1 or more measures</em>" for a line chart. It is a fast start, but learn to build each chart by hand: interviewers often ask <em>how</em> you would build a view.</p>
+<h2 id="saving-and-sharing">Saving and sharing</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Format</th>
+<th>What it contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.twb</code> workbook</td>
+<td>Sheets, dashboards and the connection, <strong>no data</strong></td>
+</tr>
+<tr>
+<td><code>.twbx</code> packaged workbook</td>
+<td>Workbook <strong>plus</strong> a copy of the data/extract: share this one</td>
+</tr>
+<tr>
+<td><code>.hyper</code> extract</td>
+<td>Tableau's compressed, fast data snapshot</td>
+</tr>
+<tr>
+<td>Tableau Public profile</td>
+<td><strong>File → Save to Tableau Public</strong>; anyone can view and download it</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Beginner mistakes</b></div><ul>
+<li>Saving confidential company data to Tableau Public: everything there is public.</li>
+<li>Sending a <code>.twb</code> file: the receiver cannot open it without your data. Send <code>.twbx</code>.</li>
+<li>Leaving a date as a string ("Abc"): you lose drill-down and date functions. Change the type on the Data Source page.</li>
+<li>Using a measure that should be a dimension (e.g. Postal Code as SUM): right-click → Convert to Dimension.</li>
+</ul></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Tableau in 2026</b></div><ul>
+<li><strong>Tableau Agent</strong> (formerly Einstein Copilot for Tableau) suggests calculations and builds views from a typed question in Tableau Cloud.</li>
+<li><strong>Tableau Pulse</strong> sends plain-language metric summaries ("Sales are up 8% this week, driven by the West region") to email and Slack.</li>
+<li><strong>Tableau Next</strong> is Salesforce's agent-based analytics layer on top of Data Cloud. Desktop and Public remain the tools you learn first.</li>
+</ul></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Tableau turns drag-and-drop into queries: shelves define the structure, the Marks card defines the look.</li>
+<li>Dimensions slice, measures aggregate; blue pills are discrete (headers), green pills are continuous (axes).</li>
+<li>Start with Tableau Public, connect to a file, fix data types on the Data Source page, then build.</li>
+<li>Share packaged workbooks (<code>.twbx</code>) or publish to Tableau Public/Cloud.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does a green pill on Columns create?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A continuous axis</button><button type="button" class="opt" data-ok="0"><i>B</i>A set of headers</button><button type="button" class="opt" data-ok="0"><i>C</i>A filter</button><button type="button" class="opt" data-ok="0"><i>D</i>A calculated field</button></div><div class="qexp"><b>Answer: A.</b> Green = continuous = axis; blue = discrete = headers.</div></div><div class="qq"><p class="qtext"><b>2.</b> You drag Sales into the view. What does Tableau show by default?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SUM(Sales) for each combination of the dimensions in the view</button><button type="button" class="opt" data-ok="0"><i>B</i>Every row's sales value</button><button type="button" class="opt" data-ok="0"><i>C</i>The average sales</button><button type="button" class="opt" data-ok="0"><i>D</i>The count of rows</button></div><div class="qexp"><b>Answer: A.</b> Measures are aggregated, and SUM is the default.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which file should you email a colleague so they can open your work with the data?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A packaged workbook (.twbx)</button><button type="button" class="opt" data-ok="0"><i>B</i>A workbook (.twb)</button><button type="button" class="opt" data-ok="0"><i>C</i>A .hyper file only</button><button type="button" class="opt" data-ok="0"><i>D</i>A screenshot</button></div><div class="qexp"><b>Answer: A.</b> .twbx bundles the workbook with its data.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the main limitation of Tableau Public?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Workbooks are saved publicly and it connects mainly to files</button><button type="button" class="opt" data-ok="0"><i>B</i>It cannot draw maps</button><button type="button" class="opt" data-ok="0"><i>C</i>It has no calculated fields</button><button type="button" class="opt" data-ok="0"><i>D</i>It only works on Mac</button></div><div class="qexp"><b>Answer: A.</b> Never put confidential data on Tableau Public.</div></div><div class="qq"><p class="qtext"><b>5.</b> State is shown as "Abc" and will not draw a map. What do you do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Assign the geographic role State/Province</button><button type="button" class="opt" data-ok="0"><i>B</i>Convert it to a measure</button><button type="button" class="opt" data-ok="0"><i>C</i>Delete the field</button><button type="button" class="opt" data-ok="0"><i>D</i>Use a dual axis</button></div><div class="qexp"><b>Answer: A.</b> Geographic roles give a field latitude and longitude.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which feature suggests chart types for the selected fields?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Show Me</button><button type="button" class="opt" data-ok="0"><i>B</i>Pages shelf</button><button type="button" class="opt" data-ok="0"><i>C</i>Data Interpreter</button><button type="button" class="opt" data-ok="0"><i>D</i>Extract</button></div><div class="qexp"><b>Answer: A.</b> Show Me lists the chart types and what each needs.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Connect to <code>superstore_sales.csv</code> in Tableau Public and build three sheets: (1) Sales by Category sorted descending with labels; (2) a continuous monthly Sales line with Profit on Color; (3) a text table of Segment × Year with grand totals. Save as a packaged workbook and publish to your Tableau Public profile.</p><details class="sol"><summary>Show solution</summary><p>Sheet 1: Category on Rows, SUM(Sales) on Columns, sort descending, Label on. Sheet 2: MONTH(Order Date) continuous (green) on Columns, SUM(Sales) on Rows, SUM(Profit) on Color. Sheet 3: Segment on Rows, YEAR(Order Date) on Columns, SUM(Sales) on Text, Analysis → Totals → Show Row and Column Grand Totals. File → Save to Tableau Public.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between a dimension and a measure?</strong>
+A dimension is a categorical field used to group the data (Region, Category); a measure is a numeric field that Tableau aggregates (SUM of Sales). Each mark represents one combination of the dimensions in the view.</p>
+<p><strong>Q: Discrete vs continuous?</strong>
+Discrete fields (blue) create headers and distinct colours; continuous fields (green) create axes and colour gradients. Dates can be either: discrete YEAR gives "2023, 2024" headers, continuous MONTH gives a timeline.</p>
+<p><strong>Q: .twb vs .twbx vs .hyper?</strong>
+.twb is the workbook definition without data; .twbx packages the workbook with its data or extract; .hyper is the extract file itself.</p>
+<p><strong>Q: Live connection or extract?</strong>
+Live always shows current data but depends on the source's speed; an extract is a fast, compressed snapshot that you refresh on a schedule. Use extracts for speed and offline work, live for real-time needs or very large governed warehouses.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.tableau.com/learn/training">Tableau free training videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://public.tableau.com/app/discover">Tableau Public gallery (Viz of the Day) ↗</a></li><li><a target="_blank" rel="noopener" href="https://help.tableau.com/current/pro/desktop/en-us/functions.htm">Tableau functions reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://workout-wednesday.com/">Workout Wednesday challenges ↗</a></li><li><a target="_blank" rel="noopener" href="https://makeovermonday.co.uk/">Makeover Monday datasets ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html"><small>Next →</small><b>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-tableau">What is Tableau?</a><a href="#install-and-connect">Install and connect</a><a href="#the-workspace">The workspace</a><a href="#dimensions-vs-measures-discrete-vs-continuous">Dimensions vs measures, discrete vs continuous</a><a href="#your-first-views">Your first views</a><a href="#show-me">Show Me</a><a href="#saving-and-sharing">Saving and sharing</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>
