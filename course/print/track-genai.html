@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Generative AI &amp; Agentic AI · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#EA580C"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 7</div><h1>Generative AI &amp; Agentic AI</h1><p>How LLMs work, prompting, LLM APIs in Python, embeddings and vector search, RAG, tool use, agents, MCP, evaluation, guardrails, fine-tuning and responsible AI.</p>
-<div class="cv-m"><span>11 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li><a href="#L-genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li><a href="#L-genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li><a href="#L-genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li><a href="#L-genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li><a href="#L-genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li><a href="#L-genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li><a href="#L-genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li><a href="#L-genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li><a href="#L-genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li><a href="#L-genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li></ol></section><article class="lesson-art bk" id="L-genai-01"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 1</div><h1>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</h1>
+<div class="cv-m"><span>12 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li><a href="#L-genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li><a href="#L-genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li><a href="#L-genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li><a href="#L-genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li><a href="#L-genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li><a href="#L-genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li><a href="#L-genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li><a href="#L-genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li><a href="#L-genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li><a href="#L-genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li><li><a href="#L-genai-12"><span>12</span>Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)</a></li></ol></section><article class="lesson-art bk" id="L-genai-01"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 1</div><h1>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</h1>
 <p class="sum">Open the black box. Tokens and tokenisation (built from scratch), next-token prediction and sampling with temperature, embeddings, attention and the transformer, pre-training, instruction tuning and RLHF, context windows, reasoning models, why LLMs hallucinate, and how to choose among Claude, GPT, Gemini, Llama, Mistral, DeepSeek and Qwen.</p><div class="tags"><span class="tag live">● DVA + AI class 1 (deep dive)</span><span class="tag new">✦ 2026 model landscape</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain tokens, vocabularies and why token counts drive cost and limits</li><li>Describe next-token prediction and the effect of temperature and top-p sampling</li><li>Explain embeddings, self-attention and the transformer at an intuitive level</li><li>Describe the training stages (pre-training, instruction tuning, preference optimisation) and reasoning models</li><li>Explain hallucinations and choose a model by capability, cost, latency, privacy and context length</li></ul></div></div><div class="content"><h2 id="genai-01-an-llm-in-one-sentence">An LLM in one sentence</h2>
 <p>A large language model is a neural network trained to <strong>predict the next token</strong> given the previous ones. Doing that very well on trillions of words forces it to learn grammar, facts, reasoning patterns and styles, which instruction tuning then turns into a helpful assistant.</p>
@@ -2748,4 +2748,196 @@ Curated read-only views with documented columns and metric definitions, schema-a
 <p><strong>Q: What are the risks of AI-generated analysis code?</strong>
 Silent logic errors, wrong joins and definitions, security issues, and data leakage to external tools; mitigate with tests, reconciliation checks, code review and approved tools.</p>
 <p><strong>Q: How can LLMs help with data cleaning?</strong>
-Normalising categories and entity names, extracting structured fields from text, detecting anomalies in descriptions, and generating cleaning code, always with validation against allowed values and source data.</p></div></div></article></body></html>
+Normalising categories and entity names, extracting structured fields from text, detecting anomalies in descriptions, and generating cleaning code, always with validation against allowed values and source data.</p></div></div></article><article class="lesson-art bk" id="L-genai-12"><div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 12</div><h1>Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)</h1>
+<p class="sum">Put the GenAI track together. Reference architecture for an LLM application, a support-assistant capstone (RAG + tools + guardrails + evaluation), a Streamlit chat front end and a FastAPI back end, session memory, streaming, cost and latency budgets, caching, observability and tracing, deployment options, a launch checklist and responsible-AI governance, with a runnable cost and capacity planner.</p><div class="tags"><span class="tag live">● GenAI Launchpad capstone</span><span class="tag new">✦ 2026 practice</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Design the architecture of a production LLM application</li><li>Build a chat UI and an API around an LLM pipeline</li><li>Plan cost, latency and capacity with caching and model routing</li><li>Add observability, feedback and evaluation loops</li><li>Ship responsibly with a launch checklist and governance</li></ul></div></div><div class="content"><h2 id="genai-12-reference-architecture">Reference architecture</h2>
+<figure class="fig"><img src="../img/genai-12-01.png" alt="Components of a production GenAI application." loading="lazy"><figcaption>Components of a production GenAI application.</figcaption></figure>
+<h2 id="genai-12-capstone-brief-novamart-support-assistant">Capstone brief: NovaMart support assistant</h2>
+<p>Answer customer questions from the policy handbook (RAG, lesson 5), look up order status with a tool (lesson 6), refuse out-of-scope or unsafe requests, hand over to a human when unsure, and measure quality (lesson 9).</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accurate policy answers with sources</td>
+<td>Hybrid retrieval + citations, "answer only from documents"</td>
+</tr>
+<tr>
+<td>Order status</td>
+<td><code>get_order(order_id)</code> tool, read-only, customer must be authenticated</td>
+</tr>
+<tr>
+<td>Refunds above ₹5,000</td>
+<td>Tool creates a ticket for a human; the model never approves money</td>
+</tr>
+<tr>
+<td>PII</td>
+<td>Redact before logging; no card numbers in prompts</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>60-question eval set, weekly regression, thumbs up/down</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Small model for routing/classification, larger model for complex answers, prompt caching</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="genai-12-chat-front-end-streamlit">Chat front end (Streamlit)</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># app.py  -&gt; streamlit run app.py</span>
+<span class="hl-k">import</span> streamlit <span class="hl-k">as</span> st, requests
+<span class="hl-f">st.title</span>(<span class="hl-s">&quot;NovaMart Help&quot;</span>)
+<span class="hl-k">if</span> <span class="hl-s">&quot;history&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> st.session_state: st.session_state.history = []
+<span class="hl-k">for</span> m <span class="hl-k">in</span> st.session_state.history: <span class="hl-f">st.chat_message</span>(m[<span class="hl-s">&quot;role&quot;</span>]).<span class="hl-f">write</span>(m[<span class="hl-s">&quot;content&quot;</span>])
+<span class="hl-k">if</span> q := <span class="hl-f">st.chat_input</span>(<span class="hl-s">&quot;Ask about orders, returns, delivery…&quot;</span>):
+    <span class="hl-f">st.chat_message</span>(<span class="hl-s">&quot;user&quot;</span>).<span class="hl-f">write</span>(q)
+    r = <span class="hl-f">requests.post</span>(<span class="hl-s">&quot;http://localhost:8000/chat&quot;</span>, json={<span class="hl-s">&quot;session_id&quot;</span>: <span class="hl-f">st.session_state.get</span>(<span class="hl-s">&quot;sid&quot;</span>, <span class="hl-s">&quot;demo&quot;</span>), <span class="hl-s">&quot;message&quot;</span>: q}, timeout=<span class="hl-n">60</span>).<span class="hl-f">json</span>()
+    <span class="hl-f">st.chat_message</span>(<span class="hl-s">&quot;assistant&quot;</span>).<span class="hl-f">write</span>(r[<span class="hl-s">&quot;answer&quot;</span>] + (<span class="hl-s">&quot;\n\n&quot;</span> + <span class="hl-s">&quot; · &quot;</span>.<span class="hl-f">join</span>(r[<span class="hl-s">&quot;sources&quot;</span>]) <span class="hl-k">if</span> r[<span class="hl-s">&quot;sources&quot;</span>] <span class="hl-k">else</span> <span class="hl-s">&quot;&quot;</span>))
+    st.session_state.history += [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: q}, {<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;assistant&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: r[<span class="hl-s">&quot;answer&quot;</span>]}]
+    c1, c2 = <span class="hl-f">st.columns</span>(<span class="hl-n">8</span>)[:<span class="hl-n">2</span>]
+    <span class="hl-f">c1.button</span>(<span class="hl-s">&quot;👍&quot;</span>, key=<span class="hl-s">f&quot;up{len(st.session_state.history)}&quot;</span>); <span class="hl-f">c2.button</span>(<span class="hl-s">&quot;👎&quot;</span>, key=<span class="hl-s">f&quot;down{len(st.session_state.history)}&quot;</span>)</code></pre></div>
+<h2 id="genai-12-api-back-end-fastapi">API back end (FastAPI)</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># api.py -&gt; uvicorn api:app</span>
+<span class="hl-k">from</span> fastapi <span class="hl-k">import</span> FastAPI, HTTPException
+<span class="hl-k">from</span> pydantic <span class="hl-k">import</span> BaseModel, Field
+<span class="hl-k">import</span> anthropic, time, logging
+app, client = <span class="hl-f">FastAPI</span>(), <span class="hl-f">anthropic.Anthropic</span>()
+SESSIONS: dict[str, list] = {}                         <span class="hl-c"># use Redis or a database in production</span>
+<span class="hl-k">class</span> <span class="hl-f">ChatIn</span>(BaseModel):
+    session_id: str = <span class="hl-f">Field</span>(max_length=<span class="hl-n">64</span>)
+    message: str = <span class="hl-f">Field</span>(min_length=<span class="hl-n">1</span>, max_length=<span class="hl-n">2000</span>)
+@<span class="hl-f">app.post</span>(<span class="hl-s">&quot;/chat&quot;</span>)
+<span class="hl-k">def</span> <span class="hl-f">chat</span>(body: ChatIn):
+    <span class="hl-k">if</span> <span class="hl-f">injection_score</span>(body.message)[<span class="hl-n">0</span>] &gt;= <span class="hl-n">2</span>: <span class="hl-k">raise</span> <span class="hl-f">HTTPException</span>(<span class="hl-n">400</span>, <span class="hl-s">&quot;Please rephrase your question.&quot;</span>)
+    prompt, ctx = <span class="hl-f">build_prompt</span>(body.message)            <span class="hl-c"># RAG from lesson 5</span>
+    history = <span class="hl-f">SESSIONS.setdefault</span>(body.session_id, [])[-<span class="hl-n">6</span>:]          <span class="hl-c"># keep the last 3 exchanges</span>
+    t0 = <span class="hl-f">time.perf_counter</span>()
+    resp = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-sonnet-5-5&quot;</span>, max_tokens=<span class="hl-n">2000</span>, system=[{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;text&quot;</span>, <span class="hl-s">&quot;text&quot;</span>: SYSTEM, <span class="hl-s">&quot;cache_control&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;ephemeral&quot;</span>}}],
+                                  messages=history + [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: prompt}])
+    answer = <span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> resp.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>)
+    issues = <span class="hl-f">check_output</span>(answer)                        <span class="hl-c"># lesson 9 guardrails</span>
+    <span class="hl-k">if</span> issues != [<span class="hl-s">&quot;ok&quot;</span>]: answer = <span class="hl-s">&quot;Let me connect you with a support agent.&quot;</span>
+    SESSIONS[body.session_id] = history + [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: body.message}, {<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;assistant&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: answer}]
+    <span class="hl-f">logging.info</span>({<span class="hl-s">&quot;latency_ms&quot;</span>: <span class="hl-f">int</span>(<span class="hl-n">1000</span> * (<span class="hl-f">time.perf_counter</span>() - t0)), <span class="hl-s">&quot;in&quot;</span>: resp.usage.input_tokens, <span class="hl-s">&quot;out&quot;</span>: resp.usage.output_tokens, <span class="hl-s">&quot;issues&quot;</span>: issues})
+    <span class="hl-k">return</span> {<span class="hl-s">&quot;answer&quot;</span>: answer, <span class="hl-s">&quot;sources&quot;</span>: <span class="hl-f">ctx.id.tolist</span>()}</code></pre></div>
+<h2 id="genai-12-cost-and-capacity-planning">Cost and capacity planning</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+PRICE = {<span class="hl-s">&quot;claude-haiku-5-5&quot;</span>: (<span class="hl-n">0.10</span>, <span class="hl-n">0.50</span>), <span class="hl-s">&quot;claude-sonnet-5-5&quot;</span>: (<span class="hl-n">2.00</span>, <span class="hl-n">10.00</span>), <span class="hl-s">&quot;claude-opus-5-5&quot;</span>: (<span class="hl-n">4.00</span>, <span class="hl-n">20.00</span>)}   <span class="hl-c"># USD per million tokens, Oct 2026 list prices</span>
+<span class="hl-k">def</span> <span class="hl-f">monthly</span>(conversations, turns, system_tok, ctx_tok, user_tok, out_tok, model, cache_hit=<span class="hl-n">0.0</span>, usd_inr=<span class="hl-n">88</span>):
+    pin, pout = PRICE[model]; calls = conversations * turns
+    cached = system_tok * cache_hit; uncached = system_tok - cached + ctx_tok + user_tok
+    usd = calls * ((uncached * pin + cached * pin * <span class="hl-n">0.1</span>) + out_tok * pout) / 1e6
+    <span class="hl-k">return</span> <span class="hl-f">round</span>(usd * usd_inr)
+base = <span class="hl-f">dict</span>(conversations=60_000, turns=<span class="hl-n">4</span>, system_tok=<span class="hl-n">1500</span>, ctx_tok=<span class="hl-n">1200</span>, user_tok=<span class="hl-n">60</span>, out_tok=<span class="hl-n">180</span>)
+rows = []
+<span class="hl-k">for</span> m <span class="hl-k">in</span> PRICE:
+    <span class="hl-k">for</span> hit <span class="hl-k">in</span> (<span class="hl-n">0.0</span>, <span class="hl-n">0.9</span>):
+        <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;model&quot;</span>: m, <span class="hl-s">&quot;system prompt cache hit&quot;</span>: <span class="hl-s">f&quot;{hit:.0%}&quot;</span>, <span class="hl-s">&quot;₹ / month&quot;</span>: <span class="hl-f">monthly</span>(model=m, cache_hit=hit, **base)})
+plan = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">plan.to_string</span>(index=<span class="hl-k">False</span>))
+route = <span class="hl-n">0.8</span> * <span class="hl-f">monthly</span>(model=<span class="hl-s">&quot;claude-haiku-5-5&quot;</span>, cache_hit=.<span class="hl-n">9</span>, **base) + <span class="hl-n">0.2</span> * <span class="hl-f">monthly</span>(model=<span class="hl-s">&quot;claude-sonnet-5-5&quot;</span>, cache_hit=.<span class="hl-n">9</span>, **base)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;\nrouting 80% of turns to Haiku and 20% to Sonnet: ≈ ₹{route:,.0f}/month for {base[&#x27;conversations&#x27;]:,} conversations ({route / base[&#x27;conversations&#x27;]:.2f} ₹ per conversation)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">            model system prompt cache hit  ₹ / month
+ claude-haiku-5-5                      0%       7730
+ claude-haiku-5-5                     90%       5164
+claude-sonnet-5-5                      0%     154598
+claude-sonnet-5-5                     90%     103277
+  claude-opus-5-5                      0%     309197
+  claude-opus-5-5                     90%     206554
+
+routing 80% of turns to Haiku and 20% to Sonnet: ≈ ₹24,787/month for 60,000 conversations (0.41 ₹ per conversation)</pre></div>
+<p>Levers: route simple turns to small models, cache the stable system prompt and documents, retrieve fewer but better chunks, cap output length, summarise long histories, and batch offline jobs.</p>
+<h2 id="genai-12-latency">Latency</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Stage</th>
+<th>Typical</th>
+<th>Reduce by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrieval</td>
+<td>20–200 ms</td>
+<td>Index tuning, caching frequent queries</td>
+</tr>
+<tr>
+<td>Model time to first token</td>
+<td>0.3–2 s</td>
+<td>Smaller model, shorter prompt, prompt caching</td>
+</tr>
+<tr>
+<td>Generation</td>
+<td>20–100 tokens/s</td>
+<td>Shorter answers, streaming to the UI</td>
+</tr>
+<tr>
+<td>Tool calls</td>
+<td>API dependent</td>
+<td>Parallel calls, timeouts</td>
+</tr>
+</tbody>
+</table></div>
+<p>Stream responses so users see progress immediately; set timeouts and fallbacks for every external call.</p>
+<h2 id="genai-12-observability-and-feedback">Observability and feedback</h2>
+<p>Log every request with a trace: user/session (pseudonymised), prompt version, retrieved chunk ids, tool calls, model, tokens, latency, guardrail results, and user feedback. Tools: Langfuse, LangSmith, Arize Phoenix, Helicone, OpenTelemetry with your existing dashboards. Review low-rated conversations weekly, add them to the eval set, fix, and re-run the regression suite.</p>
+<h2 id="genai-12-deployment-options">Deployment options</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Option</th>
+<th>Good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Streamlit Community Cloud, Hugging Face Spaces</td>
+<td>Demos and portfolios</td>
+</tr>
+<tr>
+<td>Render, Railway, Fly.io, Cloud Run</td>
+<td>Small production apps (containerised FastAPI)</td>
+</tr>
+<tr>
+<td>AWS (Bedrock + Lambda/ECS), Azure (AI Foundry + App Service), GCP (Vertex AI + Cloud Run)</td>
+<td>Enterprise, data residency, existing cloud</td>
+</tr>
+<tr>
+<td>WhatsApp Business API, Slack, Teams</td>
+<td>Meeting users where they already are</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="genai-12-launch-checklist">Launch checklist</h2>
+<ol>
+<li>Eval set passes target scores; regression suite in CI.</li>
+<li>Guardrails: injection, PII, scope, output validation, refusal handling; human handover path.</li>
+<li>Security: secrets in a vault, least-privilege tools, authentication, rate limits.</li>
+<li>Privacy: DPDP Act notice and consent, retention limits, provider data settings.</li>
+<li>Cost and latency budgets with alerts; kill switch and rollback to the previous prompt.</li>
+<li>Monitoring dashboards and an on-call owner.</li>
+<li>Documentation: model card / system card, known limitations, escalation contacts.</li>
+<li>Gradual rollout (internal → 5% → 50% → 100%) with an A/B comparison against the old process.</li>
+</ol>
+<h2 id="genai-12-responsible-ai-governance">Responsible AI governance</h2>
+<p>Be transparent that users are talking to AI; keep humans accountable for consequential decisions (refunds, credit, hiring); test for bias across languages and customer groups; follow emerging regulation (India's DPDP Act and IT rules, the EU AI Act for EU users, sector rules such as RBI guidelines); and keep an incident process for harmful outputs.</p>
+<h2 id="genai-12-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A GenAI app = front end + API + orchestration (prompts, RAG, tools, routing, validation) + models/data + operations.</li>
+<li>Streamlit gives a quick chat UI; FastAPI exposes a validated, authenticated, rate-limited backend.</li>
+<li>Plan cost per conversation; route easy turns to small models, cache stable prompts, cap outputs.</li>
+<li>Trace everything, collect feedback, and feed failures into the evaluation set.</li>
+<li>Launch with a checklist: evals, guardrails, security, privacy, budgets, monitoring, gradual rollout and human accountability.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-12-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Where should secrets such as API keys live in a deployed app?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In a secrets manager or environment variables, never in code</button><button type="button" class="opt" data-ok="0"><i>B</i>In the front end JavaScript</button><button type="button" class="opt" data-ok="0"><i>C</i>In the prompt</button><button type="button" class="opt" data-ok="0"><i>D</i>In the README</button></div><div class="qexp"><b>Answer: A.</b> Rotate if exposed.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which lever usually cuts cost most without hurting quality on simple turns?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Routing simple requests to a small model</button><button type="button" class="opt" data-ok="0"><i>B</i>Raising max_tokens</button><button type="button" class="opt" data-ok="0"><i>C</i>Disabling caching</button><button type="button" class="opt" data-ok="0"><i>D</i>Adding more chunks</button></div><div class="qexp"><b>Answer: A.</b> Use big models only where needed.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why stream responses?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Users see text immediately and long answers avoid timeouts</button><button type="button" class="opt" data-ok="0"><i>B</i>It lowers token cost</button><button type="button" class="opt" data-ok="0"><i>C</i>It improves accuracy</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required</button></div><div class="qexp"><b>Answer: A.</b> Better perceived latency.</div></div><div class="qq"><p class="qtext"><b>4.</b> A refund over ₹5,000 is requested. What should the assistant do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Create a ticket for a human; never approve money itself</button><button type="button" class="opt" data-ok="0"><i>B</i>Approve it</button><button type="button" class="opt" data-ok="0"><i>C</i>Ignore it</button><button type="button" class="opt" data-ok="0"><i>D</i>Ask for card details in chat</button></div><div class="qexp"><b>Answer: A.</b> Keep humans accountable.</div></div><div class="qq"><p class="qtext"><b>5.</b> What should happen to conversations users rate 👎?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Review them, add failures to the eval set, fix and re-run regressions</button><button type="button" class="opt" data-ok="0"><i>B</i>Delete them</button><button type="button" class="opt" data-ok="0"><i>C</i>Nothing</button><button type="button" class="opt" data-ok="0"><i>D</i>Retrain the base model immediately</button></div><div class="qexp"><b>Answer: A.</b> Close the feedback loop.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is a safe rollout strategy?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Gradual exposure with monitoring and a rollback switch</button><button type="button" class="opt" data-ok="0"><i>B</i>100% launch on day one</button><button type="button" class="opt" data-ok="0"><i>C</i>No monitoring</button><button type="button" class="opt" data-ok="0"><i>D</i>Launch without evaluation</button></div><div class="qexp"><b>Answer: A.</b> Reduce blast radius.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Capstone tasks</b></div><p>(1) Combine the RAG pipeline (lesson 5), the order tool (lesson 6) and the guardrails (lesson 9) into one <code>answer(question, user)</code> function. (2) Build the Streamlit UI and FastAPI backend locally. (3) Write a 30-question eval set and report scores. (4) Estimate the monthly cost for your expected traffic and write a one-page launch plan.</p><details class="sol"><summary>Show solution</summary><p>Use the code in lessons 5, 6 and 9 as building blocks; keep each step testable. Report: eval scores by question type, average latency, cost per conversation, open risks and the rollout plan.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you take an LLM prototype to production?</strong>
+Add evaluation and regression tests, guardrails, authentication and rate limits, observability, cost and latency budgets, privacy compliance, gradual rollout with monitoring, and clear human escalation.</p>
+<p><strong>Q: How do you control the cost of a chatbot?</strong>
+Model routing, prompt caching, concise retrieval, output limits, summarised history, batching offline work and dashboards with alerts on cost per conversation.</p>
+<p><strong>Q: What would you monitor after launch?</strong>
+Quality (feedback, judge scores), safety (guardrail hits, refusals), cost, latency, errors and drift in user questions.</p></div></div></article></body></html>

@@ -1,0 +1,104 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio, GitHub and Resume for Data Roles · Career Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Turn your learning into evidence employers trust. Choose three to five portfolio projects, structure them on GitHub with strong READMEs, publish dashboards and apps, write an ATS-friendly one-page resume with quantified bullets, and optimise LinkedIn and Naukri profiles for analyst, data scientist, data engineer and GenAI roles."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-career"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-career">Capstone, Portfolio &amp; Interviews</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#475569">Capstone, Portfolio &amp; Interviews</div>
+<ol class="side-l"><li class="on"><a href="career-01-portfolio-github-and-resume-for-data-roles.html" data-lid="career-01"><span>01</span>Portfolio, GitHub and Resume for Data Roles</a></li><li class=""><a href="career-02-data-analyst-interview-preparation-sql-excel-power-bi-statis.html" data-lid="career-02"><span>02</span>Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions</a></li><li class=""><a href="career-03-data-scientist-ml-and-genai-interview-preparation-questions.html" data-lid="career-03"><span>03</span>Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers</a></li><li class=""><a href="career-04-your-90-day-plan-learning-roadmap-job-search-strategy-and-gr.html" data-lid="career-04"><span>04</span>Your 90-Day Plan: Learning Roadmap, Job Search Strategy and Growing in Your First Role</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="career-01">
+<div class="lhead" style="--tc:#475569"><div class="kick">Capstone, Portfolio &amp; Interviews · Lesson 1 of 4</div><h1>Portfolio, GitHub and Resume for Data Roles</h1>
+<p class="sum">Turn your learning into evidence employers trust. Choose three to five portfolio projects, structure them on GitHub with strong READMEs, publish dashboards and apps, write an ATS-friendly one-page resume with quantified bullets, and optimise LinkedIn and Naukri profiles for analyst, data scientist, data engineer and GenAI roles.</p><div class="tags"><span class="tag live">● Career track</span><span class="tag new">✦ 2026 hiring practice in India</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/career/Career_01_Portfolio_GitHub_and_Resume_for_Data_Roles.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="career-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Select portfolio projects that match the target role</li><li>Publish projects on GitHub with professional READMEs and live demos</li><li>Write a one-page, ATS-friendly resume with quantified impact bullets</li><li>Optimise LinkedIn and job-portal profiles and keywords</li></ul></div></div>
+<div class="content"><h2 id="what-hiring-managers-look-for">What hiring managers look for</h2>
+<figure class="fig"><img src="../img/career-01-01.png" alt="A portfolio answers three questions for a recruiter in under two minutes." loading="lazy"><figcaption>A portfolio answers three questions for a recruiter in under two minutes.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Target role</th>
+<th>Must-have evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data / business analyst</td>
+<td>SQL case study, Excel model, Power BI dashboard, EDA with recommendations</td>
+</tr>
+<tr>
+<td>Data scientist</td>
+<td>EDA, A/B test analysis, ML model with business threshold, explainability</td>
+</tr>
+<tr>
+<td>Data engineer</td>
+<td>Pipeline (ingest → transform → warehouse), dbt/SQL models, orchestration, tests</td>
+</tr>
+<tr>
+<td>GenAI / AI engineer</td>
+<td>RAG assistant with evaluation, tool-using agent, deployed demo, cost analysis</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pick-35-projects-from-this-handbook">Pick 3–5 projects (from this handbook)</h2>
+<ol>
+<li><strong>SQL:</strong> end-to-end sales case study (SQL lesson 15).</li>
+<li><strong>Power BI:</strong> Adventure Cycles dashboard with DAX and drill-through (Power BI capstone).</li>
+<li><strong>Python EDA:</strong> telecom churn EDA with recommendations (Python lesson 22) or retail analytics capstone (Python lesson 29).</li>
+<li><strong>ML:</strong> churn prediction with profit-based threshold and SHAP (ML lesson 28).</li>
+<li><strong>GenAI:</strong> NovaMart RAG support assistant with evaluation and guardrails (GenAI lessons 5, 9, 12).</li>
+</ol>
+<p>Make at least one project your own: a dataset from data.gov.in, Kaggle or your workplace (anonymised) about a domain you care about.</p>
+<h2 id="github-structure-and-readme">GitHub structure and README</h2>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">churn-prediction/
+├── README.md            ← the most important file
+├── data/README.md       ← source, licence, how to download (do not commit large/private data)
+├── notebooks/01_eda.ipynb
+├── src/features.py, train.py, evaluate.py
+├── reports/figures/     ← 2–4 key charts used in the README
+├── requirements.txt
+└── app/ (optional Streamlit demo)</code></pre></div>
+<p>README template: <strong>Problem</strong> (one paragraph, business framing) → <strong>Data</strong> → <strong>Approach</strong> (bullets) → <strong>Results</strong> (numbers + one chart) → <strong>Recommendation</strong> → <strong>How to run</strong> → <strong>Next steps</strong>. Put a live link (Streamlit Cloud, Hugging Face Spaces, Power BI publish-to-web with sample data, Tableau Public) at the top.</p>
+<h2 id="resume-one-page-quantified">Resume: one page, quantified</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Weak bullet</th>
+<th>Strong bullet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Worked on churn analysis using Python."</td>
+<td>"Built a churn model (ROC-AUC 0.80) and targeting rule that reaches 2.3× more churners than random outreach, worth ≈₹60K/month in saved margin."</td>
+</tr>
+<tr>
+<td>"Made Power BI dashboards."</td>
+<td>"Designed a Power BI sales dashboard (star schema, 25 DAX measures) used weekly by 4 regional managers; cut reporting time from 6 hours to 30 minutes."</td>
+</tr>
+<tr>
+<td>"Know SQL."</td>
+<td>"Wrote 40+ SQL queries (CTEs, window functions) to analyse 6,300 orders; identified tables/bookcases as loss-making due to &gt;20% discounts."</td>
+</tr>
+</tbody>
+</table></div>
+<p>Formula: <strong>action verb + what you did + tool + measurable result</strong>. Sections: header (name, city, phone, email, LinkedIn, GitHub, portfolio), summary (2 lines, target role), skills (grouped), projects/experience, education, certifications. Use a simple single-column layout (ATS systems mis-read tables and graphics), PDF format, and mirror keywords from the job description honestly.</p>
+<h2 id="linkedin-and-job-portals">LinkedIn and job portals</h2>
+<ul>
+<li>Headline: "Data Analyst | SQL · Power BI · Python | Turning sales data into decisions".</li>
+<li>About: 3 short paragraphs: who you are, what you build (link projects), what you are looking for.</li>
+<li>Featured: pin your best project and dashboard. Post a short write-up per project (problem, chart, insight).</li>
+<li>Naukri/Instahyre: complete every field, update weekly (recency boosts ranking), set salary and notice period honestly.</li>
+</ul>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Choose 3–5 projects that match the target role and show business impact.</li>
+<li>Publish on GitHub with clear READMEs, charts and live demos.</li>
+<li>One-page ATS-friendly resume; every bullet = action + tool + quantified result.</li>
+<li>Keep LinkedIn and portals complete, keyword-aligned and active.</li>
+</ul></div>
+<div class="quiz" id="quiz-career-01-0"><div class="quiz-h"><b>Quick quiz</b><span>4 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the most important file in a portfolio repository?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>README.md</button><button type="button" class="opt" data-ok="0"><i>B</i>requirements.txt</button><button type="button" class="opt" data-ok="0"><i>C</i>.gitignore</button><button type="button" class="opt" data-ok="0"><i>D</i>The largest notebook</button></div><div class="qexp"><b>Answer: A.</b> Recruiters read the README first.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which resume bullet is strongest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>"Used Python for analysis."</button><button type="button" class="opt" data-ok="1"><i>B</i>"Built a churn model (AUC 0.80) that reaches 2.3× more churners than random outreach."</button><button type="button" class="opt" data-ok="0"><i>C</i>"Familiar with machine learning."</button><button type="button" class="opt" data-ok="0"><i>D</i>"Responsible for dashboards."</button></div><div class="qexp"><b>Answer: B.</b> Action, tool and quantified result.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why avoid two-column graphic resumes for online applications?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Applicant tracking systems may parse them incorrectly</button><button type="button" class="opt" data-ok="0"><i>B</i>They look unprofessional</button><button type="button" class="opt" data-ok="0"><i>C</i>They are too short</button><button type="button" class="opt" data-ok="0"><i>D</i>Recruiters dislike colour</button></div><div class="qexp"><b>Answer: A.</b> Keep layout simple.</div></div><div class="qq"><p class="qtext"><b>4.</b> How many portfolio projects are ideal?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>3–5 strong, role-relevant projects</button><button type="button" class="opt" data-ok="0"><i>B</i>1</button><button type="button" class="opt" data-ok="0"><i>C</i>20 small ones</button><button type="button" class="opt" data-ok="0"><i>D</i>None</button></div><div class="qexp"><b>Answer: A.</b> Depth beats count.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Choose your target role and list the 4 projects you will publish. (2) Rewrite three of your current resume bullets with the formula. (3) Write the README for one project using the template.</p><details class="sol"><summary>Show solution</summary><p>A good result: a one-page resume, four public repositories with READMEs and charts, one live demo link and an updated LinkedIn headline.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/">W3Schools quizzes hub ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions?hostSegmentIdFilter=5">Kaggle competitions (Getting started) ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.stratascratch.com/">StrataScratch data interview questions ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="career-02-data-analyst-interview-preparation-sql-excel-power-bi-statis.html"><small>Next →</small><b>Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-hiring-managers-look-for">What hiring managers look for</a><a href="#pick-35-projects-from-this-handbook">Pick 3–5 projects (from this handbook)</a><a href="#github-structure-and-readme">GitHub structure and README</a><a href="#resume-one-page-quantified">Resume: one page, quantified</a><a href="#linkedin-and-job-portals">LinkedIn and job portals</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>
