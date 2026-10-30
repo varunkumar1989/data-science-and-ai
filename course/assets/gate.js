@@ -8,7 +8,10 @@
   const get = k => { try { return localStorage.getItem(k); } catch { return null; } };
   const set = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
   try { if (/[?&]sn=1\b/.test(location.search)) set(KEY, get(KEY) || JSON.stringify({ t: Date.now(), via: "skillnavora" })); } catch {}
-  const has = () => !!get(KEY);
+  // Signed-in admins (flag set by the admin panel, cleared on sign-out) skip the form and are not counted as visitors.
+  const isAdmin = () => { try { const a = JSON.parse(get("sn_admin") || "null"); return !!a && Date.now() - a.t < 30 * 864e5; } catch { return false; } };
+  const has = () => isAdmin() || !!get(KEY);
+  if (isAdmin()) document.addEventListener("DOMContentLoaded", () => { const b = document.createElement("div"); b.textContent = "Admin view · details form off"; b.setAttribute("style", "position:fixed;left:12px;bottom:12px;z-index:9998;background:#17614F;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:7px 11px;border-radius:999px;opacity:.9;pointer-events:none"); document.body.appendChild(b); });
   const gated = a => { if (!a || a.hasAttribute("data-nogate")) return false; const h = a.getAttribute("href") || ""; return FILE.test(h); };
   let modal, pending;
   const css = `.sg-m{position:fixed;inset:0;background:rgba(20,16,40,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
