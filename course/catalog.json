@@ -1315,6 +1315,38 @@
    "track_pdf": "Track_08_Generative_AI_Agentic_AI.pdf"
   },
   {
+   "id": "tools",
+   "name": "AI & No-Code Tools Lab",
+   "color": "#E04F8A",
+   "desc": "Complete tutorials for the design and automation tools used across the programs: Figma (design systems, prototypes, Dev Mode, Figma Make) and n8n (workflows, APIs, AI agents, MCP).",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "Figma Complete Tutorial: Interface, Auto Layout, Components, Variables, Prototypes, Dev Mode and Figma AI",
+     "page": "lessons/tools-01-figma-complete-tutorial-interface-auto-layout-components-var.html",
+     "file": "tools-01-figma-complete-tutorial-interface-auto-layout-components-var.html",
+     "track": "tools",
+     "pdf": "Tools_01_Figma_Complete_Tutorial_Interface_Auto_Layout_Components_Variables_Pro.pdf",
+     "pdf_path": "pdf/tools/Tools_01_Figma_Complete_Tutorial_Interface_Auto_Layout_Components_Variables_Pro.pdf",
+     "live": ""
+    },
+    {
+     "n": 2,
+     "num": 2,
+     "title": "n8n Complete Tutorial: Workflow Automation, Data Pipelines and AI Agents",
+     "page": "lessons/tools-02-n8n-complete-tutorial-workflow-automation-data-pipelines-and.html",
+     "file": "tools-02-n8n-complete-tutorial-workflow-automation-data-pipelines-and.html",
+     "track": "tools",
+     "pdf": "Tools_02_n8n_Complete_Tutorial_Workflow_Automation_Data_Pipelines_and_AI_Agents.pdf",
+     "pdf_path": "pdf/tools/Tools_02_n8n_Complete_Tutorial_Workflow_Automation_Data_Pipelines_and_AI_Agents.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_09_AI_No_Code_Tools_Lab.pdf",
+   "track_pdf": "Track_09_AI_No_Code_Tools_Lab.pdf"
+  },
+  {
    "id": "career",
    "name": "Capstone, Portfolio & Interviews",
    "color": "#475569",
@@ -1365,9 +1397,9 @@
      "live": "Career track"
     }
    ],
-   "pdf": "pdf/tracks/Track_09_Capstone_Portfolio_Interviews.pdf",
-   "track_pdf": "Track_09_Capstone_Portfolio_Interviews.pdf"
+   "pdf": "pdf/tracks/Track_10_Capstone_Portfolio_Interviews.pdf",
+   "track_pdf": "Track_10_Capstone_Portfolio_Interviews.pdf"
   }
  ],
- "lesson_count": 116
+ "lesson_count": 118
 }

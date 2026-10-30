@@ -1,0 +1,277 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Figma Complete Tutorial: Interface, Auto Layout, Components, Variables, Prototypes, Dev Mode and Figma AI · Tools Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn Figma from zero to a handoff-ready design. Tour the interface, master frames, shapes, text and the 8-point grid, build responsive layouts with auto layout and constraints, create components with variants and properties, use styles and variables (light and dark modes), prototype flows with Smart Animate and overlays, hand off in Dev Mode, run workshops in FigJam, and generate working prototypes with Figma AI and Figma Make. Includes a dashboard-design project for data roles."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tools"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tools">AI &amp; No-Code Tools Lab</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E04F8A">AI &amp; No-Code Tools Lab</div>
+<ol class="side-l"><li class="on"><a href="tools-01-figma-complete-tutorial-interface-auto-layout-components-var.html" data-lid="tools-01"><span>01</span>Figma Complete Tutorial: Interface, Auto Layout, Components, Variables, Prototypes, Dev Mode and Figma AI</a></li><li class=""><a href="tools-02-n8n-complete-tutorial-workflow-automation-data-pipelines-and.html" data-lid="tools-02"><span>02</span>n8n Complete Tutorial: Workflow Automation, Data Pipelines and AI Agents</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tools-01">
+<div class="lhead" style="--tc:#E04F8A"><div class="kick">AI &amp; No-Code Tools Lab · Lesson 1 of 2</div><h1>Figma Complete Tutorial: Interface, Auto Layout, Components, Variables, Prototypes, Dev Mode and Figma AI</h1>
+<p class="sum">Learn Figma from zero to a handoff-ready design. Tour the interface, master frames, shapes, text and the 8-point grid, build responsive layouts with auto layout and constraints, create components with variants and properties, use styles and variables (light and dark modes), prototype flows with Smart Animate and overlays, hand off in Dev Mode, run workshops in FigJam, and generate working prototypes with Figma AI and Figma Make. Includes a dashboard-design project for data roles.</p><div class="tags"><span class="tag new">✦ Figma 2026 (Figma Design, FigJam, Dev Mode, Figma Make)</span><span class="tag">Beginner to Advanced</span><span class="tag">⏱ 180 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tools/Tools_01_Figma_Complete_Tutorial_Interface_Auto_Layout_Components_Variables_Pro.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tools-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Navigate Figma Design and know when to use Figma Design, FigJam, Dev Mode, Slides, Sites and Make</li><li>Build screens with frames, auto layout, constraints and an 8-point spacing system</li><li>Create reusable components with variants, component properties and a small design system using variables</li><li>Prototype a multi-screen flow with interactions, Smart Animate and overlays, and share it for review</li><li>Hand off designs in Dev Mode and speed up work with Figma AI, Figma Make and plugins</li></ul></div></div>
+<div class="content"><h2 id="what-figma-is-and-why-every-product-and-data-team-uses-it">What Figma is and why every product and data team uses it</h2>
+<p><strong>Figma</strong> is a browser-based design tool where many people work on the same file at the same time. Product managers sketch flows, designers build interfaces and design systems, developers inspect measurements and code, and data analysts design dashboards before building them in Power BI or Tableau.</p>
+<figure class="fig"><img src="../img/tools-01-01.png" alt="The Figma family. One account, one file format, different products for different jobs." loading="lazy"><figcaption>The Figma family. One account, one file format, different products for different jobs.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Plan (2026)</th>
+<th>Who it is for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Starter</strong> (free)</td>
+<td>Learning: a limited number of Figma Design and FigJam files, unlimited personal drafts, free viewers</td>
+</tr>
+<tr>
+<td><strong>Professional</strong></td>
+<td>Freelancers and small teams: unlimited files, team libraries, Dev Mode</td>
+</tr>
+<tr>
+<td><strong>Organization / Enterprise</strong></td>
+<td>Companies: design-system analytics, branching, SSO, admin controls</td>
+</tr>
+<tr>
+<td><strong>Education</strong> (free)</td>
+<td>Verified students and teachers get Professional features</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Start free</b></div><p>Sign up at figma.com with Google, then install the desktop app (optional; the browser works the same). Students should apply for the free Education plan.</p></div>
+<h2 id="the-interface">The interface</h2>
+<figure class="fig"><img src="../img/tools-01-02.png" alt="The Figma Design editor." loading="lazy"><figcaption>The Figma Design editor.</figcaption></figure>
+<p>Essential shortcuts:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Action</th>
+<th>Windows</th>
+<th>Mac</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frame / Rectangle / Ellipse / Text</td>
+<td>F / R / O / T</td>
+<td>F / R / O / T</td>
+</tr>
+<tr>
+<td>Duplicate</td>
+<td>Ctrl + D</td>
+<td>Cmd + D</td>
+</tr>
+<tr>
+<td>Group / Ungroup</td>
+<td>Ctrl + G / Ctrl + Shift + G</td>
+<td>Cmd + G / Cmd + Shift + G</td>
+</tr>
+<tr>
+<td>Add auto layout</td>
+<td>Shift + A</td>
+<td>Shift + A</td>
+</tr>
+<tr>
+<td>Create component</td>
+<td>Ctrl + Alt + K</td>
+<td>Cmd + Option + K</td>
+</tr>
+<tr>
+<td>Show measurements</td>
+<td>hold Alt and hover</td>
+<td>hold Option and hover</td>
+</tr>
+<tr>
+<td>Zoom to fit / to selection</td>
+<td>Shift + 1 / Shift + 2</td>
+<td>Shift + 1 / Shift + 2</td>
+</tr>
+<tr>
+<td>Quick actions (search any command)</td>
+<td>Ctrl + /</td>
+<td>Cmd + /</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="frames-shapes-and-text">Frames, shapes and text</h2>
+<ul>
+<li>A <strong>frame</strong> (F) is a screen or a container. Pick a preset in the right panel (iPhone 16, Android Compact, Desktop 1440). Frames can be nested and can clip content.</li>
+<li>A <strong>group</strong> (Ctrl+G) only bundles layers; it has no layout of its own. Prefer frames with auto layout.</li>
+<li><strong>Shapes</strong> (R, O, L, P) take fills (solid, gradient, image), strokes, corner radius and effects (drop shadow, blur).</li>
+<li><strong>Text</strong> (T): set font, size, line height and letter spacing in the Design panel; use <em>Auto width</em> for labels and <em>Fixed width</em> for paragraphs.</li>
+</ul>
+<h3 id="the-8-point-grid">The 8-point grid</h3>
+<p>Use spacing and sizes in multiples of 8 (4 for small gaps): 8, 16, 24, 32, 48, 64. Add a layout grid to a frame (Design panel → Layout grid → 8 px grid or columns: 4 columns for mobile, 12 for desktop) so everything lines up.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A type scale (ratio 1.25 from 16 px) and an 8-point spacing scale: the numbers you put into text styles and auto layout gaps</span>
+base, ratio = <span class="hl-n">16</span>, <span class="hl-n">1.25</span>
+type_scale = {name: <span class="hl-f">round</span>(base * ratio ** i) <span class="hl-k">for</span> i, name <span class="hl-k">in</span> <span class="hl-f">enumerate</span>([<span class="hl-s">&quot;Body&quot;</span>, <span class="hl-s">&quot;H6&quot;</span>, <span class="hl-s">&quot;H5&quot;</span>, <span class="hl-s">&quot;H4&quot;</span>, <span class="hl-s">&quot;H3&quot;</span>, <span class="hl-s">&quot;H2&quot;</span>, <span class="hl-s">&quot;H1&quot;</span>])}
+spacing = [<span class="hl-n">4</span>, <span class="hl-n">8</span>, <span class="hl-n">12</span>, <span class="hl-n">16</span>, <span class="hl-n">24</span>, <span class="hl-n">32</span>, <span class="hl-n">48</span>, <span class="hl-n">64</span>]
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Type scale (px):&quot;</span>, type_scale)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Spacing tokens (px):&quot;</span>, spacing)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Type scale (px): {&#x27;Body&#x27;: 16, &#x27;H6&#x27;: 20, &#x27;H5&#x27;: 25, &#x27;H4&#x27;: 31, &#x27;H3&#x27;: 39, &#x27;H2&#x27;: 49, &#x27;H1&#x27;: 61}
+Spacing tokens (px): [4, 8, 12, 16, 24, 32, 48, 64]</pre></div>
+<h3 id="colour-contrast-accessibility">Colour contrast (accessibility)</h3>
+<p>Text must be readable: WCAG asks for a contrast ratio of at least <strong>4.5:1</strong> for normal text and <strong>3:1</strong> for large text. Figma shows contrast in plugins such as <em>Stark</em> or <em>A11y – Color Contrast Checker</em>; this is the formula they use:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">lum</span>(hex_):
+    r, g, b = (<span class="hl-f">int</span>(hex_[i:i + <span class="hl-n">2</span>], <span class="hl-n">16</span>) / <span class="hl-n">255</span> <span class="hl-k">for</span> i <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">3</span>, <span class="hl-n">5</span>))
+    f = <span class="hl-k">lambda</span> c: c / <span class="hl-n">12.92</span> <span class="hl-k">if</span> c &lt;= <span class="hl-n">0.03928</span> <span class="hl-k">else</span> ((c + <span class="hl-n">0.055</span>) / <span class="hl-n">1.055</span>) ** <span class="hl-n">2.4</span>
+    <span class="hl-k">return</span> <span class="hl-n">0.2126</span> * <span class="hl-f">f</span>(r) + <span class="hl-n">0.7152</span> * <span class="hl-f">f</span>(g) + <span class="hl-n">0.0722</span> * <span class="hl-f">f</span>(b)
+<span class="hl-k">def</span> <span class="hl-f">contrast</span>(fg, bg):
+    a, b = <span class="hl-f">sorted</span>([<span class="hl-f">lum</span>(fg), <span class="hl-f">lum</span>(bg)], reverse=<span class="hl-k">True</span>); <span class="hl-k">return</span> (a + <span class="hl-n">0.05</span>) / (b + <span class="hl-n">0.05</span>)
+<span class="hl-k">for</span> fg, bg <span class="hl-k">in</span> [(<span class="hl-s">&quot;#FFFFFF&quot;</span>, <span class="hl-s">&quot;#6C4CF5&quot;</span>), (<span class="hl-s">&quot;#9CA3AF&quot;</span>, <span class="hl-s">&quot;#FFFFFF&quot;</span>), (<span class="hl-s">&quot;#17142E&quot;</span>, <span class="hl-s">&quot;#F3F0FF&quot;</span>), (<span class="hl-s">&quot;#FFFFFF&quot;</span>, <span class="hl-s">&quot;#12B5A6&quot;</span>)]:
+    r = <span class="hl-f">contrast</span>(fg, bg); <span class="hl-f">print</span>(<span class="hl-s">f&quot;{fg} on {bg}: {r:4.2f}:1  -&gt;&quot;</span>, <span class="hl-s">&quot;PASS normal text&quot;</span> <span class="hl-k">if</span> r &gt;= <span class="hl-n">4.5</span> <span class="hl-k">else</span> <span class="hl-s">&quot;PASS large text only&quot;</span> <span class="hl-k">if</span> r &gt;= <span class="hl-n">3</span> <span class="hl-k">else</span> <span class="hl-s">&quot;FAIL&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">#FFFFFF on #6C4CF5: 5.26:1  -&gt; PASS normal text
+#9CA3AF on #FFFFFF: 2.54:1  -&gt; FAIL
+#17142E on #F3F0FF: 15.92:1  -&gt; PASS normal text
+#FFFFFF on #12B5A6: 2.57:1  -&gt; FAIL</pre></div>
+<p>Light grey text on white and white text on bright teal fail even the 3:1 large-text rule, so darken those colours (for example teal #0E7C72) until the checker passes.</p>
+<h2 id="auto-layout-responsive-design">Auto layout: responsive design</h2>
+<p><strong>Auto layout</strong> (Shift + A) turns a frame into a flexbox: children stack horizontally or vertically with a fixed gap and padding, and the frame grows or shrinks with its content.</p>
+<figure class="fig"><img src="../img/tools-01-03.png" alt="Auto layout settings and what they control." loading="lazy"><figcaption>Auto layout settings and what they control.</figcaption></figure>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build a responsive button</b></div><ol>
+<li>Type "Get started" (T). Select it and press <strong>Shift + A</strong>: a frame wraps the text.</li>
+<li>Set padding 12 (vertical) × 24 (horizontal), corner radius 8, fill your brand colour, text white.</li>
+<li>Set the frame to <strong>Hug</strong> both ways: change the text to "Start your free trial" and the button grows.</li>
+<li>Put three buttons in a vertical auto layout with gap 12 and set each to <strong>Fill container</strong>: they all stretch to the same width.</li>
+</ol></div>
+<p><strong>Constraints</strong> (for frames without auto layout) decide how a layer moves when its parent resizes: Left, Right, Left &amp; Right (stretch), Centre, Scale. Use them for headers and floating buttons.</p>
+<h2 id="components-variants-and-properties">Components, variants and properties</h2>
+<p>A <strong>component</strong> (Ctrl + Alt + K) is a master; <strong>instances</strong> are copies that update when the master changes.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Variants</strong></td>
+<td>Group related components into one set with properties</td>
+<td>Button: Type = Primary/Secondary, State = Default/Hover/Disabled, Size = S/M/L</td>
+</tr>
+<tr>
+<td><strong>Boolean property</strong></td>
+<td>Show/hide a layer</td>
+<td>"Has icon" on/off</td>
+</tr>
+<tr>
+<td><strong>Text property</strong></td>
+<td>Edit the label from the instance panel</td>
+<td>Button label</td>
+</tr>
+<tr>
+<td><strong>Instance swap property</strong></td>
+<td>Swap a nested component</td>
+<td>Choose the icon</td>
+</tr>
+<tr>
+<td><strong>Overrides</strong></td>
+<td>Change text, colour or images on one instance without detaching it</td>
+<td>One red "Delete" button</td>
+</tr>
+<tr>
+<td><strong>Libraries</strong></td>
+<td>Publish components to the whole team (Assets panel)</td>
+<td>Company design system</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> itertools <span class="hl-k">import</span> product
+props = {<span class="hl-s">&quot;Type&quot;</span>: [<span class="hl-s">&quot;Primary&quot;</span>, <span class="hl-s">&quot;Secondary&quot;</span>, <span class="hl-s">&quot;Ghost&quot;</span>], <span class="hl-s">&quot;State&quot;</span>: [<span class="hl-s">&quot;Default&quot;</span>, <span class="hl-s">&quot;Hover&quot;</span>, <span class="hl-s">&quot;Disabled&quot;</span>], <span class="hl-s">&quot;Size&quot;</span>: [<span class="hl-s">&quot;S&quot;</span>, <span class="hl-s">&quot;M&quot;</span>, <span class="hl-s">&quot;L&quot;</span>]}
+variants = <span class="hl-f">list</span>(<span class="hl-f">product</span>(*<span class="hl-f">props.values</span>()))
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(variants), <span class="hl-s">&quot;variants in the Button set, e.g.&quot;</span>, <span class="hl-s">&quot;, &quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">&quot;/&quot;</span>.<span class="hl-f">join</span>(v) <span class="hl-k">for</span> v <span class="hl-k">in</span> variants[:<span class="hl-n">3</span>]))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Without variant properties you would manage&quot;</span>, <span class="hl-f">len</span>(variants), <span class="hl-s">&quot;separate components.&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">27 variants in the Button set, e.g. Primary/Default/S, Primary/Default/M, Primary/Default/L
+Without variant properties you would manage 27 separate components.</pre></div>
+<h2 id="styles-and-variables-design-tokens">Styles and variables (design tokens)</h2>
+<ul>
+<li><strong>Styles</strong>: saved colour, text, effect and grid styles you apply with one click.</li>
+<li><strong>Variables</strong> (collections and modes): named values (colour, number, string, boolean) such as <code>color/bg/surface</code> or <code>space/16</code>. A collection can have <strong>modes</strong> like <em>Light</em> and <em>Dark</em> or <em>Brand A</em> and <em>Brand B</em>: switch a frame's mode and every bound colour changes.</li>
+<li>Bind spacing, radius and colours to variables so a redesign is one edit, and developers get the same token names in Dev Mode.</li>
+</ul>
+<h2 id="prototyping">Prototyping</h2>
+<p>Switch to the <strong>Prototype</strong> tab:</p>
+<ol>
+<li>Select a button, drag the blue handle to the target frame: this creates a <strong>connection</strong>.</li>
+<li>Set the <strong>trigger</strong> (On click, On drag, While hovering, After delay, Key/Gamepad) and the <strong>action</strong> (Navigate to, Open overlay, Swap overlay, Back, Scroll to, Open link, Set variable).</li>
+<li>Choose the <strong>animation</strong>: Instant, Dissolve, Move in/out, Push, Slide, or <strong>Smart Animate</strong> (matches layers with the same name across frames and animates the difference).</li>
+<li>Mark a <strong>flow starting point</strong> and press <strong>Present</strong> (Ctrl + Alt + Enter) or share the prototype link.</li>
+</ol>
+<p>Advanced: <strong>interactive components</strong> (a toggle that switches its own variant on click), <strong>variables and conditionals</strong> in prototypes (a counter, a cart total, "if logged in"), and <strong>scroll behaviour</strong> (fixed headers, horizontal carousels).</p>
+<h2 id="collaboration-review-and-dev-mode">Collaboration, review and Dev Mode</h2>
+<ul>
+<li><strong>Comments</strong> (C) pinned to the canvas; <strong>@mention</strong> teammates; resolve when done.</li>
+<li><strong>Version history</strong> (File → Show version history); <strong>branching</strong> on Organization plans to explore without touching the main file.</li>
+<li><strong>Dev Mode</strong> (toggle in the top bar): developers see measurements, colours as variables, assets to export (SVG, PNG, PDF), CSS/iOS/Android snippets, "Ready for dev" statuses, and <strong>Code Connect</strong> links to real code components. Through the <strong>Figma MCP server</strong>, AI coding tools such as Claude Code can read selected frames and generate code that uses your variables.</li>
+</ul>
+<h2 id="figjam-for-workshops">FigJam for workshops</h2>
+<p>Sticky notes, shapes and connectors, stamps and voting, timers, templates (journey maps, retros, brainstorming, user-story maps), and <strong>FigJam AI</strong> that sorts and summarises stickies and generates diagrams from a prompt. Use it for discovery workshops, user flows and sprint retros.</p>
+<h2 id="figma-ai-and-figma-make">Figma AI and Figma Make</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>First draft / Make designs</strong></td>
+<td>Generate a starting UI from a prompt using your design system</td>
+</tr>
+<tr>
+<td><strong>Rename layers</strong>, <strong>replace content</strong>, <strong>search by image</strong></td>
+<td>Clean-up and realistic placeholder content</td>
+</tr>
+<tr>
+<td><strong>Figma Make</strong></td>
+<td>Prompt-to-app: describe a product ("a habit tracker with streaks and a weekly chart") and get a working, clickable prototype with real code you can refine by chatting, publish, or bring into Figma Design</td>
+</tr>
+<tr>
+<td><strong>Plugins</strong></td>
+<td>Unsplash (photos), Iconify (icons), Content Reel, Stark (accessibility), Autoflow (flow arrows), Charts / Figma Chart for data visualisation mock-ups</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Good practice with AI in Figma</b></div><p>Use AI for a first draft or realistic content, then apply your components, variables and accessibility checks. Treat generated screens as sketches until a designer has reviewed spacing, hierarchy and states (empty, loading, error).</p></div>
+<h2 id="project-for-data-roles-design-a-kpi-dashboard-before-building-it">Project for data roles: design a KPI dashboard before building it</h2>
+<p>Designing the dashboard in Figma first saves hours in Power BI or Tableau:</p>
+<ol>
+<li>Frame: Desktop 1440 × 1024, 12-column grid, 24 px gutters.</li>
+<li>Header: title, date range picker, filters (Region, Segment) as components.</li>
+<li>KPI cards: a component with variants (Up/Down/Neutral) and text properties for label, value and change.</li>
+<li>Charts: placeholders or the <em>Chart</em> plugin for a line (trend), bar (ranking) and map; a table at the bottom.</li>
+<li>Variables: Light and Dark modes; check contrast for every text colour.</li>
+<li>Prototype: clicking a region filter swaps to a "South" variant of the page; add an overlay for a drill-through.</li>
+<li>Share for comments with stakeholders, then rebuild in Power BI/Tableau with the agreed layout and colours (export the palette as hex codes or a Power BI theme JSON).</li>
+</ol>
+<figure class="fig"><img src="../img/tools-01-04.png" alt="Wireframe of the KPI dashboard layout on a 12-column grid." loading="lazy"><figcaption>Wireframe of the KPI dashboard layout on a 12-column grid.</figcaption></figure>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Frames + auto layout + an 8-point grid give clean, responsive screens.</li>
+<li>Components with variants and properties, plus variables with modes, form a design system.</li>
+<li>Prototype with connections, Smart Animate, overlays and variables; share links for review.</li>
+<li>Dev Mode, Code Connect and the MCP server connect design to code; FigJam runs workshops; Figma Make turns prompts into working prototypes.</li>
+</ul></div>
+<div class="quiz" id="quiz-tools-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does auto layout do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Stacks children with a set direction, gap and padding so the frame resizes with its content</button><button type="button" class="opt" data-ok="0"><i>B</i>Exports code</button><button type="button" class="opt" data-ok="0"><i>C</i>Adds a layout grid only</button><button type="button" class="opt" data-ok="0"><i>D</i>Groups layers without any layout</button></div><div class="qexp"><b>Answer: A.</b> It works like CSS flexbox.</div></div><div class="qq"><p class="qtext"><b>2.</b> You need Primary/Secondary buttons in three sizes and three states. What should you build?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>One component set with variant properties Type, Size and State</button><button type="button" class="opt" data-ok="0"><i>B</i>27 unrelated components</button><button type="button" class="opt" data-ok="0"><i>C</i>Groups</button><button type="button" class="opt" data-ok="0"><i>D</i>Separate files</button></div><div class="qexp"><b>Answer: A.</b> Variants keep related components in one set.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which feature lets one frame switch between Light and Dark colours?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Variables with modes</button><button type="button" class="opt" data-ok="0"><i>B</i>Constraints</button><button type="button" class="opt" data-ok="0"><i>C</i>Smart Animate</button><button type="button" class="opt" data-ok="0"><i>D</i>Comments</button></div><div class="qexp"><b>Answer: A.</b> Bind colours to variables and switch the mode.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the minimum WCAG contrast for normal-size text?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>4.5:1</button><button type="button" class="opt" data-ok="0"><i>B</i>2:1</button><button type="button" class="opt" data-ok="0"><i>C</i>3:1</button><button type="button" class="opt" data-ok="0"><i>D</i>7:1 only</button></div><div class="qexp"><b>Answer: A.</b> 3:1 applies to large text.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which animation matches layers with the same name across two frames?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Smart Animate</button><button type="button" class="opt" data-ok="0"><i>B</i>Dissolve</button><button type="button" class="opt" data-ok="0"><i>C</i>Instant</button><button type="button" class="opt" data-ok="0"><i>D</i>Push</button></div><div class="qexp"><b>Answer: A.</b> Name layers consistently for it to work.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where do developers inspect sizes, tokens and code snippets?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Dev Mode</button><button type="button" class="opt" data-ok="0"><i>B</i>FigJam</button><button type="button" class="opt" data-ok="0"><i>C</i>Figma Slides</button><button type="button" class="opt" data-ok="0"><i>D</i>The Pages panel</button></div><div class="qexp"><b>Answer: A.</b> Dev Mode is built for handoff.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice project</b></div><p>Design a 3-screen mobile app for a food-delivery order flow (menu → cart → order placed) with: a Button component set (Type × State), a product-card component with an image, title, price and a "+ Add" button using auto layout, Light/Dark variables, a prototype with Smart Animate from cart to confirmation, and an overlay for "Apply coupon". Share the prototype link.</p><details class="sol"><summary>Show solution</summary><p>Use 390 × 844 frames, a 4-column grid with 16 px margins, auto layout for cards (vertical, gap 8, padding 12), a component set with 6 variants, variables collection "Color" with Light/Dark modes bound to fills, connections On click → Navigate to (Smart Animate 300 ms ease-out), and an Open overlay action centred with a dark background. Check every text colour with a contrast plugin.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you keep designs consistent across a large product?</strong>
+A shared library of components with variants and properties, styles and variables (tokens) with modes, documentation pages, and Dev Mode / Code Connect so code uses the same tokens.</p>
+<p><strong>Q: Auto layout vs constraints?</strong>
+Auto layout arranges children in a flow (direction, gap, padding, hug/fill), like flexbox; constraints pin a layer to its parent's edges when the parent is resized, for frames without auto layout.</p>
+<p><strong>Q: How do you use Figma as a PM or analyst?</strong>
+Wireframe flows and dashboards, run FigJam workshops, review prototypes with users before building, comment on designs, and prototype quickly with Figma Make.</p></div>
+<h2 id="learn-more-official-and-free">Learn more (official and free)</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://help.figma.com">Figma Help Center and courses</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/@Figma">Figma YouTube channel (Figma for beginners series)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.figma.com/community">Figma Community files and templates</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.figma.com/make/">Figma Make</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.figma.com/hc/en-us/categories/360002051613">Figma Learn: Dev Mode and Code Connect</a></li>
+</ul></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://help.figma.com">Figma Help Center ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.figma.com/community">Figma Community templates ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.n8n.io/courses/">n8n free courses ↗</a></li><li><a target="_blank" rel="noopener" href="https://n8n.io/workflows/">n8n workflow templates ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="tools-02-n8n-complete-tutorial-workflow-automation-data-pipelines-and.html"><small>Next →</small><b>n8n Complete Tutorial: Workflow Automation, Data Pipelines and AI Agents</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-figma-is-and-why-every-product-and-data-team-uses-it">What Figma is and why every product and data team uses it</a><a href="#the-interface">The interface</a><a href="#frames-shapes-and-text">Frames, shapes and text</a><a href="#auto-layout-responsive-design">Auto layout: responsive design</a><a href="#components-variants-and-properties">Components, variants and properties</a><a href="#styles-and-variables-design-tokens">Styles and variables (design tokens)</a><a href="#prototyping">Prototyping</a><a href="#collaboration-review-and-dev-mode">Collaboration, review and Dev Mode</a><a href="#figjam-for-workshops">FigJam for workshops</a><a href="#figma-ai-and-figma-make">Figma AI and Figma Make</a><a href="#project-for-data-roles-design-a-kpi-dashboard-before-building-it">Project for data roles: design a KPI dashboard before building it</a><a href="#summary">Summary</a><a href="#learn-more-official-and-free">Learn more (official and free)</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,538 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>AI &amp; No-Code Tools Lab · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
+<section class="cover" style="--tc:#E04F8A"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 9</div><h1>AI &amp; No-Code Tools Lab</h1><p>Complete tutorials for the design and automation tools used across the programs: Figma (design systems, prototypes, Dev Mode, Figma Make) and n8n (workflows, APIs, AI agents, MCP).</p>
+<div class="cv-m"><span>2 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-tools-01"><span>01</span>Figma Complete Tutorial: Interface, Auto Layout, Components, Variables, Prototypes, Dev Mode and Figma AI</a></li><li><a href="#L-tools-02"><span>02</span>n8n Complete Tutorial: Workflow Automation, Data Pipelines and AI Agents</a></li></ol></section><article class="lesson-art bk" id="L-tools-01"><div class="lhead" style="--tc:#E04F8A"><div class="kick">AI &amp; No-Code Tools Lab · Lesson 1</div><h1>Figma Complete Tutorial: Interface, Auto Layout, Components, Variables, Prototypes, Dev Mode and Figma AI</h1>
+<p class="sum">Learn Figma from zero to a handoff-ready design. Tour the interface, master frames, shapes, text and the 8-point grid, build responsive layouts with auto layout and constraints, create components with variants and properties, use styles and variables (light and dark modes), prototype flows with Smart Animate and overlays, hand off in Dev Mode, run workshops in FigJam, and generate working prototypes with Figma AI and Figma Make. Includes a dashboard-design project for data roles.</p><div class="tags"><span class="tag new">✦ Figma 2026 (Figma Design, FigJam, Dev Mode, Figma Make)</span><span class="tag">Beginner to Advanced</span><span class="tag">⏱ 180 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Navigate Figma Design and know when to use Figma Design, FigJam, Dev Mode, Slides, Sites and Make</li><li>Build screens with frames, auto layout, constraints and an 8-point spacing system</li><li>Create reusable components with variants, component properties and a small design system using variables</li><li>Prototype a multi-screen flow with interactions, Smart Animate and overlays, and share it for review</li><li>Hand off designs in Dev Mode and speed up work with Figma AI, Figma Make and plugins</li></ul></div></div><div class="content"><h2 id="tools-01-what-figma-is-and-why-every-product-and-data-team-uses-it">What Figma is and why every product and data team uses it</h2>
+<p><strong>Figma</strong> is a browser-based design tool where many people work on the same file at the same time. Product managers sketch flows, designers build interfaces and design systems, developers inspect measurements and code, and data analysts design dashboards before building them in Power BI or Tableau.</p>
+<figure class="fig"><img src="../img/tools-01-01.png" alt="The Figma family. One account, one file format, different products for different jobs." loading="lazy"><figcaption>The Figma family. One account, one file format, different products for different jobs.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Plan (2026)</th>
+<th>Who it is for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Starter</strong> (free)</td>
+<td>Learning: a limited number of Figma Design and FigJam files, unlimited personal drafts, free viewers</td>
+</tr>
+<tr>
+<td><strong>Professional</strong></td>
+<td>Freelancers and small teams: unlimited files, team libraries, Dev Mode</td>
+</tr>
+<tr>
+<td><strong>Organization / Enterprise</strong></td>
+<td>Companies: design-system analytics, branching, SSO, admin controls</td>
+</tr>
+<tr>
+<td><strong>Education</strong> (free)</td>
+<td>Verified students and teachers get Professional features</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Start free</b></div><p>Sign up at figma.com with Google, then install the desktop app (optional; the browser works the same). Students should apply for the free Education plan.</p></div>
+<h2 id="tools-01-the-interface">The interface</h2>
+<figure class="fig"><img src="../img/tools-01-02.png" alt="The Figma Design editor." loading="lazy"><figcaption>The Figma Design editor.</figcaption></figure>
+<p>Essential shortcuts:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Action</th>
+<th>Windows</th>
+<th>Mac</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frame / Rectangle / Ellipse / Text</td>
+<td>F / R / O / T</td>
+<td>F / R / O / T</td>
+</tr>
+<tr>
+<td>Duplicate</td>
+<td>Ctrl + D</td>
+<td>Cmd + D</td>
+</tr>
+<tr>
+<td>Group / Ungroup</td>
+<td>Ctrl + G / Ctrl + Shift + G</td>
+<td>Cmd + G / Cmd + Shift + G</td>
+</tr>
+<tr>
+<td>Add auto layout</td>
+<td>Shift + A</td>
+<td>Shift + A</td>
+</tr>
+<tr>
+<td>Create component</td>
+<td>Ctrl + Alt + K</td>
+<td>Cmd + Option + K</td>
+</tr>
+<tr>
+<td>Show measurements</td>
+<td>hold Alt and hover</td>
+<td>hold Option and hover</td>
+</tr>
+<tr>
+<td>Zoom to fit / to selection</td>
+<td>Shift + 1 / Shift + 2</td>
+<td>Shift + 1 / Shift + 2</td>
+</tr>
+<tr>
+<td>Quick actions (search any command)</td>
+<td>Ctrl + /</td>
+<td>Cmd + /</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="tools-01-frames-shapes-and-text">Frames, shapes and text</h2>
+<ul>
+<li>A <strong>frame</strong> (F) is a screen or a container. Pick a preset in the right panel (iPhone 16, Android Compact, Desktop 1440). Frames can be nested and can clip content.</li>
+<li>A <strong>group</strong> (Ctrl+G) only bundles layers; it has no layout of its own. Prefer frames with auto layout.</li>
+<li><strong>Shapes</strong> (R, O, L, P) take fills (solid, gradient, image), strokes, corner radius and effects (drop shadow, blur).</li>
+<li><strong>Text</strong> (T): set font, size, line height and letter spacing in the Design panel; use <em>Auto width</em> for labels and <em>Fixed width</em> for paragraphs.</li>
+</ul>
+<h3 id="tools-01-the-8-point-grid">The 8-point grid</h3>
+<p>Use spacing and sizes in multiples of 8 (4 for small gaps): 8, 16, 24, 32, 48, 64. Add a layout grid to a frame (Design panel → Layout grid → 8 px grid or columns: 4 columns for mobile, 12 for desktop) so everything lines up.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A type scale (ratio 1.25 from 16 px) and an 8-point spacing scale: the numbers you put into text styles and auto layout gaps</span>
+base, ratio = <span class="hl-n">16</span>, <span class="hl-n">1.25</span>
+type_scale = {name: <span class="hl-f">round</span>(base * ratio ** i) <span class="hl-k">for</span> i, name <span class="hl-k">in</span> <span class="hl-f">enumerate</span>([<span class="hl-s">&quot;Body&quot;</span>, <span class="hl-s">&quot;H6&quot;</span>, <span class="hl-s">&quot;H5&quot;</span>, <span class="hl-s">&quot;H4&quot;</span>, <span class="hl-s">&quot;H3&quot;</span>, <span class="hl-s">&quot;H2&quot;</span>, <span class="hl-s">&quot;H1&quot;</span>])}
+spacing = [<span class="hl-n">4</span>, <span class="hl-n">8</span>, <span class="hl-n">12</span>, <span class="hl-n">16</span>, <span class="hl-n">24</span>, <span class="hl-n">32</span>, <span class="hl-n">48</span>, <span class="hl-n">64</span>]
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Type scale (px):&quot;</span>, type_scale)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Spacing tokens (px):&quot;</span>, spacing)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Type scale (px): {&#x27;Body&#x27;: 16, &#x27;H6&#x27;: 20, &#x27;H5&#x27;: 25, &#x27;H4&#x27;: 31, &#x27;H3&#x27;: 39, &#x27;H2&#x27;: 49, &#x27;H1&#x27;: 61}
+Spacing tokens (px): [4, 8, 12, 16, 24, 32, 48, 64]</pre></div>
+<h3 id="tools-01-colour-contrast-accessibility">Colour contrast (accessibility)</h3>
+<p>Text must be readable: WCAG asks for a contrast ratio of at least <strong>4.5:1</strong> for normal text and <strong>3:1</strong> for large text. Figma shows contrast in plugins such as <em>Stark</em> or <em>A11y – Color Contrast Checker</em>; this is the formula they use:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">lum</span>(hex_):
+    r, g, b = (<span class="hl-f">int</span>(hex_[i:i + <span class="hl-n">2</span>], <span class="hl-n">16</span>) / <span class="hl-n">255</span> <span class="hl-k">for</span> i <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">3</span>, <span class="hl-n">5</span>))
+    f = <span class="hl-k">lambda</span> c: c / <span class="hl-n">12.92</span> <span class="hl-k">if</span> c &lt;= <span class="hl-n">0.03928</span> <span class="hl-k">else</span> ((c + <span class="hl-n">0.055</span>) / <span class="hl-n">1.055</span>) ** <span class="hl-n">2.4</span>
+    <span class="hl-k">return</span> <span class="hl-n">0.2126</span> * <span class="hl-f">f</span>(r) + <span class="hl-n">0.7152</span> * <span class="hl-f">f</span>(g) + <span class="hl-n">0.0722</span> * <span class="hl-f">f</span>(b)
+<span class="hl-k">def</span> <span class="hl-f">contrast</span>(fg, bg):
+    a, b = <span class="hl-f">sorted</span>([<span class="hl-f">lum</span>(fg), <span class="hl-f">lum</span>(bg)], reverse=<span class="hl-k">True</span>); <span class="hl-k">return</span> (a + <span class="hl-n">0.05</span>) / (b + <span class="hl-n">0.05</span>)
+<span class="hl-k">for</span> fg, bg <span class="hl-k">in</span> [(<span class="hl-s">&quot;#FFFFFF&quot;</span>, <span class="hl-s">&quot;#6C4CF5&quot;</span>), (<span class="hl-s">&quot;#9CA3AF&quot;</span>, <span class="hl-s">&quot;#FFFFFF&quot;</span>), (<span class="hl-s">&quot;#17142E&quot;</span>, <span class="hl-s">&quot;#F3F0FF&quot;</span>), (<span class="hl-s">&quot;#FFFFFF&quot;</span>, <span class="hl-s">&quot;#12B5A6&quot;</span>)]:
+    r = <span class="hl-f">contrast</span>(fg, bg); <span class="hl-f">print</span>(<span class="hl-s">f&quot;{fg} on {bg}: {r:4.2f}:1  -&gt;&quot;</span>, <span class="hl-s">&quot;PASS normal text&quot;</span> <span class="hl-k">if</span> r &gt;= <span class="hl-n">4.5</span> <span class="hl-k">else</span> <span class="hl-s">&quot;PASS large text only&quot;</span> <span class="hl-k">if</span> r &gt;= <span class="hl-n">3</span> <span class="hl-k">else</span> <span class="hl-s">&quot;FAIL&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">#FFFFFF on #6C4CF5: 5.26:1  -&gt; PASS normal text
+#9CA3AF on #FFFFFF: 2.54:1  -&gt; FAIL
+#17142E on #F3F0FF: 15.92:1  -&gt; PASS normal text
+#FFFFFF on #12B5A6: 2.57:1  -&gt; FAIL</pre></div>
+<p>Light grey text on white and white text on bright teal fail even the 3:1 large-text rule, so darken those colours (for example teal #0E7C72) until the checker passes.</p>
+<h2 id="tools-01-auto-layout-responsive-design">Auto layout: responsive design</h2>
+<p><strong>Auto layout</strong> (Shift + A) turns a frame into a flexbox: children stack horizontally or vertically with a fixed gap and padding, and the frame grows or shrinks with its content.</p>
+<figure class="fig"><img src="../img/tools-01-03.png" alt="Auto layout settings and what they control." loading="lazy"><figcaption>Auto layout settings and what they control.</figcaption></figure>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build a responsive button</b></div><ol>
+<li>Type "Get started" (T). Select it and press <strong>Shift + A</strong>: a frame wraps the text.</li>
+<li>Set padding 12 (vertical) × 24 (horizontal), corner radius 8, fill your brand colour, text white.</li>
+<li>Set the frame to <strong>Hug</strong> both ways: change the text to "Start your free trial" and the button grows.</li>
+<li>Put three buttons in a vertical auto layout with gap 12 and set each to <strong>Fill container</strong>: they all stretch to the same width.</li>
+</ol></div>
+<p><strong>Constraints</strong> (for frames without auto layout) decide how a layer moves when its parent resizes: Left, Right, Left &amp; Right (stretch), Centre, Scale. Use them for headers and floating buttons.</p>
+<h2 id="tools-01-components-variants-and-properties">Components, variants and properties</h2>
+<p>A <strong>component</strong> (Ctrl + Alt + K) is a master; <strong>instances</strong> are copies that update when the master changes.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Variants</strong></td>
+<td>Group related components into one set with properties</td>
+<td>Button: Type = Primary/Secondary, State = Default/Hover/Disabled, Size = S/M/L</td>
+</tr>
+<tr>
+<td><strong>Boolean property</strong></td>
+<td>Show/hide a layer</td>
+<td>"Has icon" on/off</td>
+</tr>
+<tr>
+<td><strong>Text property</strong></td>
+<td>Edit the label from the instance panel</td>
+<td>Button label</td>
+</tr>
+<tr>
+<td><strong>Instance swap property</strong></td>
+<td>Swap a nested component</td>
+<td>Choose the icon</td>
+</tr>
+<tr>
+<td><strong>Overrides</strong></td>
+<td>Change text, colour or images on one instance without detaching it</td>
+<td>One red "Delete" button</td>
+</tr>
+<tr>
+<td><strong>Libraries</strong></td>
+<td>Publish components to the whole team (Assets panel)</td>
+<td>Company design system</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> itertools <span class="hl-k">import</span> product
+props = {<span class="hl-s">&quot;Type&quot;</span>: [<span class="hl-s">&quot;Primary&quot;</span>, <span class="hl-s">&quot;Secondary&quot;</span>, <span class="hl-s">&quot;Ghost&quot;</span>], <span class="hl-s">&quot;State&quot;</span>: [<span class="hl-s">&quot;Default&quot;</span>, <span class="hl-s">&quot;Hover&quot;</span>, <span class="hl-s">&quot;Disabled&quot;</span>], <span class="hl-s">&quot;Size&quot;</span>: [<span class="hl-s">&quot;S&quot;</span>, <span class="hl-s">&quot;M&quot;</span>, <span class="hl-s">&quot;L&quot;</span>]}
+variants = <span class="hl-f">list</span>(<span class="hl-f">product</span>(*<span class="hl-f">props.values</span>()))
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(variants), <span class="hl-s">&quot;variants in the Button set, e.g.&quot;</span>, <span class="hl-s">&quot;, &quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">&quot;/&quot;</span>.<span class="hl-f">join</span>(v) <span class="hl-k">for</span> v <span class="hl-k">in</span> variants[:<span class="hl-n">3</span>]))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Without variant properties you would manage&quot;</span>, <span class="hl-f">len</span>(variants), <span class="hl-s">&quot;separate components.&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">27 variants in the Button set, e.g. Primary/Default/S, Primary/Default/M, Primary/Default/L
+Without variant properties you would manage 27 separate components.</pre></div>
+<h2 id="tools-01-styles-and-variables-design-tokens">Styles and variables (design tokens)</h2>
+<ul>
+<li><strong>Styles</strong>: saved colour, text, effect and grid styles you apply with one click.</li>
+<li><strong>Variables</strong> (collections and modes): named values (colour, number, string, boolean) such as <code>color/bg/surface</code> or <code>space/16</code>. A collection can have <strong>modes</strong> like <em>Light</em> and <em>Dark</em> or <em>Brand A</em> and <em>Brand B</em>: switch a frame's mode and every bound colour changes.</li>
+<li>Bind spacing, radius and colours to variables so a redesign is one edit, and developers get the same token names in Dev Mode.</li>
+</ul>
+<h2 id="tools-01-prototyping">Prototyping</h2>
+<p>Switch to the <strong>Prototype</strong> tab:</p>
+<ol>
+<li>Select a button, drag the blue handle to the target frame: this creates a <strong>connection</strong>.</li>
+<li>Set the <strong>trigger</strong> (On click, On drag, While hovering, After delay, Key/Gamepad) and the <strong>action</strong> (Navigate to, Open overlay, Swap overlay, Back, Scroll to, Open link, Set variable).</li>
+<li>Choose the <strong>animation</strong>: Instant, Dissolve, Move in/out, Push, Slide, or <strong>Smart Animate</strong> (matches layers with the same name across frames and animates the difference).</li>
+<li>Mark a <strong>flow starting point</strong> and press <strong>Present</strong> (Ctrl + Alt + Enter) or share the prototype link.</li>
+</ol>
+<p>Advanced: <strong>interactive components</strong> (a toggle that switches its own variant on click), <strong>variables and conditionals</strong> in prototypes (a counter, a cart total, "if logged in"), and <strong>scroll behaviour</strong> (fixed headers, horizontal carousels).</p>
+<h2 id="tools-01-collaboration-review-and-dev-mode">Collaboration, review and Dev Mode</h2>
+<ul>
+<li><strong>Comments</strong> (C) pinned to the canvas; <strong>@mention</strong> teammates; resolve when done.</li>
+<li><strong>Version history</strong> (File → Show version history); <strong>branching</strong> on Organization plans to explore without touching the main file.</li>
+<li><strong>Dev Mode</strong> (toggle in the top bar): developers see measurements, colours as variables, assets to export (SVG, PNG, PDF), CSS/iOS/Android snippets, "Ready for dev" statuses, and <strong>Code Connect</strong> links to real code components. Through the <strong>Figma MCP server</strong>, AI coding tools such as Claude Code can read selected frames and generate code that uses your variables.</li>
+</ul>
+<h2 id="tools-01-figjam-for-workshops">FigJam for workshops</h2>
+<p>Sticky notes, shapes and connectors, stamps and voting, timers, templates (journey maps, retros, brainstorming, user-story maps), and <strong>FigJam AI</strong> that sorts and summarises stickies and generates diagrams from a prompt. Use it for discovery workshops, user flows and sprint retros.</p>
+<h2 id="tools-01-figma-ai-and-figma-make">Figma AI and Figma Make</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>First draft / Make designs</strong></td>
+<td>Generate a starting UI from a prompt using your design system</td>
+</tr>
+<tr>
+<td><strong>Rename layers</strong>, <strong>replace content</strong>, <strong>search by image</strong></td>
+<td>Clean-up and realistic placeholder content</td>
+</tr>
+<tr>
+<td><strong>Figma Make</strong></td>
+<td>Prompt-to-app: describe a product ("a habit tracker with streaks and a weekly chart") and get a working, clickable prototype with real code you can refine by chatting, publish, or bring into Figma Design</td>
+</tr>
+<tr>
+<td><strong>Plugins</strong></td>
+<td>Unsplash (photos), Iconify (icons), Content Reel, Stark (accessibility), Autoflow (flow arrows), Charts / Figma Chart for data visualisation mock-ups</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Good practice with AI in Figma</b></div><p>Use AI for a first draft or realistic content, then apply your components, variables and accessibility checks. Treat generated screens as sketches until a designer has reviewed spacing, hierarchy and states (empty, loading, error).</p></div>
+<h2 id="tools-01-project-for-data-roles-design-a-kpi-dashboard-before-building-it">Project for data roles: design a KPI dashboard before building it</h2>
+<p>Designing the dashboard in Figma first saves hours in Power BI or Tableau:</p>
+<ol>
+<li>Frame: Desktop 1440 × 1024, 12-column grid, 24 px gutters.</li>
+<li>Header: title, date range picker, filters (Region, Segment) as components.</li>
+<li>KPI cards: a component with variants (Up/Down/Neutral) and text properties for label, value and change.</li>
+<li>Charts: placeholders or the <em>Chart</em> plugin for a line (trend), bar (ranking) and map; a table at the bottom.</li>
+<li>Variables: Light and Dark modes; check contrast for every text colour.</li>
+<li>Prototype: clicking a region filter swaps to a "South" variant of the page; add an overlay for a drill-through.</li>
+<li>Share for comments with stakeholders, then rebuild in Power BI/Tableau with the agreed layout and colours (export the palette as hex codes or a Power BI theme JSON).</li>
+</ol>
+<figure class="fig"><img src="../img/tools-01-04.png" alt="Wireframe of the KPI dashboard layout on a 12-column grid." loading="lazy"><figcaption>Wireframe of the KPI dashboard layout on a 12-column grid.</figcaption></figure>
+<h2 id="tools-01-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Frames + auto layout + an 8-point grid give clean, responsive screens.</li>
+<li>Components with variants and properties, plus variables with modes, form a design system.</li>
+<li>Prototype with connections, Smart Animate, overlays and variables; share links for review.</li>
+<li>Dev Mode, Code Connect and the MCP server connect design to code; FigJam runs workshops; Figma Make turns prompts into working prototypes.</li>
+</ul></div>
+<div class="quiz" id="quiz-tools-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does auto layout do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Stacks children with a set direction, gap and padding so the frame resizes with its content</button><button type="button" class="opt" data-ok="0"><i>B</i>Exports code</button><button type="button" class="opt" data-ok="0"><i>C</i>Adds a layout grid only</button><button type="button" class="opt" data-ok="0"><i>D</i>Groups layers without any layout</button></div><div class="qexp"><b>Answer: A.</b> It works like CSS flexbox.</div></div><div class="qq"><p class="qtext"><b>2.</b> You need Primary/Secondary buttons in three sizes and three states. What should you build?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>One component set with variant properties Type, Size and State</button><button type="button" class="opt" data-ok="0"><i>B</i>27 unrelated components</button><button type="button" class="opt" data-ok="0"><i>C</i>Groups</button><button type="button" class="opt" data-ok="0"><i>D</i>Separate files</button></div><div class="qexp"><b>Answer: A.</b> Variants keep related components in one set.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which feature lets one frame switch between Light and Dark colours?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Variables with modes</button><button type="button" class="opt" data-ok="0"><i>B</i>Constraints</button><button type="button" class="opt" data-ok="0"><i>C</i>Smart Animate</button><button type="button" class="opt" data-ok="0"><i>D</i>Comments</button></div><div class="qexp"><b>Answer: A.</b> Bind colours to variables and switch the mode.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the minimum WCAG contrast for normal-size text?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>4.5:1</button><button type="button" class="opt" data-ok="0"><i>B</i>2:1</button><button type="button" class="opt" data-ok="0"><i>C</i>3:1</button><button type="button" class="opt" data-ok="0"><i>D</i>7:1 only</button></div><div class="qexp"><b>Answer: A.</b> 3:1 applies to large text.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which animation matches layers with the same name across two frames?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Smart Animate</button><button type="button" class="opt" data-ok="0"><i>B</i>Dissolve</button><button type="button" class="opt" data-ok="0"><i>C</i>Instant</button><button type="button" class="opt" data-ok="0"><i>D</i>Push</button></div><div class="qexp"><b>Answer: A.</b> Name layers consistently for it to work.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where do developers inspect sizes, tokens and code snippets?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Dev Mode</button><button type="button" class="opt" data-ok="0"><i>B</i>FigJam</button><button type="button" class="opt" data-ok="0"><i>C</i>Figma Slides</button><button type="button" class="opt" data-ok="0"><i>D</i>The Pages panel</button></div><div class="qexp"><b>Answer: A.</b> Dev Mode is built for handoff.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice project</b></div><p>Design a 3-screen mobile app for a food-delivery order flow (menu → cart → order placed) with: a Button component set (Type × State), a product-card component with an image, title, price and a "+ Add" button using auto layout, Light/Dark variables, a prototype with Smart Animate from cart to confirmation, and an overlay for "Apply coupon". Share the prototype link.</p><details class="sol"><summary>Show solution</summary><p>Use 390 × 844 frames, a 4-column grid with 16 px margins, auto layout for cards (vertical, gap 8, padding 12), a component set with 6 variants, variables collection "Color" with Light/Dark modes bound to fills, connections On click → Navigate to (Smart Animate 300 ms ease-out), and an Open overlay action centred with a dark background. Check every text colour with a contrast plugin.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you keep designs consistent across a large product?</strong>
+A shared library of components with variants and properties, styles and variables (tokens) with modes, documentation pages, and Dev Mode / Code Connect so code uses the same tokens.</p>
+<p><strong>Q: Auto layout vs constraints?</strong>
+Auto layout arranges children in a flow (direction, gap, padding, hug/fill), like flexbox; constraints pin a layer to its parent's edges when the parent is resized, for frames without auto layout.</p>
+<p><strong>Q: How do you use Figma as a PM or analyst?</strong>
+Wireframe flows and dashboards, run FigJam workshops, review prototypes with users before building, comment on designs, and prototype quickly with Figma Make.</p></div>
+<h2 id="tools-01-learn-more-official-and-free">Learn more (official and free)</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://help.figma.com">Figma Help Center and courses</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/@Figma">Figma YouTube channel (Figma for beginners series)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.figma.com/community">Figma Community files and templates</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.figma.com/make/">Figma Make</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.figma.com/hc/en-us/categories/360002051613">Figma Learn: Dev Mode and Code Connect</a></li>
+</ul></div></article><article class="lesson-art bk" id="L-tools-02"><div class="lhead" style="--tc:#E04F8A"><div class="kick">AI &amp; No-Code Tools Lab · Lesson 2</div><h1>n8n Complete Tutorial: Workflow Automation, Data Pipelines and AI Agents</h1>
+<p class="sum">Learn n8n, the open, self-hostable workflow-automation tool. Set it up on n8n Cloud or Docker, understand triggers, nodes, credentials, items and expressions, transform data with Edit Fields, IF, Switch, Merge, Loop and Code nodes, call any API with HTTP Request, handle errors and schedules, build AI agents with chat models, memory, tools and vector stores, and connect n8n to MCP. Four complete projects: lead capture, a daily sales report, an email-triage AI agent and a document Q&amp;A bot.</p><div class="tags"><span class="tag new">✦ n8n 1.x (2026)</span><span class="tag">Beginner to Advanced</span><span class="tag">⏱ 180 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Install or sign up for n8n and build, test and activate a workflow</li><li>Explain triggers, nodes, items and expressions, and transform data between apps</li><li>Call REST APIs with HTTP Request and write JavaScript or Python in the Code node</li><li>Add error handling, retries, schedules and webhooks for reliable automations</li><li>Build AI-agent workflows with chat models, memory, tools, vector stores and MCP</li></ul></div></div><div class="content"><h2 id="tools-02-what-n8n-is">What n8n is</h2>
+<p><strong>n8n</strong> ("n-eight-n", from <em>nodemation</em>) connects apps and data with visual workflows. Each workflow starts with a <strong>trigger</strong> (a form is submitted, a schedule fires, a webhook is called) and passes data through <strong>nodes</strong> that read, transform and send it. Compared with Zapier and Make, n8n can be <strong>self-hosted</strong> (your data stays on your server), lets you write <strong>code</strong> in any step, and has strong <strong>AI-agent</strong> nodes.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Zapier</th>
+<th>Make</th>
+<th>n8n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hosting</td>
+<td>Cloud only</td>
+<td>Cloud only</td>
+<td>Cloud <strong>or self-hosted</strong> (Docker, npm)</td>
+</tr>
+<tr>
+<td>Pricing unit</td>
+<td>Tasks (each step)</td>
+<td>Operations</td>
+<td>Workflow executions (cloud); free to self-host under its fair-code licence</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>Code steps (limited)</td>
+<td>Limited</td>
+<td>Full JavaScript/Python Code node, npm packages when self-hosted</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Quick app-to-app zaps</td>
+<td>Visual scenarios with routers</td>
+<td>Data pipelines, AI agents, privacy-sensitive automations</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="tools-02-getting-n8n">Getting n8n</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Option</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>n8n Cloud</strong></td>
+<td>Sign up at n8n.io → free trial → you get <code>yourname.app.n8n.cloud</code></td>
+</tr>
+<tr>
+<td><strong>Docker</strong> (recommended self-host)</td>
+<td><code>docker volume create n8n_data</code> then <code>docker run -it --rm -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n</code> and open http://localhost:5678</td>
+</tr>
+<tr>
+<td><strong>npm</strong> (quick local test)</td>
+<td><code>npx n8n</code> (needs Node.js)</td>
+</tr>
+<tr>
+<td>Production self-host</td>
+<td>Docker Compose with PostgreSQL, a domain with HTTPS (Caddy/Nginx), <code>N8N_ENCRYPTION_KEY</code> set and backed up, queue mode with Redis for scale</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="tools-02-the-editor-and-the-core-ideas">The editor and the core ideas</h2>
+<figure class="fig"><img src="../img/tools-02-01.png" alt="An n8n workflow: a trigger, then nodes that pass items from left to right." loading="lazy"><figcaption>An n8n workflow: a trigger, then nodes that pass items from left to right.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Concept</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Workflow</strong></td>
+<td>The canvas of connected nodes; <em>Active</em> workflows run on their trigger</td>
+</tr>
+<tr>
+<td><strong>Trigger node</strong></td>
+<td>Starts the run: Manual, Schedule, Webhook, n8n Form, Chat, app triggers (Gmail, Google Sheets, Typeform, Stripe…)</td>
+</tr>
+<tr>
+<td><strong>Node</strong></td>
+<td>One step: an app action, a core utility, or an AI node</td>
+</tr>
+<tr>
+<td><strong>Credentials</strong></td>
+<td>Saved, encrypted logins/API keys (OAuth for Google, Slack, etc.), reused by nodes</td>
+</tr>
+<tr>
+<td><strong>Items</strong></td>
+<td>Data flows as a list of JSON items; most nodes run once <strong>per item</strong></td>
+</tr>
+<tr>
+<td><strong>Expressions</strong></td>
+<td><code>{{ $json.email }}</code>, <code>{{ $now.toFormat('yyyy-MM-dd') }}</code>, <code>{{ $('Form').item.json.name }}</code> to use data from earlier nodes</td>
+</tr>
+<tr>
+<td><strong>Executions</strong></td>
+<td>History of every run with the input/output of each node, for debugging and re-running</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="tools-02-items-the-most-important-idea">Items: the most important idea</h3>
+<p>Every node receives and outputs an <strong>array of items</strong>, each <code>{ "json": { … } }</code>. If a Google Sheets node returns 25 rows, the next Slack node runs <strong>25 times</strong>, once per item, unless you aggregate first.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json
+items = [{<span class="hl-s">&quot;json&quot;</span>: {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;email&quot;</span>: <span class="hl-s">&quot;asha@example.com&quot;</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;score&quot;</span>: <span class="hl-n">82</span>}},
+         {<span class="hl-s">&quot;json&quot;</span>: {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;email&quot;</span>: <span class="hl-s">&quot;ravi@example.com&quot;</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;score&quot;</span>: <span class="hl-n">45</span>}},
+         {<span class="hl-s">&quot;json&quot;</span>: {<span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;email&quot;</span>: <span class="hl-s">&quot;meera@example.com&quot;</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;score&quot;</span>: <span class="hl-n">91</span>}}]
+<span class="hl-c"># IF node: score &gt;= 60 goes to the &quot;true&quot; branch</span>
+true_branch = [i <span class="hl-k">for</span> i <span class="hl-k">in</span> items <span class="hl-k">if</span> i[<span class="hl-s">&quot;json&quot;</span>][<span class="hl-s">&quot;score&quot;</span>] &gt;= <span class="hl-n">60</span>]
+<span class="hl-c"># Edit Fields (Set) node: keep and add fields</span>
+shaped = [{<span class="hl-s">&quot;json&quot;</span>: {<span class="hl-s">&quot;lead&quot;</span>: i[<span class="hl-s">&quot;json&quot;</span>][<span class="hl-s">&quot;name&quot;</span>], <span class="hl-s">&quot;email&quot;</span>: i[<span class="hl-s">&quot;json&quot;</span>][<span class="hl-s">&quot;email&quot;</span>], <span class="hl-s">&quot;priority&quot;</span>: <span class="hl-s">&quot;hot&quot;</span> <span class="hl-k">if</span> i[<span class="hl-s">&quot;json&quot;</span>][<span class="hl-s">&quot;score&quot;</span>] &gt;= <span class="hl-n">90</span> <span class="hl-k">else</span> <span class="hl-s">&quot;warm&quot;</span>}} <span class="hl-k">for</span> i <span class="hl-k">in</span> true_branch]
+<span class="hl-c"># Aggregate node: many items -&gt; one item with a list</span>
+aggregated = {<span class="hl-s">&quot;json&quot;</span>: {<span class="hl-s">&quot;leads&quot;</span>: [s[<span class="hl-s">&quot;json&quot;</span>][<span class="hl-s">&quot;lead&quot;</span>] <span class="hl-k">for</span> s <span class="hl-k">in</span> shaped], <span class="hl-s">&quot;count&quot;</span>: <span class="hl-f">len</span>(shaped)}}
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>(shaped, indent=<span class="hl-n">1</span>)); <span class="hl-f">print</span>(aggregated)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[
+ {
+  &quot;json&quot;: {
+   &quot;lead&quot;: &quot;Asha&quot;,
+   &quot;email&quot;: &quot;asha@example.com&quot;,
+   &quot;priority&quot;: &quot;warm&quot;
+  }
+ },
+ {
+  &quot;json&quot;: {
+   &quot;lead&quot;: &quot;Meera&quot;,
+   &quot;email&quot;: &quot;meera@example.com&quot;,
+   &quot;priority&quot;: &quot;hot&quot;
+  }
+ }
+]
+{&#x27;json&#x27;: {&#x27;leads&#x27;: [&#x27;Asha&#x27;, &#x27;Meera&#x27;], &#x27;count&#x27;: 2}}</pre></div>
+<h2 id="tools-02-core-nodes-you-will-use-every-day">Core nodes you will use every day</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Node</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Edit Fields (Set)</strong></td>
+<td>Rename, add, remove or compute fields</td>
+</tr>
+<tr>
+<td><strong>IF</strong> / <strong>Switch</strong></td>
+<td>Route items by conditions (two branches / many branches)</td>
+</tr>
+<tr>
+<td><strong>Merge</strong></td>
+<td>Combine two inputs: append, match by a field (like a join), or by position</td>
+</tr>
+<tr>
+<td><strong>Filter</strong></td>
+<td>Drop items that do not match</td>
+</tr>
+<tr>
+<td><strong>Split Out</strong></td>
+<td>Turn a list inside one item into separate items</td>
+</tr>
+<tr>
+<td><strong>Aggregate</strong> / <strong>Summarize</strong></td>
+<td>Many items → one (list, sum, count, group by)</td>
+</tr>
+<tr>
+<td><strong>Loop Over Items (Split in Batches)</strong></td>
+<td>Process items in batches (APIs with rate limits)</td>
+</tr>
+<tr>
+<td><strong>Wait</strong></td>
+<td>Pause for a time or until a webhook/form resumes the run</td>
+</tr>
+<tr>
+<td><strong>HTTP Request</strong></td>
+<td>Call any REST API (GET/POST, headers, auth, pagination); import a cURL command</td>
+</tr>
+<tr>
+<td><strong>Code</strong></td>
+<td>JavaScript or Python over all items or each item</td>
+</tr>
+<tr>
+<td><strong>Date &amp; Time</strong>, <strong>Crypto</strong>, <strong>XML/HTML</strong>, <strong>Extract From File</strong>, <strong>Convert to File</strong></td>
+<td>Utilities</td>
+</tr>
+<tr>
+<td><strong>Execute Workflow</strong> / <strong>Execute Workflow Trigger</strong></td>
+<td>Call one workflow from another (sub-workflows, reusable steps)</td>
+</tr>
+<tr>
+<td><strong>Respond to Webhook</strong></td>
+<td>Return a custom HTTP response (build simple APIs)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="tools-02-code-node-example-javascript-run-once-for-all-items">Code node example (JavaScript, "Run once for all items")</h3>
+<div class="code"><div class="code-h"><span>JAVASCRIPT</span><button class="copy" type="button">Copy</button></div><pre><code class="javascript">// Clean phone numbers and drop duplicates by email
+const seen = new <span class="hl-f">Set</span>();
+return $<span class="hl-f">input.all</span>()
+  .<span class="hl-f">filter</span>(item =&gt; { const e = <span class="hl-f">item.json.email.toLowerCase</span>().<span class="hl-f">trim</span>(); if (<span class="hl-f">seen.has</span>(e)) return false; <span class="hl-f">seen.add</span>(e); return true; })
+  .<span class="hl-f">map</span>(item =&gt; ({ json: { ...item.json, phone: <span class="hl-f">String</span>(item.json.phone || <span class="hl-s">&#x27;&#x27;</span>).<span class="hl-f">replace</span>(/\D/g, <span class="hl-s">&#x27;&#x27;</span>).<span class="hl-f">slice</span>(-<span class="hl-n">10</span>) } }));</code></pre></div>
+<p>The Python version of the same idea (Code node → Language: Python) uses <code>_input.all()</code> and returns a list of dicts with a <code>json</code> key.</p>
+<h3 id="tools-02-http-request-calling-an-api">HTTP Request: calling an API</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># What an HTTP Request node sends and how you map the answer back into items</span>
+request = {<span class="hl-s">&quot;method&quot;</span>: <span class="hl-s">&quot;GET&quot;</span>, <span class="hl-s">&quot;url&quot;</span>: <span class="hl-s">&quot;https://api.example.com/v1/orders&quot;</span>, <span class="hl-s">&quot;qs&quot;</span>: {<span class="hl-s">&quot;status&quot;</span>: <span class="hl-s">&quot;paid&quot;</span>, <span class="hl-s">&quot;limit&quot;</span>: <span class="hl-n">2</span>},
+           <span class="hl-s">&quot;headers&quot;</span>: {<span class="hl-s">&quot;Authorization&quot;</span>: <span class="hl-s">&quot;Bearer {{ $credentials.apiKey }}&quot;</span>}}
+response = {<span class="hl-s">&quot;data&quot;</span>: [{<span class="hl-s">&quot;id&quot;</span>: <span class="hl-n">101</span>, <span class="hl-s">&quot;amount&quot;</span>: <span class="hl-n">2499</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Pune&quot;</span>}, {<span class="hl-s">&quot;id&quot;</span>: <span class="hl-n">102</span>, <span class="hl-s">&quot;amount&quot;</span>: <span class="hl-n">899</span>, <span class="hl-s">&quot;city&quot;</span>: <span class="hl-s">&quot;Delhi&quot;</span>}], <span class="hl-s">&quot;next&quot;</span>: <span class="hl-k">None</span>}
+items = [{<span class="hl-s">&quot;json&quot;</span>: o} <span class="hl-k">for</span> o <span class="hl-k">in</span> response[<span class="hl-s">&quot;data&quot;</span>]]          <span class="hl-c"># Split Out on &quot;data&quot;</span>
+<span class="hl-f">print</span>(request[<span class="hl-s">&quot;method&quot;</span>], request[<span class="hl-s">&quot;url&quot;</span>], request[<span class="hl-s">&quot;qs&quot;</span>]); <span class="hl-f">print</span>(items)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">GET https://api.example.com/v1/orders {&#x27;status&#x27;: &#x27;paid&#x27;, &#x27;limit&#x27;: 2}
+[{&#x27;json&#x27;: {&#x27;id&#x27;: 101, &#x27;amount&#x27;: 2499, &#x27;city&#x27;: &#x27;Pune&#x27;}}, {&#x27;json&#x27;: {&#x27;id&#x27;: 102, &#x27;amount&#x27;: 899, &#x27;city&#x27;: &#x27;Delhi&#x27;}}]</pre></div>
+<p>Tips: use <strong>Authentication → Predefined credential type</strong> when n8n has the app, otherwise <strong>Generic credential</strong> (header auth, OAuth2); turn on <strong>Pagination</strong> for APIs with <code>next</code> links; add <strong>Retry on fail</strong> (Settings) for flaky APIs.</p>
+<h2 id="tools-02-reliability-errors-retries-and-scheduling">Reliability: errors, retries and scheduling</h2>
+<ul>
+<li><strong>Settings per node</strong>: <em>Retry on fail</em> (tries and wait), <em>Continue on fail</em> / error output branch, <em>Always output data</em>.</li>
+<li><strong>Error workflow</strong>: Workflow settings → Error workflow → pick a workflow that starts with <strong>Error Trigger</strong> and sends you a Slack/WhatsApp/email alert with the failed node and message.</li>
+<li><strong>Schedule Trigger</strong>: every X minutes, daily at 09:00 IST (set the workflow time zone to Asia/Kolkata), or a cron expression <code>0 9 * * 1-5</code>.</li>
+<li><strong>Pin data</strong> while building: freeze a node's output so you do not call the API on every test.</li>
+<li><strong>Environment safety</strong>: keep secrets in credentials, never in Code nodes; restrict who can edit workflows; use separate dev and prod instances for important flows.</li>
+</ul>
+<h2 id="tools-02-ai-agents-in-n8n">AI agents in n8n</h2>
+<p>The <strong>AI Agent</strong> node runs a loop: a chat model reads the goal, decides which <strong>tool</strong> to call, reads the result and continues until it can answer.</p>
+<figure class="fig"><img src="../img/tools-02-02.png" alt="An n8n AI agent and the sub-nodes plugged into it." loading="lazy"><figcaption>An n8n AI agent and the sub-nodes plugged into it.</figcaption></figure>
+<p>Other AI building blocks: <strong>Basic LLM Chain</strong>, <strong>Text Classifier</strong>, <strong>Information Extractor</strong> (pull fields from emails or PDFs into JSON), <strong>Summarization Chain</strong>, <strong>Sentiment Analysis</strong>, <strong>Embeddings</strong> + <strong>Vector Store</strong> nodes (Pinecone, Qdrant, Supabase, PGVector, in-memory) for RAG, and the <strong>Chat Trigger</strong> for a hosted chat window.</p>
+<h3 id="tools-02-n8n-and-mcp">n8n and MCP</h3>
+<ul>
+<li><strong>MCP Client Tool</strong>: lets an n8n agent use tools from any MCP server.</li>
+<li><strong>MCP Server Trigger</strong>: exposes your n8n workflows as MCP tools, so Claude or other MCP clients can call them (for example "create a lead in our CRM").</li>
+</ul>
+<h2 id="tools-02-four-complete-projects">Four complete projects</h2>
+<h3 id="tools-02-1-lead-capture-to-google-sheets-and-slack">1. Lead capture to Google Sheets and Slack</h3>
+<p><code>n8n Form Trigger</code> (name, email, phone, course) → <code>Edit Fields</code> (clean phone, add timestamp) → <code>Google Sheets: Append row</code> → <code>IF course = "Data Engineer"</code> → <code>Slack: send message to #sales</code> (true) / <code>Gmail: send brochure</code> (false).</p>
+<h3 id="tools-02-2-daily-sales-report">2. Daily sales report</h3>
+<p><code>Schedule Trigger 09:00 IST</code> → <code>Postgres/HTTP Request: yesterday's orders</code> → <code>Summarize: sum sales by region</code> → <code>Code: build an HTML table</code> → <code>Gmail: send to managers</code> + <code>Slack</code> summary.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+orders = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;region&quot;</span>: [<span class="hl-s">&quot;South&quot;</span>, <span class="hl-s">&quot;West&quot;</span>, <span class="hl-s">&quot;South&quot;</span>, <span class="hl-s">&quot;North&quot;</span>, <span class="hl-s">&quot;East&quot;</span>, <span class="hl-s">&quot;West&quot;</span>], <span class="hl-s">&quot;amount&quot;</span>: [<span class="hl-n">24990</span>, <span class="hl-n">8999</span>, <span class="hl-n">15500</span>, <span class="hl-n">4300</span>, <span class="hl-n">12000</span>, <span class="hl-n">30500</span>]})
+summary = <span class="hl-f">orders.groupby</span>(<span class="hl-s">&quot;region&quot;</span>).<span class="hl-f">amount.agg</span>([<span class="hl-s">&quot;count&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>]).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sum&quot;</span>, ascending=<span class="hl-k">False</span>)
+html = <span class="hl-f">summary.to_html</span>()            <span class="hl-c"># the Code node builds the same table for the email body</span>
+<span class="hl-f">print</span>(summary); <span class="hl-f">print</span>(<span class="hl-s">&quot;HTML length for the email:&quot;</span>, <span class="hl-f">len</span>(html), <span class="hl-s">&quot;characters&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">        count    sum
+region              
+South       2  40490
+West        2  39499
+East        1  12000
+North       1   4300
+HTML length for the email: 571 characters</pre></div>
+<h3 id="tools-02-3-email-triage-ai-agent">3. Email triage AI agent</h3>
+<p><code>Gmail Trigger (new email)</code> → <code>Text Classifier</code> (Sales lead / Support / Invoice / Spam) → <code>Switch</code> → Sales: <code>Information Extractor</code> (name, company, budget) → <code>HubSpot/Sheets</code> + Slack ping; Support: <code>AI Agent</code> drafts a reply using a <strong>Vector Store tool</strong> over your FAQ and saves it as a <strong>Gmail draft</strong> for a human to send; Spam: archive.</p>
+<h3 id="tools-02-4-document-qa-bot-rag">4. Document Q&amp;A bot (RAG)</h3>
+<p>Indexing workflow: <code>Google Drive Trigger (new PDF)</code> → <code>Default Data Loader</code> + <code>Recursive Text Splitter</code> → <code>Embeddings</code> → <code>Vector Store: insert</code>. Chat workflow: <code>Chat Trigger</code> → <code>AI Agent</code> with the vector store as a tool, a chat model and window memory → answer with sources. This is the RAG pattern from the GenAI track, built without code.</p>
+<h2 id="tools-02-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Workflows = trigger + nodes; data moves as a list of JSON items and most nodes run once per item.</li>
+<li>Expressions pull values from earlier nodes; Code and HTTP Request cover anything without a ready node.</li>
+<li>Reliability comes from retries, error branches, an error workflow, schedules with the right time zone and pinned test data.</li>
+<li>The AI Agent node combines a chat model, memory and tools; vector stores add RAG; MCP connects n8n to other AI tools both ways.</li>
+</ul></div>
+<div class="quiz" id="quiz-tools-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A Google Sheets node returns 30 rows and a Slack node follows. What happens?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The Slack node runs 30 times, once per item, unless you aggregate first</button><button type="button" class="opt" data-ok="0"><i>B</i>It runs once with all rows</button><button type="button" class="opt" data-ok="0"><i>C</i>It fails</button><button type="button" class="opt" data-ok="0"><i>D</i>It runs twice</button></div><div class="qexp"><b>Answer: A.</b> Most nodes execute per item.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which expression reads the email field of the current item?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>{{ $json.email }}</button><button type="button" class="opt" data-ok="0"><i>B</i>$email</button><button type="button" class="opt" data-ok="0"><i>C</i>=email</button><button type="button" class="opt" data-ok="0"><i>D</i>{email}</button></div><div class="qexp"><b>Answer: A.</b> $json is the current item's data.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which node calls any REST API that has no ready-made n8n node?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>HTTP Request</button><button type="button" class="opt" data-ok="0"><i>B</i>Merge</button><button type="button" class="opt" data-ok="0"><i>C</i>Wait</button><button type="button" class="opt" data-ok="0"><i>D</i>Filter</button></div><div class="qexp"><b>Answer: A.</b> You can also import a cURL command into it.</div></div><div class="qq"><p class="qtext"><b>4.</b> How do you get alerted when a production workflow fails?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Set an Error workflow that starts with Error Trigger and sends a message</button><button type="button" class="opt" data-ok="0"><i>B</i>Check executions every morning</button><button type="button" class="opt" data-ok="0"><i>C</i>Use Pin data</button><button type="button" class="opt" data-ok="0"><i>D</i>Disable retries</button></div><div class="qexp"><b>Answer: A.</b> The error workflow runs whenever another workflow fails.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is the main reason teams self-host n8n?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Data stays on their own servers and code/npm packages are allowed</button><button type="button" class="opt" data-ok="0"><i>B</i>It has no editor</button><button type="button" class="opt" data-ok="0"><i>C</i>It only works offline</button><button type="button" class="opt" data-ok="0"><i>D</i>Self-hosting is required</button></div><div class="qexp"><b>Answer: A.</b> Cloud is easier; self-hosting gives control.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which sub-nodes plug into an AI Agent node?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A chat model, memory, tools and an optional output parser</button><button type="button" class="opt" data-ok="0"><i>B</i>Only a Schedule Trigger</button><button type="button" class="opt" data-ok="0"><i>C</i>Only a Merge node</button><button type="button" class="opt" data-ok="0"><i>D</i>Only credentials</button></div><div class="qexp"><b>Answer: A.</b> Tools can include HTTP, Sheets, other workflows and MCP.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build it</b></div><p>Build project 1 (form → Sheets → Slack/Gmail) and add an error workflow that messages you on failure. Then extend it: use an Information Extractor to pull "experience in years" from a free-text field and route experienced leads to a different Slack channel.</p><details class="sol"><summary>Show solution</summary><p>Form Trigger fields: name, email, phone, course, about_you. Edit Fields: <code>phone = {{ $json.phone.replace(/\D/g, '').slice(-10) }}</code>, <code>received = {{ $now.toISO() }}</code>. Information Extractor schema <code>{ "experience_years": number }</code> from <code>about_you</code>, then IF experience_years ≥ 3 → #senior-leads else #leads. Workflow settings → Error workflow → a workflow with Error Trigger → Slack "Workflow {{ $json.workflow.name }} failed at {{ $json.execution.lastNodeExecuted }}".</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: n8n vs Zapier vs Make?</strong>
+Zapier is the simplest for app-to-app automations; Make adds visual branching and data mapping; n8n adds self-hosting, full code steps, sub-workflows and strong AI-agent features, which suits data and AI teams.</p>
+<p><strong>Q: How do you make an automation reliable?</strong>
+Retries with backoff, error branches and an error workflow with alerts, idempotent steps (check before creating), rate-limit batching, logging executions, separate test and production, and secrets in credentials.</p>
+<p><strong>Q: How would you build a support bot on company documents in n8n?</strong>
+An indexing workflow that loads documents, splits them, embeds them and stores them in a vector store; a chat workflow with Chat Trigger, an AI Agent with a chat model, memory and the vector store as a retrieval tool, with sources in answers and a human-handover path.</p></div>
+<h2 id="tools-02-learn-more-official-and-free">Learn more (official and free)</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.n8n.io/">n8n documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.n8n.io/courses/">n8n free courses, Level 1 and Level 2</a></li>
+<li><a target="_blank" rel="noopener" href="https://n8n.io/workflows/">n8n workflow templates (thousands of ready examples)</a></li>
+<li><a target="_blank" rel="noopener" href="https://community.n8n.io/">n8n community forum</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.n8n.io/advanced-ai/">Advanced AI in n8n (agents, RAG, MCP)</a></li>
+</ul></div></article></body></html>
