@@ -5,7 +5,7 @@ live: "Live classes 4–5"
 updated: "Excel for Microsoft 365, 2026"
 level: Intermediate
 duration: 120 min
-summary: Bring data together from different tables. Master VLOOKUP and HLOOKUP (exact and approximate match), the modern XLOOKUP, the flexible INDEX + MATCH combination (including two-way and reverse lookups), CHOOSE, and how to troubleshoot #N/A.
+summary: Bring data together from different tables. Master VLOOKUP and HLOOKUP (exact and approximate match), the modern XLOOKUP, the flexible INDEX + MATCH combination (including two-way and reverse lookups), OFFSET, consolidating several sheets, CHOOSE, and how to troubleshoot #N/A.
 datasets: [products.csv, superstore_sales.csv]
 outcomes:
   - Explain why lookups are the Excel equivalent of a SQL join
@@ -186,6 +186,62 @@ Because the headers in row 2 (JobTitle, Salary) are matched by MATCH, you can ch
 To match on two columns at once (for example Region **and** Product), multiply the conditions inside MATCH:
 
 `=INDEX(F2:F9, MATCH(1, (B2:B9="North")*(C2:C9="Tablet"), 0))` → returns the revenue for the North + Tablet row. In Microsoft 365 this works as a normal formula; in older Excel press `Ctrl + Shift + Enter`. With XLOOKUP: `=XLOOKUP(1,(B2:B9="North")*(C2:C9="Tablet"),F2:F9)`.
+
+## OFFSET and consolidating worksheets
+
+In class we also used lookups to **consolidate** data: pull values from several tables or sheets into one summary. Three tools do this job.
+
+### OFFSET: a value or range by position
+
+`=OFFSET(reference, rows, cols, [height], [width])` starts at `reference`, moves down `rows` and right `cols`, and returns that cell (or a range of `height` × `width`). Combined with MATCH it does the same two-way lookup as INDEX + MATCH. The table below holds month-end share prices (illustrative numbers for fictional companies).
+
+```xl title="Two-way lookup of a share price with INDEX + MATCH and with OFFSET + MATCH"
+Date{h}|Asha Foods{h}|Kiran Motors{h}|Meru Steel{h}||Company{h}|Date{h}|INDEX + MATCH{h}|OFFSET + MATCH{h}
+2026-01-31|412|1180|96||Kiran Motors|2026-03-31|=INDEX($B$2:$D$6,MATCH(G2,$A$2:$A$6,0),MATCH(F2,$B$1:$D$1,0))|=OFFSET($A$1,MATCH(G2,$A$2:$A$6,0),MATCH(F2,$B$1:$D$1,0))
+2026-02-28|398|1215|101||Meru Steel|2026-05-31|=INDEX($B$2:$D$6,MATCH(G3,$A$2:$A$6,0),MATCH(F3,$B$1:$D$1,0))|=OFFSET($A$1,MATCH(G3,$A$2:$A$6,0),MATCH(F3,$B$1:$D$1,0))
+2026-03-31|425|1262|99||Asha Foods|2026-02-28|=INDEX($B$2:$D$6,MATCH(G4,$A$2:$A$6,0),MATCH(F4,$B$1:$D$1,0))|=OFFSET($A$1,MATCH(G4,$A$2:$A$6,0),MATCH(F4,$B$1:$D$1,0))
+2026-04-30|440|1240|108||||Last 3 months avg (Asha){h}|=AVERAGE(OFFSET($B$1,COUNT($B$2:$B$6)-2,0,3,1))
+2026-05-31|436|1298|112||||||
+```
+
+The last formula shows OFFSET's real strength: `OFFSET($B$1, COUNT(B2:B6)-2, 0, 3, 1)` is a range of the **last three** prices, so the average updates automatically when a new month is added. The same idea builds dynamic named ranges and charts (Lesson 9).
+
+:::mistake OFFSET is volatile
+OFFSET (like INDIRECT, TODAY and RAND) recalculates every time anything in the workbook changes. A few hundred OFFSETs are fine; tens of thousands slow a workbook down. For lookups prefer INDEX + MATCH or XLOOKUP, and for growing ranges prefer an Excel Table.
+:::
+
+### Consolidating several sheets into one
+
+| Situation | Best tool | How |
+|---|---|---|
+| Same layout on every sheet (Jan, Feb, Mar…) and you need totals | 3-D reference | `=SUM(Jan:Mar!B2)` adds cell B2 on every sheet from Jan to Mar (Lesson 4) |
+| Same kind of data, but rows in a different order on each sheet | **Data → Consolidate** | Choose Sum, add each sheet's range, tick *Top row* and *Left column*, optionally *Create links to source data* |
+| Different tables that share a key (city code, product ID) | Lookups | Bring each column in with XLOOKUP or INDEX + MATCH, as in the class tasks below |
+| Many files every month | Power Query | *Get Data → From Folder*, then Append (Lesson 12) |
+
+### Class practice: city tables
+
+These are the consolidation tasks from the live class. Table 1 maps cities to states and population; Table 2 maps city codes to cities.
+
+```xl title="Consolidation tasks: state from city, population from city code, grade from marks"
+City Code{h}|City{h}|State{h}|Population 2011 (mn){h}||Task{h}|Input{h}|Answer{h}
+C1|Mumbai|Maharashtra|12.48||State of this city|Pune|=IFNA(INDEX($C$2:$C$7,MATCH(G2,$B$2:$B$7,0)),"Not found")
+C2|Delhi|Delhi|11.01||Population of city code|C31|=IFNA(INDEX($D$2:$D$7,MATCH(G3,$A$2:$A$7,0)),"Not found")
+C3|Ahmedabad|Gujarat|5.57||Population of city code|C4|=IFNA(INDEX($D$2:$D$7,MATCH(G4,$A$2:$A$7,0)),"Not found")
+C4|Surat|Gujarat|4.47||City code of this city|Allahabad|=IFNA(INDEX($A$2:$A$7,MATCH(G5,$B$2:$B$7,0)),"Not found")
+C31|Allahabad|Uttar Pradesh|1.11||||
+C21|Pune|Maharashtra|3.12||Marks{h}|Grade (approx. match){h}|
+|||||0|=VLOOKUP(F8,$F$12:$G$15,2,TRUE)|
+|||||58|=VLOOKUP(F9,$F$12:$G$15,2,TRUE)|
+|||||91|=VLOOKUP(F10,$F$12:$G$15,2,TRUE)|
+|||||Min marks{h}|Grade{h}|
+|||||0|D|
+|||||40|C|
+|||||60|B|
+|||||80|A|
+```
+
+The state and city-code answers use INDEX + MATCH wrapped in IFNA; `=XLOOKUP(G2,B2:B7,C2:C7,"Not found")` gives the same result in Microsoft 365. The grade lookup uses **approximate match** (`TRUE`): VLOOKUP finds the largest "Min marks" that is less than or equal to the marks, so the grade table must be sorted ascending. This is the classic use of approximate match: tax slabs, commission bands and grades.
 
 ## CHOOSE, and VLOOKUP with CHOOSE
 
