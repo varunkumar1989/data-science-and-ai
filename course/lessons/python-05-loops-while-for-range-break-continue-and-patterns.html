@@ -1,0 +1,263 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loops: while, for, range, break, continue &amp; Patterns · Python Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Repeat work without repeating code. Learn while and for loops, range(), enumerate(), zip(), break, continue, the loop else clause, nested loops, accumulation, search and counting patterns, and common loop bugs; with an eye on when to replace loops with vectorised pandas/NumPy."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class="on"><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-05">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 5 of 29</div><h1>Loops: while, for, range, break, continue &amp; Patterns</h1>
+<p class="sum">Repeat work without repeating code. Learn while and for loops, range(), enumerate(), zip(), break, continue, the loop else clause, nested loops, accumulation, search and counting patterns, and common loop bugs; with an eye on when to replace loops with vectorised pandas/NumPy.</p><div class="tags"><span class="tag live">● Python classes 3–4</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_05_Loops_while_for_range_break_continue_Patterns.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write while and for loops and choose between them</li><li>Use range(), enumerate() and zip() for index, value and parallel iteration</li><li>Control loops with break, continue and the loop-else clause; avoid infinite loops</li><li>Apply accumulator, counter, search, nested-loop and pattern-printing recipes</li><li>Recognise when a loop should be replaced by a built-in, comprehension or vectorised operation</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-loops">Why loops?</h2>
+<p>A <strong>loop</strong> repeats a block of code. Processing 10,000 rows, trying each file in a folder, retrying a failed request, or checking each number in a list are all loops.</p>
+<figure class="fig"><img src="../img/python-05-01.png" alt="Two kinds of loop. for repeats over a known sequence; while repeats as long as a condition stays true." loading="lazy"><figcaption>Two kinds of loop. for repeats over a known sequence; while repeats as long as a condition stays true.</figcaption></figure>
+<h2 id="the-while-loop">The while loop</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">count = <span class="hl-n">1</span>
+<span class="hl-k">while</span> count &lt;= <span class="hl-n">5</span>:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;Count:&quot;</span>, count)
+    count += <span class="hl-n">1</span>               <span class="hl-c"># without this line the loop would never end!</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Done&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5
+Done</pre></div>
+<p>Every while loop needs: <strong>(1)</strong> a starting value, <strong>(2)</strong> a condition, <strong>(3)</strong> a change inside the loop that eventually makes the condition False.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Compound growth: how many years until 1,00,000 doubles at 8%?</span>
+amount, years = <span class="hl-n">100000</span>, <span class="hl-n">0</span>
+<span class="hl-k">while</span> amount &lt; <span class="hl-n">200000</span>:
+    amount *= <span class="hl-n">1.08</span>
+    years += <span class="hl-n">1</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{years} years -&gt; {amount:,.0f}&quot;</span>)          <span class="hl-c"># the &#x27;rule of 72&#x27;: 72 / 8 = 9 years</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">10 years -&gt; 215,892</pre></div>
+<h3 id="while-true-with-break">while True with break</h3>
+<p>Use an "infinite" loop that you leave deliberately when the input is right:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">attempts = [<span class="hl-s">&quot;abc&quot;</span>, <span class="hl-s">&quot;-4&quot;</span>, <span class="hl-s">&quot;12&quot;</span>]        <span class="hl-c"># simulated user answers</span>
+i = <span class="hl-n">0</span>
+<span class="hl-k">while</span> <span class="hl-k">True</span>:
+    answer = attempts[i]; i += <span class="hl-n">1</span>
+    <span class="hl-k">if</span> <span class="hl-f">answer.isdigit</span>() <span class="hl-k">and</span> <span class="hl-f">int</span>(answer) &gt; <span class="hl-n">0</span>:
+        <span class="hl-f">print</span>(<span class="hl-s">&quot;Accepted:&quot;</span>, answer); <span class="hl-k">break</span>
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;Invalid:&quot;</span>, answer)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Invalid: abc
+Invalid: -4
+Accepted: 12</pre></div>
+<h2 id="the-for-loop">The for loop</h2>
+<p><code>for item in sequence:</code> takes each item in turn.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> city <span class="hl-k">in</span> [<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>]:
+    <span class="hl-f">print</span>(<span class="hl-f">city.upper</span>())
+<span class="hl-k">for</span> ch <span class="hl-k">in</span> <span class="hl-s">&quot;SQL&quot;</span>:
+    <span class="hl-f">print</span>(ch, end=<span class="hl-s">&quot; &quot;</span>)
+<span class="hl-f">print</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">PUNE
+DELHI
+KOCHI
+S Q L</pre></div>
+<h3 id="range">range()</h3>
+<p><code>range(stop)</code>, <code>range(start, stop)</code>, <code>range(start, stop, step)</code> produce integers (stop excluded). It is lazy: <code>range(1_000_000)</code> does not store a million numbers.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">5</span>)), <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">2</span>, <span class="hl-n">8</span>)), <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">10</span>, <span class="hl-n">0</span>, -<span class="hl-n">3</span>)), <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">0</span>, <span class="hl-n">1</span>)))
+total = <span class="hl-n">0</span>
+<span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">101</span>): total += n
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Sum 1..100 =&quot;</span>, total, <span class="hl-s">&quot;| check:&quot;</span>, <span class="hl-f">sum</span>(<span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">101</span>)), <span class="hl-s">&quot;| formula:&quot;</span>, <span class="hl-n">100</span> * <span class="hl-n">101</span> // <span class="hl-n">2</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[0, 1, 2, 3, 4] [2, 3, 4, 5, 6, 7] [10, 7, 4, 1] [0]
+Sum 1..100 = 5050 | check: 5050 | formula: 5050</pre></div>
+<h3 id="enumerate-and-zip">enumerate() and zip()</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">products = [<span class="hl-s">&quot;Pen&quot;</span>, <span class="hl-s">&quot;Notebook&quot;</span>, <span class="hl-s">&quot;Stapler&quot;</span>]
+prices = [<span class="hl-n">10</span>, <span class="hl-n">45</span>, <span class="hl-n">180</span>]
+<span class="hl-k">for</span> i, p <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(products, start=<span class="hl-n">1</span>):         <span class="hl-c"># index and value together</span>
+    <span class="hl-f">print</span>(i, p)
+<span class="hl-k">for</span> p, price <span class="hl-k">in</span> <span class="hl-f">zip</span>(products, prices):            <span class="hl-c"># walk two lists in parallel</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{p:&lt;10}{price:&gt;5}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">dict</span>(<span class="hl-f">zip</span>(products, prices)))                 <span class="hl-c"># build a dictionary from two lists</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1 Pen
+2 Notebook
+3 Stapler
+Pen          10
+Notebook     45
+Stapler     180
+{&#x27;Pen&#x27;: 10, &#x27;Notebook&#x27;: 45, &#x27;Stapler&#x27;: 180}</pre></div>
+<p>Avoid <code>for i in range(len(x))</code> when you only need the items; use <code>for item in x</code> or <code>enumerate</code>.</p>
+<h3 id="break-continue-else">break, continue, else</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">20</span>):
+    <span class="hl-k">if</span> n % <span class="hl-n">3</span> != <span class="hl-n">0</span>: <span class="hl-k">continue</span>            <span class="hl-c"># skip numbers not divisible by 3</span>
+    <span class="hl-k">if</span> n &gt; <span class="hl-n">12</span>: <span class="hl-k">break</span>                    <span class="hl-c"># leave the loop completely</span>
+    <span class="hl-f">print</span>(n, end=<span class="hl-s">&quot; &quot;</span>)
+<span class="hl-f">print</span>()
+<span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">2</span>, <span class="hl-n">6</span>):
+    <span class="hl-k">if</span> n == <span class="hl-n">9</span>: <span class="hl-k">break</span>
+<span class="hl-k">else</span>:                                    <span class="hl-c"># runs only if the loop finished WITHOUT break</span>
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;loop completed with no break&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">3 6 9 12 
+loop completed with no break</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>break</code></td>
+<td>Exit the nearest loop immediately</td>
+</tr>
+<tr>
+<td><code>continue</code></td>
+<td>Skip to the next iteration</td>
+</tr>
+<tr>
+<td><code>else</code> on a loop</td>
+<td>Runs if the loop ended normally (no <code>break</code>): handy for "search and report not found"</td>
+</tr>
+<tr>
+<td><code>pass</code></td>
+<td>Do nothing (placeholder)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="loop-patterns">Loop patterns</h2>
+<h3 id="accumulate-sum-product-build-a-list">Accumulate (sum / product / build a list)</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">orders = [<span class="hl-n">1200</span>, <span class="hl-n">450</span>, <span class="hl-n">3000</span>, <span class="hl-n">780</span>, <span class="hl-n">2200</span>]
+total, large = <span class="hl-n">0</span>, []
+<span class="hl-k">for</span> amount <span class="hl-k">in</span> orders:
+    total += amount
+    <span class="hl-k">if</span> amount &gt;= <span class="hl-n">1000</span>: <span class="hl-f">large.append</span>(amount)
+<span class="hl-f">print</span>(total, large, total / <span class="hl-f">len</span>(orders))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">7630 [1200, 3000, 2200] 1526.0</pre></div>
+<h3 id="count-and-find-the-maximum">Count and find the maximum</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">sales = [(<span class="hl-s">&quot;North&quot;</span>, <span class="hl-n">120</span>), (<span class="hl-s">&quot;South&quot;</span>, <span class="hl-n">95</span>), (<span class="hl-s">&quot;East&quot;</span>, <span class="hl-n">140</span>), (<span class="hl-s">&quot;West&quot;</span>, <span class="hl-n">88</span>)]
+best_region, best_value = <span class="hl-k">None</span>, <span class="hl-f">float</span>(<span class="hl-s">&quot;-inf&quot;</span>)
+count_above_100 = <span class="hl-n">0</span>
+<span class="hl-k">for</span> region, value <span class="hl-k">in</span> sales:
+    <span class="hl-k">if</span> value &gt; best_value: best_region, best_value = region, value
+    <span class="hl-k">if</span> value &gt; <span class="hl-n">100</span>: count_above_100 += <span class="hl-n">1</span>
+<span class="hl-f">print</span>(best_region, best_value, count_above_100)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">East 140 2</pre></div>
+<p>(<code>max(sales, key=lambda x: x[1])</code> does the same in one line, Lesson 10.)</p>
+<h3 id="search-with-early-exit">Search with early exit</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">find_first</span>(items, target):
+    <span class="hl-k">for</span> i, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(items):
+        <span class="hl-k">if</span> x == target: <span class="hl-k">return</span> i           <span class="hl-c"># stop at the first match</span>
+    <span class="hl-k">return</span> -<span class="hl-n">1</span>
+<span class="hl-f">print</span>(<span class="hl-f">find_first</span>([<span class="hl-s">&quot;a&quot;</span>, <span class="hl-s">&quot;b&quot;</span>, <span class="hl-s">&quot;c&quot;</span>], <span class="hl-s">&quot;c&quot;</span>), <span class="hl-f">find_first</span>([<span class="hl-s">&quot;a&quot;</span>, <span class="hl-s">&quot;b&quot;</span>], <span class="hl-s">&quot;z&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2 -1</pre></div>
+<h3 id="nested-loops">Nested loops</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">4</span>):
+    <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">4</span>):
+        <span class="hl-f">print</span>(i * j, end=<span class="hl-s">&quot;\t&quot;</span>)
+    <span class="hl-f">print</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1	2	3	
+2	4	6	
+3	6	9</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Pattern: right triangle of stars</span>
+<span class="hl-k">for</span> row <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">6</span>): <span class="hl-f">print</span>(<span class="hl-s">&quot;*&quot;</span> * row)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">*
+**
+***
+****
+*****</pre></div>
+<p>Nested loops multiply the work: 1,000 × 1,000 = 1,000,000 iterations. Be careful with big data.</p>
+<h3 id="reading-until-a-sentinel">Reading until a sentinel</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">readings = <span class="hl-f">iter</span>([<span class="hl-n">12</span>, <span class="hl-n">15</span>, <span class="hl-n">11</span>, -<span class="hl-n">1</span>, <span class="hl-n">99</span>])           <span class="hl-c"># -1 marks the end</span>
+total = <span class="hl-n">0</span>
+<span class="hl-k">for</span> r <span class="hl-k">in</span> readings:
+    <span class="hl-k">if</span> r == -<span class="hl-n">1</span>: <span class="hl-k">break</span>
+    total += r
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Total before sentinel:&quot;</span>, total)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Total before sentinel: 38</pre></div>
+<h2 id="data-examples">Data examples</h2>
+<h3 id="looping-over-rows-and-why-it-is-slow">Looping over rows (and why it is slow)</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, time
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+t0 = <span class="hl-f">time.perf_counter</span>()
+loss_lines = <span class="hl-n">0</span>
+<span class="hl-k">for</span> profit <span class="hl-k">in</span> s[<span class="hl-s">&quot;profit&quot;</span>]:                    <span class="hl-c"># plain loop over a column (6,323 values)</span>
+    <span class="hl-k">if</span> profit &lt; <span class="hl-n">0</span>: loss_lines += <span class="hl-n">1</span>
+t1 = <span class="hl-f">time.perf_counter</span>()
+vec = (s[<span class="hl-s">&quot;profit&quot;</span>] &lt; <span class="hl-n">0</span>).<span class="hl-f">sum</span>()                  <span class="hl-c"># vectorised: one operation on the whole column</span>
+t2 = <span class="hl-f">time.perf_counter</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;loop: {loss_lines} loss-making lines in {1000 * (t1 - t0):.2f} ms | vectorised: {vec} in {1000 * (t2 - t1):.2f} ms&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">loop: 1682 loss-making lines in 0.84 ms | vectorised: 1682 in 0.34 ms</pre></div>
+<p>Same answer; the vectorised version is usually many times faster and shorter. <strong>Rule:</strong> in pandas/NumPy avoid Python loops over rows; use column operations, <code>groupby</code>, <code>np.where</code>. Use loops for files, APIs, orchestration, and small collections.</p>
+<h3 id="summarising-with-a-loop">Summarising with a loop</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">totals = {}
+<span class="hl-k">for</span> region, category, sales <span class="hl-k">in</span> <span class="hl-f">zip</span>(s[<span class="hl-s">&quot;region&quot;</span>][:<span class="hl-n">2000</span>], s[<span class="hl-s">&quot;category&quot;</span>][:<span class="hl-n">2000</span>], s[<span class="hl-s">&quot;sales&quot;</span>][:<span class="hl-n">2000</span>]):
+    key = (region, category)
+    totals[key] = <span class="hl-f">totals.get</span>(key, <span class="hl-n">0</span>) + sales
+<span class="hl-k">for</span> k <span class="hl-k">in</span> <span class="hl-f">sorted</span>(totals)[:<span class="hl-n">6</span>]: <span class="hl-f">print</span>(k, <span class="hl-s">f&quot;{totals[k]:,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(&#x27;East&#x27;, &#x27;Furniture&#x27;) 2,148,878
+(&#x27;East&#x27;, &#x27;Office Supplies&#x27;) 717,588
+(&#x27;East&#x27;, &#x27;Technology&#x27;) 10,862,196
+(&#x27;North&#x27;, &#x27;Furniture&#x27;) 2,782,383
+(&#x27;North&#x27;, &#x27;Office Supplies&#x27;) 645,662
+(&#x27;North&#x27;, &#x27;Technology&#x27;) 13,766,572</pre></div>
+<p>This is a hand-made <code>GROUP BY</code>: you now see what <code>groupby</code> does behind the scenes.</p>
+<h2 id="common-loop-bugs">Common loop bugs</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Bug</th>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Missing update in <code>while</code></td>
+<td>Runs forever (press ■ to interrupt)</td>
+<td>Change the condition variable inside the loop</td>
+</tr>
+<tr>
+<td>Off-by-one with <code>range</code></td>
+<td>Misses the last item</td>
+<td>Remember stop is excluded: <code>range(1, n + 1)</code></td>
+</tr>
+<tr>
+<td>Modifying a list while iterating over it</td>
+<td>Skipped items</td>
+<td>Iterate over a copy <code>for x in items[:]</code> or build a new list</td>
+</tr>
+<tr>
+<td><code>for i in range(len(a))</code> then using a wrong index</td>
+<td><code>IndexError</code></td>
+<td>Use <code>enumerate</code>/<code>zip</code></td>
+</tr>
+<tr>
+<td>Re-using a loop variable after the loop</td>
+<td>Holds the last value</td>
+<td>Avoid relying on it</td>
+</tr>
+<tr>
+<td>Resetting the accumulator inside the loop</td>
+<td>Wrong totals</td>
+<td>Initialise <strong>before</strong> the loop</td>
+</tr>
+<tr>
+<td>String <code>+=</code> in a loop</td>
+<td>Slow for big text</td>
+<td><code>"".join(parts)</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Debug with print or a debugger</b></div><p>Print the loop variable and key values each iteration (<code>print(i, value, total)</code>), or use the debugger in VS Code/Jupyter (<code>%debug</code>). Test the loop on a tiny example by hand first.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>while</code> repeats while a condition holds (make sure something changes!); <code>for</code> iterates over any sequence.</li>
+<li><code>range(start, stop, step)</code> generates integers, stop excluded; <code>enumerate</code> gives index and value; <code>zip</code> iterates in parallel.</li>
+<li><code>break</code> exits, <code>continue</code> skips to the next item, loop <code>else</code> runs when no <code>break</code> happened.</li>
+<li>Patterns: accumulator, counter, max/min tracking, search with early exit, nested loops, sentinel.</li>
+<li>For tables of data prefer <strong>vectorised</strong> pandas/NumPy over row loops; use comprehensions and built-ins for small collections.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>list(range(2, 10, 3))</code> give?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>[2, 5, 8, 11]</button><button type="button" class="opt" data-ok="1"><i>B</i>[2, 5, 8]</button><button type="button" class="opt" data-ok="0"><i>C</i>[3, 6, 9]</button><button type="button" class="opt" data-ok="0"><i>D</i>[2, 10]</button></div><div class="qexp"><b>Answer: B.</b> Start 2, step 3, stop 10 excluded.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>continue</code> do inside a loop?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Ends the loop</button><button type="button" class="opt" data-ok="1"><i>B</i>Skips the rest of this iteration and moves to the next</button><button type="button" class="opt" data-ok="0"><i>C</i>Restarts the program</button><button type="button" class="opt" data-ok="0"><i>D</i>Pauses the loop</button></div><div class="qexp"><b>Answer: B.</b> <code>break</code> ends the loop; <code>continue</code> skips one iteration.</div></div><div class="qq"><p class="qtext"><b>3.</b> When does a loop's <code>else</code> block run?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>When the loop has an error</button><button type="button" class="opt" data-ok="1"><i>B</i>When the loop finishes without hitting <code>break</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Before the loop</button><button type="button" class="opt" data-ok="0"><i>D</i>Every iteration</button></div><div class="qexp"><b>Answer: B.</b> It is useful for "not found" logic after a search loop.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why is this loop infinite? <code>n = 5</code> then <code>while n &gt; 0: print(n)</code></p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>print is wrong</button><button type="button" class="opt" data-ok="1"><i>B</i>n is never changed inside the loop</button><button type="button" class="opt" data-ok="0"><i>C</i>5 is too large</button><button type="button" class="opt" data-ok="0"><i>D</i>range is missing</button></div><div class="qexp"><b>Answer: B.</b> The condition never becomes False.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is a better way to count rows with negative profit in pandas?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A for loop over rows</button><button type="button" class="opt" data-ok="1"><i>B</i><code>(df["profit"] &lt; 0).sum()</code></button><button type="button" class="opt" data-ok="0"><i>C</i>A while loop</button><button type="button" class="opt" data-ok="0"><i>D</i>Nested loops</button></div><div class="qexp"><b>Answer: B.</b> Vectorised operations are shorter and faster.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which function walks two lists at the same time?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>range</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>zip</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>sorted</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>len</code></button></div><div class="qexp"><b>Answer: B.</b> <code>zip(a, b)</code> pairs items by position.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Loop problems</b></div><p>(1) Print the multiplication table of 7 up to 7 × 10. (2) Given a list of order values, print the first one above 5,000 and its position, or "none". (3) Count vowels in a sentence. (4) Print the first 10 Fibonacci numbers. (5) FizzBuzz for 1..30.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">11</span>): <span class="hl-f">print</span>(<span class="hl-s">f&quot;7 x {i} = {7 * i}&quot;</span>)
+vals = [<span class="hl-n">900</span>, <span class="hl-n">4200</span>, <span class="hl-n">6100</span>, <span class="hl-n">800</span>]
+<span class="hl-k">for</span> i, v <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(vals):
+    <span class="hl-k">if</span> v &gt; <span class="hl-n">5000</span>: <span class="hl-f">print</span>(v, <span class="hl-s">&quot;at&quot;</span>, i); <span class="hl-k">break</span>
+<span class="hl-k">else</span>: <span class="hl-f">print</span>(<span class="hl-s">&quot;none&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">sum</span>(ch <span class="hl-k">in</span> <span class="hl-s">&quot;aeiou&quot;</span> <span class="hl-k">for</span> ch <span class="hl-k">in</span> <span class="hl-s">&quot;data engineering is fun&quot;</span>.<span class="hl-f">lower</span>()))
+a, b = <span class="hl-n">0</span>, <span class="hl-n">1</span>
+<span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">10</span>): <span class="hl-f">print</span>(a, end=<span class="hl-s">&quot; &quot;</span>); a, b = b, a + b
+<span class="hl-f">print</span>()
+<span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">31</span>): <span class="hl-f">print</span>(<span class="hl-s">&quot;FizzBuzz&quot;</span> <span class="hl-k">if</span> n % <span class="hl-n">15</span> == <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-s">&quot;Fizz&quot;</span> <span class="hl-k">if</span> n % <span class="hl-n">3</span> == <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-s">&quot;Buzz&quot;</span> <span class="hl-k">if</span> n % <span class="hl-n">5</span> == <span class="hl-n">0</span> <span class="hl-k">else</span> n, end=<span class="hl-s">&quot; &quot;</span>)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: FizzBuzz, reverse a string, print Fibonacci: why do interviewers ask these?</strong>
+They test loops, conditions, modulo, variable swapping and clear thinking, and whether you handle edge cases.</p>
+<p><strong>Q: for vs while?</strong>
+<code>for</code> iterates over a known sequence; <code>while</code> loops until a condition changes, for unknown counts such as retries or reading until a sentinel.</p>
+<p><strong>Q: How would you speed up a slow loop over a DataFrame?</strong>
+Vectorise (column operations, <code>np.where</code>, <code>groupby</code>), use built-ins or <code>apply</code> only when needed, or push the work into SQL.</p>
+<p><strong>Q: What does <code>for i in range(len(lst))</code> signal?</strong>
+Often a less Pythonic style; prefer iterating over items, <code>enumerate</code> or <code>zip</code> unless you need indexes to modify items.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html"><small>← Previous</small><b>Control Flow: if, elif, else, Nested Conditions &amp; match</b></a><a class="next" href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html"><small>Next →</small><b>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-loops">Why loops?</a><a href="#the-while-loop">The while loop</a><a href="#the-for-loop">The for loop</a><a href="#loop-patterns">Loop patterns</a><a href="#data-examples">Data examples</a><a href="#common-loop-bugs">Common loop bugs</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

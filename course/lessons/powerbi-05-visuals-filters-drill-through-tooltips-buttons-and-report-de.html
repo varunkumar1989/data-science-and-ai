@@ -1,0 +1,403 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design · Power BI Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Turn a model into an interactive, well-designed report. Choose visuals, format them (cards, matrix, charts, gauge, KPI, maps, images), use visual, page and report filters, edit interactions, drill-down and drill-through, custom tooltips, bookmarks and buttons, conditional formatting, themes and design principles."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-powerbi"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-powerbi">Power BI</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E2A400">Power BI</div>
+<ol class="side-l"><li class=""><a href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html" data-lid="powerbi-01"><span>01</span>Getting Started with Power BI &amp; Your First HR Report</a></li><li class=""><a href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html" data-lid="powerbi-02"><span>02</span>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</a></li><li class=""><a href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html" data-lid="powerbi-03"><span>03</span>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</a></li><li class=""><a href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html" data-lid="powerbi-04"><span>04</span>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</a></li><li class="on"><a href="powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html" data-lid="powerbi-05"><span>05</span>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</a></li><li class=""><a href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html" data-lid="powerbi-06"><span>06</span>Power BI Service, Connectivity Modes, Security &amp; Capstone</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="powerbi-05">
+<div class="lhead" style="--tc:#E2A400"><div class="kick">Power BI · Lesson 5 of 6</div><h1>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</h1>
+<p class="sum">Turn a model into an interactive, well-designed report. Choose visuals, format them (cards, matrix, charts, gauge, KPI, maps, images), use visual, page and report filters, edit interactions, drill-down and drill-through, custom tooltips, bookmarks and buttons, conditional formatting, themes and design principles.</p><div class="tags"><span class="tag live">● Power BI classes 2–4</span><span class="tag new">✦ Power BI Desktop 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/powerbi/Power_BI_05_Visuals_Filters_Drill_through_Tooltips_Buttons_Report_Design.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="powerbi-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Pick the right visual for each question and configure its field wells and formatting</li><li>Apply visual, page and report-level filters, Top N, relative date filters and slicer sync</li><li>Control cross-filtering with Edit interactions; add drill-down, drill-through and report-page tooltips</li><li>Build navigation with buttons, bookmarks, page navigation and a selection pane</li><li>Apply themes and conditional formatting, and follow layout, colour and accessibility rules</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/adventure_cycles/fact_sales.csv" download>adventure_cycles/fact_sales.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_product.csv" download>adventure_cycles/dim_product.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_territory.csv" download>adventure_cycles/dim_territory.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_customer.csv" download>adventure_cycles/dim_customer.csv</a></div></div></div>
+<div class="content"><h2 id="choosing-the-visual">Choosing the visual</h2>
+<figure class="fig"><img src="../img/powerbi-05-01.png" alt="Match the visual to the question." loading="lazy"><figcaption>Match the visual to the question.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Visual</th>
+<th>Fields</th>
+<th>Good for</th>
+<th>Watch out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Card</strong> / multi-row card</td>
+<td>Values</td>
+<td>One or few headline numbers</td>
+<td>Format display units (K, M, Cr) and add a clear label</td>
+</tr>
+<tr>
+<td><strong>Clustered bar / column</strong></td>
+<td>Axis, Values, Legend</td>
+<td>Comparisons</td>
+<td>Sort descending, start at zero, ≤ 15 bars</td>
+</tr>
+<tr>
+<td><strong>Stacked / 100% stacked</strong></td>
+<td>Axis, Legend, Values</td>
+<td>Composition</td>
+<td>Only the bottom segment is easy to compare</td>
+</tr>
+<tr>
+<td><strong>Line / area</strong></td>
+<td>X-axis (date), Y-axis, Legend</td>
+<td>Trends</td>
+<td>Limit to ~5 lines; use a continuous date axis</td>
+</tr>
+<tr>
+<td><strong>Line + clustered column</strong></td>
+<td>Shared axis, column values, line values</td>
+<td>Two measures with different scales (secondary axis)</td>
+<td>Label both axes</td>
+</tr>
+<tr>
+<td><strong>Waterfall</strong></td>
+<td>Category, Y-axis</td>
+<td>Bridge from start to end (profit walk)</td>
+<td>Needs an ordered category</td>
+</tr>
+<tr>
+<td><strong>Scatter / bubble</strong></td>
+<td>X, Y, Size, Details, Play axis</td>
+<td>Relationships and outliers</td>
+<td>Add Details so each point is an entity</td>
+</tr>
+<tr>
+<td><strong>Treemap</strong></td>
+<td>Group, Values</td>
+<td>Hierarchical share of total</td>
+<td>Many tiny rectangles are unreadable</td>
+</tr>
+<tr>
+<td><strong>Donut / pie</strong></td>
+<td>Legend, Values</td>
+<td>2–3 parts</td>
+<td>More than 4 slices = use a bar</td>
+</tr>
+<tr>
+<td><strong>Matrix</strong></td>
+<td>Rows, Columns, Values</td>
+<td>Pivot tables with drill and subtotals</td>
+<td>Use conditional formatting for heat maps</td>
+</tr>
+<tr>
+<td><strong>Table</strong></td>
+<td>Columns</td>
+<td>Exact values, detail list</td>
+<td>Keep it short; a table is not a dashboard</td>
+</tr>
+<tr>
+<td><strong>KPI</strong> / <strong>Gauge</strong></td>
+<td>Value, Target, Trend axis</td>
+<td>Progress to a target</td>
+<td>Gauges waste space; prefer KPI cards</td>
+</tr>
+<tr>
+<td><strong>Funnel</strong></td>
+<td>Stage, Values</td>
+<td>Drop-off between stages</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Map / Filled map</strong></td>
+<td>Location, Size, Legend</td>
+<td>Geography</td>
+<td>Geocoding needs clean place names (<code>City, State, Country</code>)</td>
+</tr>
+<tr>
+<td><strong>Slicer</strong></td>
+<td>Field</td>
+<td>Filter the page</td>
+<td>Styles: list, dropdown, tiles, between (range), relative date</td>
+</tr>
+<tr>
+<td><strong>Decomposition tree</strong></td>
+<td>Analyze, Explain by</td>
+<td>Drill into drivers</td>
+<td>Interactive exploration</td>
+</tr>
+<tr>
+<td><strong>Key influencers</strong></td>
+<td>Analyze, Explain by</td>
+<td>AI finds what drives a metric</td>
+<td>Needs a binary/numeric target</td>
+</tr>
+<tr>
+<td><strong>Smart narrative</strong></td>
+<td>Auto-text</td>
+<td>Written summary that updates</td>
+<td>Check the wording</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="formatting-essentials">Formatting essentials</h2>
+<p>Select a visual → <strong>Format visual</strong> (paint-roller icon): <strong>Visual</strong> tab (axis, labels, colours, legend, gridlines, title) and <strong>General</strong> (title, size, position, background, border, alt text).</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Display units and decimals</td>
+<td>Format → Callout value / Data labels → Display units: Thousands, Lakhs (not built in; use Millions) or custom format strings</td>
+</tr>
+<tr>
+<td>Sort</td>
+<td><code>…</code> menu → Sort axis (by value or by another field)</td>
+</tr>
+<tr>
+<td>Colour a highlighted series</td>
+<td>Format → Colors → per-category colours or conditional</td>
+</tr>
+<tr>
+<td>Titles that state the insight</td>
+<td>General → Title → fx (dynamic title from a measure)</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>General → Alt text; keep contrast high; do not rely on colour alone</td>
+</tr>
+<tr>
+<td>Copy formatting</td>
+<td>Home → <strong>Format painter</strong></td>
+</tr>
+<tr>
+<td>Align / distribute</td>
+<td>Format → Arrange → Align and distribute; hold <code>Shift</code> to multi-select</td>
+</tr>
+<tr>
+<td>Group visuals</td>
+<td>Select several → Format → Group</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Dynamic titles</b></div><p>Create a measure <code>Title Sales = "Sales by " &amp; SELECTEDVALUE ( dim_territory[country], "all countries" ) &amp; " in " &amp; SELECTEDVALUE ( dim_date[year], "all years" )</code> and bind it in Title → fx → <em>Field value</em>. The title now reflects the user's selections.</p></div>
+<h2 id="filters-three-levels">Filters: three levels</h2>
+<figure class="fig"><img src="../img/powerbi-05-02.png" alt="The three filter levels. Visual filters affect one visual, page filters one page, report filters every page." loading="lazy"><figcaption>The three filter levels. Visual filters affect one visual, page filters one page, report filters every page.</figcaption></figure>
+<p>Use the <strong>Filters pane</strong> (right side). Filter types:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Filter type</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Basic</strong></td>
+<td>Tick values from a list</td>
+</tr>
+<tr>
+<td><strong>Advanced</strong></td>
+<td>"contains", "starts with", "is greater than", with AND/OR</td>
+</tr>
+<tr>
+<td><strong>Top N</strong></td>
+<td>Top/Bottom N items by a measure (even one not in the visual)</td>
+</tr>
+<tr>
+<td><strong>Relative date</strong></td>
+<td>"Last 6 months", "this year", "next 7 days"</td>
+</tr>
+<tr>
+<td><strong>Relative time</strong></td>
+<td>Last 4 hours etc.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tips: <strong>Require single selection</strong> in a slicer; <strong>Sync slicers</strong> across pages (View → Sync slicers); the <strong>"Include" / "Exclude"</strong> options on a selection filter in or out; lock the filters pane or hide it for consumers.</p>
+<h3 id="edit-interactions">Edit interactions</h3>
+<p>By default clicking a bar <strong>cross-filters</strong> other visuals. Select the source visual → Format → <strong>Edit interactions</strong> → then on each target visual click the <strong>Filter</strong>, <strong>Highlight</strong> or <strong>None</strong> icon. Example: a KPI card for "overall sales" should ignore the clicks on the country chart (set to None), while the product chart should filter.</p>
+<h2 id="drill-down-and-drill-through">Drill-down and drill-through</h2>
+<figure class="fig"><img src="../img/powerbi-05-03.png" alt="Drill-down moves through a hierarchy inside one visual. Drill-through jumps to another page that is filtered by the selected item." loading="lazy"><figcaption>Drill-down moves through a hierarchy inside one visual. Drill-through jumps to another page that is filtered by the selected item.</figcaption></figure>
+<ul>
+<li><strong>Drill-down</strong>: needs a hierarchy (Lesson 2). Use the arrow buttons at the top of the visual: ↑ drill up, ↓ drill mode, ⇊ go to the next level in the hierarchy, ⇈ expand all.</li>
+<li><strong>Drill-through</strong>: create a <strong>detail page</strong> → in the Visualizations pane, drag <code>product</code> into <strong>Drill through → Add drill-through fields here</strong> → Power BI adds a back button automatically. Users right-click a product in any visual → <strong>Drill through → Product detail</strong>. Use it for "customer 360", "order detail" and "product detail" pages. <strong>Keep all filters</strong> keeps slicer context.</li>
+<li><strong>Cross-report drill-through</strong> links to a separate report in the Service.</li>
+</ul>
+<h2 id="report-page-tooltips">Report-page tooltips</h2>
+<p>A <strong>tooltip page</strong> shows a mini-report when hovering over a data point.</p>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build one</b></div><ol>
+<li>Add a new page; Format page → Page information → <strong>Allow use as tooltip</strong> on; Page size → <strong>Tooltip</strong>.</li>
+<li>Add visuals (a KPI, a small trend line, top 3 products) using fields that respond to the hovered item.</li>
+<li>In the main visual: Format → General → <strong>Tooltips</strong> → Type <strong>Report page</strong> → choose the page.</li>
+<li>Hide the tooltip page from navigation (right-click the tab → Hide page).</li>
+</ol></div>
+<h2 id="buttons-bookmarks-and-navigation">Buttons, bookmarks and navigation</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it does</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Buttons</strong> (Insert → Buttons)</td>
+<td>Back, Bookmark, Page navigation, Q&amp;A, Web URL, Apply all slicers, Clear all slicers</td>
+<td>Menus, navigation bars, reset filter</td>
+</tr>
+<tr>
+<td><strong>Bookmarks</strong> (View → Bookmarks)</td>
+<td>Save the current state (filters, slicer selections, visibility, spotlight) of a page</td>
+<td>Story-telling views, toggle between visuals</td>
+</tr>
+<tr>
+<td><strong>Selection pane</strong> (View → Selection)</td>
+<td>List, name, show or hide every object on a page</td>
+<td>Required for bookmark toggles</td>
+</tr>
+<tr>
+<td><strong>Page navigator</strong> (Insert → Navigator)</td>
+<td>Auto-generated tab buttons for pages or bookmarks</td>
+<td>Menu</td>
+</tr>
+<tr>
+<td><strong>Conditional visibility</strong></td>
+<td>Bookmarks that show/hide visuals</td>
+<td>"Chart ⇄ Table" toggle</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Chart / table toggle with bookmarks</b></div><ol>
+<li>Place a column chart and a table on top of each other.</li>
+<li>Selection pane: hide the table → View → Bookmarks → <strong>Add</strong> → name it "Chart view"; make the table visible and hide the chart → Add → "Table view". Untick <strong>Data</strong> in each bookmark's options so slicers are not reset.</li>
+<li>Insert two buttons and set Action → <strong>Bookmark</strong> → choose the matching bookmark.</li>
+</ol></div>
+<h2 id="conditional-formatting">Conditional formatting</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Where</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Table / matrix cells</strong></td>
+<td>Format → Cell elements → Background colour / Font colour / <strong>Data bars</strong> / <strong>Icons</strong> / Web URL → fx → <em>Gradient</em>, <em>Rules</em> or <em>Field value</em></td>
+</tr>
+<tr>
+<td><strong>Column / bar colour</strong></td>
+<td>Format → Colors → fx → rules (green above target, red below)</td>
+</tr>
+<tr>
+<td><strong>Card text colour or title</strong></td>
+<td>fx on the callout/title</td>
+</tr>
+<tr>
+<td><strong>Based on a measure</strong></td>
+<td>Create a measure returning a hex colour: <code>Margin Colour = IF ( [Profit Margin %] &gt;= 0.35, "#1E8E5A", "#C0392B" )</code> then Field value</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/powerbi-05-04.png" alt="A matrix with conditional formatting: a heat-map background on sales and traffic-light colours on margin (rules: ≥ 36% green, otherwise amber/red)." loading="lazy"><figcaption>A matrix with conditional formatting: a heat-map background on sales and traffic-light colours on margin (rules: ≥ 36% green, otherwise amber/red).</figcaption></figure>
+<h2 id="themes">Themes</h2>
+<p><strong>View → Themes</strong> offers built-in themes; you can download community themes or <strong>Customize current theme</strong> (colours, fonts, defaults). A <strong>theme JSON file</strong> (View → Themes → Browse for themes) applies one consistent look to every visual:</p>
+<div class="code"><div class="code-h"><span>JSON</span><button class="copy" type="button">Copy</button></div><pre><code class="json">{
+  &quot;name&quot;: &quot;SkillNavora&quot;,
+  &quot;dataColors&quot;: [&quot;#6C4CF5&quot;, &quot;#FF7A59&quot;, &quot;#12B5A6&quot;, &quot;#E9A23B&quot;, &quot;#3B82F6&quot;, &quot;#E04F8A&quot;],
+  &quot;background&quot;: &quot;#FFFFFF&quot;, &quot;foreground&quot;: &quot;#17142E&quot;, &quot;tableAccent&quot;: &quot;#6C4CF5&quot;,
+  &quot;textClasses&quot;: { &quot;title&quot;: { &quot;fontFace&quot;: &quot;Segoe UI Semibold&quot;, &quot;fontSize&quot;: 14, &quot;color&quot;: &quot;#17142E&quot; } }
+}</code></pre></div>
+<p>Apply the company theme to every report so they look consistent, and edit colours in one place.</p>
+<h2 id="report-design-principles">Report design principles</h2>
+<figure class="fig"><img src="../img/powerbi-05-05.png" alt="A layout that works: headline KPIs on top, the main insight chart large, supporting visuals below, filters on one side, consistent spacing." loading="lazy"><figcaption>A layout that works: headline KPIs on top, the main insight chart large, supporting visuals below, filters on one side, consistent spacing.</figcaption></figure>
+<ol>
+<li><strong>Start from the audience and decision</strong>, not from the data: what will they do differently?</li>
+<li><strong>Hierarchy</strong>: most important top-left; big numbers first; details lower.</li>
+<li><strong>Less is more</strong>: 5–8 visuals per page; remove gridlines, borders and chart junk.</li>
+<li><strong>Consistent colour logic</strong>: one brand colour plus one highlight; red and green only for bad/good; the same colour always means the same thing.</li>
+<li><strong>Align and space</strong> visuals on a grid; same sizes for similar charts.</li>
+<li><strong>Label for meaning</strong>: insight titles, units (₹, %), clear axis titles, "as of" dates.</li>
+<li><strong>Accessible</strong>: contrast, alt text, tab order (Format → Tab order), do not use colour alone, test on mobile layout (View → Mobile layout).</li>
+<li><strong>Performance</strong>: fewer visuals, summarised data, no huge tables; check Optimize → Performance analyzer.</li>
+</ol>
+<h2 id="qa-images-and-mobile">Q&amp;A, images and mobile</h2>
+<ul>
+<li><strong>Q&amp;A visual</strong>: users type "total sales by country in 2025" and get a chart. Improve it with <strong>synonyms</strong> (Model view → Linguistic schema / Q&amp;A setup).</li>
+<li><strong>Images and logos</strong>: Insert → Image (or text box). For images <strong>in data</strong> (product photos), set the column's <strong>Data category → Image URL</strong>.</li>
+<li><strong>Mobile layout</strong>: View → Mobile layout; drag key visuals into a phone-shaped canvas.</li>
+<li><strong>Accessibility and exporting</strong>: export to PDF or PowerPoint (File → Export), analyse in Excel, subscribe in the Service.</li>
+</ul>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Copilot and AI visuals in 2026</b></div><p>Copilot can generate a report page from a prompt, suggest visuals for your fields, write summaries ("Summarise this page") and answer questions about the data. <strong>Key influencers</strong>, <strong>Decomposition tree</strong> and <strong>Smart narrative</strong> are built-in AI visuals; <strong>anomaly detection</strong> (Analytics pane) flags unusual spikes. Always verify AI-generated visuals and text against real numbers.</p></div>
+<h2 id="a-mini-case-the-adventure-cycles-overview-page">A mini case: the Adventure Cycles overview page</h2>
+<p>Plan the page before you build it:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Element</th>
+<th>Fields / measure</th>
+<th>Visual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Title</td>
+<td>Dynamic title measure</td>
+<td>Text box</td>
+</tr>
+<tr>
+<td>KPI row</td>
+<td><code>Total Sales</code>, <code>Total Profit</code>, <code>Profit Margin %</code>, <code>Orders</code>, each with vs-last-year</td>
+<td>4–5 cards</td>
+</tr>
+<tr>
+<td>Hero</td>
+<td>Monthly sales and profit margin</td>
+<td>Line + column</td>
+</tr>
+<tr>
+<td>Breakdown 1</td>
+<td>Sales by category (Top N subcategories)</td>
+<td>Bar</td>
+</tr>
+<tr>
+<td>Breakdown 2</td>
+<td>Sales by country</td>
+<td>Map or bar</td>
+</tr>
+<tr>
+<td>Drill-through</td>
+<td>Product detail page</td>
+<td>Table + KPIs</td>
+</tr>
+<tr>
+<td>Filters</td>
+<td>Year, Country, Category</td>
+<td>Slicers</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/powerbi-05-06.png" alt="The Adventure Cycles overview page from the real data: KPI cards, monthly trend, subcategory ranking and country share." loading="lazy"><figcaption>The Adventure Cycles overview page from the real data: KPI cards, monthly trend, subcategory ranking and country share.</figcaption></figure>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Choose visuals from the question; format with insight titles, units, sorting and accessible colours.</li>
+<li>Filters work at <strong>visual, page and report</strong> level (Basic, Advanced, Top N, Relative date); use slicers, sync them across pages, and <strong>Edit interactions</strong> to control cross-filtering.</li>
+<li><strong>Drill-down</strong> needs a hierarchy; <strong>drill-through</strong> jumps to a detail page; <strong>tooltip pages</strong> show mini-reports on hover.</li>
+<li><strong>Buttons + bookmarks + the Selection pane</strong> build navigation and chart/table toggles.</li>
+<li>Use <strong>conditional formatting</strong> (rules, gradients, field value from a measure) and <strong>themes</strong> for consistency.</li>
+<li>Design for the decision: hierarchy, few visuals, consistent colour logic, alignment, labels, accessibility and mobile layout.</li>
+</ul></div>
+<div class="quiz" id="quiz-powerbi-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which filter level affects every page of a report?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Visual-level</button><button type="button" class="opt" data-ok="0"><i>B</i>Page-level</button><button type="button" class="opt" data-ok="1"><i>C</i>Report-level (All pages)</button><button type="button" class="opt" data-ok="0"><i>D</i>Slicer-level</button></div><div class="qexp"><b>Answer: C.</b> Report filters apply to all pages.</div></div><div class="qq"><p class="qtext"><b>2.</b> How do you jump from a product in a chart to a detail page for that product?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Drill-down</button><button type="button" class="opt" data-ok="1"><i>B</i>Drill-through (create a drill-through page with the product field)</button><button type="button" class="opt" data-ok="0"><i>C</i>Add a slicer</button><button type="button" class="opt" data-ok="0"><i>D</i>Use a tooltip</button></div><div class="qexp"><b>Answer: B.</b> Drill-through passes the selected value as a filter to another page.</div></div><div class="qq"><p class="qtext"><b>3.</b> What do bookmarks capture?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Only the page name</button><button type="button" class="opt" data-ok="1"><i>B</i>The state of a page: filters, slicers, visibility and more</button><button type="button" class="opt" data-ok="0"><i>C</i>The data model</button><button type="button" class="opt" data-ok="0"><i>D</i>The theme</button></div><div class="qexp"><b>Answer: B.</b> Bookmarks save a view that buttons can switch to.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which feature stops a card from reacting when you click a bar chart?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Sync slicers</button><button type="button" class="opt" data-ok="1"><i>B</i>Edit interactions → set the card to None</button><button type="button" class="opt" data-ok="0"><i>C</i>Drill-through</button><button type="button" class="opt" data-ok="0"><i>D</i>Alt text</button></div><div class="qexp"><b>Answer: B.</b> Edit interactions controls how visuals filter each other.</div></div><div class="qq"><p class="qtext"><b>5.</b> When is a donut chart appropriate?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>With 12 categories</button><button type="button" class="opt" data-ok="1"><i>B</i>With 2–3 parts of a whole</button><button type="button" class="opt" data-ok="0"><i>C</i>To show a time trend</button><button type="button" class="opt" data-ok="0"><i>D</i>To compare 20 products</button></div><div class="qexp"><b>Answer: B.</b> More than a few slices are hard to compare; use bars.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is the benefit of a theme JSON file?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>One consistent set of colours and fonts applied to all visuals and reusable across reports</button><button type="button" class="opt" data-ok="0"><i>B</i>It refreshes data</button><button type="button" class="opt" data-ok="0"><i>C</i>It creates relationships</button><button type="button" class="opt" data-ok="0"><i>D</i>It adds measures</button></div><div class="qexp"><b>Answer: A.</b> Themes standardise the look and make branding quick.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build the overview page</b></div><p>Using the Adventure Cycles model: (1) build the overview page above; (2) add a <strong>Year</strong> slicer and a <strong>Country</strong> slicer; (3) create a drill-through page for <strong>Product</strong> with sales, profit, margin and a monthly trend; (4) add a bookmarked toggle between "Sales" and "Profit" using a field parameter or bookmarks; (5) apply conditional formatting to the margin in a matrix and write a dynamic title.</p><details class="sol"><summary>Show solution</summary><p>(1) Cards for the five measures; line + clustered column for monthly sales and margin; bar for top subcategories; bar for country; donut for category mix. (2) Slicer visuals with <code>dim_date[year]</code> (tile style) and <code>dim_territory[country]</code> (dropdown). (3) New page → drag <code>dim_product[product]</code> into Drill through; add a back button. (4) Modeling → New parameter → Fields → add <code>Total Sales</code>, <code>Total Profit</code>; use the parameter on the chart values; place its slicer as a toggle. (5) Matrix of <code>subcategory</code> × <code>country</code> with <code>Profit Margin %</code>; Cell elements → Background colour → Rules; title measure with <code>SELECTEDVALUE</code>.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you design an effective Power BI dashboard?</strong>
+Start from the audience and decision; put headline KPIs top-left; use few visuals with insight titles; consistent colour and spacing; allow drill-down/through; test with users; check performance and accessibility.</p>
+<p><strong>Q: Drill-down vs drill-through?</strong>
+Drill-down navigates levels of a hierarchy within a visual; drill-through navigates to another page filtered by the selected item.</p>
+<p><strong>Q: What are the filter levels and how do slicers differ?</strong>
+Visual, page and report filters are set by the author in the Filters pane; slicers are on-canvas controls that users change, and they can be synced across pages.</p>
+<p><strong>Q: How would you let users toggle between a chart and a table?</strong>
+Two bookmarks that show/hide the visuals through the Selection pane, and two buttons linked to those bookmarks.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/career-paths/data-analyst">Microsoft Learn: Power BI data analyst path (PL-300) ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://dax.guide/">DAX Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.sqlbi.com/">SQLBI articles and videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets">Power BI sample datasets (Microsoft) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html"><small>← Previous</small><b>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</b></a><a class="next" href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html"><small>Next →</small><b>Power BI Service, Connectivity Modes, Security &amp; Capstone</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#choosing-the-visual">Choosing the visual</a><a href="#formatting-essentials">Formatting essentials</a><a href="#filters-three-levels">Filters: three levels</a><a href="#drill-down-and-drill-through">Drill-down and drill-through</a><a href="#report-page-tooltips">Report-page tooltips</a><a href="#buttons-bookmarks-and-navigation">Buttons, bookmarks and navigation</a><a href="#conditional-formatting">Conditional formatting</a><a href="#themes">Themes</a><a href="#report-design-principles">Report design principles</a><a href="#qa-images-and-mobile">Q&amp;amp;A, images and mobile</a><a href="#a-mini-case-the-adventure-cycles-overview-page">A mini case: the Adventure Cycles overview page</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,333 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search · Python Lesson 27 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn linear data structures (stack, queue, deque, linked list), recursion and backtracking, the main sorting algorithms with their trade-offs, and binary search including &quot;search on the answer&quot;, with interview problems such as valid parentheses, next greater element, reverse a linked list and search in a rotated array."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 27</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class="on"><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-27">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 27 of 29</div><h1>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</h1>
+<p class="sum">Learn linear data structures (stack, queue, deque, linked list), recursion and backtracking, the main sorting algorithms with their trade-offs, and binary search including "search on the answer", with interview problems such as valid parentheses, next greater element, reverse a linked list and search in a rotated array.</p><div class="tags"><span class="tag live">● DSA for data roles (added)</span><span class="tag new">✦ Python 3.13</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_27_DSA_II_Stacks_Queues_Linked_Lists_Recursion_Sorting_and_Binary_Search.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-27">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Implement and use stacks, queues and deques, and solve bracket and monotonic-stack problems</li><li>Build and manipulate a singly linked list (reverse, detect a cycle, find the middle)</li><li>Write recursive solutions with base cases and use backtracking for combinations</li><li>Explain bubble, insertion, merge and quick sort and their complexities</li><li>Apply binary search to sorted arrays, boundaries and answer spaces</li></ul></div></div>
+<div class="content"><h2 id="stacks-last-in-first-out">Stacks: last in, first out</h2>
+<p>A <strong>stack</strong> adds and removes at the same end (LIFO). In Python a list works: <code>append</code> to push, <code>pop()</code> to pop, both O(1). Uses: undo, browser back, function calls, parsing brackets.</p>
+<figure class="fig"><img src="../img/python-27-01.png" alt="Stack (LIFO) vs queue (FIFO)." loading="lazy"><figcaption>Stack (LIFO) vs queue (FIFO).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">valid_parentheses</span>(s):
+    pairs, stack = {<span class="hl-s">&quot;)&quot;</span>: <span class="hl-s">&quot;(&quot;</span>, <span class="hl-s">&quot;]&quot;</span>: <span class="hl-s">&quot;[&quot;</span>, <span class="hl-s">&quot;}&quot;</span>: <span class="hl-s">&quot;{&quot;</span>}, []
+    <span class="hl-k">for</span> ch <span class="hl-k">in</span> s:
+        <span class="hl-k">if</span> ch <span class="hl-k">in</span> <span class="hl-s">&quot;([{&quot;</span>: <span class="hl-f">stack.append</span>(ch)
+        <span class="hl-k">elif</span> ch <span class="hl-k">in</span> pairs:
+            <span class="hl-k">if</span> <span class="hl-k">not</span> stack <span class="hl-k">or</span> <span class="hl-f">stack.pop</span>() != pairs[ch]: <span class="hl-k">return</span> <span class="hl-k">False</span>
+    <span class="hl-k">return</span> <span class="hl-k">not</span> stack
+<span class="hl-f">print</span>([<span class="hl-f">valid_parentheses</span>(x) <span class="hl-k">for</span> x <span class="hl-k">in</span> [<span class="hl-s">&quot;()[]{}&quot;</span>, <span class="hl-s">&quot;([)]&quot;</span>, <span class="hl-s">&quot;{[()]}&quot;</span>, <span class="hl-s">&quot;((&quot;</span>, <span class="hl-s">&quot;SUM(IF(a&gt;1,(b),c))&quot;</span>]])
+
+<span class="hl-k">def</span> <span class="hl-f">eval_rpn</span>(tokens):                        <span class="hl-c"># reverse Polish notation: &quot;3 4 + 2 *&quot; = 14</span>
+    st = []
+    <span class="hl-k">for</span> t <span class="hl-k">in</span> tokens:
+        <span class="hl-k">if</span> t <span class="hl-k">in</span> <span class="hl-s">&quot;+-*/&quot;</span>:
+            b, a = <span class="hl-f">st.pop</span>(), <span class="hl-f">st.pop</span>()
+            <span class="hl-f">st.append</span>({<span class="hl-s">&quot;+&quot;</span>: a + b, <span class="hl-s">&quot;-&quot;</span>: a - b, <span class="hl-s">&quot;*&quot;</span>: a * b, <span class="hl-s">&quot;/&quot;</span>: <span class="hl-f">int</span>(a / b)}[t])
+        <span class="hl-k">else</span>: <span class="hl-f">st.append</span>(<span class="hl-f">int</span>(t))
+    <span class="hl-k">return</span> st[<span class="hl-n">0</span>]
+<span class="hl-f">print</span>(<span class="hl-f">eval_rpn</span>(<span class="hl-s">&quot;3 4 + 2 *&quot;</span>.<span class="hl-f">split</span>()))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[True, False, True, False, True]
+14</pre></div>
+<h3 id="monotonic-stack">Monotonic stack</h3>
+<p>Keep the stack sorted to answer "next greater/smaller element" in O(n) instead of O(n²).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">next_greater</span>(nums):
+    res, st = [-<span class="hl-n">1</span>] * <span class="hl-f">len</span>(nums), []           <span class="hl-c"># st holds indices with decreasing values</span>
+    <span class="hl-k">for</span> i, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(nums):
+        <span class="hl-k">while</span> st <span class="hl-k">and</span> nums[st[-<span class="hl-n">1</span>]] &lt; x: res[<span class="hl-f">st.pop</span>()] = x
+        <span class="hl-f">st.append</span>(i)
+    <span class="hl-k">return</span> res
+<span class="hl-k">def</span> <span class="hl-f">days_until_warmer</span>(temps):
+    res, st = [<span class="hl-n">0</span>] * <span class="hl-f">len</span>(temps), []
+    <span class="hl-k">for</span> i, t <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(temps):
+        <span class="hl-k">while</span> st <span class="hl-k">and</span> temps[st[-<span class="hl-n">1</span>]] &lt; t:
+            j = <span class="hl-f">st.pop</span>(); res[j] = i - j
+        <span class="hl-f">st.append</span>(i)
+    <span class="hl-k">return</span> res
+<span class="hl-f">print</span>(<span class="hl-f">next_greater</span>([<span class="hl-n">2</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">4</span>, <span class="hl-n">3</span>]), <span class="hl-f">days_until_warmer</span>([<span class="hl-n">73</span>, <span class="hl-n">74</span>, <span class="hl-n">75</span>, <span class="hl-n">71</span>, <span class="hl-n">69</span>, <span class="hl-n">72</span>, <span class="hl-n">76</span>, <span class="hl-n">73</span>]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[4, 2, 4, -1, -1] [1, 1, 4, 2, 1, 1, 0, 0]</pre></div>
+<h2 id="queues-and-deques">Queues and deques</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> collections <span class="hl-k">import</span> deque
+q = <span class="hl-f">deque</span>(); <span class="hl-f">q.append</span>(<span class="hl-s">&quot;job1&quot;</span>); <span class="hl-f">q.append</span>(<span class="hl-s">&quot;job2&quot;</span>); <span class="hl-f">q.appendleft</span>(<span class="hl-s">&quot;urgent&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">q.popleft</span>(), <span class="hl-f">q.popleft</span>(), <span class="hl-f">list</span>(q))
+recent = <span class="hl-f">deque</span>(maxlen=<span class="hl-n">3</span>)                    <span class="hl-c"># keeps only the last 3 items: a rolling buffer</span>
+<span class="hl-k">for</span> x <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">7</span>): <span class="hl-f">recent.append</span>(x)
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(recent))
+<span class="hl-k">def</span> <span class="hl-f">max_sliding_window</span>(nums, k):            <span class="hl-c"># monotonic deque, O(n)</span>
+    dq, out = <span class="hl-f">deque</span>(), []
+    <span class="hl-k">for</span> i, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(nums):
+        <span class="hl-k">while</span> dq <span class="hl-k">and</span> nums[dq[-<span class="hl-n">1</span>]] &lt;= x: <span class="hl-f">dq.pop</span>()
+        <span class="hl-f">dq.append</span>(i)
+        <span class="hl-k">if</span> dq[<span class="hl-n">0</span>] &lt;= i - k: <span class="hl-f">dq.popleft</span>()
+        <span class="hl-k">if</span> i &gt;= k - <span class="hl-n">1</span>: <span class="hl-f">out.append</span>(nums[dq[<span class="hl-n">0</span>]])
+    <span class="hl-k">return</span> out
+<span class="hl-f">print</span>(<span class="hl-f">max_sliding_window</span>([<span class="hl-n">1</span>, <span class="hl-n">3</span>, -<span class="hl-n">1</span>, -<span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">3</span>, <span class="hl-n">6</span>, <span class="hl-n">7</span>], <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">urgent job1 [&#x27;job2&#x27;]
+[4, 5, 6]
+[3, 3, 5, 5, 6, 7]</pre></div>
+<p>Never use <code>list.pop(0)</code> for a queue: it is O(n). Use <code>deque.popleft()</code> (O(1)). <code>queue.Queue</code> adds thread safety; <code>heapq</code> gives a priority queue (next lesson).</p>
+<h2 id="linked-lists">Linked lists</h2>
+<p>A <strong>linked list</strong> stores nodes that point to the next node. Insert/delete at a known node is O(1); access by index is O(n). Python rarely needs them, but interviews love them.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> Node:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, val, nxt=<span class="hl-k">None</span>): self.val, self.next = val, nxt
+<span class="hl-k">def</span> <span class="hl-f">build</span>(vals):
+    head = <span class="hl-k">None</span>
+    <span class="hl-k">for</span> v <span class="hl-k">in</span> <span class="hl-f">reversed</span>(vals): head = <span class="hl-f">Node</span>(v, head)
+    <span class="hl-k">return</span> head
+<span class="hl-k">def</span> <span class="hl-f">to_list</span>(head):
+    out = []
+    <span class="hl-k">while</span> head: <span class="hl-f">out.append</span>(head.val); head = head.next
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">reverse</span>(head):
+    prev = <span class="hl-k">None</span>
+    <span class="hl-k">while</span> head: head.next, prev, head = prev, head, head.next
+    <span class="hl-k">return</span> prev
+<span class="hl-k">def</span> <span class="hl-f">middle</span>(head):                            <span class="hl-c"># slow/fast pointers</span>
+    slow = fast = head
+    <span class="hl-k">while</span> fast <span class="hl-k">and</span> fast.next: slow, fast = slow.next, fast.next.next
+    <span class="hl-k">return</span> slow.val
+<span class="hl-k">def</span> <span class="hl-f">has_cycle</span>(head):                         <span class="hl-c"># Floyd&#x27;s tortoise and hare</span>
+    slow = fast = head
+    <span class="hl-k">while</span> fast <span class="hl-k">and</span> fast.next:
+        slow, fast = slow.next, fast.next.next
+        <span class="hl-k">if</span> slow <span class="hl-k">is</span> fast: <span class="hl-k">return</span> <span class="hl-k">True</span>
+    <span class="hl-k">return</span> <span class="hl-k">False</span>
+<span class="hl-k">def</span> <span class="hl-f">merge_two</span>(a, b):
+    dummy = tail = <span class="hl-f">Node</span>(<span class="hl-n">0</span>)
+    <span class="hl-k">while</span> a <span class="hl-k">and</span> b:
+        <span class="hl-k">if</span> a.val &lt;= b.val: tail.next, a = a, a.next
+        <span class="hl-k">else</span>: tail.next, b = b, b.next
+        tail = tail.next
+    tail.next = a <span class="hl-k">or</span> b; <span class="hl-k">return</span> dummy.next
+lst = <span class="hl-f">build</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>])
+<span class="hl-f">print</span>(<span class="hl-f">to_list</span>(<span class="hl-f">reverse</span>(<span class="hl-f">build</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>]))), <span class="hl-f">middle</span>(lst), <span class="hl-f">has_cycle</span>(lst), <span class="hl-f">to_list</span>(<span class="hl-f">merge_two</span>(<span class="hl-f">build</span>([<span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">7</span>]), <span class="hl-f">build</span>([<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">9</span>]))))
+cyc = <span class="hl-f">build</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]); cyc.next.next.next = cyc.next; <span class="hl-f">print</span>(<span class="hl-f">has_cycle</span>(cyc))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[5, 4, 3, 2, 1] 3 False [1, 2, 3, 4, 7, 9]
+True</pre></div>
+<h2 id="recursion-and-backtracking">Recursion and backtracking</h2>
+<p>A recursive function solves a problem by calling itself on a smaller version. It needs a <strong>base case</strong> and must move toward it.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">power</span>(x, n):                              <span class="hl-c"># fast exponentiation, O(log n)</span>
+    <span class="hl-k">if</span> n == <span class="hl-n">0</span>: <span class="hl-k">return</span> <span class="hl-n">1</span>
+    half = <span class="hl-f">power</span>(x, n // <span class="hl-n">2</span>)
+    <span class="hl-k">return</span> half * half * (x <span class="hl-k">if</span> n % <span class="hl-n">2</span> <span class="hl-k">else</span> <span class="hl-n">1</span>)
+<span class="hl-k">def</span> <span class="hl-f">flatten</span>(nested):
+    out = []
+    <span class="hl-k">for</span> item <span class="hl-k">in</span> nested: <span class="hl-f">out.extend</span>(<span class="hl-f">flatten</span>(item) <span class="hl-k">if</span> <span class="hl-f">isinstance</span>(item, list) <span class="hl-k">else</span> [item])
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">subsets</span>(nums):                            <span class="hl-c"># backtracking: explore, choose, un-choose</span>
+    res = []
+    <span class="hl-k">def</span> <span class="hl-f">bt</span>(start, path):
+        <span class="hl-f">res.append</span>(path[:])
+        <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(start, <span class="hl-f">len</span>(nums)):
+            <span class="hl-f">path.append</span>(nums[i]); <span class="hl-f">bt</span>(i + <span class="hl-n">1</span>, path); <span class="hl-f">path.pop</span>()
+    <span class="hl-f">bt</span>(<span class="hl-n">0</span>, []); <span class="hl-k">return</span> res
+<span class="hl-k">def</span> <span class="hl-f">permutations</span>(s):
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(s) &lt;= <span class="hl-n">1</span>: <span class="hl-k">return</span> [s]
+    <span class="hl-k">return</span> [ch + p <span class="hl-k">for</span> i, ch <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(s) <span class="hl-k">for</span> p <span class="hl-k">in</span> <span class="hl-f">permutations</span>(s[:i] + s[i + <span class="hl-n">1</span>:])]
+<span class="hl-f">print</span>(<span class="hl-f">power</span>(<span class="hl-n">2</span>, <span class="hl-n">10</span>), <span class="hl-f">flatten</span>([<span class="hl-n">1</span>, [<span class="hl-n">2</span>, [<span class="hl-n">3</span>, <span class="hl-n">4</span>]], <span class="hl-n">5</span>]), <span class="hl-f">subsets</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]), <span class="hl-f">permutations</span>(<span class="hl-s">&quot;abc&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1024 [1, 2, 3, 4, 5] [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]] [&#x27;abc&#x27;, &#x27;acb&#x27;, &#x27;bac&#x27;, &#x27;bca&#x27;, &#x27;cab&#x27;, &#x27;cba&#x27;]</pre></div>
+<figure class="fig"><img src="../img/python-27-02.png" alt="The recursion tree for subsets of [1, 2, 3]: each level decides whether to include the next item; 2³ = 8 leaves." loading="lazy"><figcaption>The recursion tree for subsets of [1, 2, 3]: each level decides whether to include the next item; 2³ = 8 leaves.</figcaption></figure>
+<h2 id="sorting-algorithms">Sorting algorithms</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">bubble_sort</span>(a):
+    a = a[:]
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(a)):
+        swapped = <span class="hl-k">False</span>
+        <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(a) - <span class="hl-n">1</span> - i):
+            <span class="hl-k">if</span> a[j] &gt; a[j + <span class="hl-n">1</span>]: a[j], a[j + <span class="hl-n">1</span>] = a[j + <span class="hl-n">1</span>], a[j]; swapped = <span class="hl-k">True</span>
+        <span class="hl-k">if</span> <span class="hl-k">not</span> swapped: <span class="hl-k">break</span>
+    <span class="hl-k">return</span> a
+<span class="hl-k">def</span> <span class="hl-f">insertion_sort</span>(a):
+    a = a[:]
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(a)):
+        key, j = a[i], i - <span class="hl-n">1</span>
+        <span class="hl-k">while</span> j &gt;= <span class="hl-n">0</span> <span class="hl-k">and</span> a[j] &gt; key: a[j + <span class="hl-n">1</span>] = a[j]; j -= <span class="hl-n">1</span>
+        a[j + <span class="hl-n">1</span>] = key
+    <span class="hl-k">return</span> a
+<span class="hl-k">def</span> <span class="hl-f">merge_sort</span>(a):
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(a) &lt;= <span class="hl-n">1</span>: <span class="hl-k">return</span> a
+    mid = <span class="hl-f">len</span>(a) // <span class="hl-n">2</span>; left, right = <span class="hl-f">merge_sort</span>(a[:mid]), <span class="hl-f">merge_sort</span>(a[mid:])
+    out, i, j = [], <span class="hl-n">0</span>, <span class="hl-n">0</span>
+    <span class="hl-k">while</span> i &lt; <span class="hl-f">len</span>(left) <span class="hl-k">and</span> j &lt; <span class="hl-f">len</span>(right):
+        <span class="hl-k">if</span> left[i] &lt;= right[j]: <span class="hl-f">out.append</span>(left[i]); i += <span class="hl-n">1</span>
+        <span class="hl-k">else</span>: <span class="hl-f">out.append</span>(right[j]); j += <span class="hl-n">1</span>
+    <span class="hl-k">return</span> out + left[i:] + right[j:]
+<span class="hl-k">def</span> <span class="hl-f">quick_sort</span>(a):
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(a) &lt;= <span class="hl-n">1</span>: <span class="hl-k">return</span> a
+    pivot = a[<span class="hl-f">len</span>(a) // <span class="hl-n">2</span>]
+    <span class="hl-k">return</span> <span class="hl-f">quick_sort</span>([x <span class="hl-k">for</span> x <span class="hl-k">in</span> a <span class="hl-k">if</span> x &lt; pivot]) + [x <span class="hl-k">for</span> x <span class="hl-k">in</span> a <span class="hl-k">if</span> x == pivot] + <span class="hl-f">quick_sort</span>([x <span class="hl-k">for</span> x <span class="hl-k">in</span> a <span class="hl-k">if</span> x &gt; pivot])
+data = [<span class="hl-n">38</span>, <span class="hl-n">27</span>, <span class="hl-n">43</span>, <span class="hl-n">3</span>, <span class="hl-n">9</span>, <span class="hl-n">82</span>, <span class="hl-n">10</span>]
+<span class="hl-f">print</span>(<span class="hl-f">bubble_sort</span>(data), <span class="hl-f">insertion_sort</span>(data), <span class="hl-f">merge_sort</span>(data), <span class="hl-f">quick_sort</span>(data), <span class="hl-f">sorted</span>(data) == <span class="hl-f">merge_sort</span>(data))
+<span class="hl-k">import</span> random, time
+big = [<span class="hl-f">random.random</span>() <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">3000</span>)]
+<span class="hl-k">for</span> f <span class="hl-k">in</span> (insertion_sort, merge_sort, quick_sort, sorted):
+    t0 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">f</span>(big); <span class="hl-f">print</span>(<span class="hl-s">f&quot;{f.__name__:15s} {1000 * (time.perf_counter() - t0):7.1f} ms&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[3, 9, 10, 27, 38, 43, 82] [3, 9, 10, 27, 38, 43, 82] [3, 9, 10, 27, 38, 43, 82] [3, 9, 10, 27, 38, 43, 82] True
+insertion_sort    133.5 ms
+merge_sort          3.5 ms
+quick_sort          3.5 ms
+sorted              0.2 ms</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Best</th>
+<th>Average</th>
+<th>Worst</th>
+<th>Space</th>
+<th>Stable</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bubble</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>Yes</td>
+<td>Teaching only</td>
+</tr>
+<tr>
+<td>Insertion</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>Yes</td>
+<td>Great for small / nearly sorted</td>
+</tr>
+<tr>
+<td>Merge</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>Yes</td>
+<td>Predictable; external sorting</td>
+</tr>
+<tr>
+<td>Quick</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n²)</td>
+<td>O(log n)</td>
+<td>No</td>
+<td>Fast in practice</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(1)</td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td>Timsort (Python <code>sorted</code>)</td>
+<td>O(n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>Yes</td>
+<td>Merge + insertion hybrid</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Stable</strong> means equal keys keep their original order, so you can sort by city, then stably by region. In practice, use <code>sorted(items, key=...)</code>.</p>
+<h2 id="binary-search">Binary search</h2>
+<p>On <strong>sorted</strong> data, halve the search space each step: O(log n). One million items need at most 20 comparisons.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">binary_search</span>(a, target):
+    lo, hi = <span class="hl-n">0</span>, <span class="hl-f">len</span>(a) - <span class="hl-n">1</span>
+    <span class="hl-k">while</span> lo &lt;= hi:
+        mid = (lo + hi) // <span class="hl-n">2</span>
+        <span class="hl-k">if</span> a[mid] == target: <span class="hl-k">return</span> mid
+        <span class="hl-k">if</span> a[mid] &lt; target: lo = mid + <span class="hl-n">1</span>
+        <span class="hl-k">else</span>: hi = mid - <span class="hl-n">1</span>
+    <span class="hl-k">return</span> -<span class="hl-n">1</span>
+<span class="hl-k">import</span> bisect
+a = [<span class="hl-n">3</span>, <span class="hl-n">8</span>, <span class="hl-n">15</span>, <span class="hl-n">15</span>, <span class="hl-n">15</span>, <span class="hl-n">23</span>, <span class="hl-n">42</span>]
+<span class="hl-f">print</span>(<span class="hl-f">binary_search</span>(a, <span class="hl-n">23</span>), <span class="hl-f">binary_search</span>(a, <span class="hl-n">5</span>), <span class="hl-f">bisect.bisect_left</span>(a, <span class="hl-n">15</span>), <span class="hl-f">bisect.bisect_right</span>(a, <span class="hl-n">15</span>), <span class="hl-f">bisect.bisect_right</span>(a, <span class="hl-n">15</span>) - <span class="hl-f">bisect.bisect_left</span>(a, <span class="hl-n">15</span>))
+<span class="hl-k">def</span> <span class="hl-f">search_rotated</span>(nums, target):
+    lo, hi = <span class="hl-n">0</span>, <span class="hl-f">len</span>(nums) - <span class="hl-n">1</span>
+    <span class="hl-k">while</span> lo &lt;= hi:
+        mid = (lo + hi) // <span class="hl-n">2</span>
+        <span class="hl-k">if</span> nums[mid] == target: <span class="hl-k">return</span> mid
+        <span class="hl-k">if</span> nums[lo] &lt;= nums[mid]:                    <span class="hl-c"># left half sorted</span>
+            <span class="hl-k">if</span> nums[lo] &lt;= target &lt; nums[mid]: hi = mid - <span class="hl-n">1</span>
+            <span class="hl-k">else</span>: lo = mid + <span class="hl-n">1</span>
+        <span class="hl-k">else</span>:                                       <span class="hl-c"># right half sorted</span>
+            <span class="hl-k">if</span> nums[mid] &lt; target &lt;= nums[hi]: lo = mid + <span class="hl-n">1</span>
+            <span class="hl-k">else</span>: hi = mid - <span class="hl-n">1</span>
+    <span class="hl-k">return</span> -<span class="hl-n">1</span>
+<span class="hl-f">print</span>(<span class="hl-f">search_rotated</span>([<span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>, <span class="hl-n">7</span>, <span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>], <span class="hl-n">0</span>), <span class="hl-f">search_rotated</span>([<span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>, <span class="hl-n">7</span>, <span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>], <span class="hl-n">3</span>))
+<span class="hl-k">def</span> <span class="hl-f">min_capacity_to_ship</span>(weights, days):           <span class="hl-c"># &quot;binary search on the answer&quot;</span>
+    <span class="hl-k">def</span> <span class="hl-f">ok</span>(cap):
+        d, load = <span class="hl-n">1</span>, <span class="hl-n">0</span>
+        <span class="hl-k">for</span> w <span class="hl-k">in</span> weights:
+            <span class="hl-k">if</span> load + w &gt; cap: d += <span class="hl-n">1</span>; load = <span class="hl-n">0</span>
+            load += w
+        <span class="hl-k">return</span> d &lt;= days
+    lo, hi = <span class="hl-f">max</span>(weights), <span class="hl-f">sum</span>(weights)
+    <span class="hl-k">while</span> lo &lt; hi:
+        mid = (lo + hi) // <span class="hl-n">2</span>
+        <span class="hl-k">if</span> <span class="hl-f">ok</span>(mid): hi = mid
+        <span class="hl-k">else</span>: lo = mid + <span class="hl-n">1</span>
+    <span class="hl-k">return</span> lo
+<span class="hl-f">print</span>(<span class="hl-f">min_capacity_to_ship</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>, <span class="hl-n">7</span>, <span class="hl-n">8</span>, <span class="hl-n">9</span>, <span class="hl-n">10</span>], <span class="hl-n">5</span>))
+grades = [<span class="hl-s">&quot;F&quot;</span>, <span class="hl-s">&quot;D&quot;</span>, <span class="hl-s">&quot;C&quot;</span>, <span class="hl-s">&quot;B&quot;</span>, <span class="hl-s">&quot;A&quot;</span>]; cutoffs = [<span class="hl-n">40</span>, <span class="hl-n">50</span>, <span class="hl-n">65</span>, <span class="hl-n">80</span>]
+<span class="hl-f">print</span>([grades[<span class="hl-f">bisect.bisect_right</span>(cutoffs, s)] <span class="hl-k">for</span> s <span class="hl-k">in</span> (<span class="hl-n">35</span>, <span class="hl-n">50</span>, <span class="hl-n">79</span>, <span class="hl-n">92</span>)])        <span class="hl-c"># banding with bisect</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5 -1 2 5 3
+4 -1
+15
+[&#x27;F&#x27;, &#x27;C&#x27;, &#x27;B&#x27;, &#x27;A&#x27;]</pre></div>
+<p><code>bisect</code> is how pandas <code>cut</code> and SQL range lookups work under the hood: find the band for a value in O(log n).</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Stack = LIFO (list append/pop); queue = FIFO (<code>deque</code> append/popleft); monotonic stacks/deques solve next-greater and window-max in O(n).</li>
+<li>Linked lists: pointer manipulation; slow/fast pointers find the middle and detect cycles.</li>
+<li>Recursion needs a base case; backtracking = choose, explore, un-choose.</li>
+<li>Merge sort is O(n log n) and stable; quick sort is fast on average; insertion sort suits small inputs; use <code>sorted</code>.</li>
+<li>Binary search halves the space: O(log n). Use it on sorted arrays, boundaries (<code>bisect</code>) and "minimum value that works" answers.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-27-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which structure checks balanced brackets?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Stack</button><button type="button" class="opt" data-ok="0"><i>B</i>Queue</button><button type="button" class="opt" data-ok="0"><i>C</i>Set</button><button type="button" class="opt" data-ok="0"><i>D</i>Heap</button></div><div class="qexp"><b>Answer: A.</b> Push openings, pop on closings.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why use <code>deque.popleft()</code> instead of <code>list.pop(0)</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It sorts the data</button><button type="button" class="opt" data-ok="1"><i>B</i>It is O(1); list.pop(0) is O(n)</button><button type="button" class="opt" data-ok="0"><i>C</i>It is thread safe</button><button type="button" class="opt" data-ok="0"><i>D</i>No difference</button></div><div class="qexp"><b>Answer: B.</b> Lists shift every element when removing from the front.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you find the middle of a linked list in one pass?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Count then walk</button><button type="button" class="opt" data-ok="1"><i>B</i>Slow and fast pointers</button><button type="button" class="opt" data-ok="0"><i>C</i>Sort it</button><button type="button" class="opt" data-ok="0"><i>D</i>Binary search</button></div><div class="qexp"><b>Answer: B.</b> When fast reaches the end, slow is in the middle.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the worst-case complexity of quick sort?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>O(n log n)</button><button type="button" class="opt" data-ok="1"><i>B</i>O(n²)</button><button type="button" class="opt" data-ok="0"><i>C</i>O(n)</button><button type="button" class="opt" data-ok="0"><i>D</i>O(log n)</button></div><div class="qexp"><b>Answer: B.</b> With bad pivots; randomised pivots make it unlikely.</div></div><div class="qq"><p class="qtext"><b>5.</b> How many comparisons does binary search need for about 1,000,000 sorted items?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>1,000,000</button><button type="button" class="opt" data-ok="0"><i>B</i>1,000</button><button type="button" class="opt" data-ok="1"><i>C</i>About 20</button><button type="button" class="opt" data-ok="0"><i>D</i>2</button></div><div class="qexp"><b>Answer: C.</b> log₂(1,000,000) ≈ 20.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does a "stable" sort guarantee?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It never fails</button><button type="button" class="opt" data-ok="1"><i>B</i>Items with equal keys keep their original relative order</button><button type="button" class="opt" data-ok="0"><i>C</i>O(n log n) always</button><button type="button" class="opt" data-ok="0"><i>D</i>It uses no memory</button></div><div class="qexp"><b>Answer: B.</b> Merge sort and Timsort are stable.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice set</b></div><p>(1) Implement a queue using two stacks. (2) Remove adjacent duplicate letters repeatedly ("abbaca" → "ca"). (3) Find the first and last position of a target in a sorted array with <code>bisect</code>. (4) Return all combinations of k numbers from 1..n. (5) Compute the integer square root with binary search.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> QueueTwoStacks:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self): self.inbox, self.outbox = [], []
+    <span class="hl-k">def</span> <span class="hl-f">push</span>(self, x): <span class="hl-f">self.inbox.append</span>(x)
+    <span class="hl-k">def</span> <span class="hl-f">pop</span>(self):
+        <span class="hl-k">if</span> <span class="hl-k">not</span> self.outbox:
+            <span class="hl-k">while</span> self.inbox: <span class="hl-f">self.outbox.append</span>(<span class="hl-f">self.inbox.pop</span>())
+        <span class="hl-k">return</span> <span class="hl-f">self.outbox.pop</span>()
+<span class="hl-k">def</span> <span class="hl-f">remove_adjacent</span>(s):
+    st = []
+    <span class="hl-k">for</span> ch <span class="hl-k">in</span> s:
+        <span class="hl-k">if</span> st <span class="hl-k">and</span> st[-<span class="hl-n">1</span>] == ch: <span class="hl-f">st.pop</span>()
+        <span class="hl-k">else</span>: <span class="hl-f">st.append</span>(ch)
+    <span class="hl-k">return</span> <span class="hl-s">&quot;&quot;</span>.<span class="hl-f">join</span>(st)
+<span class="hl-k">def</span> <span class="hl-f">first_last</span>(a, t):
+    i, j = <span class="hl-f">bisect.bisect_left</span>(a, t), <span class="hl-f">bisect.bisect_right</span>(a, t) - <span class="hl-n">1</span>
+    <span class="hl-k">return</span> [i, j] <span class="hl-k">if</span> i &lt;= j <span class="hl-k">else</span> [-<span class="hl-n">1</span>, -<span class="hl-n">1</span>]
+<span class="hl-k">def</span> <span class="hl-f">combine</span>(n, k):
+    res = []
+    <span class="hl-k">def</span> <span class="hl-f">bt</span>(start, path):
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(path) == k: <span class="hl-f">res.append</span>(path[:]); <span class="hl-k">return</span>
+        <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(start, n + <span class="hl-n">1</span>): <span class="hl-f">path.append</span>(i); <span class="hl-f">bt</span>(i + <span class="hl-n">1</span>, path); <span class="hl-f">path.pop</span>()
+    <span class="hl-f">bt</span>(<span class="hl-n">1</span>, []); <span class="hl-k">return</span> res
+<span class="hl-k">def</span> <span class="hl-f">isqrt</span>(x):
+    lo, hi = <span class="hl-n">0</span>, x
+    <span class="hl-k">while</span> lo &lt; hi:
+        mid = (lo + hi + <span class="hl-n">1</span>) // <span class="hl-n">2</span>
+        <span class="hl-k">if</span> mid * mid &lt;= x: lo = mid
+        <span class="hl-k">else</span>: hi = mid - <span class="hl-n">1</span>
+    <span class="hl-k">return</span> lo
+<span class="hl-f">print</span>(<span class="hl-f">remove_adjacent</span>(<span class="hl-s">&quot;abbaca&quot;</span>), <span class="hl-f">first_last</span>([<span class="hl-n">5</span>, <span class="hl-n">7</span>, <span class="hl-n">7</span>, <span class="hl-n">8</span>, <span class="hl-n">8</span>, <span class="hl-n">10</span>], <span class="hl-n">8</span>), <span class="hl-f">combine</span>(<span class="hl-n">4</span>, <span class="hl-n">2</span>), <span class="hl-f">isqrt</span>(<span class="hl-n">80</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain merge sort.</strong>
+Split the list in half recursively until single items remain, then merge sorted halves by repeatedly taking the smaller front item; O(n log n) time, O(n) extra space, stable.</p>
+<p><strong>Q: When is binary search applicable?</strong>
+When the data is sorted, or more generally when a yes/no condition is monotonic over the search space (search on the answer).</p>
+<p><strong>Q: Stack vs queue in real systems?</strong>
+Stacks: call stacks, undo, expression parsing, DFS. Queues: job and message queues (Kafka, SQS), BFS, rate-limited processing.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html"><small>← Previous</small><b>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</b></a><a class="next" href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html"><small>Next →</small><b>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#stacks-last-in-first-out">Stacks: last in, first out</a><a href="#queues-and-deques">Queues and deques</a><a href="#linked-lists">Linked lists</a><a href="#recursion-and-backtracking">Recursion and backtracking</a><a href="#sorting-algorithms">Sorting algorithms</a><a href="#binary-search">Binary search</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

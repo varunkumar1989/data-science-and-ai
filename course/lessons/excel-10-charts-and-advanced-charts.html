@@ -1,0 +1,413 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Charts and Advanced Charts · Excel Lesson 10 · Data Science &amp; AI Handbook</title><meta name="description" content="Choose the right chart for every question, build and format column, bar, line, area, pie, scatter and combo charts, add sparklines, and create the advanced business charts taught in class: thermometer, Pareto, population pyramid and waterfall, plus histogram, box plot, treemap and funnel."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 10</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class="on"><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-10">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 10 of 12</div><h1>Charts and Advanced Charts</h1>
+<p class="sum">Choose the right chart for every question, build and format column, bar, line, area, pie, scatter and combo charts, add sparklines, and create the advanced business charts taught in class: thermometer, Pareto, population pyramid and waterfall, plus histogram, box plot, treemap and funnel.</p><div class="tags"><span class="tag live">● Live classes 7–8</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_10_Charts_and_Advanced_Charts.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-10.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-10">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Pick the right chart type from the question you want to answer</li><li>Insert, edit and format charts quickly (elements, axes, labels, colours, templates)</li><li>Build combo charts with a secondary axis and add sparklines</li><li>Build thermometer, Pareto, population pyramid and waterfall charts step by step</li><li>Use the newer statistical and hierarchy charts and apply chart design best practices</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="start-with-the-question-not-the-chart">Start with the question, not the chart</h2>
+<figure class="fig"><img src="../img/excel-10-01.png" alt="Choose a chart by the question you are answering." loading="lazy"><figcaption>Choose a chart by the question you are answering.</figcaption></figure>
+<h2 id="creating-and-editing-a-chart">Creating and editing a chart</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>The fast way</b></div><ol>
+<li>Select the data <strong>including headers</strong> (or a summary table / pivot table). For a quick chart press <code>Alt + F1</code> (embedded) or <code>F11</code> (new chart sheet).</li>
+<li>Or use <strong>Insert → Recommended Charts</strong> to preview options.</li>
+<li>Click the chart: three buttons appear at its top-right: <strong>Chart Elements</strong> (+), <strong>Chart Styles</strong> (brush) and <strong>Chart Filters</strong> (funnel).</li>
+<li><strong>Chart Design</strong> tab: Switch Row/Column, Select Data, Change Chart Type, Move Chart, Quick Layout.</li>
+<li><strong>Format</strong> pane: double-click any element (axis, series, label) or press <code>Ctrl + 1</code> with it selected.</li>
+</ol></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Element</th>
+<th>Good practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Title</strong></td>
+<td>Say the insight: "Technology drives 77% of sales", not "Sales by Category"</td>
+</tr>
+<tr>
+<td><strong>Axes</strong></td>
+<td>Start bar/column axes at zero; format numbers (K, L, %); remove unnecessary decimals</td>
+</tr>
+<tr>
+<td><strong>Gridlines</strong></td>
+<td>Light grey or none</td>
+</tr>
+<tr>
+<td><strong>Data labels</strong></td>
+<td>Use them instead of an axis when there are few bars</td>
+</tr>
+<tr>
+<td><strong>Legend</strong></td>
+<td>Only if there is more than one series; better: label lines directly</td>
+</tr>
+<tr>
+<td><strong>Colour</strong></td>
+<td>One highlight colour for the point you want to make, grey for the rest</td>
+</tr>
+<tr>
+<td><strong>Template</strong></td>
+<td>Right-click → Save as Template to reuse your style</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-core-chart-types">The core chart types</h2>
+<p>Here are the core charts built from Superstore data. The Excel steps follow each one.</p>
+<figure class="fig"><img src="../img/excel-10-02.png" alt="Column (comparison), line (trend), clustered and stacked bar (comparison of parts), and scatter (relationship)." loading="lazy"><figcaption>Column (comparison), line (trend), clustered and stacked bar (comparison of parts), and scatter (relationship).</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Chart</th>
+<th>Excel path</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clustered column / bar</td>
+<td>Insert → Column or Bar</td>
+<td>Comparing categories; use <strong>bar</strong> when labels are long or there are many categories</td>
+</tr>
+<tr>
+<td>Stacked / 100% stacked</td>
+<td>Same menu</td>
+<td>Showing parts of a total across groups</td>
+</tr>
+<tr>
+<td>Line</td>
+<td>Insert → Line (with markers)</td>
+<td>Trends over time; up to ~5 lines</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>Insert → Line → Area</td>
+<td>Cumulative trends; volume over time</td>
+</tr>
+<tr>
+<td>Pie / doughnut</td>
+<td>Insert → Pie</td>
+<td>2–5 parts of a whole that add to 100%</td>
+</tr>
+<tr>
+<td>Scatter (XY)</td>
+<td>Insert → Scatter</td>
+<td>Relationship between two numbers; add a <strong>trendline</strong> (right-click series → Add Trendline, tick Display R²)</td>
+</tr>
+<tr>
+<td>Bubble</td>
+<td>Insert → Scatter → Bubble</td>
+<td>Scatter with a third measure as bubble size</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Chart crimes to avoid</b></div><p>3D charts, pie charts with 10 slices, two different units on one axis, truncated bar axes that exaggerate differences, rainbow colours, and charts without units. If you need to squint, the chart has failed.</p></div>
+<h2 id="combo-charts-and-the-secondary-axis">Combo charts and the secondary axis</h2>
+<p>When two measures have very different scales (sales in lakhs and profit margin in %), plot one as columns and the other as a line on a <strong>secondary axis</strong>.</p>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build a combo chart</b></div><ol>
+<li>Make a summary table: Month, Sales, Margin %.</li>
+<li>Select it → Insert → <strong>Combo Chart</strong> → Create Custom Combo Chart.</li>
+<li>Sales: Clustered Column. Margin %: Line with Markers, tick <strong>Secondary Axis</strong>.</li>
+<li>Add axis titles so readers know which axis belongs to which series.</li>
+</ol></div>
+<figure class="fig"><img src="../img/excel-10-03.png" alt="Combo chart: monthly sales (columns, left axis) and profit margin (line, right axis) for 2025." loading="lazy"><figcaption>Combo chart: monthly sales (columns, left axis) and profit margin (line, right axis) for 2025.</figcaption></figure>
+<h2 id="sparklines">Sparklines</h2>
+<p>Sparklines are tiny charts <strong>inside a cell</strong>: Insert → <strong>Sparklines</strong> → Line, Column or Win/Loss. Select the data range (for example 12 months in a row) and the location cell. Use <strong>Sparkline → Show → High Point / Low Point</strong> to mark extremes. They are ideal in dashboard tables, one row per product or region.</p>
+<h2 id="thermometer-chart-target-vs-actual">Thermometer chart (target vs actual)</h2>
+<p>A thermometer shows progress towards a single target, such as "₹ 7.4 crore of the ₹ 9 crore annual target".</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Thermometer data</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th></tr><tr><th>1</th><td class="c-h">Metric</td><td class="c-h">Value</td></tr><tr><th>2</th><td class="">Target</td><td class="num">900</td></tr><tr><th>3</th><td class="">Achieved</td><td class="num">742</td></tr><tr><th>4</th><td class="">% achieved</td><td class="fx num" title="=B3/B2">82.4%</td></tr></table></div></div><ul class="xl-f"><li><b>B4</b><code>=B3/B2</code></li></ul></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build it</b></div><ol>
+<li>Select only the <strong>% achieved</strong> cell (and its label) → Insert → <strong>Clustered Column</strong>.</li>
+<li>Format the vertical axis: Minimum <strong>0</strong>, Maximum <strong>1</strong> (100%). Delete the horizontal axis and gridlines.</li>
+<li>Format the series: Gap Width <strong>0%</strong> so the column fills the width; choose a strong fill colour.</li>
+<li>Optional: add a second series with value 1 (100%) on the secondary axis, no fill and a thick border to draw the "glass" of the thermometer; set the secondary axis to 0–1 as well.</li>
+<li>Resize the chart to be tall and narrow; add a data label showing 82.4%.</li>
+</ol></div>
+<figure class="fig"><img src="../img/excel-10-04.png" alt="Thermometer chart: 82.4% of the annual target achieved." loading="lazy"><figcaption>Thermometer chart: 82.4% of the annual target achieved.</figcaption></figure>
+<h2 id="pareto-chart-the-8020-rule">Pareto chart (the 80/20 rule)</h2>
+<p>The Pareto principle says that roughly 80% of effects come from 20% of causes: a few sub-categories drive most sales, a few complaint types cause most tickets. A Pareto chart shows sorted bars plus a <strong>cumulative %</strong> line.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">pareto = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>).<span class="hl-f">to_frame</span>()
+pareto[<span class="hl-s">&quot;share %&quot;</span>] = (pareto.sales / <span class="hl-f">pareto.sales.sum</span>() * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+pareto[<span class="hl-s">&quot;cumulative %&quot;</span>] = pareto[<span class="hl-s">&quot;share %&quot;</span>].<span class="hl-f">cumsum</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+pareto[<span class="hl-s">&quot;sales&quot;</span>] = (pareto.sales / 1e5).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">pareto.rename</span>(columns={<span class="hl-s">&quot;sales&quot;</span>: <span class="hl-s">&quot;sales (₹ lakh)&quot;</span>})</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales (₹ lakh)</th>
+      <th>share %</th>
+      <th>cumulative %</th>
+    </tr>
+    <tr>
+      <th>sub_category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Copiers</th>
+      <td>787.5</td>
+      <td>39.1</td>
+      <td>39.1</td>
+    </tr>
+    <tr>
+      <th>Machines</th>
+      <td>425.9</td>
+      <td>21.1</td>
+      <td>60.2</td>
+    </tr>
+    <tr>
+      <th>Phones</th>
+      <td>319.2</td>
+      <td>15.8</td>
+      <td>76.0</td>
+    </tr>
+    <tr>
+      <th>Tables</th>
+      <td>140.5</td>
+      <td>7.0</td>
+      <td>83.0</td>
+    </tr>
+    <tr>
+      <th>Bookcases</th>
+      <td>112.7</td>
+      <td>5.6</td>
+      <td>88.6</td>
+    </tr>
+    <tr>
+      <th>Chairs</th>
+      <td>80.9</td>
+      <td>4.0</td>
+      <td>92.6</td>
+    </tr>
+    <tr>
+      <th>Appliances</th>
+      <td>63.3</td>
+      <td>3.1</td>
+      <td>95.7</td>
+    </tr>
+    <tr>
+      <th>Accessories</th>
+      <td>31.8</td>
+      <td>1.6</td>
+      <td>97.3</td>
+    </tr>
+    <tr>
+      <th>Storage</th>
+      <td>26.6</td>
+      <td>1.3</td>
+      <td>98.6</td>
+    </tr>
+    <tr>
+      <th>Furnishings</th>
+      <td>14.3</td>
+      <td>0.7</td>
+      <td>99.3</td>
+    </tr>
+    <tr>
+      <th>Paper</th>
+      <td>4.9</td>
+      <td>0.2</td>
+      <td>99.5</td>
+    </tr>
+    <tr>
+      <th>Binders</th>
+      <td>4.0</td>
+      <td>0.2</td>
+      <td>99.7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">13 rows × 3 columns (first 12 shown)</div></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build it in Excel</b></div><ol>
+<li>Summarise sales by sub-category (pivot or SUMIFS) and <strong>sort largest to smallest</strong>.</li>
+<li>Add <code>Cumulative %</code>: in C2 <code>=SUM($B$2:B2)/SUM($B$2:$B$13)</code>, copy down.</li>
+<li>Select the three columns → Insert → <strong>Combo</strong>: Sales = Clustered Column, Cumulative % = Line on the <strong>Secondary Axis</strong>.</li>
+<li>Set the secondary axis maximum to 100%. Optionally add a horizontal 80% reference line.</li>
+<li>Excel 2016+ also has a built-in <strong>Insert → Statistical → Pareto</strong> chart that sorts and accumulates for you from raw data.</li>
+</ol></div>
+<figure class="fig"><img src="../img/excel-10-05.png" alt="Pareto chart of sales by sub-category. Copiers, Machines and Phones alone make up 76% of sales; adding Tables passes the 80% line." loading="lazy"><figcaption>Pareto chart of sales by sub-category. Copiers, Machines and Phones alone make up 76% of sales; adding Tables passes the 80% line.</figcaption></figure>
+<h2 id="population-pyramid">Population pyramid</h2>
+<p>A population pyramid compares two groups (typically male and female) across age bands, with one group's bars going left and the other's going right. In business it works for any two-sided comparison: this year vs last year by product, or two regions by age band.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">hr = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;hr_employees.csv&quot;</span>)
+hr[<span class="hl-s">&quot;age_band&quot;</span>] = <span class="hl-f">pd.cut</span>(hr.age, [<span class="hl-n">20</span>, <span class="hl-n">25</span>, <span class="hl-n">30</span>, <span class="hl-n">35</span>, <span class="hl-n">40</span>, <span class="hl-n">45</span>, <span class="hl-n">50</span>, <span class="hl-n">55</span>, <span class="hl-n">60</span>], labels=[<span class="hl-s">&quot;21-25&quot;</span>, <span class="hl-s">&quot;26-30&quot;</span>, <span class="hl-s">&quot;31-35&quot;</span>, <span class="hl-s">&quot;36-40&quot;</span>, <span class="hl-s">&quot;41-45&quot;</span>, <span class="hl-s">&quot;46-50&quot;</span>, <span class="hl-s">&quot;51-55&quot;</span>, <span class="hl-s">&quot;56-60&quot;</span>])
+pyr = <span class="hl-f">hr.pivot_table</span>(index=<span class="hl-s">&quot;age_band&quot;</span>, columns=<span class="hl-s">&quot;gender&quot;</span>, values=<span class="hl-s">&quot;emp_id&quot;</span>, aggfunc=<span class="hl-s">&quot;count&quot;</span>, observed=<span class="hl-k">False</span>)
+pyr[<span class="hl-s">&quot;Male (negative)&quot;</span>] = -pyr[<span class="hl-s">&quot;Male&quot;</span>]
+pyr</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>gender</th>
+      <th>Female</th>
+      <th>Male</th>
+      <th>Male (negative)</th>
+    </tr>
+    <tr>
+      <th>age_band</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21-25</th>
+      <td>64</td>
+      <td>122</td>
+      <td>-122</td>
+    </tr>
+    <tr>
+      <th>26-30</th>
+      <td>128</td>
+      <td>182</td>
+      <td>-182</td>
+    </tr>
+    <tr>
+      <th>31-35</th>
+      <td>149</td>
+      <td>190</td>
+      <td>-190</td>
+    </tr>
+    <tr>
+      <th>36-40</th>
+      <td>136</td>
+      <td>193</td>
+      <td>-193</td>
+    </tr>
+    <tr>
+      <th>41-45</th>
+      <td>90</td>
+      <td>119</td>
+      <td>-119</td>
+    </tr>
+    <tr>
+      <th>46-50</th>
+      <td>36</td>
+      <td>54</td>
+      <td>-54</td>
+    </tr>
+    <tr>
+      <th>51-55</th>
+      <td>19</td>
+      <td>13</td>
+      <td>-13</td>
+    </tr>
+    <tr>
+      <th>56-60</th>
+      <td>3</td>
+      <td>2</td>
+      <td>-2</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 3 columns</div></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build it</b></div><ol>
+<li>Count employees by age band and gender (pivot table or COUNTIFS).</li>
+<li>Make the male counts <strong>negative</strong> (<code>=-C2</code>) in a helper column so they plot to the left.</li>
+<li>Select age bands, the negative male column and the female column → Insert → <strong>Clustered Bar</strong>.</li>
+<li>Format series: Series Overlap <strong>100%</strong>, Gap Width <strong>10–30%</strong>.</li>
+<li>Format the horizontal axis numbers with the custom format <code>#,##0;#,##0</code> so negative values show without a minus sign.</li>
+<li>Vertical axis → Labels → Label Position: <strong>Low</strong> so the age labels sit on the left edge.</li>
+</ol></div>
+<figure class="fig"><img src="../img/excel-10-06.png" alt="Population pyramid of the 1,500 employees in the HR dataset." loading="lazy"><figcaption>Population pyramid of the 1,500 employees in the HR dataset.</figcaption></figure>
+<h2 id="waterfall-chart">Waterfall chart</h2>
+<p>A waterfall shows how a starting value becomes an ending value through positive and negative steps: revenue to profit, last year's sales to this year's, or budget to actual.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Waterfall data: from revenue to net profit (₹ lakh)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th></tr><tr><th>1</th><td class="c-h">Step</td><td class="c-h">Amount</td></tr><tr><th>2</th><td class="">Revenue</td><td class="num">1200</td></tr><tr><th>3</th><td class="">Cost of goods</td><td class="num">-640</td></tr><tr><th>4</th><td class="">Gross profit</td><td class="fx num" title="=B2+B3">560</td></tr><tr><th>5</th><td class="">Marketing</td><td class="num">-120</td></tr><tr><th>6</th><td class="">Salaries</td><td class="num">-210</td></tr><tr><th>7</th><td class="">Other income</td><td class="num">35</td></tr><tr><th>8</th><td class="">Net profit</td><td class="fx num" title="=B4+B5+B6+B7">265</td></tr></table></div></div><ul class="xl-f"><li><b>B4</b><code>=B2+B3</code></li><li><b>B8</b><code>=B4+B5+B6+B7</code></li></ul></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Build it (Excel 2016 and later)</b></div><ol>
+<li>Select the table → Insert → <strong>Waterfall</strong> (Insert → Charts → Waterfall, Funnel…).</li>
+<li>Click the <strong>Gross profit</strong> bar twice (to select only that point) → right-click → <strong>Set as total</strong>. Do the same for <strong>Net profit</strong>. Totals then start from zero instead of floating.</li>
+<li>Colour increases, decreases and totals differently (Format Data Point) and add data labels.</li>
+</ol></div>
+<p>In older Excel versions you build the same chart as a <strong>stacked column</strong> with an invisible "base" series, an "up" series and a "down" series computed with formulas.</p>
+<figure class="fig"><img src="../img/excel-10-07.png" alt="Waterfall from revenue to net profit. Totals are anchored at zero; increases are green and decreases are red." loading="lazy"><figcaption>Waterfall from revenue to net profit. Totals are anchored at zero; increases are green and decreases are red.</figcaption></figure>
+<h2 id="statistical-and-hierarchy-charts-excel-2016">Statistical and hierarchy charts (Excel 2016+)</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Chart</th>
+<th>Insert path</th>
+<th>Shows</th>
+<th>Example question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Histogram</strong></td>
+<td>Insert → Statistical → Histogram</td>
+<td>Frequency distribution; set bin width in Format Axis</td>
+<td>How are order values distributed?</td>
+</tr>
+<tr>
+<td><strong>Box &amp; Whisker</strong></td>
+<td>Insert → Statistical → Box and Whisker</td>
+<td>Median, quartiles and outliers by group</td>
+<td>Do salaries vary more in Sales than in IT?</td>
+</tr>
+<tr>
+<td><strong>Treemap</strong></td>
+<td>Insert → Hierarchy → Treemap</td>
+<td>Nested rectangles sized by value</td>
+<td>Category → sub-category share of sales</td>
+</tr>
+<tr>
+<td><strong>Sunburst</strong></td>
+<td>Insert → Hierarchy → Sunburst</td>
+<td>Rings for hierarchy levels</td>
+<td>Region → state → city</td>
+</tr>
+<tr>
+<td><strong>Funnel</strong></td>
+<td>Insert → Waterfall → Funnel</td>
+<td>Drop-off between stages</td>
+<td>Visitors → sign-ups → orders</td>
+</tr>
+<tr>
+<td><strong>Filled map</strong></td>
+<td>Insert → Maps</td>
+<td>Values by country or state</td>
+<td>Sales by state (needs internet)</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/excel-10-08.png" alt="Histogram of order-line sales values and box plots of monthly income by department (HR data)." loading="lazy"><figcaption>Histogram of order-line sales values and box plots of monthly income by department (HR data).</figcaption></figure>
+<h2 id="dynamic-charts">Dynamic charts</h2>
+<p>Charts become interactive when their source updates:</p>
+<ul>
+<li><strong>Table source</strong>: new rows are added to the chart automatically.</li>
+<li><strong>Named range / dynamic named range</strong> (Lesson 9) as the series values: <code>=Book1.xlsx!SalesLast12</code>.</li>
+<li><strong>Drop-down + formulas</strong>: a Data Validation drop-down picks a region, formulas (XLOOKUP/FILTER) pull that region's numbers into a helper table, and the chart reads the helper table.</li>
+<li><strong>Pivot charts + slicers</strong> (Lesson 8) for click-to-filter dashboards (Lesson 11).</li>
+</ul>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Charts in Excel 365 (2026)</b></div><p>Copilot can suggest and insert charts from a sentence ("show monthly sales by region as a line chart"), and <strong>Analyze Data</strong> (Home → Analyze Data) proposes ready-made pivot charts with insights. Python in Excel can create seaborn or matplotlib charts inside the grid with <code>=PY()</code>.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Choose the chart from the question: comparison (bar/column), trend (line), part-of-whole (pie for ≤5, stacked bar, treemap), relationship (scatter), distribution (histogram, box), contribution (waterfall, Pareto).</li>
+<li>Titles should state the insight; start bar axes at zero; use one highlight colour.</li>
+<li>Combo charts with a secondary axis show two measures of different scales.</li>
+<li><strong>Thermometer</strong>: one % column, axis 0–100%, gap width 0.</li>
+<li><strong>Pareto</strong>: sorted bars + cumulative % line on a secondary axis; look for the ~80% point.</li>
+<li><strong>Population pyramid</strong>: one series negative, overlap 100%, custom format <code>#,##0;#,##0</code>.</li>
+<li><strong>Waterfall</strong>: Insert → Waterfall, then "Set as total" for subtotal bars.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-10-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which chart best shows how monthly revenue changed over two years?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pie</button><button type="button" class="opt" data-ok="1"><i>B</i>Line</button><button type="button" class="opt" data-ok="0"><i>C</i>Treemap</button><button type="button" class="opt" data-ok="0"><i>D</i>Scatter</button></div><div class="qexp"><b>Answer: B.</b> Lines show trends over time.</div></div><div class="qq"><p class="qtext"><b>2.</b> In a Pareto chart, what does the line represent?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The average value</button><button type="button" class="opt" data-ok="1"><i>B</i>The cumulative percentage of the total</button><button type="button" class="opt" data-ok="0"><i>C</i>The target</button><button type="button" class="opt" data-ok="0"><i>D</i>The trend</button></div><div class="qexp"><b>Answer: B.</b> The line accumulates each bar's share to show where ~80% is reached.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you make the male bars go to the left in a population pyramid?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Make the male values negative and format the axis to hide the minus sign</button><button type="button" class="opt" data-ok="0"><i>B</i>Use a pie chart</button><button type="button" class="opt" data-ok="0"><i>C</i>Reverse the category order</button><button type="button" class="opt" data-ok="0"><i>D</i>Put males on a secondary axis</button></div><div class="qexp"><b>Answer: A.</b> Negative values plot to the left; <code>#,##0;#,##0</code> shows them as positive numbers.</div></div><div class="qq"><p class="qtext"><b>4.</b> In Excel's waterfall chart, why must Gross profit be "Set as total"?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To change its colour</button><button type="button" class="opt" data-ok="1"><i>B</i>So it starts from zero instead of floating on the previous step</button><button type="button" class="opt" data-ok="0"><i>C</i>To hide it</button><button type="button" class="opt" data-ok="0"><i>D</i>To make it a line</button></div><div class="qexp"><b>Answer: B.</b> Totals should be anchored to the axis; otherwise Excel treats them as another step.</div></div><div class="qq"><p class="qtext"><b>5.</b> When should you use a secondary axis?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Whenever there are two series</button><button type="button" class="opt" data-ok="1"><i>B</i>When two series have very different scales or units, such as sales and margin %</button><button type="button" class="opt" data-ok="0"><i>C</i>When the chart is a pie</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: B.</b> A secondary axis lets both series be readable; label both axes clearly.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which chart shows median, quartiles and outliers for several groups?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Histogram</button><button type="button" class="opt" data-ok="1"><i>B</i>Box and whisker</button><button type="button" class="opt" data-ok="0"><i>C</i>Funnel</button><button type="button" class="opt" data-ok="0"><i>D</i>Sunburst</button></div><div class="qexp"><b>Answer: B.</b> Box plots summarise distributions and highlight outliers.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build four charts from Superstore</b></div><p>(1) A Pareto chart of profit by sub-category (watch out for negative profit: what does it mean?). (2) A combo chart of quarterly sales (columns) and order count (line, secondary axis). (3) A waterfall from 2024 total sales to 2025 total sales, with one step per region showing the change. (4) A box plot of discount by category.</p><details class="sol"><summary>Show solution</summary><p>(1) Sort profit descending; negative sub-categories (such as Tables and Bookcases here) reduce the cumulative total, so the cumulative line rises above 100% and then falls; a Pareto chart works best on positive values, so plot losses separately.
+(2) Pivot by quarter with Sum of sales and Count of order_id → Combo chart with the count on the secondary axis.
+(3) Table: 2024 total; North change; South change; East change; West change; 2025 total. Insert → Waterfall; set the first and last bars as totals.
+(4) Select category and discount columns → Insert → Box and Whisker.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you choose a chart type?</strong>
+From the question: comparison, trend, composition, relationship, distribution or contribution. Then simplify: remove clutter, highlight the key point and write an insight title.</p>
+<p><strong>Q: What is a Pareto analysis used for?</strong>
+To find the vital few causes (products, customers, complaint types) that produce most of the effect, so that effort is focused where it matters.</p>
+<p><strong>Q: How would you show actual vs target for 10 sales reps?</strong>
+A bar chart of actuals with a target marker (a line or a thin overlapping bar per rep), or a bullet chart; a thermometer works for one overall target.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-09-date-time-and-number-functions-and-named-ranges.html"><small>← Previous</small><b>Date, Time &amp; Number Functions and Named Ranges</b></a><a class="next" href="excel-11-interactive-dashboard-superstore-case-study.html"><small>Next →</small><b>Interactive Dashboard: Superstore Case Study</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#start-with-the-question-not-the-chart">Start with the question, not the chart</a><a href="#creating-and-editing-a-chart">Creating and editing a chart</a><a href="#the-core-chart-types">The core chart types</a><a href="#combo-charts-and-the-secondary-axis">Combo charts and the secondary axis</a><a href="#sparklines">Sparklines</a><a href="#thermometer-chart-target-vs-actual">Thermometer chart (target vs actual)</a><a href="#pareto-chart-the-8020-rule">Pareto chart (the 80/20 rule)</a><a href="#population-pyramid">Population pyramid</a><a href="#waterfall-chart">Waterfall chart</a><a href="#statistical-and-hierarchy-charts-excel-2016">Statistical and hierarchy charts (Excel 2016+)</a><a href="#dynamic-charts">Dynamic charts</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

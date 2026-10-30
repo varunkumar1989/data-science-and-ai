@@ -1,0 +1,550 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE · SQL Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Create and change tables with DDL (CREATE, ALTER, DROP, TRUNCATE), add, change and remove rows with DML (INSERT, UPDATE, DELETE, MERGE), protect data quality with constraints (PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, DEFAULT, IDENTITY) and understand DELETE vs TRUNCATE vs DROP."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class="on"><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-04">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 4 of 15</div><h1>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</h1>
+<p class="sum">Create and change tables with DDL (CREATE, ALTER, DROP, TRUNCATE), add, change and remove rows with DML (INSERT, UPDATE, DELETE, MERGE), protect data quality with constraints (PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, DEFAULT, IDENTITY) and understand DELETE vs TRUNCATE vs DROP.</p><div class="tags"><span class="tag live">● SQL classes 2–3</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_04_DDL_DML_Constraints_CREATE_ALTER_INSERT_UPDATE_DELETE.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Create databases and tables with appropriate data types and constraints</li><li>Modify table structure with ALTER TABLE (add, change, drop columns and constraints)</li><li>Insert single and multiple rows, insert from a query, update and delete rows safely</li><li>Explain every constraint type and read the error each one raises</li><li>Compare DELETE, TRUNCATE and DROP, and use MERGE for upserts</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="the-life-cycle-of-a-table">The life cycle of a table</h2>
+<figure class="fig"><img src="../img/sql-04-01.png" alt="DDL creates and changes structure; DML fills and changes the rows inside it." loading="lazy"><figcaption>DDL creates and changes structure; DML fills and changes the rows inside it.</figcaption></figure>
+<h2 id="create-table">CREATE TABLE</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> departments (
+    dept_id    <span class="hl-k">INT</span>          <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>,
+    dept_name  <span class="hl-k">VARCHAR</span>(<span class="hl-n">50</span>)  <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">UNIQUE</span>,
+    location   <span class="hl-k">VARCHAR</span>(<span class="hl-n">50</span>)  <span class="hl-k">DEFAULT</span> <span class="hl-s">&#x27;Bengaluru&#x27;</span>
+);
+
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> staff (
+    emp_id     <span class="hl-k">INT</span>            <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>,
+    full_name  <span class="hl-k">VARCHAR</span>(<span class="hl-n">100</span>)   <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    email      <span class="hl-k">VARCHAR</span>(<span class="hl-n">100</span>)   <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">UNIQUE</span>,
+    dept_id    <span class="hl-k">INT</span>            <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">REFERENCES</span> <span class="hl-f">departments</span>(dept_id),
+    salary     <span class="hl-k">DECIMAL</span>(<span class="hl-n">10</span>,<span class="hl-n">2</span>)  <span class="hl-k">CHECK</span> (salary &gt; <span class="hl-n">0</span>),
+    join_date  <span class="hl-k">DATE</span>           <span class="hl-k">DEFAULT</span> CURRENT_DATE,
+    is_active  BOOLEAN        <span class="hl-k">DEFAULT</span> TRUE
+);</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+Commands completed successfully.</pre></div>
+<p>In SQL Server you would usually write <code>IDENTITY(1,1)</code> for an auto-numbered key, <code>BIT</code> for the flag and <code>DEFAULT GETDATE()</code> for today. Here is the same <code>staff</code> table in full T-SQL style, with named constraints (names make error messages and later changes much easier):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> dbo.staff (
+    emp_id     <span class="hl-k">INT</span> <span class="hl-k">IDENTITY</span>(<span class="hl-n">1</span>,<span class="hl-n">1</span>)  <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    full_name  <span class="hl-k">NVARCHAR</span>(<span class="hl-n">100</span>)      <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    email      <span class="hl-k">VARCHAR</span>(<span class="hl-n">100</span>)       <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    dept_id    <span class="hl-k">INT</span>                <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    salary     <span class="hl-k">DECIMAL</span>(<span class="hl-n">10</span>,<span class="hl-n">2</span>)      <span class="hl-k">NULL</span>,
+    join_date  <span class="hl-k">DATE</span>               <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">CONSTRAINT</span> df_staff_join  <span class="hl-k">DEFAULT</span> (<span class="hl-f">CAST</span>(<span class="hl-f">GETDATE</span>() <span class="hl-k">AS</span> <span class="hl-k">DATE</span>)),
+    is_active  <span class="hl-k">BIT</span>                <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">CONSTRAINT</span> df_staff_active <span class="hl-k">DEFAULT</span> (<span class="hl-n">1</span>),
+    <span class="hl-k">CONSTRAINT</span> pk_staff         <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span> (emp_id),
+    <span class="hl-k">CONSTRAINT</span> uq_staff_email   <span class="hl-k">UNIQUE</span> (email),
+    <span class="hl-k">CONSTRAINT</span> fk_staff_dept    <span class="hl-k">FOREIGN</span> <span class="hl-k">KEY</span> (dept_id) <span class="hl-k">REFERENCES</span> <span class="hl-f">dbo.departments</span>(dept_id),
+    <span class="hl-k">CONSTRAINT</span> ck_staff_salary  <span class="hl-k">CHECK</span> (salary &gt; <span class="hl-n">0</span>)
+);</code></pre></div>
+<h3 id="constraints-at-a-glance">Constraints at a glance</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Constraint</th>
+<th>Guarantees</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PRIMARY KEY</code></td>
+<td>Unique and not NULL; identifies each row</td>
+<td><code>emp_id</code></td>
+</tr>
+<tr>
+<td><code>FOREIGN KEY</code> / <code>REFERENCES</code></td>
+<td>Value must exist in the parent table</td>
+<td><code>dept_id</code> → <code>departments</code></td>
+</tr>
+<tr>
+<td><code>UNIQUE</code></td>
+<td>No duplicate values (NULL allowed once in SQL Server)</td>
+<td><code>email</code></td>
+</tr>
+<tr>
+<td><code>NOT NULL</code></td>
+<td>A value is required</td>
+<td><code>full_name</code></td>
+</tr>
+<tr>
+<td><code>CHECK</code></td>
+<td>Value must satisfy a condition</td>
+<td><code>salary &gt; 0</code>, <code>discount BETWEEN 0 AND 0.9</code></td>
+</tr>
+<tr>
+<td><code>DEFAULT</code></td>
+<td>Value used when none is supplied</td>
+<td><code>is_active = 1</code></td>
+</tr>
+<tr>
+<td><code>IDENTITY(seed, step)</code></td>
+<td>Auto-numbering (SQL Server)</td>
+<td><code>IDENTITY(1,1)</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="insert-adding-rows">INSERT: adding rows</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> departments (dept_id, dept_name, location) <span class="hl-k">VALUES</span>
+    (<span class="hl-n">10</span>, <span class="hl-s">&#x27;Finance&#x27;</span>, <span class="hl-s">&#x27;Mumbai&#x27;</span>),
+    (<span class="hl-n">20</span>, <span class="hl-s">&#x27;IT&#x27;</span>,      <span class="hl-s">&#x27;Pune&#x27;</span>),
+    (<span class="hl-n">30</span>, <span class="hl-s">&#x27;HR&#x27;</span>,      <span class="hl-k">DEFAULT</span>),
+    (<span class="hl-n">40</span>, <span class="hl-s">&#x27;Sales&#x27;</span>,   <span class="hl-s">&#x27;Delhi&#x27;</span>);
+
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> staff (emp_id, full_name, email, dept_id, salary, join_date) <span class="hl-k">VALUES</span>
+    (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Kavya Iyer&#x27;</span>,        <span class="hl-s">&#x27;kavya@abc.in&#x27;</span>,    <span class="hl-n">30</span>,  <span class="hl-n">97000</span>, <span class="hl-s">&#x27;2016-02-28&#x27;</span>),
+    (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Imran Reddy&#x27;</span>,       <span class="hl-s">&#x27;imran@abc.in&#x27;</span>,    <span class="hl-n">10</span>, <span class="hl-n">157000</span>, <span class="hl-s">&#x27;2019-12-14&#x27;</span>),
+    (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Harpreet Kulkarni&#x27;</span>, <span class="hl-s">&#x27;harpreet@abc.in&#x27;</span>, <span class="hl-n">10</span>, <span class="hl-n">131000</span>, <span class="hl-s">&#x27;2024-10-05&#x27;</span>),
+    (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Rahul Iyer&#x27;</span>,        <span class="hl-s">&#x27;rahul@abc.in&#x27;</span>,    <span class="hl-n">20</span>, <span class="hl-n">112000</span>, <span class="hl-s">&#x27;2017-02-06&#x27;</span>),
+    (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Isha Mehta&#x27;</span>,        <span class="hl-s">&#x27;isha@abc.in&#x27;</span>,     <span class="hl-n">40</span>,  <span class="hl-n">57000</span>, <span class="hl-s">&#x27;2021-09-07&#x27;</span>);
+
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> departments;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">(4 rows affected)
+(5 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>dept_id</th>
+      <th>dept_name</th>
+      <th>location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+      <td>Finance</td>
+      <td>Mumbai</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>IT</td>
+      <td>Pune</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td>HR</td>
+      <td>Bengaluru</td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>Sales</td>
+      <td>Delhi</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> emp_id, full_name, dept_id, salary, join_date, is_active <span class="hl-k">FROM</span> staff;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>emp_id</th>
+      <th>full_name</th>
+      <th>dept_id</th>
+      <th>salary</th>
+      <th>join_date</th>
+      <th>is_active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Kavya Iyer</td>
+      <td>30</td>
+      <td>97,000</td>
+      <td>2016-02-28</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Imran Reddy</td>
+      <td>10</td>
+      <td>157,000</td>
+      <td>2019-12-14</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Harpreet Kulkarni</td>
+      <td>10</td>
+      <td>131,000</td>
+      <td>2024-10-05</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Rahul Iyer</td>
+      <td>20</td>
+      <td>112,000</td>
+      <td>2017-02-06</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Isha Mehta</td>
+      <td>40</td>
+      <td>57,000</td>
+      <td>2021-09-07</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 6 columns</div></div>
+<p><code>DEFAULT</code> filled HR's location with Bengaluru and every employee's <code>is_active</code> with TRUE.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Always list the columns</b></div><p><code>INSERT INTO staff VALUES (…)</code> without a column list depends on the column order and breaks the day someone adds a column. Always write <code>INSERT INTO staff (col1, col2, …) VALUES (…)</code>.</p></div>
+<h3 id="insert-select-and-select-into">INSERT … SELECT and SELECT … INTO</h3>
+<p>Copy rows from a query into a table:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Into an existing table</span>
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> staff_archive (emp_id, full_name, dept_id, salary)
+<span class="hl-k">SELECT</span> emp_id, full_name, dept_id, salary
+<span class="hl-k">FROM</span> staff
+<span class="hl-k">WHERE</span> is_active = <span class="hl-n">0</span>;
+
+<span class="hl-c">-- SQL Server: create a NEW table from a query (structure + data, no constraints)</span>
+<span class="hl-k">SELECT</span> emp_id, full_name, salary
+<span class="hl-k">INTO</span>   staff_backup_2026
+<span class="hl-k">FROM</span>   staff;</code></pre></div>
+<p>The portable equivalent of <code>SELECT … INTO</code> is <code>CREATE TABLE new_table AS SELECT …</code> (PostgreSQL, MySQL, Snowflake, DuckDB).</p>
+<h2 id="what-constraints-do-when-rules-are-broken">What constraints do when rules are broken</h2>
+<p>Constraints reject bad data <strong>at the database</strong>, whatever app or person sends it. These statements would all fail in SQL Server with the messages shown (abridged):</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Statement</th>
+<th>Broken rule</th>
+<th>SQL Server message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INSERT INTO departments VALUES (10,'Ops','Pune')</code></td>
+<td>PRIMARY KEY</td>
+<td>Violation of PRIMARY KEY constraint 'pk_departments'. Cannot insert duplicate key … The duplicate key value is (10).</td>
+</tr>
+<tr>
+<td><code>INSERT INTO staff (…, email, …) VALUES (…, 'kavya@abc.in', …)</code></td>
+<td>UNIQUE</td>
+<td>Violation of UNIQUE KEY constraint 'uq_staff_email'. Cannot insert duplicate key …</td>
+</tr>
+<tr>
+<td><code>INSERT INTO staff (…, dept_id, …) VALUES (…, 99, …)</code></td>
+<td>FOREIGN KEY</td>
+<td>The INSERT statement conflicted with the FOREIGN KEY constraint "fk_staff_dept".</td>
+</tr>
+<tr>
+<td><code>INSERT INTO staff (emp_id, email, dept_id) VALUES (9,'x@abc.in',10)</code></td>
+<td>NOT NULL</td>
+<td>Cannot insert the value NULL into column 'full_name' … column does not allow nulls. INSERT fails.</td>
+</tr>
+<tr>
+<td><code>UPDATE staff SET salary = -500 WHERE emp_id = 1</code></td>
+<td>CHECK</td>
+<td>The UPDATE statement conflicted with the CHECK constraint "ck_staff_salary".</td>
+</tr>
+<tr>
+<td><code>DELETE FROM departments WHERE dept_id = 10</code></td>
+<td>FOREIGN KEY (children exist)</td>
+<td>The DELETE statement conflicted with the REFERENCE constraint "fk_staff_dept".</td>
+</tr>
+</tbody>
+</table></div>
+<p>Our practice engine raises the same kind of error. For example, trying to add an employee to a department that does not exist:</p>
+<div class="output"><div class="out-h">Output</div><pre class="stdout">Error: Constraint Error: Violates foreign key constraint because key &quot;dept_id: 99&quot; does not exist in the referenced table</pre></div>
+<h2 id="update-changing-rows">UPDATE: changing rows</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Give everyone in Finance a 5% raise</span>
+<span class="hl-k">UPDATE</span> staff
+<span class="hl-k">SET</span>    salary = salary * <span class="hl-n">1.05</span>
+<span class="hl-k">WHERE</span>  dept_id = <span class="hl-n">10</span>;
+
+<span class="hl-c">-- Change two columns for one person</span>
+<span class="hl-k">UPDATE</span> staff
+<span class="hl-k">SET</span>    dept_id = <span class="hl-n">20</span>, salary = <span class="hl-n">60000</span>
+<span class="hl-k">WHERE</span>  emp_id = <span class="hl-n">5</span>;
+
+<span class="hl-k">SELECT</span> emp_id, full_name, dept_id, salary <span class="hl-k">FROM</span> staff <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> emp_id;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">(2 rows affected)
+(1 row affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>emp_id</th>
+      <th>full_name</th>
+      <th>dept_id</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Kavya Iyer</td>
+      <td>30</td>
+      <td>97,000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Imran Reddy</td>
+      <td>10</td>
+      <td>164,850</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Harpreet Kulkarni</td>
+      <td>10</td>
+      <td>137,550</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Rahul Iyer</td>
+      <td>20</td>
+      <td>112,000</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Isha Mehta</td>
+      <td>20</td>
+      <td>60,000</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 4 columns</div></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>UPDATE or DELETE without WHERE changes EVERY row</b></div><p><code>UPDATE staff SET salary = 0;</code> sets every salary to zero. Before any UPDATE or DELETE:
+1. Write the <code>WHERE</code> first and run it as a <code>SELECT</code> to see exactly which rows will change.
+2. Wrap the change in a transaction (<code>BEGIN TRAN …</code> then check, then <code>COMMIT</code> or <code>ROLLBACK</code>) (Lesson 14).
+3. On production data, take a backup or work in a copy.</p></div>
+<h3 id="update-with-a-join-sql-server">UPDATE with a join (SQL Server)</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Mark staff in Mumbai departments as &#x27;on-site&#x27;</span>
+<span class="hl-k">UPDATE</span> s
+<span class="hl-k">SET</span>    s.work_mode = <span class="hl-s">&#x27;on-site&#x27;</span>
+<span class="hl-k">FROM</span>   staff <span class="hl-k">AS</span> s
+<span class="hl-k">JOIN</span>   departments <span class="hl-k">AS</span> d <span class="hl-k">ON</span> d.dept_id = s.dept_id
+<span class="hl-k">WHERE</span>  d.location = <span class="hl-s">&#x27;Mumbai&#x27;</span>;</code></pre></div>
+<h2 id="delete-removing-rows">DELETE: removing rows</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">DELETE</span> <span class="hl-k">FROM</span> staff
+<span class="hl-k">WHERE</span> emp_id = <span class="hl-n">5</span>;
+
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> staff_left <span class="hl-k">FROM</span> staff;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">(1 row affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>staff_left</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h2 id="alter-table-changing-structure">ALTER TABLE: changing structure</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">ADD</span> <span class="hl-k">COLUMN</span> phone <span class="hl-k">VARCHAR</span>(<span class="hl-n">15</span>);
+<span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">ADD</span> <span class="hl-k">COLUMN</span> work_mode <span class="hl-k">VARCHAR</span>(<span class="hl-n">10</span>) <span class="hl-k">DEFAULT</span> <span class="hl-s">&#x27;hybrid&#x27;</span>;
+<span class="hl-k">SELECT</span> emp_id, full_name, phone, work_mode <span class="hl-k">FROM</span> staff;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>emp_id</th>
+      <th>full_name</th>
+      <th>phone</th>
+      <th>work_mode</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Kavya Iyer</td>
+      <td>NULL</td>
+      <td>hybrid</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Imran Reddy</td>
+      <td>NULL</td>
+      <td>hybrid</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Harpreet Kulkarni</td>
+      <td>NULL</td>
+      <td>hybrid</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Rahul Iyer</td>
+      <td>NULL</td>
+      <td>hybrid</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 4 columns</div></div>
+<p>The SQL Server forms of the common changes:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">ADD</span> phone <span class="hl-k">VARCHAR</span>(<span class="hl-n">15</span>) <span class="hl-k">NULL</span>;                        <span class="hl-c">-- add a column (no COLUMN keyword in T-SQL)</span>
+<span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">ALTER</span> <span class="hl-k">COLUMN</span> full_name <span class="hl-k">NVARCHAR</span>(<span class="hl-n">150</span>) <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>;     <span class="hl-c">-- change type / nullability</span>
+<span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">DROP</span> <span class="hl-k">COLUMN</span> phone;                                 <span class="hl-c">-- remove a column</span>
+<span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">ADD</span> <span class="hl-k">CONSTRAINT</span> ck_staff_mode <span class="hl-k">CHECK</span> (work_mode <span class="hl-k">IN</span> (<span class="hl-s">&#x27;remote&#x27;</span>,<span class="hl-s">&#x27;hybrid&#x27;</span>,<span class="hl-s">&#x27;on-site&#x27;</span>));
+<span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> staff <span class="hl-k">DROP</span> <span class="hl-k">CONSTRAINT</span> ck_staff_mode;                     <span class="hl-c">-- remove a constraint by name</span>
+<span class="hl-k">EXEC</span> sp_rename <span class="hl-s">&#x27;staff.full_name&#x27;</span>, <span class="hl-s">&#x27;employee_name&#x27;</span>, <span class="hl-s">&#x27;COLUMN&#x27;</span>;         <span class="hl-c">-- rename a column</span>
+<span class="hl-k">EXEC</span> sp_rename <span class="hl-s">&#x27;staff&#x27;</span>, <span class="hl-s">&#x27;employees_master&#x27;</span>;                          <span class="hl-c">-- rename a table</span></code></pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Changing a column that has data</b></div><p>Making a column smaller (<code>VARCHAR(100)</code> → <code>VARCHAR(10)</code>) fails if existing values do not fit; adding <code>NOT NULL</code> fails if NULLs exist. Clean the data first, or add a <code>DEFAULT</code>.</p></div>
+<h2 id="delete-vs-truncate-vs-drop">DELETE vs TRUNCATE vs DROP</h2>
+<p>This is one of the most common SQL interview questions.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th><code>DELETE</code></th>
+<th><code>TRUNCATE TABLE</code></th>
+<th><code>DROP TABLE</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Family</td>
+<td>DML</td>
+<td>DDL</td>
+<td>DDL</td>
+</tr>
+<tr>
+<td>Removes</td>
+<td>Some or all <strong>rows</strong></td>
+<td><strong>All rows</strong></td>
+<td>The <strong>whole table</strong>: rows, structure, indexes, constraints, permissions</td>
+</tr>
+<tr>
+<td><code>WHERE</code> allowed</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Speed on large tables</td>
+<td>Slower: logs each row</td>
+<td>Very fast: deallocates pages</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td>Logging</td>
+<td>Every row logged</td>
+<td>Minimal (page deallocations)</td>
+<td>Minimal</td>
+</tr>
+<tr>
+<td>Fires DELETE triggers</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Resets IDENTITY</td>
+<td>No</td>
+<td><strong>Yes</strong>, back to the seed</td>
+<td>Table is gone</td>
+</tr>
+<tr>
+<td>Works when referenced by a FK</td>
+<td>Yes (if no child rows violate it)</td>
+<td><strong>No</strong></td>
+<td><strong>No</strong> (drop the FK first)</td>
+</tr>
+<tr>
+<td>Can be rolled back in a transaction</td>
+<td>Yes</td>
+<td>Yes in SQL Server (inside an explicit transaction)</td>
+<td>Yes in SQL Server (inside an explicit transaction)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> temp_log (id <span class="hl-k">INT</span>, msg <span class="hl-k">VARCHAR</span>(<span class="hl-n">50</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> temp_log <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>, <span class="hl-s">&#x27;start&#x27;</span>), (<span class="hl-n">2</span>, <span class="hl-s">&#x27;load&#x27;</span>), (<span class="hl-n">3</span>, <span class="hl-s">&#x27;end&#x27;</span>);
+<span class="hl-k">DELETE</span> <span class="hl-k">FROM</span> temp_log <span class="hl-k">WHERE</span> id = <span class="hl-n">2</span>;           <span class="hl-c">-- removes one row</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> after_delete <span class="hl-k">FROM</span> temp_log;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(3 rows affected)
+(1 row affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>after_delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">TRUNCATE</span> <span class="hl-k">TABLE</span> temp_log;                      <span class="hl-c">-- removes all rows, keeps the table</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> after_truncate <span class="hl-k">FROM</span> temp_log;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>after_truncate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">DROP</span> <span class="hl-k">TABLE</span> temp_log;                          <span class="hl-c">-- removes the table itself</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> tables_named_temp_log <span class="hl-k">FROM</span> information_schema.tables <span class="hl-k">WHERE</span> table_name = <span class="hl-s">&#x27;temp_log&#x27;</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>tables_named_temp_log</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>In SQL Server, <code>DROP TABLE IF EXISTS temp_log;</code> avoids an error when the table is already gone.</p>
+<h2 id="merge-insert-or-update-in-one-statement-upsert">MERGE: insert or update in one statement (upsert)</h2>
+<p>Data pipelines often receive a file of changes: some rows are new, others update existing rows. <code>MERGE</code> handles both:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">MERGE</span> dbo.staff <span class="hl-k">AS</span> target
+<span class="hl-k">USING</span> dbo.staff_updates <span class="hl-k">AS</span> src
+      <span class="hl-k">ON</span> target.emp_id = src.emp_id
+<span class="hl-k">WHEN</span> <span class="hl-k">MATCHED</span> <span class="hl-k">THEN</span>
+     <span class="hl-k">UPDATE</span> <span class="hl-k">SET</span> target.salary = src.salary, target.dept_id = src.dept_id
+<span class="hl-k">WHEN</span> <span class="hl-k">NOT</span> <span class="hl-k">MATCHED</span> <span class="hl-k">BY</span> TARGET <span class="hl-k">THEN</span>
+     <span class="hl-k">INSERT</span> (emp_id, full_name, email, dept_id, salary)
+     <span class="hl-k">VALUES</span> (src.emp_id, src.full_name, src.email, src.dept_id, src.salary)
+<span class="hl-k">WHEN</span> <span class="hl-k">NOT</span> <span class="hl-k">MATCHED</span> <span class="hl-k">BY</span> SOURCE <span class="hl-k">THEN</span>
+     <span class="hl-k">UPDATE</span> <span class="hl-k">SET</span> target.is_active = <span class="hl-n">0</span>;          <span class="hl-c">-- in staff but not in the file</span></code></pre></div>
+<h2 id="loading-csv-files-with-sql">Loading CSV files with SQL</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> dbo.employees_small (
+    emp_id <span class="hl-k">VARCHAR</span>(<span class="hl-n">10</span>) <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>, name <span class="hl-k">NVARCHAR</span>(<span class="hl-n">100</span>), department <span class="hl-k">VARCHAR</span>(<span class="hl-n">30</span>),
+    city <span class="hl-k">VARCHAR</span>(<span class="hl-n">30</span>), join_date <span class="hl-k">DATE</span>, salary <span class="hl-k">DECIMAL</span>(<span class="hl-n">10</span>,<span class="hl-n">2</span>), rating TINYINT
+);
+
+BULK <span class="hl-k">INSERT</span> dbo.employees_small
+<span class="hl-k">FROM</span> <span class="hl-s">&#x27;C:\Data\employees_small.csv&#x27;</span>
+<span class="hl-k">WITH</span> (FORMAT = <span class="hl-s">&#x27;CSV&#x27;</span>, FIRSTROW = <span class="hl-n">2</span>, FIELDTERMINATOR = <span class="hl-s">&#x27;,&#x27;</span>, ROWTERMINATOR = <span class="hl-s">&#x27;0x0a&#x27;</span>);</code></pre></div>
+<p>The SSMS <strong>Import Flat File</strong> wizard is easier for one-off loads; <code>BULK INSERT</code>, <code>bcp</code> or an ETL tool (SSIS, Azure Data Factory, Fabric pipelines) are used for repeatable loads.</p>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Ask: <em>"Write SQL Server CREATE TABLE statements with constraints for a hospital database: patients, doctors, appointments (a patient can see many doctors; a doctor sees many patients). Include primary keys, foreign keys, CHECK constraints for appointment status, and sensible data types."</em> Then review it: are the keys right, is money DECIMAL, are dates DATE/DATETIME2, are the constraints named?</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>DDL</strong>: <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code> change structure. <strong>DML</strong>: <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>MERGE</code> change rows.</li>
+<li>Constraints (PK, FK, UNIQUE, NOT NULL, CHECK, DEFAULT, IDENTITY) protect data quality at the source; name them.</li>
+<li>Always list columns in <code>INSERT</code>; always test the <code>WHERE</code> of an <code>UPDATE</code>/<code>DELETE</code> with a <code>SELECT</code> first, inside a transaction.</li>
+<li><code>DELETE</code> removes chosen rows (logged, triggers fire); <code>TRUNCATE</code> empties the table fast and resets IDENTITY; <code>DROP</code> removes the table.</li>
+<li><code>MERGE</code> performs upserts; <code>BULK INSERT</code> and the Import wizard load files.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which statement removes all rows but keeps the table structure and resets the IDENTITY counter?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>DELETE FROM t</button><button type="button" class="opt" data-ok="1"><i>B</i>TRUNCATE TABLE t</button><button type="button" class="opt" data-ok="0"><i>C</i>DROP TABLE t</button><button type="button" class="opt" data-ok="0"><i>D</i>ALTER TABLE t</button></div><div class="qexp"><b>Answer: B.</b> TRUNCATE empties the table quickly and resets IDENTITY to its seed.</div></div><div class="qq"><p class="qtext"><b>2.</b> You run <code>UPDATE staff SET salary = 50000;</code> by mistake. What happened?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Only the first row changed</button><button type="button" class="opt" data-ok="1"><i>B</i>Every row's salary is now 50,000</button><button type="button" class="opt" data-ok="0"><i>C</i>Nothing, because there is no WHERE</button><button type="button" class="opt" data-ok="0"><i>D</i>An error is raised</button></div><div class="qexp"><b>Answer: B.</b> Without WHERE, UPDATE changes every row. Use transactions and test with SELECT first.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which constraint stops a salary of −500?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>UNIQUE</button><button type="button" class="opt" data-ok="0"><i>B</i>DEFAULT</button><button type="button" class="opt" data-ok="1"><i>C</i>CHECK (salary &gt; 0)</button><button type="button" class="opt" data-ok="0"><i>D</i>FOREIGN KEY</button></div><div class="qexp"><b>Answer: C.</b> CHECK validates values against a condition.</div></div><div class="qq"><p class="qtext"><b>4.</b> Inserting an employee with dept_id 99 fails with a FOREIGN KEY error. Why?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>dept_id must be unique</button><button type="button" class="opt" data-ok="1"><i>B</i>No department with id 99 exists in the parent table</button><button type="button" class="opt" data-ok="0"><i>C</i>dept_id cannot be a number</button><button type="button" class="opt" data-ok="0"><i>D</i>The employee table is full</button></div><div class="qexp"><b>Answer: B.</b> A foreign key value must exist in the referenced table.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is TRUE about DELETE?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It can remove selected rows with WHERE and fires DELETE triggers</button><button type="button" class="opt" data-ok="0"><i>B</i>It is DDL</button><button type="button" class="opt" data-ok="0"><i>C</i>It resets IDENTITY</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes the table structure</button></div><div class="qexp"><b>Answer: A.</b> DELETE is DML, works row by row with a WHERE, and fires triggers.</div></div><div class="qq"><p class="qtext"><b>6.</b> How do you add a column <code>phone</code> to <code>staff</code> in SQL Server?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>ALTER TABLE staff ADD COLUMN phone VARCHAR(15)</code> only</button><button type="button" class="opt" data-ok="1"><i>B</i><code>ALTER TABLE staff ADD phone VARCHAR(15)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>UPDATE staff ADD phone</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>INSERT COLUMN phone INTO staff</code></button></div><div class="qexp"><b>Answer: B.</b> T-SQL uses ADD without the COLUMN keyword (PostgreSQL/MySQL accept ADD COLUMN).</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build and populate a small schema</b></div><p>Create <code>projects(project_id PK, name UNIQUE NOT NULL, budget DECIMAL(12,2) CHECK budget ≥ 0, start_date DATE, status with CHECK IN ('planned','active','closed') DEFAULT 'planned')</code> and <code>assignments(project_id FK, emp_id FK, role, hours, PRIMARY KEY (project_id, emp_id))</code>. Insert 3 projects and 4 assignments, raise the budget of active projects by 10%, close one project, and delete assignments of closed projects.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> projects (
+  project_id <span class="hl-k">INT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>, name <span class="hl-k">VARCHAR</span>(<span class="hl-n">80</span>) <span class="hl-k">NOT</span> <span class="hl-k">NULL</span> <span class="hl-k">UNIQUE</span>,
+  budget <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>,<span class="hl-n">2</span>) <span class="hl-k">CHECK</span> (budget &gt;= <span class="hl-n">0</span>), start_date <span class="hl-k">DATE</span>,
+  status <span class="hl-k">VARCHAR</span>(<span class="hl-n">10</span>) <span class="hl-k">DEFAULT</span> <span class="hl-s">&#x27;planned&#x27;</span> <span class="hl-k">CHECK</span> (status <span class="hl-k">IN</span> (<span class="hl-s">&#x27;planned&#x27;</span>,<span class="hl-s">&#x27;active&#x27;</span>,<span class="hl-s">&#x27;closed&#x27;</span>)));
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> assignments (
+  project_id <span class="hl-k">INT</span> <span class="hl-k">REFERENCES</span> <span class="hl-f">projects</span>(project_id), emp_id <span class="hl-k">INT</span> <span class="hl-k">REFERENCES</span> <span class="hl-f">staff</span>(emp_id),
+  role <span class="hl-k">VARCHAR</span>(<span class="hl-n">30</span>), hours <span class="hl-k">INT</span> <span class="hl-k">CHECK</span> (hours &gt; <span class="hl-n">0</span>), <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span> (project_id, emp_id));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> projects (project_id, name, budget, start_date, status) <span class="hl-k">VALUES</span>
+  (<span class="hl-n">1</span>,<span class="hl-s">&#x27;CRM revamp&#x27;</span>,<span class="hl-n">2500000</span>,<span class="hl-s">&#x27;2026-01-10&#x27;</span>,<span class="hl-s">&#x27;active&#x27;</span>), (<span class="hl-n">2</span>,<span class="hl-s">&#x27;Payroll audit&#x27;</span>,<span class="hl-n">600000</span>,<span class="hl-s">&#x27;2026-03-01&#x27;</span>,<span class="hl-s">&#x27;active&#x27;</span>), (<span class="hl-n">3</span>,<span class="hl-s">&#x27;Data lake&#x27;</span>,<span class="hl-n">4000000</span>,<span class="hl-s">&#x27;2026-06-01&#x27;</span>,<span class="hl-s">&#x27;planned&#x27;</span>);
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> assignments <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>,<span class="hl-n">1</span>,<span class="hl-s">&#x27;Analyst&#x27;</span>,<span class="hl-n">120</span>),(<span class="hl-n">1</span>,<span class="hl-n">4</span>,<span class="hl-s">&#x27;Developer&#x27;</span>,<span class="hl-n">300</span>),(<span class="hl-n">2</span>,<span class="hl-n">2</span>,<span class="hl-s">&#x27;Lead&#x27;</span>,<span class="hl-n">80</span>),(<span class="hl-n">3</span>,<span class="hl-n">3</span>,<span class="hl-s">&#x27;Architect&#x27;</span>,<span class="hl-n">40</span>);
+<span class="hl-k">UPDATE</span> projects <span class="hl-k">SET</span> budget = budget * <span class="hl-n">1.10</span> <span class="hl-k">WHERE</span> status = <span class="hl-s">&#x27;active&#x27;</span>;
+<span class="hl-k">UPDATE</span> projects <span class="hl-k">SET</span> status = <span class="hl-s">&#x27;closed&#x27;</span> <span class="hl-k">WHERE</span> project_id = <span class="hl-n">2</span>;
+<span class="hl-k">DELETE</span> <span class="hl-k">FROM</span> assignments <span class="hl-k">WHERE</span> project_id <span class="hl-k">IN</span> (<span class="hl-k">SELECT</span> project_id <span class="hl-k">FROM</span> projects <span class="hl-k">WHERE</span> status = <span class="hl-s">&#x27;closed&#x27;</span>);</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: DELETE vs TRUNCATE vs DROP?</strong>
+DELETE (DML) removes chosen rows with WHERE, logs each row, fires triggers and keeps IDENTITY. TRUNCATE (DDL) removes all rows quickly, minimal logging, resets IDENTITY, no WHERE, not allowed when referenced by a FK. DROP removes the whole table and its definition.</p>
+<p><strong>Q: What are constraints and why use them instead of app validation?</strong>
+Rules enforced by the database (PK, FK, UNIQUE, NOT NULL, CHECK, DEFAULT). They protect data no matter which app, script or person writes to the table.</p>
+<p><strong>Q: How do you safely run an UPDATE on production?</strong>
+Run the WHERE as a SELECT first, wrap in BEGIN TRAN, check @@ROWCOUNT and the result, then COMMIT or ROLLBACK; have a backup.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-03-data-types-operators-nulls-variables-and-comments.html"><small>← Previous</small><b>Data Types, Operators, NULLs, Variables &amp; Comments</b></a><a class="next" href="sql-05-select-where-order-by-and-filtering-operators.html"><small>Next →</small><b>SELECT, WHERE, ORDER BY &amp; Filtering Operators</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-life-cycle-of-a-table">The life cycle of a table</a><a href="#create-table">CREATE TABLE</a><a href="#insert-adding-rows">INSERT: adding rows</a><a href="#what-constraints-do-when-rules-are-broken">What constraints do when rules are broken</a><a href="#update-changing-rows">UPDATE: changing rows</a><a href="#delete-removing-rows">DELETE: removing rows</a><a href="#alter-table-changing-structure">ALTER TABLE: changing structure</a><a href="#delete-vs-truncate-vs-drop">DELETE vs TRUNCATE vs DROP</a><a href="#merge-insert-or-update-in-one-statement-upsert">MERGE: insert or update in one statement (upsert)</a><a href="#loading-csv-files-with-sql">Loading CSV files with SQL</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

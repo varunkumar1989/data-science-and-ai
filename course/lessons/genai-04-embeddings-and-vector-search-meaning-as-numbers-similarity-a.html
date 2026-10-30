@@ -1,0 +1,240 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases · GenAI &amp; Agents Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn the foundation of semantic search and RAG. What embeddings are, how word and sentence embeddings are learned (trained here from scratch on our reviews), cosine similarity, document embeddings, building a vector index, exact vs approximate nearest-neighbour search (IVF, HNSW), evaluating retrieval with recall@k, hybrid keyword + vector search, and choosing embedding models and vector databases."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class=""><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li class="on"><a href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html" data-lid="genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li class=""><a href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html" data-lid="genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li class=""><a href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html" data-lid="genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li class=""><a href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html" data-lid="genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li class=""><a href="genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html" data-lid="genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li class=""><a href="genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html" data-lid="genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li class=""><a href="genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html" data-lid="genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li class=""><a href="genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html" data-lid="genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li><li class=""><a href="genai-12-building-and-shipping-a-genai-app-architecture-streamlit-fas.html" data-lid="genai-12"><span>12</span>Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-04">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 4 of 12</div><h1>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</h1>
+<p class="sum">Learn the foundation of semantic search and RAG. What embeddings are, how word and sentence embeddings are learned (trained here from scratch on our reviews), cosine similarity, document embeddings, building a vector index, exact vs approximate nearest-neighbour search (IVF, HNSW), evaluating retrieval with recall@k, hybrid keyword + vector search, and choosing embedding models and vector databases.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ 2026 tooling: Voyage, OpenAI, Gemini embeddings · pgvector · FAISS · Chroma</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_04_Embeddings_and_Vector_Search_Meaning_as_Numbers_Similarity_and_Vector_.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain embeddings and why similar meanings produce nearby vectors</li><li>Learn word embeddings from co-occurrence and build document embeddings</li><li>Use cosine similarity and build exact and approximate vector indexes</li><li>Measure retrieval quality with recall@k and latency</li><li>Choose an embedding model, chunking strategy and vector store for an application</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/customer_reviews.csv" download>customer_reviews.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-an-embedding">What is an embedding?</h2>
+<p>An <strong>embedding</strong> is a list of numbers (a vector) that represents the meaning of a word, sentence, image or product. Models are trained so that <strong>similar meanings produce nearby vectors</strong>.</p>
+<figure class="fig"><img src="../img/genai-04-01.png" alt="Embeddings place items in a space where distance reflects meaning: complaints about charging cluster together, praise for displays clusters elsewhere." loading="lazy"><figcaption>Embeddings place items in a space where distance reflects meaning: complaints about charging cluster together, praise for displays clusters elsewhere.</figcaption></figure>
+<p>Real embeddings have 256–3,072 dimensions. Uses: semantic search, RAG (next lesson), recommendations ("similar products"), clustering and de-duplication, classification features, anomaly detection.</p>
+<h2 id="learning-word-embeddings-from-scratch">Learning word embeddings from scratch</h2>
+<p>"You shall know a word by the company it keeps" (J. R. Firth). Words that appear in similar contexts get similar vectors. Word2Vec and GloVe learn this with neural networks; the classic <strong>PPMI + SVD</strong> method below captures the same idea in a few lines.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re, collections, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> sklearn.decomposition <span class="hl-k">import</span> TruncatedSVD
+<span class="hl-k">from</span> scipy.sparse <span class="hl-k">import</span> coo_matrix
+rv = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customer_reviews.csv&quot;</span>)
+docs = [<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;[a-z]+&quot;</span>, <span class="hl-f">t.lower</span>()) <span class="hl-k">for</span> t <span class="hl-k">in</span> rv.review_text]
+counts = <span class="hl-f">collections.Counter</span>(w <span class="hl-k">for</span> d <span class="hl-k">in</span> docs <span class="hl-k">for</span> w <span class="hl-k">in</span> d)
+vocab = [w <span class="hl-k">for</span> w, c <span class="hl-k">in</span> <span class="hl-f">counts.items</span>() <span class="hl-k">if</span> c &gt;= <span class="hl-n">5</span>]; idx = {w: i <span class="hl-k">for</span> i, w <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(vocab)}
+pairs = <span class="hl-f">collections.Counter</span>()
+<span class="hl-k">for</span> d <span class="hl-k">in</span> docs:
+    ids = [idx[w] <span class="hl-k">for</span> w <span class="hl-k">in</span> d <span class="hl-k">if</span> w <span class="hl-k">in</span> idx]
+    <span class="hl-k">for</span> i, a <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(ids):
+        <span class="hl-k">for</span> b <span class="hl-k">in</span> ids[<span class="hl-f">max</span>(<span class="hl-n">0</span>, i - <span class="hl-n">3</span>): i] + ids[i + <span class="hl-n">1</span>: i + <span class="hl-n">4</span>]: pairs[a, b] += <span class="hl-n">1</span>      <span class="hl-c"># co-occurrence within ±3 words</span>
+r, c, v = <span class="hl-f">zip</span>(*[(a, b, n) <span class="hl-k">for</span> (a, b), n <span class="hl-k">in</span> <span class="hl-f">pairs.items</span>()])
+M = <span class="hl-f">coo_matrix</span>((v, (r, c)), shape=(<span class="hl-f">len</span>(vocab), <span class="hl-f">len</span>(vocab))).<span class="hl-f">tocsr</span>().<span class="hl-f">astype</span>(float)
+total = <span class="hl-f">M.sum</span>(); row = <span class="hl-f">np.asarray</span>(<span class="hl-f">M.sum</span>(<span class="hl-n">1</span>)).<span class="hl-f">ravel</span>(); col = <span class="hl-f">np.asarray</span>(<span class="hl-f">M.sum</span>(<span class="hl-n">0</span>)).<span class="hl-f">ravel</span>()
+M = <span class="hl-f">M.tocoo</span>(); pmi = <span class="hl-f">np.log</span>((M.data * total) / (row[M.row] * col[M.col])); keep = pmi &gt; <span class="hl-n">0</span>
+PPMI = <span class="hl-f">coo_matrix</span>((pmi[keep], (M.row[keep], M.col[keep])), shape=M.shape).<span class="hl-f">tocsr</span>()
+W = <span class="hl-f">TruncatedSVD</span>(<span class="hl-n">50</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit_transform</span>(PPMI); W /= <span class="hl-f">np.linalg.norm</span>(W, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>)
+<span class="hl-k">def</span> <span class="hl-f">similar</span>(word, k=<span class="hl-n">6</span>):
+    s = W @ W[idx[word]]; <span class="hl-k">return</span> [vocab[i] <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">np.argsort</span>(-s)[<span class="hl-n">1</span>:k + <span class="hl-n">1</span>]]
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(vocab), <span class="hl-s">&quot;words, 50-dimensional vectors&quot;</span>)
+<span class="hl-k">for</span> w <span class="hl-k">in</span> [<span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;superb&quot;</span>, <span class="hl-s">&quot;slow&quot;</span>, <span class="hl-s">&quot;refund&quot;</span>]: <span class="hl-f">print</span>(<span class="hl-s">f&quot;{w:9s} → {similar(w)}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">213 words, 50-dimensional vectors
+battery   → [&#x27;batery&#x27;, &#x27;lasts&#x27;, &#x27;day&#x27;, &#x27;barely&#x27;, &#x27;half&#x27;, &#x27;a&#x27;]
+delivery  → [&#x27;delivry&#x27;, &#x27;was&#x27;, &#x27;courier&#x27;, &#x27;replacement&#x27;, &#x27;buttons&#x27;, &#x27;packaging&#x27;]
+superb    → [&#x27;highly&#x27;, &#x27;bahut&#x27;, &#x27;loved&#x27;, &#x27;recommend&#x27;, &#x27;badiya&#x27;, &#x27;rich&#x27;]
+slow      → [&#x27;painfully&#x27;, &#x27;times&#x27;, &#x27;is&#x27;, &#x27;charging&#x27;, &#x27;disappointed&#x27;, &#x27;this&#x27;]
+refund    → [&#x27;still&#x27;, &#x27;has&#x27;, &#x27;pending&#x27;, &#x27;display&#x27;, &#x27;charging&#x27;, &#x27;courier&#x27;]</pre></div>
+<p>Even this small corpus learns useful structure: "battery" sits near "lasts", "barely" and "half (a day)", "superb" near "loved", "highly" and "recommend", and "slow" near "painfully" and "charging". It even links the misspelling "batery" to "battery". But it only knows words that appear in these 3,000 reviews. Modern embedding models learn from billions of sentences, so they also know that "phone dies by noon" means poor battery life.</p>
+<h2 id="cosine-similarity">Cosine similarity</h2>
+<figure class="math"><img src="../img/genai-04-math-1f69647b.png" alt="\cos(\mathbf{a}, \mathbf{b}) = \frac{\mathbf{a}\cdot\mathbf{b}}{\|\mathbf{a}\|\,\|\mathbf{b}\|}" loading="lazy"></figure>
+<p>1 = same direction (same meaning), 0 = unrelated, −1 = opposite. With <strong>normalised</strong> vectors (length 1), cosine similarity is just the dot product, which is why vector databases normalise embeddings.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">cos</span>(a, b): <span class="hl-k">return</span> <span class="hl-f">float</span>(a @ b / (<span class="hl-f">np.linalg.norm</span>(a) * <span class="hl-f">np.linalg.norm</span>(b)))
+<span class="hl-k">for</span> a, b <span class="hl-k">in</span> [(<span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;lasts&quot;</span>), (<span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;courier&quot;</span>), (<span class="hl-s">&quot;superb&quot;</span>, <span class="hl-s">&quot;loved&quot;</span>), (<span class="hl-s">&quot;superb&quot;</span>, <span class="hl-s">&quot;slow&quot;</span>)]: <span class="hl-f">print</span>(<span class="hl-s">f&quot;cos({a}, {b}) = {cos(W[idx[a]], W[idx[b]]):.2f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">cos(battery, lasts) = 0.75
+cos(delivery, courier) = 0.60
+cos(superb, loved) = 0.78
+cos(superb, slow) = 0.05</pre></div>
+<h2 id="document-embeddings-and-semantic-search">Document embeddings and semantic search</h2>
+<p>A simple document vector: the TF-IDF-weighted average of its word vectors. (Sentence-embedding models do this far better with a transformer.)</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer
+tf = <span class="hl-f">TfidfVectorizer</span>(vocabulary=vocab, token_pattern=r<span class="hl-s">&quot;[a-z]+&quot;</span>).<span class="hl-f">fit</span>(<span class="hl-f">rv.review_text.str.lower</span>())
+<span class="hl-k">def</span> <span class="hl-f">embed</span>(texts):
+    T = <span class="hl-f">tf.transform</span>([<span class="hl-f">t.lower</span>() <span class="hl-k">for</span> t <span class="hl-k">in</span> texts]); D = T @ W
+    <span class="hl-k">return</span> D / <span class="hl-f">np.maximum</span>(<span class="hl-f">np.linalg.norm</span>(D, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>), 1e-<span class="hl-n">9</span>)
+E = <span class="hl-f">embed</span>(<span class="hl-f">rv.review_text.tolist</span>())
+<span class="hl-k">def</span> <span class="hl-f">search</span>(query, k=<span class="hl-n">4</span>):
+    s = E @ <span class="hl-f">embed</span>([query])[<span class="hl-n">0</span>]; out, seen = [], <span class="hl-f">set</span>()
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">np.argsort</span>(-s):                                   <span class="hl-c"># skip duplicate texts</span>
+        txt = rv.review_text.iloc[i].<span class="hl-f">rstrip</span>(<span class="hl-s">&quot;.!:) &quot;</span>)
+        <span class="hl-k">if</span> <span class="hl-f">txt.lower</span>() <span class="hl-k">in</span> seen: <span class="hl-k">continue</span>
+        <span class="hl-f">seen.add</span>(<span class="hl-f">txt.lower</span>()); <span class="hl-f">out.append</span>((<span class="hl-f">round</span>(<span class="hl-f">float</span>(s[i]), <span class="hl-n">2</span>), txt[:<span class="hl-n">80</span>]))
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(out) == k: <span class="hl-k">break</span>
+    <span class="hl-k">return</span> out
+<span class="hl-k">for</span> q <span class="hl-k">in</span> [<span class="hl-s">&quot;charging takes forever&quot;</span>, <span class="hl-s">&quot;parcel came late and broken&quot;</span>, <span class="hl-s">&quot;support team was very helpful&quot;</span>]:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;query:&quot;</span>, q); [<span class="hl-f">print</span>(<span class="hl-s">&quot;   &quot;</span>, r) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">search</span>(q)]</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">query: charging takes forever
+    (0.85, &#x27;Charging is painfully slow&#x27;)
+    (0.78, &#x27;Regret buying this. Charging is painfully slow&#x27;)
+    (0.78, &#x27;Very disappointed. Charging is painfully slow&#x27;)
+    (0.77, &#x27;Charging is painfully slow, not worth it&#x27;)
+query: parcel came late and broken
+    (0.86, &#x27;Delivery was totally late&#x27;)
+    (0.82, &#x27;Very disappointed. Delivery was late&#x27;)
+    (0.8, &#x27;Bekaar product. Delivery was late&#x27;)
+    (0.79, &#x27;Sound is tinny, delivery was super late, not worth it&#x27;)
+query: support team was very helpful
+    (0.79, &#x27;Superb product. Price is very totally reasonable for these features, customer su&#x27;)
+    (0.77, &#x27;Highly recommend. Packaging was very neat and safe, battery backup is superb, cu&#x27;)
+    (0.77, &#x27;Bahut badiya. Packaging was really neat and safe, service centre staff were supe&#x27;)
+    (0.75, &#x27;Highly recommend. Service centre staff were helpful, charges really very fast&#x27;)</pre></div>
+<h2 id="vector-indexes-exact-and-approximate-search">Vector indexes: exact and approximate search</h2>
+<p>Comparing a query with every vector (<strong>exact / brute-force</strong> search) is fine for thousands of items. For millions, use <strong>approximate nearest neighbour (ANN)</strong> indexes that check only promising regions.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> time
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+N, d = 100_000, <span class="hl-n">64</span>
+centres = <span class="hl-f">rng.normal</span>(size=(<span class="hl-n">2000</span>, d))                                   <span class="hl-c"># real embeddings are clustered by topic, not uniform</span>
+X = (centres[<span class="hl-f">rng.integers</span>(<span class="hl-n">0</span>, <span class="hl-n">2000</span>, N)] + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">35</span>, (N, d))).<span class="hl-f">astype</span>(np.float32); X /= <span class="hl-f">np.linalg.norm</span>(X, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>)
+queries = X[<span class="hl-f">rng.choice</span>(N, <span class="hl-n">100</span>, replace=<span class="hl-k">False</span>)] + <span class="hl-f">rng.normal</span>(<span class="hl-n">0</span>, .<span class="hl-n">05</span>, (<span class="hl-n">100</span>, d)).<span class="hl-f">astype</span>(np.float32)
+t0 = <span class="hl-f">time.perf_counter</span>(); exact = <span class="hl-f">np.argsort</span>(-(queries @ X.T), axis=<span class="hl-n">1</span>)[:, :<span class="hl-n">10</span>]; t_exact = <span class="hl-f">time.perf_counter</span>() - t0
+<span class="hl-k">from</span> sklearn.cluster <span class="hl-k">import</span> MiniBatchKMeans
+nlist = <span class="hl-n">256</span>; km = <span class="hl-f">MiniBatchKMeans</span>(nlist, random_state=<span class="hl-n">0</span>, n_init=<span class="hl-n">3</span>, batch_size=<span class="hl-n">4096</span>).<span class="hl-f">fit</span>(X)          <span class="hl-c"># IVF: partition vectors into cells</span>
+assign = km.labels_; cells = {c: <span class="hl-f">np.where</span>(assign == c)[<span class="hl-n">0</span>] <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(nlist)}
+<span class="hl-k">def</span> <span class="hl-f">ivf_search</span>(q, nprobe=<span class="hl-n">8</span>, k=<span class="hl-n">10</span>):
+    near = <span class="hl-f">np.argsort</span>(-(km.cluster_centers_ @ q))[:nprobe]; cand = <span class="hl-f">np.concatenate</span>([cells[c] <span class="hl-k">for</span> c <span class="hl-k">in</span> near])
+    <span class="hl-k">return</span> cand[<span class="hl-f">np.argsort</span>(-(X[cand] @ q))[:k]]
+<span class="hl-k">for</span> nprobe <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">16</span>):
+    t0 = <span class="hl-f">time.perf_counter</span>(); approx = <span class="hl-f">np.array</span>([<span class="hl-f">ivf_search</span>(q, nprobe) <span class="hl-k">for</span> q <span class="hl-k">in</span> queries]); t = <span class="hl-f">time.perf_counter</span>() - t0
+    recall = <span class="hl-f">np.mean</span>([<span class="hl-f">len</span>(<span class="hl-f">set</span>(a) &amp; <span class="hl-f">set</span>(e)) / <span class="hl-n">10</span> <span class="hl-k">for</span> a, e <span class="hl-k">in</span> <span class="hl-f">zip</span>(approx, exact)])
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;IVF nprobe={nprobe:2d}: recall@10 {recall:.2f} | {1000 * t / 100:.2f} ms/query (exact: {1000 * t_exact / 100:.2f} ms/query)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">IVF nprobe= 1: recall@10 0.89 | 0.08 ms/query (exact: 2.12 ms/query)
+IVF nprobe= 4: recall@10 0.98 | 0.19 ms/query (exact: 2.12 ms/query)
+IVF nprobe=16: recall@10 1.00 | 0.81 ms/query (exact: 2.12 ms/query)</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Index</th>
+<th>Idea</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flat (exact)</td>
+<td>Compare with everything</td>
+<td>Perfect recall, slow at scale</td>
+</tr>
+<tr>
+<td>IVF</td>
+<td>Cluster vectors; search a few nearest clusters (<code>nprobe</code>)</td>
+<td>Tune recall vs speed</td>
+</tr>
+<tr>
+<td>HNSW</td>
+<td>Navigable small-world graph of neighbours</td>
+<td>Very fast, high recall, more memory</td>
+</tr>
+<tr>
+<td>Product quantisation (PQ)</td>
+<td>Compress vectors into short codes</td>
+<td>Huge datasets in little memory</td>
+</tr>
+</tbody>
+</table></div>
+<p>Libraries: <strong>FAISS</strong>, <strong>hnswlib</strong>, <strong>ScaNN</strong>, Annoy. In production, ANN indexes live inside vector databases.</p>
+<h2 id="evaluate-retrieval">Evaluate retrieval</h2>
+<p>Create a small labelled set of queries with their relevant documents and measure <strong>recall@k</strong> (share of relevant documents found in the top k) and <strong>MRR</strong> (how high the first relevant result ranks).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">aspect_rx = {<span class="hl-s">&quot;battery&quot;</span>: r<span class="hl-s">&quot;batter|charg&quot;</span>, <span class="hl-s">&quot;delivery&quot;</span>: r<span class="hl-s">&quot;deliver|courier|box arrived|packag&quot;</span>, <span class="hl-s">&quot;service&quot;</span>: r<span class="hl-s">&quot;support|service|refund|replacement|care&quot;</span>}
+labelled = {<span class="hl-s">&quot;phone battery dies quickly&quot;</span>: <span class="hl-s">&quot;battery&quot;</span>, <span class="hl-s">&quot;my order came late&quot;</span>: <span class="hl-s">&quot;delivery&quot;</span>, <span class="hl-s">&quot;the customer care was useless&quot;</span>: <span class="hl-s">&quot;service&quot;</span>}
+<span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer <span class="hl-k">as</span> TV
+bm = <span class="hl-f">TV</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), sublinear_tf=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(rv.review_text); B = <span class="hl-f">bm.transform</span>(rv.review_text)
+<span class="hl-k">def</span> <span class="hl-f">precision_at_k</span>(scores, aspect, k=<span class="hl-n">10</span>):
+    rel = <span class="hl-f">rv.review_text.str.lower</span>().<span class="hl-f">str.contains</span>(aspect_rx[aspect]).<span class="hl-f">to_numpy</span>(); top = <span class="hl-f">np.argsort</span>(-scores)[:k]; <span class="hl-k">return</span> rel[top].<span class="hl-f">mean</span>()
+<span class="hl-k">for</span> q, a <span class="hl-k">in</span> <span class="hl-f">labelled.items</span>():
+    dense = E @ <span class="hl-f">embed</span>([q])[<span class="hl-n">0</span>]; sparse = (B @ <span class="hl-f">bm.transform</span>([q]).T).<span class="hl-f">toarray</span>().<span class="hl-f">ravel</span>()
+    hybrid = <span class="hl-n">0.5</span> * dense / <span class="hl-f">dense.max</span>() + <span class="hl-n">0.5</span> * sparse / <span class="hl-f">max</span>(<span class="hl-f">sparse.max</span>(), 1e-<span class="hl-n">9</span>)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{q:32s} precision@10 dense {precision_at_k(dense, a):.1f} | keyword {precision_at_k(sparse, a):.1f} | hybrid {precision_at_k(hybrid, a):.1f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">phone battery dies quickly       precision@10 dense 0.8 | keyword 0.6 | hybrid 0.6
+my order came late               precision@10 dense 0.3 | keyword 0.6 | hybrid 0.4
+the customer care was useless    precision@10 dense 1.0 | keyword 1.0 | hybrid 1.0</pre></div>
+<p>No method wins every query: the small home-made embeddings beat keywords on "battery dies", keywords win on "order came late" (exact words such as "late"), and the hybrid lands in between. With strong embedding models on large real corpora, <strong>hybrid search</strong> (keyword/BM25 + vector, then optional re-ranking with a cross-encoder or LLM) is usually the most robust production choice: keywords catch exact terms (product codes, names), vectors catch paraphrases.</p>
+<h2 id="real-embedding-models">Real embedding models</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Voyage AI (recommended by Anthropic for use with Claude) - pip install voyageai</span>
+<span class="hl-k">import</span> voyageai
+vo = <span class="hl-f">voyageai.Client</span>()                                    <span class="hl-c"># VOYAGE_API_KEY in the environment</span>
+docs_emb = <span class="hl-f">vo.embed</span>(texts, model=<span class="hl-s">&quot;voyage-3.5&quot;</span>, input_type=<span class="hl-s">&quot;document&quot;</span>).embeddings
+query_emb = <span class="hl-f">vo.embed</span>([<span class="hl-s">&quot;phone dies by noon&quot;</span>], model=<span class="hl-s">&quot;voyage-3.5&quot;</span>, input_type=<span class="hl-s">&quot;query&quot;</span>).embeddings[<span class="hl-n">0</span>]
+
+<span class="hl-c"># OpenAI - pip install openai</span>
+<span class="hl-k">from</span> openai <span class="hl-k">import</span> OpenAI
+emb = <span class="hl-f">OpenAI</span>().<span class="hl-f">embeddings.create</span>(model=<span class="hl-s">&quot;text-embedding-3-small&quot;</span>, input=texts).data
+
+<span class="hl-c"># Local, free - pip install sentence-transformers</span>
+<span class="hl-k">from</span> sentence_transformers <span class="hl-k">import</span> SentenceTransformer
+model = <span class="hl-f">SentenceTransformer</span>(<span class="hl-s">&quot;BAAI/bge-small-en-v1.5&quot;</span>)
+emb = <span class="hl-f">model.encode</span>(texts, normalize_embeddings=<span class="hl-k">True</span>)</code></pre></div>
+<p>Check the MTEB leaderboard for quality by task and language (multilingual models handle Hindi and other Indian languages), and test on your own queries.</p>
+<h2 id="vector-stores">Vector stores</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Option</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NumPy / FAISS in memory</td>
+<td>Prototypes, up to a few million vectors</td>
+</tr>
+<tr>
+<td><strong>pgvector</strong> (PostgreSQL), Supabase</td>
+<td>You already run Postgres; combine SQL filters and vectors</td>
+</tr>
+<tr>
+<td>Chroma, LanceDB</td>
+<td>Simple local or embedded stores for apps and notebooks</td>
+</tr>
+<tr>
+<td>Qdrant, Weaviate, Milvus</td>
+<td>Dedicated open-source vector databases at scale</td>
+</tr>
+<tr>
+<td>Pinecone, cloud search (Azure AI Search, Vertex Vector Search, OpenSearch)</td>
+<td>Managed services</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># pgvector example</span>
+<span class="hl-c"># CREATE EXTENSION vector;</span>
+<span class="hl-c"># CREATE TABLE reviews (id bigserial PRIMARY KEY, text text, product text, embedding vector(1024));</span>
+<span class="hl-c"># CREATE INDEX ON reviews USING hnsw (embedding vector_cosine_ops);</span>
+<span class="hl-c"># SELECT id, text FROM reviews WHERE product = &#x27;Laptop&#x27; ORDER BY embedding &lt;=&gt; $1 LIMIT 5;   -- &lt;=&gt; is cosine distance</span></code></pre></div>
+<h2 id="practical-tips">Practical tips</h2>
+<ul>
+<li><strong>Chunk</strong> long documents (e.g. 300–800 tokens with some overlap, split on headings/paragraphs) before embedding (lesson 5).</li>
+<li>Store <strong>metadata</strong> (source, date, product, access rights) with each vector and filter on it.</li>
+<li>Use the same model for documents and queries; re-embed everything when you change models.</li>
+<li>Normalise vectors; use cosine or dot product consistently.</li>
+<li>Cache embeddings: they are cheap but not free, and recomputing is slow.</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Embeddings map text (or images, products) to vectors where similar meanings are close.</li>
+<li>Word embeddings come from co-occurrence (Word2Vec, GloVe, PPMI-SVD); sentence embeddings from transformer models.</li>
+<li>Cosine similarity (dot product of normalised vectors) measures closeness.</li>
+<li>Exact search is simple; ANN indexes (IVF, HNSW, PQ) trade a little recall for big speed-ups.</li>
+<li>Evaluate retrieval with recall@k/MRR; combine keyword and vector search (hybrid) and re-rank.</li>
+<li>Choose embedding models by tested quality, language and cost; choose stores by scale and existing stack (pgvector is a common first choice).</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What property do good embeddings have?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Items with similar meanings have nearby vectors</button><button type="button" class="opt" data-ok="0"><i>B</i>Every vector is identical</button><button type="button" class="opt" data-ok="0"><i>C</i>They store the original text</button><button type="button" class="opt" data-ok="0"><i>D</i>They are always 2-D</button></div><div class="qexp"><b>Answer: A.</b> Distance encodes meaning.</div></div><div class="qq"><p class="qtext"><b>2.</b> Cosine similarity of 1 means…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The vectors point in the same direction (very similar meaning)</button><button type="button" class="opt" data-ok="0"><i>B</i>Unrelated</button><button type="button" class="opt" data-ok="0"><i>C</i>Opposite</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: A.</b> Values range from −1 to 1.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why use an approximate nearest-neighbour index?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>To search millions of vectors fast with only a small loss of recall</button><button type="button" class="opt" data-ok="0"><i>B</i>To increase accuracy above exact search</button><button type="button" class="opt" data-ok="0"><i>C</i>To store text</button><button type="button" class="opt" data-ok="0"><i>D</i>To train embeddings</button></div><div class="qexp"><b>Answer: A.</b> e.g. IVF or HNSW.</div></div><div class="qq"><p class="qtext"><b>4.</b> In an IVF index, increasing <code>nprobe</code>…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Searches more clusters: higher recall, slower queries</button><button type="button" class="opt" data-ok="0"><i>B</i>Reduces recall</button><button type="button" class="opt" data-ok="0"><i>C</i>Changes the embeddings</button><button type="button" class="opt" data-ok="0"><i>D</i>Deletes vectors</button></div><div class="qexp"><b>Answer: A.</b> A tunable trade-off.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why combine keyword and vector search?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Keywords catch exact terms and codes; vectors catch paraphrases and synonyms</button><button type="button" class="opt" data-ok="0"><i>B</i>It is cheaper than either alone</button><button type="button" class="opt" data-ok="0"><i>C</i>Vectors cannot be filtered</button><button type="button" class="opt" data-ok="0"><i>D</i>Keywords understand meaning better</button></div><div class="qexp"><b>Answer: A.</b> Hybrid search is the production default.</div></div><div class="qq"><p class="qtext"><b>6.</b> You switch to a new embedding model. What must you do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Re-embed all documents with the new model</button><button type="button" class="opt" data-ok="0"><i>B</i>Nothing</button><button type="button" class="opt" data-ok="0"><i>C</i>Only re-embed queries</button><button type="button" class="opt" data-ok="0"><i>D</i>Delete the index</button></div><div class="qexp"><b>Answer: A.</b> Vectors from different models are not comparable.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Find the 10 nearest words to "price" and "screen" in the learned vectors. (2) Cluster the review embeddings with K-means (k = 6) and label each cluster from its top words. (3) Measure how recall@10 changes with <code>nlist</code> 64 vs 1,024 at nprobe = 8. (4) Design a pgvector table for a product catalogue with metadata filters.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">similar</span>(<span class="hl-s">&quot;price&quot;</span>, <span class="hl-n">10</span>), <span class="hl-f">similar</span>(<span class="hl-s">&quot;screen&quot;</span>, <span class="hl-n">10</span>))
+<span class="hl-k">from</span> sklearn.cluster <span class="hl-k">import</span> KMeans
+lab = <span class="hl-f">KMeans</span>(<span class="hl-n">6</span>, n_init=<span class="hl-n">10</span>, random_state=<span class="hl-n">0</span>).<span class="hl-f">fit_predict</span>(E)
+<span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">6</span>): <span class="hl-f">print</span>(c, <span class="hl-f">collections.Counter</span>(w <span class="hl-k">for</span> t <span class="hl-k">in</span> rv.review_text[lab == c] <span class="hl-k">for</span> w <span class="hl-k">in</span> <span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;[a-z]+&quot;</span>, <span class="hl-f">t.lower</span>()) <span class="hl-k">if</span> w <span class="hl-k">in</span> idx <span class="hl-k">and</span> counts[w] &lt; <span class="hl-n">600</span>).<span class="hl-f">most_common</span>(<span class="hl-n">5</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is an embedding and how is it used in search?</strong>
+A dense vector representing meaning. Documents are embedded once and stored; a query is embedded at search time, and the nearest document vectors (by cosine similarity) are returned, often combined with keyword search.</p>
+<p><strong>Q: How does HNSW work at a high level?</strong>
+It builds a layered graph where each vector links to near neighbours; search starts at a coarse top layer and greedily moves closer to the query through lower layers, visiting only a small part of the data.</p>
+<p><strong>Q: How do you evaluate a semantic search system?</strong>
+A labelled set of queries with relevant documents; measure recall@k, precision@k, MRR or nDCG, plus latency and cost, and compare keyword, vector and hybrid configurations.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html"><small>← Previous</small><b>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</b></a><a class="next" href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html"><small>Next →</small><b>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-an-embedding">What is an embedding?</a><a href="#learning-word-embeddings-from-scratch">Learning word embeddings from scratch</a><a href="#cosine-similarity">Cosine similarity</a><a href="#document-embeddings-and-semantic-search">Document embeddings and semantic search</a><a href="#vector-indexes-exact-and-approximate-search">Vector indexes: exact and approximate search</a><a href="#evaluate-retrieval">Evaluate retrieval</a><a href="#real-embedding-models">Real embedding models</a><a href="#vector-stores">Vector stores</a><a href="#practical-tips">Practical tips</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

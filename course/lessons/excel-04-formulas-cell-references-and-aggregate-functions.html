@@ -1,0 +1,423 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formulas, Cell References &amp; Aggregate Functions · Excel Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Write formulas with confidence. Understand operators and their order, relative, absolute and mixed references, and every aggregate function you need, from SUM and COUNTA to SMALL, LARGE, SUMIFS, COUNTIFS, MAXIFS, SUBTOTAL and AGGREGATE."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class="on"><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-04">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 4 of 12</div><h1>Formulas, Cell References &amp; Aggregate Functions</h1>
+<p class="sum">Write formulas with confidence. Understand operators and their order, relative, absolute and mixed references, and every aggregate function you need, from SUM and COUNTA to SMALL, LARGE, SUMIFS, COUNTIFS, MAXIFS, SUBTOTAL and AGGREGATE.</p><div class="tags"><span class="tag live">● Live class 3</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_04_Formulas_Cell_References_Aggregate_Functions.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-04.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the difference between a formula and a function and read any function's syntax</li><li>Predict how a formula changes when copied, and lock references with $ (F4)</li><li>Summarise data with SUM, COUNT, COUNTA, COUNTBLANK, AVERAGE, MIN, MAX, SMALL, LARGE, MEDIAN and MODE</li><li>Answer conditional questions with COUNTIF(S), SUMIF(S), AVERAGEIF(S), MAXIFS and MINIFS</li><li>Use SUBTOTAL and AGGREGATE for filtered data and data with errors</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="formula-vs-function">Formula vs function</h2>
+<div class="co co-def"><div class="co-h"><span class="pill">Definition</span><b>Two words people mix up</b></div><p>A <strong>formula</strong> is any calculation that starts with <code>=</code>. It can use cell references, numbers, operators and functions: <code>=B2*C2</code>, <code>=(B2-C2)/C2</code>, <code>=SUM(B2:B10)*1.18</code>.
+A <strong>function</strong> is a named, ready-made calculation inside a formula: <code>SUM</code>, <code>AVERAGE</code>, <code>IF</code>. A function has a name, brackets and <strong>arguments</strong> separated by commas.</p></div>
+<figure class="fig"><img src="../img/excel-04-01.png" alt="Anatomy of a function call. Arguments in square brackets are optional." loading="lazy"><figcaption>Anatomy of a function call. Arguments in square brackets are optional.</figcaption></figure>
+<p>When you type a function name and <code>(</code>, Excel shows a tooltip with its syntax, for example <code>SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], …)</code>. Press <code>Ctrl + A</code> after the bracket to open the <strong>Function Arguments</strong> dialog, which explains every argument and previews the result.</p>
+<h2 id="operators-and-order-of-calculation">Operators and order of calculation</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+ - * /</code></td>
+<td>Add, subtract, multiply, divide</td>
+<td><code>=10+4*2</code></td>
+<td>18</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>Power</td>
+<td><code>=2^10</code></td>
+<td>1024</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>Percent</td>
+<td><code>=500*18%</code></td>
+<td>90</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>Join text</td>
+<td><code>="Q"&amp;2</code></td>
+<td>Q2</td>
+</tr>
+<tr>
+<td><code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code></td>
+<td>Comparison, returns TRUE/FALSE</td>
+<td><code>=B2&gt;=100</code></td>
+<td>TRUE or FALSE</td>
+</tr>
+<tr>
+<td><code>:</code></td>
+<td>Range</td>
+<td><code>A1:A10</code></td>
+<td>10 cells</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>Union (inside functions)</td>
+<td><code>=SUM(A1:A3,C1:C3)</code></td>
+<td>Adds both ranges</td>
+</tr>
+</tbody>
+</table></div>
+<p>Excel follows the usual maths order, remembered as <strong>BODMAS/PEMDAS</strong>: brackets, then <code>^</code>, then <code>*</code> and <code>/</code>, then <code>+</code> and <code>-</code>, then <code>&amp;</code>, then comparisons.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Order of operations</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Formula</td><td class="c-h">Result</td><td class="c-h">Why</td></tr><tr><th>2</th><td class="">=10+4*2</td><td class="fx num" title="=10+4*2">18</td><td class="">Multiply first: 10 + 8</td></tr><tr><th>3</th><td class="">=(10+4)*2</td><td class="fx num" title="=(10+4)*2">28</td><td class="">Brackets first: 14 × 2</td></tr><tr><th>4</th><td class="">=2^3^2</td><td class="fx num" title="=2^3^2">64</td><td class="">Excel works left to right: (2^3)^2 = 64</td></tr><tr><th>5</th><td class="">=-2^2</td><td class="fx num" title="=-2^2">4</td><td class="">Negation before power in Excel: (-2)^2 = 4</td></tr><tr><th>6</th><td class="">=100*(1+18%)</td><td class="fx num" title="=100*(1+18%)">118</td><td class="">Add 18% GST</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-n">10</span>+<span class="hl-n">4</span>*<span class="hl-n">2</span></code></li><li><b>B3</b><code>=(<span class="hl-n">10</span>+<span class="hl-n">4</span>)*<span class="hl-n">2</span></code></li><li><b>B4</b><code>=<span class="hl-n">2</span>^<span class="hl-n">3</span>^<span class="hl-n">2</span></code></li><li><b>B5</b><code>=-<span class="hl-n">2</span>^<span class="hl-n">2</span></code></li><li><b>B6</b><code>=<span class="hl-n">100</span>*(<span class="hl-n">1</span>+<span class="hl-n">18</span>%)</code></li></ul></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>`-2^2` is 4 in Excel</b></div><p>In maths <code>-2²</code> is −4, but Excel applies the minus sign first. Write <code>=-(2^2)</code> if you mean −4. This catches people in finance formulas.</p></div>
+<h2 id="cell-references-relative-absolute-and-mixed">Cell references: relative, absolute and mixed</h2>
+<p>When you copy a formula, Excel adjusts its references <strong>relative</strong> to where you paste it. Usually that is exactly what you want. Sometimes a reference must stay fixed, for example a tax rate in one cell. A <code>$</code> sign locks the part after it.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Reference</th>
+<th>Copy down</th>
+<th>Copy right</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>B2</code></td>
+<td>B3, B4 …</td>
+<td>C2, D2 …</td>
+<td>Relative</td>
+</tr>
+<tr>
+<td><code>$B$2</code></td>
+<td>stays <code>$B$2</code></td>
+<td>stays <code>$B$2</code></td>
+<td>Absolute</td>
+</tr>
+<tr>
+<td><code>B$2</code></td>
+<td>stays row 2</td>
+<td>C$2, D$2 …</td>
+<td>Mixed (row locked)</td>
+</tr>
+<tr>
+<td><code>$B2</code></td>
+<td>B3, B4 …</td>
+<td>stays column B</td>
+<td>Mixed (column locked)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Press <strong>F4</strong> while the cursor is on a reference to cycle <code>B2 → $B$2 → B$2 → $B2 → B2</code>.</p>
+<h3 id="absolute-reference-one-rate-for-every-row">Absolute reference: one rate for every row</h3>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>GST rate in one input cell (G2) — formula in D2 is =B2*C2*$G$2, copied down</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr><tr><th>1</th><td class="c-h">Item</td><td class="c-h">Qty</td><td class="c-h">Price</td><td class="c-h">GST amount</td><td class="c-h">Total</td><td class=""></td><td class="c-h">GST rate</td></tr><tr><th>2</th><td class="">Notebook</td><td class="num">10</td><td class="num">45</td><td class="fx num" title="=B2*C2*$G$2">81.00</td><td class="fx num" title="=B2*C2+D2">531.00</td><td class=""></td><td class="c-y num">18%</td></tr><tr><th>3</th><td class="">Pen pack</td><td class="num">25</td><td class="num">60</td><td class="fx num" title="=B3*C3*$G$2">270.00</td><td class="fx num" title="=B3*C3+D3">1,770.00</td><td class=""></td><td class=""></td></tr><tr><th>4</th><td class="">Stapler</td><td class="num">4</td><td class="num">180</td><td class="fx num" title="=B4*C4*$G$2">129.60</td><td class="fx num" title="=B4*C4+D4">849.60</td><td class=""></td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=B2*C2*$G$<span class="hl-n">2</span></code></li><li><b>E2</b><code>=B2*C2+D2</code></li><li><b>D3</b><code>=B3*C3*$G$<span class="hl-n">2</span></code></li><li><b>E3</b><code>=B3*C3+D3</code></li><li><b>D4</b><code>=B4*C4*$G$<span class="hl-n">2</span></code></li><li><b>E4</b><code>=B4*C4+D4</code></li></ul></div>
+<p>The GST rate lives in one input cell (yellow). Because <code>$G$2</code> is absolute, every copied formula still points to it. Change the rate once and every total updates.</p>
+<h3 id="mixed-references-the-multiplication-table-test">Mixed references: the multiplication table test</h3>
+<p>A classic interview question: write <strong>one</strong> formula in B2 that can be copied across and down to fill a multiplication table.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>One formula, =$A2*B$1, filled across and down</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">×</td><td class="c-h num">1</td><td class="c-h num">2</td><td class="c-h num">3</td><td class="c-h num">4</td><td class="c-h num">5</td></tr><tr><th>2</th><td class="c-h num">1</td><td class="fx num" title="=$A2*B$1">1</td><td class="fx num" title="=$A2*C$1">2</td><td class="fx num" title="=$A2*D$1">3</td><td class="fx num" title="=$A2*E$1">4</td><td class="fx num" title="=$A2*F$1">5</td></tr><tr><th>3</th><td class="c-h num">2</td><td class="fx num" title="=$A3*B$1">2</td><td class="fx num" title="=$A3*C$1">4</td><td class="fx num" title="=$A3*D$1">6</td><td class="fx num" title="=$A3*E$1">8</td><td class="fx num" title="=$A3*F$1">10</td></tr><tr><th>4</th><td class="c-h num">3</td><td class="fx num" title="=$A4*B$1">3</td><td class="fx num" title="=$A4*C$1">6</td><td class="fx num" title="=$A4*D$1">9</td><td class="fx num" title="=$A4*E$1">12</td><td class="fx num" title="=$A4*F$1">15</td></tr><tr><th>5</th><td class="c-h num">4</td><td class="fx num" title="=$A5*B$1">4</td><td class="fx num" title="=$A5*C$1">8</td><td class="fx num" title="=$A5*D$1">12</td><td class="fx num" title="=$A5*E$1">16</td><td class="fx num" title="=$A5*F$1">20</td></tr><tr><th>6</th><td class="c-h num">5</td><td class="fx num" title="=$A6*B$1">5</td><td class="fx num" title="=$A6*C$1">10</td><td class="fx num" title="=$A6*D$1">15</td><td class="fx num" title="=$A6*E$1">20</td><td class="fx num" title="=$A6*F$1">25</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=$A2*B$<span class="hl-n">1</span></code></li><li><b>C2</b><code>=$A2*C$<span class="hl-n">1</span></code></li><li><b>D2</b><code>=$A2*D$<span class="hl-n">1</span></code></li><li><b>E2</b><code>=$A2*E$<span class="hl-n">1</span></code></li><li><b>F2</b><code>=$A2*F$<span class="hl-n">1</span></code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p><code>$A2</code> always uses column A (the row header) and <code>B$1</code> always uses row 1 (the column header). The same idea is used for price × discount grids, sales × commission tables, and loan EMI tables.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>The same table in formula view</div><span class="xl-mode">Formula view (Ctrl + `)</span><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">×</td><td class="c-h num">1</td><td class="c-h num">2</td><td class="c-h num">3</td></tr><tr><th>2</th><td class="c-h num">1</td><td class="fx" title="=$A2*B$1">=$A2*B$1</td><td class="fx" title="=$A2*C$1">=$A2*C$1</td><td class="fx" title="=$A2*D$1">=$A2*D$1</td></tr><tr><th>3</th><td class="c-h num">2</td><td class="fx" title="=$A3*B$1">=$A3*B$1</td><td class="fx" title="=$A3*C$1">=$A3*C$1</td><td class="fx" title="=$A3*D$1">=$A3*D$1</td></tr><tr><th>4</th><td class="c-h num">3</td><td class="fx" title="=$A4*B$1">=$A4*B$1</td><td class="fx" title="=$A4*C$1">=$A4*C$1</td><td class="fx" title="=$A4*D$1">=$A4*D$1</td></tr></table></div></div></div>
+<h3 id="references-to-other-sheets-and-workbooks">References to other sheets and workbooks</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Reference</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=Sales!B2</code></td>
+<td>Cell B2 on the sheet named Sales</td>
+</tr>
+<tr>
+<td><code>='Sales 2026'!B2</code></td>
+<td>Quotes are needed when the sheet name has spaces</td>
+</tr>
+<tr>
+<td><code>=SUM(Jan:Mar!B2)</code></td>
+<td>A <strong>3D reference</strong>: B2 on every sheet from Jan to Mar</td>
+</tr>
+<tr>
+<td><code>=[Budget.xlsx]Plan!C5</code></td>
+<td>Another workbook (an external link; Data → Edit Links manages them)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="aggregate-functions">Aggregate functions</h2>
+<p>Aggregate functions turn many values into one number. The examples below use the 20-row employee table stored on a sheet named <code>Emp</code> (columns: A emp_id, B name, C department, D city, E join_date, F salary, G rating).</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Aggregate functions on Emp (salary in F2:F21, rating in G2:G21)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Question</td><td class="c-h">Formula</td><td class="c-h">Result</td></tr><tr><th>2</th><td class="">Total salary</td><td class="">=SUM(Emp!F2:F21)</td><td class="fx num" title="=SUM(Emp!F2:F21)">1,978,000</td></tr><tr><th>3</th><td class="">How many numbers in salary</td><td class="">=COUNT(Emp!F2:F21)</td><td class="fx num" title="=COUNT(Emp!F2:F21)">20</td></tr><tr><th>4</th><td class="">How many non-empty names</td><td class="">=COUNTA(Emp!B2:B21)</td><td class="fx num" title="=COUNTA(Emp!B2:B21)">20</td></tr><tr><th>5</th><td class="">Empty cells in B2:B25</td><td class="">=COUNTBLANK(Emp!B2:B25)</td><td class="fx num" title="=COUNTBLANK(Emp!B2:B25)">4</td></tr><tr><th>6</th><td class="">Average salary</td><td class="">=AVERAGE(Emp!F2:F21)</td><td class="fx num" title="=AVERAGE(Emp!F2:F21)">98,900</td></tr><tr><th>7</th><td class="">Median salary</td><td class="">=MEDIAN(Emp!F2:F21)</td><td class="fx num" title="=MEDIAN(Emp!F2:F21)">97,000</td></tr><tr><th>8</th><td class="">Most common rating</td><td class="">=MODE.SNGL(Emp!G2:G21)</td><td class="fx num" title="=MODE.SNGL(Emp!G2:G21)">4</td></tr><tr><th>9</th><td class="">Lowest / highest salary</td><td class="">=MIN(...) / =MAX(...)</td><td class="fx" title="=TEXT(MIN(Emp!F2:F21),&quot;#,##0&quot;)&amp;&quot; / &quot;&amp;TEXT(MAX(Emp!F2:F21),&quot;#,##0&quot;)">45,000 / 157,000</td></tr><tr><th>10</th><td class="">2nd highest salary</td><td class="">=LARGE(Emp!F2:F21,2)</td><td class="fx num" title="=LARGE(Emp!F2:F21,2)">157,000</td></tr><tr><th>11</th><td class="">3rd lowest salary</td><td class="">=SMALL(Emp!F2:F21,3)</td><td class="fx num" title="=SMALL(Emp!F2:F21,3)">57,000</td></tr><tr><th>12</th><td class="">Average rating (rounded)</td><td class="">=ROUND(AVERAGE(Emp!G2:G21),2)</td><td class="fx num" title="=ROUND(AVERAGE(Emp!G2:G21),2)">3.55</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">SUM</span>(Emp!F2:F21)</code></li><li><b>C3</b><code>=<span class="hl-f">COUNT</span>(Emp!F2:F21)</code></li><li><b>C4</b><code>=<span class="hl-f">COUNTA</span>(Emp!B2:B21)</code></li><li><b>C5</b><code>=<span class="hl-f">COUNTBLANK</span>(Emp!B2:B25)</code></li><li><b>C6</b><code>=<span class="hl-f">AVERAGE</span>(Emp!F2:F21)</code></li><li><b>C7</b><code>=<span class="hl-f">MEDIAN</span>(Emp!F2:F21)</code></li><li><b>C8</b><code>=<span class="hl-f">MODE.SNGL</span>(Emp!G2:G21)</code></li><li><b>C9</b><code>=<span class="hl-f">TEXT</span>(<span class="hl-f">MIN</span>(Emp!F2:F21),<span class="hl-s">&quot;#,##0&quot;</span>)&amp;<span class="hl-s">&quot; / &quot;</span>&amp;<span class="hl-f">TEXT</span>(<span class="hl-f">MAX</span>(Emp!F2:F21),<span class="hl-s">&quot;#,##0&quot;</span>)</code></li><li><b>C10</b><code>=<span class="hl-f">LARGE</span>(Emp!F2:F21,<span class="hl-n">2</span>)</code></li><li><b>C11</b><code>=<span class="hl-f">SMALL</span>(Emp!F2:F21,<span class="hl-n">3</span>)</code></li><li><b>C12</b><code>=<span class="hl-f">ROUND</span>(<span class="hl-f">AVERAGE</span>(Emp!G2:G21),<span class="hl-n">2</span>)</code></li></ul></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Counts or uses</th>
+<th>Ignores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COUNT</code></td>
+<td>Numbers (and dates)</td>
+<td>Text, blanks, logical values typed in cells</td>
+</tr>
+<tr>
+<td><code>COUNTA</code></td>
+<td>Anything not empty (numbers, text, errors, <code>""</code> from formulas)</td>
+<td>Truly empty cells</td>
+</tr>
+<tr>
+<td><code>COUNTBLANK</code></td>
+<td>Empty cells and cells with <code>""</code></td>
+<td>Everything else</td>
+</tr>
+<tr>
+<td><code>SUM</code>, <code>AVERAGE</code>, <code>MIN</code>, <code>MAX</code></td>
+<td>Numbers</td>
+<td>Text and blanks in ranges</td>
+</tr>
+<tr>
+<td><code>MEDIAN</code></td>
+<td>Middle value of sorted numbers</td>
+<td>Text and blanks</td>
+</tr>
+<tr>
+<td><code>MODE.SNGL</code></td>
+<td>Most frequent number</td>
+<td>Text</td>
+</tr>
+<tr>
+<td><code>SMALL(range,k)</code>, <code>LARGE(range,k)</code></td>
+<td>k-th smallest or largest</td>
+<td>Text and blanks</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>AVERAGE ignores blanks but not zeros</b></div><p>A blank cell is left out of the average; a zero is counted. If "no data" is stored as 0, your average will be too low. Leave missing values blank, or use <code>AVERAGEIF(range,"&lt;&gt;0")</code>.</p></div>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>MEDIAN vs AVERAGE in salary data</b></div><p>Salaries are usually skewed by a few high earners, so the <strong>median</strong> describes a "typical" employee better than the average. You will meet this again in Statistics (ML track, Lesson 1).</p></div>
+<h2 id="conditional-aggregation-the-ifs-family">Conditional aggregation: the IFS family</h2>
+<p>These are the most used analysis functions in Excel. They answer questions such as <em>"total sales in the North region for Technology in 2025"</em>.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Syntax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>COUNTIF</code></td>
+<td><code>COUNTIF(range, criteria)</code></td>
+</tr>
+<tr>
+<td><code>COUNTIFS</code></td>
+<td><code>COUNTIFS(range1, criteria1, range2, criteria2, …)</code></td>
+</tr>
+<tr>
+<td><code>SUMIF</code></td>
+<td><code>SUMIF(range, criteria, [sum_range])</code></td>
+</tr>
+<tr>
+<td><code>SUMIFS</code></td>
+<td><code>SUMIFS(sum_range, range1, criteria1, range2, criteria2, …)</code></td>
+</tr>
+<tr>
+<td><code>AVERAGEIF(S)</code></td>
+<td>Same pattern as SUMIF(S)</td>
+</tr>
+<tr>
+<td><code>MAXIFS</code>, <code>MINIFS</code></td>
+<td><code>MAXIFS(max_range, range1, criteria1, …)</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Note that <code>SUMIF</code> puts the sum range <strong>last</strong> while <code>SUMIFS</code> puts it <strong>first</strong>. Learn the <code>SUMIFS</code> pattern and use it even for one condition.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Conditional aggregation on Emp</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Question</td><td class="c-h">Result</td><td class="c-h">Formula</td></tr><tr><th>2</th><td class="">Employees in Finance</td><td class="fx num" title="=COUNTIF(Emp!C2:C21,&quot;Finance&quot;)">7</td><td class="">=COUNTIF(Emp!C2:C21,&quot;Finance&quot;)</td></tr><tr><th>3</th><td class="">Finance employees in Delhi</td><td class="fx num" title="=COUNTIFS(Emp!C2:C21,&quot;Finance&quot;,Emp!D2:D21,&quot;Delhi&quot;)">2</td><td class="">=COUNTIFS(Emp!C2:C21,&quot;Finance&quot;,Emp!D2:D21,&quot;Delhi&quot;)</td></tr><tr><th>4</th><td class="">Total Finance salary</td><td class="fx num" title="=SUMIFS(Emp!F2:F21,Emp!C2:C21,&quot;Finance&quot;)">670,000</td><td class="">=SUMIFS(Emp!F2:F21,Emp!C2:C21,&quot;Finance&quot;)</td></tr><tr><th>5</th><td class="">Salary of people rated 4 or more</td><td class="fx num" title="=SUMIFS(Emp!F2:F21,Emp!G2:G21,&quot;&gt;=4&quot;)">1,102,000</td><td class="">=SUMIFS(Emp!F2:F21,Emp!G2:G21,&quot;&gt;=4&quot;)</td></tr><tr><th>6</th><td class="">Average salary in HR</td><td class="fx num" title="=AVERAGEIFS(Emp!F2:F21,Emp!C2:C21,&quot;HR&quot;)">96,000</td><td class="">=AVERAGEIFS(Emp!F2:F21,Emp!C2:C21,&quot;HR&quot;)</td></tr><tr><th>7</th><td class="">Highest salary in Sales</td><td class="fx num" title="=MAXIFS(Emp!F2:F21,Emp!C2:C21,&quot;Sales&quot;)">156,000</td><td class="">=MAXIFS(Emp!F2:F21,Emp!C2:C21,&quot;Sales&quot;)</td></tr><tr><th>8</th><td class="">Joined in 2024 or later</td><td class="fx num" title="=COUNTIFS(Emp!E2:E21,&quot;&gt;=&quot;&amp;DATE(2024,1,1))">6</td><td class="">=COUNTIFS(Emp!E2:E21,&quot;&gt;=&quot;&amp;DATE(2024,1,1))</td></tr><tr><th>9</th><td class="">Names starting with &quot;A&quot;</td><td class="fx num" title="=COUNTIF(Emp!B2:B21,&quot;A*&quot;)">4</td><td class="">=COUNTIF(Emp!B2:B21,&quot;A*&quot;)</td></tr><tr><th>10</th><td class="">Salary between 80k and 1.2 lakh</td><td class="fx num" title="=COUNTIFS(Emp!F2:F21,&quot;&gt;=80000&quot;,Emp!F2:F21,&quot;&lt;=120000&quot;)">9</td><td class="">=COUNTIFS(Emp!F2:F21,&quot;&gt;=80000&quot;,Emp!F2:F21,&quot;&lt;=120000&quot;)</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">COUNTIF</span>(Emp!C2:C21,<span class="hl-s">&quot;Finance&quot;</span>)</code></li><li><b>B3</b><code>=<span class="hl-f">COUNTIFS</span>(Emp!C2:C21,<span class="hl-s">&quot;Finance&quot;</span>,Emp!D2:D21,<span class="hl-s">&quot;Delhi&quot;</span>)</code></li><li><b>B4</b><code>=<span class="hl-f">SUMIFS</span>(Emp!F2:F21,Emp!C2:C21,<span class="hl-s">&quot;Finance&quot;</span>)</code></li><li><b>B5</b><code>=<span class="hl-f">SUMIFS</span>(Emp!F2:F21,Emp!G2:G21,<span class="hl-s">&quot;&gt;=4&quot;</span>)</code></li><li><b>B6</b><code>=<span class="hl-f">AVERAGEIFS</span>(Emp!F2:F21,Emp!C2:C21,<span class="hl-s">&quot;HR&quot;</span>)</code></li><li><b>B7</b><code>=<span class="hl-f">MAXIFS</span>(Emp!F2:F21,Emp!C2:C21,<span class="hl-s">&quot;Sales&quot;</span>)</code></li><li><b>B8</b><code>=<span class="hl-f">COUNTIFS</span>(Emp!E2:E21,<span class="hl-s">&quot;&gt;=&quot;</span>&amp;<span class="hl-f">DATE</span>(<span class="hl-n">2024</span>,<span class="hl-n">1</span>,<span class="hl-n">1</span>))</code></li><li><b>B9</b><code>=<span class="hl-f">COUNTIF</span>(Emp!B2:B21,<span class="hl-s">&quot;A*&quot;</span>)</code></li><li><b>B10</b><code>=<span class="hl-f">COUNTIFS</span>(Emp!F2:F21,<span class="hl-s">&quot;&gt;=80000&quot;</span>,Emp!F2:F21,<span class="hl-s">&quot;&lt;=120000&quot;</span>)</code></li></ul></div>
+<p>Let's confirm two of these with pandas, using the same file:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+emp = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;employees_small.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;join_date&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Finance headcount:&quot;</span>, (emp.department == <span class="hl-s">&quot;Finance&quot;</span>).<span class="hl-f">sum</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Total Finance salary:&quot;</span>, <span class="hl-s">f&quot;{emp.loc[emp.department == &#x27;Finance&#x27;, &#x27;salary&#x27;].sum():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Joined 2024 or later:&quot;</span>, (emp.join_date &gt;= <span class="hl-s">&quot;2024-01-01&quot;</span>).<span class="hl-f">sum</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Finance headcount: 7
+Total Finance salary: 670,000
+Joined 2024 or later: 6</pre></div>
+<h3 id="writing-criteria-correctly">Writing criteria correctly</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"Finance"</code></td>
+<td>Equal to Finance (not case-sensitive)</td>
+</tr>
+<tr>
+<td><code>"&lt;&gt;Finance"</code></td>
+<td>Not equal to Finance</td>
+</tr>
+<tr>
+<td><code>"&gt;=4"</code></td>
+<td>Greater than or equal to 4 (operator and number inside quotes)</td>
+</tr>
+<tr>
+<td><code>"&gt;="&amp;H1</code></td>
+<td>Compare with the value in H1 (join with <code>&amp;</code>)</td>
+</tr>
+<tr>
+<td><code>"&gt;="&amp;DATE(2024,1,1)</code></td>
+<td>Compare with a date</td>
+</tr>
+<tr>
+<td><code>"*pune*"</code></td>
+<td>Contains "pune"</td>
+</tr>
+<tr>
+<td><code>"A*"</code> / <code>"*a"</code></td>
+<td>Starts with A / ends with a</td>
+</tr>
+<tr>
+<td><code>"?????"</code></td>
+<td>Exactly five characters</td>
+</tr>
+<tr>
+<td><code>""</code></td>
+<td>Blank cells</td>
+</tr>
+<tr>
+<td><code>"&lt;&gt;"</code></td>
+<td>Non-blank cells</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Build a summary table with one formula</b></div><p>Put departments in A2:A6 and the formula <code>=SUMIFS(Emp!$F$2:$F$21,Emp!$C$2:$C$21,$A2)</code> in B2, then copy down. The <code>$</code> signs keep the data ranges fixed while <code>$A2</code> moves to each department. In Microsoft 365 you can produce the department list itself with <code>=UNIQUE(Emp!C2:C21)</code> (Lesson 6).</p></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Department summary built with SUMIFS and COUNTIFS</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Department</td><td class="c-h">Headcount</td><td class="c-h">Total salary</td><td class="c-h">Average salary</td><td class="c-h">% of payroll</td></tr><tr><th>2</th><td class="">Finance</td><td class="fx num" title="=COUNTIFS(Emp!$C$2:$C$21,$A2)">7</td><td class="fx num" title="=SUMIFS(Emp!$F$2:$F$21,Emp!$C$2:$C$21,$A2)">670,000</td><td class="fx num" title="=C2/B2">95,714</td><td class="fx num" title="=C2/$C$7">33.9%</td></tr><tr><th>3</th><td class="">HR</td><td class="fx num" title="=COUNTIFS(Emp!$C$2:$C$21,$A3)">6</td><td class="fx num" title="=SUMIFS(Emp!$F$2:$F$21,Emp!$C$2:$C$21,$A3)">576,000</td><td class="fx num" title="=C3/B3">96,000</td><td class="fx num" title="=C3/$C$7">29.1%</td></tr><tr><th>4</th><td class="">IT</td><td class="fx num" title="=COUNTIFS(Emp!$C$2:$C$21,$A4)">1</td><td class="fx num" title="=SUMIFS(Emp!$F$2:$F$21,Emp!$C$2:$C$21,$A4)">112,000</td><td class="fx num" title="=C4/B4">112,000</td><td class="fx num" title="=C4/$C$7">5.7%</td></tr><tr><th>5</th><td class="">Operations</td><td class="fx num" title="=COUNTIFS(Emp!$C$2:$C$21,$A5)">2</td><td class="fx num" title="=SUMIFS(Emp!$F$2:$F$21,Emp!$C$2:$C$21,$A5)">261,000</td><td class="fx num" title="=C5/B5">130,500</td><td class="fx num" title="=C5/$C$7">13.2%</td></tr><tr><th>6</th><td class="">Sales</td><td class="fx num" title="=COUNTIFS(Emp!$C$2:$C$21,$A6)">4</td><td class="fx num" title="=SUMIFS(Emp!$F$2:$F$21,Emp!$C$2:$C$21,$A6)">359,000</td><td class="fx num" title="=C6/B6">89,750</td><td class="fx num" title="=C6/$C$7">18.1%</td></tr><tr><th>7</th><td class="c-b">Total</td><td class="c-b fx num" title="=SUM(B2:B6)">20</td><td class="c-b fx num" title="=SUM(C2:C6)">1,978,000</td><td class="c-b fx num" title="=C7/B7">98,900</td><td class="c-b fx num" title="=SUM(E2:E6)">100.0%</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">COUNTIFS</span>(Emp!$C$<span class="hl-n">2</span>:$C$<span class="hl-n">21</span>,$A2)</code></li><li><b>C2</b><code>=<span class="hl-f">SUMIFS</span>(Emp!$F$<span class="hl-n">2</span>:$F$<span class="hl-n">21</span>,Emp!$C$<span class="hl-n">2</span>:$C$<span class="hl-n">21</span>,$A2)</code></li><li><b>D2</b><code>=C2/B2</code></li><li><b>E2</b><code>=C2/$C$<span class="hl-n">7</span></code></li><li><b>B7</b><code>=<span class="hl-f">SUM</span>(B2:B6)</code></li><li><b>C7</b><code>=<span class="hl-f">SUM</span>(C2:C6)</code></li><li><b>E7</b><code>=<span class="hl-f">SUM</span>(E2:E6)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>This little table is exactly what a pivot table does (Lesson 8), but with formulas you control every cell, which is useful for fixed report layouts.</p>
+<h2 id="subtotal-and-aggregate-totals-for-filtered-data">SUBTOTAL and AGGREGATE: totals for filtered data</h2>
+<p><code>SUM</code> adds every row, including rows hidden by a filter. <code>SUBTOTAL</code> adds only <strong>visible</strong> rows, so the total changes as you filter.</p>
+<p><code>=SUBTOTAL(function_num, range)</code></p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>function_num (ignores filtered rows)</th>
+<th>101–111 also ignore manually hidden rows</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>101</td>
+<td>AVERAGE</td>
+</tr>
+<tr>
+<td>2</td>
+<td>102</td>
+<td>COUNT</td>
+</tr>
+<tr>
+<td>3</td>
+<td>103</td>
+<td>COUNTA</td>
+</tr>
+<tr>
+<td>4</td>
+<td>104</td>
+<td>MAX</td>
+</tr>
+<tr>
+<td>5</td>
+<td>105</td>
+<td>MIN</td>
+</tr>
+<tr>
+<td>9</td>
+<td>109</td>
+<td>SUM</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>AGGREGATE</code> does the same and can also <strong>ignore error values</strong>:
+<code>=AGGREGATE(9, 6, D2:D100)</code> sums D2:D100 ignoring errors (option 6). <code>=AGGREGATE(14, 6, D2:D100, 2)</code> returns the 2nd largest value ignoring errors (14 = LARGE).</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>AGGREGATE ignores the #DIV/0! error that breaks SUM</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th></tr><tr><th>1</th><td class="c-h">Value</td><td class=""></td></tr><tr><th>2</th><td class="num">120</td><td class=""></td></tr><tr><th>3</th><td class="fx" title="=10/0">#DIV/0!</td><td class=""></td></tr><tr><th>4</th><td class="num">80</td><td class=""></td></tr><tr><th>5</th><td class="">SUM →</td><td class="fx" title="=SUM(A2:A4)">#DIV/0!</td></tr><tr><th>6</th><td class="">AGGREGATE(9,6,…) →</td><td class="fx num" title="=AGGREGATE(9,6,A2:A4)">200</td></tr></table></div></div><ul class="xl-f"><li><b>A3</b><code>=<span class="hl-n">10</span>/<span class="hl-n">0</span></code></li><li><b>B5</b><code>=<span class="hl-f">SUM</span>(A2:A4)</code></li><li><b>B6</b><code>=<span class="hl-f">AGGREGATE</span>(<span class="hl-n">9</span>,<span class="hl-n">6</span>,A2:A4)</code></li></ul></div>
+<h2 id="common-formula-errors-and-how-to-fix-them">Common formula errors and how to fix them</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Error</th>
+<th>Example</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#DIV/0!</code></td>
+<td><code>=C2/B2</code> with B2 = 0</td>
+<td><code>=IFERROR(C2/B2,0)</code> or <code>=IF(B2=0,"",C2/B2)</code></td>
+</tr>
+<tr>
+<td><code>#VALUE!</code></td>
+<td><code>=A2+B2</code> where A2 is text</td>
+<td>Convert text to numbers; check for spaces</td>
+</tr>
+<tr>
+<td><code>#REF!</code></td>
+<td>Deleted a referenced row</td>
+<td>Undo, or rewrite the formula</td>
+</tr>
+<tr>
+<td><code>#NAME?</code></td>
+<td><code>=SUMIFS(…,Finance)</code> without quotes</td>
+<td>Put text criteria in quotes</td>
+</tr>
+<tr>
+<td>Circular reference</td>
+<td><code>=SUM(A1:A10)</code> typed in A10</td>
+<td>Move the total outside the range</td>
+</tr>
+<tr>
+<td>Wrong total after sorting</td>
+<td>Mixed relative/absolute references</td>
+<td>Lock ranges with <code>$</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Formulas → Formula Auditing</strong> helps: <strong>Trace Precedents</strong> draws arrows to the cells a formula uses, <strong>Trace Dependents</strong> to cells that use it, <strong>Show Formulas</strong> (<code>Ctrl + `</code>) shows every formula, and <strong>Evaluate Formula</strong> steps through a calculation (Lesson 11).</p>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Paste a formula into Copilot or a chat assistant and ask: <em>"Explain this Excel formula step by step and tell me what would make it return an error: <code>=SUMIFS(Sales!$F:$F,Sales!$C:$C,$A2,Sales!$E:$E,"&gt;="&amp;$B$1)</code>."</em> Use AI to explain and draft formulas, then check the result on a few rows you can verify by hand.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Formula = any calculation starting with <code>=</code>; function = a named calculation such as <code>SUM</code>.</li>
+<li>Order: brackets, power, multiply/divide, add/subtract, join, compare. In Excel <code>-2^2 = 4</code>.</li>
+<li><code>$</code> locks a reference; <strong>F4</strong> cycles relative → absolute → mixed. Mixed references build 2-D tables with one formula.</li>
+<li><code>COUNT</code> counts numbers; <code>COUNTA</code> counts non-empty; <code>COUNTBLANK</code> counts empty.</li>
+<li><code>SUMIFS(sum_range, criteria_range, criteria, …)</code> and <code>COUNTIFS</code> answer most business questions.</li>
+<li>Criteria with operators go in quotes and join cell values with <code>&amp;</code>: <code>"&gt;="&amp;H1</code>.</li>
+<li><code>SUBTOTAL(109,…)</code> sums only visible rows; <code>AGGREGATE</code> can also ignore errors.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> You copy <code>=B2*$E$1</code> from C2 to C5. What is the formula in C5?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=B5*$E$4</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=B5*$E$1</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=B2*$E$1</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=E5*$B$1</code></button></div><div class="qexp"><b>Answer: B.</b> B2 is relative and moves to B5; $E$1 is absolute and stays.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which formula, typed in B2 and copied across and down, builds a multiplication table with headers in row 1 and column A?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=A2*B1</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>=$A$2*$B$1</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>=$A2*B$1</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=A$2*$B1</code></button></div><div class="qexp"><b>Answer: C.</b> Column A is locked for the row header, and row 1 is locked for the column header.</div></div><div class="qq"><p class="qtext"><b>3.</b> A range contains 10, "abc", blank, 25, TRUE (typed). What does COUNT return?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>2</button><button type="button" class="opt" data-ok="0"><i>B</i>3</button><button type="button" class="opt" data-ok="0"><i>C</i>4</button><button type="button" class="opt" data-ok="0"><i>D</i>5</button></div><div class="qexp"><b>Answer: A.</b> COUNT counts only numbers in a range: 10 and 25.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which formula totals Sales (D) where Region (B) is "North" AND Category (C) is "Technology"?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=SUMIF(B:B,"North",D:D)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=SUMIFS(D:D,B:B,"North",C:C,"Technology")</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=SUMIFS(B:B,"North",C:C,"Technology",D:D)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=COUNTIFS(B:B,"North",C:C,"Technology")</code></button></div><div class="qexp"><b>Answer: B.</b> SUMIFS takes the sum range first, then pairs of criteria range and criteria.</div></div><div class="qq"><p class="qtext"><b>5.</b> How do you count values in A2:A100 greater than the value in H1?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=COUNTIF(A2:A100,&gt;H1)</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>=COUNTIF(A2:A100,"&gt;H1")</code></button><button type="button" class="opt" data-ok="1"><i>C</i><code>=COUNTIF(A2:A100,"&gt;"&amp;H1)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=COUNTIF(A2:A100,H1&gt;)</code></button></div><div class="qexp"><b>Answer: C.</b> The operator is text and is joined to the cell value with &amp;.</div></div><div class="qq"><p class="qtext"><b>6.</b> You filter a table to show only Pune. Which total updates to show only Pune's sales?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=SUM(D2:D500)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=SUBTOTAL(109,D2:D500)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=SUMIF(D2:D500,"&gt;0")</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=AGGREGATE(9,0,D2:D500)</code> with option 0</button></div><div class="qexp"><b>Answer: B.</b> SUBTOTAL 9/109 ignores rows hidden by a filter.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Superstore questions with formulas</b></div><p>Open <code>superstore_sales.csv</code> in Excel. Using only aggregate and IFS functions, find: (1) total sales; (2) number of order lines in the West region; (3) total profit for Technology in 2025; (4) average discount for Furniture; (5) the largest single order-line sale in the South.</p><details class="sol"><summary>Show solution</summary><p>Assuming columns: J region, L category, O sales, Q discount, R profit and B order_date (check your own column letters):
+(1) <code>=SUM(O:O)</code>
+(2) <code>=COUNTIFS(J:J,"West")</code>
+(3) <code>=SUMIFS(R:R,L:L,"Technology",B:B,"&gt;="&amp;DATE(2025,1,1),B:B,"&lt;="&amp;DATE(2025,12,31))</code>
+(4) <code>=AVERAGEIFS(Q:Q,L:L,"Furniture")</code>
+(5) <code>=MAXIFS(O:O,J:J,"South")</code>
+Check your answers in Python with pandas (Python track, Lesson 22) or with a pivot table (Lesson 8): they must match exactly.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between COUNT, COUNTA and COUNTBLANK?</strong>
+COUNT counts numeric cells, COUNTA counts every non-empty cell (including text and formulas returning ""), COUNTBLANK counts empty cells and cells containing "".</p>
+<p><strong>Q: When would you use a mixed reference?</strong>
+When a formula is copied in two directions and must keep either the row or the column fixed, for example a price × quantity grid or a commission table: <code>=$A2*B$1</code>.</p>
+<p><strong>Q: Why use SUMIFS instead of SUMIF?</strong>
+SUMIFS supports multiple conditions, has a consistent argument order (sum range first), and works for one condition too, so one pattern covers every case.</p>
+<p><strong>Q: How do you total only visible rows after filtering?</strong>
+Use <code>SUBTOTAL(109, range)</code> or <code>AGGREGATE(9, 5, range)</code>; the Table Total Row does this automatically.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-03-number-custom-and-conditional-formatting.html"><small>← Previous</small><b>Number, Custom &amp; Conditional Formatting</b></a><a class="next" href="excel-05-text-functions-logical-functions-and-if.html"><small>Next →</small><b>Text Functions, Logical Functions &amp; IF</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#formula-vs-function">Formula vs function</a><a href="#operators-and-order-of-calculation">Operators and order of calculation</a><a href="#cell-references-relative-absolute-and-mixed">Cell references: relative, absolute and mixed</a><a href="#aggregate-functions">Aggregate functions</a><a href="#conditional-aggregation-the-ifs-family">Conditional aggregation: the IFS family</a><a href="#subtotal-and-aggregate-totals-for-filtered-data">SUBTOTAL and AGGREGATE: totals for filtered data</a><a href="#common-formula-errors-and-how-to-fix-them">Common formula errors and how to fix them</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

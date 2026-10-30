@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Filters, Parameters, Sets, Groups and Hierarchies in Tableau · Tableau Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Control what a view shows and let users interact with it. Learn every filter type and where it sits in the order of operations, context filters and Top N, groups, hierarchies, bins, sets (fixed, conditional, top) and combined sets, and parameters for dynamic Top N, measure swapping and what-if analysis."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-tableau"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-tableau">Tableau</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#4E79A7">Tableau</div>
+<ol class="side-l"><li class=""><a href="tableau-01-getting-started-with-tableau-interface-data-connections-and.html" data-lid="tableau-01"><span>01</span>Getting Started with Tableau: Interface, Data Connections and Your First Views</a></li><li class=""><a href="tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html" data-lid="tableau-02"><span>02</span>Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto</a></li><li class=""><a href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html" data-lid="tableau-03"><span>03</span>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</a></li><li class="on"><a href="tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html" data-lid="tableau-04"><span>04</span>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</a></li><li class=""><a href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html" data-lid="tableau-05"><span>05</span>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</a></li><li class=""><a href="tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html" data-lid="tableau-06"><span>06</span>Dashboards, Actions, Stories and Publishing in Tableau (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="tableau-04">
+<div class="lhead" style="--tc:#4E79A7"><div class="kick">Tableau · Lesson 4 of 6</div><h1>Filters, Parameters, Sets, Groups and Hierarchies in Tableau</h1>
+<p class="sum">Control what a view shows and let users interact with it. Learn every filter type and where it sits in the order of operations, context filters and Top N, groups, hierarchies, bins, sets (fixed, conditional, top) and combined sets, and parameters for dynamic Top N, measure swapping and what-if analysis.</p><div class="tags"><span class="tag new">✦ Tableau Desktop / Tableau Public 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/tableau/Tableau_04_Filters_Parameters_Sets_Groups_and_Hierarchies_in_Tableau.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="tableau-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Use dimension, measure, date, context, data-source and table-calculation filters correctly</li><li>Build hierarchies and groups, and explain groups vs sets</li><li>Create fixed, conditional and Top N sets and use IN/OUT in calculations</li><li>Create parameters for Top N, measure selection and what-if discount scenarios</li><li>Combine filters, sets and parameters into interactive views</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="filters">Filters</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Filter</th>
+<th>How</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dimension</strong> filter</td>
+<td>Drag a dimension to Filters → General / Wildcard / Condition / Top tabs</td>
+<td>e.g. Region = South</td>
+</tr>
+<tr>
+<td><strong>Measure</strong> filter</td>
+<td>Drag a measure to Filters → choose aggregation → range</td>
+<td>e.g. SUM(Profit) &lt; 0 (loss-making items)</td>
+</tr>
+<tr>
+<td><strong>Date</strong> filter</td>
+<td>Relative dates (last 3 months), range of dates, or discrete years/months</td>
+<td>Relative dates update automatically</td>
+</tr>
+<tr>
+<td><strong>Context</strong> filter</td>
+<td>Right-click a filter → Add to Context (grey pill)</td>
+<td>Runs first; Top N and FIXED LODs respect it</td>
+</tr>
+<tr>
+<td><strong>Data source</strong> filter</td>
+<td>Data Source page → Filters → Add</td>
+<td>Applies to every sheet; good for security and speed</td>
+</tr>
+<tr>
+<td><strong>Extract</strong> filter</td>
+<td>When creating an extract</td>
+<td>Shrinks the extract itself</td>
+</tr>
+<tr>
+<td><strong>Table-calc</strong> filter</td>
+<td>Filter on a table calc such as <code>LAST()=0</code> or rank</td>
+<td>Hides marks without changing other calculations</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Show Filter</strong> (right-click the pill → Show Filter) puts an interactive control on the sheet: single value list, dropdown, multiple values, slider, wildcard match. <strong>Apply to Worksheets → All Using This Data Source / Selected Worksheets</strong> makes one filter drive several sheets on a dashboard.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+df = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+loss = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;sub_category&quot;</span>).<span class="hl-f">profit.sum</span>().<span class="hl-f">sort_values</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Loss-making sub-categories (measure filter SUM(Profit) &lt; 0):&quot;</span>)
+<span class="hl-f">print</span>((loss[loss &lt; <span class="hl-n">0</span>] / 1e5).<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Loss-making sub-categories (measure filter SUM(Profit) &lt; 0):
+sub_category
+Tables      -8.2
+Bookcases   -4.2
+Name: profit, dtype: float64</pre></div>
+<h3 id="top-n-and-context">Top N and context</h3>
+<p>Top N is computed <strong>after</strong> context filters but <strong>before</strong> ordinary dimension filters. So "Top 5 products <strong>in the South</strong>" needs the Region filter in context; otherwise Tableau finds the national Top 5 first and then keeps only those that happen to be in the South.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">top_all = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>).<span class="hl-f">sales.sum</span>().<span class="hl-f">nlargest</span>(<span class="hl-n">5</span>)
+south = df[df.region == <span class="hl-s">&quot;South&quot;</span>]
+top_south = <span class="hl-f">south.groupby</span>(<span class="hl-s">&quot;product_name&quot;</span>).<span class="hl-f">sales.sum</span>().<span class="hl-f">nlargest</span>(<span class="hl-n">5</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;National top 5:&quot;</span>, <span class="hl-f">list</span>(top_all.index))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;South top 5 (Region in context):&quot;</span>, <span class="hl-f">list</span>(top_south.index))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Overlap:&quot;</span>, <span class="hl-f">len</span>(<span class="hl-f">set</span>(top_all.index) &amp; <span class="hl-f">set</span>(top_south.index)), <span class="hl-s">&quot;of 5&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">National top 5: [&#x27;Orbit Copier 746&#x27;, &#x27;Apex Copier 347&#x27;, &#x27;Vertex Copier 262&#x27;, &#x27;Zenith Copier 719&#x27;, &#x27;Zenith Machine 401&#x27;]
+South top 5 (Region in context): [&#x27;Orbit Copier 746&#x27;, &#x27;Vertex Copier 262&#x27;, &#x27;Zenith Machine 401&#x27;, &#x27;Apex Copier 347&#x27;, &#x27;Pioneer Copier 366&#x27;]
+Overlap: 4 of 5</pre></div>
+<h2 id="hierarchies-groups-and-bins">Hierarchies, groups and bins</h2>
+<ul>
+<li><strong>Hierarchy</strong>: drag Sub-Category onto Category in the Data pane → name it "Product hierarchy". A <strong>+</strong> on the pill drills down. Date fields have a built-in Year → Quarter → Month → Day hierarchy.</li>
+<li><strong>Group</strong>: select marks or right-click a field → Create → Group, e.g. group Indian states into "North-East". A group is a new dimension; its members are fixed.</li>
+<li><strong>Bins</strong>: equal-width buckets of a measure (Lesson 2).</li>
+</ul>
+<h2 id="sets">Sets</h2>
+<p>A <strong>set</strong> is a subset of a dimension that is either <strong>IN</strong> or <strong>OUT</strong>.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Set type</th>
+<th>Created by</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixed (manual)</td>
+<td>Select members</td>
+<td>Six key accounts</td>
+</tr>
+<tr>
+<td>Conditional</td>
+<td>Condition tab, e.g. SUM(Profit) &gt; 0</td>
+<td>Profitable customers</td>
+</tr>
+<tr>
+<td>Top</td>
+<td>Top tab, e.g. Top 10 by SUM(Sales)</td>
+<td>Top 10 customers</td>
+</tr>
+<tr>
+<td>Combined</td>
+<td>Two sets → Create Combined Set (union, intersection, difference)</td>
+<td>Top customers who are also unprofitable</td>
+</tr>
+</tbody>
+</table></div>
+<p>Use a set on <strong>Color</strong> to show IN vs OUT, on Filters to keep only members, or in calculations: <code>IF [Top Customers] THEN [Sales] END</code>. <strong>Set actions</strong> (Lesson 6) let users change a set by clicking marks.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cust = <span class="hl-f">df.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+top10 = <span class="hl-f">cust.sales.nlargest</span>(<span class="hl-n">10</span>).index
+in_set = <span class="hl-f">cust.index.isin</span>(top10)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Top 10 customers (IN): {cust.sales[in_set].sum() / cust.sales.sum():.1%} of sales&quot;</span>)
+unprofitable = cust.index[cust.profit &lt; <span class="hl-n">0</span>]
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Customers in Top 10 AND unprofitable (combined set, intersection):&quot;</span>, <span class="hl-f">len</span>(<span class="hl-f">set</span>(top10) &amp; <span class="hl-f">set</span>(unprofitable)))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;All unprofitable customers:&quot;</span>, <span class="hl-f">len</span>(unprofitable), <span class="hl-s">&quot;of&quot;</span>, <span class="hl-f">len</span>(cust))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Top 10 customers (IN): 5.3% of sales
+Customers in Top 10 AND unprofitable (combined set, intersection): 1
+All unprofitable customers: 142 of 785</pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Groups vs sets</b></div><p>A <strong>group</strong> combines members into new categories (many buckets, fixed). A <strong>set</strong> splits a dimension into IN/OUT, can be dynamic (conditional or Top N) and can be changed by users with set actions.</p></div>
+<h2 id="parameters">Parameters</h2>
+<p>A <strong>parameter</strong> is a single user-controlled value (number, string, date or list) that does nothing until a calculation, filter or reference line uses it. Right-click → <strong>Show Parameter</strong>.</p>
+<h3 id="1-dynamic-top-n">1. Dynamic Top N</h3>
+<ol>
+<li>Create parameter <strong>Top N</strong> (integer, range 5–20, step 5).</li>
+<li>Product Name filter → Top tab → By field → Top <strong>[Top N]</strong> by SUM(Sales).</li>
+<li>Show the parameter: users choose 5, 10, 15 or 20.</li>
+</ol>
+<h3 id="2-measure-swap">2. Measure swap</h3>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">// Parameter &quot;Choose measure&quot;: list of strings Sales, Profit, Quantity
+CASE [Choose measure]
+WHEN &quot;Sales&quot; THEN SUM([Sales])
+WHEN &quot;Profit&quot; THEN SUM([Profit])
+WHEN &quot;Quantity&quot; THEN SUM([Quantity])
+END</code></pre></div>
+<p>Put this calculated field on the axis; one chart now shows whichever measure the user picks. Use a dynamic title: <code>&lt;Parameters.Choose measure&gt; by Region</code>.</p>
+<h3 id="3-what-if-extra-discount">3. What-if: extra discount</h3>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">// Parameter &quot;Extra discount&quot; : float 0.00–0.20
+[Sales] * (1 - [Extra discount])                     // projected sales
+[Profit] - [Sales] * [Extra discount]                // projected profit</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> extra <span class="hl-k">in</span> (<span class="hl-n">0</span>, .<span class="hl-n">05</span>, .<span class="hl-n">10</span>):
+    proj_profit = (df.profit - df.sales * extra).<span class="hl-f">sum</span>()
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;extra discount {extra:.0%}: projected profit ₹{proj_profit / 1e7:.2f} crore&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">extra discount 0%: projected profit ₹1.84 crore
+extra discount 5%: projected profit ₹0.83 crore
+extra discount 10%: projected profit ₹-0.18 crore</pre></div>
+<p>With margins around 9%, a further 10% discount turns the whole business loss-making. That is exactly the kind of insight a what-if parameter makes obvious to a manager.</p>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Dynamic parameters and zone visibility</b></div><p>Parameters can refresh their list and default value from a field when the workbook opens (<em>When workbook opens → value of field</em>). Combined with <strong>dynamic zone visibility</strong> (show or hide a dashboard container based on a boolean field or parameter), they power menus and drill-in panels without bookmarks.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Pick the right filter level: data source → context → dimension → measure → table calc.</li>
+<li>Top N and FIXED LODs ignore normal dimension filters unless those filters are in context.</li>
+<li>Groups make fixed buckets; sets make IN/OUT subsets that can be dynamic and combined.</li>
+<li>Parameters are user inputs: wire them into filters, calculations, titles and reference lines.</li>
+</ul></div>
+<div class="quiz" id="quiz-tableau-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> You need "Top 10 products within the selected region". What must you do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Add the Region filter to context</button><button type="button" class="opt" data-ok="0"><i>B</i>Use a measure filter</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a group</button><button type="button" class="opt" data-ok="0"><i>D</i>Hide the other regions</button></div><div class="qexp"><b>Answer: A.</b> Top N runs before normal dimension filters.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which object can a user change by clicking marks on a dashboard?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A set (through a set action)</button><button type="button" class="opt" data-ok="0"><i>B</i>A group</button><button type="button" class="opt" data-ok="0"><i>C</i>A bin</button><button type="button" class="opt" data-ok="0"><i>D</i>A hierarchy</button></div><div class="qexp"><b>Answer: A.</b> Set actions update set membership.</div></div><div class="qq"><p class="qtext"><b>3.</b> A parameter on its own does nothing. Why?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It must be referenced by a calculation, filter or reference line</button><button type="button" class="opt" data-ok="0"><i>B</i>It needs an extract</button><button type="button" class="opt" data-ok="0"><i>C</i>It must be added to context</button><button type="button" class="opt" data-ok="0"><i>D</i>It only works on Tableau Server</button></div><div class="qexp"><b>Answer: A.</b> Parameters are inputs that something must use.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which filter applies to every sheet using the data source and is good for row-level restrictions?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Data source filter</button><button type="button" class="opt" data-ok="0"><i>B</i>Table-calculation filter</button><button type="button" class="opt" data-ok="0"><i>C</i>Measure filter</button><button type="button" class="opt" data-ok="0"><i>D</i>Page shelf</button></div><div class="qexp"><b>Answer: A.</b> Data source filters run near the start for all sheets.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which set type keeps the 10 largest customers by sales, updating as data changes?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Top set</button><button type="button" class="opt" data-ok="0"><i>B</i>Fixed set</button><button type="button" class="opt" data-ok="0"><i>C</i>Group</button><button type="button" class="opt" data-ok="0"><i>D</i>Combined set</button></div><div class="qexp"><b>Answer: A.</b> The Top tab makes a dynamic set.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which calculation swaps the measure shown in a chart?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A CASE on a string parameter returning SUM([Sales]), SUM([Profit]) or SUM([Quantity])</button><button type="button" class="opt" data-ok="0"><i>B</i>A FIXED LOD</button><button type="button" class="opt" data-ok="0"><i>C</i>A group</button><button type="button" class="opt" data-ok="0"><i>D</i>A data source filter</button></div><div class="qexp"><b>Answer: A.</b> The parameter value chooses the branch.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Build: (1) a dynamic Top N products chart with a parameter and Region in context; (2) a Top 20 customers set shown on Color in a scatter of Sales vs Profit; (3) a measure-swap chart with a dynamic title; (4) a what-if discount parameter showing projected profit by Category.</p><details class="sol"><summary>Show solution</summary><p>Follow the three parameter recipes. For (2): Customer Name on Detail, SUM(Sales) and SUM(Profit) on the axes, the Top 20 set on Color. For (4): a "Projected profit" calculated field <code>SUM([Profit]) - SUM([Sales]) * [Extra discount]</code> by Category with the parameter shown as a slider.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between a set and a group?</strong>
+A group merges members into new categories and is static; a set divides members into IN/OUT, can be conditional or Top N, can be combined with other sets and changed through set actions.</p>
+<p><strong>Q: What is a context filter and when do you use it?</strong>
+A filter that runs before other dimension filters, Top N filters and FIXED LODs. Use it for dependent Top N, to make FIXED LODs respect a filter, and to speed up large workbooks by reducing the data early.</p>
+<p><strong>Q: Parameter vs filter?</strong>
+A filter removes data; a parameter is a single input value that you can use anywhere: in calculations, Top N, reference lines, titles, or to swap measures and dimensions.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.tableau.com/learn/training">Tableau free training videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://public.tableau.com/app/discover">Tableau Public gallery (Viz of the Day) ↗</a></li><li><a target="_blank" rel="noopener" href="https://help.tableau.com/current/pro/desktop/en-us/functions.htm">Tableau functions reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://workout-wednesday.com/">Workout Wednesday challenges ↗</a></li><li><a target="_blank" rel="noopener" href="https://makeovermonday.co.uk/">Makeover Monday datasets ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html"><small>← Previous</small><b>Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions</b></a><a class="next" href="tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html"><small>Next →</small><b>Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#filters">Filters</a><a href="#hierarchies-groups-and-bins">Hierarchies, groups and bins</a><a href="#sets">Sets</a><a href="#parameters">Parameters</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

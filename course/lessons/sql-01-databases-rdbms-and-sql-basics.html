@@ -1,0 +1,421 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Databases, RDBMS &amp; SQL Basics · SQL Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand what a database is, how relational databases organise data into tables, the vocabulary of SQL, the four families of SQL statements (DDL, DML, DCL, TCL), how SQL compares with Excel, and how to install SQL Server and SSMS and run your first query."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class="on"><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-01">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 1 of 15</div><h1>Databases, RDBMS &amp; SQL Basics</h1>
+<p class="sum">Understand what a database is, how relational databases organise data into tables, the vocabulary of SQL, the four families of SQL statements (DDL, DML, DCL, TCL), how SQL compares with Excel, and how to install SQL Server and SSMS and run your first query.</p><div class="tags"><span class="tag live">● SQL class 1</span><span class="tag new">✦ SQL Server 2022 / SSMS 21, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_01_Databases_RDBMS_SQL_Basics.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what a database, a DBMS and an RDBMS are and why companies use them instead of spreadsheets</li><li>Use the core vocabulary (table, row/record, column/field, schema, query, result set)</li><li>Classify SQL statements into DDL, DML, DQL, DCL and TCL</li><li>Compare Excel and SQL and know when to use each</li><li>Install SQL Server Developer edition and SSMS, connect, create a database and run a first SELECT</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a><a class="chip" href="../datasets/products.csv" download>products.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-a-database">What is a database?</h2>
+<p>A <strong>database</strong> is an organised collection of data stored so that it can be found, updated and analysed efficiently and safely by many people at the same time. A <strong>DBMS</strong> (database management system) is the software that manages it. Your bank balance, every Swiggy order, every Aadhaar-linked record and every hospital appointment lives in a database.</p>
+<figure class="fig"><img src="../img/sql-01-01.png" alt="Spreadsheets are personal tools; databases are shared systems built for scale, safety and many users." loading="lazy"><figcaption>Spreadsheets are personal tools; databases are shared systems built for scale, safety and many users.</figcaption></figure>
+<h3 id="types-of-databases">Types of databases</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Organises data as</th>
+<th>Examples</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Relational (RDBMS)</strong></td>
+<td>Tables with rows and columns, linked by keys</td>
+<td>SQL Server, PostgreSQL, MySQL, Oracle, SQLite</td>
+<td>Orders, payments, HR, finance: most business data</td>
+</tr>
+<tr>
+<td>Document</td>
+<td>JSON-like documents</td>
+<td>MongoDB, Cosmos DB</td>
+<td>Product catalogues, app content</td>
+</tr>
+<tr>
+<td>Key-value</td>
+<td>Key → value pairs</td>
+<td>Redis, DynamoDB</td>
+<td>Caching, sessions</td>
+</tr>
+<tr>
+<td>Column-family / warehouse</td>
+<td>Columns, built for analytics</td>
+<td>Snowflake, BigQuery, Redshift, Databricks SQL</td>
+<td>Analytics on huge data</td>
+</tr>
+<tr>
+<td>Graph</td>
+<td>Nodes and edges</td>
+<td>Neo4j</td>
+<td>Social networks, fraud rings</td>
+</tr>
+<tr>
+<td>Vector</td>
+<td>Number vectors (embeddings)</td>
+<td>pgvector, Pinecone</td>
+<td>AI search and RAG (GenAI track)</td>
+</tr>
+</tbody>
+</table></div>
+<p>This track focuses on <strong>relational databases</strong> and <strong>SQL</strong>, the language almost every data role uses daily. You will practise in <strong>Microsoft SQL Server</strong> with <strong>SSMS</strong>, as in class. The SQL you learn transfers to PostgreSQL, MySQL, Snowflake and BigQuery with small differences in functions.</p>
+<h2 id="how-a-relational-database-organises-data">How a relational database organises data</h2>
+<figure class="fig"><img src="../img/sql-01-02.png" alt="The hierarchy inside SQL Server: a server holds databases, a database holds schemas, a schema holds tables and other objects." loading="lazy"><figcaption>The hierarchy inside SQL Server: a server holds databases, a database holds schemas, a schema holds tables and other objects.</figcaption></figure>
+<h3 id="the-vocabulary">The vocabulary</h3>
+<div class="co co-def"><div class="co-h"><span class="pill">Definition</span><b>Terms you will use every day</b></div><p><strong>Table (relation)</strong>: a set of rows about one kind of thing, such as customers or orders.
+<strong>Row (record, tuple)</strong>: one item, such as one customer.
+<strong>Column (field, attribute)</strong>: one property, such as <code>city</code>. Every value in a column has the same data type.
+<strong>Primary key</strong>: the column (or columns) that uniquely identifies each row, such as <code>customer_id</code>.
+<strong>Foreign key</strong>: a column that refers to the primary key of another table, linking them.
+<strong>Schema</strong>: (1) the structure of the database (tables, columns, types, relationships); (2) in SQL Server, a named container of objects such as <code>dbo</code>.
+<strong>Query</strong>: a request for data written in SQL. Its output is a <strong>result set</strong>.
+<strong>SQL</strong>: Structured Query Language, the standard language for relational databases (ANSI/ISO standard since 1986–87). Pronounced "S-Q-L" or "sequel".
+<strong>T-SQL</strong>: Transact-SQL, Microsoft SQL Server's dialect with extra features (variables, TOP, procedures).</p></div>
+<p>Here is the course's retail database. The order data is split into related tables instead of one wide sheet:</p>
+<figure class="fig"><img src="../img/sql-01-03.png" alt="The course retail database. Each order belongs to one customer; each order has many order items; each item refers to one product." loading="lazy"><figcaption>The course retail database. Each order belongs to one customer; each order has many order items; each item refers to one product.</figcaption></figure>
+<h2 id="your-first-queries">Your first queries</h2>
+<p>A <code>SELECT</code> statement asks for columns <code>FROM</code> a table. Here are the first rows of the <code>customers</code> table:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">6</span> customer_id, customer_name, segment, city, region
+<span class="hl-k">FROM</span> customers;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>customer_name</th>
+      <th>segment</th>
+      <th>city</th>
+      <th>region</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0001</td>
+      <td>Saanvi Khan</td>
+      <td>Corporate</td>
+      <td>Chandigarh</td>
+      <td>North</td>
+    </tr>
+    <tr>
+      <td>C0002</td>
+      <td>Meera Bose</td>
+      <td>Corporate</td>
+      <td>Delhi</td>
+      <td>North</td>
+    </tr>
+    <tr>
+      <td>C0003</td>
+      <td>Riya Shah</td>
+      <td>Consumer</td>
+      <td>Kolkata</td>
+      <td>East</td>
+    </tr>
+    <tr>
+      <td>C0004</td>
+      <td>Diya Fernandes</td>
+      <td>Corporate</td>
+      <td>Indore</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>C0005</td>
+      <td>Neha Sharma</td>
+      <td>Corporate</td>
+      <td>Hyderabad</td>
+      <td>South</td>
+    </tr>
+    <tr>
+      <td>C0006</td>
+      <td>Vikram Mehta</td>
+      <td>Consumer</td>
+      <td>Chandigarh</td>
+      <td>North</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 5 columns</div></div>
+<p>How many rows are in each table?</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-s">&#x27;customers&#x27;</span> <span class="hl-k">AS</span> table_name, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> row_count <span class="hl-k">FROM</span> customers
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;orders&#x27;</span>, <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> orders
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;order_items&#x27;</span>, <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> order_items
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;products&#x27;</span>, <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> products;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>table_name</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>customers</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td>orders</td>
+      <td>3200</td>
+    </tr>
+    <tr>
+      <td>order_items</td>
+      <td>6323</td>
+    </tr>
+    <tr>
+      <td>products</td>
+      <td>78</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<p>A taste of what is coming: total sales by region in one statement (Lesson 7 explains <code>GROUP BY</code>):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> c.region,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id) <span class="hl-k">AS</span> orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(oi.sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> total_sales
+<span class="hl-k">FROM</span> customers <span class="hl-k">AS</span> c
+<span class="hl-k">JOIN</span> orders <span class="hl-k">AS</span> o       <span class="hl-k">ON</span> o.customer_id = c.customer_id
+<span class="hl-k">JOIN</span> order_items <span class="hl-k">AS</span> oi <span class="hl-k">ON</span> oi.order_id = o.order_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.region
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> total_sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>orders</th>
+      <th>total_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>South</td>
+      <td>831</td>
+      <td>53,952,769</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>811</td>
+      <td>51,958,521</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>792</td>
+      <td>49,018,161</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>766</td>
+      <td>46,484,119</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>SQL reads almost like English</b></div><p>"Select the region, the number of distinct orders and the total sales, from customers joined to orders and order items, grouped by region, ordered by total sales descending." That readability is why SQL has lasted 50 years.</p></div>
+<h2 id="properties-of-sql">Properties of SQL</h2>
+<ol>
+<li><strong>Declarative</strong>: you say <em>what</em> you want, not <em>how</em> to get it. The database's <strong>query optimiser</strong> decides the fastest way (which index, which join order).</li>
+<li><strong>Set-based</strong>: statements work on whole sets of rows at once, not one row at a time like a loop.</li>
+<li><strong>Not case-sensitive for keywords</strong>: <code>select</code>, <code>SELECT</code> and <code>Select</code> are the same. By convention, keywords are written in UPPERCASE. In SQL Server, text comparisons are usually case-insensitive too (default collation).</li>
+<li><strong>Whitespace does not matter</strong>: you can split a query over many lines; indent it for readability.</li>
+<li><strong>Statements end with a semicolon</strong> <code>;</code> (optional in SQL Server for most statements, but a good habit).</li>
+<li><strong>Standard, with dialects</strong>: the core is an ANSI/ISO standard; each product adds its own functions (T-SQL, PL/pgSQL, MySQL).</li>
+</ol>
+<h2 id="the-families-of-sql-statements">The families of SQL statements</h2>
+<figure class="fig"><img src="../img/sql-01-04.png" alt="SQL statements fall into five families." loading="lazy"><figcaption>SQL statements fall into five families.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Family</th>
+<th>Full name</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DDL</strong></td>
+<td>Data Definition Language</td>
+<td>Creates and changes the <strong>structure</strong>: databases, tables, columns</td>
+<td><code>CREATE TABLE customers (...)</code></td>
+</tr>
+<tr>
+<td><strong>DML</strong></td>
+<td>Data Manipulation Language</td>
+<td>Adds, changes and removes <strong>rows</strong></td>
+<td><code>INSERT INTO customers VALUES (...)</code></td>
+</tr>
+<tr>
+<td><strong>DQL</strong></td>
+<td>Data Query Language</td>
+<td>Reads data</td>
+<td><code>SELECT * FROM customers</code></td>
+</tr>
+<tr>
+<td><strong>DCL</strong></td>
+<td>Data Control Language</td>
+<td>Gives and removes <strong>permissions</strong></td>
+<td><code>GRANT SELECT ON customers TO analyst</code></td>
+</tr>
+<tr>
+<td><strong>TCL</strong></td>
+<td>Transaction Control Language</td>
+<td>Groups changes so they succeed or fail together</td>
+<td><code>BEGIN TRAN … COMMIT</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Many books put <code>SELECT</code> inside DML; others separate it as DQL. Both are fine in interviews if you explain them.</p>
+<h2 id="excel-vs-sql">Excel vs SQL</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>Excel</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>See the data</td>
+<td>Open the sheet</td>
+<td><code>SELECT * FROM table</code></td>
+</tr>
+<tr>
+<td>Filter rows</td>
+<td>AutoFilter</td>
+<td><code>WHERE</code></td>
+</tr>
+<tr>
+<td>Sort</td>
+<td>Sort dialog</td>
+<td><code>ORDER BY</code></td>
+</tr>
+<tr>
+<td>New calculated column</td>
+<td>Formula in a new column</td>
+<td>Expression in <code>SELECT</code></td>
+</tr>
+<tr>
+<td>Totals by group</td>
+<td>Pivot table / SUMIFS</td>
+<td><code>GROUP BY</code> with <code>SUM</code></td>
+</tr>
+<tr>
+<td>Filter groups</td>
+<td>Pivot value filter</td>
+<td><code>HAVING</code></td>
+</tr>
+<tr>
+<td>Lookup from another table</td>
+<td>VLOOKUP / XLOOKUP</td>
+<td><code>JOIN</code></td>
+</tr>
+<tr>
+<td>Stack two tables</td>
+<td>Copy-paste / Power Query Append</td>
+<td><code>UNION ALL</code></td>
+</tr>
+<tr>
+<td>Remove duplicates</td>
+<td>Remove Duplicates</td>
+<td><code>DISTINCT</code></td>
+</tr>
+<tr>
+<td>Rank / running total</td>
+<td>RANK, SUM($B$2:B2)</td>
+<td>Window functions <code>RANK() OVER</code>, <code>SUM() OVER</code></td>
+</tr>
+<tr>
+<td>Data size</td>
+<td>~1 million rows per sheet</td>
+<td>Billions of rows</td>
+</tr>
+<tr>
+<td>Repeatability</td>
+<td>Manual steps (unless Power Query)</td>
+<td>Saved queries, views, procedures</td>
+</tr>
+<tr>
+<td>Sharing</td>
+<td>Files get copied</td>
+<td>One source of truth with permissions</td>
+</tr>
+</tbody>
+</table></div>
+<p>Use Excel for quick, small, ad-hoc analysis and presentation; use SQL to get, combine and summarise data at source. In practice analysts use both: SQL to extract the right data, Excel or Power BI to present it.</p>
+<h2 id="installing-sql-server-and-ssms">Installing SQL Server and SSMS</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Install on Windows (free)</b></div><ol>
+<li>Download <strong>SQL Server 2022 Developer</strong> edition (free, full-featured, for development and learning) from Microsoft's SQL Server downloads page. Choose <strong>Basic</strong> installation. Express edition is also free but limited to 10 GB per database.</li>
+<li>Note the instance name shown at the end (for example <code>MSSQLSERVER</code> = default, or <code>SQLEXPRESS</code>).</li>
+<li>Download and install <strong>SQL Server Management Studio (SSMS)</strong> from Microsoft Learn ("Download SSMS"). SSMS is the editor you write queries in.</li>
+<li>Open SSMS → <strong>Connect to Server</strong>: Server type <em>Database Engine</em>; Server name <code>localhost</code> (or <code>localhost\SQLEXPRESS</code>); Authentication <em>Windows Authentication</em>; tick <strong>Trust server certificate</strong> → Connect.</li>
+<li>In Object Explorer you will see Databases, Security and more. Click <strong>New Query</strong> (<code>Ctrl + N</code>).</li>
+</ol></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Mac or Linux?</b></div><p>SQL Server runs in <strong>Docker</strong> on Mac and Linux (<code>mcr.microsoft.com/mssql/server</code> image). Connect with <strong>VS Code + the MSSQL extension</strong> or Azure Data Studio's successor tools. Alternatively, practise the same SQL in <strong>PostgreSQL</strong> (pgAdmin) or <strong>SQLite</strong> (DB Browser); only a few functions differ.</p></div>
+<figure class="fig"><img src="../img/sql-01-05.png" alt="The SSMS window: Object Explorer on the left, the query editor in the middle, results below." loading="lazy"><figcaption>The SSMS window: Object Explorer on the left, the query editor in the middle, results below.</figcaption></figure>
+<h3 id="create-a-database-and-load-data">Create a database and load data</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- 1. Create the database and switch to it</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">DATABASE</span> RetailDB;
+<span class="hl-k">GO</span>
+<span class="hl-k">USE</span> RetailDB;
+<span class="hl-k">GO</span>
+<span class="hl-c">-- 2. Check which database you are in</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">DB_NAME</span>() <span class="hl-k">AS</span> current_database;</code></pre></div>
+<p>To load the course CSV files: right-click the database → <strong>Tasks → Import Flat File</strong> → choose <code>customers.csv</code> → check the column names and data types in the preview (make IDs <code>nvarchar</code>, dates <code>date</code>, amounts <code>decimal(12,2)</code>) → Finish. Repeat for the other files. Lesson 4 shows how to create tables with SQL and load them with <code>BULK INSERT</code>.</p>
+<h3 id="running-queries-in-ssms">Running queries in SSMS</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Execute the whole window (or the selected text only)</td>
+<td><code>F5</code> or <code>Ctrl + E</code></td>
+</tr>
+<tr>
+<td>New query window</td>
+<td><code>Ctrl + N</code></td>
+</tr>
+<tr>
+<td>Comment / uncomment selected lines</td>
+<td><code>Ctrl + K, Ctrl + C</code> / <code>Ctrl + K, Ctrl + U</code></td>
+</tr>
+<tr>
+<td>Show/hide results pane</td>
+<td><code>Ctrl + R</code></td>
+</tr>
+<tr>
+<td>IntelliSense refresh (after creating tables)</td>
+<td><code>Ctrl + Shift + R</code></td>
+</tr>
+<tr>
+<td>Results to grid / text / file</td>
+<td><code>Ctrl + D</code> / <code>Ctrl + T</code> / <code>Ctrl + Shift + F</code></td>
+</tr>
+<tr>
+<td>Estimated execution plan</td>
+<td><code>Ctrl + L</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Select a part, run a part</b></div><p>Highlight just one statement and press F5 to run only that statement. This is how you test a long script step by step.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A <strong>database</strong> stores shared data safely; an <strong>RDBMS</strong> stores it in related <strong>tables</strong> of <strong>rows</strong> and <strong>columns</strong>.</li>
+<li><strong>Primary keys</strong> identify rows; <strong>foreign keys</strong> link tables.</li>
+<li>SQL is declarative and set-based; keywords are not case-sensitive; statements end with <code>;</code>.</li>
+<li>Statement families: <strong>DDL</strong> (structure), <strong>DML</strong> (rows), <strong>DQL</strong> (SELECT), <strong>DCL</strong> (permissions), <strong>TCL</strong> (transactions).</li>
+<li>Excel is for quick analysis and presentation; SQL is for getting, combining and summarising data at scale.</li>
+<li>Practise in SQL Server Developer + SSMS (or Docker / PostgreSQL on Mac).</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which statement family does <code>CREATE TABLE</code> belong to?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>DDL</button><button type="button" class="opt" data-ok="0"><i>B</i>DML</button><button type="button" class="opt" data-ok="0"><i>C</i>DCL</button><button type="button" class="opt" data-ok="0"><i>D</i>TCL</button></div><div class="qexp"><b>Answer: A.</b> DDL defines structure: CREATE, ALTER, DROP, TRUNCATE.</div></div><div class="qq"><p class="qtext"><b>2.</b> In a relational database, what links the orders table to the customers table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A merged cell</button><button type="button" class="opt" data-ok="1"><i>B</i>A foreign key in orders that refers to the customer's primary key</button><button type="button" class="opt" data-ok="0"><i>C</i>A pivot cache</button><button type="button" class="opt" data-ok="0"><i>D</i>A shared file name</button></div><div class="qexp"><b>Answer: B.</b> orders.customer_id is a foreign key that refers to customers.customer_id.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does "SQL is declarative" mean?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>SQL must declare every variable</button><button type="button" class="opt" data-ok="1"><i>B</i>You describe what result you want and the database decides how to get it</button><button type="button" class="opt" data-ok="0"><i>C</i>SQL statements must be in capitals</button><button type="button" class="opt" data-ok="0"><i>D</i>SQL can only define tables</button></div><div class="qexp"><b>Answer: B.</b> The optimiser chooses the execution plan; you write the logic.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which is NOT an advantage of a database over a spreadsheet?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Many users at the same time</button><button type="button" class="opt" data-ok="0"><i>B</i>Permissions on who sees what</button><button type="button" class="opt" data-ok="0"><i>C</i>Constraints that protect data quality</button><button type="button" class="opt" data-ok="1"><i>D</i>It is always faster to build a quick one-off chart</button></div><div class="qexp"><b>Answer: D.</b> For quick one-off charts, Excel is usually faster. Databases win on scale, safety and sharing.</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>GRANT SELECT ON orders TO analyst_role</code> is an example of:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>DDL</button><button type="button" class="opt" data-ok="0"><i>B</i>DML</button><button type="button" class="opt" data-ok="1"><i>C</i>DCL</button><button type="button" class="opt" data-ok="0"><i>D</i>TCL</button></div><div class="qexp"><b>Answer: C.</b> DCL controls permissions.</div></div><div class="qq"><p class="qtext"><b>6.</b> In SSMS, what does pressing F5 with part of the script highlighted do?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Runs only the highlighted statement(s)</button><button type="button" class="opt" data-ok="0"><i>B</i>Runs the whole script</button><button type="button" class="opt" data-ok="0"><i>C</i>Formats the code</button><button type="button" class="opt" data-ok="0"><i>D</i>Opens the execution plan</button></div><div class="qexp"><b>Answer: A.</b> Highlighting limits execution to the selected text.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Map the vocabulary</b></div><p>For the <code>orders</code> table in RetailDB, name: (a) one row; (b) one column; (c) the primary key; (d) the foreign key and the table it refers to; (e) the statement family of <code>INSERT INTO orders …</code>.</p><details class="sol"><summary>Show solution</summary><p>(a) One order, for example the row for <code>IN-2023-00001</code>. (b) Any field, for example <code>ship_mode</code>. (c) <code>order_id</code>. (d) <code>customer_id</code>, which refers to <code>customers.customer_id</code>. (e) DML.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between DBMS and RDBMS?</strong>
+A DBMS manages data in any form; an RDBMS stores data in tables with relationships defined by keys, enforces integrity with constraints and uses SQL. Examples: SQL Server, PostgreSQL, MySQL, Oracle.</p>
+<p><strong>Q: Explain DDL, DML, DCL and TCL with examples.</strong>
+DDL changes structure (CREATE, ALTER, DROP, TRUNCATE); DML changes rows (INSERT, UPDATE, DELETE); DCL manages permissions (GRANT, REVOKE); TCL manages transactions (COMMIT, ROLLBACK, SAVE TRANSACTION). SELECT is sometimes called DQL.</p>
+<p><strong>Q: Why would a company keep data in SQL Server instead of Excel files?</strong>
+Concurrency, scale, data integrity (constraints, transactions), security and auditing, backup and recovery, and a single source of truth for reports and applications.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="sql-02-er-diagrams-relationships-keys-and-normalisation.html"><small>Next →</small><b>ER Diagrams, Relationships, Keys &amp; Normalisation</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-a-database">What is a database?</a><a href="#how-a-relational-database-organises-data">How a relational database organises data</a><a href="#your-first-queries">Your first queries</a><a href="#properties-of-sql">Properties of SQL</a><a href="#the-families-of-sql-statements">The families of SQL statements</a><a href="#excel-vs-sql">Excel vs SQL</a><a href="#installing-sql-server-and-ssms">Installing SQL Server and SSMS</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

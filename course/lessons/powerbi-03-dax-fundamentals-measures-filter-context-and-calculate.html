@@ -1,0 +1,355 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE · Power BI Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn DAX, the formula language of Power BI. Understand calculated columns vs measures, row context vs filter context, write core aggregations and iterators (SUMX), master CALCULATE and FILTER, ALL/REMOVEFILTERS and ALLSELECTED, handle division safely, use variables, and build a library of business measures."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-powerbi"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-powerbi">Power BI</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E2A400">Power BI</div>
+<ol class="side-l"><li class=""><a href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html" data-lid="powerbi-01"><span>01</span>Getting Started with Power BI &amp; Your First HR Report</a></li><li class=""><a href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html" data-lid="powerbi-02"><span>02</span>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</a></li><li class="on"><a href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html" data-lid="powerbi-03"><span>03</span>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</a></li><li class=""><a href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html" data-lid="powerbi-04"><span>04</span>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</a></li><li class=""><a href="powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html" data-lid="powerbi-05"><span>05</span>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</a></li><li class=""><a href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html" data-lid="powerbi-06"><span>06</span>Power BI Service, Connectivity Modes, Security &amp; Capstone</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="powerbi-03">
+<div class="lhead" style="--tc:#E2A400"><div class="kick">Power BI · Lesson 3 of 6</div><h1>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</h1>
+<p class="sum">Learn DAX, the formula language of Power BI. Understand calculated columns vs measures, row context vs filter context, write core aggregations and iterators (SUMX), master CALCULATE and FILTER, ALL/REMOVEFILTERS and ALLSELECTED, handle division safely, use variables, and build a library of business measures.</p><div class="tags"><span class="tag live">● Power BI classes 2–3</span><span class="tag new">✦ Power BI Desktop 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/powerbi/Power_BI_03_DAX_Fundamentals_Measures_Filter_Context_CALCULATE.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="powerbi-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the difference between a calculated column and a measure, and when to use each</li><li>Describe row context and filter context and predict what a measure returns in a visual</li><li>Write aggregation measures and iterators (SUM, COUNTROWS, DISTINCTCOUNT, SUMX, AVERAGEX)</li><li>Use CALCULATE with filter arguments, ALL/REMOVEFILTERS and ALLSELECTED to build ratios and percent-of-total</li><li>Use variables, DIVIDE, IF/SWITCH and display folders to write clean, reusable measures</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/adventure_cycles/fact_sales.csv" download>adventure_cycles/fact_sales.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_product.csv" download>adventure_cycles/dim_product.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_territory.csv" download>adventure_cycles/dim_territory.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-dax">What is DAX?</h2>
+<p><strong>DAX</strong> (Data Analysis Expressions) is the formula language used in Power BI, Excel's Data Model and Analysis Services. It looks like Excel formulas, but it works on <strong>columns and tables</strong> and recalculates for whatever the user selects in a visual. DAX is the skill that separates a report builder from a Power BI developer.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Calculated column</th>
+<th>Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evaluated</td>
+<td><strong>Row by row</strong> when data is refreshed</td>
+<td><strong>On the fly</strong>, for the current filter selection</td>
+</tr>
+<tr>
+<td>Stored in the model</td>
+<td>Yes (uses memory)</td>
+<td>No (only the formula)</td>
+</tr>
+<tr>
+<td>Result depends on slicers?</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Use for</td>
+<td>New attributes to slice by (Age Band, Hire Year, Profit per row)</td>
+<td>Totals, ratios, KPIs, growth</td>
+</tr>
+<tr>
+<td>Appears in</td>
+<td>Rows, columns, slicers, filters</td>
+<td>Values area, cards, tooltips</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/powerbi-03-01.png" alt="The same table, two ways. A calculated column adds a value to every row. A measure returns one number computed from whichever rows are currently filtered." loading="lazy"><figcaption>The same table, two ways. A calculated column adds a value to every row. A measure returns one number computed from whichever rows are currently filtered.</figcaption></figure>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Rule of thumb</b></div><p>If you want to <strong>put it on an axis or slicer</strong>, make a column. If you want to <strong>put it in the Values well</strong>, make a measure. In a star schema, almost every number is a measure.</p></div>
+<h2 id="dax-syntax-in-five-minutes">DAX syntax in five minutes</h2>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Total Sales = SUM ( fact_sales[sales_amount] )</code></pre></div>
+<ul>
+<li><code>Total Sales</code> is the <strong>measure name</strong> (spaces allowed, no brackets when defining it).</li>
+<li><code>=</code> starts the formula.</li>
+<li><code>SUM</code> is a <strong>function</strong>; <code>fact_sales[sales_amount]</code> is a <strong>fully qualified column</strong> (table name, then column in square brackets). Always include the table name for columns; <strong>never</strong> include it for measures: <code>[Total Sales]</code>.</li>
+<li>Strings use double quotes; comments use <code>--</code> or <code>//</code> or <code>/* … */</code>.</li>
+<li>Operators: <code>+ - * /</code>, <code>&amp;</code> (join text), <code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code>, <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>IN { "A", "B" }</code>.</li>
+<li>Spaces and line breaks are ignored; format with <strong>daxformatter.com</strong> or the formatting button.</li>
+</ul>
+<h3 id="creating-measures">Creating measures</h3>
+<p>Home → <strong>New measure</strong> (or right-click a table). Put all measures in an empty table named <code>_Measures</code> (Home → Enter data → name <code>_Measures</code> → Load, then hide its default column) so they are easy to find. Use <strong>display folders</strong> (Model view → Properties) to group them.</p>
+<h2 id="basic-aggregations">Basic aggregations</h2>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Total Sales      = SUM ( fact_sales[sales_amount] )
+Total Cost       = SUM ( fact_sales[total_cost] )
+Total Profit     = [Total Sales] - [Total Cost]
+Profit Margin %  = DIVIDE ( [Total Profit], [Total Sales] )
+Units Sold       = SUM ( fact_sales[quantity] )
+Orders           = DISTINCTCOUNT ( fact_sales[order_number] )
+<span class="hl-k">Order</span> Lines      = COUNTROWS ( fact_sales )
+Avg <span class="hl-k">Order</span> Value  = DIVIDE ( [Total Sales], [Orders] )     <span class="hl-c">-- in this data every order has one line, so Orders = Order Lines</span>
+Customers        = DISTINCTCOUNT ( fact_sales[customer_key] )</code></pre></div>
+<p>Check the values in Python; they are what a card visual with no filters would display:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+D = <span class="hl-s">&quot;adventure_cycles/&quot;</span>
+f = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;fact_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>]); p = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;dim_product.csv&quot;</span>); t = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;dim_territory.csv&quot;</span>)
+sales, cost = <span class="hl-f">f.sales_amount.sum</span>(), <span class="hl-f">f.total_cost.sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Total Sales     : {sales:,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Total Cost      : {cost:,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Total Profit    : {sales - cost:,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Profit Margin % : {(sales - cost) / sales:.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Units Sold      : {f.quantity.sum():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Orders          : {f.order_number.nunique():,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Order Lines     : {len(f):,}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Avg Order Value : {sales / f.order_number.nunique():,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Customers       : {f.customer_key.nunique():,}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Total Sales     : 594,559,665
+Total Cost      : 384,392,790
+Total Profit    : 210,166,875
+Profit Margin % : 35.3%
+Units Sold      : 22,703
+Orders          : 9,000
+Order Lines     : 9,000
+Avg Order Value : 66,062
+Customers       : 1,200</pre></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>DIVIDE, not /</b></div><p><code>[A] / [B]</code> returns an error or infinity when B is 0 or blank. <code>DIVIDE ( [A], [B] )</code> returns BLANK (or an alternate result: <code>DIVIDE ( [A], [B], 0 )</code>). Always use DIVIDE for ratios.</p></div>
+<h2 id="filter-context-the-heart-of-dax">Filter context: the heart of DAX</h2>
+<p>When you put a measure in a visual, DAX evaluates it <strong>once per cell</strong>, with a <strong>filter context</strong> made of everything that filters the data for that cell: row and column headers, slicers, page/report filters, and cross-filtering from other visuals.</p>
+<figure class="fig"><img src="../img/powerbi-03-02.png" alt="Filter context for one cell of a matrix (Category = Bikes, Country = India, Year = 2025 slicer). DAX applies all of them to the fact table before it sums." loading="lazy"><figcaption>Filter context for one cell of a matrix (Category = Bikes, Country = India, Year = 2025 slicer). DAX applies all of them to the fact table before it sums.</figcaption></figure>
+<p>Same measure, different context in each cell. The matrix below is exactly what Power BI shows for <code>Total Sales</code> with Category on rows and Country on columns:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = <span class="hl-f">f.merge</span>(p, on=<span class="hl-s">&quot;product_key&quot;</span>).<span class="hl-f">merge</span>(t, on=<span class="hl-s">&quot;territory_key&quot;</span>)
+m[<span class="hl-s">&quot;year&quot;</span>] = m.order_date.dt.year
+<span class="hl-f">print</span>((<span class="hl-f">m.pivot_table</span>(index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;country&quot;</span>, values=<span class="hl-s">&quot;sales_amount&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e6).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">to_string</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nSame measure, with a Year = 2025 slicer:&quot;</span>)
+<span class="hl-f">print</span>((m[m.year == <span class="hl-n">2025</span>].<span class="hl-f">pivot_table</span>(index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;country&quot;</span>, values=<span class="hl-s">&quot;sales_amount&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>) / 1e6).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">to_string</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">country      India  Singapore   UAE
+category                           
+Accessories    6.7        1.7   1.3
+Bikes        320.6       74.8  71.3
+Clothing       6.0        1.3   1.1
+Components    73.5       18.8  17.2
+
+Same measure, with a Year = 2025 slicer:
+country      India  Singapore   UAE
+category                           
+Accessories    2.2        0.7   0.4
+Bikes        102.3       24.6  22.0
+Clothing       2.0        0.3   0.4
+Components    22.9        7.1   5.1</pre></div>
+<h3 id="row-context">Row context</h3>
+<p>A <strong>row context</strong> exists when DAX goes through a table row by row: in a <strong>calculated column</strong>, and inside <strong>iterator</strong> functions (<code>SUMX</code>, <code>AVERAGEX</code>, <code>FILTER</code>…). In row context, column references mean "this row's value".</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax"><span class="hl-c">-- Calculated column on fact_sales: row context gives each row&#x27;s own values</span>
+Line Profit = fact_sales[sales_amount] - fact_sales[total_cost]</code></pre></div>
+<p>Row context does <strong>not</strong> automatically filter other tables; <strong>CALCULATE</strong> converts a row context into a filter context ("context transition").</p>
+<h2 id="iterators-sumx-averagex-maxx">Iterators: SUMX, AVERAGEX, MAXX</h2>
+<p><code>SUM ( column )</code> adds one column. When you need to <strong>calculate per row first</strong> and then aggregate, use an iterator: <code>SUMX ( table, expression )</code>.</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax"><span class="hl-c">-- Revenue at list price (unit_price x quantity), calculated row by row</span>
+List Value = SUMX ( fact_sales, fact_sales[quantity] * fact_sales[unit_price] )
+
+<span class="hl-c">-- Average margin per order line (not the same as total profit / total sales!)</span>
+Avg Line Margin % = AVERAGEX ( fact_sales, DIVIDE ( fact_sales[sales_amount] - fact_sales[total_cost], fact_sales[sales_amount] ) )
+
+<span class="hl-c">-- Most profitable single line</span>
+Max Line Profit = MAXX ( fact_sales, fact_sales[sales_amount] - fact_sales[total_cost] )</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">f[<span class="hl-s">&quot;line_profit&quot;</span>] = f.sales_amount - f.total_cost
+list_value = (f.quantity * f.unit_price).<span class="hl-f">sum</span>()
+avg_line_margin = ((f.sales_amount - f.total_cost) / f.sales_amount).<span class="hl-f">mean</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;List Value        : {list_value:,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Realised/List     : {f.sales_amount.sum() / list_value:.1%}  (average price realisation)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Avg Line Margin % : {avg_line_margin:.1%}   vs overall margin {(f.sales_amount.sum() - f.total_cost.sum()) / f.sales_amount.sum():.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Max Line Profit   : {f.line_profit.max():,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">List Value        : 617,201,300
+Realised/List     : 96.3%  (average price realisation)
+Avg Line Margin % : 34.5%   vs overall margin 35.3%
+Max Line Profit   : 174,060</pre></div>
+<p>The average of line margins (34.5%) differs slightly from the overall margin (35.3%) because large lines count more in the total than in a simple average. Choose the definition the business wants, and name the measure clearly.</p>
+<h2 id="calculate-change-the-filter-context">CALCULATE: change the filter context</h2>
+<p><code>CALCULATE ( expression, filter1, filter2, … )</code> evaluates the expression in a <strong>modified</strong> filter context. It is the most important DAX function.</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Bike Sales   = CALCULATE ( [Total Sales], dim_product[category] = <span class="hl-s">&quot;Bikes&quot;</span> )
+India Sales  = CALCULATE ( [Total Sales], dim_territory[country] = <span class="hl-s">&quot;India&quot;</span> )
+Bike Sales India <span class="hl-n">2025</span> =
+    CALCULATE ( [Total Sales], dim_product[category] = <span class="hl-s">&quot;Bikes&quot;</span>, dim_territory[country] = <span class="hl-s">&quot;India&quot;</span>, dim_date[year] = <span class="hl-n">2025</span> )
+High Value Lines = CALCULATE ( COUNTROWS ( fact_sales ), fact_sales[sales_amount] &gt; <span class="hl-n">200000</span> )</code></pre></div>
+<p>Multiple filter arguments are combined with <strong>AND</strong>. A simple column filter like <code>dim_product[category] = "Bikes"</code> <strong>replaces</strong> any existing filter on that column.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">bike = <span class="hl-f">f.merge</span>(p, on=<span class="hl-s">&quot;product_key&quot;</span>).<span class="hl-f">query</span>(<span class="hl-s">&quot;category == &#x27;Bikes&#x27;&quot;</span>).<span class="hl-f">sales_amount.sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Bike Sales          : {bike:,.0f}&quot;</span>)
+india_2025_bikes = m[(m.category == <span class="hl-s">&quot;Bikes&quot;</span>) &amp; (m.country == <span class="hl-s">&quot;India&quot;</span>) &amp; (m.year == <span class="hl-n">2025</span>)].<span class="hl-f">sales_amount.sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Bike Sales India 2025: {india_2025_bikes:,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;High Value Lines    : {(f.sales_amount &gt; 200000).sum():,}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Bike Sales          : 466,754,465
+Bike Sales India 2025: 102,271,520
+High Value Lines    : 797</pre></div>
+<h3 id="filter-functions-all-removefilters-allselected-allexcept-keepfilters">Filter functions: ALL, REMOVEFILTERS, ALLSELECTED, ALLEXCEPT, KEEPFILTERS</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Effect</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ALL ( table or column )</code> / <code>REMOVEFILTERS ( … )</code></td>
+<td>Ignores filters on the table/column</td>
+<td>Grand totals, denominators</td>
+</tr>
+<tr>
+<td><code>ALLSELECTED ( … )</code></td>
+<td>Ignores filters from the visual's own rows/columns but keeps slicers and page filters</td>
+<td>"% of visible total"</td>
+</tr>
+<tr>
+<td><code>ALLEXCEPT ( table, col1, … )</code></td>
+<td>Removes all filters on the table except those columns</td>
+<td>Subtotals per group</td>
+</tr>
+<tr>
+<td><code>VALUES ( column )</code></td>
+<td>The distinct values visible in the current context</td>
+<td>Counting / looping over what is filtered</td>
+</tr>
+<tr>
+<td><code>SELECTEDVALUE ( column, alt )</code></td>
+<td>The single selected value (or alternate)</td>
+<td>Titles, dynamic measures</td>
+</tr>
+<tr>
+<td><code>KEEPFILTERS ( filter )</code></td>
+<td>Intersects with, rather than replaces, existing filters</td>
+<td>Advanced</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="percent-of-total">Percent of total</h4>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Sales % of Total =
+DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], REMOVEFILTERS ( dim_product ) ) )
+
+Sales % of Visible Total =
+DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], ALLSELECTED ( dim_product ) ) )
+
+Share Within Country =
+DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], ALLEXCEPT ( dim_territory, dim_territory[country] ) ) )</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cat = <span class="hl-f">m.groupby</span>(<span class="hl-s">&quot;category&quot;</span>).<span class="hl-f">sales_amount.sum</span>()
+<span class="hl-f">print</span>((<span class="hl-n">100</span> * cat / <span class="hl-f">cat.sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">rename</span>(<span class="hl-s">&quot;Sales % of Total&quot;</span>).<span class="hl-f">to_string</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">category
+Accessories     1.6
+Bikes          78.5
+Clothing        1.4
+Components     18.4</pre></div>
+<h3 id="filter-row-by-row-conditions">FILTER: row-by-row conditions</h3>
+<p><code>FILTER ( table, condition )</code> is an iterator that returns the rows where the condition is TRUE. Use it when a filter needs a <strong>measure or several columns</strong>; for a simple single-column comparison, the plain <code>column = value</code> form inside CALCULATE is faster.</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax"><span class="hl-c">-- Sales from products with a list price above 1,00,000</span>
+Premium Sales = CALCULATE ( [Total Sales], FILTER ( dim_product, dim_product[list_price] &gt; <span class="hl-n">100000</span> ) )
+
+<span class="hl-c">-- Number of products whose total sales beat 1 crore</span>
+Strong Products = COUNTROWS ( FILTER ( VALUES ( dim_product[product] ), [Total Sales] &gt; <span class="hl-n">10000000</span> ) )</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">prem = <span class="hl-f">f.merge</span>(p, on=<span class="hl-s">&quot;product_key&quot;</span>).<span class="hl-f">query</span>(<span class="hl-s">&quot;list_price &gt; 100000&quot;</span>).<span class="hl-f">sales_amount.sum</span>()
+ps = <span class="hl-f">f.groupby</span>(<span class="hl-s">&quot;product_key&quot;</span>).<span class="hl-f">sales_amount.sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Premium Sales  : {prem:,.0f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Strong Products: {(ps &gt; 10_000_000).sum()}  (products with sales above ₹1 crore)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Premium Sales  : 303,639,995
+Strong Products: 20  (products with sales above ₹1 crore)</pre></div>
+<h2 id="variables-and-readability">Variables and readability</h2>
+<p><code>VAR … RETURN</code> stores intermediate results: easier to read, easier to debug, and faster (each variable is evaluated once).</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Profit Margin vs Overall =
+<span class="hl-k">VAR</span> CurrentMargin = DIVIDE ( [Total Profit], [Total Sales] )
+<span class="hl-k">VAR</span> OverallMargin = CALCULATE ( DIVIDE ( [Total Profit], [Total Sales] ), REMOVEFILTERS () )
+<span class="hl-k">RETURN</span>
+    CurrentMargin - OverallMargin</code></pre></div>
+<h2 id="logical-and-text-measures">Logical and text measures</h2>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Margin Status =
+SWITCH (
+    <span class="hl-k">TRUE</span> (),
+    ISBLANK ( [Profit Margin %] ), <span class="hl-s">&quot;No data&quot;</span>,
+    [Profit Margin %] &gt;= <span class="hl-n">0.4</span>,      <span class="hl-s">&quot;Excellent&quot;</span>,
+    [Profit Margin %] &gt;= <span class="hl-n">0.3</span>,      <span class="hl-s">&quot;Good&quot;</span>,
+    <span class="hl-s">&quot;Review&quot;</span>
+)
+
+Selected Country Title =
+<span class="hl-s">&quot;Sales for &quot;</span> &amp; SELECTEDVALUE ( dim_territory[country], <span class="hl-s">&quot;all countries&quot;</span> )</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IF ( test, a, b )</code>, <code>SWITCH ( expr, v1, r1, … )</code>, <code>SWITCH ( TRUE (), cond1, r1, … )</code></td>
+<td>Branching</td>
+</tr>
+<tr>
+<td><code>ISBLANK</code>, <code>COALESCE ( x, 0 )</code>, <code>BLANK ()</code></td>
+<td>Handle empty values</td>
+</tr>
+<tr>
+<td><code>HASONE ( col )</code>, <code>ISFILTERED ( col )</code></td>
+<td>Test the current context</td>
+</tr>
+<tr>
+<td><code>FORMAT ( value, "0.0%" )</code>, <code>CONCATENATEX ( table, col, ", " )</code></td>
+<td>Text</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="measures-in-action-a-profit-margin-matrix">Measures in action: a profit-margin matrix</h2>
+<figure class="fig"><img src="../img/powerbi-03-03.png" alt="Profit margin % by category and country: the matrix you would build with the Profit Margin % measure and conditional formatting (darker = higher)." loading="lazy"><figcaption>Profit margin % by category and country: the matrix you would build with the Profit Margin % measure and conditional formatting (darker = higher).</figcaption></figure>
+<h2 id="common-dax-mistakes">Common DAX mistakes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Using a calculated column where a measure is needed (results do not respond to slicers)</td>
+<td>Create a measure</td>
+</tr>
+<tr>
+<td>Dividing with <code>/</code></td>
+<td><code>DIVIDE</code></td>
+</tr>
+<tr>
+<td>Writing <code>SUM ( [Measure] )</code></td>
+<td><code>SUM</code> takes columns; use <code>SUMX ( table, [Measure] )</code> for measures over rows</td>
+</tr>
+<tr>
+<td>Averaging ratios (<code>AVERAGE</code> of a margin column)</td>
+<td>Compute <code>DIVIDE ( SUM numerator, SUM denominator )</code> unless you really want the average of ratios</td>
+</tr>
+<tr>
+<td>Using <code>FILTER ( ALL ( table ), … )</code> when a column filter works</td>
+<td>Prefer simple column filters inside CALCULATE</td>
+</tr>
+<tr>
+<td>Forgetting that a measure's result depends on context; testing in a card</td>
+<td>Test in a table or matrix with the fields you care about</td>
+</tr>
+<tr>
+<td>Hard-coding values (<code>"Bikes"</code>) in many measures</td>
+<td>Use a parameter table or SELECTEDVALUE</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Copilot and chat assistants write decent DAX, but they invent column names and often misuse context. A reliable prompt gives the <strong>exact table and column names</strong>, the <strong>relationships</strong>, and the <strong>expected result</strong>: <em>"Tables: fact_sales(order_date, product_key, sales_amount, total_cost), dim_product(product_key, category), dim_date(date). Write a DAX measure for each category's share of total sales that ignores the category filter but respects year slicers. Explain the filter context."</em> Then test the measure in a table next to your own pandas check.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>Calculated columns</strong> run row by row at refresh and are stored; <strong>measures</strong> run at query time in the current <strong>filter context</strong>.</li>
+<li>Filter context = row/column headers + slicers + filters + cross-filtering; measures are re-evaluated for every cell.</li>
+<li>Row context exists in calculated columns and iterators (<code>SUMX</code>, <code>AVERAGEX</code>, <code>FILTER</code>); <code>CALCULATE</code> converts it to filter context.</li>
+<li><code>CALCULATE ( expression, filters )</code> changes the filters; <code>REMOVEFILTERS</code>/<code>ALL</code>, <code>ALLSELECTED</code>, <code>ALLEXCEPT</code> remove them for percent-of-total calculations.</li>
+<li>Use <code>DIVIDE</code>, variables (<code>VAR … RETURN</code>), <code>SWITCH ( TRUE (), … )</code>, clear names, a <code>_Measures</code> table and display folders.</li>
+</ul></div>
+<div class="quiz" id="quiz-powerbi-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which is evaluated for every cell of a matrix based on slicers and row/column headers?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A calculated column</button><button type="button" class="opt" data-ok="1"><i>B</i>A measure</button><button type="button" class="opt" data-ok="0"><i>C</i>A relationship</button><button type="button" class="opt" data-ok="0"><i>D</i>A parameter</button></div><div class="qexp"><b>Answer: B.</b> Measures respond to filter context; calculated columns are fixed at refresh.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which function lets you compute a total that ignores the Category filter (for a denominator)?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>SUM</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>CALCULATE ( [Total Sales], REMOVEFILTERS ( dim_product[category] ) )</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>FILTER ( [Total Sales] )</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>COUNTROWS</code></button></div><div class="qexp"><b>Answer: B.</b> REMOVEFILTERS (or ALL) clears the filter inside CALCULATE.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which is the safest way to compute a margin?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>[Profit] / [Sales]</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>DIVIDE ( [Profit], [Sales] )</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>IF ( [Sales] = 0, 0, [Profit] ) / [Sales]</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>SUM ( [Profit] ) / SUM ( [Sales] )</code></button></div><div class="qexp"><b>Answer: B.</b> DIVIDE handles zero and blank denominators gracefully.</div></div><div class="qq"><p class="qtext"><b>4.</b> <code>SUMX ( fact_sales, fact_sales[quantity] * fact_sales[unit_price] )</code> is needed because:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>SUM cannot add numbers</button><button type="button" class="opt" data-ok="1"><i>B</i>The product must be calculated per row before adding</button><button type="button" class="opt" data-ok="0"><i>C</i>SUMX is faster than SUM</button><button type="button" class="opt" data-ok="0"><i>D</i>It creates a calculated column</button></div><div class="qexp"><b>Answer: B.</b> SUM works on one existing column; SUMX evaluates an expression per row.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is row context?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The current row being evaluated in a calculated column or iterator</button><button type="button" class="opt" data-ok="0"><i>B</i>The filters from slicers</button><button type="button" class="opt" data-ok="0"><i>C</i>The relationship direction</button><button type="button" class="opt" data-ok="0"><i>D</i>A table filter</button></div><div class="qexp"><b>Answer: A.</b> Row context refers to "this row" during row-by-row evaluation.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does <code>CALCULATE ( [Total Sales], dim_product[category] = "Bikes" )</code> return in a visual that shows each country?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Total sales for all products</button><button type="button" class="opt" data-ok="1"><i>B</i>Bike sales for each country in the visual</button><button type="button" class="opt" data-ok="0"><i>C</i>Bike sales for all countries on every row</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> The Category filter is replaced by Bikes, while the Country filter from the visual still applies.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Write the measures</b></div><p>Using the Adventure Cycles model, write DAX for: (1) Profit and margin % for <strong>Clothing</strong> only; (2) each country's share of total sales (works in a visual with country on rows); (3) the number of customers who bought more than one product line; (4) a title measure that says "Top category: …" for the category with the highest sales in the current context.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax"><span class="hl-c">-- (1)</span>
+Clothing Profit  = CALCULATE ( [Total Profit], dim_product[category] = <span class="hl-s">&quot;Clothing&quot;</span> )
+Clothing Margin  = DIVIDE ( [Clothing Profit], CALCULATE ( [Total Sales], dim_product[category] = <span class="hl-s">&quot;Clothing&quot;</span> ) )
+<span class="hl-c">-- (2)</span>
+Country Share = DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], REMOVEFILTERS ( dim_territory ) ) )
+<span class="hl-c">-- (3)</span>
+Multi-line Customers =
+COUNTROWS ( FILTER ( VALUES ( fact_sales[customer_key] ), CALCULATE ( COUNTROWS ( fact_sales ) ) &gt; <span class="hl-n">1</span> ) )
+<span class="hl-c">-- (4)</span>
+Top Category =
+<span class="hl-k">VAR</span> t = ADDCOLUMNS ( VALUES ( dim_product[category] ), <span class="hl-s">&quot;@s&quot;</span>, [Total Sales] )
+<span class="hl-k">VAR</span> top1 = TOPN ( <span class="hl-n">1</span>, t, [@s], DESC )
+<span class="hl-k">RETURN</span> <span class="hl-s">&quot;Top category: &quot;</span> &amp; MAXX ( top1, dim_product[category] )</code></pre></div>
+<p>Verify each in a table visual next to a pandas check.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between a calculated column and a measure?</strong>
+A column is computed per row at refresh and stored; a measure is computed at query time for the current filter context and returns a single value.</p>
+<p><strong>Q: Explain filter context and row context.</strong>
+Filter context is the set of filters (axes, slicers, filters) applied to the model when a measure is evaluated. Row context is the "current row" while iterating a table (calculated columns, iterators). CALCULATE turns row context into filter context.</p>
+<p><strong>Q: What does CALCULATE do?</strong>
+Evaluates an expression in a modified filter context; its filter arguments add, replace or remove filters.</p>
+<p><strong>Q: ALL vs ALLSELECTED?</strong>
+ALL removes all filters from the specified table/column (grand total); ALLSELECTED removes only the filters coming from the visual's own rows and columns but keeps outer filters such as slicers, giving a total of what is visible.</p>
+<p><strong>Q: SUM vs SUMX?</strong>
+SUM adds a column; SUMX evaluates an expression for each row of a table and sums the results (needed for products of columns, conditional logic per row).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/career-paths/data-analyst">Microsoft Learn: Power BI data analyst path (PL-300) ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://dax.guide/">DAX Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.sqlbi.com/">SQLBI articles and videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets">Power BI sample datasets (Microsoft) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html"><small>← Previous</small><b>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</b></a><a class="next" href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html"><small>Next →</small><b>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-dax">What is DAX?</a><a href="#dax-syntax-in-five-minutes">DAX syntax in five minutes</a><a href="#basic-aggregations">Basic aggregations</a><a href="#filter-context-the-heart-of-dax">Filter context: the heart of DAX</a><a href="#iterators-sumx-averagex-maxx">Iterators: SUMX, AVERAGEX, MAXX</a><a href="#calculate-change-the-filter-context">CALCULATE: change the filter context</a><a href="#variables-and-readability">Variables and readability</a><a href="#logical-and-text-measures">Logical and text measures</a><a href="#measures-in-action-a-profit-margin-matrix">Measures in action: a profit-margin matrix</a><a href="#common-dax-mistakes">Common DAX mistakes</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

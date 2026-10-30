@@ -1,0 +1,1123 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE · SQL Lesson 7 · Data Science &amp; AI Handbook</title><meta name="description" content="Turn rows into business summaries. Group with GROUP BY, filter groups with HAVING, create conditional columns and buckets with CASE WHEN, pivot data with conditional aggregation, and add subtotals and grand totals with ROLLUP, CUBE and GROUPING SETS, cleaning the labels with COALESCE and GROUPING()."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 7</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class="on"><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-07">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 7 of 15</div><h1>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</h1>
+<p class="sum">Turn rows into business summaries. Group with GROUP BY, filter groups with HAVING, create conditional columns and buckets with CASE WHEN, pivot data with conditional aggregation, and add subtotals and grand totals with ROLLUP, CUBE and GROUPING SETS, cleaning the labels with COALESCE and GROUPING().</p><div class="tags"><span class="tag live">● SQL class 4 · SQL–Power BI bridge</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_07_GROUP_BY_HAVING_CASE_WHEN_ROLLUP_CUBE_COALESCE.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-07">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Summarise data by one or more columns with GROUP BY and aggregate functions</li><li>Filter groups with HAVING and explain WHERE vs HAVING</li><li>Create conditional columns and buckets with CASE WHEN … THEN … ELSE … END</li><li>Build pivot-style reports with conditional aggregation</li><li>Add subtotals and grand totals with ROLLUP, CUBE and GROUPING SETS, and label them with COALESCE and GROUPING()</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="group-by-one-row-per-group">GROUP BY: one row per group</h2>
+<p><code>GROUP BY</code> collapses rows that share the same value(s) into one row, and aggregate functions summarise each group. It is the SQL version of a pivot table (Excel Lesson 8) and of <code>groupby()</code> in pandas.</p>
+<figure class="fig"><img src="../img/sql-07-01.png" alt="GROUP BY region: rows with the same region are collected into one group, then SUM is computed for each group." loading="lazy"><figcaption>GROUP BY region: rows with the same region are collected into one group, then SUM is computed for each group.</figcaption></figure>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id)              <span class="hl-k">AS</span> orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                  <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit), <span class="hl-n">0</span>)                 <span class="hl-k">AS</span> profit,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales), <span class="hl-n">1</span>) <span class="hl-k">AS</span> margin_pct
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>orders</th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>South</td>
+      <td>831</td>
+      <td>53,952,769</td>
+      <td>4,702,012</td>
+      <td>8.7</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>811</td>
+      <td>51,958,521</td>
+      <td>4,719,833</td>
+      <td>9.1</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>792</td>
+      <td>49,018,161</td>
+      <td>4,555,830</td>
+      <td>9.3</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>766</td>
+      <td>46,484,119</td>
+      <td>4,374,490</td>
+      <td>9.4</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 5 columns</div></div>
+<h3 id="grouping-by-several-columns">Grouping by several columns</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> category,
+       sub_category,
+       <span class="hl-f">COUNT</span>(*)              <span class="hl-k">AS</span> lines,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)  <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit), <span class="hl-n">0</span>) <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> category, sub_category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> category, sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>sub_category</th>
+      <th>lines</th>
+      <th>sales</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>Tables</td>
+      <td>505</td>
+      <td>14,046,224</td>
+      <td>-816,042</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Bookcases</td>
+      <td>477</td>
+      <td>11,274,849</td>
+      <td>-422,786</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Chairs</td>
+      <td>493</td>
+      <td>8,091,474</td>
+      <td>342,043</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>Furnishings</td>
+      <td>442</td>
+      <td>1,429,307</td>
+      <td>78,632</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Appliances</td>
+      <td>492</td>
+      <td>6,333,529</td>
+      <td>944,927</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Storage</td>
+      <td>507</td>
+      <td>2,659,340</td>
+      <td>397,228</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Paper</td>
+      <td>559</td>
+      <td>493,232</td>
+      <td>75,040</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Binders</td>
+      <td>494</td>
+      <td>401,219</td>
+      <td>61,074</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>Art</td>
+      <td>462</td>
+      <td>245,985</td>
+      <td>36,526</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Copiers</td>
+      <td>468</td>
+      <td>78,749,926</td>
+      <td>8,436,141</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Machines</td>
+      <td>491</td>
+      <td>42,590,335</td>
+      <td>5,186,711</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>Phones</td>
+      <td>488</td>
+      <td>31,919,223</td>
+      <td>3,663,117</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">13 rows × 5 columns (first 12 shown)</div></div>
+<h3 id="grouping-by-an-expression">Grouping by an expression</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">YEAR</span>(order_date)       <span class="hl-k">AS</span> order_year,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)   <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-f">YEAR</span>(order_date)
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_year;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_year</th>
+      <th>orders</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>883</td>
+      <td>57,640,217</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>1085</td>
+      <td>65,396,556</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>1232</td>
+      <td>78,376,797</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>The golden rule of GROUP BY</b></div><p>Every column in <code>SELECT</code> must either be <strong>in the GROUP BY</strong> or <strong>inside an aggregate function</strong>. <code>SELECT region, city, SUM(sales) FROM superstore GROUP BY region</code> fails in SQL Server: "Column 'city' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause." Which city should it show for the North group? SQL refuses to guess.</p></div>
+<h2 id="having-filtering-groups">HAVING: filtering groups</h2>
+<p><code>WHERE</code> filters <strong>rows before</strong> grouping; <code>HAVING</code> filters <strong>groups after</strong> aggregation.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> city,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> category = <span class="hl-s">&#x27;Furniture&#x27;</span>          <span class="hl-c">-- 1. keep only furniture rows</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city                         <span class="hl-c">-- 2. one row per city</span>
+<span class="hl-k">HAVING</span> <span class="hl-f">SUM</span>(profit) &lt; <span class="hl-n">0</span>                <span class="hl-c">-- 3. keep only loss-making cities</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>city</th>
+      <th>orders</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Chennai</td>
+      <td>100</td>
+      <td>-122,258</td>
+    </tr>
+    <tr>
+      <td>Delhi</td>
+      <td>101</td>
+      <td>-106,170</td>
+    </tr>
+    <tr>
+      <td>Chandigarh</td>
+      <td>92</td>
+      <td>-92,165</td>
+    </tr>
+    <tr>
+      <td>Lucknow</td>
+      <td>100</td>
+      <td>-87,616</td>
+    </tr>
+    <tr>
+      <td>Guwahati</td>
+      <td>77</td>
+      <td>-80,036</td>
+    </tr>
+    <tr>
+      <td>Kochi</td>
+      <td>93</td>
+      <td>-71,758</td>
+    </tr>
+    <tr>
+      <td>Bengaluru</td>
+      <td>101</td>
+      <td>-52,961</td>
+    </tr>
+    <tr>
+      <td>Bhubaneswar</td>
+      <td>80</td>
+      <td>-50,956</td>
+    </tr>
+    <tr>
+      <td>Ahmedabad</td>
+      <td>96</td>
+      <td>-50,770</td>
+    </tr>
+    <tr>
+      <td>Kolkata</td>
+      <td>111</td>
+      <td>-39,811</td>
+    </tr>
+    <tr>
+      <td>Patna</td>
+      <td>86</td>
+      <td>-38,624</td>
+    </tr>
+    <tr>
+      <td>Indore</td>
+      <td>102</td>
+      <td>-30,482</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">15 rows × 3 columns (first 12 shown)</div></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>WHERE</th>
+<th>HAVING</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runs</td>
+<td>Before GROUP BY</td>
+<td>After GROUP BY</td>
+</tr>
+<tr>
+<td>Filters</td>
+<td>Individual rows</td>
+<td>Groups</td>
+</tr>
+<tr>
+<td>Can use aggregates</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>WHERE region = 'West'</code></td>
+<td><code>HAVING COUNT(*) &gt; 100</code></td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Reduces rows early (faster)</td>
+<td>Applied to fewer, summarised rows</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Filter as early as possible</b></div><p>Put conditions that do not need aggregates in <code>WHERE</code>, not <code>HAVING</code>: <code>HAVING region = 'West'</code> works but makes the database group every region first and discard most of them.</p></div>
+<h2 id="case-when-conditional-columns">CASE WHEN: conditional columns</h2>
+<p><code>CASE</code> is SQL's IF/IFS (Excel Lesson 5). It returns a value for the first condition that is true.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CASE</span>
+    <span class="hl-k">WHEN</span> condition1 <span class="hl-k">THEN</span> result1
+    <span class="hl-k">WHEN</span> condition2 <span class="hl-k">THEN</span> result2
+    <span class="hl-k">ELSE</span> default_result          <span class="hl-c">-- optional; without ELSE, unmatched rows get NULL</span>
+<span class="hl-k">END</span></code></pre></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> order_id, sales, discount, profit,
+       <span class="hl-k">CASE</span>
+           <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span>    <span class="hl-k">THEN</span> <span class="hl-s">&#x27;No discount&#x27;</span>
+           <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;Up to 20%&#x27;</span>
+           <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;Above 20%&#x27;</span>
+       <span class="hl-k">END</span> <span class="hl-k">AS</span> discount_band,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> profit &lt; <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;Loss&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;Profit&#x27;</span> <span class="hl-k">END</span> <span class="hl-k">AS</span> result
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> row_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>sales</th>
+      <th>discount</th>
+      <th>profit</th>
+      <th>discount_band</th>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>36,000</td>
+      <td>0.0</td>
+      <td>3,472.55</td>
+      <td>No discount</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>3,850</td>
+      <td>0.0</td>
+      <td>1,169.54</td>
+      <td>No discount</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>62,080</td>
+      <td>0.0</td>
+      <td>6,044.47</td>
+      <td>No discount</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00002</td>
+      <td>5,216</td>
+      <td>0.2</td>
+      <td>450.16</td>
+      <td>Up to 20%</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>24,591</td>
+      <td>0.3</td>
+      <td>-5,512.33</td>
+      <td>Above 20%</td>
+      <td>Loss</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>8,288</td>
+      <td>0.3</td>
+      <td>-1,598.43</td>
+      <td>Above 20%</td>
+      <td>Loss</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>2,100</td>
+      <td>0.0</td>
+      <td>510.43</td>
+      <td>No discount</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>69,280</td>
+      <td>0.0</td>
+      <td>15,852.15</td>
+      <td>No discount</td>
+      <td>Profit</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6,323 rows × 6 columns (first 8 shown)</div></div>
+<p>The <strong>simple</strong> form compares one expression with values:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CASE</span> ship_mode
+    <span class="hl-k">WHEN</span> <span class="hl-s">&#x27;Same Day&#x27;</span>    <span class="hl-k">THEN</span> <span class="hl-n">1</span>
+    <span class="hl-k">WHEN</span> <span class="hl-s">&#x27;First Class&#x27;</span> <span class="hl-k">THEN</span> <span class="hl-n">2</span>
+    <span class="hl-k">ELSE</span> <span class="hl-n">3</span>
+<span class="hl-k">END</span></code></pre></div>
+<h3 id="case-inside-group-by-buckets">CASE inside GROUP BY: buckets</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">CASE</span>
+           <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span>    <span class="hl-k">THEN</span> <span class="hl-s">&#x27;0%&#x27;</span>
+           <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;1–20%&#x27;</span>
+           <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;&gt;20%&#x27;</span>
+       <span class="hl-k">END</span>                                        <span class="hl-k">AS</span> discount_band,
+       <span class="hl-f">COUNT</span>(*)                                   <span class="hl-k">AS</span> lines,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                       <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit), <span class="hl-n">0</span>)                      <span class="hl-k">AS</span> profit,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales), <span class="hl-n">1</span>) <span class="hl-k">AS</span> margin_pct
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">CASE</span>
+             <span class="hl-k">WHEN</span> discount = <span class="hl-n">0</span>    <span class="hl-k">THEN</span> <span class="hl-s">&#x27;0%&#x27;</span>
+             <span class="hl-k">WHEN</span> discount &lt;= <span class="hl-n">0.2</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;1–20%&#x27;</span>
+             <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;&gt;20%&#x27;</span>
+         <span class="hl-k">END</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> discount_band;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>discount_band</th>
+      <th>lines</th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0%</td>
+      <td>3480</td>
+      <td>123,936,290</td>
+      <td>21,718,963</td>
+      <td>17.5</td>
+    </tr>
+    <tr>
+      <td>1–20%</td>
+      <td>1943</td>
+      <td>57,729,097</td>
+      <td>697,141</td>
+      <td>1.2</td>
+    </tr>
+    <tr>
+      <td>&gt;20%</td>
+      <td>900</td>
+      <td>19,748,182</td>
+      <td>-4,063,940</td>
+      <td>-20.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 5 columns</div></div>
+<p>The same insight as the Excel crosstab and dashboard: discounts above 20% turn the margin sharply negative.</p>
+<h3 id="conditional-aggregation-pivoting-with-case">Conditional aggregation: pivoting with CASE</h3>
+<p>Put <code>CASE</code> inside an aggregate to turn row values into columns, which is how analysts build pivot-style reports in SQL:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> category = <span class="hl-s">&#x27;Furniture&#x27;</span>       <span class="hl-k">THEN</span> sales <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>), <span class="hl-n">0</span>) <span class="hl-k">AS</span> furniture,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> category = <span class="hl-s">&#x27;Office Supplies&#x27;</span> <span class="hl-k">THEN</span> sales <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>), <span class="hl-n">0</span>) <span class="hl-k">AS</span> office_supplies,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> category = <span class="hl-s">&#x27;Technology&#x27;</span>      <span class="hl-k">THEN</span> sales <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>), <span class="hl-n">0</span>) <span class="hl-k">AS</span> technology,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                                                        <span class="hl-k">AS</span> total
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>furniture</th>
+      <th>office_supplies</th>
+      <th>technology</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+      <td>7,942,093</td>
+      <td>2,719,513</td>
+      <td>35,822,514</td>
+      <td>46,484,119</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>7,975,869</td>
+      <td>2,219,543</td>
+      <td>38,822,750</td>
+      <td>49,018,161</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>9,593,302</td>
+      <td>2,468,888</td>
+      <td>41,890,579</td>
+      <td>53,952,769</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>9,330,590</td>
+      <td>2,725,361</td>
+      <td>39,902,570</td>
+      <td>51,958,521</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 5 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> department,
+       <span class="hl-f">COUNT</span>(*)                                                 <span class="hl-k">AS</span> employees,
+       <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> attrition = <span class="hl-s">&#x27;Yes&#x27;</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>)        <span class="hl-k">AS</span> leavers,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> attrition = <span class="hl-s">&#x27;Yes&#x27;</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> attrition_pct,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> overtime = <span class="hl-s">&#x27;Yes&#x27;</span> <span class="hl-k">THEN</span> <span class="hl-n">1.0</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) * <span class="hl-n">100</span>, <span class="hl-n">1</span>)              <span class="hl-k">AS</span> overtime_pct
+<span class="hl-k">FROM</span> employees
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> department
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> attrition_pct <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>department</th>
+      <th>employees</th>
+      <th>leavers</th>
+      <th>attrition_pct</th>
+      <th>overtime_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sales</td>
+      <td>414</td>
+      <td>126</td>
+      <td>30.4</td>
+      <td>26.6</td>
+    </tr>
+    <tr>
+      <td>R&amp;D</td>
+      <td>389</td>
+      <td>101</td>
+      <td>26.0</td>
+      <td>32.1</td>
+    </tr>
+    <tr>
+      <td>IT</td>
+      <td>309</td>
+      <td>75</td>
+      <td>24.3</td>
+      <td>29.8</td>
+    </tr>
+    <tr>
+      <td>HR</td>
+      <td>83</td>
+      <td>19</td>
+      <td>22.9</td>
+      <td>31.3</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>154</td>
+      <td>35</td>
+      <td>22.7</td>
+      <td>20.1</td>
+    </tr>
+    <tr>
+      <td>Operations</td>
+      <td>151</td>
+      <td>33</td>
+      <td>21.9</td>
+      <td>32.5</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 5 columns</div></div>
+<p><code>AVG(CASE WHEN … THEN 1.0 ELSE 0 END)</code> is a neat way to get a percentage of rows meeting a condition.</p>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>The PIVOT operator</b></div><p>SQL Server also has a <code>PIVOT</code> operator:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region, [Furniture], [Office Supplies], [Technology]
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> region, category, sales <span class="hl-k">FROM</span> superstore) <span class="hl-k">AS</span> src
+<span class="hl-k">PIVOT</span> (<span class="hl-f">SUM</span>(sales) <span class="hl-k">FOR</span> category <span class="hl-k">IN</span> ([Furniture], [Office Supplies], [Technology])) <span class="hl-k">AS</span> p;</code></pre></div>
+<p>Conditional aggregation is more flexible (several measures, any conditions) and works in every database, so most analysts prefer it. <code>UNPIVOT</code> does the reverse, like Power Query's Unpivot (Excel Lesson 12).</p></div>
+<h2 id="subtotals-and-grand-totals-rollup-cube-grouping-sets">Subtotals and grand totals: ROLLUP, CUBE, GROUPING SETS</h2>
+<h3 id="rollup">ROLLUP</h3>
+<p><code>GROUP BY ROLLUP (a, b)</code> returns the groups for <code>(a, b)</code>, <strong>subtotals</strong> for each <code>a</code>, and a <strong>grand total</strong>. Subtotal rows show NULL in the rolled-up columns.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region,
+       category,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">ROLLUP</span> (region, category)
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region, category;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>category</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+      <td>Furniture</td>
+      <td>7,942,093</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Office Supplies</td>
+      <td>2,719,513</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Technology</td>
+      <td>35,822,514</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>NULL</td>
+      <td>46,484,119</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Furniture</td>
+      <td>7,975,869</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Office Supplies</td>
+      <td>2,219,543</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Technology</td>
+      <td>38,822,750</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>NULL</td>
+      <td>49,018,161</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Furniture</td>
+      <td>9,593,302</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Office Supplies</td>
+      <td>2,468,888</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Technology</td>
+      <td>41,890,579</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>NULL</td>
+      <td>53,952,769</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Furniture</td>
+      <td>9,330,590</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Office Supplies</td>
+      <td>2,725,361</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Technology</td>
+      <td>39,902,570</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>NULL</td>
+      <td>51,958,521</td>
+    </tr>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>201,413,569</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">17 rows × 3 columns</div></div>
+<h3 id="cleaning-the-labels-with-coalesce-and-grouping">Cleaning the labels with COALESCE and GROUPING()</h3>
+<p>NULLs in subtotal rows are confusing. <code>COALESCE</code> replaces them with a label. If the data itself could contain NULL categories, use <code>GROUPING(col)</code>, which returns 1 only on rows where the column was rolled up:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> <span class="hl-f">GROUPING</span>(region) = <span class="hl-n">1</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;All regions&#x27;</span> <span class="hl-k">ELSE</span> region <span class="hl-k">END</span>            <span class="hl-k">AS</span> region,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> <span class="hl-f">GROUPING</span>(category) = <span class="hl-n">1</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;Subtotal&#x27;</span> <span class="hl-k">ELSE</span> category <span class="hl-k">END</span>            <span class="hl-k">AS</span> category,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                                                          <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">ROLLUP</span> (region, category)
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-f">GROUPING</span>(region), region, <span class="hl-f">GROUPING</span>(category), category;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>category</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>East</td>
+      <td>Furniture</td>
+      <td>7,942,093</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Office Supplies</td>
+      <td>2,719,513</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Technology</td>
+      <td>35,822,514</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>Subtotal</td>
+      <td>46,484,119</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Furniture</td>
+      <td>7,975,869</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Office Supplies</td>
+      <td>2,219,543</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Technology</td>
+      <td>38,822,750</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>Subtotal</td>
+      <td>49,018,161</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Furniture</td>
+      <td>9,593,302</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Office Supplies</td>
+      <td>2,468,888</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Technology</td>
+      <td>41,890,579</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>Subtotal</td>
+      <td>53,952,769</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Furniture</td>
+      <td>9,330,590</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Office Supplies</td>
+      <td>2,725,361</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Technology</td>
+      <td>39,902,570</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>Subtotal</td>
+      <td>51,958,521</td>
+    </tr>
+    <tr>
+      <td>All regions</td>
+      <td>Subtotal</td>
+      <td>201,413,569</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">17 rows × 3 columns</div></div>
+<p>The simple version used in class, <code>COALESCE(region, 'All regions')</code>, gives the same labels when the data has no real NULLs.</p>
+<h3 id="cube">CUBE</h3>
+<p><code>CUBE (a, b)</code> returns <strong>every combination</strong> of subtotals: by <code>(a, b)</code>, by <code>a</code>, by <code>b</code>, and the grand total. Use it when you need totals in both directions, like a pivot table with row and column grand totals.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COALESCE</span>(segment, <span class="hl-s">&#x27;All segments&#x27;</span>)  <span class="hl-k">AS</span> segment,
+       <span class="hl-f">COALESCE</span>(region, <span class="hl-s">&#x27;All regions&#x27;</span>)    <span class="hl-k">AS</span> region,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id)           <span class="hl-k">AS</span> orders
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">CUBE</span> (segment, region)
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-f">GROUPING</span>(segment), segment, <span class="hl-f">GROUPING</span>(region), region;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>segment</th>
+      <th>region</th>
+      <th>orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Consumer</td>
+      <td>East</td>
+      <td>355</td>
+    </tr>
+    <tr>
+      <td>Consumer</td>
+      <td>North</td>
+      <td>402</td>
+    </tr>
+    <tr>
+      <td>Consumer</td>
+      <td>South</td>
+      <td>385</td>
+    </tr>
+    <tr>
+      <td>Consumer</td>
+      <td>West</td>
+      <td>412</td>
+    </tr>
+    <tr>
+      <td>Consumer</td>
+      <td>All regions</td>
+      <td>1554</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>East</td>
+      <td>245</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>North</td>
+      <td>224</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>South</td>
+      <td>269</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>West</td>
+      <td>217</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>All regions</td>
+      <td>955</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>East</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>North</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>South</td>
+      <td>177</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>West</td>
+      <td>182</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>All regions</td>
+      <td>691</td>
+    </tr>
+    <tr>
+      <td>All segments</td>
+      <td>East</td>
+      <td>766</td>
+    </tr>
+    <tr>
+      <td>All segments</td>
+      <td>North</td>
+      <td>792</td>
+    </tr>
+    <tr>
+      <td>All segments</td>
+      <td>South</td>
+      <td>831</td>
+    </tr>
+    <tr>
+      <td>All segments</td>
+      <td>West</td>
+      <td>811</td>
+    </tr>
+    <tr>
+      <td>All segments</td>
+      <td>All regions</td>
+      <td>3200</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">20 rows × 3 columns</div></div>
+<h3 id="grouping-sets">GROUPING SETS</h3>
+<p><code>GROUPING SETS</code> lists exactly the groupings you want in one query:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COALESCE</span>(category, <span class="hl-s">&#x27;—&#x27;</span>)   <span class="hl-k">AS</span> category,
+       <span class="hl-f">COALESCE</span>(ship_mode, <span class="hl-s">&#x27;—&#x27;</span>)  <span class="hl-k">AS</span> ship_mode,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)      <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> GROUPING SETS ((category), (ship_mode), ())
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> category, ship_mode;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>ship_mode</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>—</td>
+      <td>34,841,853</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>—</td>
+      <td>10,133,304</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>—</td>
+      <td>156,438,413</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>First Class</td>
+      <td>31,455,543</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>Same Day</td>
+      <td>10,082,430</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>Second Class</td>
+      <td>40,858,316</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>Standard Class</td>
+      <td>119,017,281</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>—</td>
+      <td>201,413,569</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 3 columns</div></div>
+<p>This returns totals by category, totals by ship mode and the grand total, without the category × ship mode detail.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Groupings produced for (a, b)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GROUP BY a, b</code></td>
+<td>(a, b)</td>
+</tr>
+<tr>
+<td><code>ROLLUP (a, b)</code></td>
+<td>(a, b), (a), ()</td>
+</tr>
+<tr>
+<td><code>CUBE (a, b)</code></td>
+<td>(a, b), (a), (b), ()</td>
+</tr>
+<tr>
+<td><code>GROUPING SETS ((a), (b), ())</code></td>
+<td>exactly (a), (b), ()</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Bridge to Power BI</b></div><p>Power BI matrices compute these subtotals automatically, but ROLLUP/CUBE are perfect when you must deliver a fixed report table from SQL, feed a paginated report, or check that a dashboard's totals are right.</p></div>
+<h2 id="a-complete-analysis-query">A complete analysis query</h2>
+<p>Question: <em>"For 2025, show each sub-category's sales, profit and margin, a performance label, and only sub-categories with at least ₹10 lakh sales, best margin first."</em></p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> sub_category,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                          <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit), <span class="hl-n">0</span>)                         <span class="hl-k">AS</span> profit,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales), <span class="hl-n">1</span>)    <span class="hl-k">AS</span> margin_pct,
+       <span class="hl-k">CASE</span>
+           <span class="hl-k">WHEN</span> <span class="hl-f">SUM</span>(profit) &lt; <span class="hl-n">0</span>                       <span class="hl-k">THEN</span> <span class="hl-s">&#x27;Loss-making&#x27;</span>
+           <span class="hl-k">WHEN</span> <span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(profit) / <span class="hl-f">SUM</span>(sales) &lt; <span class="hl-n">8</span>  <span class="hl-k">THEN</span> <span class="hl-s">&#x27;Low margin&#x27;</span>
+           <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;Healthy&#x27;</span>
+       <span class="hl-k">END</span>                                           <span class="hl-k">AS</span> status
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-s">&#x27;2026-01-01&#x27;</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> sub_category
+<span class="hl-k">HAVING</span> <span class="hl-f">SUM</span>(sales) &gt;= <span class="hl-n">1000000</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> margin_pct <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>sub_category</th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>margin_pct</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Appliances</td>
+      <td>2,539,536</td>
+      <td>379,442</td>
+      <td>14.9</td>
+      <td>Healthy</td>
+    </tr>
+    <tr>
+      <td>Phones</td>
+      <td>12,935,910</td>
+      <td>1,708,007</td>
+      <td>13.2</td>
+      <td>Healthy</td>
+    </tr>
+    <tr>
+      <td>Machines</td>
+      <td>16,502,707</td>
+      <td>2,000,026</td>
+      <td>12.1</td>
+      <td>Healthy</td>
+    </tr>
+    <tr>
+      <td>Accessories</td>
+      <td>1,221,677</td>
+      <td>145,007</td>
+      <td>11.9</td>
+      <td>Healthy</td>
+    </tr>
+    <tr>
+      <td>Copiers</td>
+      <td>30,984,937</td>
+      <td>3,349,006</td>
+      <td>10.8</td>
+      <td>Healthy</td>
+    </tr>
+    <tr>
+      <td>Chairs</td>
+      <td>3,053,530</td>
+      <td>132,519</td>
+      <td>4.3</td>
+      <td>Low margin</td>
+    </tr>
+    <tr>
+      <td>Bookcases</td>
+      <td>3,918,269</td>
+      <td>-169,018</td>
+      <td>-4.3</td>
+      <td>Loss-making</td>
+    </tr>
+    <tr>
+      <td>Tables</td>
+      <td>5,297,064</td>
+      <td>-286,188</td>
+      <td>-5.4</td>
+      <td>Loss-making</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">8 rows × 5 columns</div></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>GROUP BY</code> makes one row per group; every selected column must be grouped or aggregated.</li>
+<li><code>WHERE</code> filters rows before grouping; <code>HAVING</code> filters groups after (can use aggregates).</li>
+<li><code>CASE WHEN … THEN … ELSE … END</code> creates conditional columns and buckets; without ELSE, unmatched rows are NULL.</li>
+<li>Conditional aggregation (<code>SUM(CASE WHEN … THEN x ELSE 0 END)</code>) pivots rows into columns and computes percentages.</li>
+<li><code>ROLLUP</code> adds hierarchical subtotals + grand total; <code>CUBE</code> adds all combinations; <code>GROUPING SETS</code> picks exactly the groupings you need.</li>
+<li>Label subtotal rows with <code>COALESCE</code> or, more robustly, <code>GROUPING()</code>.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-07-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why does <code>SELECT region, city, SUM(sales) FROM superstore GROUP BY region</code> fail?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>SUM needs a WHERE clause</button><button type="button" class="opt" data-ok="1"><i>B</i>city is neither grouped nor aggregated</button><button type="button" class="opt" data-ok="0"><i>C</i>region must be aggregated</button><button type="button" class="opt" data-ok="0"><i>D</i>GROUP BY needs ORDER BY</button></div><div class="qexp"><b>Answer: B.</b> Every selected column must appear in GROUP BY or in an aggregate.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which clause keeps only customers with more than 10 orders?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>WHERE COUNT(order_id) &gt; 10</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>HAVING COUNT(DISTINCT order_id) &gt; 10</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>ORDER BY COUNT(*) &gt; 10</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>GROUP BY COUNT(*) &gt; 10</code></button></div><div class="qexp"><b>Answer: B.</b> Conditions on aggregates go in HAVING.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does a CASE expression return when no WHEN matches and there is no ELSE?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0</button><button type="button" class="opt" data-ok="0"><i>B</i>An empty string</button><button type="button" class="opt" data-ok="1"><i>C</i>NULL</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: C.</b> Without ELSE, unmatched rows return NULL.</div></div><div class="qq"><p class="qtext"><b>4.</b> <code>GROUP BY ROLLUP (region, category)</code> produces which groupings?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>(region, category), (region), and the grand total</button><button type="button" class="opt" data-ok="0"><i>B</i>Every combination including (category) alone</button><button type="button" class="opt" data-ok="0"><i>C</i>Only the grand total</button><button type="button" class="opt" data-ok="0"><i>D</i>Only (region, category)</button></div><div class="qexp"><b>Answer: A.</b> ROLLUP is hierarchical; CUBE would also include (category).</div></div><div class="qq"><p class="qtext"><b>5.</b> What does <code>AVG(CASE WHEN attrition = 'Yes' THEN 1.0 ELSE 0 END)</code> compute?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The number of leavers</button><button type="button" class="opt" data-ok="1"><i>B</i>The share (proportion) of employees who left</button><button type="button" class="opt" data-ok="0"><i>C</i>The average salary of leavers</button><button type="button" class="opt" data-ok="0"><i>D</i>NULL</button></div><div class="qexp"><b>Answer: B.</b> The average of 1s and 0s is the proportion of 1s.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which function tells you that a row is a subtotal created by ROLLUP?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>COALESCE</button><button type="button" class="opt" data-ok="0"><i>B</i>ISNULL</button><button type="button" class="opt" data-ok="1"><i>C</i>GROUPING</button><button type="button" class="opt" data-ok="0"><i>D</i>NULLIF</button></div><div class="qexp"><b>Answer: C.</b> GROUPING(col) returns 1 when col was aggregated away in that row.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>HR summary</b></div><p>Using the <code>employees</code> table (HR data): (1) headcount, average monthly income and attrition % by department and gender, only for groups with at least 30 employees; (2) a column per education level showing headcount, one row per department; (3) average income by job satisfaction (1–4) with a grand total row using ROLLUP.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">SELECT</span> department, gender, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> headcount,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(monthly_income * <span class="hl-n">1.0</span>), <span class="hl-n">0</span>) <span class="hl-k">AS</span> avg_income,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> attrition = <span class="hl-s">&#x27;Yes&#x27;</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> attrition_pct
+<span class="hl-k">FROM</span> employees <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> department, gender <span class="hl-k">HAVING</span> <span class="hl-f">COUNT</span>(*) &gt;= <span class="hl-n">30</span> <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> department, gender;
+<span class="hl-c">-- (2)</span>
+<span class="hl-k">SELECT</span> department,
+       <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> education = <span class="hl-s">&#x27;Diploma&#x27;</span>    <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> diploma,
+       <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> education = <span class="hl-s">&#x27;Bachelor&#x27;</span><span class="hl-s">&#x27;s&#x27;</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> bachelors,
+       <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> education = <span class="hl-s">&#x27;Master&#x27;</span><span class="hl-s">&#x27;s&#x27;</span>   <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> masters,
+       <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> education = <span class="hl-s">&#x27;PhD&#x27;</span>        <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> phd
+<span class="hl-k">FROM</span> employees <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> department;
+<span class="hl-c">-- (3)</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COALESCE</span>(<span class="hl-f">CAST</span>(job_satisfaction <span class="hl-k">AS</span> <span class="hl-k">VARCHAR</span>(<span class="hl-n">5</span>)), <span class="hl-s">&#x27;All&#x27;</span>) <span class="hl-k">AS</span> satisfaction,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(monthly_income * <span class="hl-n">1.0</span>), <span class="hl-n">0</span>) <span class="hl-k">AS</span> avg_income
+<span class="hl-k">FROM</span> employees <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-k">ROLLUP</span> (job_satisfaction) <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-f">GROUPING</span>(job_satisfaction), job_satisfaction;</code></pre></div>
+<p>Note the doubled apostrophe in <code>'Bachelor''s'</code>: that is how you write a quote inside a SQL string.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: WHERE vs HAVING?</strong>
+WHERE filters rows before aggregation and cannot use aggregate functions; HAVING filters groups after GROUP BY and can.</p>
+<p><strong>Q: How do you pivot rows to columns in SQL?</strong>
+Conditional aggregation <code>SUM(CASE WHEN col = 'X' THEN value END)</code> per output column, or SQL Server's PIVOT operator.</p>
+<p><strong>Q: What are ROLLUP and CUBE?</strong>
+GROUP BY extensions that add subtotal and grand-total rows: ROLLUP follows the column hierarchy; CUBE produces all combinations. GROUPING() identifies the subtotal rows.</p>
+<p><strong>Q: Write a query to find the second-highest salary per department.</strong>
+Use DENSE_RANK() in a subquery/CTE (Lesson 11): <code>WHERE rnk = 2</code>.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-06-sql-functions-aggregate-text-date-and-number.html"><small>← Previous</small><b>SQL Functions: Aggregate, Text, Date &amp; Number</b></a><a class="next" href="sql-08-joins-and-a-retail-case-study.html"><small>Next →</small><b>Joins and a Retail Case Study</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#group-by-one-row-per-group">GROUP BY: one row per group</a><a href="#having-filtering-groups">HAVING: filtering groups</a><a href="#case-when-conditional-columns">CASE WHEN: conditional columns</a><a href="#subtotals-and-grand-totals-rollup-cube-grouping-sets">Subtotals and grand totals: ROLLUP, CUBE, GROUPING SETS</a><a href="#a-complete-analysis-query">A complete analysis query</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

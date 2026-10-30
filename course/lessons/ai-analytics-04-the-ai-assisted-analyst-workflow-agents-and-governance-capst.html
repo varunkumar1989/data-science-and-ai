@@ -1,0 +1,525 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone) · AI Analytics Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Combine everything into one repeatable workflow: frame a question, brief the AI, analyse with code, verify, visualise and write the story. See how an analyst agent works (plan, tools, observe, repeat) with a runnable toy example, learn MCP and tool-calling basics, and finish with governance, ethics and a telecom-churn capstone."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ai-analytics"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ai-analytics">AI for Data Analysis</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#DB2777">AI for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html" data-lid="ai-analytics-01"><span>01</span>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI</a></li><li class=""><a href="ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html" data-lid="ai-analytics-02"><span>02</span>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</a></li><li class=""><a href="ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html" data-lid="ai-analytics-03"><span>03</span>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</a></li><li class="on"><a href="ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html" data-lid="ai-analytics-04"><span>04</span>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ai-analytics-04">
+<div class="lhead" style="--tc:#DB2777"><div class="kick">AI for Data Analysis · Lesson 4 of 4</div><h1>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)</h1>
+<p class="sum">Combine everything into one repeatable workflow: frame a question, brief the AI, analyse with code, verify, visualise and write the story. See how an analyst agent works (plan, tools, observe, repeat) with a runnable toy example, learn MCP and tool-calling basics, and finish with governance, ethics and a telecom-churn capstone.</p><div class="tags"><span class="tag live">● DVA with AI · wrap-up</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 140 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ai-analytics/AI_Analytics_04_The_AI_Assisted_Analyst_Workflow_Agents_Governance_Capstone.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ai-analytics-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Apply a seven-step AI-assisted analysis workflow from question to recommendation</li><li>Explain the agent loop, tool calling and the Model Context Protocol (MCP) at a conceptual level</li><li>Build a tiny agent-style loop that plans, runs SQL tools and reports, and describe where an LLM would sit</li><li>Design human-in-the-loop controls, logging and evaluation for AI analytics</li><li>Complete an end-to-end churn analysis and explain it to a business audience</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/telecom_churn.csv" download>telecom_churn.csv</a><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="the-ai-assisted-analyst-workflow">The AI-assisted analyst workflow</h2>
+<figure class="fig"><img src="../img/ai-analytics-04-01.png" alt="Seven steps. AI accelerates several of them, but the analyst owns the first and the last two." loading="lazy"><figcaption>Seven steps. AI accelerates several of them, but the analyst owns the first and the last two.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Step</th>
+<th>What you do</th>
+<th>Where AI helps</th>
+<th>Your responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Frame</td>
+<td>Decision, audience, metric definitions, constraints</td>
+<td>Brainstorm questions, critique your framing</td>
+<td>Own the decision question</td>
+</tr>
+<tr>
+<td>2. Brief</td>
+<td>Schema, definitions, sample rows, rules</td>
+<td>Turn notes into a clean brief</td>
+<td>No sensitive data; correct definitions</td>
+</tr>
+<tr>
+<td>3. Analyse</td>
+<td>Profile, clean, aggregate, model</td>
+<td>Draft SQL/Python, explain code, suggest checks</td>
+<td>Run it; read it</td>
+</tr>
+<tr>
+<td>4. Verify</td>
+<td>Reconcile totals, test edge cases, second method</td>
+<td>Write test queries, find anomalies</td>
+<td>Sign off the numbers</td>
+</tr>
+<tr>
+<td>5. Visualise</td>
+<td>Choose and label charts</td>
+<td>Suggest chart types, write plotting code</td>
+<td>Honest, readable charts</td>
+</tr>
+<tr>
+<td>6. Write</td>
+<td>Insight, caveat, action</td>
+<td>Draft commentary, simplify language</td>
+<td>Every claim traceable to a number</td>
+</tr>
+<tr>
+<td>7. Recommend</td>
+<td>Action, owner, metric, date</td>
+<td>Pre-mortem: "how could this fail?"</td>
+<td>Business judgement</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="case-why-do-telecom-customers-leave">Case: why do telecom customers leave?</h2>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Brief</b></div><p>A telecom company has 3,000 subscribers in <code>telecom_churn.csv</code> (tenure, contract type, internet service, payment method, charges, support calls, churn Yes/No). The retention head asks: <strong>Who is most likely to churn, and what should we do about it?</strong> We will follow the workflow and use AI-style assistance where it helps, checking everything.</p></div>
+<h3 id="steps-12-frame-and-brief">Steps 1–2: frame and brief</h3>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">Decision: choose which customers get a retention offer next quarter (budget: 300 offers).
+Metric: churn rate = churners / customers in the group. Report groups with at least 50 customers only.
+Schema: telecom_churn(customer_id, senior_citizen 0/1, tenure_months, contract {Month-to-month, One year, Two year},
+        internet_service {Fiber, DSL, No internet}, payment_method, monthly_charges, total_charges, support_calls, churn {Yes, No})
+Rules: use only this table; state assumptions; do not claim causes; show code.</code></pre></div>
+<h3 id="step-3-profile-and-analyse">Step 3: profile and analyse</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+tc = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;telecom_churn.csv&quot;</span>)
+tc[<span class="hl-s">&quot;churned&quot;</span>] = (tc.churn == <span class="hl-s">&quot;Yes&quot;</span>).<span class="hl-f">astype</span>(int)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{len(tc):,} customers | overall churn {tc.churned.mean():.1%} | missing values: {int(tc.isna().sum().sum())} | duplicate IDs: {int(tc.customer_id.duplicated().sum())}&quot;</span>)
+<span class="hl-f">tc.describe</span>(include=<span class="hl-s">&quot;all&quot;</span>).T[[<span class="hl-s">&quot;count&quot;</span>, <span class="hl-s">&quot;unique&quot;</span>, <span class="hl-s">&quot;top&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;min&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]].<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">head</span>(<span class="hl-n">10</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">3,000 customers | overall churn 25.7% | missing values: 0 | duplicate IDs: 0</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>unique</th>
+      <th>top</th>
+      <th>mean</th>
+      <th>min</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>customer_id</th>
+      <td>3000</td>
+      <td>3000</td>
+      <td>T00001</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>senior_citizen</th>
+      <td>3,000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.17</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>tenure_months</th>
+      <td>3,000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>36.06</td>
+      <td>0</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>contract</th>
+      <td>3000</td>
+      <td>3</td>
+      <td>Month-to-month</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>internet_service</th>
+      <td>3000</td>
+      <td>3</td>
+      <td>Fiber</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>payment_method</th>
+      <td>3000</td>
+      <td>4</td>
+      <td>Card</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>monthly_charges</th>
+      <td>3,000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>67.07</td>
+      <td>20</td>
+      <td>131.74</td>
+    </tr>
+    <tr>
+      <th>total_charges</th>
+      <td>3,000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2,418.32</td>
+      <td>19.58</td>
+      <td>8,724.35</td>
+    </tr>
+    <tr>
+      <th>support_calls</th>
+      <td>3,000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.28</td>
+      <td>0</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>churn</th>
+      <td>3000</td>
+      <td>2</td>
+      <td>No</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">10 rows × 6 columns</div></div>
+<p>Churn by one factor at a time (the same GROUP BY thinking as SQL Lesson 7):</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">churn_by</span>(col, bins=<span class="hl-k">None</span>, min_n=<span class="hl-n">50</span>):
+    x = tc[col] <span class="hl-k">if</span> bins <span class="hl-k">is</span> <span class="hl-k">None</span> <span class="hl-k">else</span> <span class="hl-f">pd.cut</span>(tc[col], bins)
+    g = <span class="hl-f">tc.groupby</span>(x, observed=<span class="hl-k">True</span>).<span class="hl-f">agg</span>(customers=(<span class="hl-s">&quot;churned&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), churners=(<span class="hl-s">&quot;churned&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+    g[<span class="hl-s">&quot;churn_%&quot;</span>] = (g.churners / g.customers * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+    <span class="hl-k">return</span> g[g.customers &gt;= min_n]
+<span class="hl-f">print</span>(<span class="hl-f">churn_by</span>(<span class="hl-s">&quot;contract&quot;</span>).<span class="hl-f">to_string</span>()); <span class="hl-f">print</span>(); <span class="hl-f">print</span>(<span class="hl-f">churn_by</span>(<span class="hl-s">&quot;internet_service&quot;</span>).<span class="hl-f">to_string</span>()); <span class="hl-f">print</span>()
+<span class="hl-f">print</span>(<span class="hl-f">churn_by</span>(<span class="hl-s">&quot;support_calls&quot;</span>).<span class="hl-f">to_string</span>()); <span class="hl-f">print</span>(); <span class="hl-f">print</span>(<span class="hl-f">churn_by</span>(<span class="hl-s">&quot;tenure_months&quot;</span>, bins=[-<span class="hl-n">1</span>, <span class="hl-n">6</span>, <span class="hl-n">12</span>, <span class="hl-n">24</span>, <span class="hl-n">48</span>, <span class="hl-n">72</span>]).<span class="hl-f">to_string</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                customers  churners  churn_%
+contract                                    
+Month-to-month       1690       607     35.9
+One year              739       125     16.9
+Two year              571        40      7.0
+
+                  customers  churners  churn_%
+internet_service                              
+DSL                    1047       228     21.8
+Fiber                  1368       441     32.2
+No internet             585       103     17.6
+
+               customers  churners  churn_%
+support_calls                              
+0                    822       157     19.1
+1                   1101       254     23.1
+2                    649       195     30.0
+3                    294       107     36.4
+4                    110        47     42.7
+
+               customers  churners  churn_%
+tenure_months                              
+(-1, 6]              318       165     51.9
+(6, 12]              238       106     44.5
+(12, 24]             452       174     38.5
+(24, 48]            1011       218     21.6
+(48, 72]             981       109     11.1</pre></div>
+<figure class="fig"><img src="../img/ai-analytics-04-02.png" alt="Churn rate by contract type, tenure band, internet service and support calls. Month-to-month customers, new customers, fibre users and frequent callers churn most." loading="lazy"><figcaption>Churn rate by contract type, tenure band, internet service and support calls. Month-to-month customers, new customers, fibre users and frequent callers churn most.</figcaption></figure>
+<h3 id="step-4-verify-before-you-believe">Step 4: verify before you believe</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># 1. Reconcile: group counts add up; 2. a second method gives the same answer; 3. check small groups</span>
+g = <span class="hl-f">churn_by</span>(<span class="hl-s">&quot;contract&quot;</span>, min_n=<span class="hl-n">0</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Group customers sum to total :&quot;</span>, <span class="hl-f">g.customers.sum</span>() == <span class="hl-f">len</span>(tc))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Group churners sum to total  :&quot;</span>, <span class="hl-f">g.churners.sum</span>() == <span class="hl-f">tc.churned.sum</span>())
+<span class="hl-k">import</span> duckdb
+sql = <span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;SELECT contract, COUNT(*) n, ROUND(100.0*AVG(CASE WHEN churn=&#x27;Yes&#x27; THEN 1 ELSE 0 END),1) churn_pct FROM tc GROUP BY contract ORDER BY contract&quot;</span>).<span class="hl-f">df</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;SQL cross-check:\n&quot;</span>, <span class="hl-f">sql.to_string</span>(index=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nCombinations with fewer than 50 customers are excluded from rankings; check:&quot;</span>, (<span class="hl-f">tc.groupby</span>([<span class="hl-s">&#x27;contract&#x27;</span>,<span class="hl-s">&#x27;internet_service&#x27;</span>]).<span class="hl-f">size</span>() &lt; <span class="hl-n">50</span>).<span class="hl-f">sum</span>(), <span class="hl-s">&quot;such groups&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Group customers sum to total : True
+Group churners sum to total  : True
+SQL cross-check:
+       contract    n  churn_pct
+Month-to-month 1690       35.9
+      One year  739       16.9
+      Two year  571        7.0
+
+Combinations with fewer than 50 customers are excluded from rankings; check: 0 such groups</pre></div>
+<p>Associations are <strong>not causes</strong>: month-to-month customers may also be newer or on fibre. To look at several factors together, combine them:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">tc[<span class="hl-s">&quot;tenure_band&quot;</span>] = <span class="hl-f">pd.cut</span>(tc.tenure_months, [-<span class="hl-n">1</span>, <span class="hl-n">12</span>, <span class="hl-n">72</span>], labels=[<span class="hl-s">&quot;≤12 months&quot;</span>, <span class="hl-s">&quot;&gt;12 months&quot;</span>])
+combo = <span class="hl-f">tc.groupby</span>([<span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;tenure_band&quot;</span>], observed=<span class="hl-k">True</span>).<span class="hl-f">agg</span>(customers=(<span class="hl-s">&quot;churned&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), churn_pct=(<span class="hl-s">&quot;churned&quot;</span>, <span class="hl-k">lambda</span> s: <span class="hl-f">round</span>(<span class="hl-f">s.mean</span>() * <span class="hl-n">100</span>, <span class="hl-n">1</span>)))
+combo[combo.customers &gt;= <span class="hl-n">50</span>]</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>customers</th>
+      <th>churn_pct</th>
+    </tr>
+    <tr>
+      <th>contract</th>
+      <th>tenure_band</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Month-to-month</th>
+      <th>≤12 months</th>
+      <td>306</td>
+      <td>67.0</td>
+    </tr>
+    <tr>
+      <th>&gt;12 months</th>
+      <td>1384</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">One year</th>
+      <th>≤12 months</th>
+      <td>151</td>
+      <td>33.8</td>
+    </tr>
+    <tr>
+      <th>&gt;12 months</th>
+      <td>588</td>
+      <td>12.6</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Two year</th>
+      <th>≤12 months</th>
+      <td>99</td>
+      <td>15.2</td>
+    </tr>
+    <tr>
+      <th>&gt;12 months</th>
+      <td>472</td>
+      <td>5.3</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 2 columns</div></div>
+<h3 id="steps-57-prioritise-and-recommend">Steps 5–7: prioritise and recommend</h3>
+<p>With a budget of 300 offers, focus on the <strong>highest-risk group that is also large enough to matter</strong>. A simple <strong>risk × size</strong> table:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">seg = <span class="hl-f">tc.groupby</span>([<span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;internet_service&quot;</span>], observed=<span class="hl-k">True</span>).<span class="hl-f">agg</span>(customers=(<span class="hl-s">&quot;churned&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), churn_pct=(<span class="hl-s">&quot;churned&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>), avg_charges=(<span class="hl-s">&quot;monthly_charges&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>))
+seg[<span class="hl-s">&quot;expected_churners&quot;</span>] = (seg.customers * seg.churn_pct).<span class="hl-f">round</span>(<span class="hl-n">0</span>)
+seg[<span class="hl-s">&quot;churn_pct&quot;</span>] = (seg.churn_pct * <span class="hl-n">100</span>).<span class="hl-f">round</span>(<span class="hl-n">1</span>); seg[<span class="hl-s">&quot;avg_charges&quot;</span>] = <span class="hl-f">seg.avg_charges.round</span>(<span class="hl-n">0</span>)
+seg = seg[seg.customers &gt;= <span class="hl-n">50</span>].<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;expected_churners&quot;</span>, ascending=<span class="hl-k">False</span>)
+<span class="hl-f">seg.head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>customers</th>
+      <th>churn_pct</th>
+      <th>avg_charges</th>
+      <th>expected_churners</th>
+    </tr>
+    <tr>
+      <th>contract</th>
+      <th>internet_service</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">Month-to-month</th>
+      <th>Fiber</th>
+      <td>743</td>
+      <td>43.5</td>
+      <td>87</td>
+      <td>323</td>
+    </tr>
+    <tr>
+      <th>DSL</th>
+      <td>617</td>
+      <td>30.8</td>
+      <td>61</td>
+      <td>190</td>
+    </tr>
+    <tr>
+      <th>No internet</th>
+      <td>330</td>
+      <td>28.5</td>
+      <td>31</td>
+      <td>94</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">One year</th>
+      <th>Fiber</th>
+      <td>341</td>
+      <td>26.7</td>
+      <td>86</td>
+      <td>91</td>
+    </tr>
+    <tr>
+      <th>DSL</th>
+      <td>252</td>
+      <td>11.1</td>
+      <td>61</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>Two year</th>
+      <th>Fiber</th>
+      <td>284</td>
+      <td>9.5</td>
+      <td>87</td>
+      <td>27</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 4 columns</div></div>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span><b>A recommendation a manager can act on</b></div><ol>
+<li><strong>Target</strong> the top segments by <em>expected churners</em>, not only by churn rate: they hold most of the preventable loss.</li>
+<li><strong>Offer</strong> a discounted switch to a 1-year contract for month-to-month customers in their first year, and a service check for fibre customers with 2+ support calls.</li>
+<li><strong>Measure</strong> with an A/B test: random half of the target list gets the offer; compare churn after 90 days (the test design is in the ML track, hypothesis-testing lessons).</li>
+<li><strong>Limit</strong>: this analysis is descriptive; it does not prove that contracts <em>cause</em> churn or estimate the offer's effect.</li>
+</ol></div>
+<h2 id="how-an-ai-agent-does-analysis">How an AI agent does analysis</h2>
+<p>An agent turns the workflow above into a loop that an LLM drives:</p>
+<figure class="fig"><img src="../img/ai-analytics-04-03.png" alt="The agent loop. The model decides the next action, a tool executes it, and the result goes back into the model&#x27;s context." loading="lazy"><figcaption>The agent loop. The model decides the next action, a tool executes it, and the result goes back into the model's context.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Piece</th>
+<th>Meaning</th>
+<th>Analytics example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Goal</strong></td>
+<td>What to achieve</td>
+<td>"Find the top churn drivers and draft a memo"</td>
+</tr>
+<tr>
+<td><strong>Tools</strong></td>
+<td>Functions the model can call</td>
+<td><code>run_sql(query)</code>, <code>run_python(code)</code>, <code>plot(spec)</code>, <code>search_docs(text)</code></td>
+</tr>
+<tr>
+<td><strong>Memory / context</strong></td>
+<td>What it has seen so far</td>
+<td>Previous queries and results</td>
+</tr>
+<tr>
+<td><strong>Planner (LLM)</strong></td>
+<td>Chooses the next action</td>
+<td>"Check churn by contract next"</td>
+</tr>
+<tr>
+<td><strong>Guardrails</strong></td>
+<td>Limits</td>
+<td>Read-only DB, max queries, no network, human approval for writes</td>
+</tr>
+<tr>
+<td><strong>Evaluation</strong></td>
+<td>How you know it worked</td>
+<td>Unit tests on metrics, golden questions, human review</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="a-toy-agent-you-can-run-no-llm">A toy agent you can run (no LLM)</h3>
+<p>To make the loop concrete, here is a miniature "analyst agent" in which a hard-coded planner stands in for the LLM. It has <strong>one tool</strong> (read-only SQL) and a rule: stop when it has found the top three churn drivers.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> duckdb
+db = <span class="hl-f">duckdb.connect</span>(); <span class="hl-f">db.execute</span>(<span class="hl-s">&quot;CREATE TABLE tc AS SELECT * FROM read_csv_auto(&#x27;telecom_churn.csv&#x27;)&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">run_sql</span>(q):                                   <span class="hl-c"># TOOL: read-only SQL with a row limit</span>
+    assert <span class="hl-f">q.strip</span>().<span class="hl-f">lower</span>().<span class="hl-f">startswith</span>(<span class="hl-s">&quot;select&quot;</span>), <span class="hl-s">&quot;only SELECT statements are allowed&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-f">db.execute</span>(q).<span class="hl-f">df</span>().<span class="hl-f">head</span>(<span class="hl-n">20</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">planner</span>(memory):                              <span class="hl-c"># stands in for the LLM: decides the next tool call</span>
+    todo = [c <span class="hl-k">for</span> c <span class="hl-k">in</span> [<span class="hl-s">&quot;contract&quot;</span>, <span class="hl-s">&quot;internet_service&quot;</span>, <span class="hl-s">&quot;payment_method&quot;</span>, <span class="hl-s">&quot;support_calls&quot;</span>] <span class="hl-k">if</span> c <span class="hl-k">not</span> <span class="hl-k">in</span> memory]
+    <span class="hl-k">if</span> todo <span class="hl-k">and</span> <span class="hl-f">len</span>(memory) &lt; <span class="hl-n">4</span>:
+        c = todo[<span class="hl-n">0</span>]
+        <span class="hl-k">return</span> <span class="hl-s">f&quot;SELECT {c} AS grp, COUNT(*) AS n, ROUND(100.0*AVG(CASE WHEN churn=&#x27;Yes&#x27; THEN 1 ELSE 0 END),1) AS churn_pct FROM tc GROUP BY {c} HAVING COUNT(*) &gt;= 50&quot;</span>, c
+    <span class="hl-k">return</span> <span class="hl-k">None</span>, <span class="hl-k">None</span>
+
+memory, log = {}, []
+<span class="hl-k">while</span> <span class="hl-k">True</span>:
+    q, key = <span class="hl-f">planner</span>(memory)
+    <span class="hl-k">if</span> q <span class="hl-k">is</span> <span class="hl-k">None</span>: <span class="hl-k">break</span>
+    res = <span class="hl-f">run_sql</span>(q); memory[key] = res; <span class="hl-f">log.append</span>(<span class="hl-s">f&quot;ran query on &#x27;{key}&#x27; -&gt; best group: {res.sort_values(&#x27;churn_pct&#x27;).iloc[-1].grp} ({res.churn_pct.max()}%)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>(log))
+spread = {k: <span class="hl-f">v.churn_pct.max</span>() - <span class="hl-f">v.churn_pct.min</span>() <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">memory.items</span>()}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nDrivers ranked by spread in churn rate (percentage points):&quot;</span>)
+<span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">sorted</span>(<span class="hl-f">spread.items</span>(), key=<span class="hl-k">lambda</span> x: -x[<span class="hl-n">1</span>]): <span class="hl-f">print</span>(<span class="hl-s">f&quot;  {k:18s} {v:5.1f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">ran query on &#x27;contract&#x27; -&gt; best group: Month-to-month (35.9%)
+ran query on &#x27;internet_service&#x27; -&gt; best group: Fiber (32.2%)
+ran query on &#x27;payment_method&#x27; -&gt; best group: Net banking (28.5%)
+ran query on &#x27;support_calls&#x27; -&gt; best group: 4.0 (42.7%)
+
+Drivers ranked by spread in churn rate (percentage points):
+  contract            28.9
+  support_calls       23.6
+  internet_service    14.6
+  payment_method       5.0</pre></div>
+<p>A real agent replaces <code>planner</code> with an LLM call that reads the memory and writes the next SQL, adds many more tools, and decides when to stop. Everything else (read-only guard, row limit, log) is the same safety scaffolding you should demand from any agent.</p>
+<h3 id="tool-calling-and-mcp">Tool calling and MCP</h3>
+<ul>
+<li><strong>Tool (function) calling</strong>: the model returns a structured request such as <code>{"tool": "run_sql", "arguments": {"query": "SELECT …"}}</code>; your code runs it and sends the result back.</li>
+<li><strong>Model Context Protocol (MCP)</strong> is an open standard for connecting AI applications to <strong>tools and data sources</strong> through a common interface, so one connector (a "server") for your database, files or SaaS app works with many AI clients. For analysts it means an assistant can query a <strong>governed</strong> database or semantic layer through an approved server instead of you pasting data around.</li>
+<li><strong>RAG (retrieval-augmented generation)</strong> gives the model <em>documents</em> (metric definitions, past reports) to ground its answers (GenAI track).</li>
+<li><strong>Multi-agent systems</strong> split work among specialised agents (a SQL agent, a chart agent, a reviewer); more moving parts mean more to test.</li>
+</ul>
+<h2 id="evaluating-ai-analytics">Evaluating AI analytics</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>What to evaluate</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Correctness of numbers</strong></td>
+<td>A set of "golden questions" with known answers (total sales by year, churn by contract) run on every change</td>
+</tr>
+<tr>
+<td><strong>SQL quality</strong></td>
+<td>Execution accuracy (does the result match the reference result?), not just text similarity</td>
+</tr>
+<tr>
+<td><strong>Faithfulness of narrative</strong></td>
+<td>Every number in the text must appear in the tables; automatic check by extracting numbers</td>
+</tr>
+<tr>
+<td><strong>Safety</strong></td>
+<td>Attempted writes blocked, personal data not exposed, prompt-injection tests</td>
+</tr>
+<tr>
+<td><strong>Cost and latency</strong></td>
+<td>Tokens, tool calls and time per task</td>
+</tr>
+<tr>
+<td><strong>Usefulness</strong></td>
+<td>Do users make better decisions? Track adoption and feedback</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="governance-ethics-and-your-career">Governance, ethics and your career</h2>
+<ul>
+<li><strong>Policy</strong>: know your organisation's approved tools, data-classification rules and retention.</li>
+<li><strong>Human in the loop</strong> for decisions that affect people (credit, hiring, pricing, health): AI assists; accountable humans decide.</li>
+<li><strong>Fairness</strong>: test whether results differ unfairly across groups (gender, age, region) before acting.</li>
+<li><strong>Explainability</strong>: record the data, prompt, code and checks behind each insight; be able to re-run it.</li>
+<li><strong>Skills that stay valuable</strong>: asking the right question, domain knowledge, data modelling, SQL/Python fluency to <em>read and verify</em> AI output, statistics and experimentation, storytelling and stakeholder management. The analysts who thrive are those who use AI for speed <strong>and</strong> can prove their answers.</li>
+</ul>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>What is changing in 2026</b></div><p>Analytics agents are moving into the BI tools themselves (Copilot in Power BI/Fabric, Gemini in Looker and BigQuery, Snowflake Cortex, Databricks Genie, Metabase AI features). Vendors compete on accuracy with governed semantic layers, so expect "ask a question of certified metrics" to become a standard feature. Learn the concepts here and re-check each product's current capabilities, pricing and data-handling terms before adopting it.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Follow a <strong>seven-step workflow</strong>: frame, brief, analyse, verify, visualise, write, recommend; AI accelerates but you own framing, verification and judgement.</li>
+<li>Always <strong>verify</strong>: reconcile totals, cross-check with a second method, exclude tiny groups, and remember associations are not causes.</li>
+<li>An <strong>agent</strong> = goal + LLM planner + tools + memory + guardrails in a loop; tool calling and <strong>MCP</strong> connect models to tools and governed data.</li>
+<li>Evaluate AI analytics with golden questions, execution accuracy, faithfulness checks, safety tests and cost tracking.</li>
+<li>Keep humans accountable, log the work, check fairness and follow data policy.</li>
+</ul></div>
+<div class="quiz" id="quiz-ai-analytics-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In the agent loop, which part executes a SQL query?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The planner</button><button type="button" class="opt" data-ok="1"><i>B</i>A tool</button><button type="button" class="opt" data-ok="0"><i>C</i>The memory</button><button type="button" class="opt" data-ok="0"><i>D</i>The prompt</button></div><div class="qexp"><b>Answer: B.</b> The LLM plans; tools perform actions such as running SQL.</div></div><div class="qq"><p class="qtext"><b>2.</b> What is MCP?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A chart type</button><button type="button" class="opt" data-ok="1"><i>B</i>An open protocol for connecting AI applications to tools and data sources</button><button type="button" class="opt" data-ok="0"><i>C</i>A database engine</button><button type="button" class="opt" data-ok="0"><i>D</i>A prompt format</button></div><div class="qexp"><b>Answer: B.</b> The Model Context Protocol standardises how AI clients use external tools and data.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why report churn only for groups with at least 50 customers?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To shorten the report</button><button type="button" class="opt" data-ok="1"><i>B</i>Small groups give unstable percentages that can mislead</button><button type="button" class="opt" data-ok="0"><i>C</i>Because SQL requires it</button><button type="button" class="opt" data-ok="0"><i>D</i>To hide data</button></div><div class="qexp"><b>Answer: B.</b> Small samples produce noisy rates.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which statement about our churn findings is correct?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Contracts cause churn</button><button type="button" class="opt" data-ok="1"><i>B</i>Month-to-month customers churn more, but this is an association that needs testing before claiming cause</button><button type="button" class="opt" data-ok="0"><i>C</i>Fibre causes churn</button><button type="button" class="opt" data-ok="0"><i>D</i>Support calls prove dissatisfaction</button></div><div class="qexp"><b>Answer: B.</b> Descriptive analysis shows patterns, not causes; use an experiment to test an intervention.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is a "golden question" set?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Questions that cost the most</button><button type="button" class="opt" data-ok="1"><i>B</i>Questions with known correct answers used to test an AI analytics system after each change</button><button type="button" class="opt" data-ok="0"><i>C</i>A list of dashboards</button><button type="button" class="opt" data-ok="0"><i>D</i>Training data</button></div><div class="qexp"><b>Answer: B.</b> They enable regression testing of answers.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which control best limits damage if an agent writes a bad query?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A longer prompt</button><button type="button" class="opt" data-ok="1"><i>B</i>A read-only database role with row limits and logging</button><button type="button" class="opt" data-ok="0"><i>C</i>A bigger model</button><button type="button" class="opt" data-ok="0"><i>D</i>A louder warning</button></div><div class="qexp"><b>Answer: B.</b> Technical guardrails beat instructions alone.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Run the workflow on a new question</b></div><p>Using <code>superstore_sales.csv</code>, follow the seven steps for: <em>"Which customer segment × region combinations should sales focus on next quarter?"</em> Write the brief, run the analysis (use groupby or SQL), verify with two methods, produce one chart and write a five-sentence recommendation that includes one limitation.</p><details class="sol"><summary>Show solution</summary><p>Brief: define "focus" (for example profit, not just sales; minimum 100 order lines). Analysis: group by segment and region, compute sales, profit, margin and lines; filter groups with ≥ 100 lines. Verify: group totals equal the overall totals; repeat with SQL; check one group manually. Chart: bubble or bar of profit by segment × region. Recommendation example: "Focus on [top profit segment-region] (profit ₹X, margin Y%); protect [healthy group]; reduce discounts in [low-margin group]. Limitation: three years of data, no cost-to-serve or competitor information; profits include discounts that may not repeat."</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Walk me through how you use AI in your analysis workflow.</strong>
+I frame the decision, give the AI a clear brief with schema and definitions, use it to draft and explain SQL or Python, run everything myself, reconcile totals and cross-check with a second method, use AI for chart and narrative drafts, then I validate each number and take responsibility for the recommendation.</p>
+<p><strong>Q: What is an AI agent and how is it different from a chatbot?</strong>
+A chatbot responds once to a prompt; an agent pursues a goal across multiple steps by calling tools, observing results and deciding what to do next, so it needs stronger guardrails and evaluation.</p>
+<p><strong>Q: How do you stop an AI analytics tool from giving wrong numbers?</strong>
+Governed semantic layer, read-only access to curated data, golden-question tests, execution-based evaluation, human review of important outputs, and logging.</p>
+<p><strong>Q: A model says "contract type drives churn". What do you say?</strong>
+The data shows an association; to claim causation we would need an experiment or a causal method, controlling for tenure and other factors.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/copilot-excel">Microsoft Copilot in Excel help ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.metabase.com/docs/latest/">Metabase docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">Anthropic prompt engineering guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Google Prompting guide for Gemini ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html"><small>← Previous</small><b>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-ai-assisted-analyst-workflow">The AI-assisted analyst workflow</a><a href="#case-why-do-telecom-customers-leave">Case: why do telecom customers leave?</a><a href="#how-an-ai-agent-does-analysis">How an AI agent does analysis</a><a href="#evaluating-ai-analytics">Evaluating AI analytics</a><a href="#governance-ethics-and-your-career">Governance, ethics and your career</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

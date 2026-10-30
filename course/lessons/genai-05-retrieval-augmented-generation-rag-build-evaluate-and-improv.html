@@ -1,0 +1,379 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant · GenAI &amp; Agents Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Ground an LLM in your own documents. RAG architecture, document loading and chunking, indexing, hybrid retrieval and re-ranking, prompt assembly with citations, answer generation (offline simulator plus real Claude code with the citations feature), evaluation of retrieval and answers, failure modes and advanced patterns (query rewriting, contextual retrieval, metadata filters, agentic and graph RAG), built end to end on a retailer&#x27;s policy handbook."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class=""><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li class=""><a href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html" data-lid="genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li class="on"><a href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html" data-lid="genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li class=""><a href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html" data-lid="genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li class=""><a href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html" data-lid="genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li class=""><a href="genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html" data-lid="genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li class=""><a href="genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html" data-lid="genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li class=""><a href="genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html" data-lid="genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li class=""><a href="genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html" data-lid="genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li><li class=""><a href="genai-12-building-and-shipping-a-genai-app-architecture-streamlit-fas.html" data-lid="genai-12"><span>12</span>Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-05">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 5 of 12</div><h1>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</h1>
+<p class="sum">Ground an LLM in your own documents. RAG architecture, document loading and chunking, indexing, hybrid retrieval and re-ranking, prompt assembly with citations, answer generation (offline simulator plus real Claude code with the citations feature), evaluation of retrieval and answers, failure modes and advanced patterns (query rewriting, contextual retrieval, metadata filters, agentic and graph RAG), built end to end on a retailer's policy handbook.</p><div class="tags"><span class="tag live">● GenAI Launchpad</span><span class="tag new">✦ 2026 practice: hybrid retrieval, re-ranking, citations, contextual retrieval</span><span class="tag">Intermediate</span><span class="tag">⏱ 140 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_05_Retrieval_Augmented_Generation_RAG_Build_Evaluate_and_Improve_a_Q_A_As.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain why and when RAG beats fine-tuning or long prompts</li><li>Chunk documents with metadata and build a searchable index</li><li>Retrieve with hybrid search, re-rank, and assemble a grounded prompt with citations</li><li>Evaluate retrieval (hit rate, MRR) and answers (correctness, faithfulness, citation accuracy)</li><li>Diagnose RAG failures and apply advanced techniques</li></ul></div></div>
+<div class="content"><h2 id="why-rag">Why RAG?</h2>
+<p>LLMs do not know your company's policies, product catalogue or yesterday's report, and they may hallucinate. <strong>Retrieval-augmented generation</strong> retrieves the most relevant passages for each question and gives them to the model with an instruction to answer <strong>only from them, with citations</strong>.</p>
+<figure class="fig"><img src="../img/genai-05-01.png" alt="RAG has an offline indexing pipeline and an online question-answering pipeline." loading="lazy"><figcaption>RAG has an offline indexing pipeline and an online question-answering pipeline.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Approach</th>
+<th>Good for</th>
+<th>Limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Put everything in the prompt (long context)</td>
+<td>A few documents, one-off analysis</td>
+<td>Cost and latency grow with every call; no access control</td>
+</tr>
+<tr>
+<td><strong>RAG</strong></td>
+<td>Large, changing knowledge; citations; access control</td>
+<td>Retrieval quality limits answer quality</td>
+</tr>
+<tr>
+<td>Fine-tuning</td>
+<td>Style, format, narrow skills</td>
+<td>Poor at injecting facts; costly to update</td>
+</tr>
+<tr>
+<td>Tools / SQL</td>
+<td>Live numbers and transactions</td>
+<td>Needs structured sources</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-knowledge-base">The knowledge base</h2>
+<p>Our example: <strong>NovaMart</strong>, an online electronics retailer. The assistant answers customer-support questions from the policy handbook.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re, numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+DOCS = {
+<span class="hl-s">&quot;returns.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Returns policy
+## Return window
+Most products can be returned within 10 days of delivery. Mobiles and laptops have a 7-day replacement-only window for manufacturing defects.
+## Conditions
+Products must be unused, with original box, accessories and invoice. Opened earbuds and personal-care items cannot be returned for hygiene reasons.
+## Refund timeline
+Refunds are issued to the original payment method within 5–7 working days after the returned product passes quality check. UPI refunds usually arrive within 48 hours.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;warranty.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Warranty
+## Standard warranty
+All electronics carry the manufacturer&#x27;s warranty: 1 year for mobiles, laptops and smartwatches, 6 months for chargers and cables.
+## Extended warranty
+NovaMart Care adds 1 or 2 extra years and covers accidental liquid damage once per year. It must be bought within 30 days of delivery.
+## How to claim
+Book a claim in the app under Orders → Help. A technician visit is scheduled within 72 hours in metro cities and 5 days elsewhere.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;delivery.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Delivery
+## Delivery times
+Metro cities: 1–2 days. Other cities: 3–5 days. Remote pin codes: up to 8 days.
+## Delivery charges
+Delivery is free on orders above ₹499. Below that a ₹49 fee applies. Same-day delivery costs ₹99 in Bengaluru, Delhi NCR, Mumbai and Pune.
+## Damaged parcels
+If the box is damaged on arrival, refuse the delivery or report it within 48 hours with photos for a free replacement.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;payments.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Payments
+## Methods
+We accept UPI, credit and debit cards, net banking, NovaMart wallet and cash on delivery up to ₹10,000.
+## No-cost EMI
+No-cost EMI is available on orders above ₹3,000 with selected bank cards for 3, 6 or 9 months. The interest is given back as an instant discount.
+## Failed payments
+If money is debited but the order fails, it is automatically refunded within 3 working days.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;exchange.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# Exchange offers
+## Old device exchange
+Customers can exchange an old phone or laptop for an instant discount. The final value is confirmed by the delivery agent after a physical check.
+## Eligibility
+The device must switch on, have no cracked screen and match the declared model. Exchange is not available with cash on delivery.&quot;&quot;&quot;</span>,
+<span class="hl-s">&quot;loyalty.md&quot;</span>: <span class="hl-s">&quot;&quot;&quot;# NovaMart Plus
+## Benefits
+Plus members get free same-day delivery, early access to sales and 5% back as NovaCoins on every order.
+## Cost
+Membership costs ₹399 per year or ₹49 per month and can be cancelled any time; unused months are not refunded.&quot;&quot;&quot;</span>,
+}
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(DOCS), <span class="hl-s">&quot;documents,&quot;</span>, <span class="hl-f">sum</span>(<span class="hl-f">len</span>(<span class="hl-f">t.split</span>()) <span class="hl-k">for</span> t <span class="hl-k">in</span> <span class="hl-f">DOCS.values</span>()), <span class="hl-s">&quot;words&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 documents, 404 words</pre></div>
+<h2 id="step-1-chunking">Step 1: chunking</h2>
+<p>Split documents into passages small enough to be specific but large enough to carry context. Splitting on <strong>structure</strong> (headings, paragraphs) beats fixed character windows. Keep metadata for filtering and citations.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">chunk_markdown</span>(name, text, max_words=<span class="hl-n">80</span>):
+    title = <span class="hl-f">re.search</span>(r<span class="hl-s">&quot;^# (.+)$&quot;</span>, text, re.M).<span class="hl-f">group</span>(<span class="hl-n">1</span>); chunks = []
+    <span class="hl-k">for</span> sec <span class="hl-k">in</span> <span class="hl-f">re.split</span>(r<span class="hl-s">&quot;^## &quot;</span>, text, flags=re.M)[<span class="hl-n">1</span>:]:
+        heading, body = <span class="hl-f">sec.split</span>(<span class="hl-s">&quot;\n&quot;</span>, <span class="hl-n">1</span>); words = <span class="hl-f">body.split</span>()
+        <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">0</span>, <span class="hl-f">len</span>(words), max_words - <span class="hl-n">15</span>):                 <span class="hl-c"># 15-word overlap if a section is long</span>
+            <span class="hl-f">chunks.append</span>({<span class="hl-s">&quot;id&quot;</span>: <span class="hl-s">f&quot;{name}#{heading.strip().lower().replace(&#x27; &#x27;, &#x27;-&#x27;)}&quot;</span> + (<span class="hl-s">f&quot;-{i}&quot;</span> <span class="hl-k">if</span> i <span class="hl-k">else</span> <span class="hl-s">&quot;&quot;</span>), <span class="hl-s">&quot;doc&quot;</span>: name, <span class="hl-s">&quot;title&quot;</span>: title, <span class="hl-s">&quot;section&quot;</span>: <span class="hl-f">heading.strip</span>(),
+                           <span class="hl-s">&quot;text&quot;</span>: <span class="hl-s">f&quot;{title} &gt; {heading.strip()}: &quot;</span> + <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(words[i:i + max_words])})
+    <span class="hl-k">return</span> chunks
+chunks = <span class="hl-f">pd.DataFrame</span>([c <span class="hl-k">for</span> n, t <span class="hl-k">in</span> <span class="hl-f">DOCS.items</span>() <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">chunk_markdown</span>(n, t)])
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(chunks), <span class="hl-s">&quot;chunks&quot;</span>); <span class="hl-f">print</span>(chunks[[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;text&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">4</span>).<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>, max_colwidth=<span class="hl-n">90</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">16 chunks
+                           id                                                                                       text
+     returns.md#return-window Returns policy &gt; Return window: Most products can be returned within 10 days of deliver...
+        returns.md#conditions Returns policy &gt; Conditions: Products must be unused, with original box, accessories an...
+   returns.md#refund-timeline Returns policy &gt; Refund timeline: Refunds are issued to the original payment method wit...
+warranty.md#standard-warranty Warranty &gt; Standard warranty: All electronics carry the manufacturer&#x27;s warranty: 1 year...</pre></div>
+<p>Prefixing each chunk with its document title and section ("Returns policy &gt; Refund timeline: …") is a cheap version of <strong>contextual retrieval</strong>: the chunk still makes sense on its own.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Chunking choice</th>
+<th>Typical value</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Size</td>
+<td>200–800 tokens</td>
+<td>Smaller = precise, larger = more context</td>
+</tr>
+<tr>
+<td>Overlap</td>
+<td>10–20%</td>
+<td>Avoid cutting answers in half</td>
+</tr>
+<tr>
+<td>Boundaries</td>
+<td>Headings, paragraphs, sentences</td>
+<td>Use document structure</td>
+</tr>
+<tr>
+<td>Metadata</td>
+<td>Source, section, date, product, access group</td>
+<td>Filters and citations</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="step-2-index-and-retrieve-hybrid">Step 2: index and retrieve (hybrid)</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.feature_extraction.text <span class="hl-k">import</span> TfidfVectorizer
+<span class="hl-k">from</span> sklearn.metrics.pairwise <span class="hl-k">import</span> cosine_similarity
+word_vec = <span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), sublinear_tf=<span class="hl-k">True</span>, stop_words=<span class="hl-s">&quot;english&quot;</span>).<span class="hl-f">fit</span>(chunks.text)
+char_vec = <span class="hl-f">TfidfVectorizer</span>(analyzer=<span class="hl-s">&quot;char_wb&quot;</span>, ngram_range=(<span class="hl-n">3</span>, <span class="hl-n">5</span>), sublinear_tf=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(chunks.text)     <span class="hl-c"># robust to typos and word forms</span>
+Wd, Cd = <span class="hl-f">word_vec.transform</span>(chunks.text), <span class="hl-f">char_vec.transform</span>(chunks.text)
+<span class="hl-k">def</span> <span class="hl-f">retrieve</span>(question, k=<span class="hl-n">3</span>, doc_filter=<span class="hl-k">None</span>):
+    s = <span class="hl-n">0.6</span> * <span class="hl-f">cosine_similarity</span>(<span class="hl-f">word_vec.transform</span>([question]), Wd)[<span class="hl-n">0</span>] + <span class="hl-n">0.4</span> * <span class="hl-f">cosine_similarity</span>(<span class="hl-f">char_vec.transform</span>([question]), Cd)[<span class="hl-n">0</span>]
+    <span class="hl-k">if</span> doc_filter: s = <span class="hl-f">np.where</span>(<span class="hl-f">chunks.doc.isin</span>(doc_filter), s, -<span class="hl-n">1</span>)
+    top = <span class="hl-f">np.argsort</span>(-s)[:k]
+    <span class="hl-k">return</span> chunks.iloc[top].<span class="hl-f">assign</span>(score=s[top].<span class="hl-f">round</span>(<span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">retrieve</span>(<span class="hl-s">&quot;How long does a refund take if I paid by UPI?&quot;</span>)[[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;score&quot;</span>]].<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-f">retrieve</span>(<span class="hl-s">&quot;is there emi without interest&quot;</span>)[[<span class="hl-s">&quot;id&quot;</span>, <span class="hl-s">&quot;score&quot;</span>]].<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                         id  score
+ returns.md#refund-timeline  0.221
+        payments.md#methods  0.088
+payments.md#failed-payments  0.061
+                         id  score
+    payments.md#no-cost-emi  0.328
+   warranty.md#how-to-claim  0.033
+delivery.md#damaged-parcels  0.025</pre></div>
+<p>Here keyword (word) and character n-gram similarity stand in for the keyword + embedding hybrid of lesson 4; in production use BM25 plus an embedding model, and a <strong>re-ranker</strong> (a cross-encoder or a small LLM call) to reorder the top 20–50 candidates.</p>
+<h2 id="step-3-build-the-grounded-prompt">Step 3: build the grounded prompt</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">SYSTEM = <span class="hl-s">&quot;&quot;&quot;You are NovaMart&#x27;s customer-support assistant.
+Answer ONLY from the documents provided. If they do not contain the answer, say &quot;I don&#x27;t have that information&quot; and suggest contacting support.
+Cite the document id in square brackets after each fact, like [returns.md#refund-timeline]. Keep answers under 80 words.&quot;&quot;&quot;</span>
+<span class="hl-k">def</span> <span class="hl-f">build_prompt</span>(question, k=<span class="hl-n">3</span>):
+    ctx = <span class="hl-f">retrieve</span>(question, k)
+    docs = <span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&#x27;&lt;document id=&quot;{r.id}&quot;&gt;\n{r.text}\n&lt;/document&gt;&#x27;</span> <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">ctx.itertuples</span>())
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;&lt;documents&gt;\n{docs}\n&lt;/documents&gt;\n\n&lt;question&gt;{question}&lt;/question&gt;&quot;</span>, ctx
+prompt, ctx = <span class="hl-f">build_prompt</span>(<span class="hl-s">&quot;My earbuds box was damaged when it arrived. What should I do?&quot;</span>)
+<span class="hl-f">print</span>(prompt)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&lt;documents&gt;
+&lt;document id=&quot;delivery.md#damaged-parcels&quot;&gt;
+Delivery &gt; Damaged parcels: If the box is damaged on arrival, refuse the delivery or report it within 48 hours with photos for a free replacement.
+&lt;/document&gt;
+&lt;document id=&quot;returns.md#conditions&quot;&gt;
+Returns policy &gt; Conditions: Products must be unused, with original box, accessories and invoice. Opened earbuds and personal-care items cannot be returned for hygiene reasons.
+&lt;/document&gt;
+&lt;document id=&quot;warranty.md#extended-warranty&quot;&gt;
+Warranty &gt; Extended warranty: NovaMart Care adds 1 or 2 extra years and covers accidental liquid damage once per year. It must be bought within 30 days of delivery.
+&lt;/document&gt;
+&lt;/documents&gt;
+
+&lt;question&gt;My earbuds box was damaged when it arrived. What should I do?&lt;/question&gt;</pre></div>
+<h2 id="step-4-generate-the-answer">Step 4: generate the answer</h2>
+<p>With a real model:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> anthropic
+client = <span class="hl-f">anthropic.Anthropic</span>()
+response = <span class="hl-f">client.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">2000</span>, system=SYSTEM,
+    output_config={<span class="hl-s">&quot;effort&quot;</span>: <span class="hl-s">&quot;low&quot;</span>},                     <span class="hl-c"># a short grounded answer does not need deep reasoning</span>
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: prompt}],
+)
+answer = <span class="hl-f">next</span>(b.text <span class="hl-k">for</span> b <span class="hl-k">in</span> response.content <span class="hl-k">if</span> b.type == <span class="hl-s">&quot;text&quot;</span>)
+
+<span class="hl-c"># Or let the API produce verifiable citations: pass chunks as document blocks with citations enabled</span>
+content = [{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;document&quot;</span>, <span class="hl-s">&quot;source&quot;</span>: {<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;text&quot;</span>, <span class="hl-s">&quot;media_type&quot;</span>: <span class="hl-s">&quot;text/plain&quot;</span>, <span class="hl-s">&quot;data&quot;</span>: r.text}, <span class="hl-s">&quot;title&quot;</span>: r.id, <span class="hl-s">&quot;citations&quot;</span>: {<span class="hl-s">&quot;enabled&quot;</span>: <span class="hl-k">True</span>}} <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">ctx.itertuples</span>()]
+<span class="hl-f">content.append</span>({<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;text&quot;</span>, <span class="hl-s">&quot;text&quot;</span>: question})
+response = <span class="hl-f">client.messages.create</span>(model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">2000</span>, messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: content}])
+<span class="hl-k">for</span> block <span class="hl-k">in</span> response.content:                            <span class="hl-c"># text blocks carry .citations with the exact cited text</span>
+    <span class="hl-f">print</span>(block.text, [c.cited_text <span class="hl-k">for</span> c <span class="hl-k">in</span> (<span class="hl-f">getattr</span>(block, <span class="hl-s">&quot;citations&quot;</span>, <span class="hl-k">None</span>) <span class="hl-k">or</span> [])])</code></pre></div>
+<p>To practise offline, an <strong>extractive</strong> stand-in picks the retrieved sentences that best match the question, with citations. It cannot reason, but it shows the grounding and citation mechanics.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">answer_offline</span>(question, k=<span class="hl-n">3</span>, min_score=<span class="hl-n">0.12</span>):
+    ctx = <span class="hl-f">retrieve</span>(question, k)
+    <span class="hl-k">if</span> <span class="hl-f">ctx.score.max</span>() &lt; min_score: <span class="hl-k">return</span> <span class="hl-s">&quot;I don&#x27;t have that information. Please contact NovaMart support.&quot;</span>, ctx
+    sents = [(<span class="hl-f">s.strip</span>(), r.id) <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">ctx.itertuples</span>() <span class="hl-k">for</span> s <span class="hl-k">in</span> <span class="hl-f">re.split</span>(r<span class="hl-s">&quot;(?&lt;=[.!?])\s+&quot;</span>, <span class="hl-f">r.text.split</span>(<span class="hl-s">&quot;: &quot;</span>, <span class="hl-n">1</span>)[<span class="hl-n">1</span>]) <span class="hl-k">if</span> <span class="hl-f">s.strip</span>()]
+    sv = <span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), stop_words=<span class="hl-s">&quot;english&quot;</span>).<span class="hl-f">fit</span>([s <span class="hl-k">for</span> s, _ <span class="hl-k">in</span> sents] + [question])
+    sc = <span class="hl-f">cosine_similarity</span>(<span class="hl-f">sv.transform</span>([question]), <span class="hl-f">sv.transform</span>([s <span class="hl-k">for</span> s, _ <span class="hl-k">in</span> sents]))[<span class="hl-n">0</span>]
+    best = [sents[i] <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">np.argsort</span>(-sc)[:<span class="hl-n">2</span>] <span class="hl-k">if</span> sc[i] &gt; <span class="hl-n">0</span>]
+    <span class="hl-k">return</span> <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&quot;{s} [{cid}]&quot;</span> <span class="hl-k">for</span> s, cid <span class="hl-k">in</span> best) <span class="hl-k">or</span> <span class="hl-s">&quot;I don&#x27;t have that information.&quot;</span>, ctx
+<span class="hl-k">for</span> q <span class="hl-k">in</span> [<span class="hl-s">&quot;My earbuds box was damaged when it arrived. What should I do?&quot;</span>, <span class="hl-s">&quot;How long does a refund take if I paid by UPI?&quot;</span>,
+          <span class="hl-s">&quot;Can I use cash on delivery with an exchange offer?&quot;</span>, <span class="hl-s">&quot;Do you deliver to Sri Lanka?&quot;</span>]:
+    a, _ = <span class="hl-f">answer_offline</span>(q); <span class="hl-f">print</span>(<span class="hl-s">f&quot;Q: {q}\nA: {a}\n&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Q: My earbuds box was damaged when it arrived. What should I do?
+A: If the box is damaged on arrival, refuse the delivery or report it within 48 hours with photos for a free replacement. [delivery.md#damaged-parcels] Opened earbuds and personal-care items cannot be returned for hygiene reasons. [returns.md#conditions]
+
+Q: How long does a refund take if I paid by UPI?
+A: UPI refunds usually arrive within 48 hours. [returns.md#refund-timeline] We accept UPI, credit and debit cards, net banking, NovaMart wallet and cash on delivery up to ₹10,000. [payments.md#methods]
+
+Q: Can I use cash on delivery with an exchange offer?
+A: Exchange is not available with cash on delivery. [exchange.md#eligibility] We accept UPI, credit and debit cards, net banking, NovaMart wallet and cash on delivery up to ₹10,000. [payments.md#methods]
+
+Q: Do you deliver to Sri Lanka?
+A: I don&#x27;t have that information. Please contact NovaMart support.</pre></div>
+<p>The last question has no answer in the documents, and the assistant says so instead of guessing: an essential behaviour to test.</p>
+<h2 id="step-5-evaluate">Step 5: evaluate</h2>
+<p>Build a test set of questions with the document section that contains the answer and the key fact the answer must state.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">TEST = [
+    (<span class="hl-s">&quot;How many days do I have to return a speaker?&quot;</span>, <span class="hl-s">&quot;returns.md#return-window&quot;</span>, <span class="hl-s">&quot;10 days&quot;</span>),
+    (<span class="hl-s">&quot;Can I return opened earbuds?&quot;</span>, <span class="hl-s">&quot;returns.md#conditions&quot;</span>, <span class="hl-s">&quot;cannot be returned&quot;</span>),
+    (<span class="hl-s">&quot;When will my UPI refund arrive?&quot;</span>, <span class="hl-s">&quot;returns.md#refund-timeline&quot;</span>, <span class="hl-s">&quot;48 hours&quot;</span>),
+    (<span class="hl-s">&quot;How long is the warranty on a charger?&quot;</span>, <span class="hl-s">&quot;warranty.md#standard-warranty&quot;</span>, <span class="hl-s">&quot;6 months&quot;</span>),
+    (<span class="hl-s">&quot;Does NovaMart Care cover water damage?&quot;</span>, <span class="hl-s">&quot;warranty.md#extended-warranty&quot;</span>, <span class="hl-s">&quot;liquid damage&quot;</span>),
+    (<span class="hl-s">&quot;What is the delivery fee for a ₹300 order?&quot;</span>, <span class="hl-s">&quot;delivery.md#delivery-charges&quot;</span>, <span class="hl-s">&quot;₹49&quot;</span>),
+    (<span class="hl-s">&quot;Is same-day delivery available in Pune?&quot;</span>, <span class="hl-s">&quot;delivery.md#delivery-charges&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>),
+    (<span class="hl-s">&quot;Is no cost emi available on a 2500 rupee order?&quot;</span>, <span class="hl-s">&quot;payments.md#no-cost-emi&quot;</span>, <span class="hl-s">&quot;above ₹3,000&quot;</span>),
+    (<span class="hl-s">&quot;Money was debited but my order failed&quot;</span>, <span class="hl-s">&quot;payments.md#failed-payments&quot;</span>, <span class="hl-s">&quot;3 working days&quot;</span>),
+    (<span class="hl-s">&quot;Can I exchange a phone with a cracked screen?&quot;</span>, <span class="hl-s">&quot;exchange.md#eligibility&quot;</span>, <span class="hl-s">&quot;no cracked screen&quot;</span>),
+    (<span class="hl-s">&quot;How much does Plus membership cost?&quot;</span>, <span class="hl-s">&quot;loyalty.md#cost&quot;</span>, <span class="hl-s">&quot;₹399&quot;</span>),
+    (<span class="hl-s">&quot;What are the benefits of NovaMart Plus?&quot;</span>, <span class="hl-s">&quot;loyalty.md#benefits&quot;</span>, <span class="hl-s">&quot;same-day&quot;</span>),
+]
+rows = []
+<span class="hl-k">for</span> q, gold, fact <span class="hl-k">in</span> TEST:
+    ret = <span class="hl-f">retrieve</span>(q, k=<span class="hl-n">3</span>).<span class="hl-f">id.tolist</span>(); ans, _ = <span class="hl-f">answer_offline</span>(q)
+    <span class="hl-f">rows.append</span>({<span class="hl-s">&quot;question&quot;</span>: q[:<span class="hl-n">42</span>], <span class="hl-s">&quot;hit@1&quot;</span>: gold == ret[<span class="hl-n">0</span>], <span class="hl-s">&quot;hit@3&quot;</span>: gold <span class="hl-k">in</span> ret, <span class="hl-s">&quot;rank&quot;</span>: (<span class="hl-f">ret.index</span>(gold) + <span class="hl-n">1</span>) <span class="hl-k">if</span> gold <span class="hl-k">in</span> ret <span class="hl-k">else</span> <span class="hl-k">None</span>,
+                 <span class="hl-s">&quot;fact_in_answer&quot;</span>: <span class="hl-f">fact.lower</span>() <span class="hl-k">in</span> <span class="hl-f">ans.lower</span>(), <span class="hl-s">&quot;cites_gold&quot;</span>: gold <span class="hl-k">in</span> ans})
+ev = <span class="hl-f">pd.DataFrame</span>(rows); <span class="hl-f">print</span>(<span class="hl-f">ev.to_string</span>(index=<span class="hl-k">False</span>))
+mrr = <span class="hl-f">np.mean</span>([<span class="hl-n">1</span> / r <span class="hl-k">if</span> r <span class="hl-k">else</span> <span class="hl-n">0</span> <span class="hl-k">for</span> r <span class="hl-k">in</span> ev[<span class="hl-s">&quot;rank&quot;</span>]])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;\nretrieval: hit@1 {ev[&#x27;hit@1&#x27;].mean():.0%} | hit@3 {ev[&#x27;hit@3&#x27;].mean():.0%} | MRR {mrr:.2f} || answers: key fact present {ev.fact_in_answer.mean():.0%} | cites the right section {ev.cites_gold.mean():.0%}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                                  question  hit@1  hit@3  rank  fact_in_answer  cites_gold
+How many days do I have to return a speake   True   True     1           False       False
+              Can I return opened earbuds?   True   True     1            True        True
+           When will my UPI refund arrive?   True   True     1            True        True
+    How long is the warranty on a charger?   True   True     1            True        True
+    Does NovaMart Care cover water damage?   True   True     1            True        True
+What is the delivery fee for a ₹300 order?   True   True     1            True        True
+   Is same-day delivery available in Pune?   True   True     1            True        True
+Is no cost emi available on a 2500 rupee o   True   True     1            True        True
+     Money was debited but my order failed   True   True     1            True        True
+Can I exchange a phone with a cracked scre   True   True     1            True        True
+       How much does Plus membership cost?   True   True     1           False       False
+   What are the benefits of NovaMart Plus?   True   True     1            True        True
+
+retrieval: hit@1 100% | hit@3 100% | MRR 1.00 || answers: key fact present 83% | cites the right section 83%</pre></div>
+<p>Retrieval is perfect on this small handbook, yet the crude extractive answerer misses the key fact for two questions: it picks a less relevant sentence from the right section. That is why you <strong>measure the layers separately</strong>: here the fix belongs in generation (a real LLM, or a better sentence scorer), not in retrieval.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Layer</th>
+<th>Metric</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrieval</td>
+<td>Hit rate@k, MRR, recall</td>
+<td>Labelled question → relevant chunk pairs</td>
+</tr>
+<tr>
+<td>Answer correctness</td>
+<td>Key facts present, exact match, human or LLM-judge score</td>
+<td>Gold answers or checklists</td>
+</tr>
+<tr>
+<td><strong>Faithfulness</strong></td>
+<td>Every claim supported by retrieved text</td>
+<td>LLM judge or NLI model; citation checks</td>
+</tr>
+<tr>
+<td>Abstention</td>
+<td>Says "don't know" for unanswerable questions</td>
+<td>Include such questions in the test set</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td>Latency, cost per answer, user feedback</td>
+<td>Logs and dashboards</td>
+</tr>
+</tbody>
+</table></div>
+<p>Frameworks such as <strong>Ragas</strong>, <strong>TruLens</strong> and <strong>DeepEval</strong> automate these checks; lesson 9 covers LLM-as-judge evaluation.</p>
+<h2 id="failure-modes-and-fixes">Failure modes and fixes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Right document exists but is not retrieved</td>
+<td>Vocabulary mismatch, bad chunking</td>
+<td>Hybrid search, better embeddings, contextual chunk headers, query rewriting</td>
+</tr>
+<tr>
+<td>Retrieved but answer still wrong</td>
+<td>Too many/irrelevant chunks, weak prompt</td>
+<td>Re-rank, fewer and better chunks, clearer instructions</td>
+</tr>
+<tr>
+<td>Answer adds facts not in documents</td>
+<td>Model falls back on prior knowledge</td>
+<td>"Only from documents" + citations + faithfulness checks</td>
+</tr>
+<tr>
+<td>Stale or conflicting answers</td>
+<td>Old documents indexed</td>
+<td>Metadata dates, re-index pipeline, prefer latest version</td>
+</tr>
+<tr>
+<td>Leaks confidential content</td>
+<td>No access control</td>
+<td>Filter chunks by user permissions <strong>before</strong> prompting</td>
+</tr>
+<tr>
+<td>Multi-part questions half-answered</td>
+<td>Single retrieval</td>
+<td>Decompose the question; agentic RAG (retrieve per sub-question)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="advanced-patterns">Advanced patterns</h2>
+<ul>
+<li><strong>Query rewriting / HyDE:</strong> ask the LLM to rewrite the question (or draft a hypothetical answer) before retrieval.</li>
+<li><strong>Contextual retrieval:</strong> prepend an LLM-written one-line context to each chunk before indexing (Anthropic reported large drops in retrieval failures, especially combined with BM25 and re-ranking).</li>
+<li><strong>Metadata filtering:</strong> product, region, date, access group.</li>
+<li><strong>Parent-document retrieval:</strong> search small chunks, return their larger parent section.</li>
+<li><strong>Agentic RAG:</strong> the model decides when and what to search (tool use, lessons 6–7).</li>
+<li><strong>GraphRAG:</strong> build a knowledge graph of entities and relations for questions that span many documents.</li>
+<li><strong>Structured + unstructured:</strong> route numeric questions to SQL (text-to-SQL, lesson 11) and policy questions to documents.</li>
+</ul>
+<p>Frameworks: LlamaIndex and LangChain (loaders, splitters, retrievers), Haystack; managed options include cloud "knowledge base" services and vector databases with built-in hybrid search.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>RAG retrieves relevant passages and asks the model to answer only from them, with citations: up-to-date, grounded and auditable answers.</li>
+<li>Chunk along document structure, keep metadata, and add context headers to chunks.</li>
+<li>Use hybrid retrieval and re-ranking; filter by access rights before prompting.</li>
+<li>Instruct the model to cite sources and to say "I don't know" when the documents lack the answer; use the API's citation features where available.</li>
+<li>Evaluate retrieval (hit rate, MRR) and answers (correctness, faithfulness, abstention) on a labelled test set, then improve the weakest layer.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What problem does RAG mainly solve?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Giving the model up-to-date, private knowledge and grounding answers in sources</button><button type="button" class="opt" data-ok="0"><i>B</i>Making models faster</button><button type="button" class="opt" data-ok="0"><i>C</i>Training a new model</button><button type="button" class="opt" data-ok="0"><i>D</i>Generating images</button></div><div class="qexp"><b>Answer: A.</b> Retrieval supplies the facts.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why add the document title and section to each chunk?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>So each chunk is understandable on its own, which improves retrieval and citations</button><button type="button" class="opt" data-ok="0"><i>B</i>To make chunks longer</button><button type="button" class="opt" data-ok="0"><i>C</i>To confuse the retriever</button><button type="button" class="opt" data-ok="0"><i>D</i>Because embeddings require it</button></div><div class="qexp"><b>Answer: A.</b> A cheap form of contextual retrieval.</div></div><div class="qq"><p class="qtext"><b>3.</b> A user asks something the documents do not cover. Ideal behaviour?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Say the information is not available and point to support</button><button type="button" class="opt" data-ok="0"><i>B</i>Guess an answer</button><button type="button" class="opt" data-ok="0"><i>C</i>Answer from general knowledge without saying so</button><button type="button" class="opt" data-ok="0"><i>D</i>Return an error page</button></div><div class="qexp"><b>Answer: A.</b> Test abstention explicitly.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which metric checks whether the answer is supported by the retrieved text?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Hit rate</button><button type="button" class="opt" data-ok="0"><i>B</i>Latency</button><button type="button" class="opt" data-ok="1"><i>C</i>Faithfulness (groundedness)</button><button type="button" class="opt" data-ok="0"><i>D</i>Token count</button></div><div class="qexp"><b>Answer: C.</b> Every claim should trace to a source.</div></div><div class="qq"><p class="qtext"><b>5.</b> The right chunk is retrieved but ranked 9th of 10. What helps most?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A re-ranker, or fewer, better-ranked chunks</button><button type="button" class="opt" data-ok="0"><i>B</i>A higher temperature</button><button type="button" class="opt" data-ok="0"><i>C</i>Larger chunks only</button><button type="button" class="opt" data-ok="0"><i>D</i>Removing citations</button></div><div class="qexp"><b>Answer: A.</b> Re-rankers reorder candidates precisely.</div></div><div class="qq"><p class="qtext"><b>6.</b> Where should access control be enforced?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In retrieval: filter chunks by the user's permissions before they reach the prompt</button><button type="button" class="opt" data-ok="0"><i>B</i>In the prompt text only</button><button type="button" class="opt" data-ok="0"><i>C</i>After the answer is shown</button><button type="button" class="opt" data-ok="0"><i>D</i>Not needed</button></div><div class="qexp"><b>Answer: A.</b> The model cannot leak what it never sees.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Add a <code>shipping-abroad.md</code> document and check that the "Sri Lanka" question is now answered. (2) Change <code>max_words</code> to 30 and 200: how do hit@1 and the fact score change? (3) Add three unanswerable questions to the test set and measure abstention. (4) With a real API key, replace <code>answer_offline</code> with Claude and compare the fact and citation scores.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">DOCS[<span class="hl-s">&quot;shipping-abroad.md&quot;</span>] = <span class="hl-s">&quot;# International shipping\n## Countries\nWe currently ship only within India. International delivery is not available.&quot;</span>
+chunks = <span class="hl-f">pd.DataFrame</span>([c <span class="hl-k">for</span> n, t <span class="hl-k">in</span> <span class="hl-f">DOCS.items</span>() <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">chunk_markdown</span>(n, t)])
+word_vec = <span class="hl-f">TfidfVectorizer</span>(ngram_range=(<span class="hl-n">1</span>, <span class="hl-n">2</span>), sublinear_tf=<span class="hl-k">True</span>, stop_words=<span class="hl-s">&quot;english&quot;</span>).<span class="hl-f">fit</span>(chunks.text); char_vec = <span class="hl-f">TfidfVectorizer</span>(analyzer=<span class="hl-s">&quot;char_wb&quot;</span>, ngram_range=(<span class="hl-n">3</span>, <span class="hl-n">5</span>), sublinear_tf=<span class="hl-k">True</span>).<span class="hl-f">fit</span>(chunks.text)
+Wd, Cd = <span class="hl-f">word_vec.transform</span>(chunks.text), <span class="hl-f">char_vec.transform</span>(chunks.text)
+<span class="hl-f">print</span>(<span class="hl-f">answer_offline</span>(<span class="hl-s">&quot;Do you deliver to Sri Lanka?&quot;</span>)[<span class="hl-n">0</span>])
+unanswerable = [<span class="hl-s">&quot;Do you sell cars?&quot;</span>, <span class="hl-s">&quot;What is the CEO&#x27;s phone number?&quot;</span>, <span class="hl-s">&quot;Can I pay in bitcoin?&quot;</span>]
+<span class="hl-f">print</span>([<span class="hl-f">answer_offline</span>(q)[<span class="hl-n">0</span>].<span class="hl-f">startswith</span>(<span class="hl-s">&quot;I don&#x27;t&quot;</span>) <span class="hl-k">for</span> q <span class="hl-k">in</span> unanswerable])</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain RAG and when you would use it instead of fine-tuning.</strong>
+RAG retrieves relevant documents at question time and has the model answer from them; use it when knowledge is large, private or changing and you need citations. Fine-tuning suits behaviour, style or format, not frequently updated facts.</p>
+<p><strong>Q: How do you evaluate a RAG system?</strong>
+Separately: retrieval (hit rate, MRR, recall on labelled questions) and generation (correctness, faithfulness to sources, citation accuracy, abstention), plus latency and cost; use human review and LLM judges calibrated against humans.</p>
+<p><strong>Q: Your RAG bot gives wrong answers. How do you debug it?</strong>
+Inspect retrieved chunks for failing questions: if the right chunk is missing, fix chunking, retrieval or query rewriting; if present but the answer is wrong, re-rank, reduce noise, and tighten the prompt; add the cases to the test set.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html"><small>← Previous</small><b>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</b></a><a class="next" href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html"><small>Next →</small><b>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-rag">Why RAG?</a><a href="#the-knowledge-base">The knowledge base</a><a href="#step-1-chunking">Step 1: chunking</a><a href="#step-2-index-and-retrieve-hybrid">Step 2: index and retrieve (hybrid)</a><a href="#step-3-build-the-grounded-prompt">Step 3: build the grounded prompt</a><a href="#step-4-generate-the-answer">Step 4: generate the answer</a><a href="#step-5-evaluate">Step 5: evaluate</a><a href="#failure-modes-and-fixes">Failure modes and fixes</a><a href="#advanced-patterns">Advanced patterns</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

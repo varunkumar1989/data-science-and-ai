@@ -1,0 +1,604 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions · SQL Lesson 13 · Data Science &amp; AI Handbook</title><meta name="description" content="Write queries other people can read and reuse. Use CTEs (including recursive CTEs for hierarchies and calendars), create views for reusable logic and security, use temp tables and table variables, and build stored procedures, user-defined functions, parameters and basic error handling in T-SQL."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 13</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class="on"><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-13">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 13 of 15</div><h1>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</h1>
+<p class="sum">Write queries other people can read and reuse. Use CTEs (including recursive CTEs for hierarchies and calendars), create views for reusable logic and security, use temp tables and table variables, and build stored procedures, user-defined functions, parameters and basic error handling in T-SQL.</p><div class="tags"><span class="tag live">● SQL class 6</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_13_CTEs_Views_Temporary_Tables_Stored_Procedures_Functions.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-13">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Structure complex queries with one or more CTEs and explain CTE vs subquery vs temp table</li><li>Write recursive CTEs for hierarchies (org charts) and number or date series</li><li>Create, alter and use views, and explain what views are good for</li><li>Choose between temp tables, table variables and CTEs</li><li>Write stored procedures with parameters, scalar and table-valued functions, and TRY…CATCH</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="cte-a-named-readable-subquery">CTE: a named, readable subquery</h2>
+<p>A <strong>Common Table Expression</strong> is a named result set defined with <code>WITH</code> that exists for <strong>one statement</strong>. It makes complex logic read top to bottom, like paragraphs, instead of inside-out.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> name1 <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> …
+),
+name2 <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> … <span class="hl-k">FROM</span> name1 …          <span class="hl-c">-- later CTEs can use earlier ones</span>
+)
+<span class="hl-k">SELECT</span> … <span class="hl-k">FROM</span> name2 …;</code></pre></div>
+<h3 id="from-nested-subqueries-to-ctes">From nested subqueries to CTEs</h3>
+<p>Question: <em>"Which regions had above-average 2025 sales per customer?"</em></p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> customer_sales <span class="hl-k">AS</span> (                       <span class="hl-c">-- step 1: sales per customer in 2025</span>
+    <span class="hl-k">SELECT</span> c.region, c.customer_id, <span class="hl-f">SUM</span>(oi.sales) <span class="hl-k">AS</span> sales
+    <span class="hl-k">FROM</span> order_items <span class="hl-k">AS</span> oi
+    <span class="hl-k">JOIN</span> orders    <span class="hl-k">AS</span> o <span class="hl-k">ON</span> o.order_id    = oi.order_id
+    <span class="hl-k">JOIN</span> customers <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+    <span class="hl-k">WHERE</span> o.order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span> <span class="hl-k">AND</span> o.order_date &lt; <span class="hl-s">&#x27;2026-01-01&#x27;</span>
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.region, c.customer_id
+),
+region_avg <span class="hl-k">AS</span> (                                <span class="hl-c">-- step 2: average per region</span>
+    <span class="hl-k">SELECT</span> region, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> customers, <span class="hl-f">AVG</span>(sales) <span class="hl-k">AS</span> avg_sales_per_customer
+    <span class="hl-k">FROM</span> customer_sales
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region
+)
+<span class="hl-k">SELECT</span> region, customers,
+       <span class="hl-f">ROUND</span>(avg_sales_per_customer, <span class="hl-n">0</span>)                       <span class="hl-k">AS</span> avg_sales_per_customer,
+       <span class="hl-f">ROUND</span>((<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(sales) <span class="hl-k">FROM</span> customer_sales), <span class="hl-n">0</span>)       <span class="hl-k">AS</span> overall_avg
+<span class="hl-k">FROM</span> region_avg
+<span class="hl-k">WHERE</span> avg_sales_per_customer &gt; (<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(sales) <span class="hl-k">FROM</span> customer_sales)   <span class="hl-c">-- step 3: compare</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> avg_sales_per_customer <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>customers</th>
+      <th>avg_sales_per_customer</th>
+      <th>overall_avg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>West</td>
+      <td>156</td>
+      <td>142,513</td>
+      <td>125,805</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>160</td>
+      <td>130,010</td>
+      <td>125,805</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 4 columns</div></div>
+<p><code>customer_sales</code> is used <strong>twice</strong>, which with plain subqueries would mean copy-pasting the same block. CTEs also make window-function filters (Lesson 11) clean.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>CTE style</b></div><p>Name CTEs for what they contain (<code>customer_sales</code>, not <code>cte1</code>); keep each CTE doing one job; comment each step. If a CTE needs a long explanation, it probably should be two CTEs.</p></div>
+<h3 id="cte-subquery-view-and-temp-table">CTE, subquery, view and temp table</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Subquery / derived table</th>
+<th>CTE</th>
+<th>View</th>
+<th>Temp table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lives for</td>
+<td>The statement</td>
+<td>The statement</td>
+<td>Permanently (a saved query)</td>
+<td>The session (<code>#t</code>)</td>
+</tr>
+<tr>
+<td>Stores data?</td>
+<td>No</td>
+<td>No (re-evaluated)</td>
+<td>No (unless indexed/materialised)</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Reusable in other queries</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td>In the same session</td>
+</tr>
+<tr>
+<td>Can be referenced several times</td>
+<td>Only by repeating</td>
+<td><strong>Yes</strong>, in the same statement</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Recursive</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Can be indexed</td>
+<td>No</td>
+<td>No</td>
+<td>Indexed views only</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Simple one-off logic</td>
+<td>Readability, multi-step logic, recursion</td>
+<td>Sharing logic, hiding complexity, security</td>
+<td>Large intermediate results used many times</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>A CTE is not a cache</b></div><p>In SQL Server the CTE's query may run each time it is referenced. If an expensive CTE is used many times, load it into a <strong>temp table</strong> once.</p></div>
+<h2 id="recursive-ctes">Recursive CTEs</h2>
+<p>A recursive CTE has an <strong>anchor</strong> (starting rows) and a <strong>recursive member</strong> that refers to the CTE itself, joined with <code>UNION ALL</code>. It repeats until no new rows are produced.</p>
+<h3 id="number-and-date-series">Number and date series</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> numbers <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-n">1</span> <span class="hl-k">AS</span> n                      <span class="hl-c">-- anchor</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> n + <span class="hl-n">1</span> <span class="hl-k">FROM</span> numbers <span class="hl-k">WHERE</span> n &lt; <span class="hl-n">7</span>      <span class="hl-c">-- recursive member with a stop condition</span>
+)
+<span class="hl-k">SELECT</span> n <span class="hl-k">FROM</span> numbers;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 1 columns</div></div>
+<p>A <strong>calendar table</strong> of every day in 2026, handy for filling gaps before LAG/LEAD (Lesson 12):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> calendar <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">CAST</span>(<span class="hl-s">&#x27;2026-01-01&#x27;</span> <span class="hl-k">AS</span> <span class="hl-k">DATE</span>) <span class="hl-k">AS</span> d
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> <span class="hl-f">CAST</span>(<span class="hl-f">DATEADD</span>(day, <span class="hl-n">1</span>, d) <span class="hl-k">AS</span> <span class="hl-k">DATE</span>) <span class="hl-k">FROM</span> calendar <span class="hl-k">WHERE</span> d &lt; <span class="hl-f">CAST</span>(<span class="hl-s">&#x27;2026-12-31&#x27;</span> <span class="hl-k">AS</span> <span class="hl-k">DATE</span>)
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> days, <span class="hl-f">MIN</span>(d) <span class="hl-k">AS</span> first_day, <span class="hl-f">MAX</span>(d) <span class="hl-k">AS</span> last_day,
+       <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> <span class="hl-f">DATENAME</span>(weekday, d) <span class="hl-k">IN</span> (<span class="hl-s">&#x27;Saturday&#x27;</span>, <span class="hl-s">&#x27;Sunday&#x27;</span>) <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> weekend_days
+<span class="hl-k">FROM</span> calendar;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>days</th>
+      <th>first_day</th>
+      <th>last_day</th>
+      <th>weekend_days</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>365</td>
+      <td>2026-01-01</td>
+      <td>2026-12-31</td>
+      <td>104</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 4 columns</div></div>
+<p>In SQL Server, the default limit is 100 recursions, so a year-long calendar needs <code>OPTION (MAXRECURSION 400)</code> after the final SELECT (use <code>0</code> for no limit, with care).</p>
+<h3 id="hierarchies-org-chart">Hierarchies: org chart</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> org (emp_id <span class="hl-k">INT</span>, name <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>), manager_id <span class="hl-k">INT</span>);
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> org <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>,<span class="hl-s">&#x27;Varun&#x27;</span>,<span class="hl-k">NULL</span>), (<span class="hl-n">2</span>,<span class="hl-s">&#x27;Asha&#x27;</span>,<span class="hl-n">1</span>), (<span class="hl-n">3</span>,<span class="hl-s">&#x27;Ravi&#x27;</span>,<span class="hl-n">1</span>), (<span class="hl-n">4</span>,<span class="hl-s">&#x27;Meera&#x27;</span>,<span class="hl-n">2</span>), (<span class="hl-n">5</span>,<span class="hl-s">&#x27;Kabir&#x27;</span>,<span class="hl-n">2</span>), (<span class="hl-n">6</span>,<span class="hl-s">&#x27;Zoya&#x27;</span>,<span class="hl-n">4</span>), (<span class="hl-n">7</span>,<span class="hl-s">&#x27;Farhan&#x27;</span>,<span class="hl-n">3</span>);
+
+<span class="hl-k">WITH</span> tree <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> emp_id, name, manager_id, <span class="hl-n">0</span> <span class="hl-k">AS</span> level, <span class="hl-f">CAST</span>(name <span class="hl-k">AS</span> <span class="hl-k">VARCHAR</span>(<span class="hl-n">200</span>)) <span class="hl-k">AS</span> path
+    <span class="hl-k">FROM</span> org <span class="hl-k">WHERE</span> manager_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>                              <span class="hl-c">-- anchor: the top</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> o.emp_id, o.name, o.manager_id, t.level + <span class="hl-n">1</span>, <span class="hl-f">CAST</span>(<span class="hl-f">CONCAT</span>(t.path, <span class="hl-s">&#x27; &gt; &#x27;</span>, o.name) <span class="hl-k">AS</span> <span class="hl-k">VARCHAR</span>(<span class="hl-n">200</span>))
+    <span class="hl-k">FROM</span> org <span class="hl-k">AS</span> o
+    <span class="hl-k">JOIN</span> tree <span class="hl-k">AS</span> t <span class="hl-k">ON</span> o.manager_id = t.emp_id                      <span class="hl-c">-- walk down one level</span>
+)
+<span class="hl-k">SELECT</span> level, <span class="hl-f">CONCAT</span>(<span class="hl-f">REPLICATE</span>(<span class="hl-s">&#x27;    &#x27;</span>, level), name) <span class="hl-k">AS</span> org_chart, path
+<span class="hl-k">FROM</span> tree
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> path;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(7 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>level</th>
+      <th>org_chart</th>
+      <th>path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Varun</td>
+      <td>Varun</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Asha</td>
+      <td>Varun &gt; Asha</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Kabir</td>
+      <td>Varun &gt; Asha &gt; Kabir</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Meera</td>
+      <td>Varun &gt; Asha &gt; Meera</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Zoya</td>
+      <td>Varun &gt; Asha &gt; Meera &gt; Zoya</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Ravi</td>
+      <td>Varun &gt; Ravi</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Farhan</td>
+      <td>Varun &gt; Ravi &gt; Farhan</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 3 columns</div></div>
+<p>Recursive CTEs also solve bill-of-materials, category trees and graph-path problems.</p>
+<h2 id="views">Views</h2>
+<p>A <strong>view</strong> is a saved <code>SELECT</code> with a name. Querying it runs the stored query; it holds no data of its own.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">VIEW</span> vw_order_detail <span class="hl-k">AS</span>
+<span class="hl-k">SELECT</span> o.order_id, o.order_date, o.ship_mode,
+       c.customer_id, c.customer_name, c.segment, c.city, c.region,
+       p.product_id, p.product_name, p.category, p.sub_category,
+       oi.quantity, oi.discount, oi.sales, oi.profit
+<span class="hl-k">FROM</span> order_items <span class="hl-k">AS</span> oi
+<span class="hl-k">JOIN</span> orders    <span class="hl-k">AS</span> o <span class="hl-k">ON</span> o.order_id    = oi.order_id
+<span class="hl-k">JOIN</span> customers <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+<span class="hl-k">JOIN</span> products  <span class="hl-k">AS</span> p <span class="hl-k">ON</span> p.product_id  = oi.product_id;
+
+<span class="hl-k">SELECT</span> category, region, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> vw_order_detail
+<span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> category, region
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> category, region;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>region</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>East</td>
+      <td>2,875,816</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>North</td>
+      <td>2,688,426</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>South</td>
+      <td>3,759,688</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>West</td>
+      <td>3,436,316</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>East</td>
+      <td>1,075,076</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>North</td>
+      <td>833,204</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>South</td>
+      <td>1,018,343</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>West</td>
+      <td>1,044,699</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>East</td>
+      <td>14,959,309</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>North</td>
+      <td>12,911,446</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>South</td>
+      <td>16,023,523</td>
+    </tr>
+    <tr>
+      <td>Technology</td>
+      <td>West</td>
+      <td>17,750,953</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">12 rows × 3 columns</div></div>
+<p>Now analysts query one friendly object instead of repeating a four-table join. Power BI and Excel can connect to the view too.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Use views to</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hide complexity</td>
+<td>One name for a multi-join query</td>
+</tr>
+<tr>
+<td>Provide one definition of a metric</td>
+<td>"Net sales" defined once, used everywhere</td>
+</tr>
+<tr>
+<td>Secure data</td>
+<td><code>GRANT SELECT ON vw_sales_summary TO analysts</code> without granting access to base tables; expose only some columns/rows</td>
+</tr>
+<tr>
+<td>Keep apps working when tables change</td>
+<td>Change the view, not every report</td>
+</tr>
+</tbody>
+</table></div>
+<p>SQL Server syntax: <code>CREATE VIEW dbo.vw_x AS …</code>, <code>ALTER VIEW</code>, <code>DROP VIEW IF EXISTS</code>, <code>CREATE OR ALTER VIEW</code>. Rules: no <code>ORDER BY</code> inside a view (unless with TOP); views can usually be <code>INSERT</code>/<code>UPDATE</code>d only if they map simply to one table. <strong>Indexed (materialised) views</strong> store the results physically for speed (<code>WITH SCHEMABINDING</code> + a unique clustered index).</p>
+<h2 id="temporary-tables-and-table-variables">Temporary tables and table variables</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Temp table: lives for the session, stored in tempdb, can be indexed, has statistics</span>
+<span class="hl-k">SELECT</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales
+<span class="hl-k">INTO</span>   #cust_sales                      <span class="hl-c">-- the # prefix makes it local temporary</span>
+<span class="hl-k">FROM</span>   superstore
+<span class="hl-k">GROUP</span>  <span class="hl-k">BY</span> customer_id;
+
+<span class="hl-k">CREATE</span> <span class="hl-k">INDEX</span> ix_cust <span class="hl-k">ON</span> #cust_sales (customer_id);
+<span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">10</span> * <span class="hl-k">FROM</span> #cust_sales <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;
+<span class="hl-k">DROP</span> <span class="hl-k">TABLE</span> <span class="hl-k">IF</span> <span class="hl-k">EXISTS</span> #cust_sales;
+
+<span class="hl-c">-- Table variable: scoped to the batch; for small row counts</span>
+<span class="hl-k">DECLARE</span> @<span class="hl-k">top</span> <span class="hl-k">TABLE</span> (customer_id <span class="hl-k">VARCHAR</span>(<span class="hl-n">10</span>), sales <span class="hl-k">DECIMAL</span>(<span class="hl-n">14</span>,<span class="hl-n">2</span>));
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> @<span class="hl-k">top</span> <span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">5</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-f">SUM</span>(sales) <span class="hl-k">DESC</span>;
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> @<span class="hl-k">top</span>;</code></pre></div>
+<p><code>##name</code> is a <strong>global</strong> temp table visible to other sessions. Temp tables vanish when the session ends.</p>
+<h2 id="stored-procedures">Stored procedures</h2>
+<p>A <strong>stored procedure</strong> is a named, saved block of T-SQL that can take parameters, run many statements, and return results. It is compiled and its plan cached, and permissions can be granted on the procedure instead of the tables.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">OR</span> <span class="hl-k">ALTER</span> <span class="hl-k">PROCEDURE</span> dbo.usp_sales_by_region
+    @from_date <span class="hl-k">DATE</span>,
+    @to_date   <span class="hl-k">DATE</span>,
+    @category  <span class="hl-k">VARCHAR</span>(<span class="hl-n">30</span>) = <span class="hl-k">NULL</span>          <span class="hl-c">-- optional parameter with a default</span>
+<span class="hl-k">AS</span>
+<span class="hl-k">BEGIN</span>
+    <span class="hl-k">SET</span> NOCOUNT <span class="hl-k">ON</span>;                        <span class="hl-c">-- suppress &quot;(n rows affected)&quot; messages</span>
+
+    <span class="hl-k">SELECT</span> c.region,
+           <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id) <span class="hl-k">AS</span> orders,
+           <span class="hl-f">SUM</span>(oi.sales)              <span class="hl-k">AS</span> sales,
+           <span class="hl-f">SUM</span>(oi.profit)             <span class="hl-k">AS</span> profit
+    <span class="hl-k">FROM</span> dbo.order_items <span class="hl-k">AS</span> oi
+    <span class="hl-k">JOIN</span> dbo.orders      <span class="hl-k">AS</span> o <span class="hl-k">ON</span> o.order_id    = oi.order_id
+    <span class="hl-k">JOIN</span> dbo.customers   <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = o.customer_id
+    <span class="hl-k">JOIN</span> dbo.products    <span class="hl-k">AS</span> p <span class="hl-k">ON</span> p.product_id  = oi.product_id
+    <span class="hl-k">WHERE</span> o.order_date &gt;= @from_date
+      <span class="hl-k">AND</span> o.order_date &lt;  <span class="hl-f">DATEADD</span>(day, <span class="hl-n">1</span>, @to_date)
+      <span class="hl-k">AND</span> (@category <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> p.category = @category)     <span class="hl-c">-- optional filter</span>
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.region
+    <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;
+<span class="hl-k">END</span>;
+<span class="hl-k">GO</span>
+
+<span class="hl-k">EXEC</span> dbo.usp_sales_by_region @from_date = <span class="hl-s">&#x27;2025-01-01&#x27;</span>, @to_date = <span class="hl-s">&#x27;2025-12-31&#x27;</span>;
+<span class="hl-k">EXEC</span> dbo.usp_sales_by_region <span class="hl-s">&#x27;2025-01-01&#x27;</span>, <span class="hl-s">&#x27;2025-12-31&#x27;</span>, <span class="hl-s">&#x27;Technology&#x27;</span>;</code></pre></div>
+<h3 id="output-parameters-variables-if-and-loops">Output parameters, variables, IF and loops</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">OR</span> <span class="hl-k">ALTER</span> <span class="hl-k">PROCEDURE</span> dbo.usp_add_order_note
+    @order_id <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>),
+    @note     <span class="hl-k">NVARCHAR</span>(<span class="hl-n">200</span>),
+    @<span class="hl-k">rows</span>     <span class="hl-k">INT</span> <span class="hl-k">OUTPUT</span>
+<span class="hl-k">AS</span>
+<span class="hl-k">BEGIN</span>
+    <span class="hl-k">SET</span> NOCOUNT <span class="hl-k">ON</span>;
+    <span class="hl-k">IF</span> <span class="hl-k">NOT</span> <span class="hl-k">EXISTS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">1</span> <span class="hl-k">FROM</span> dbo.orders <span class="hl-k">WHERE</span> order_id = @order_id)
+    <span class="hl-k">BEGIN</span>
+        <span class="hl-f">RAISERROR</span>(<span class="hl-s">&#x27;Order %s does not exist.&#x27;</span>, <span class="hl-n">16</span>, <span class="hl-n">1</span>, @order_id);   <span class="hl-c">-- or THROW 50001, &#x27;Order does not exist.&#x27;, 1;</span>
+        <span class="hl-k">RETURN</span>;
+    <span class="hl-k">END</span>;
+
+    <span class="hl-k">UPDATE</span> dbo.orders <span class="hl-k">SET</span> note = @note <span class="hl-k">WHERE</span> order_id = @order_id;
+    <span class="hl-k">SET</span> @<span class="hl-k">rows</span> = @@ROWCOUNT;                                         <span class="hl-c">-- rows changed by the last statement</span>
+<span class="hl-k">END</span>;
+<span class="hl-k">GO</span>
+
+<span class="hl-k">DECLARE</span> @n <span class="hl-k">INT</span>;
+<span class="hl-k">EXEC</span> dbo.usp_add_order_note <span class="hl-s">&#x27;IN-2025-00042&#x27;</span>, N<span class="hl-s">&#x27;Gift wrap&#x27;</span>, @<span class="hl-k">rows</span> = @n <span class="hl-k">OUTPUT</span>;
+<span class="hl-k">SELECT</span> @n <span class="hl-k">AS</span> rows_updated;</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Control flow</th>
+<th>Syntax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Condition</td>
+<td><code>IF … BEGIN … END ELSE BEGIN … END</code></td>
+</tr>
+<tr>
+<td>Loop</td>
+<td><code>WHILE @i &lt;= 10 BEGIN … SET @i += 1; END</code></td>
+</tr>
+<tr>
+<td>Exit / return</td>
+<td><code>RETURN</code></td>
+</tr>
+<tr>
+<td>Row count</td>
+<td><code>@@ROWCOUNT</code></td>
+</tr>
+<tr>
+<td>Dynamic SQL</td>
+<td><code>EXEC sp_executesql @sql, N'@x INT', @x = 5</code> (use parameters; never concatenate user input: SQL injection)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="error-handling-trycatch">Error handling: TRY…CATCH</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">BEGIN</span> <span class="hl-k">TRY</span>
+    <span class="hl-k">BEGIN</span> <span class="hl-k">TRAN</span>;
+        <span class="hl-k">UPDATE</span> dbo.accounts <span class="hl-k">SET</span> balance = balance - <span class="hl-n">5000</span> <span class="hl-k">WHERE</span> acct_id = <span class="hl-n">1</span>;
+        <span class="hl-k">UPDATE</span> dbo.accounts <span class="hl-k">SET</span> balance = balance + <span class="hl-n">5000</span> <span class="hl-k">WHERE</span> acct_id = <span class="hl-n">2</span>;
+    <span class="hl-k">COMMIT</span>;
+<span class="hl-k">END</span> <span class="hl-k">TRY</span>
+<span class="hl-k">BEGIN</span> <span class="hl-k">CATCH</span>
+    <span class="hl-k">IF</span> @@TRANCOUNT &gt; <span class="hl-n">0</span> <span class="hl-k">ROLLBACK</span>;
+    <span class="hl-k">SELECT</span> <span class="hl-f">ERROR_NUMBER</span>() <span class="hl-k">AS</span> err_no, <span class="hl-f">ERROR_MESSAGE</span>() <span class="hl-k">AS</span> err_msg, <span class="hl-f">ERROR_LINE</span>() <span class="hl-k">AS</span> err_line;
+    THROW;                                       <span class="hl-c">-- re-raise to the caller</span>
+<span class="hl-k">END</span> <span class="hl-k">CATCH</span>;</code></pre></div>
+<h2 id="user-defined-functions-udfs">User-defined functions (UDFs)</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Returns</th>
+<th>Example use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scalar</strong></td>
+<td>One value</td>
+<td><code>dbo.fn_margin(profit, sales)</code></td>
+</tr>
+<tr>
+<td><strong>Inline table-valued</strong></td>
+<td>A table, from one SELECT</td>
+<td><code>dbo.fn_orders_by_city('Pune')</code>: like a parameterised view</td>
+</tr>
+<tr>
+<td><strong>Multi-statement table-valued</strong></td>
+<td>A table built in a body</td>
+<td>Complex logic (usually slower)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">OR</span> <span class="hl-k">ALTER</span> <span class="hl-k">FUNCTION</span> dbo.fn_margin (@profit <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>,<span class="hl-n">2</span>), @sales <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>,<span class="hl-n">2</span>))
+<span class="hl-k">RETURNS</span> <span class="hl-k">DECIMAL</span>(<span class="hl-n">6</span>,<span class="hl-n">2</span>)
+<span class="hl-k">AS</span>
+<span class="hl-k">BEGIN</span>
+    <span class="hl-k">RETURN</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> @sales = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-k">NULL</span> <span class="hl-k">ELSE</span> <span class="hl-n">100.0</span> * @profit / @sales <span class="hl-k">END</span>;
+<span class="hl-k">END</span>;
+<span class="hl-k">GO</span>
+
+<span class="hl-k">CREATE</span> <span class="hl-k">OR</span> <span class="hl-k">ALTER</span> <span class="hl-k">FUNCTION</span> dbo.fn_sales_by_city (@city <span class="hl-k">VARCHAR</span>(<span class="hl-n">30</span>))
+<span class="hl-k">RETURNS</span> <span class="hl-k">TABLE</span>
+<span class="hl-k">AS</span> <span class="hl-k">RETURN</span> (
+    <span class="hl-k">SELECT</span> order_id, order_date, sales, profit <span class="hl-k">FROM</span> dbo.vw_order_detail <span class="hl-k">WHERE</span> city = @city
+);
+<span class="hl-k">GO</span>
+
+<span class="hl-k">SELECT</span> order_id, <span class="hl-f">dbo.fn_margin</span>(profit, sales) <span class="hl-k">AS</span> margin_pct <span class="hl-k">FROM</span> <span class="hl-f">dbo.fn_sales_by_city</span>(<span class="hl-s">&#x27;Pune&#x27;</span>);</code></pre></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Scalar UDFs can be slow</b></div><p>Older SQL Server versions call a scalar UDF once per row, which can make a query many times slower than writing the expression inline (SQL Server 2019+ can inline some). Prefer inline table-valued functions or views for set-based logic.</p></div>
+<h3 id="procedure-vs-function-vs-view">Procedure vs function vs view</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>View</th>
+<th>Stored procedure</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameters</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Can change data (INSERT/UPDATE)</td>
+<td>Limited</td>
+<td><strong>Yes</strong></td>
+<td>No (side-effect free)</td>
+</tr>
+<tr>
+<td>Used in SELECT / FROM</td>
+<td>Yes</td>
+<td>No (EXEC)</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Returns</td>
+<td>A table</td>
+<td>Result sets, output parameters, a status code</td>
+<td>A value or a table</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="triggers-awareness">Triggers (awareness)</h2>
+<p>A <strong>trigger</strong> runs automatically on INSERT, UPDATE or DELETE: audit logs, maintaining summary tables. Use sparingly: they hide logic and can slow writes. Modern designs prefer explicit procedures, constraints, temporal tables or change data capture.</p>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Prompt: <em>"Convert this nested-subquery SQL into readable CTEs with clear names and comments, keep the result identical, and explain each step."</em> AI is good at refactoring; verify equality by running both versions and comparing with <code>EXCEPT</code> in both directions (Lesson 9).</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>CTE</strong> (<code>WITH name AS (…)</code>): a named, readable subquery for one statement; can be referenced many times; <strong>recursive CTEs</strong> generate series and walk hierarchies (anchor + <code>UNION ALL</code> + recursive member).</li>
+<li><strong>View</strong>: a saved query for reuse, one definition of a metric, and security. <strong>Temp tables</strong> (<code>#t</code>) store intermediate data and can be indexed; table variables suit small sets.</li>
+<li><strong>Stored procedures</strong> take parameters, run multiple statements, change data and handle errors with <code>TRY…CATCH</code>; <strong>functions</strong> return values or tables and can be used inside queries.</li>
+<li>Prefer set-based SQL; avoid row-by-row loops and scalar UDFs on big tables; never concatenate user input into dynamic SQL.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-13-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A CTE exists for:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The whole session</button><button type="button" class="opt" data-ok="1"><i>B</i>A single statement</button><button type="button" class="opt" data-ok="0"><i>C</i>Until the server restarts</button><button type="button" class="opt" data-ok="0"><i>D</i>As long as the database</button></div><div class="qexp"><b>Answer: B.</b> A CTE is defined and used within one statement.</div></div><div class="qq"><p class="qtext"><b>2.</b> What are the two parts of a recursive CTE?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>SELECT and WHERE</button><button type="button" class="opt" data-ok="1"><i>B</i>An anchor member and a recursive member joined with UNION ALL</button><button type="button" class="opt" data-ok="0"><i>C</i>INSERT and UPDATE</button><button type="button" class="opt" data-ok="0"><i>D</i>A view and a function</button></div><div class="qexp"><b>Answer: B.</b> The anchor gives starting rows; the recursive member repeats until nothing new appears.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which object stores data physically for the session and can be indexed?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>CTE</button><button type="button" class="opt" data-ok="0"><i>B</i>View</button><button type="button" class="opt" data-ok="1"><i>C</i>Temporary table</button><button type="button" class="opt" data-ok="0"><i>D</i>Subquery</button></div><div class="qexp"><b>Answer: C.</b> <h1 id="temp-tables-live-in-tempdb-for-the-session">temp tables live in tempdb for the session.</h1></div></div><div class="qq"><p class="qtext"><b>4.</b> Which can modify data and return an OUTPUT parameter?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>View</button><button type="button" class="opt" data-ok="1"><i>B</i>Stored procedure</button><button type="button" class="opt" data-ok="0"><i>C</i>Scalar function</button><button type="button" class="opt" data-ok="0"><i>D</i>CTE</button></div><div class="qexp"><b>Answer: B.</b> Procedures can run INSERT/UPDATE/DELETE and return output parameters.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why grant access to a view instead of the base table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Views are faster</button><button type="button" class="opt" data-ok="1"><i>B</i>You can expose only selected columns and rows and hide the underlying tables</button><button type="button" class="opt" data-ok="0"><i>C</i>Views cannot be dropped</button><button type="button" class="opt" data-ok="0"><i>D</i>Tables cannot be queried</button></div><div class="qexp"><b>Answer: B.</b> Views are a security and simplification layer.</div></div><div class="qq"><p class="qtext"><b>6.</b> A recursive CTE stops with an error after 100 levels. Fix?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Add DISTINCT</button><button type="button" class="opt" data-ok="1"><i>B</i>Add OPTION (MAXRECURSION n) (and a proper stop condition)</button><button type="button" class="opt" data-ok="0"><i>C</i>Use a view</button><button type="button" class="opt" data-ok="0"><i>D</i>Use TOP</button></div><div class="qexp"><b>Answer: B.</b> SQL Server's default recursion limit is 100.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build reusable objects</b></div><p>(1) A view <code>vw_monthly_sales</code> with year, month, category and total sales. (2) A CTE query that lists, for each region, the best-selling sub-category and its share of the region's sales. (3) A stored procedure <code>usp_top_customers (@year INT, @n INT)</code> that returns the top n customers by sales for a year. (4) A recursive CTE that lists all employees under manager 2 in the <code>org</code> table with their level.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">VIEW</span> vw_monthly_sales <span class="hl-k">AS</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">YEAR</span>(order_date) <span class="hl-k">AS</span> yr, <span class="hl-f">MONTH</span>(order_date) <span class="hl-k">AS</span> mth, category, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> vw_order_detail <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-f">YEAR</span>(order_date), <span class="hl-f">MONTH</span>(order_date), category;
+<span class="hl-c">-- (2)</span>
+<span class="hl-k">WITH</span> rs <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> region, sub_category, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region, sub_category),
+     r  <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> *, <span class="hl-f">RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rnk, <span class="hl-n">100.0</span>*sales/<span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region) <span class="hl-k">AS</span> pct <span class="hl-k">FROM</span> rs)
+<span class="hl-k">SELECT</span> region, sub_category, <span class="hl-f">ROUND</span>(pct,<span class="hl-n">1</span>) <span class="hl-k">AS</span> pct_of_region <span class="hl-k">FROM</span> r <span class="hl-k">WHERE</span> rnk = <span class="hl-n">1</span>;
+<span class="hl-c">-- (3) T-SQL</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">OR</span> <span class="hl-k">ALTER</span> <span class="hl-k">PROCEDURE</span> usp_top_customers @year <span class="hl-k">INT</span>, @n <span class="hl-k">INT</span> <span class="hl-k">AS</span>
+<span class="hl-k">BEGIN</span>
+  <span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> (@n) customer_id, customer_name, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> vw_order_detail <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = @year
+  <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id, customer_name <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;
+<span class="hl-k">END</span>;
+<span class="hl-c">-- (4)</span>
+<span class="hl-k">WITH</span> t <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> emp_id, name, <span class="hl-n">1</span> <span class="hl-k">AS</span> level <span class="hl-k">FROM</span> org <span class="hl-k">WHERE</span> manager_id = <span class="hl-n">2</span>
+           <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> o.emp_id, o.name, t.level + <span class="hl-n">1</span> <span class="hl-k">FROM</span> org o <span class="hl-k">JOIN</span> t <span class="hl-k">ON</span> o.manager_id = t.emp_id)
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> t;</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: CTE vs temp table vs subquery?</strong>
+Subquery: inline, single use. CTE: named, readable, statement-scoped, supports recursion, may be re-evaluated. Temp table: materialised data for the session, indexable: use for large intermediate results reused many times.</p>
+<p><strong>Q: View vs stored procedure?</strong>
+A view is a saved SELECT you query like a table; a procedure is a program with parameters and multiple statements that can change data.</p>
+<p><strong>Q: What is a recursive CTE and where do you use it?</strong>
+A CTE that references itself, for hierarchies (org charts, categories), series generation and graph traversal.</p>
+<p><strong>Q: How do you prevent SQL injection in dynamic SQL?</strong>
+Use parameterised <code>sp_executesql</code> and QUOTENAME for identifiers; never concatenate raw user input.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html"><small>← Previous</small><b>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</b></a><a class="next" href="sql-14-transactions-indexes-performance-and-security.html"><small>Next →</small><b>Transactions, Indexes, Performance &amp; Security</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#cte-a-named-readable-subquery">CTE: a named, readable subquery</a><a href="#recursive-ctes">Recursive CTEs</a><a href="#views">Views</a><a href="#temporary-tables-and-table-variables">Temporary tables and table variables</a><a href="#stored-procedures">Stored procedures</a><a href="#user-defined-functions-udfs">User-defined functions (UDFs)</a><a href="#triggers-awareness">Triggers (awareness)</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

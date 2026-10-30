@@ -1,0 +1,269 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Functions: Reusable Code, Arguments, Scope and Docstrings · Python Lesson 9 · Data Science &amp; AI Handbook</title><meta name="description" content="Package logic into reusable functions. Learn def, parameters and arguments (positional, keyword, default, *args, **kwargs), return values, scope, docstrings and type hints, plus testing small functions on real data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 9</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class="on"><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-09">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 9 of 29</div><h1>Functions: Reusable Code, Arguments, Scope and Docstrings</h1>
+<p class="sum">Package logic into reusable functions. Learn def, parameters and arguments (positional, keyword, default, *args, **kwargs), return values, scope, docstrings and type hints, plus testing small functions on real data.</p><div class="tags"><span class="tag live">● Python class 7</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_09_Functions_Reusable_Code_Arguments_Scope_and_Docstrings.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-09">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Define and call functions with positional, keyword and default arguments</li><li>Use *args and **kwargs and return multiple values</li><li>Explain local vs global scope and avoid the mutable-default trap</li><li>Write docstrings and type hints that make functions self-explaining</li><li>Build small, testable functions for data cleaning and metrics</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-functions">Why functions?</h2>
+<p>A <strong>function</strong> is a named, reusable block of code. It removes copy-paste, makes code testable, and lets you give a name to an idea (<code>clean_phone</code>, <code>margin_pct</code>).</p>
+<figure class="fig"><img src="../img/python-09-01.png" alt="A function takes inputs (arguments), runs its body, and gives back an output (return value)." loading="lazy"><figcaption>A function takes inputs (arguments), runs its body, and gives back an output (return value).</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">greet</span>(name):
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;Hello, {name}!&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">greet</span>(<span class="hl-s">&quot;Asha&quot;</span>), <span class="hl-f">greet</span>(<span class="hl-s">&quot;Ravi&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Hello, Asha! Hello, Ravi!</pre></div>
+<h2 id="parameters-and-arguments">Parameters and arguments</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">margin_pct</span>(profit, sales, decimals=<span class="hl-n">1</span>):
+    <span class="hl-s">&quot;&quot;&quot;Profit as a percentage of sales.&quot;&quot;&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-f">round</span>(<span class="hl-n">100</span> * profit / sales, decimals)
+
+<span class="hl-f">print</span>(<span class="hl-f">margin_pct</span>(<span class="hl-n">25</span>, <span class="hl-n">200</span>))                      <span class="hl-c"># positional</span>
+<span class="hl-f">print</span>(<span class="hl-f">margin_pct</span>(sales=<span class="hl-n">200</span>, profit=<span class="hl-n">25</span>))         <span class="hl-c"># keyword: order does not matter</span>
+<span class="hl-f">print</span>(<span class="hl-f">margin_pct</span>(<span class="hl-n">25</span>, <span class="hl-n">200</span>, decimals=<span class="hl-n">3</span>))          <span class="hl-c"># default overridden</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">12.5
+12.5
+12.5</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Kind</th>
+<th>Example</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Positional</td>
+<td><code>f(1, 2)</code></td>
+<td>Matched by order</td>
+</tr>
+<tr>
+<td>Keyword</td>
+<td><code>f(b=2, a=1)</code></td>
+<td>Matched by name; clearer</td>
+</tr>
+<tr>
+<td>Default</td>
+<td><code>def f(a, b=10)</code></td>
+<td>Optional argument; defaults go last</td>
+</tr>
+<tr>
+<td><code>*args</code></td>
+<td><code>def f(*args)</code></td>
+<td>Extra positional arguments as a tuple</td>
+</tr>
+<tr>
+<td><code>**kwargs</code></td>
+<td><code>def f(**kwargs)</code></td>
+<td>Extra keyword arguments as a dict</td>
+</tr>
+<tr>
+<td>Keyword-only</td>
+<td><code>def f(a, *, b)</code></td>
+<td><code>b</code> must be named</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">total</span>(*nums): <span class="hl-k">return</span> <span class="hl-f">sum</span>(nums)
+<span class="hl-k">def</span> <span class="hl-f">describe</span>(**info): <span class="hl-k">return</span> <span class="hl-s">&quot;, &quot;</span>.<span class="hl-f">join</span>(<span class="hl-s">f&quot;{k}={v}&quot;</span> <span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">info.items</span>())
+<span class="hl-k">def</span> <span class="hl-f">report</span>(title, *values, sep=<span class="hl-s">&quot; | &quot;</span>, **opts): <span class="hl-k">return</span> title + <span class="hl-s">&quot;: &quot;</span> + <span class="hl-f">sep.join</span>(<span class="hl-f">map</span>(str, values)) + <span class="hl-s">f&quot; {opts}&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">total</span>(<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>), <span class="hl-f">total</span>(), <span class="hl-f">describe</span>(city=<span class="hl-s">&quot;Pune&quot;</span>, year=<span class="hl-n">2025</span>))
+<span class="hl-f">print</span>(<span class="hl-f">report</span>(<span class="hl-s">&quot;Sales&quot;</span>, <span class="hl-n">10</span>, <span class="hl-n">20</span>, <span class="hl-n">30</span>, sep=<span class="hl-s">&quot;,&quot;</span>, currency=<span class="hl-s">&quot;INR&quot;</span>))
+nums = [<span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>]; opts = {<span class="hl-s">&quot;decimals&quot;</span>: <span class="hl-n">2</span>}
+<span class="hl-f">print</span>(<span class="hl-f">total</span>(*nums), <span class="hl-f">margin_pct</span>(<span class="hl-n">7</span>, <span class="hl-n">30</span>, **opts))      <span class="hl-c"># unpack a list / dict into arguments</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 0 city=Pune, year=2025
+Sales: 10,20,30 {&#x27;currency&#x27;: &#x27;INR&#x27;}
+15 23.33</pre></div>
+<h2 id="return-values">Return values</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">stats</span>(values):
+    n = <span class="hl-f">len</span>(values)
+    mean = <span class="hl-f">sum</span>(values) / n
+    var = <span class="hl-f">sum</span>((v - mean) ** <span class="hl-n">2</span> <span class="hl-k">for</span> v <span class="hl-k">in</span> values) / (n - <span class="hl-n">1</span>)
+    <span class="hl-k">return</span> <span class="hl-f">min</span>(values), <span class="hl-f">max</span>(values), <span class="hl-f">round</span>(mean, <span class="hl-n">2</span>), <span class="hl-f">round</span>(var ** <span class="hl-n">0.5</span>, <span class="hl-n">2</span>)     <span class="hl-c"># a tuple</span>
+lo, hi, mean, sd = <span class="hl-f">stats</span>([<span class="hl-n">12</span>, <span class="hl-n">15</span>, <span class="hl-n">11</span>, <span class="hl-n">18</span>, <span class="hl-n">14</span>])
+<span class="hl-f">print</span>(lo, hi, mean, sd)
+
+<span class="hl-k">def</span> <span class="hl-f">say</span>(): <span class="hl-f">print</span>(<span class="hl-s">&quot;no return&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">say</span>())                                   <span class="hl-c"># a function with no return gives None</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">11 18 14.0 2.74
+no return
+None</pre></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Return, do not print</b></div><p>A function that <strong>prints</strong> can only be read by humans. One that <strong>returns</strong> can be tested, combined and reused. Print at the very end, outside the function.</p></div>
+<h2 id="scope-local-vs-global">Scope: local vs global</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rate = <span class="hl-n">0.18</span>                       <span class="hl-c"># global</span>
+<span class="hl-k">def</span> <span class="hl-f">price_with_gst</span>(price):
+    gst = price * rate            <span class="hl-c"># reads the global</span>
+    <span class="hl-k">return</span> price + gst            <span class="hl-c"># gst is local: gone after the call</span>
+<span class="hl-f">print</span>(<span class="hl-f">price_with_gst</span>(<span class="hl-n">1000</span>))
+<span class="hl-k">try</span>: <span class="hl-f">print</span>(gst)
+<span class="hl-k">except</span> NameError <span class="hl-k">as</span> e: <span class="hl-f">print</span>(<span class="hl-s">&quot;NameError:&quot;</span>, e)
+
+counter = <span class="hl-n">0</span>
+<span class="hl-k">def</span> <span class="hl-f">bump</span>():
+    <span class="hl-k">global</span> counter                <span class="hl-c"># needed to *rebind* a global (rarely a good idea)</span>
+    counter += <span class="hl-n">1</span>
+<span class="hl-f">bump</span>(); <span class="hl-f">bump</span>(); <span class="hl-f">print</span>(counter)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1180.0
+NameError: name &#x27;gst&#x27; is not defined
+2</pre></div>
+<p>Rule of thumb (LEGB): Python looks in <strong>L</strong>ocal, then <strong>E</strong>nclosing, then <strong>G</strong>lobal, then <strong>B</strong>uilt-in scope. Prefer passing values in and returning values out.</p>
+<h3 id="the-mutable-default-trap">The mutable-default trap</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">add_item</span>(x, bucket=[]):          <span class="hl-c"># BAD: one list shared by every call</span>
+    <span class="hl-f">bucket.append</span>(x); <span class="hl-k">return</span> bucket
+<span class="hl-f">print</span>(<span class="hl-f">add_item</span>(<span class="hl-n">1</span>), <span class="hl-f">add_item</span>(<span class="hl-n">2</span>))
+
+<span class="hl-k">def</span> <span class="hl-f">add_item_ok</span>(x, bucket=<span class="hl-k">None</span>):     <span class="hl-c"># GOOD</span>
+    <span class="hl-k">if</span> bucket <span class="hl-k">is</span> <span class="hl-k">None</span>: bucket = []
+    <span class="hl-f">bucket.append</span>(x); <span class="hl-k">return</span> bucket
+<span class="hl-f">print</span>(<span class="hl-f">add_item_ok</span>(<span class="hl-n">1</span>), <span class="hl-f">add_item_ok</span>(<span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[1, 2] [1, 2]
+[1] [2]</pre></div>
+<p>Lists, dicts and sets as default values are created <strong>once</strong>, when <code>def</code> runs. Use <code>None</code> and create the object inside.</p>
+<h2 id="docstrings-and-type-hints">Docstrings and type hints</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">clean_phone</span>(raw: str, country_code: str = <span class="hl-s">&quot;+91&quot;</span>) -&gt; str:
+    <span class="hl-s">&quot;&quot;&quot;Return a phone number as &#x27;+91 XXXXX XXXXX&#x27;, or &#x27;&#x27; if it is not 10 digits.
+
+    &gt;&gt;&gt; clean_phone(&quot;98765-43210&quot;)
+    &#x27;+91 98765 43210&#x27;
+    &quot;&quot;&quot;</span>
+    digits = <span class="hl-s">&quot;&quot;</span>.<span class="hl-f">join</span>(ch <span class="hl-k">for</span> ch <span class="hl-k">in</span> raw <span class="hl-k">if</span> <span class="hl-f">ch.isdigit</span>())[-<span class="hl-n">10</span>:]
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(digits) != <span class="hl-n">10</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;{country_code} {digits[:5]} {digits[5:]}&quot;</span>
+
+<span class="hl-f">print</span>(<span class="hl-f">clean_phone</span>(<span class="hl-s">&quot;98765-43210&quot;</span>), <span class="hl-f">repr</span>(<span class="hl-f">clean_phone</span>(<span class="hl-s">&quot;12345&quot;</span>)), <span class="hl-f">clean_phone</span>(<span class="hl-s">&quot;+91 (98765) 43210&quot;</span>))
+<span class="hl-f">help</span>(clean_phone)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">+91 98765 43210 &#x27;&#x27; +91 98765 43210
+Help on function clean_phone in module __main__:
+
+clean_phone(raw: str, country_code: str = &#x27;+91&#x27;) -&gt; str
+    Return a phone number as &#x27;+91 XXXXX XXXXX&#x27;, or &#x27;&#x27; if it is not 10 digits.
+
+    &gt;&gt;&gt; clean_phone(&quot;98765-43210&quot;)
+    &#x27;+91 98765 43210&#x27;</pre></div>
+<p>Type hints do not change how the code runs, but editors and tools such as <code>mypy</code> use them, and they document intent. Write the docstring first line as a short summary; tools like <code>help()</code> and IDE hovers display it.</p>
+<h2 id="functions-are-objects">Functions are objects</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">square</span>(x): <span class="hl-k">return</span> x * x
+fn = square                                   <span class="hl-c"># assign, store in a list, pass as an argument</span>
+<span class="hl-k">def</span> <span class="hl-f">apply_twice</span>(f, x): <span class="hl-k">return</span> <span class="hl-f">f</span>(<span class="hl-f">f</span>(x))
+<span class="hl-f">print</span>(<span class="hl-f">fn</span>(<span class="hl-n">4</span>), <span class="hl-f">apply_twice</span>(square, <span class="hl-n">3</span>), [f.__name__ <span class="hl-k">for</span> f <span class="hl-k">in</span> (square, len, str)])
+
+<span class="hl-k">def</span> <span class="hl-f">make_multiplier</span>(n):                       <span class="hl-c"># a function that returns a function (a closure)</span>
+    <span class="hl-k">def</span> <span class="hl-f">times</span>(x): <span class="hl-k">return</span> x * n
+    <span class="hl-k">return</span> times
+double, triple = <span class="hl-f">make_multiplier</span>(<span class="hl-n">2</span>), <span class="hl-f">make_multiplier</span>(<span class="hl-n">3</span>)
+<span class="hl-f">print</span>(<span class="hl-f">double</span>(<span class="hl-n">7</span>), <span class="hl-f">triple</span>(<span class="hl-n">7</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">16 81 [&#x27;square&#x27;, &#x27;len&#x27;, &#x27;str&#x27;]
+14 21</pre></div>
+<h2 id="functions-on-real-data">Functions on real data</h2>
+<p>Small, pure functions are easy to test and to reuse across <code>apply</code>, comprehensions and pipelines.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+
+<span class="hl-k">def</span> <span class="hl-f">discount_band</span>(d: float) -&gt; str:
+    <span class="hl-k">if</span> d == <span class="hl-n">0</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;none&quot;</span>
+    <span class="hl-k">if</span> d &lt;= <span class="hl-n">0.10</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;low&quot;</span>
+    <span class="hl-k">if</span> d &lt;= <span class="hl-n">0.20</span>: <span class="hl-k">return</span> <span class="hl-s">&quot;medium&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-s">&quot;high&quot;</span>
+
+<span class="hl-k">def</span> <span class="hl-f">summarise</span>(df: pd.DataFrame, by: str) -&gt; pd.DataFrame:
+    <span class="hl-s">&quot;&quot;&quot;Sales, profit and margin % per group.&quot;&quot;&quot;</span>
+    g = <span class="hl-f">df.groupby</span>(by).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), profit=(<span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), lines=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;size&quot;</span>))
+    g[<span class="hl-s">&quot;margin_pct&quot;</span>] = (<span class="hl-n">100</span> * g.profit / g.sales).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+    <span class="hl-k">return</span> <span class="hl-f">g.round</span>(<span class="hl-n">0</span>).<span class="hl-f">astype</span>({<span class="hl-s">&quot;sales&quot;</span>: int, <span class="hl-s">&quot;profit&quot;</span>: int})
+
+s[<span class="hl-s">&quot;band&quot;</span>] = s[<span class="hl-s">&quot;discount&quot;</span>].<span class="hl-f">map</span>(discount_band)
+<span class="hl-f">print</span>(<span class="hl-f">summarise</span>(s, <span class="hl-s">&quot;band&quot;</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;margin_pct&quot;</span>, ascending=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-f">summarise</span>(s, <span class="hl-s">&quot;region&quot;</span>).<span class="hl-f">sort_values</span>(<span class="hl-s">&quot;sales&quot;</span>, ascending=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">            sales    profit  lines  margin_pct
+band                                          
+none    123936290  21718963   3480        18.0
+low      21864636   1286023    726         6.0
+medium   35864461   -588882   1217        -2.0
+high     19748182  -4063940    900       -21.0
+           sales   profit  lines  margin_pct
+region                                      
+South   53952768  4702012   1656         9.0
+West    51958520  4719833   1614         9.0
+North   49018161  4555830   1530         9.0
+East    46484119  4374490   1523         9.0</pre></div>
+<p>The same <code>summarise</code> works for any column. That reuse is the point: write once, call with <code>by="category"</code>, <code>by="segment"</code>, and so on.</p>
+<h3 id="testing-a-function">Testing a function</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">assert <span class="hl-f">margin_pct</span>(<span class="hl-n">25</span>, <span class="hl-n">200</span>) == <span class="hl-n">12.5</span>
+assert <span class="hl-f">clean_phone</span>(<span class="hl-s">&quot;12345&quot;</span>) == <span class="hl-s">&quot;&quot;</span>
+assert <span class="hl-f">discount_band</span>(<span class="hl-n">0.15</span>) == <span class="hl-s">&quot;medium&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;all checks passed&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">all checks passed</pre></div>
+<p><code>assert</code> is the quickest test. Larger projects use <code>pytest</code> (Lesson 14).</p>
+<h2 id="recursion-in-one-paragraph">Recursion in one paragraph</h2>
+<p>A function can call itself; it needs a <strong>base case</strong> that stops the calls.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">factorial</span>(n):
+    <span class="hl-k">return</span> <span class="hl-n">1</span> <span class="hl-k">if</span> n &lt;= <span class="hl-n">1</span> <span class="hl-k">else</span> n * <span class="hl-f">factorial</span>(n - <span class="hl-n">1</span>)
+<span class="hl-k">def</span> <span class="hl-f">fib</span>(n, memo={}):                     <span class="hl-c"># deliberate cache; see the lesson on functools.lru_cache</span>
+    <span class="hl-k">if</span> n &lt; <span class="hl-n">2</span>: <span class="hl-k">return</span> n
+    <span class="hl-k">if</span> n <span class="hl-k">not</span> <span class="hl-k">in</span> memo: memo[n] = <span class="hl-f">fib</span>(n - <span class="hl-n">1</span>) + <span class="hl-f">fib</span>(n - <span class="hl-n">2</span>)
+    <span class="hl-k">return</span> memo[n]
+<span class="hl-f">print</span>(<span class="hl-f">factorial</span>(<span class="hl-n">6</span>), [<span class="hl-f">fib</span>(i) <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">12</span>)], <span class="hl-f">fib</span>(<span class="hl-n">60</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">720 [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89] 1548008755920</pre></div>
+<p>Python limits recursion depth (about 1,000 calls), so prefer loops for deep or large problems.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forgetting <code>return</code> (function gives <code>None</code>)</td>
+<td>Check the value you expect back</td>
+</tr>
+<tr>
+<td>Mutable default arguments</td>
+<td>Use <code>None</code> and create inside</td>
+</tr>
+<tr>
+<td>Calling <code>f</code> instead of <code>f()</code></td>
+<td><code>f</code> is the function object; <code>f()</code> runs it</td>
+</tr>
+<tr>
+<td>Modifying a global inside a function without <code>global</code></td>
+<td><code>UnboundLocalError</code>; pass and return values instead</td>
+</tr>
+<tr>
+<td>Function does too many things</td>
+<td>One job per function; compose small ones</td>
+</tr>
+<tr>
+<td>Positional order confusion</td>
+<td>Use keyword arguments for clarity</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>def name(params): ... return value</code> defines a function; no <code>return</code> means it returns <code>None</code>.</li>
+<li>Arguments can be positional, keyword, default, <code>*args</code> (tuple) and <code>**kwargs</code> (dict); put defaults last.</li>
+<li>Variables created inside a function are local; read globals freely, but prefer parameters and return values.</li>
+<li>Never use a mutable object as a default; use <code>None</code>.</li>
+<li>Docstrings and type hints document intent; <code>assert</code> gives quick tests.</li>
+<li>Functions are objects: you can pass them around, store them and return them (closures).</li>
+</ul></div>
+<div class="quiz" id="quiz-python-09-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does a function without a <code>return</code> statement return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0</button><button type="button" class="opt" data-ok="1"><i>B</i>None</button><button type="button" class="opt" data-ok="0"><i>C</i>An empty string</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> Python returns <code>None</code> implicitly.</div></div><div class="qq"><p class="qtext"><b>2.</b> What is wrong with <code>def f(x, items=[]):</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing</button><button type="button" class="opt" data-ok="1"><i>B</i>The default list is created once and shared across calls</button><button type="button" class="opt" data-ok="0"><i>C</i>Lists cannot be arguments</button><button type="button" class="opt" data-ok="0"><i>D</i>It must be a tuple</button></div><div class="qexp"><b>Answer: B.</b> Use <code>items=None</code> and create the list inside.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>*args</code> collect?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Keyword arguments in a dict</button><button type="button" class="opt" data-ok="1"><i>B</i>Extra positional arguments in a tuple</button><button type="button" class="opt" data-ok="0"><i>C</i>Only the first argument</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: B.</b> <code>**kwargs</code> collects the keyword ones.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which scope does Python search first?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Global</button><button type="button" class="opt" data-ok="0"><i>B</i>Built-in</button><button type="button" class="opt" data-ok="1"><i>C</i>Local</button><button type="button" class="opt" data-ok="0"><i>D</i>Enclosing only</button></div><div class="qexp"><b>Answer: C.</b> LEGB: Local, Enclosing, Global, Built-in.</div></div><div class="qq"><p class="qtext"><b>5.</b> How do you call <code>f(a, b)</code> with a list <code>pair = [1, 2]</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>f(pair)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>f(*pair)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>f(**pair)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>f[pair]</code></button></div><div class="qexp"><b>Answer: B.</b> <code>*</code> unpacks the list into positional arguments.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why return values instead of printing them?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Printing is slower</button><button type="button" class="opt" data-ok="1"><i>B</i>Returned values can be tested, reused and combined</button><button type="button" class="opt" data-ok="0"><i>C</i>Print is not allowed in functions</button><button type="button" class="opt" data-ok="0"><i>D</i>Python requires it</button></div><div class="qexp"><b>Answer: B.</b> Printing is for the final display only.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Function problems</b></div><p>(1) Write <code>is_prime(n)</code>. (2) Write <code>percent_change(old, new)</code> returning a rounded percentage and guard against <code>old == 0</code>. (3) Write <code>top_n(df, col, n=5)</code> that returns the top-n Superstore rows by a column. (4) Write a function that accepts any number of numbers and returns their average, or <code>None</code> if none are given. (5) Add <code>assert</code> tests for each.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">is_prime</span>(n):
+    <span class="hl-k">return</span> n &gt; <span class="hl-n">1</span> <span class="hl-k">and</span> <span class="hl-f">all</span>(n % d <span class="hl-k">for</span> d <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">2</span>, <span class="hl-f">int</span>(n ** <span class="hl-n">0.5</span>) + <span class="hl-n">1</span>))
+<span class="hl-k">def</span> <span class="hl-f">percent_change</span>(old, new): <span class="hl-k">return</span> <span class="hl-k">None</span> <span class="hl-k">if</span> old == <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-f">round</span>(<span class="hl-n">100</span> * (new - old) / old, <span class="hl-n">1</span>)
+<span class="hl-k">def</span> <span class="hl-f">top_n</span>(df, col, n=<span class="hl-n">5</span>): <span class="hl-k">return</span> <span class="hl-f">df.nlargest</span>(n, col)
+<span class="hl-k">def</span> <span class="hl-f">average</span>(*nums): <span class="hl-k">return</span> <span class="hl-f">sum</span>(nums) / <span class="hl-f">len</span>(nums) <span class="hl-k">if</span> nums <span class="hl-k">else</span> <span class="hl-k">None</span>
+assert [x <span class="hl-k">for</span> x <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">20</span>) <span class="hl-k">if</span> <span class="hl-f">is_prime</span>(x)] == [<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">5</span>, <span class="hl-n">7</span>, <span class="hl-n">11</span>, <span class="hl-n">13</span>, <span class="hl-n">17</span>, <span class="hl-n">19</span>]
+assert <span class="hl-f">percent_change</span>(<span class="hl-n">0</span>, <span class="hl-n">5</span>) <span class="hl-k">is</span> <span class="hl-k">None</span> <span class="hl-k">and</span> <span class="hl-f">percent_change</span>(<span class="hl-n">200</span>, <span class="hl-n">250</span>) == <span class="hl-n">25.0</span>
+assert <span class="hl-f">average</span>() <span class="hl-k">is</span> <span class="hl-k">None</span> <span class="hl-k">and</span> <span class="hl-f">average</span>(<span class="hl-n">2</span>, <span class="hl-n">4</span>) == <span class="hl-n">3</span>
+<span class="hl-f">print</span>(<span class="hl-f">top_n</span>(s, <span class="hl-s">&quot;sales&quot;</span>, <span class="hl-n">3</span>)[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>]])</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between an argument and a parameter?</strong>
+Parameters are the names in the <code>def</code>; arguments are the values you pass when calling.</p>
+<p><strong>Q: What are <code>*args</code> and <code>**kwargs</code>?</strong>
+They let a function accept any number of extra positional and keyword arguments; the first arrives as a tuple, the second as a dict.</p>
+<p><strong>Q: What is a closure?</strong>
+A function that remembers variables from the scope in which it was created, even after that scope has finished.</p>
+<p><strong>Q: Why is a mutable default argument dangerous?</strong>
+It is evaluated once at definition time, so state leaks between calls.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-08-dictionaries-key-value-data-counting-and-grouping.html"><small>← Previous</small><b>Dictionaries: Key-Value Data, Counting and Grouping</b></a><a class="next" href="python-10-comprehensions-lambda-map-filter-and-generators.html"><small>Next →</small><b>Comprehensions, Lambda, map/filter and Generators</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-functions">Why functions?</a><a href="#parameters-and-arguments">Parameters and arguments</a><a href="#return-values">Return values</a><a href="#scope-local-vs-global">Scope: local vs global</a><a href="#docstrings-and-type-hints">Docstrings and type hints</a><a href="#functions-are-objects">Functions are objects</a><a href="#functions-on-real-data">Functions on real data</a><a href="#recursion-in-one-paragraph">Recursion in one paragraph</a><a href="#common-mistakes">Common mistakes</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

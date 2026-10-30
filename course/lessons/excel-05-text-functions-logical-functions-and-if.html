@@ -1,0 +1,433 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Text Functions, Logical Functions &amp; IF · Excel Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Extract, clean, combine and reformat text with LEFT, RIGHT, MID, LEN, FIND, SEARCH, CONCAT, TEXTJOIN, TEXT and the new TEXTSPLIT/TEXTBEFORE/TEXTAFTER. Then make decisions with AND, OR, NOT, IF, nested IF, IFS, SWITCH and IFERROR."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class="on"><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-05">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 5 of 12</div><h1>Text Functions, Logical Functions &amp; IF</h1>
+<p class="sum">Extract, clean, combine and reformat text with LEFT, RIGHT, MID, LEN, FIND, SEARCH, CONCAT, TEXTJOIN, TEXT and the new TEXTSPLIT/TEXTBEFORE/TEXTAFTER. Then make decisions with AND, OR, NOT, IF, nested IF, IFS, SWITCH and IFERROR.</p><div class="tags"><span class="tag live">● Live classes 3–4</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_05_Text_Functions_Logical_Functions_IF.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-05.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Extract parts of codes, names and emails with LEFT, RIGHT, MID, FIND and SEARCH</li><li>Combine text with &amp;, CONCAT and TEXTJOIN and format numbers inside text with TEXT</li><li>Split text with Text to Columns and the TEXTSPLIT, TEXTBEFORE and TEXTAFTER functions</li><li>Build conditions with AND, OR, NOT and decisions with IF, nested IF, IFS and SWITCH</li><li>Handle errors cleanly with IFERROR and IFNA</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="why-text-functions-matter">Why text functions matter</h2>
+<p>Real data arrives as text: order IDs like <code>IN-2025-00042</code>, product codes, email addresses, "Last, First" names, addresses and free-text comments. Text functions let you pull out the part you need (the year, the region code, the domain) so you can analyse it.</p>
+<h2 id="measuring-and-extracting-text">Measuring and extracting text</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>What it returns</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LEN(text)</code></td>
+<td>Number of characters</td>
+<td><code>=LEN("Pune")</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>LEFT(text, n)</code></td>
+<td>First n characters</td>
+<td><code>=LEFT("IN-2025-00042",2)</code></td>
+<td>IN</td>
+</tr>
+<tr>
+<td><code>RIGHT(text, n)</code></td>
+<td>Last n characters</td>
+<td><code>=RIGHT("IN-2025-00042",5)</code></td>
+<td>00042</td>
+</tr>
+<tr>
+<td><code>MID(text, start, n)</code></td>
+<td>n characters from position start</td>
+<td><code>=MID("IN-2025-00042",4,4)</code></td>
+<td>2025</td>
+</tr>
+<tr>
+<td><code>FIND(find, text, [start])</code></td>
+<td>Position of text (case-sensitive, no wildcards)</td>
+<td><code>=FIND("-","IN-2025-00042")</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>SEARCH(find, text, [start])</code></td>
+<td>Position (not case-sensitive, wildcards allowed)</td>
+<td><code>=SEARCH("pune","PUNE-411001")</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Extracting parts of an order ID</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Order ID</td><td class="c-h">Country =LEFT(A2,2)</td><td class="c-h">Year =MID(A2,4,4)</td><td class="c-h">Order no. =RIGHT(A2,5)</td><td class="c-h">Length</td><td class="c-h">Year as number</td></tr><tr><th>2</th><td class="">IN-2025-00042</td><td class="fx" title="=LEFT(A2,2)">IN</td><td class="fx" title="=MID(A2,4,4)">2025</td><td class="fx" title="=RIGHT(A2,5)">00042</td><td class="fx num" title="=LEN(A2)">13</td><td class="fx num" title="=VALUE(MID(A2,4,4))">2025</td></tr><tr><th>3</th><td class="">IN-2023-01519</td><td class="fx" title="=LEFT(A3,2)">IN</td><td class="fx" title="=MID(A3,4,4)">2023</td><td class="fx" title="=RIGHT(A3,5)">01519</td><td class="fx num" title="=LEN(A3)">13</td><td class="fx num" title="=VALUE(MID(A3,4,4))">2023</td></tr><tr><th>4</th><td class="">IN-2024-02988</td><td class="fx" title="=LEFT(A4,2)">IN</td><td class="fx" title="=MID(A4,4,4)">2024</td><td class="fx" title="=RIGHT(A4,5)">02988</td><td class="fx num" title="=LEN(A4)">13</td><td class="fx num" title="=VALUE(MID(A4,4,4))">2024</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">LEFT</span>(A2,<span class="hl-n">2</span>)</code></li><li><b>C2</b><code>=<span class="hl-f">MID</span>(A2,<span class="hl-n">4</span>,<span class="hl-n">4</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">RIGHT</span>(A2,<span class="hl-n">5</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">LEN</span>(A2)</code></li><li><b>F2</b><code>=<span class="hl-f">VALUE</span>(<span class="hl-f">MID</span>(A2,<span class="hl-n">4</span>,<span class="hl-n">4</span>))</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>Text functions always return <strong>text</strong>. <code>MID(A2,4,4)</code> returns the text <code>"2025"</code>, not the number 2025. Wrap with <code>VALUE()</code> (or multiply by 1) to get a number you can compare or add.</p>
+<h3 id="when-the-position-changes-find-mid">When the position changes: FIND + MID</h3>
+<p>Codes rarely have fixed lengths. Combine <code>FIND</code> with <code>LEFT</code>, <code>MID</code> and <code>RIGHT</code> to cut at a delimiter wherever it is.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Splitting emails at the @ sign</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Email</td><td class="c-h">Position of @</td><td class="c-h">User name</td><td class="c-h">Domain</td></tr><tr><th>2</th><td class="">kavya.iyer@abc.in</td><td class="fx num" title="=FIND(&quot;@&quot;,A2)">11</td><td class="fx" title="=LEFT(A2,FIND(&quot;@&quot;,A2)-1)">kavya.iyer</td><td class="fx" title="=MID(A2,FIND(&quot;@&quot;,A2)+1,100)">abc.in</td></tr><tr><th>3</th><td class="">imran@datacorp.com</td><td class="fx num" title="=FIND(&quot;@&quot;,A3)">6</td><td class="fx" title="=LEFT(A3,FIND(&quot;@&quot;,A3)-1)">imran</td><td class="fx" title="=MID(A3,FIND(&quot;@&quot;,A3)+1,100)">datacorp.com</td></tr><tr><th>4</th><td class="">harpreet.k@skillnavora.in</td><td class="fx num" title="=FIND(&quot;@&quot;,A4)">11</td><td class="fx" title="=LEFT(A4,FIND(&quot;@&quot;,A4)-1)">harpreet.k</td><td class="fx" title="=MID(A4,FIND(&quot;@&quot;,A4)+1,100)">skillnavora.in</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">FIND</span>(<span class="hl-s">&quot;@&quot;</span>,A2)</code></li><li><b>C2</b><code>=<span class="hl-f">LEFT</span>(A2,<span class="hl-f">FIND</span>(<span class="hl-s">&quot;@&quot;</span>,A2)-<span class="hl-n">1</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">MID</span>(A2,<span class="hl-f">FIND</span>(<span class="hl-s">&quot;@&quot;</span>,A2)+<span class="hl-n">1</span>,<span class="hl-n">100</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>Using a large number like 100 in <code>MID</code> simply means "take everything to the end". Alternatively use <code>=RIGHT(A2,LEN(A2)-FIND("@",A2))</code>.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>First and last name from &#x27;First Last&#x27;</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Full name</td><td class="c-h">First name</td><td class="c-h">Last name</td><td class="c-h">Initials</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="fx" title="=LEFT(A2,FIND(&quot; &quot;,A2)-1)">Kavya</td><td class="fx" title="=MID(A2,FIND(&quot; &quot;,A2)+1,50)">Iyer</td><td class="fx" title="=LEFT(A2,1)&amp;LEFT(C2,1)">KI</td></tr><tr><th>3</th><td class="">Harpreet Kulkarni</td><td class="fx" title="=LEFT(A3,FIND(&quot; &quot;,A3)-1)">Harpreet</td><td class="fx" title="=MID(A3,FIND(&quot; &quot;,A3)+1,50)">Kulkarni</td><td class="fx" title="=LEFT(A3,1)&amp;LEFT(C3,1)">HK</td></tr><tr><th>4</th><td class="">Aarav Kulkarni</td><td class="fx" title="=LEFT(A4,FIND(&quot; &quot;,A4)-1)">Aarav</td><td class="fx" title="=MID(A4,FIND(&quot; &quot;,A4)+1,50)">Kulkarni</td><td class="fx" title="=LEFT(A4,1)&amp;LEFT(C4,1)">AK</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">LEFT</span>(A2,<span class="hl-f">FIND</span>(<span class="hl-s">&quot; &quot;</span>,A2)-<span class="hl-n">1</span>)</code></li><li><b>C2</b><code>=<span class="hl-f">MID</span>(A2,<span class="hl-f">FIND</span>(<span class="hl-s">&quot; &quot;</span>,A2)+<span class="hl-n">1</span>,<span class="hl-n">50</span>)</code></li><li><b>D2</b><code>=<span class="hl-f">LEFT</span>(A2,<span class="hl-n">1</span>)&amp;<span class="hl-f">LEFT</span>(C2,<span class="hl-n">1</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<h3 id="find-vs-search">FIND vs SEARCH</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>FIND</th>
+<th>SEARCH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Case-sensitive</td>
+<td>Yes: <code>FIND("a","Apple")</code> → #VALUE!</td>
+<td>No: <code>SEARCH("a","Apple")</code> → 1</td>
+</tr>
+<tr>
+<td>Wildcards <code>*</code> <code>?</code></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Not found</td>
+<td><code>#VALUE!</code></td>
+<td><code>#VALUE!</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>A common pattern to test whether text <strong>contains</strong> a word: <code>=ISNUMBER(SEARCH("chair",B2))</code> returns TRUE or FALSE.</p>
+<h2 id="changing-and-cleaning-text">Changing and cleaning text</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Purpose</th>
+<th>Example → Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UPPER</code>, <code>LOWER</code>, <code>PROPER</code></td>
+<td>Change case</td>
+<td><code>=PROPER("new delhi")</code> → New Delhi</td>
+</tr>
+<tr>
+<td><code>TRIM</code></td>
+<td>Remove extra spaces</td>
+<td><code>=TRIM("  a   b ")</code> → a b</td>
+</tr>
+<tr>
+<td><code>CLEAN</code></td>
+<td>Remove non-printing characters</td>
+<td>Line breaks from web data</td>
+</tr>
+<tr>
+<td><code>SUBSTITUTE(text, old, new, [n])</code></td>
+<td>Replace by content</td>
+<td><code>=SUBSTITUTE("2025-04-27","-","/")</code> → 2025/04/27</td>
+</tr>
+<tr>
+<td><code>REPLACE(text, start, n, new)</code></td>
+<td>Replace by position</td>
+<td><code>=REPLACE("E101",1,1,"EMP")</code> → EMP101</td>
+</tr>
+<tr>
+<td><code>REPT(text, n)</code></td>
+<td>Repeat text</td>
+<td><code>=REPT("★",4)</code> → ★★★★</td>
+</tr>
+<tr>
+<td><code>EXACT(a, b)</code></td>
+<td>Case-sensitive comparison</td>
+<td><code>=EXACT("abc","ABC")</code> → FALSE</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Count how many times a character appears</b></div><p><code>=LEN(A2)-LEN(SUBSTITUTE(A2,",",""))</code> counts commas in A2 (the length difference after removing them). Add 1 to count items in a comma-separated list.</p></div>
+<h2 id="joining-text">Joining text</h2>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Three ways to combine text</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">First</td><td class="c-h">Last</td><td class="c-h">City</td><td class="c-h">With &amp;</td><td class="c-h">CONCAT</td><td class="c-h">TEXTJOIN</td></tr><tr><th>2</th><td class="">Kavya</td><td class="">Iyer</td><td class="">Mumbai</td><td class="fx" title="=A2&amp;&quot; &quot;&amp;B2&amp;&quot; (&quot;&amp;C2&amp;&quot;)&quot;">Kavya Iyer (Mumbai)</td><td class="fx" title="=CONCAT(A2,&quot; &quot;,B2)">Kavya Iyer</td><td class="fx" title="=TEXTJOIN(&quot;, &quot;,TRUE,A2:C2)">Kavya, Iyer, Mumbai</td></tr><tr><th>3</th><td class="">Imran</td><td class=""></td><td class="">Delhi</td><td class="fx" title="=A3&amp;&quot; &quot;&amp;B3&amp;&quot; (&quot;&amp;C3&amp;&quot;)&quot;">Imran  (Delhi)</td><td class="fx" title="=CONCAT(A3,&quot; &quot;,B3)">Imran </td><td class="fx" title="=TEXTJOIN(&quot;, &quot;,TRUE,A3:C3)">Imran, Delhi</td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=A2&amp;<span class="hl-s">&quot; &quot;</span>&amp;B2&amp;<span class="hl-s">&quot; (&quot;</span>&amp;C2&amp;<span class="hl-s">&quot;)&quot;</span></code></li><li><b>E2</b><code>=<span class="hl-f">CONCAT</span>(A2,<span class="hl-s">&quot; &quot;</span>,B2)</code></li><li><b>F2</b><code>=<span class="hl-f">TEXTJOIN</span>(<span class="hl-s">&quot;, &quot;</span>,TRUE,A2:C2)</code></li><li><b>D3</b><code>=A3&amp;<span class="hl-s">&quot; &quot;</span>&amp;B3&amp;<span class="hl-s">&quot; (&quot;</span>&amp;C3&amp;<span class="hl-s">&quot;)&quot;</span></code></li><li><b>E3</b><code>=<span class="hl-f">CONCAT</span>(A3,<span class="hl-s">&quot; &quot;</span>,B3)</code></li><li><b>F3</b><code>=<span class="hl-f">TEXTJOIN</span>(<span class="hl-s">&quot;, &quot;</span>,TRUE,A3:C3)</code></li></ul></div>
+<ul>
+<li><code>&amp;</code> is the quickest way to join a few pieces.</li>
+<li><code>CONCAT</code> joins ranges as well as single cells (it replaces the older <code>CONCATENATE</code>).</li>
+<li><code>TEXTJOIN(delimiter, ignore_empty, …)</code> puts a separator between items and can <strong>skip blanks</strong>, which is why row 3 shows "Imran, Delhi" without a double comma.</li>
+</ul>
+<h3 id="numbers-and-dates-inside-text-text">Numbers and dates inside text: TEXT</h3>
+<p>Joining a number or date directly shows its raw value: <code>="Sales: "&amp;A2</code> gives <code>Sales: 1234567.891</code>, and a date shows as <code>46139</code>. Use <code>TEXT(value, format)</code> to control how it appears.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>TEXT() inside labels</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th></tr><tr><th>1</th><td class="c-h">Value</td><td class="c-h">Label formula result</td></tr><tr><th>2</th><td class="num">1,234,568</td><td class="fx" title="=&quot;Revenue: ₹&quot;&amp;TEXT(A2,&quot;#,##0&quot;)">Revenue: ₹1,234,568</td></tr><tr><th>3</th><td class="">27-04-2026</td><td class="fx" title="=&quot;Report date: &quot;&amp;TEXT(A3,&quot;dd mmm yyyy&quot;)">Report date: 27 Apr 2026</td></tr><tr><th>4</th><td class="num">0.1834</td><td class="fx" title="=&quot;Growth: &quot;&amp;TEXT(A4,&quot;0.0%&quot;)">Growth: 18.3%</td></tr><tr><th>5</th><td class="">27-04-2026</td><td class="fx" title="=&quot;Day: &quot;&amp;TEXT(A5,&quot;dddd&quot;)">Day: Monday</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-s">&quot;Revenue: ₹&quot;</span>&amp;<span class="hl-f">TEXT</span>(A2,<span class="hl-s">&quot;#,##0&quot;</span>)</code></li><li><b>B3</b><code>=<span class="hl-s">&quot;Report date: &quot;</span>&amp;<span class="hl-f">TEXT</span>(A3,<span class="hl-s">&quot;dd mmm yyyy&quot;</span>)</code></li><li><b>B4</b><code>=<span class="hl-s">&quot;Growth: &quot;</span>&amp;<span class="hl-f">TEXT</span>(A4,<span class="hl-s">&quot;0.0%&quot;</span>)</code></li><li><b>B5</b><code>=<span class="hl-s">&quot;Day: &quot;</span>&amp;<span class="hl-f">TEXT</span>(A5,<span class="hl-s">&quot;dddd&quot;</span>)</code></li></ul></div>
+<h2 id="splitting-text">Splitting text</h2>
+<p><strong>Text to Columns</strong> (Lesson 2) splits once into static values. Microsoft 365 adds formula versions that update automatically:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TEXTBEFORE(text, delimiter, [instance])</code></td>
+<td><code>=TEXTBEFORE("kavya.iyer@abc.in","@")</code></td>
+<td>kavya.iyer</td>
+</tr>
+<tr>
+<td><code>TEXTAFTER(text, delimiter, [instance])</code></td>
+<td><code>=TEXTAFTER("IN-2025-00042","-",-1)</code></td>
+<td>00042 (−1 = last hyphen)</td>
+</tr>
+<tr>
+<td><code>TEXTSPLIT(text, col_delim, [row_delim])</code></td>
+<td><code>=TEXTSPLIT("North,South,East",",")</code></td>
+<td>spills North / South / East across three cells</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>TEXTSPLIT spills into neighbouring cells (Microsoft 365)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Input</td><td class=""></td><td class=""></td><td class=""></td><td class=""></td></tr><tr><th>2</th><td class="">IN-2025-00042</td><td class="fx" title="=TEXTSPLIT(A2,&quot;-&quot;)">IN</td><td class=""></td><td class=""></td><td class=""></td></tr><tr><th>3</th><td class="">Furniture</td><td class="">Chairs</td><td class="">Apex Chair 412</td><td class=""></td><td class=""></td></tr><tr><th>4</th><td class="fx" title="=TEXTJOIN(&quot; &gt; &quot;,TRUE,A3:C3)">Furniture &gt; Chairs &gt; Apex Chair 412</td><td class=""></td><td class=""></td><td class=""></td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">TEXTSPLIT</span>(A2,<span class="hl-s">&quot;-&quot;</span>)</code></li><li><b>A4</b><code>=<span class="hl-f">TEXTJOIN</span>(<span class="hl-s">&quot; &gt; &quot;</span>,TRUE,A3:C3)</code></li></ul></div>
+<p>The blue cells are a <strong>spill range</strong>: one formula fills several cells. If any of those cells already contain something, the formula shows <code>#SPILL!</code> (Lesson 6).</p>
+<div class="co co-new"><div class="co-h"><span class="pill">2026 update</span><b>Regular expressions in Excel (2025)</b></div><p>Microsoft 365 has added <code>REGEXTEST</code>, <code>REGEXEXTRACT</code> and <code>REGEXREPLACE</code>. For example <code>=REGEXEXTRACT(A2,"\d{6}")</code> pulls a 6-digit PIN code out of an address, and <code>=REGEXTEST(A2,"^[\w.]+@[\w.]+\.\w+$")</code> checks that an email looks valid. They are covered with Python regex in the Python track.</p></div>
+<h2 id="logical-functions-true-or-false">Logical functions: TRUE or FALSE</h2>
+<p>Comparisons such as <code>=B2&gt;100</code> return TRUE or FALSE. Logical functions combine them:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns TRUE when</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AND(c1, c2, …)</code></td>
+<td><strong>All</strong> conditions are TRUE</td>
+<td><code>=AND(B2&gt;=4, C2="Sales")</code></td>
+</tr>
+<tr>
+<td><code>OR(c1, c2, …)</code></td>
+<td><strong>At least one</strong> condition is TRUE</td>
+<td><code>=OR(D2="Delhi", D2="Mumbai")</code></td>
+</tr>
+<tr>
+<td><code>NOT(c)</code></td>
+<td>The condition is FALSE</td>
+<td><code>=NOT(E2="Done")</code></td>
+</tr>
+<tr>
+<td><code>XOR(c1, c2)</code></td>
+<td>An odd number of conditions are TRUE</td>
+<td>Rarely needed</td>
+</tr>
+</tbody>
+</table></div>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>AND, OR and NOT on employee data</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr><tr><th>1</th><td class="c-h">Name</td><td class="c-h">Department</td><td class="c-h">City</td><td class="c-h">Rating</td><td class="c-h">Salary</td><td class="c-h">Sales &amp; rating≥4</td><td class="c-h">Metro city</td><td class="c-h">Not HR</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="">HR</td><td class="">Mumbai</td><td class="num">4</td><td class="num">97000</td><td class="fx" title="=AND(B2=&quot;Sales&quot;,D2&gt;=4)">FALSE</td><td class="fx" title="=OR(C2=&quot;Delhi&quot;,C2=&quot;Mumbai&quot;)">TRUE</td><td class="fx" title="=NOT(B2=&quot;HR&quot;)">FALSE</td></tr><tr><th>3</th><td class="">Isha Mehta</td><td class="">Sales</td><td class="">Delhi</td><td class="num">3</td><td class="num">57000</td><td class="fx" title="=AND(B3=&quot;Sales&quot;,D3&gt;=4)">FALSE</td><td class="fx" title="=OR(C3=&quot;Delhi&quot;,C3=&quot;Mumbai&quot;)">TRUE</td><td class="fx" title="=NOT(B3=&quot;HR&quot;)">TRUE</td></tr><tr><th>4</th><td class="">Aadhya Nair</td><td class="">Sales</td><td class="">Bengaluru</td><td class="num">5</td><td class="num">45000</td><td class="fx" title="=AND(B4=&quot;Sales&quot;,D4&gt;=4)">TRUE</td><td class="fx" title="=OR(C4=&quot;Delhi&quot;,C4=&quot;Mumbai&quot;)">FALSE</td><td class="fx" title="=NOT(B4=&quot;HR&quot;)">TRUE</td></tr><tr><th>5</th><td class="">Krishna Khan</td><td class="">Sales</td><td class="">Mumbai</td><td class="num">3</td><td class="num">156000</td><td class="fx" title="=AND(B5=&quot;Sales&quot;,D5&gt;=4)">FALSE</td><td class="fx" title="=OR(C5=&quot;Delhi&quot;,C5=&quot;Mumbai&quot;)">TRUE</td><td class="fx" title="=NOT(B5=&quot;HR&quot;)">TRUE</td></tr></table></div></div><ul class="xl-f"><li><b>F2</b><code>=<span class="hl-f">AND</span>(B2=<span class="hl-s">&quot;Sales&quot;</span>,D2&gt;=<span class="hl-n">4</span>)</code></li><li><b>G2</b><code>=<span class="hl-f">OR</span>(C2=<span class="hl-s">&quot;Delhi&quot;</span>,C2=<span class="hl-s">&quot;Mumbai&quot;</span>)</code></li><li><b>H2</b><code>=<span class="hl-f">NOT</span>(B2=<span class="hl-s">&quot;HR&quot;</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>TRUE = 1, FALSE = 0</b></div><p>In arithmetic Excel treats TRUE as 1 and FALSE as 0. <code>=SUM(--(D2:D21&gt;=4))</code> counts ratings of 4 or more (the double minus converts TRUE/FALSE to 1/0). This trick powers <code>SUMPRODUCT</code> in Lesson 6.</p></div>
+<h2 id="if-making-decisions">IF: making decisions</h2>
+<p><code>=IF(logical_test, value_if_true, value_if_false)</code></p>
+<figure class="fig"><img src="../img/excel-05-01.png" alt="IF checks a condition and returns one of two results." loading="lazy"><figcaption>IF checks a condition and returns one of two results.</figcaption></figure>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>IF in practice</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Name</td><td class="c-h">Salary</td><td class="c-h">Rating</td><td class="c-h">Band</td><td class="c-h">Bonus (10% if rating ≥ 4)</td><td class="c-h">Pass/Fail target 80k</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="num">97000</td><td class="num">4</td><td class="fx" title="=IF(B2&gt;=100000,&quot;High&quot;,&quot;Standard&quot;)">Standard</td><td class="fx num" title="=IF(C2&gt;=4,B2*10%,0)">9,700</td><td class="fx" title="=IF(B2&gt;=80000,&quot;Pass&quot;,&quot;Fail&quot;)">Pass</td></tr><tr><th>3</th><td class="">Imran Reddy</td><td class="num">157000</td><td class="num">3</td><td class="fx" title="=IF(B3&gt;=100000,&quot;High&quot;,&quot;Standard&quot;)">High</td><td class="fx num" title="=IF(C3&gt;=4,B3*10%,0)">0</td><td class="fx" title="=IF(B3&gt;=80000,&quot;Pass&quot;,&quot;Fail&quot;)">Pass</td></tr><tr><th>4</th><td class="">Isha Mehta</td><td class="num">57000</td><td class="num">3</td><td class="fx" title="=IF(B4&gt;=100000,&quot;High&quot;,&quot;Standard&quot;)">Standard</td><td class="fx num" title="=IF(C4&gt;=4,B4*10%,0)">0</td><td class="fx" title="=IF(B4&gt;=80000,&quot;Pass&quot;,&quot;Fail&quot;)">Fail</td></tr><tr><th>5</th><td class="">Vikram Joshi</td><td class="num">75000</td><td class="num">5</td><td class="fx" title="=IF(B5&gt;=100000,&quot;High&quot;,&quot;Standard&quot;)">Standard</td><td class="fx num" title="=IF(C5&gt;=4,B5*10%,0)">7,500</td><td class="fx" title="=IF(B5&gt;=80000,&quot;Pass&quot;,&quot;Fail&quot;)">Fail</td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=<span class="hl-f">IF</span>(B2&gt;=<span class="hl-n">100000</span>,<span class="hl-s">&quot;High&quot;</span>,<span class="hl-s">&quot;Standard&quot;</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">IF</span>(C2&gt;=<span class="hl-n">4</span>,B2*<span class="hl-n">10</span>%,<span class="hl-n">0</span>)</code></li><li><b>F2</b><code>=<span class="hl-f">IF</span>(B2&gt;=<span class="hl-n">80000</span>,<span class="hl-s">&quot;Pass&quot;</span>,<span class="hl-s">&quot;Fail&quot;</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<p>IF can return text, numbers, another formula's result, or <code>""</code> (an empty-looking cell).</p>
+<h3 id="combining-if-with-and-and-or">Combining IF with AND and OR</h3>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>IF + AND / OR</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Name</td><td class="c-h">Dept</td><td class="c-h">Rating</td><td class="c-h">Years</td><td class="c-h">Promotion: rating ≥4 AND years ≥3</td><td class="c-h">Review: rating ≤2 OR years &lt;1</td></tr><tr><th>2</th><td class="">Kavya Iyer</td><td class="">HR</td><td class="num">4</td><td class="num">10</td><td class="fx" title="=IF(AND(C2&gt;=4,D2&gt;=3),&quot;Eligible&quot;,&quot;Not yet&quot;)">Eligible</td><td class="fx" title="=IF(OR(C2&lt;=2,D2&lt;1),&quot;Review&quot;,&quot;OK&quot;)">OK</td></tr><tr><th>3</th><td class="">Saanvi Rao</td><td class="">HR</td><td class="num">4</td><td class="num">1</td><td class="fx" title="=IF(AND(C3&gt;=4,D3&gt;=3),&quot;Eligible&quot;,&quot;Not yet&quot;)">Not yet</td><td class="fx" title="=IF(OR(C3&lt;=2,D3&lt;1),&quot;Review&quot;,&quot;OK&quot;)">OK</td></tr><tr><th>4</th><td class="">Aarav Kulkarni</td><td class="">HR</td><td class="num">2</td><td class="num">1</td><td class="fx" title="=IF(AND(C4&gt;=4,D4&gt;=3),&quot;Eligible&quot;,&quot;Not yet&quot;)">Not yet</td><td class="fx" title="=IF(OR(C4&lt;=2,D4&lt;1),&quot;Review&quot;,&quot;OK&quot;)">Review</td></tr><tr><th>5</th><td class="">Neha Menon</td><td class="">Sales</td><td class="num">3</td><td class="num">0</td><td class="fx" title="=IF(AND(C5&gt;=4,D5&gt;=3),&quot;Eligible&quot;,&quot;Not yet&quot;)">Not yet</td><td class="fx" title="=IF(OR(C5&lt;=2,D5&lt;1),&quot;Review&quot;,&quot;OK&quot;)">Review</td></tr></table></div></div><ul class="xl-f"><li><b>E2</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">AND</span>(C2&gt;=<span class="hl-n">4</span>,D2&gt;=<span class="hl-n">3</span>),<span class="hl-s">&quot;Eligible&quot;</span>,<span class="hl-s">&quot;Not yet&quot;</span>)</code></li><li><b>F2</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">OR</span>(C2&lt;=<span class="hl-n">2</span>,D2&lt;<span class="hl-n">1</span>),<span class="hl-s">&quot;Review&quot;</span>,<span class="hl-s">&quot;OK&quot;</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<h3 id="nested-if-vs-ifs">Nested IF vs IFS</h3>
+<p>For more than two outcomes, you can put an IF inside another IF (<strong>nested IF</strong>), or use <strong>IFS</strong>, which is easier to read.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Grading marks: nested IF and IFS give the same result</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Marks</td><td class="c-h">Nested IF</td><td class="c-h">IFS</td></tr><tr><th>2</th><td class="num">92</td><td class="fx" title="=IF(A2&gt;=90,&quot;A&quot;,IF(A2&gt;=75,&quot;B&quot;,IF(A2&gt;=60,&quot;C&quot;,&quot;Fail&quot;)))">A</td><td class="fx" title="=IFS(A2&gt;=90,&quot;A&quot;,A2&gt;=75,&quot;B&quot;,A2&gt;=60,&quot;C&quot;,TRUE,&quot;Fail&quot;)">A</td></tr><tr><th>3</th><td class="num">78</td><td class="fx" title="=IF(A3&gt;=90,&quot;A&quot;,IF(A3&gt;=75,&quot;B&quot;,IF(A3&gt;=60,&quot;C&quot;,&quot;Fail&quot;)))">B</td><td class="fx" title="=IFS(A3&gt;=90,&quot;A&quot;,A3&gt;=75,&quot;B&quot;,A3&gt;=60,&quot;C&quot;,TRUE,&quot;Fail&quot;)">B</td></tr><tr><th>4</th><td class="num">60</td><td class="fx" title="=IF(A4&gt;=90,&quot;A&quot;,IF(A4&gt;=75,&quot;B&quot;,IF(A4&gt;=60,&quot;C&quot;,&quot;Fail&quot;)))">C</td><td class="fx" title="=IFS(A4&gt;=90,&quot;A&quot;,A4&gt;=75,&quot;B&quot;,A4&gt;=60,&quot;C&quot;,TRUE,&quot;Fail&quot;)">C</td></tr><tr><th>5</th><td class="num">41</td><td class="fx" title="=IF(A5&gt;=90,&quot;A&quot;,IF(A5&gt;=75,&quot;B&quot;,IF(A5&gt;=60,&quot;C&quot;,&quot;Fail&quot;)))">Fail</td><td class="fx" title="=IFS(A5&gt;=90,&quot;A&quot;,A5&gt;=75,&quot;B&quot;,A5&gt;=60,&quot;C&quot;,TRUE,&quot;Fail&quot;)">Fail</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">IF</span>(A2&gt;=<span class="hl-n">90</span>,<span class="hl-s">&quot;A&quot;</span>,<span class="hl-f">IF</span>(A2&gt;=<span class="hl-n">75</span>,<span class="hl-s">&quot;B&quot;</span>,<span class="hl-f">IF</span>(A2&gt;=<span class="hl-n">60</span>,<span class="hl-s">&quot;C&quot;</span>,<span class="hl-s">&quot;Fail&quot;</span>)))</code></li><li><b>C2</b><code>=<span class="hl-f">IFS</span>(A2&gt;=<span class="hl-n">90</span>,<span class="hl-s">&quot;A&quot;</span>,A2&gt;=<span class="hl-n">75</span>,<span class="hl-s">&quot;B&quot;</span>,A2&gt;=<span class="hl-n">60</span>,<span class="hl-s">&quot;C&quot;</span>,TRUE,<span class="hl-s">&quot;Fail&quot;</span>)</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Order matters in nested IF and IFS</b></div><p>Excel stops at the <strong>first</strong> TRUE condition. If you test <code>A2&gt;=60</code> first, a mark of 92 returns "C". Always test from the highest threshold to the lowest (or lowest to highest with <code>&lt;</code>). In IFS, end with <code>TRUE, "default"</code> so values that match nothing do not return <code>#N/A</code>.</p></div>
+<h3 id="switch-matching-exact-values">SWITCH: matching exact values</h3>
+<p>When you compare one value against a list of exact matches, <code>SWITCH</code> is cleaner than nested IFs.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>SWITCH maps codes to names</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th></tr><tr><th>1</th><td class="c-h">Region code</td><td class="c-h">Region name</td></tr><tr><th>2</th><td class="">N</td><td class="fx" title="=SWITCH(A2,&quot;N&quot;,&quot;North&quot;,&quot;S&quot;,&quot;South&quot;,&quot;E&quot;,&quot;East&quot;,&quot;W&quot;,&quot;West&quot;,&quot;Unknown&quot;)">North</td></tr><tr><th>3</th><td class="">W</td><td class="fx" title="=SWITCH(A3,&quot;N&quot;,&quot;North&quot;,&quot;S&quot;,&quot;South&quot;,&quot;E&quot;,&quot;East&quot;,&quot;W&quot;,&quot;West&quot;,&quot;Unknown&quot;)">West</td></tr><tr><th>4</th><td class="">X</td><td class="fx" title="=SWITCH(A4,&quot;N&quot;,&quot;North&quot;,&quot;S&quot;,&quot;South&quot;,&quot;E&quot;,&quot;East&quot;,&quot;W&quot;,&quot;West&quot;,&quot;Unknown&quot;)">Unknown</td></tr></table></div></div><ul class="xl-f"><li><b>B2</b><code>=<span class="hl-f">SWITCH</span>(A2,<span class="hl-s">&quot;N&quot;</span>,<span class="hl-s">&quot;North&quot;</span>,<span class="hl-s">&quot;S&quot;</span>,<span class="hl-s">&quot;South&quot;</span>,<span class="hl-s">&quot;E&quot;</span>,<span class="hl-s">&quot;East&quot;</span>,<span class="hl-s">&quot;W&quot;</span>,<span class="hl-s">&quot;West&quot;</span>,<span class="hl-s">&quot;Unknown&quot;</span>)</code></li><li><b>B3</b><code>=<span class="hl-f">SWITCH</span>(A3,<span class="hl-s">&quot;N&quot;</span>,<span class="hl-s">&quot;North&quot;</span>,<span class="hl-s">&quot;S&quot;</span>,<span class="hl-s">&quot;South&quot;</span>,<span class="hl-s">&quot;E&quot;</span>,<span class="hl-s">&quot;East&quot;</span>,<span class="hl-s">&quot;W&quot;</span>,<span class="hl-s">&quot;West&quot;</span>,<span class="hl-s">&quot;Unknown&quot;</span>)</code></li><li><b>B4</b><code>=<span class="hl-f">SWITCH</span>(A4,<span class="hl-s">&quot;N&quot;</span>,<span class="hl-s">&quot;North&quot;</span>,<span class="hl-s">&quot;S&quot;</span>,<span class="hl-s">&quot;South&quot;</span>,<span class="hl-s">&quot;E&quot;</span>,<span class="hl-s">&quot;East&quot;</span>,<span class="hl-s">&quot;W&quot;</span>,<span class="hl-s">&quot;West&quot;</span>,<span class="hl-s">&quot;Unknown&quot;</span>)</code></li></ul></div>
+<p>For long mappings, a lookup table with XLOOKUP (Lesson 7) is better than a long formula, because the mapping can be edited without touching formulas.</p>
+<h2 id="handling-errors-iferror-and-ifna">Handling errors: IFERROR and IFNA</h2>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>IFERROR replaces any error with a value you choose</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Sales</td><td class="c-h">Orders</td><td class="c-h">Average order</td><td class="c-h">With IFERROR</td></tr><tr><th>2</th><td class="num">120000</td><td class="num">40</td><td class="fx num" title="=A2/B2">3,000</td><td class="fx num" title="=IFERROR(A2/B2,0)">3,000</td></tr><tr><th>3</th><td class="num">0</td><td class="num">0</td><td class="fx" title="=A3/B3">#DIV/0!</td><td class="fx num" title="=IFERROR(A3/B3,0)">0</td></tr><tr><th>4</th><td class="num">95000</td><td class="num">25</td><td class="fx num" title="=A4/B4">3,800</td><td class="fx num" title="=IFERROR(A4/B4,0)">3,800</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=A2/B2</code></li><li><b>D2</b><code>=<span class="hl-f">IFERROR</span>(A2/B2,<span class="hl-n">0</span>)</code></li><li><b>C3</b><code>=A3/B3</code></li><li><b>D3</b><code>=<span class="hl-f">IFERROR</span>(A3/B3,<span class="hl-n">0</span>)</code></li><li><b>C4</b><code>=A4/B4</code></li><li><b>D4</b><code>=<span class="hl-f">IFERROR</span>(A4/B4,<span class="hl-n">0</span>)</code></li></ul></div>
+<ul>
+<li><code>IFERROR(value, value_if_error)</code> catches <strong>every</strong> error type.</li>
+<li><code>IFNA(value, value_if_na)</code> catches only <code>#N/A</code>, typically from lookups, so real problems such as <code>#REF!</code> stay visible.</li>
+</ul>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Do not hide problems</b></div><p>Wrapping every formula in IFERROR can hide genuine mistakes (a deleted column, a typo). Use it where an error is expected and meaningful (division by zero, value not found), and prefer IFNA for lookups.</p></div>
+<h2 id="case-building-columns-for-the-superstore-data">Case: building columns for the Superstore data</h2>
+<p>Here is how analysts typically enrich the Superstore order table with text and logical formulas before analysis. The same logic in pandas gives us the real results on all 6,323 rows:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+s[<span class="hl-s">&quot;order_year&quot;</span>] = s[<span class="hl-s">&quot;order_id&quot;</span>].str[<span class="hl-n">3</span>:<span class="hl-n">7</span>].<span class="hl-f">astype</span>(int)            <span class="hl-c"># =VALUE(MID(A2,4,4))</span>
+s[<span class="hl-s">&quot;product_brand&quot;</span>] = s[<span class="hl-s">&quot;product_name&quot;</span>].<span class="hl-f">str.split</span>(<span class="hl-s">&quot; &quot;</span>).str[<span class="hl-n">0</span>]     <span class="hl-c"># =TEXTBEFORE(N2,&quot; &quot;)</span>
+s[<span class="hl-s">&quot;profit_flag&quot;</span>] = s[<span class="hl-s">&quot;profit&quot;</span>].<span class="hl-f">apply</span>(<span class="hl-k">lambda</span> p: <span class="hl-s">&quot;Loss&quot;</span> <span class="hl-k">if</span> p &lt; <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-s">&quot;Profit&quot;</span>)       <span class="hl-c"># =IF(R2&lt;0,&quot;Loss&quot;,&quot;Profit&quot;)</span>
+s[<span class="hl-s">&quot;discount_band&quot;</span>] = <span class="hl-f">pd.cut</span>(s[<span class="hl-s">&quot;discount&quot;</span>], [-<span class="hl-n">0.01</span>, <span class="hl-n">0</span>, <span class="hl-n">0.2</span>, <span class="hl-n">1</span>], labels=[<span class="hl-s">&quot;No discount&quot;</span>, <span class="hl-s">&quot;Up to 20%&quot;</span>, <span class="hl-s">&quot;Above 20%&quot;</span>])  <span class="hl-c"># =IFS(...)</span>
+s[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;order_year&quot;</span>, <span class="hl-s">&quot;product_name&quot;</span>, <span class="hl-s">&quot;product_brand&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>, <span class="hl-s">&quot;discount_band&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-s">&quot;profit_flag&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">6</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>order_year</th>
+      <th>product_name</th>
+      <th>product_brand</th>
+      <th>discount</th>
+      <th>discount_band</th>
+      <th>profit</th>
+      <th>profit_flag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>IN-2023-00001</td>
+      <td>2023</td>
+      <td>Nova Phone 223</td>
+      <td>Nova</td>
+      <td>0.0</td>
+      <td>No discount</td>
+      <td>3,472.55</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>IN-2023-00001</td>
+      <td>2023</td>
+      <td>Orbit Appliance 798</td>
+      <td>Orbit</td>
+      <td>0.0</td>
+      <td>No discount</td>
+      <td>1,169.54</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IN-2023-00001</td>
+      <td>2023</td>
+      <td>Orbit Table 248</td>
+      <td>Orbit</td>
+      <td>0.0</td>
+      <td>No discount</td>
+      <td>6,044.47</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>IN-2023-00002</td>
+      <td>2023</td>
+      <td>Crest Storage 946</td>
+      <td>Crest</td>
+      <td>0.2</td>
+      <td>Up to 20%</td>
+      <td>450.16</td>
+      <td>Profit</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>IN-2023-00003</td>
+      <td>2023</td>
+      <td>Crest Bookcase 170</td>
+      <td>Crest</td>
+      <td>0.3</td>
+      <td>Above 20%</td>
+      <td>-5,512.33</td>
+      <td>Loss</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>IN-2023-00003</td>
+      <td>2023</td>
+      <td>Zenith Table 111</td>
+      <td>Zenith</td>
+      <td>0.3</td>
+      <td>Above 20%</td>
+      <td>-1,598.43</td>
+      <td>Loss</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 8 columns</div></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">pd.crosstab</span>(s[<span class="hl-s">&quot;discount_band&quot;</span>], s[<span class="hl-s">&quot;profit_flag&quot;</span>], margins=<span class="hl-k">True</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>profit_flag</th>
+      <th>Loss</th>
+      <th>Profit</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>discount_band</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>No discount</th>
+      <td>8</td>
+      <td>3472</td>
+      <td>3480</td>
+    </tr>
+    <tr>
+      <th>Up to 20%</th>
+      <td>776</td>
+      <td>1167</td>
+      <td>1943</td>
+    </tr>
+    <tr>
+      <th>Above 20%</th>
+      <td>898</td>
+      <td>2</td>
+      <td>900</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>1682</td>
+      <td>4641</td>
+      <td>6323</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<p>The crosstab already tells a business story: almost every order-line with a discount above 20% makes a loss. You will build this same view as a pivot table in Lesson 8.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>New column</th>
+<th>Excel formula (row 2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Order year</td>
+<td><code>=VALUE(MID(B2,4,4))</code></td>
+</tr>
+<tr>
+<td>Brand</td>
+<td><code>=TEXTBEFORE(N2," ")</code> or <code>=LEFT(N2,FIND(" ",N2)-1)</code></td>
+</tr>
+<tr>
+<td>Profit flag</td>
+<td><code>=IF(S2&lt;0,"Loss","Profit")</code></td>
+</tr>
+<tr>
+<td>Discount band</td>
+<td><code>=IFS(Q2=0,"No discount",Q2&lt;=0.2,"Up to 20%",TRUE,"Above 20%")</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Prompt: <em>"Column B has order IDs like IN-2025-00042. Write an Excel formula to extract the year as a number, and another to flag orders where discount (Q) is above 20% and profit (S) is negative as 'Review'. Explain each part."</em> Expected answer: <code>=VALUE(MID(B2,4,4))</code> and <code>=IF(AND(Q2&gt;0.2,S2&lt;0),"Review","")</code>.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>LEFT</code>, <code>RIGHT</code>, <code>MID</code> extract text; <code>FIND</code>/<code>SEARCH</code> locate a character so you can cut at a delimiter.</li>
+<li>Text functions return text: wrap with <code>VALUE()</code> to get numbers.</li>
+<li>Join with <code>&amp;</code>, <code>CONCAT</code> or <code>TEXTJOIN</code> (which can skip blanks); format numbers inside labels with <code>TEXT</code>.</li>
+<li><code>TEXTSPLIT</code>, <code>TEXTBEFORE</code> and <code>TEXTAFTER</code> split text with formulas that update.</li>
+<li><code>AND</code> needs all conditions, <code>OR</code> needs any; TRUE counts as 1 in arithmetic.</li>
+<li>Use <code>IFS</code> (with a final <code>TRUE</code>) instead of deep nested IFs; order conditions from strictest to loosest.</li>
+<li>Use <code>IFERROR</code> for expected errors and <code>IFNA</code> for lookups.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>=MID("SKU-7781-BLU",5,4)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>SKU-</button><button type="button" class="opt" data-ok="1"><i>B</i>7781</button><button type="button" class="opt" data-ok="0"><i>C</i>781-</button><button type="button" class="opt" data-ok="0"><i>D</i>BLU</button></div><div class="qexp"><b>Answer: B.</b> MID starts at position 5 ("7") and takes 4 characters: 7781.</div></div><div class="qq"><p class="qtext"><b>2.</b> A2 contains <code>ravi.verma@xyz.com</code>. Which formula returns <code>ravi.verma</code>?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i><code>=LEFT(A2,FIND("@",A2)-1)</code></button><button type="button" class="opt" data-ok="0"><i>B</i><code>=LEFT(A2,FIND("@",A2))</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=RIGHT(A2,FIND("@",A2))</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=MID(A2,1,FIND(".",A2))</code></button></div><div class="qexp"><b>Answer: A.</b> FIND returns 11 (the @ position); take 10 characters from the left.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which function joins A2:D2 with ", " and skips empty cells?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=CONCAT(A2:D2)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=TEXTJOIN(", ",TRUE,A2:D2)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=A2&amp;", "&amp;B2&amp;", "&amp;C2&amp;", "&amp;D2</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=TEXT(A2:D2,", ")</code></button></div><div class="qexp"><b>Answer: B.</b> TEXTJOIN's second argument TRUE ignores empty cells.</div></div><div class="qq"><p class="qtext"><b>4.</b> <code>=IF(A2&gt;=60,"C",IF(A2&gt;=75,"B","A"))</code> is used to grade a mark of 85. What is the result?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>C</button><button type="button" class="opt" data-ok="0"><i>B</i>B</button><button type="button" class="opt" data-ok="0"><i>C</i>A</button><button type="button" class="opt" data-ok="0"><i>D</i><h1 id="value">VALUE!</h1></button></div><div class="qexp"><b>Answer: A.</b> The first test (85 &gt;= 60) is TRUE, so "C" is returned immediately. The conditions are in the wrong order.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why end an IFS formula with <code>TRUE,"Other"</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes IFS case-insensitive</button><button type="button" class="opt" data-ok="1"><i>B</i>It returns a default value instead of #N/A when no condition matches</button><button type="button" class="opt" data-ok="0"><i>C</i>It is required syntax</button><button type="button" class="opt" data-ok="0"><i>D</i>It speeds up the calculation</button></div><div class="qexp"><b>Answer: B.</b> TRUE always matches, so it acts as the "else" branch.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does <code>="Total: "&amp;TEXT(1234.5,"#,##0")</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Total: 1234.5</button><button type="button" class="opt" data-ok="1"><i>B</i>Total: 1,235</button><button type="button" class="opt" data-ok="0"><i>C</i>Total: 1,234</button><button type="button" class="opt" data-ok="0"><i>D</i>Total: #,##0</button></div><div class="qexp"><b>Answer: B.</b> TEXT formats the number with separators and no decimals, rounding 1234.5 to 1,235.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Product codes</b></div><p>Codes look like <code>FUR-CH-10001234</code> (category-subcategory-number). Write formulas for: (a) the category code; (b) the sub-category code; (c) the number as a value; (d) a flag "Furniture" when the category is FUR, otherwise "Other".</p><details class="sol"><summary>Show solution</summary><p>(a) <code>=LEFT(A2,3)</code> or <code>=TEXTBEFORE(A2,"-")</code>
+(b) <code>=MID(A2,5,2)</code> or <code>=TEXTBEFORE(TEXTAFTER(A2,"-"),"-")</code>
+(c) <code>=VALUE(RIGHT(A2,8))</code> or <code>=VALUE(TEXTAFTER(A2,"-",-1))</code>
+(d) <code>=IF(LEFT(A2,3)="FUR","Furniture","Other")</code></p></details></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Commission rules</b></div><p>Sales reps get: 10% commission if sales ≥ 5,00,000; 7% if ≥ 3,00,000; 4% if ≥ 1,00,000; otherwise 0. Reps in the "Trainee" grade get half. Write one formula (sales in B2, grade in C2).</p><details class="sol"><summary>Show solution</summary><p><code>=B2*IFS(B2&gt;=500000,10%,B2&gt;=300000,7%,B2&gt;=100000,4%,TRUE,0)*IF(C2="Trainee",0.5,1)</code></p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between FIND and SEARCH?</strong>
+FIND is case-sensitive and does not allow wildcards; SEARCH is not case-sensitive and supports <code>*</code> and <code>?</code>. Both return <code>#VALUE!</code> when the text is not found.</p>
+<p><strong>Q: How would you extract the domain from an email address?</strong>
+<code>=MID(A2,FIND("@",A2)+1,LEN(A2))</code> or, in Microsoft 365, <code>=TEXTAFTER(A2,"@")</code>.</p>
+<p><strong>Q: Nested IF or IFS?</strong>
+IFS for readability when testing several conditions in order; SWITCH for exact matches of one value; a lookup table when the mapping is long or changes often.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-04-formulas-cell-references-and-aggregate-functions.html"><small>← Previous</small><b>Formulas, Cell References &amp; Aggregate Functions</b></a><a class="next" href="excel-06-sorting-filtering-and-dynamic-arrays.html"><small>Next →</small><b>Sorting, Filtering &amp; Dynamic Arrays</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-text-functions-matter">Why text functions matter</a><a href="#measuring-and-extracting-text">Measuring and extracting text</a><a href="#changing-and-cleaning-text">Changing and cleaning text</a><a href="#joining-text">Joining text</a><a href="#splitting-text">Splitting text</a><a href="#logical-functions-true-or-false">Logical functions: TRUE or FALSE</a><a href="#if-making-decisions">IF: making decisions</a><a href="#handling-errors-iferror-and-ifna">Handling errors: IFERROR and IFNA</a><a href="#case-building-columns-for-the-superstore-data">Case: building columns for the Superstore data</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

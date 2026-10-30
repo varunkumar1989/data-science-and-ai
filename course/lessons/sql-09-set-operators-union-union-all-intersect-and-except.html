@@ -1,0 +1,268 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT · SQL Lesson 9 · Data Science &amp; AI Handbook</title><meta name="description" content="Stack and compare query results. Append data with UNION ALL, remove duplicates with UNION, find common rows with INTERSECT and differences with EXCEPT, follow the rules for compatible columns, and know when to use a set operator instead of a join."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 9</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class="on"><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-09">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 9 of 15</div><h1>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</h1>
+<p class="sum">Stack and compare query results. Append data with UNION ALL, remove duplicates with UNION, find common rows with INTERSECT and differences with EXCEPT, follow the rules for compatible columns, and know when to use a set operator instead of a join.</p><div class="tags"><span class="tag live">● SQL class 4</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 80 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_09_Set_Operators_UNION_UNION_ALL_INTERSECT_EXCEPT.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-09">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the difference between joins (add columns) and set operators (add or compare rows)</li><li>Append results with UNION ALL and de-duplicate with UNION</li><li>Find common rows with INTERSECT and missing rows with EXCEPT</li><li>Apply the rules: same number of columns, compatible types, names from the first query, one ORDER BY at the end</li><li>Use set operators for reconciliation and data-quality checks</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="joins-add-columns-set-operators-add-rows">Joins add columns; set operators add rows</h2>
+<figure class="fig"><img src="../img/sql-09-01.png" alt="A join puts tables side by side (more columns). A set operator stacks or compares the rows of two query results with the same columns." loading="lazy"><figcaption>A join puts tables side by side (more columns). A set operator stacks or compares the rows of two query results with the same columns.</figcaption></figure>
+<figure class="fig"><img src="../img/sql-09-02.png" alt="The four set operators. A and B are the result sets of two queries." loading="lazy"><figcaption>The four set operators. A and B are the result sets of two queries.</figcaption></figure>
+<h2 id="rules-for-set-operators">Rules for set operators</h2>
+<ol>
+<li>Both queries must return the <strong>same number of columns</strong>.</li>
+<li>Corresponding columns must have <strong>compatible data types</strong> (text with text, numbers with numbers).</li>
+<li>Column <strong>names come from the first query</strong>.</li>
+<li>Only <strong>one ORDER BY</strong>, at the very end, applies to the combined result.</li>
+<li><code>UNION</code>, <code>INTERSECT</code> and <code>EXCEPT</code> remove duplicates; <code>UNION ALL</code> does not.</li>
+</ol>
+<h2 id="union-all-append">UNION ALL: append</h2>
+<p><code>UNION ALL</code> stacks results exactly as they are, like Power Query's Append or pasting one table under another. It is the fastest set operator because it does not check for duplicates.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Furniture&#x27;</span> <span class="hl-k">AS</span> source, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> category = <span class="hl-s">&#x27;Furniture&#x27;</span>
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Technology&#x27;</span>, <span class="hl-f">COUNT</span>(*), <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> category = <span class="hl-s">&#x27;Technology&#x27;</span>
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Office Supplies&#x27;</span>, <span class="hl-f">COUNT</span>(*), <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> category = <span class="hl-s">&#x27;Office Supplies&#x27;</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>source</th>
+      <th>lines</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Technology</td>
+      <td>1892</td>
+      <td>156,438,413</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>1917</td>
+      <td>34,841,853</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>2514</td>
+      <td>10,133,304</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<p>A very common real use: combining monthly or regional tables with the same structure.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> sales_jan_2026
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> sales_feb_2026
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> sales_mar_2026;</code></pre></div>
+<h2 id="union-append-and-remove-duplicates">UNION: append and remove duplicates</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> cities_union_all
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> city <span class="hl-k">FROM</span> customers <span class="hl-k">WHERE</span> segment = <span class="hl-s">&#x27;Corporate&#x27;</span>
+      <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+      <span class="hl-k">SELECT</span> city <span class="hl-k">FROM</span> customers <span class="hl-k">WHERE</span> segment = <span class="hl-s">&#x27;Home Office&#x27;</span>) <span class="hl-k">AS</span> t;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cities_union_all</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>407</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> cities_union
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> city <span class="hl-k">FROM</span> customers <span class="hl-k">WHERE</span> segment = <span class="hl-s">&#x27;Corporate&#x27;</span>
+      <span class="hl-k">UNION</span>
+      <span class="hl-k">SELECT</span> city <span class="hl-k">FROM</span> customers <span class="hl-k">WHERE</span> segment = <span class="hl-s">&#x27;Home Office&#x27;</span>) <span class="hl-k">AS</span> t;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cities_union</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>16</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p><code>UNION ALL</code> returned one row per customer; <code>UNION</code> returned each city once.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>UNION or UNION ALL?</b></div><p>Use <code>UNION ALL</code> unless you <strong>need</strong> duplicates removed. <code>UNION</code> has to sort or hash the whole result to find duplicates, which is slow on large data, and it can silently remove rows that are genuinely repeated (two identical order lines).</p></div>
+<h2 id="intersect-rows-in-both">INTERSECT: rows in both</h2>
+<p>"Which customers ordered in <strong>both</strong> 2024 and 2025?" (retained customers)</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> customers_in_both_years
+<span class="hl-k">FROM</span> (
+    <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span>
+    <span class="hl-k">INTERSECT</span>
+    <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+) <span class="hl-k">AS</span> t;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers_in_both_years</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>467</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h2 id="except-rows-in-the-first-but-not-the-second">EXCEPT: rows in the first but not the second</h2>
+<p>"Which 2024 customers did <strong>not</strong> come back in 2025?" (churned customers)</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> customers_lost_after_2024
+<span class="hl-k">FROM</span> (
+    <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span>
+    <span class="hl-k">EXCEPT</span>
+    <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+) <span class="hl-k">AS</span> t;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers_lost_after_2024</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>123</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>"Which 2025 customers are <strong>new</strong> (did not order in 2024 or 2023)?"</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> new_customers_2025
+<span class="hl-k">FROM</span> (
+    <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+    <span class="hl-k">EXCEPT</span>
+    <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) &lt; <span class="hl-n">2025</span>
+) <span class="hl-k">AS</span> t;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>new_customers_2025</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>52</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>Order matters for EXCEPT: <code>A EXCEPT B</code> ≠ <code>B EXCEPT A</code>. Oracle calls it <code>MINUS</code>.</p>
+<p>Let's put the customer movement together in one table:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Ordered in 2024&#x27;</span> <span class="hl-k">AS</span> measure, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> customer_id) <span class="hl-k">AS</span> customers <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span>
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Ordered in 2025&#x27;</span>, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> customer_id) <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Retained (2024 and 2025)&#x27;</span>, <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span> <span class="hl-k">INTERSECT</span> <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>) <span class="hl-k">AS</span> r
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;Lost (2024 only)&#x27;</span>, <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span> <span class="hl-k">EXCEPT</span> <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>) <span class="hl-k">AS</span> l;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>measure</th>
+      <th>customers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ordered in 2024</td>
+      <td>590</td>
+    </tr>
+    <tr>
+      <td>Ordered in 2025</td>
+      <td>623</td>
+    </tr>
+    <tr>
+      <td>Retained (2024 and 2025)</td>
+      <td>467</td>
+    </tr>
+    <tr>
+      <td>Lost (2024 only)</td>
+      <td>123</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<p>Retention rate 2024 → 2025 = retained ÷ customers in 2024. This is the core of customer-retention analysis.</p>
+<h2 id="reconciliation-and-data-quality-checks">Reconciliation and data-quality checks</h2>
+<p>Set operators are perfect for comparing two versions of the same data, for example a source system extract and the warehouse table:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Rows in the source extract that are missing or different in the warehouse</span>
+<span class="hl-k">SELECT</span> order_id, order_date, customer_id, total <span class="hl-k">FROM</span> staging.orders_extract
+<span class="hl-k">EXCEPT</span>
+<span class="hl-k">SELECT</span> order_id, order_date, customer_id, total <span class="hl-k">FROM</span> dw.fact_orders;
+
+<span class="hl-c">-- And the reverse: rows in the warehouse not in the source</span>
+<span class="hl-k">SELECT</span> order_id, order_date, customer_id, total <span class="hl-k">FROM</span> dw.fact_orders
+<span class="hl-k">EXCEPT</span>
+<span class="hl-k">SELECT</span> order_id, order_date, customer_id, total <span class="hl-k">FROM</span> staging.orders_extract;</code></pre></div>
+<p>If both queries return no rows, the two tables match exactly. Because set operators compare <strong>whole rows</strong>, any difference in any column shows up. (Set operators treat two NULLs as equal, unlike <code>=</code> in a join.)</p>
+<h2 id="set-operator-or-join">Set operator or join?</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add columns from another table</td>
+<td>JOIN</td>
+</tr>
+<tr>
+<td>Stack tables with the same columns</td>
+<td>UNION ALL</td>
+</tr>
+<tr>
+<td>Distinct list from several sources</td>
+<td>UNION</td>
+</tr>
+<tr>
+<td>Which keys are in both lists?</td>
+<td>INTERSECT, or INNER JOIN / EXISTS</td>
+</tr>
+<tr>
+<td>Which keys are in A but not B?</td>
+<td>EXCEPT, or LEFT JOIN … IS NULL / NOT EXISTS</td>
+</tr>
+<tr>
+<td>Compare entire rows column by column</td>
+<td>EXCEPT (handles NULLs as equal)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Joins add <strong>columns</strong>; set operators add or compare <strong>rows</strong>.</li>
+<li>Rules: same number of columns, compatible types, names from the first query, one ORDER BY at the end.</li>
+<li><code>UNION ALL</code> appends everything (fast); <code>UNION</code> removes duplicates.</li>
+<li><code>INTERSECT</code> returns rows in both results; <code>EXCEPT</code> returns rows in the first but not the second (order matters).</li>
+<li>Use them for combining periods, retention/churn analysis and reconciling systems.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-09-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which operator keeps duplicate rows?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>UNION ALL</button><button type="button" class="opt" data-ok="0"><i>B</i>UNION</button><button type="button" class="opt" data-ok="0"><i>C</i>INTERSECT</button><button type="button" class="opt" data-ok="0"><i>D</i>EXCEPT</button></div><div class="qexp"><b>Answer: A.</b> UNION ALL does not remove duplicates; the others return distinct rows.</div></div><div class="qq"><p class="qtext"><b>2.</b> Where can ORDER BY appear in a UNION query?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>After each SELECT</button><button type="button" class="opt" data-ok="1"><i>B</i>Once, at the end of the whole statement</button><button type="button" class="opt" data-ok="0"><i>C</i>Only in the first SELECT</button><button type="button" class="opt" data-ok="0"><i>D</i>ORDER BY is not allowed</button></div><div class="qexp"><b>Answer: B.</b> One ORDER BY applies to the combined result.</div></div><div class="qq"><p class="qtext"><b>3.</b> <code>SELECT a, b FROM t1 UNION SELECT c FROM t2</code> fails because:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>UNION needs WHERE</button><button type="button" class="opt" data-ok="1"><i>B</i>The queries return different numbers of columns</button><button type="button" class="opt" data-ok="0"><i>C</i>Column names differ</button><button type="button" class="opt" data-ok="0"><i>D</i>t2 must be first</button></div><div class="qexp"><b>Answer: B.</b> Both queries must return the same number of columns.</div></div><div class="qq"><p class="qtext"><b>4.</b> To find customers who ordered in 2024 but not in 2025, use:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>2024 UNION 2025</button><button type="button" class="opt" data-ok="0"><i>B</i>2024 INTERSECT 2025</button><button type="button" class="opt" data-ok="1"><i>C</i>2024 EXCEPT 2025</button><button type="button" class="opt" data-ok="0"><i>D</i>2025 EXCEPT 2024</button></div><div class="qexp"><b>Answer: C.</b> EXCEPT returns rows in the first set that are not in the second.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which column names appear in the result of a UNION?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Those of the first query</button><button type="button" class="opt" data-ok="0"><i>B</i>Those of the last query</button><button type="button" class="opt" data-ok="0"><i>C</i>Both, combined</button><button type="button" class="opt" data-ok="0"><i>D</i>Generic names like col1</button></div><div class="qexp"><b>Answer: A.</b> Names (and aliases) come from the first SELECT.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why is UNION ALL usually faster than UNION?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It uses an index</button><button type="button" class="opt" data-ok="1"><i>B</i>It does not need to sort or hash rows to remove duplicates</button><button type="button" class="opt" data-ok="0"><i>C</i>It returns fewer rows</button><button type="button" class="opt" data-ok="0"><i>D</i>It runs queries in parallel</button></div><div class="qexp"><b>Answer: B.</b> Duplicate removal is extra work that UNION ALL skips.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Customer movement by region</b></div><p>For each region, find the number of customers who ordered in 2024, the number retained in 2025, and the retention rate. Hint: build the retained list with INTERSECT, then join to customers for the region.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> c24 <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span>),
+     kept <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> c24
+              <span class="hl-k">INTERSECT</span>
+              <span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>)
+<span class="hl-k">SELECT</span> c.region,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> c24.customer_id)  <span class="hl-k">AS</span> customers_2024,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> kept.customer_id) <span class="hl-k">AS</span> retained_2025,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> kept.customer_id) / <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> c24.customer_id), <span class="hl-n">1</span>) <span class="hl-k">AS</span> retention_pct
+<span class="hl-k">FROM</span> c24
+<span class="hl-k">JOIN</span> customers <span class="hl-k">AS</span> c <span class="hl-k">ON</span> c.customer_id = c24.customer_id
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> kept <span class="hl-k">ON</span> kept.customer_id = c24.customer_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> c.region
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> retention_pct <span class="hl-k">DESC</span>;</code></pre></div>
+<p>(CTEs with <code>WITH</code> are explained in Lesson 13.)</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: UNION vs UNION ALL?</strong>
+UNION removes duplicate rows (slower); UNION ALL keeps all rows (faster). Use UNION ALL unless de-duplication is required.</p>
+<p><strong>Q: JOIN vs UNION?</strong>
+JOIN combines columns from related tables on a key; UNION stacks rows from queries with the same column structure.</p>
+<p><strong>Q: How would you check that two tables contain exactly the same data?</strong>
+Run <code>A EXCEPT B</code> and <code>B EXCEPT A</code>; both must return zero rows (also compare row counts to catch duplicates).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-08-joins-and-a-retail-case-study.html"><small>← Previous</small><b>Joins and a Retail Case Study</b></a><a class="next" href="sql-10-subqueries-derived-tables-and-exists.html"><small>Next →</small><b>Subqueries, Derived Tables &amp; EXISTS</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#joins-add-columns-set-operators-add-rows">Joins add columns; set operators add rows</a><a href="#rules-for-set-operators">Rules for set operators</a><a href="#union-all-append">UNION ALL: append</a><a href="#union-append-and-remove-duplicates">UNION: append and remove duplicates</a><a href="#intersect-rows-in-both">INTERSECT: rows in both</a><a href="#except-rows-in-the-first-but-not-the-second">EXCEPT: rows in the first but not the second</a><a href="#reconciliation-and-data-quality-checks">Reconciliation and data-quality checks</a><a href="#set-operator-or-join">Set operator or join?</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

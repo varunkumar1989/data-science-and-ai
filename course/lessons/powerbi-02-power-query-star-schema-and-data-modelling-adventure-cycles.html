@@ -1,0 +1,532 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles) · Power BI Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Prepare and model data the professional way. Clean data in Power Query, load a star schema (fact and dimension tables), create one-to-many relationships, understand filter direction, build and mark a date table, create hierarchies, and avoid the most common modelling mistakes, using the Adventure Cycles case study."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-powerbi"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-powerbi">Power BI</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E2A400">Power BI</div>
+<ol class="side-l"><li class=""><a href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html" data-lid="powerbi-01"><span>01</span>Getting Started with Power BI &amp; Your First HR Report</a></li><li class="on"><a href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html" data-lid="powerbi-02"><span>02</span>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</a></li><li class=""><a href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html" data-lid="powerbi-03"><span>03</span>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</a></li><li class=""><a href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html" data-lid="powerbi-04"><span>04</span>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</a></li><li class=""><a href="powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html" data-lid="powerbi-05"><span>05</span>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</a></li><li class=""><a href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html" data-lid="powerbi-06"><span>06</span>Power BI Service, Connectivity Modes, Security &amp; Capstone</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="powerbi-02">
+<div class="lhead" style="--tc:#E2A400"><div class="kick">Power BI · Lesson 2 of 6</div><h1>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</h1>
+<p class="sum">Prepare and model data the professional way. Clean data in Power Query, load a star schema (fact and dimension tables), create one-to-many relationships, understand filter direction, build and mark a date table, create hierarchies, and avoid the most common modelling mistakes, using the Adventure Cycles case study.</p><div class="tags"><span class="tag live">● Power BI class 3</span><span class="tag new">✦ Power BI Desktop 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 140 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/powerbi/Power_BI_02_Power_Query_Star_Schema_Data_Modelling_Adventure_Cycles.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="powerbi-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Apply common Power Query steps and read the Applied Steps and M code</li><li>Explain fact tables, dimension tables and the star schema, and why they beat one wide table</li><li>Create relationships with the right cardinality and filter direction, and explain how filters flow</li><li>Build a date table, mark it as a date table and add hierarchies</li><li>Diagnose common modelling problems (many-to-many, ambiguous paths, missing dates)</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/adventure_cycles/fact_sales.csv" download>adventure_cycles/fact_sales.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_product.csv" download>adventure_cycles/dim_product.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_customer.csv" download>adventure_cycles/dim_customer.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_territory.csv" download>adventure_cycles/dim_territory.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_date.csv" download>adventure_cycles/dim_date.csv</a></div></div></div>
+<div class="content"><h2 id="why-modelling-matters-more-than-visuals">Why modelling matters more than visuals</h2>
+<p>Beautiful visuals on a bad model give wrong or slow answers. In Power BI the <strong>data model</strong> decides what numbers mean: how tables relate, which table filters which, and how fast DAX runs. The golden rule: <strong>model as a star schema</strong>.</p>
+<figure class="fig"><img src="../img/powerbi-02-01.png" alt="A star schema: one central fact table of events/numbers surrounded by descriptive dimension tables. Filters flow from dimensions (one side) to the fact (many side)." loading="lazy"><figcaption>A star schema: one central fact table of events/numbers surrounded by descriptive dimension tables. Filters flow from dimensions (one side) to the fact (many side).</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Fact table</th>
+<th>Dimension table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Describes</td>
+<td>Events or transactions (a sale, a click, a shipment)</td>
+<td>The "who, what, where, when" of those events</td>
+</tr>
+<tr>
+<td>Rows</td>
+<td>Many (millions)</td>
+<td>Fewer (thousands)</td>
+</tr>
+<tr>
+<td>Columns</td>
+<td>Keys + numeric measures (quantity, amount, cost)</td>
+<td>Keys + descriptive attributes (name, category, city)</td>
+</tr>
+<tr>
+<td>Changes</td>
+<td>Grows constantly</td>
+<td>Changes rarely</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>fact_sales</code></td>
+<td><code>dim_product</code>, <code>dim_customer</code>, <code>dim_date</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why a star beats one big flat table:</strong> smaller file (text stored once), faster visuals, one place to fix a name, correct filtering across several facts, and simpler DAX. A <strong>snowflake</strong> (dimensions normalised into sub-dimensions) works but adds joins; prefer a star in Power BI.</p>
+<h2 id="the-adventure-cycles-dataset">The Adventure Cycles dataset</h2>
+<p>A fictional bicycle company sells bikes, components, clothing and accessories in India, the UAE and Singapore. The model has one fact table and four dimensions (plus the date table):</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+D = <span class="hl-s">&quot;adventure_cycles/&quot;</span>
+fact = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;fact_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>]); prod = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;dim_product.csv&quot;</span>)
+cust = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;dim_customer.csv&quot;</span>); terr = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;dim_territory.csv&quot;</span>); dates = <span class="hl-f">pd.read_csv</span>(D + <span class="hl-s">&quot;dim_date.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;date&quot;</span>])
+<span class="hl-k">for</span> name, df <span class="hl-k">in</span> [(<span class="hl-s">&quot;fact_sales&quot;</span>, fact), (<span class="hl-s">&quot;dim_product&quot;</span>, prod), (<span class="hl-s">&quot;dim_customer&quot;</span>, cust), (<span class="hl-s">&quot;dim_territory&quot;</span>, terr), (<span class="hl-s">&quot;dim_date&quot;</span>, dates)]:
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:14s} {df.shape[0]:&gt;6,} rows × {df.shape[1]} columns&quot;</span>)
+<span class="hl-f">fact.head</span>(<span class="hl-n">4</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">fact_sales      9,000 rows × 9 columns
+dim_product        45 rows × 6 columns
+dim_customer    1,200 rows × 5 columns
+dim_territory       6 rows × 3 columns
+dim_date        1,096 rows × 6 columns</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_number</th>
+      <th>order_date</th>
+      <th>product_key</th>
+      <th>customer_key</th>
+      <th>territory_key</th>
+      <th>quantity</th>
+      <th>unit_price</th>
+      <th>sales_amount</th>
+      <th>total_cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>SO50387</td>
+      <td>2023-01-01</td>
+      <td>11</td>
+      <td>103</td>
+      <td>1</td>
+      <td>3</td>
+      <td>114,400</td>
+      <td>343,200</td>
+      <td>201,360</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SO55797</td>
+      <td>2023-01-01</td>
+      <td>32</td>
+      <td>798</td>
+      <td>1</td>
+      <td>3</td>
+      <td>200</td>
+      <td>570</td>
+      <td>390</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SO51236</td>
+      <td>2023-01-01</td>
+      <td>9</td>
+      <td>750</td>
+      <td>5</td>
+      <td>1</td>
+      <td>126,700</td>
+      <td>120,365</td>
+      <td>78,380</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SO55082</td>
+      <td>2023-01-01</td>
+      <td>13</td>
+      <td>759</td>
+      <td>1</td>
+      <td>1</td>
+      <td>79,600</td>
+      <td>75,620</td>
+      <td>46,670</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 9 columns</div></div>
+<h2 id="power-query-prepare-each-table">Power Query: prepare each table</h2>
+<p>Open <strong>Transform Data</strong>. Typical steps for each table (all recorded in <strong>Applied Steps</strong>):</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Table</th>
+<th>Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fact_sales</code></td>
+<td>Set types (<code>order_date</code> Date; <code>quantity</code> Whole number; amounts <strong>Fixed decimal number</strong>), remove blank rows, add <code>Profit = [sales_amount] - [total_cost]</code> as a custom column, keep only needed columns</td>
+</tr>
+<tr>
+<td><code>dim_product</code></td>
+<td>Trim/clean text, set <code>list_price</code> and <code>standard_cost</code> as decimals, remove duplicates on <code>product_key</code></td>
+</tr>
+<tr>
+<td><code>dim_customer</code></td>
+<td>Replace <code>M</code>/<code>F</code> with Male/Female, remove duplicates on <code>customer_key</code></td>
+</tr>
+<tr>
+<td><code>dim_territory</code></td>
+<td>Check there is one row per <code>territory_key</code></td>
+</tr>
+<tr>
+<td><code>dim_date</code></td>
+<td>Set <code>date</code> to Date; sort <code>month</code> by <code>month_no</code> later in the model</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Query settings</strong> (right pane) shows each step; click any step to see the data at that point, and delete a step to undo it. Rename queries (<code>Sales</code>, <code>Product</code>…) because those names become table names in the model.</p>
+<h3 id="common-transformations-from-class-and-beyond">Common transformations (from class and beyond)</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Goal</th>
+<th>Where</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Promote headers, set types</td>
+<td>Home</td>
+<td>Always check types: wrong types break relationships</td>
+</tr>
+<tr>
+<td>Remove duplicates / blank rows</td>
+<td>Home → Remove rows</td>
+<td>Needed for dimension keys</td>
+</tr>
+<tr>
+<td>Split column by delimiter</td>
+<td>Transform → Split Column</td>
+<td>e.g. <code>IN-2025-00042</code></td>
+</tr>
+<tr>
+<td>Replace values, trim, clean, format</td>
+<td>Transform</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Unpivot columns</strong></td>
+<td>Transform → Unpivot</td>
+<td>Turn Jan, Feb, Mar columns into rows (Excel Lesson 12)</td>
+</tr>
+<tr>
+<td><strong>Merge queries</strong></td>
+<td>Home → Merge</td>
+<td>A join; use to bring a category into the fact (but prefer relationships)</td>
+</tr>
+<tr>
+<td><strong>Append queries</strong></td>
+<td>Home → Append</td>
+<td>Stack monthly files</td>
+</tr>
+<tr>
+<td>Group by</td>
+<td>Transform → Group By</td>
+<td>Pre-aggregate large tables</td>
+</tr>
+<tr>
+<td>Conditional / Custom column</td>
+<td>Add Column</td>
+<td>M formulas</td>
+</tr>
+<tr>
+<td><strong>Reference vs Duplicate</strong></td>
+<td>Right-click query</td>
+<td><em>Reference</em> creates a new query that starts from the output of another (changes flow through); <em>Duplicate</em> copies the steps</td>
+</tr>
+<tr>
+<td><strong>Parameters</strong></td>
+<td>Home → Manage Parameters</td>
+<td>A variable such as a file path or a start date, used in queries (Lesson 4)</td>
+</tr>
+<tr>
+<td>Disable load</td>
+<td>Right-click query</td>
+<td>Keep helper queries out of the model</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="what-is-query-folding">What is "query folding"?</h3>
+<p>When the source is a database (SQL Server, Snowflake), Power Query <strong>translates your steps into SQL</strong> and lets the database do the work, instead of downloading everything first. A step that cannot be translated "breaks folding" and everything after it runs locally. Check by right-clicking a step → <em>View Native Query</em>. Keep foldable steps (filter, select columns, merge, group) <strong>before</strong> non-foldable ones.</p>
+<div class="code"><div class="code-h"><span>Power Query M</span><button class="copy" type="button">Copy</button></div><pre><code class="m"><span class="hl-k">let</span>
+    Source   = <span class="hl-f">Csv.Document</span>(<span class="hl-f">File.Contents</span>(<span class="hl-s">&quot;C:\Data\fact_sales.csv&quot;</span>), [Delimiter=<span class="hl-s">&quot;,&quot;</span>, Encoding=<span class="hl-n">65001</span>]),
+    Promoted = <span class="hl-f">Table.PromoteHeaders</span>(Source, [PromoteAllScalars=<span class="hl-k">true</span>]),
+    Typed    = <span class="hl-f">Table.TransformColumnTypes</span>(Promoted, {{<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-k">type</span> date}, {<span class="hl-s">&quot;quantity&quot;</span>, Int64.Type},
+                   {<span class="hl-s">&quot;sales_amount&quot;</span>, Currency.Type}, {<span class="hl-s">&quot;total_cost&quot;</span>, Currency.Type}}),
+    Profit   = <span class="hl-f">Table.AddColumn</span>(Typed, <span class="hl-s">&quot;profit&quot;</span>, <span class="hl-k">each</span> [sales_amount] - [total_cost], Currency.Type)
+<span class="hl-k">in</span>
+    Profit</code></pre></div>
+<h2 id="relationships">Relationships</h2>
+<p>A <strong>relationship</strong> links a column in one table to a column in another so that filters can flow between them. In <strong>Model view</strong>, drag <code>dim_product[product_key]</code> onto <code>fact_sales[product_key]</code>. Power BI usually detects relationships on same-named columns (Home → Manage relationships → Autodetect).</p>
+<h3 id="cardinality">Cardinality</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Meaning</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>One-to-many (1:*)</strong></td>
+<td>A key is unique in one table, repeated in the other</td>
+<td>The standard: dimension → fact</td>
+</tr>
+<tr>
+<td>One-to-one (1:1)</td>
+<td>Unique on both sides</td>
+<td>Splitting a wide table</td>
+</tr>
+<tr>
+<td>Many-to-many (*:*)</td>
+<td>Duplicates on both sides</td>
+<td>Avoid; use a bridge table</td>
+</tr>
+</tbody>
+</table></div>
+<p>Check uniqueness before creating a one-to-many: if the "one" side has duplicates Power BI will complain.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">checks = {<span class="hl-s">&quot;dim_product[product_key]&quot;</span>: prod.product_key, <span class="hl-s">&quot;dim_customer[customer_key]&quot;</span>: cust.customer_key, <span class="hl-s">&quot;dim_territory[territory_key]&quot;</span>: terr.territory_key, <span class="hl-s">&quot;dim_date[date]&quot;</span>: dates.date}
+<span class="hl-k">for</span> name, col <span class="hl-k">in</span> <span class="hl-f">checks.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:30s} unique: {col.is_unique}&quot;</span>)
+orphans = {<span class="hl-s">&quot;product_key&quot;</span>: ~<span class="hl-f">fact.product_key.isin</span>(prod.product_key), <span class="hl-s">&quot;customer_key&quot;</span>: ~<span class="hl-f">fact.customer_key.isin</span>(cust.customer_key), <span class="hl-s">&quot;territory_key&quot;</span>: ~<span class="hl-f">fact.territory_key.isin</span>(terr.territory_key)}
+<span class="hl-k">for</span> k, m <span class="hl-k">in</span> <span class="hl-f">orphans.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;fact rows with no matching {k}: {m.sum()}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">dim_product[product_key]       unique: True
+dim_customer[customer_key]     unique: True
+dim_territory[territory_key]   unique: True
+dim_date[date]                 unique: True
+fact rows with no matching product_key: 0
+fact rows with no matching customer_key: 0
+fact rows with no matching territory_key: 0</pre></div>
+<p>Unique keys on the "one" side and no orphans on the "many" side: the model is safe.</p>
+<h3 id="filter-direction">Filter direction</h3>
+<figure class="fig"><img src="../img/powerbi-02-02.png" alt="Filters flow along relationships from the one side to the many side (single direction). Selecting Bikes in dim_product filters fact_sales, which then filters the other dimensions only if bi-directional filtering is on." loading="lazy"><figcaption>Filters flow along relationships from the one side to the many side (single direction). Selecting Bikes in dim_product filters fact_sales, which then filters the other dimensions only if bi-directional filtering is on.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Setting</th>
+<th>Behaviour</th>
+<th>Advice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single</strong> (dimension → fact)</td>
+<td>A selection in a dimension filters the fact</td>
+<td>Default and best</td>
+</tr>
+<tr>
+<td><strong>Both</strong> (bi-directional)</td>
+<td>Filters also flow back from fact to dimension</td>
+<td>Use only when needed (many-to-many, "show only customers who bought"); can cause ambiguity and slowness</td>
+</tr>
+<tr>
+<td><strong>Active</strong> vs inactive relationship</td>
+<td>Only one active path between two tables; an inactive one can be switched on in DAX with <code>USERELATIONSHIP</code></td>
+<td>e.g. Order Date and Ship Date both link to the date table</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="seeing-the-model-work">Seeing the model work</h3>
+<p>Total sales by product category and by country, using the relationships (a join in pandas):</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = <span class="hl-f">fact.merge</span>(prod, on=<span class="hl-s">&quot;product_key&quot;</span>).<span class="hl-f">merge</span>(terr, on=<span class="hl-s">&quot;territory_key&quot;</span>)
+m[<span class="hl-s">&quot;profit&quot;</span>] = m.sales_amount - m.total_cost
+out = <span class="hl-f">m.pivot_table</span>(index=<span class="hl-s">&quot;category&quot;</span>, columns=<span class="hl-s">&quot;country&quot;</span>, values=<span class="hl-s">&quot;sales_amount&quot;</span>, aggfunc=<span class="hl-s">&quot;sum&quot;</span>, margins=<span class="hl-k">True</span>, margins_name=<span class="hl-s">&quot;Total&quot;</span>) / 1e6
+<span class="hl-f">out.round</span>(<span class="hl-n">1</span>).<span class="hl-f">rename_axis</span>(<span class="hl-s">&quot;Sales (₹ million)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>country</th>
+      <th>India</th>
+      <th>Singapore</th>
+      <th>UAE</th>
+      <th>Total</th>
+    </tr>
+    <tr>
+      <th>Sales (₹ million)</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Accessories</th>
+      <td>6.7</td>
+      <td>1.7</td>
+      <td>1.3</td>
+      <td>9.8</td>
+    </tr>
+    <tr>
+      <th>Bikes</th>
+      <td>320.6</td>
+      <td>74.8</td>
+      <td>71.3</td>
+      <td>466.8</td>
+    </tr>
+    <tr>
+      <th>Clothing</th>
+      <td>6.0</td>
+      <td>1.3</td>
+      <td>1.1</td>
+      <td>8.5</td>
+    </tr>
+    <tr>
+      <th>Components</th>
+      <td>73.5</td>
+      <td>18.8</td>
+      <td>17.2</td>
+      <td>109.6</td>
+    </tr>
+    <tr>
+      <th>Total</th>
+      <td>406.9</td>
+      <td>96.7</td>
+      <td>91.0</td>
+      <td>594.6</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 4 columns</div></div>
+<p>In Power BI you get this with a matrix: Rows <code>category</code>, Columns <code>country</code>, Values <code>SUM(sales_amount)</code>. No join code needed: the relationships do it.</p>
+<h2 id="the-date-table">The date table</h2>
+<p>Time intelligence (year-to-date, same period last year, Lesson 4) requires a <strong>proper date table</strong>: one row per day with <strong>no gaps</strong>, covering all dates in the data, and <strong>marked as a date table</strong>.</p>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Date =
+<span class="hl-k">VAR</span> MinDate = DATE ( YEAR ( MIN ( fact_sales[order_date] ) ), <span class="hl-n">1</span>, <span class="hl-n">1</span> )
+<span class="hl-k">VAR</span> MaxDate = DATE ( YEAR ( MAX ( fact_sales[order_date] ) ), <span class="hl-n">12</span>, <span class="hl-n">31</span> )
+<span class="hl-k">RETURN</span>
+ADDCOLUMNS (
+    CALENDAR ( MinDate, MaxDate ),
+    <span class="hl-s">&quot;Year&quot;</span>,       YEAR ( [Date] ),
+    <span class="hl-s">&quot;Quarter&quot;</span>,    <span class="hl-s">&quot;Q&quot;</span> &amp; QUARTER ( [Date] ),
+    <span class="hl-s">&quot;Month No&quot;</span>,   MONTH ( [Date] ),
+    <span class="hl-s">&quot;Month&quot;</span>,      FORMAT ( [Date], <span class="hl-s">&quot;mmm&quot;</span> ),
+    <span class="hl-s">&quot;Year-Month&quot;</span>, FORMAT ( [Date], <span class="hl-s">&quot;yyyy-mm&quot;</span> ),
+    <span class="hl-s">&quot;Weekday&quot;</span>,    FORMAT ( [Date], <span class="hl-s">&quot;ddd&quot;</span> )
+)</code></pre></div>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Set it up</b></div><ol>
+<li>Model → <strong>New table</strong> → paste the DAX above (or load <code>dim_date.csv</code>).</li>
+<li>Select the table → <strong>Table tools → Mark as date table</strong> → choose the <code>Date</code> column. Power BI validates that dates are unique and continuous.</li>
+<li>Create the relationship <code>Date[Date]</code> → <code>fact_sales[order_date]</code> (one-to-many).</li>
+<li><strong>Sort <code>Month</code> by <code>Month No</code></strong> (select <code>Month</code> → Column tools → Sort by column) so April does not come before January.</li>
+<li>Hide the raw <code>order_date</code> in the fact table so report authors use the date table.</li>
+</ol></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-s">&quot;Fact order dates :&quot;</span>, <span class="hl-f">fact.order_date.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">fact.order_date.max</span>().<span class="hl-f">date</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Date table       :&quot;</span>, <span class="hl-f">dates.date.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">dates.date.max</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;| rows:&quot;</span>, <span class="hl-f">len</span>(dates))
+full = <span class="hl-f">pd.date_range</span>(<span class="hl-f">dates.date.min</span>(), <span class="hl-f">dates.date.max</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Continuous (no gaps):&quot;</span>, <span class="hl-f">len</span>(full) == <span class="hl-f">len</span>(dates) <span class="hl-k">and</span> (<span class="hl-f">dates.date.sort_values</span>().values == full.values).<span class="hl-f">all</span>())
+<span class="hl-f">dates.head</span>(<span class="hl-n">4</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Fact order dates : 2023-01-01 to 2025-12-30
+Date table       : 2023-01-01 to 2025-12-31 | rows: 1096
+Continuous (no gaps): True</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>year</th>
+      <th>quarter</th>
+      <th>month_no</th>
+      <th>month</th>
+      <th>weekday</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2023-01-01</td>
+      <td>2023</td>
+      <td>Q1</td>
+      <td>1</td>
+      <td>Jan</td>
+      <td>Sun</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2023-01-02</td>
+      <td>2023</td>
+      <td>Q1</td>
+      <td>1</td>
+      <td>Jan</td>
+      <td>Mon</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2023-01-03</td>
+      <td>2023</td>
+      <td>Q1</td>
+      <td>1</td>
+      <td>Jan</td>
+      <td>Tue</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2023-01-04</td>
+      <td>2023</td>
+      <td>Q1</td>
+      <td>1</td>
+      <td>Jan</td>
+      <td>Wed</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 6 columns</div></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Do not rely on auto date/time</b></div><p>Power BI can create hidden date tables automatically ("Auto date/time"). They bloat the model and cannot be customised or shared. Turn it off (File → Options → Data Load → Time intelligence) and always use your own marked date table.</p></div>
+<h2 id="hierarchies">Hierarchies</h2>
+<p>A <strong>hierarchy</strong> lets users drill down through levels with one click. In the Data pane, right-click <code>category</code> in <code>dim_product</code> → <strong>Create hierarchy</strong>, then drag <code>subcategory</code> and <code>product</code> onto it. Visuals with a hierarchy get drill-down buttons (arrows at the top-right of the visual): from category → sub-category → product. The date table's <code>Year → Quarter → Month → Date</code> is the classic one.</p>
+<h2 id="common-modelling-problems">Common modelling problems</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Totals repeat the same number for every category</td>
+<td>No relationship between the table you filter and the fact</td>
+<td>Create the relationship</td>
+</tr>
+<tr>
+<td>"A circular dependency was detected" / ambiguous paths</td>
+<td>Two paths between two tables</td>
+<td>Make one inactive, or remove the bi-directional filter</td>
+</tr>
+<tr>
+<td>Many-to-many warning</td>
+<td>Duplicate keys on both sides</td>
+<td>Build a clean dimension with unique keys, or a bridge table</td>
+</tr>
+<tr>
+<td>Blank row ("(Blank)") appears in visuals</td>
+<td>Fact rows whose key is missing in the dimension (orphans)</td>
+<td>Add the missing rows to the dimension, or fix keys</td>
+</tr>
+<tr>
+<td>YTD / last-year measures give wrong or blank results</td>
+<td>Date table not marked, has gaps, or not related</td>
+<td>Fix the date table</td>
+</tr>
+<tr>
+<td>Slow model, big file</td>
+<td>Wide tables, high-cardinality text columns, auto date/time</td>
+<td>Star schema, remove unused columns, reduce precision, disable auto date/time</td>
+</tr>
+<tr>
+<td>Months sort alphabetically</td>
+<td>Missing sort-by-column</td>
+<td>Sort <code>Month</code> by <code>Month No</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Best-practice checklist</b></div><ol>
+<li>Star schema with surrogate integer keys. 2. One-to-many, single-direction relationships. 3. One marked date table. 4. Hide keys and technical columns from report view. 5. Disable auto date/time. 6. Remove columns you do not use. 7. Name tables and columns for business users. 8. Put measures in a separate <code>_Measures</code> table (Lesson 3).</li>
+</ol></div>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Ask Copilot or any assistant: <em>"Review this list of tables and columns and propose a star schema with a fact table and dimensions, the keys, and the relationships"</em> and paste your column lists. Compare its answer with the checklist above, and verify key uniqueness yourself in Power Query (Column profile → <em>Distinct</em> equals <em>Count</em>).</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Model as a <strong>star schema</strong>: facts (events and numbers) surrounded by dimensions (descriptions), joined by <strong>one-to-many, single-direction</strong> relationships.</li>
+<li>Power Query prepares each table: types, cleaning, unpivot, merge/append, group, parameters; <strong>query folding</strong> pushes work to the source.</li>
+<li>Filters flow from the <strong>one side</strong> (dimension) to the <strong>many side</strong> (fact); use bi-directional filters sparingly; one active relationship per table pair, others inactive (<code>USERELATIONSHIP</code>).</li>
+<li>A continuous, <strong>marked date table</strong> is required for time intelligence; sort month names by month number; turn off auto date/time.</li>
+<li>Hierarchies enable drill-down; most "wrong totals" come from missing relationships, duplicate keys or orphans.</li>
+</ul></div>
+<div class="quiz" id="quiz-powerbi-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In a star schema, which table typically contains the numeric measures such as quantity and sales amount?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Dimension table</button><button type="button" class="opt" data-ok="1"><i>B</i>Fact table</button><button type="button" class="opt" data-ok="0"><i>C</i>Date table</button><button type="button" class="opt" data-ok="0"><i>D</i>Parameter table</button></div><div class="qexp"><b>Answer: B.</b> Facts hold events and measures; dimensions hold descriptions.</div></div><div class="qq"><p class="qtext"><b>2.</b> A one-to-many relationship between dim_product and fact_sales means:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A product appears once in sales</button><button type="button" class="opt" data-ok="1"><i>B</i>Each product_key appears once in dim_product and many times in fact_sales</button><button type="button" class="opt" data-ok="0"><i>C</i>Both tables have unique keys</button><button type="button" class="opt" data-ok="0"><i>D</i>The relationship is bidirectional</button></div><div class="qexp"><b>Answer: B.</b> The "one" side must have unique keys.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why is a bi-directional relationship risky?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is not allowed</button><button type="button" class="opt" data-ok="1"><i>B</i>It can create ambiguous filter paths and slow performance</button><button type="button" class="opt" data-ok="0"><i>C</i>It deletes data</button><button type="button" class="opt" data-ok="0"><i>D</i>It only works with dates</button></div><div class="qexp"><b>Answer: B.</b> Use it only when you must (for example many-to-many scenarios).</div></div><div class="qq"><p class="qtext"><b>4.</b> What does "Mark as date table" require?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A column of text</button><button type="button" class="opt" data-ok="1"><i>B</i>A unique, continuous Date column with no gaps</button><button type="button" class="opt" data-ok="0"><i>C</i>A relationship to every table</button><button type="button" class="opt" data-ok="0"><i>D</i>A measure</button></div><div class="qexp"><b>Answer: B.</b> Time-intelligence functions need a valid contiguous date table.</div></div><div class="qq"><p class="qtext"><b>5.</b> Months show as Apr, Aug, Dec, Feb… in alphabetical order. Fix?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Rename the months</button><button type="button" class="opt" data-ok="0"><i>B</i>Use a pie chart</button><button type="button" class="opt" data-ok="1"><i>C</i>Sort the Month column by the Month No column</button><button type="button" class="opt" data-ok="0"><i>D</i>Delete the date table</button></div><div class="qexp"><b>Answer: C.</b> Sort by column controls the display order.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does Power Query's "query folding" do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Compresses the PBIX file</button><button type="button" class="opt" data-ok="1"><i>B</i>Translates steps into the source system's query (e.g. SQL) so the database does the work</button><button type="button" class="opt" data-ok="0"><i>C</i>Hides the query</button><button type="button" class="opt" data-ok="0"><i>D</i>Merges two queries</button></div><div class="qexp"><b>Answer: B.</b> Folding improves refresh performance for database sources.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Model it yourself</b></div><p>Load the five Adventure Cycles CSV files, set types, create the four relationships, mark <code>dim_date</code> as the date table, hide key columns, create a Category → Subcategory → Product hierarchy, and build a matrix of sales by <code>category</code> (rows) and <code>year</code> (columns).</p><details class="sol"><summary>Show solution</summary><p>In Power Query set <code>order_date</code> and <code>date</code> to Date. In Model view drag <code>product_key</code>, <code>customer_key</code>, <code>territory_key</code> from each dimension to the fact, and <code>date</code> to <code>order_date</code>. Table tools → Mark as date table → <code>date</code>. Right-click the key columns → Hide in report view. Create the hierarchy by right-clicking <code>category</code>. In Report view add a Matrix with Rows <code>dim_product[category]</code>, Columns <code>dim_date[year]</code>, Values <code>Sum of sales_amount</code>. Compare with the pandas pivot: Bikes should be about ₹46.7 crore of the total ₹59.5 crore.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is a star schema and why use it in Power BI?</strong>
+One fact table joined to several dimension tables with one-to-many relationships. It compresses well, filters predictably, and makes DAX simple and fast.</p>
+<p><strong>Q: How do filters propagate in a Power BI model?</strong>
+From the one side to the many side along active relationships, in the filter direction. Bi-directional relationships also filter from many back to one.</p>
+<p><strong>Q: Why do you need a date table?</strong>
+Built-in time-intelligence DAX (YTD, SAMEPERIODLASTYEAR) needs a continuous, marked date table; it also gives you year/quarter/month columns, fiscal calendars and holidays.</p>
+<p><strong>Q: How do you handle two dates in the fact table (order date and ship date)?</strong>
+Role-playing dimension: one date table with one active relationship (order date) and one inactive (ship date) activated with <code>USERELATIONSHIP</code> in specific measures, or two copies of the date table.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/career-paths/data-analyst">Microsoft Learn: Power BI data analyst path (PL-300) ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://dax.guide/">DAX Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.sqlbi.com/">SQLBI articles and videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets">Power BI sample datasets (Microsoft) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html"><small>← Previous</small><b>Getting Started with Power BI &amp; Your First HR Report</b></a><a class="next" href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html"><small>Next →</small><b>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-modelling-matters-more-than-visuals">Why modelling matters more than visuals</a><a href="#the-adventure-cycles-dataset">The Adventure Cycles dataset</a><a href="#power-query-prepare-each-table">Power Query: prepare each table</a><a href="#relationships">Relationships</a><a href="#the-date-table">The date table</a><a href="#hierarchies">Hierarchies</a><a href="#common-modelling-problems">Common modelling problems</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

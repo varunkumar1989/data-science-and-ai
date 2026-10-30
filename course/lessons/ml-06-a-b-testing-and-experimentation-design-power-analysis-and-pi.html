@@ -1,0 +1,202 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls · Stats &amp; ML Lesson 6 · Data Science &amp; AI Handbook</title><meta name="description" content="Run product experiments the way data teams at e-commerce and fintech companies do. Choose a metric and guardrails, size the test with power analysis, randomise, analyse conversion and revenue with z-tests, t-tests and bootstrap intervals, check sample-ratio mismatch, avoid peeking and novelty effects, and write the decision memo, using a new-checkout experiment."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 6</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class="on"><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class=""><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-06">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 6 of 28</div><h1>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</h1>
+<p class="sum">Run product experiments the way data teams at e-commerce and fintech companies do. Choose a metric and guardrails, size the test with power analysis, randomise, analyse conversion and revenue with z-tests, t-tests and bootstrap intervals, check sample-ratio mismatch, avoid peeking and novelty effects, and write the decision memo, using a new-checkout experiment.</p><div class="tags"><span class="tag live">● ML class 2 (case study)</span><span class="tag new">✦ statsmodels 0.1x · SciPy 1.1x</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_06_A_B_Testing_and_Experimentation_Design_Power_Analysis_and_Pitfalls.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-06">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Design an experiment with a hypothesis, primary metric, guardrail metrics and randomisation unit</li><li>Compute the required sample size with power analysis and a minimum detectable effect</li><li>Analyse conversion (two-proportion z-test) and revenue per user (Welch t-test and bootstrap)</li><li>Check sample-ratio mismatch and recognise peeking, novelty and network effects</li><li>Write a launch/no-launch recommendation with uncertainty and business impact</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/ab_test.csv" download>ab_test.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-an-ab-test">What is an A/B test?</h2>
+<p>A <strong>randomised controlled experiment</strong>: users are randomly split into <strong>control (A)</strong> and <strong>treatment (B)</strong>; the only systematic difference is the change you test, so differences in outcomes are <strong>caused</strong> by the change (up to chance, which statistics quantifies).</p>
+<figure class="fig"><img src="../img/ml-06-01.png" alt="The experiment lifecycle." loading="lazy"><figcaption>The experiment lifecycle.</figcaption></figure>
+<blockquote>
+<p><strong>Case.</strong> An online store tests a <strong>new one-page checkout (B)</strong> against the current checkout (A). 4,000 users were split 50/50.
+<strong>Hypothesis:</strong> the new checkout increases the purchase conversion rate.
+<strong>Primary metric:</strong> conversion = purchasers ÷ users. <strong>Secondary:</strong> revenue per user, average order value. <strong>Guardrails:</strong> refund rate, page load time, support tickets.</p>
+</blockquote>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Design choice</th>
+<th>Good practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Randomisation unit</td>
+<td>User (not session or page view), so one person sees one version</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>50/50 maximises power</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>At least one full business cycle (1–2 weeks, including weekends); fixed in advance</td>
+</tr>
+<tr>
+<td>Metric</td>
+<td>Defined before launch; one primary metric</td>
+</tr>
+<tr>
+<td>Population</td>
+<td>Who is eligible (new users only? all platforms?)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sample-size-and-power">Sample size and power</h2>
+<p>Before launching: how many users do we need to detect the smallest effect worth acting on (the <strong>minimum detectable effect</strong>, MDE)?</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> scipy <span class="hl-k">import</span> stats
+<span class="hl-k">from</span> statsmodels.stats.power <span class="hl-k">import</span> NormalIndPower
+<span class="hl-k">from</span> statsmodels.stats.proportion <span class="hl-k">import</span> proportion_effectsize
+base = <span class="hl-n">0.10</span>
+<span class="hl-k">for</span> target <span class="hl-k">in</span> (<span class="hl-n">0.11</span>, <span class="hl-n">0.12</span>, <span class="hl-n">0.13</span>):
+    h = <span class="hl-f">proportion_effectsize</span>(target, base)                       <span class="hl-c"># Cohen&#x27;s h</span>
+    n = <span class="hl-f">NormalIndPower</span>().<span class="hl-f">solve_power</span>(effect_size=h, alpha=<span class="hl-n">0.05</span>, power=<span class="hl-n">0.8</span>, ratio=<span class="hl-n">1</span>, alternative=<span class="hl-s">&quot;two-sided&quot;</span>)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;detect {base:.0%} → {target:.0%} (+{(target - base) / base:.0%} relative): {int(np.ceil(n)):,} users per group&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">detect 10% → 11% (+10% relative): 14,745 users per group
+detect 10% → 12% (+20% relative): 3,835 users per group
+detect 10% → 13% (+30% relative): 1,769 users per group</pre></div>
+<p>Small lifts need very large samples. With 2,000 users per group, this test can reliably detect a lift from about 10% to 13%, not smaller ones.</p>
+<figure class="fig"><img src="../img/ml-06-02.png" alt="Power curves: the chance of detecting a true lift grows with sample size and effect size." loading="lazy"><figcaption>Power curves: the chance of detecting a true lift grows with sample size and effect size.</figcaption></figure>
+<h2 id="analysis-step-1-sanity-checks">Analysis step 1: sanity checks</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">ab = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;ab_test.csv&quot;</span>)
+counts = <span class="hl-f">ab.group.value_counts</span>().<span class="hl-f">sort_index</span>(); <span class="hl-f">print</span>(<span class="hl-f">counts.to_dict</span>())
+srm = <span class="hl-f">stats.chisquare</span>(counts.values)                                 <span class="hl-c"># expected 50/50</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;sample-ratio mismatch test p = {srm.pvalue:.3f} → {&#x27;OK&#x27; if srm.pvalue &gt; 0.01 else &#x27;INVESTIGATE: randomisation or logging problem&#x27;}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;duplicate users:&quot;</span>, <span class="hl-f">ab.user_id.duplicated</span>().<span class="hl-f">sum</span>(), <span class="hl-s">&quot;| missing:&quot;</span>, <span class="hl-f">ab.isna</span>().<span class="hl-f">sum</span>().<span class="hl-f">sum</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;A_control&#x27;: 2000, &#x27;B_new_checkout&#x27;: 2000}
+sample-ratio mismatch test p = 1.000 → OK
+duplicate users: 0 | missing: 0</pre></div>
+<p>A <strong>sample-ratio mismatch (SRM)</strong> (for example 52/48 when you planned 50/50, with p &lt; 0.01) signals a bug in assignment or tracking; do not trust results until it is explained.</p>
+<h2 id="analysis-step-2-conversion-rate">Analysis step 2: conversion rate</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> statsmodels.stats.proportion <span class="hl-k">import</span> proportions_ztest, confint_proportions_2indep
+g = <span class="hl-f">ab.groupby</span>(<span class="hl-s">&quot;group&quot;</span>).<span class="hl-f">agg</span>(users=(<span class="hl-s">&quot;user_id&quot;</span>, <span class="hl-s">&quot;size&quot;</span>), buyers=(<span class="hl-s">&quot;converted&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>))
+g[<span class="hl-s">&quot;conversion&quot;</span>] = g.buyers / g.users
+<span class="hl-f">print</span>(g)
+z, p = <span class="hl-f">proportions_ztest</span>(g.buyers.values[::-<span class="hl-n">1</span>], g.users.values[::-<span class="hl-n">1</span>])          <span class="hl-c"># B vs A</span>
+lo, hi = <span class="hl-f">confint_proportions_2indep</span>(g.buyers.iloc[<span class="hl-n">1</span>], g.users.iloc[<span class="hl-n">1</span>], g.buyers.iloc[<span class="hl-n">0</span>], g.users.iloc[<span class="hl-n">0</span>], compare=<span class="hl-s">&quot;diff&quot;</span>)
+pa, pb = g.conversion.iloc[<span class="hl-n">0</span>], g.conversion.iloc[<span class="hl-n">1</span>]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;absolute lift {100 * (pb - pa):.2f} pts (95% CI {100 * lo:.2f} to {100 * hi:.2f}) | relative lift {(pb - pa) / pa:.1%} | z = {z:.2f}, p = {p:.5f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                users  buyers  conversion
+group                                    
+A_control        2000     198      0.0990
+B_new_checkout   2000     273      0.1365
+absolute lift 3.75 pts (95% CI 1.75 to 5.75) | relative lift 37.9% | z = 3.68, p = 0.00023</pre></div>
+<h2 id="analysis-step-3-revenue-per-user-and-order-value">Analysis step 3: revenue per user and order value</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">a, b = ab[ab.group == <span class="hl-s">&quot;A_control&quot;</span>], ab[ab.group == <span class="hl-s">&quot;B_new_checkout&quot;</span>]
+<span class="hl-k">for</span> name, col, fa, fb <span class="hl-k">in</span> [(<span class="hl-s">&quot;revenue per user&quot;</span>, <span class="hl-s">&quot;order_value&quot;</span>, a, b), (<span class="hl-s">&quot;average order value (buyers)&quot;</span>, <span class="hl-s">&quot;order_value&quot;</span>, a[a.converted == <span class="hl-n">1</span>], b[b.converted == <span class="hl-n">1</span>])]:
+    t = <span class="hl-f">stats.ttest_ind</span>(fb[col], fa[col], equal_var=<span class="hl-k">False</span>)
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:30s} A {fa[col].mean():8.1f} | B {fb[col].mean():8.1f} | diff {fb[col].mean() - fa[col].mean():7.1f} | Welch p = {t.pvalue:.4f}&quot;</span>)
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+boot = [<span class="hl-f">rng.choice</span>(b.order_value.values, <span class="hl-f">len</span>(b)).<span class="hl-f">mean</span>() - <span class="hl-f">rng.choice</span>(a.order_value.values, <span class="hl-f">len</span>(a)).<span class="hl-f">mean</span>() <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">5000</span>)]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;bootstrap 95% CI for revenue-per-user difference: {np.percentile(boot, 2.5):.1f} to {np.percentile(boot, 97.5):.1f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">revenue per user               A    137.5 | B    202.8 | diff    65.3 | Welch p = 0.0000
+average order value (buyers)   A   1389.3 | B   1485.6 | diff    96.4 | Welch p = 0.0082
+bootstrap 95% CI for revenue-per-user difference: 35.5 to 94.9</pre></div>
+<p>Revenue per user mixes conversion and order size and has many zeros and a long tail; Welch's t-test (thanks to the CLT) and the bootstrap both work at this sample size.</p>
+<figure class="fig"><img src="../img/ml-06-03.png" alt="Conversion rate with 95% confidence intervals for each variant." loading="lazy"><figcaption>Conversion rate with 95% confidence intervals for each variant.</figcaption></figure>
+<h2 id="analysis-step-4-business-impact">Analysis step 4: business impact</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">monthly_users = 300_000
+extra_buyers = monthly_users * (pb - pa)
+extra_rev = monthly_users * (<span class="hl-f">b.order_value.mean</span>() - <span class="hl-f">a.order_value.mean</span>())
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;at {monthly_users:,} users/month: about {extra_buyers:,.0f} extra orders and ₹{extra_rev / 1e5:,.1f} lakh extra revenue per month&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;conservative (lower CI bound of conversion lift): {monthly_users * lo:,.0f} extra orders&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">at 300,000 users/month: about 11,250 extra orders and ₹195.8 lakh extra revenue per month
+conservative (lower CI bound of conversion lift): 5,263 extra orders</pre></div>
+<h2 id="pitfalls">Pitfalls</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Peeking</strong></td>
+<td>Checking daily and stopping at the first p &lt; 0.05 inflates false positives to 20–30%</td>
+<td>Fix the sample size; or use sequential tests / always-valid p-values</td>
+</tr>
+<tr>
+<td>Too many metrics</td>
+<td>Some will be "significant" by chance</td>
+<td>One primary metric; adjust others (lesson 5)</td>
+</tr>
+<tr>
+<td>Novelty / primacy effects</td>
+<td>Users react to change itself, then revert</td>
+<td>Run longer; analyse by week</td>
+</tr>
+<tr>
+<td>SRM</td>
+<td>Broken randomisation or logging</td>
+<td>Chi-square check before analysis</td>
+</tr>
+<tr>
+<td>Network effects</td>
+<td>Treated users affect control users (marketplaces, social)</td>
+<td>Cluster or geo randomisation</td>
+</tr>
+<tr>
+<td>Simpson's paradox</td>
+<td>Mix of segments differs between periods</td>
+<td>Randomise; compare within segments</td>
+</tr>
+<tr>
+<td>Underpowered tests</td>
+<td>"No effect" just means "too small a test"</td>
+<td>Power analysis first; report CIs</td>
+</tr>
+<tr>
+<td>HARKing</td>
+<td>Choosing the hypothesis after seeing results</td>
+<td>Pre-register the plan</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">11</span>); false_wins = <span class="hl-n">0</span>
+<span class="hl-k">for</span> sim <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">400</span>):                                         <span class="hl-c"># A/A tests: there is NO real difference</span>
+    xa, xb = <span class="hl-f">rng.random</span>(<span class="hl-n">4000</span>) &lt; <span class="hl-n">0.10</span>, <span class="hl-f">rng.random</span>(<span class="hl-n">4000</span>) &lt; <span class="hl-n">0.10</span>
+    <span class="hl-k">for</span> day <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">15</span>):                                   <span class="hl-c"># peek every &quot;day&quot; (≈285 users per group per day)</span>
+        n = day * <span class="hl-n">285</span>
+        <span class="hl-k">if</span> <span class="hl-f">proportions_ztest</span>([xa[:n].<span class="hl-f">sum</span>(), xb[:n].<span class="hl-f">sum</span>()], [n, n])[<span class="hl-n">1</span>] &lt; <span class="hl-n">0.05</span>: false_wins += <span class="hl-n">1</span>; <span class="hl-k">break</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;stopping at the first significant daily peek: {false_wins / 400:.0%} false positives (should be 5%)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">stopping at the first significant daily peek: 20% false positives (should be 5%)</pre></div>
+<h2 id="beyond-the-classic-test">Beyond the classic test</h2>
+<ul>
+<li><strong>CUPED / regression adjustment:</strong> use pre-experiment behaviour as a covariate to cut variance (and required sample size) by 20–50%.</li>
+<li><strong>Bayesian A/B testing:</strong> reports "probability that B beats A" and expected loss; intuitive for stakeholders.</li>
+<li><strong>Multi-armed bandits:</strong> shift traffic to the winning variant during the test (good for short campaigns, worse for clean inference).</li>
+<li><strong>Quasi-experiments</strong> when you cannot randomise: difference-in-differences, synthetic control, regression discontinuity, propensity matching.</li>
+<li>Platforms: Optimizely, Statsig, GrowthBook, Eppo, LaunchDarkly, Firebase A/B Testing.</li>
+</ul>
+<h2 id="the-decision-memo">The decision memo</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><p><strong>Experiment:</strong> new one-page checkout, 4,000 users, 50/50, no sample-ratio mismatch.
+<strong>Result:</strong> conversion rose from 9.9% to 13.7% (+3.75 points, 95% CI about +1.7 to +5.8; p &lt; 0.001). Revenue per user rose from about ₹138 to ₹203, and buyers' average order value also rose.
+<strong>Guardrails:</strong> check refunds, load time and support tickets before rollout.
+<strong>Decision:</strong> launch B to all users, with a 5% holdout for four weeks to confirm the effect lasts.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Randomisation makes A/B tests causal; define the hypothesis, one primary metric, guardrails and the duration before launch.</li>
+<li>Power analysis sets the sample size for a minimum detectable effect; small lifts need large samples.</li>
+<li>Check sample-ratio mismatch first; analyse conversion with a two-proportion z-test and revenue with Welch's t-test or the bootstrap; report CIs and business impact.</li>
+<li>Avoid peeking, metric fishing and underpowered tests; consider CUPED, Bayesian methods and quasi-experiments where appropriate.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why randomise users into A and B?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>So the only systematic difference between groups is the change being tested</button><button type="button" class="opt" data-ok="0"><i>B</i>To make the test faster</button><button type="button" class="opt" data-ok="0"><i>C</i>To increase conversion</button><button type="button" class="opt" data-ok="0"><i>D</i>To avoid statistics</button></div><div class="qexp"><b>Answer: A.</b> Randomisation balances all other factors on average.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does a power analysis give you before the test?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The p-value</button><button type="button" class="opt" data-ok="1"><i>B</i>The sample size needed to detect a given minimum effect with a chosen probability</button><button type="button" class="opt" data-ok="0"><i>C</i>The winner</button><button type="button" class="opt" data-ok="0"><i>D</i>The conversion rate</button></div><div class="qexp"><b>Answer: B.</b> Typical settings: α = 0.05, power = 0.8.</div></div><div class="qq"><p class="qtext"><b>3.</b> The planned split was 50/50 but you observe 53/47 with SRM p &lt; 0.001. What do you do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Report the result</button><button type="button" class="opt" data-ok="1"><i>B</i>Investigate the assignment or logging bug before trusting the results</button><button type="button" class="opt" data-ok="0"><i>C</i>Increase α</button><button type="button" class="opt" data-ok="0"><i>D</i>Remove users until it is 50/50</button></div><div class="qexp"><b>Answer: B.</b> SRM invalidates naive analysis.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why is stopping as soon as p &lt; 0.05 ("peeking") a problem?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It inflates the false-positive rate well above 5%</button><button type="button" class="opt" data-ok="0"><i>B</i>It wastes traffic</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes p-values larger</button><button type="button" class="opt" data-ok="0"><i>D</i>It is fine</button></div><div class="qexp"><b>Answer: A.</b> Use fixed horizons or sequential methods.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which test suits comparing conversion rates of A and B?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Paired t-test</button><button type="button" class="opt" data-ok="1"><i>B</i>Two-proportion z-test (or chi-square)</button><button type="button" class="opt" data-ok="0"><i>C</i>ANOVA</button><button type="button" class="opt" data-ok="0"><i>D</i>Pearson correlation</button></div><div class="qexp"><b>Answer: B.</b> Conversion is a proportion.</div></div><div class="qq"><p class="qtext"><b>6.</b> A test with 300 users per group shows no significant difference. Best conclusion?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The change has no effect</button><button type="button" class="opt" data-ok="1"><i>B</i>The test may be underpowered; look at the confidence interval for the plausible range of effects</button><button type="button" class="opt" data-ok="0"><i>C</i>Launch anyway</button><button type="button" class="opt" data-ok="0"><i>D</i>The metric is wrong</button></div><div class="qexp"><b>Answer: B.</b> Absence of evidence is not evidence of absence.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Compute the users per group needed to detect a lift from 13.7% to 15% conversion. (2) Analyse average order value among buyers with a Mann-Whitney test as well. (3) Simulate an A/A test 1,000 times with a fixed horizon and confirm about 5% false positives. (4) Draft a one-paragraph memo for the case where the result had been p = 0.20.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">NormalIndPower</span>().<span class="hl-f">solve_power</span>(<span class="hl-f">proportion_effectsize</span>(<span class="hl-n">0.15</span>, <span class="hl-n">0.137</span>), alpha=<span class="hl-n">0.05</span>, power=<span class="hl-n">0.8</span>))
+<span class="hl-f">print</span>(<span class="hl-f">stats.mannwhitneyu</span>(b[b.converted == <span class="hl-n">1</span>].order_value, a[a.converted == <span class="hl-n">1</span>].order_value))
+fp = <span class="hl-f">np.mean</span>([<span class="hl-f">proportions_ztest</span>([(<span class="hl-f">rng.random</span>(<span class="hl-n">4000</span>) &lt; .<span class="hl-n">1</span>).<span class="hl-f">sum</span>(), (<span class="hl-f">rng.random</span>(<span class="hl-n">4000</span>) &lt; .<span class="hl-n">1</span>).<span class="hl-f">sum</span>()], [<span class="hl-n">4000</span>, <span class="hl-n">4000</span>])[<span class="hl-n">1</span>] &lt; .<span class="hl-n">05</span> <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1000</span>)]); <span class="hl-f">print</span>(fp)
+<span class="hl-c"># Memo: &quot;No significant difference (p = 0.20); CI ranges from −x to +y points, so we cannot rule out a meaningful lift. Extend the test to N users or test a bolder change.&quot;</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you design an A/B test for a new recommendation widget?</strong>
+State the hypothesis and primary metric (e.g. revenue per user), guardrails (latency, returns), randomise by user, size it with power analysis, run full weeks, check SRM, analyse with CIs, and decide with business impact.</p>
+<p><strong>Q: Your test is significant on day 3. Do you stop?</strong>
+No: stopping early inflates false positives and novelty effects can fade; finish the planned duration or use a sequential design.</p>
+<p><strong>Q: What if you cannot randomise?</strong>
+Use quasi-experimental methods: difference-in-differences with a comparison group, synthetic control, regression discontinuity or matching, and state the assumptions.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html"><small>← Previous</small><b>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</b></a><a class="next" href="ml-07-introduction-to-machine-learning-types-business-framing-and.html"><small>Next →</small><b>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-an-ab-test">What is an A/B test?</a><a href="#sample-size-and-power">Sample size and power</a><a href="#analysis-step-1-sanity-checks">Analysis step 1: sanity checks</a><a href="#analysis-step-2-conversion-rate">Analysis step 2: conversion rate</a><a href="#analysis-step-3-revenue-per-user-and-order-value">Analysis step 3: revenue per user and order value</a><a href="#analysis-step-4-business-impact">Analysis step 4: business impact</a><a href="#pitfalls">Pitfalls</a><a href="#beyond-the-classic-test">Beyond the classic test</a><a href="#the-decision-memo">The decision memo</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

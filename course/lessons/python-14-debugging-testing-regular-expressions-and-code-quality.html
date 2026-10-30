@@ -1,0 +1,265 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Debugging, Testing, Regular Expressions and Code Quality · Python Lesson 14 · Data Science &amp; AI Handbook</title><meta name="description" content="Find and fix bugs systematically, write automated tests with pytest, clean text with regular expressions, and keep code readable with PEP 8, type hints, linters and formatters."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 14</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class="on"><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-14">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 14 of 29</div><h1>Debugging, Testing, Regular Expressions and Code Quality</h1>
+<p class="sum">Find and fix bugs systematically, write automated tests with pytest, clean text with regular expressions, and keep code readable with PEP 8, type hints, linters and formatters.</p><div class="tags"><span class="tag live">● Python class 10</span><span class="tag new">✦ Python 3.13 · pytest 9 · ruff</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_14_Debugging_Testing_Regular_Expressions_and_Code_Quality.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-14">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Read a traceback and debug with print, breakpoints and pdb</li><li>Write and run unit tests with assert and pytest, including parametrised tests</li><li>Use regular expressions to search, extract, validate and replace text</li><li>Apply PEP 8 naming and layout, type hints, and automatic tools (ruff, black, mypy)</li><li>Use AI assistants to debug and review code responsibly</li></ul></div></div>
+<div class="content"><h2 id="reading-a-traceback">Reading a traceback</h2>
+<p>Read a traceback <strong>from the bottom up</strong>: the last line names the error, the lines above show where it happened.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">average</span>(values):
+    <span class="hl-k">return</span> <span class="hl-f">sum</span>(values) / <span class="hl-f">len</span>(values)
+<span class="hl-k">def</span> <span class="hl-f">report</span>(data):
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;Average: {average(data[&#x27;scores&#x27;]):.1f}&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">report</span>({<span class="hl-s">&quot;scores&quot;</span>: []}))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="err">ZeroDivisionError: division by zero</pre></div>
+<p>The last line says <code>ZeroDivisionError</code>; the frame above points at <code>average</code>, called from <code>report</code>. The fix is a guard for empty input:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">average</span>(values):
+    <span class="hl-k">return</span> <span class="hl-f">sum</span>(values) / <span class="hl-f">len</span>(values) <span class="hl-k">if</span> values <span class="hl-k">else</span> <span class="hl-k">None</span>
+<span class="hl-f">print</span>(<span class="hl-f">average</span>([]), <span class="hl-f">average</span>([<span class="hl-n">4</span>, <span class="hl-n">6</span>]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">None 5.0</pre></div>
+<h2 id="a-debugging-routine">A debugging routine</h2>
+<figure class="fig"><img src="../img/python-14-01.png" alt="A systematic debugging loop beats random changes." loading="lazy"><figcaption>A systematic debugging loop beats random changes.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Technique</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Print / f-string debugging</td>
+<td><code>print(f"{i=} {total=}")</code> shows names and values</td>
+</tr>
+<tr>
+<td><code>breakpoint()</code></td>
+<td>Pauses and opens the <code>pdb</code> debugger at that line</td>
+</tr>
+<tr>
+<td>IDE debugger</td>
+<td>VS Code / PyCharm: breakpoints, step over/into, watch variables</td>
+</tr>
+<tr>
+<td>Jupyter <code>%debug</code></td>
+<td>Post-mortem debugging after an error in a cell</td>
+</tr>
+<tr>
+<td>Rubber-duck</td>
+<td>Explain the code line by line to someone (or an AI)</td>
+</tr>
+<tr>
+<td>Bisect</td>
+<td>Comment out halves of the code to find the failing part</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">total = <span class="hl-n">0</span>
+<span class="hl-k">for</span> i, v <span class="hl-k">in</span> <span class="hl-f">enumerate</span>([<span class="hl-n">5</span>, <span class="hl-n">10</span>, <span class="hl-n">15</span>]):
+    total += v
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{i=} {v=} {total=}&quot;</span>)          <span class="hl-c"># the = specifier prints the name and the value</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">i=0 v=5 total=5
+i=1 v=10 total=15
+i=2 v=15 total=30</pre></div>
+<p>pdb commands: <code>n</code> (next line), <code>s</code> (step into), <code>c</code> (continue), <code>p var</code> (print), <code>l</code> (list code), <code>q</code> (quit).</p>
+<h2 id="testing">Testing</h2>
+<p>A <strong>test</strong> is code that checks other code. Tests catch regressions when you change things later.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">clean_city</span>(raw):
+    <span class="hl-k">return</span> <span class="hl-s">&quot; &quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">raw.split</span>()).<span class="hl-f">title</span>() <span class="hl-k">if</span> raw <span class="hl-k">else</span> <span class="hl-k">None</span>
+
+assert <span class="hl-f">clean_city</span>(<span class="hl-s">&quot;  new   delhi &quot;</span>) == <span class="hl-s">&quot;New Delhi&quot;</span>
+assert <span class="hl-f">clean_city</span>(<span class="hl-s">&quot;&quot;</span>) <span class="hl-k">is</span> <span class="hl-k">None</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;asserts passed&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">asserts passed</pre></div>
+<h3 id="pytest">pytest</h3>
+<p><code>pytest</code> finds files named <code>test_*.py</code> and runs functions named <code>test_*</code>. Plain <code>assert</code> statements give detailed failure messages.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> pathlib <span class="hl-k">import</span> Path
+<span class="hl-k">import</span> subprocess, sys
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;tests_demo&quot;</span>).<span class="hl-f">mkdir</span>(exist_ok=<span class="hl-k">True</span>)
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;tests_demo/cleaning.py&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-s">&#x27;&#x27;&#x27;
+def clean_city(raw):
+    return &quot; &quot;.join(raw.split()).title() if raw else None
+
+def to_inr(value):
+    return f&quot;₹{value:,.0f}&quot;
+&#x27;&#x27;&#x27;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+<span class="hl-f">Path</span>(<span class="hl-s">&quot;tests_demo/test_cleaning.py&quot;</span>).<span class="hl-f">write_text</span>(<span class="hl-s">&#x27;&#x27;&#x27;
+import pytest
+from cleaning import clean_city, to_inr
+
+@pytest.mark.parametrize(&quot;raw, expected&quot;, [(&quot;  pune&quot;, &quot;Pune&quot;), (&quot;NEW  DELHI&quot;, &quot;New Delhi&quot;), (&quot;&quot;, None), (None, None)])
+def test_clean_city(raw, expected):
+    assert clean_city(raw) == expected
+
+def test_to_inr():
+    assert to_inr(1234567) == &quot;₹1,234,567&quot;
+
+def test_bad_input():
+    with pytest.raises(ValueError):          # a str cannot take the &#x27;,&#x27; number format
+        to_inr(&quot;abc&quot;)
+
+def test_deliberately_failing():
+    assert to_inr(1000) == &quot;₹1000&quot;          # wrong expectation, to show a failure report
+&#x27;&#x27;&#x27;</span>, encoding=<span class="hl-s">&quot;utf-8&quot;</span>)
+r = <span class="hl-f">subprocess.run</span>([sys.executable, <span class="hl-s">&quot;-m&quot;</span>, <span class="hl-s">&quot;pytest&quot;</span>, <span class="hl-s">&quot;-q&quot;</span>, <span class="hl-s">&quot;--no-header&quot;</span>, <span class="hl-s">&quot;-p&quot;</span>, <span class="hl-s">&quot;no:cacheprovider&quot;</span>, <span class="hl-s">&quot;tests_demo&quot;</span>], capture_output=<span class="hl-k">True</span>, text=<span class="hl-k">True</span>)
+lines = <span class="hl-f">r.stdout.strip</span>().<span class="hl-f">splitlines</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>([l <span class="hl-k">for</span> l <span class="hl-k">in</span> lines <span class="hl-k">if</span> <span class="hl-s">&quot;assert&quot;</span> <span class="hl-k">in</span> l <span class="hl-k">or</span> <span class="hl-s">&quot;passed&quot;</span> <span class="hl-k">in</span> l <span class="hl-k">or</span> <span class="hl-s">&quot;failed&quot;</span> <span class="hl-k">in</span> l][-<span class="hl-n">4</span>:]))
+<span class="hl-k">import</span> shutil; <span class="hl-f">shutil.rmtree</span>(<span class="hl-s">&quot;tests_demo&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">&gt;       assert to_inr(1000) == &quot;₹1000&quot;          # wrong expectation, to show a failure report
+E       AssertionError: assert &#x27;₹1,000&#x27; == &#x27;₹1000&#x27;
+1 failed, 6 passed in 0.02s</pre></div>
+<p>The report says which test failed and shows both values: <code>'₹1,000' == '₹1000'</code>. The function is right, so the test expectation is fixed.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>What to test in data work</b></div><p>Cleaning functions, metric calculations, edge cases (empty, missing, negative, duplicates), schema checks on loaded data (columns, types, ranges), and that a pipeline's row counts reconcile. Tools such as <strong>pandera</strong> and <strong>Great Expectations</strong> validate DataFrames.</p></div>
+<h2 id="regular-expressions">Regular expressions</h2>
+<p>A <strong>regular expression</strong> (regex) is a pattern for text. Python's <code>re</code> module searches, extracts, validates and replaces.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\d</code> / <code>\D</code></td>
+<td>A digit / a non-digit</td>
+</tr>
+<tr>
+<td><code>\w</code> / <code>\s</code></td>
+<td>Word character (letter, digit, _) / whitespace</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>Any character except newline</td>
+</tr>
+<tr>
+<td><code>[A-Z]</code>, <code>[^0-9]</code></td>
+<td>Character set / negated set</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>+</code>, <code>?</code></td>
+<td>0 or more, 1 or more, 0 or 1</td>
+</tr>
+<tr>
+<td><code>{3}</code>, <code>{2,4}</code></td>
+<td>Exactly 3, between 2 and 4</td>
+</tr>
+<tr>
+<td><code>^</code>, <code>$</code></td>
+<td>Start, end of string</td>
+</tr>
+<tr>
+<td><code>( )</code></td>
+<td>Capture group; <code>(?P&lt;name&gt; )</code> named group</td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>Or</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re
+text = <span class="hl-s">&quot;Call 98765-43210 or +91 91234 56789; email asha.k@gmail.com, ravi@skillnavora.in. Order #A-1029 on 2025-04-07.&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;\d{5}[- ]?\d{5}&quot;</span>, text))                              <span class="hl-c"># phone numbers</span>
+<span class="hl-f">print</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;[\w.+-]+@[\w-]+(?:\.[\w-]+)+&quot;</span>, text))                  <span class="hl-c"># emails (no trailing full stop)</span>
+m = <span class="hl-f">re.search</span>(r<span class="hl-s">&quot;(?P&lt;y&gt;\d{4})-(?P&lt;m&gt;\d{2})-(?P&lt;d&gt;\d{2})&quot;</span>, text)
+<span class="hl-f">print</span>(<span class="hl-f">m.group</span>(), m[<span class="hl-s">&quot;y&quot;</span>], <span class="hl-f">m.groupdict</span>())
+<span class="hl-f">print</span>(<span class="hl-f">re.sub</span>(r<span class="hl-s">&quot;\d&quot;</span>, <span class="hl-s">&quot;X&quot;</span>, <span class="hl-s">&quot;PAN ABCDE1234F&quot;</span>), <span class="hl-f">re.split</span>(r<span class="hl-s">&quot;[;,]\s*&quot;</span>, <span class="hl-s">&quot;a, b;c ,d&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">bool</span>(<span class="hl-f">re.fullmatch</span>(r<span class="hl-s">&quot;[A-Z]{5}\d{4}[A-Z]&quot;</span>, <span class="hl-s">&quot;ABCDE1234F&quot;</span>)), <span class="hl-f">bool</span>(<span class="hl-f">re.fullmatch</span>(r<span class="hl-s">&quot;[A-Z]{5}\d{4}[A-Z]&quot;</span>, <span class="hl-s">&quot;ABCD1234F&quot;</span>)))    <span class="hl-c"># PAN format</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;98765-43210&#x27;, &#x27;91234 56789&#x27;]
+[&#x27;asha.k@gmail.com&#x27;, &#x27;ravi@skillnavora.in&#x27;]
+2025-04-07 2025 {&#x27;y&#x27;: &#x27;2025&#x27;, &#x27;m&#x27;: &#x27;04&#x27;, &#x27;d&#x27;: &#x27;07&#x27;}
+PAN ABCDEXXXXF [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c &#x27;, &#x27;d&#x27;]
+True False</pre></div>
+<p>Always use <strong>raw strings</strong> <code>r"..."</code> for patterns, so <code>\d</code> is not treated as an escape. Test patterns at regex101.com.</p>
+<h3 id="regex-on-a-dataframe">Regex on a DataFrame</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+c = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;name&quot;</span>: [<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;Zoya&quot;</span>],
+                  <span class="hl-s">&quot;email&quot;</span>: [<span class="hl-s">&quot;asha@gmail.com&quot;</span>, <span class="hl-s">&quot;ravi@company&quot;</span>, <span class="hl-s">&quot;MEERA@Yahoo.co.in&quot;</span>, <span class="hl-s">&quot;kabir @gmail.com&quot;</span>, <span class="hl-k">None</span>],
+                  <span class="hl-s">&quot;phone&quot;</span>: [<span class="hl-s">&quot;98765 43210&quot;</span>, <span class="hl-s">&quot;+91-91234-56789&quot;</span>, <span class="hl-s">&quot;12345&quot;</span>, <span class="hl-s">&quot;9123456789&quot;</span>, <span class="hl-s">&quot;0987654321&quot;</span>]})
+c[<span class="hl-s">&quot;email_ok&quot;</span>] = c[<span class="hl-s">&quot;email&quot;</span>].<span class="hl-f">str.fullmatch</span>(r<span class="hl-s">&quot;[\w.+-]+@[\w-]+(?:\.[\w-]+)+&quot;</span>, na=<span class="hl-k">False</span>)
+c[<span class="hl-s">&quot;domain&quot;</span>] = c[<span class="hl-s">&quot;email&quot;</span>].<span class="hl-f">str.lower</span>().<span class="hl-f">str.extract</span>(r<span class="hl-s">&quot;@([\w.-]+)$&quot;</span>)[<span class="hl-n">0</span>]
+digits = c[<span class="hl-s">&quot;phone&quot;</span>].<span class="hl-f">str.replace</span>(r<span class="hl-s">&quot;\D&quot;</span>, <span class="hl-s">&quot;&quot;</span>, regex=<span class="hl-k">True</span>).str[-<span class="hl-n">10</span>:]
+c[<span class="hl-s">&quot;phone_ok&quot;</span>] = <span class="hl-f">digits.str.fullmatch</span>(r<span class="hl-s">&quot;[6-9]\d{9}&quot;</span>)
+<span class="hl-f">print</span>(c[[<span class="hl-s">&quot;name&quot;</span>, <span class="hl-s">&quot;email_ok&quot;</span>, <span class="hl-s">&quot;domain&quot;</span>, <span class="hl-s">&quot;phone_ok&quot;</span>]])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">    name  email_ok       domain  phone_ok
+0   Asha      True    gmail.com      True
+1   Ravi     False      company      True
+2  Meera      True  yahoo.co.in     False
+3  Kabir     False    gmail.com      True
+4   Zoya     False          NaN     False</pre></div>
+<p>pandas string methods (<code>.str.contains</code>, <code>.str.extract</code>, <code>.str.replace</code>, <code>.str.fullmatch</code>) accept regex and run on the whole column.</p>
+<h2 id="code-quality">Code quality</h2>
+<p><strong>PEP 8</strong> is Python's style guide. The essentials:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Rule</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>snake_case</code> for variables and functions</td>
+<td><code>total_sales</code>, <code>clean_city()</code></td>
+</tr>
+<tr>
+<td><code>PascalCase</code> for classes</td>
+<td><code>CleaningPipeline</code></td>
+</tr>
+<tr>
+<td><code>UPPER_CASE</code> for constants</td>
+<td><code>GST_RATE = 0.18</code></td>
+</tr>
+<tr>
+<td>4-space indentation, lines ≤ 79–100 chars</td>
+<td></td>
+</tr>
+<tr>
+<td>Spaces around operators, after commas</td>
+<td><code>x = a + b</code>, <code>f(a, b)</code></td>
+</tr>
+<tr>
+<td>Imports at the top, grouped std / third-party / local</td>
+<td></td>
+</tr>
+<tr>
+<td>Meaningful names over comments</td>
+<td><code>days_since_last_order</code>, not <code>d</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Let tools do the work:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">pip install ruff mypy
+ruff check .          # lint: unused imports, undefined names, bad patterns
+ruff format .         # auto-format (black-compatible)
+mypy src/             # check type hints
+pre-commit install    # run them automatically before each commit</code></pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Using AI to debug</b></div><p>Paste the <strong>full traceback and the smallest code that reproduces it</strong> into an AI assistant (Claude, ChatGPT, Copilot, Gemini). Ask it to explain the cause before proposing a fix, then run the fix and add a test. Never paste secrets or confidential data, and check that suggested library functions really exist.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Read tracebacks bottom-up; reproduce, isolate, hypothesise, fix, then add a test.</li>
+<li>Debug with <code>print(f"{x=}")</code>, <code>breakpoint()</code>, an IDE debugger or <code>%debug</code>.</li>
+<li><code>pytest</code> runs <code>test_*</code> functions with plain <code>assert</code>; use <code>parametrize</code> for many cases and <code>pytest.raises</code> for errors.</li>
+<li>Regex: <code>re.search</code>, <code>findall</code>, <code>fullmatch</code>, <code>sub</code>, <code>split</code>; raw strings; pandas <code>.str</code> methods accept regex.</li>
+<li>Follow PEP 8 and automate it with ruff, a formatter and mypy.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-14-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Where do you start reading a Python traceback?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The first line</button><button type="button" class="opt" data-ok="1"><i>B</i>The last line, which names the error</button><button type="button" class="opt" data-ok="0"><i>C</i>The middle</button><button type="button" class="opt" data-ok="0"><i>D</i>The import lines</button></div><div class="qexp"><b>Answer: B.</b> Then read upward to find where it happened.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>print(f"{total=}")</code> print when total is 5?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>5</button><button type="button" class="opt" data-ok="1"><i>B</i>total=5</button><button type="button" class="opt" data-ok="0"><i>C</i>{total=5}</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> The <code>=</code> specifier is a debugging shortcut.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which file name will pytest discover by default?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>cleaning_tests.py</button><button type="button" class="opt" data-ok="1"><i>B</i>test_cleaning.py</button><button type="button" class="opt" data-ok="0"><i>C</i>tests.txt</button><button type="button" class="opt" data-ok="0"><i>D</i>cleaning.py</button></div><div class="qexp"><b>Answer: B.</b> Files <code>test_*.py</code> or <code>*_test.py</code>, functions <code>test_*</code>.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>\d{3}</code> match?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The letter d three times</button><button type="button" class="opt" data-ok="1"><i>B</i>Exactly three digits</button><button type="button" class="opt" data-ok="0"><i>C</i>Up to three digits</button><button type="button" class="opt" data-ok="0"><i>D</i>Any three characters</button></div><div class="qexp"><b>Answer: B.</b> <code>\d</code> is a digit; <code>{3}</code> repeats it exactly three times.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why use <code>r"..."</code> for regex patterns?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It runs faster</button><button type="button" class="opt" data-ok="1"><i>B</i>Backslashes are kept literally instead of being treated as escapes</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the pattern case-insensitive</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required by pandas</button></div><div class="qexp"><b>Answer: B.</b> Raw strings avoid double escaping.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which naming follows PEP 8 for a function?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>CalculateMargin</button><button type="button" class="opt" data-ok="1"><i>B</i>calculate_margin</button><button type="button" class="opt" data-ok="0"><i>C</i>CALCULATE_MARGIN</button><button type="button" class="opt" data-ok="0"><i>D</i>calculateMargin</button></div><div class="qexp"><b>Answer: B.</b> snake_case for functions and variables.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Write a regex that extracts all hashtags from a tweet. (2) Validate Indian PIN codes (6 digits, not starting with 0). (3) Write three pytest tests for a <code>percent_change</code> function, including the zero case. (4) Run <code>ruff check</code> on one of your notebooks exported as <code>.py</code> and fix the warnings.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> re
+<span class="hl-f">print</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;#\w+&quot;</span>, <span class="hl-s">&quot;Loving #Python and #DataScience!&quot;</span>))
+pin = <span class="hl-f">re.compile</span>(r<span class="hl-s">&quot;[1-9]\d{5}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">bool</span>(<span class="hl-f">pin.fullmatch</span>(<span class="hl-s">&quot;411001&quot;</span>)), <span class="hl-f">bool</span>(<span class="hl-f">pin.fullmatch</span>(<span class="hl-s">&quot;011001&quot;</span>)))
+<span class="hl-c"># test_metrics.py</span>
+<span class="hl-c"># def test_up(): assert percent_change(100, 120) == 20</span>
+<span class="hl-c"># def test_down(): assert percent_change(100, 80) == -20</span>
+<span class="hl-c"># def test_zero(): assert percent_change(0, 5) is None</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you debug a function that gives wrong output only for some inputs?</strong>
+Reproduce with the smallest failing input, inspect intermediate values (prints or debugger), form a hypothesis, fix, and add the case as a regression test.</p>
+<p><strong>Q: Unit test vs integration test?</strong>
+A unit test checks one small function in isolation; an integration test checks that components work together (e.g. load → transform → write).</p>
+<p><strong>Q: Write a regex for a 10-digit Indian mobile number.</strong>
+<code>^[6-9]\d{9}$</code> (optionally allowing a <code>+91</code> prefix: <code>^(?:\+91[- ]?)?[6-9]\d{9}$</code>).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-13-modules-packages-virtual-environments-and-git.html"><small>← Previous</small><b>Modules, Packages, Virtual Environments and Git</b></a><a class="next" href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html"><small>Next →</small><b>NumPy: Fast Arrays, Vectorisation and Broadcasting</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#reading-a-traceback">Reading a traceback</a><a href="#a-debugging-routine">A debugging routine</a><a href="#testing">Testing</a><a href="#regular-expressions">Regular expressions</a><a href="#code-quality">Code quality</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

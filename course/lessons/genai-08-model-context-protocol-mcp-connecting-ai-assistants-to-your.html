@@ -1,0 +1,240 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools · GenAI &amp; Agents Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn the open standard that lets any AI application use any tool or data source. MCP architecture (hosts, clients, servers), the three primitives (tools, resources, prompts), transports (stdio and Streamable HTTP), building and testing a real MCP server for sales data in Python, connecting it to Claude Desktop, Claude Code and other clients, using remote MCP servers from the API, and securing MCP deployments."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class=""><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li class=""><a href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html" data-lid="genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li class=""><a href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html" data-lid="genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li class=""><a href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html" data-lid="genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li class=""><a href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html" data-lid="genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li class="on"><a href="genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html" data-lid="genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li class=""><a href="genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html" data-lid="genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li class=""><a href="genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html" data-lid="genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li class=""><a href="genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html" data-lid="genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li><li class=""><a href="genai-12-building-and-shipping-a-genai-app-architecture-streamlit-fas.html" data-lid="genai-12"><span>12</span>Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-08">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 8 of 12</div><h1>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</h1>
+<p class="sum">Learn the open standard that lets any AI application use any tool or data source. MCP architecture (hosts, clients, servers), the three primitives (tools, resources, prompts), transports (stdio and Streamable HTTP), building and testing a real MCP server for sales data in Python, connecting it to Claude Desktop, Claude Code and other clients, using remote MCP servers from the API, and securing MCP deployments.</p><div class="tags"><span class="tag live">● DVA + AI class 2 (MinusX, Metabase) · GenAI Launchpad</span><span class="tag new">✦ MCP Python SDK 2.x · Claude, ChatGPT, Gemini, Copilot and IDE clients (2026)</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_08_Model_Context_Protocol_MCP_Connecting_AI_Assistants_to_Your_Data_and_T.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-08">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the problem MCP solves and its host–client–server architecture</li><li>Distinguish tools, resources and prompts and choose the right primitive</li><li>Build an MCP server in Python and test it in-process</li><li>Connect MCP servers to desktop apps, coding assistants and the Claude API</li><li>Apply MCP security practices: authentication, least privilege and injection awareness</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="the-problem-mcp-solves">The problem MCP solves</h2>
+<p>Before MCP, every AI app needed custom code for every integration: <em>N apps × M tools</em> connectors. <strong>MCP</strong> (introduced by Anthropic in November 2024, now an open standard supported across Claude, ChatGPT, Gemini, Microsoft Copilot, VS Code, Cursor and many others) defines <strong>one protocol</strong>: build a server once, and every MCP-capable assistant can use it, like a USB-C port for AI.</p>
+<figure class="fig"><img src="../img/genai-08-01.png" alt="MCP architecture: a host application runs one MCP client per server; servers expose tools, resources and prompts over a standard protocol." loading="lazy"><figcaption>MCP architecture: a host application runs one MCP client per server; servers expose tools, resources and prompts over a standard protocol.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Role</th>
+<th>What it is</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td>The AI application the user works in</td>
+<td>Claude Desktop, Claude Code, VS Code, a custom chatbot</td>
+</tr>
+<tr>
+<td><strong>Client</strong></td>
+<td>Connector inside the host, one per server</td>
+<td>Created by the host</td>
+</tr>
+<tr>
+<td><strong>Server</strong></td>
+<td>A program exposing capabilities</td>
+<td>"NovaMart sales" server, GitHub, Slack, Postgres, Google Drive</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-three-primitives">The three primitives</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Controlled by</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tools</strong></td>
+<td>The model (with user approval)</td>
+<td>Actions and computations</td>
+<td><code>run_sql</code>, <code>create_ticket</code>, <code>send_email</code></td>
+</tr>
+<tr>
+<td><strong>Resources</strong></td>
+<td>The application/user</td>
+<td>Read-only context the host can attach</td>
+<td>A policy document, a table schema, a file</td>
+</tr>
+<tr>
+<td><strong>Prompts</strong></td>
+<td>The user</td>
+<td>Reusable prompt templates (often shown as slash commands)</td>
+<td><code>/monthly-review</code>, <code>/explain-query</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Clients can also offer capabilities to servers, such as <strong>sampling</strong> (the server asks the host's model to generate text) and <strong>elicitation</strong> (the server asks the user for input).</p>
+<h2 id="build-an-mcp-server">Build an MCP server</h2>
+<p>The official Python SDK makes a server a few decorated functions. Type hints and docstrings become the tool schema and description.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> asyncio, json, duckdb, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> mcp <span class="hl-k">import</span> Client
+<span class="hl-k">from</span> mcp.server.mcpserver <span class="hl-k">import</span> MCPServer        <span class="hl-c"># in MCP SDK 1.x this class was FastMCP (from mcp.server.fastmcp import FastMCP)</span>
+<span class="hl-k">from</span> mcp.server.mcpserver.exceptions <span class="hl-k">import</span> ToolError
+<span class="hl-k">import</span> logging; <span class="hl-f">logging.getLogger</span>(<span class="hl-s">&quot;mcp&quot;</span>).<span class="hl-f">setLevel</span>(logging.CRITICAL)      <span class="hl-c"># keep the demo output tidy</span>
+
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+con = <span class="hl-f">duckdb.connect</span>(); <span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+server = <span class="hl-f">MCPServer</span>(<span class="hl-s">&quot;NovaMart sales analytics&quot;</span>)
+
+@<span class="hl-f">server.tool</span>()
+<span class="hl-k">def</span> <span class="hl-f">sales_summary</span>(year: int, dimension: str = <span class="hl-s">&quot;region&quot;</span>) -&gt; list[dict]:
+    <span class="hl-s">&quot;&quot;&quot;Total sales, profit and margin for one year, grouped by region, category, segment or sub_category.&quot;&quot;&quot;</span>
+    <span class="hl-k">if</span> dimension <span class="hl-k">not</span> <span class="hl-k">in</span> {<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>, <span class="hl-s">&quot;segment&quot;</span>, <span class="hl-s">&quot;sub_category&quot;</span>}:
+        <span class="hl-k">raise</span> <span class="hl-f">ToolError</span>(<span class="hl-s">&quot;dimension must be one of region, category, segment, sub_category&quot;</span>)   <span class="hl-c"># a clear message the model can act on</span>
+    q = <span class="hl-s">f&quot;&quot;</span>&quot;SELECT {dimension}, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales)/1e6, <span class="hl-n">2</span>) AS sales_m, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit)/1e6, <span class="hl-n">2</span>) AS profit_m,
+            <span class="hl-f">ROUND</span>(<span class="hl-n">100</span>*<span class="hl-f">SUM</span>(profit)/<span class="hl-f">SUM</span>(sales), <span class="hl-n">1</span>) AS margin_pct FROM sales WHERE <span class="hl-f">YEAR</span>(order_date) = ? GROUP BY <span class="hl-n">1</span> ORDER BY sales_m DESC<span class="hl-s">&quot;&quot;&quot;
+    return con.execute(q, [year]).df().to_dict(&quot;records&quot;)
+
+@server.tool()
+def top_products(category: str, n: int = 5) -&gt; list[dict]:
+    &quot;&quot;&quot;</span>The n most profitable products <span class="hl-k">in</span> a category (Furniture, Office Supplies, Technology).<span class="hl-s">&quot;&quot;&quot;
+    q = &quot;SELECT product_name, ROUND(SUM(profit)) AS profit FROM sales WHERE category = ? GROUP BY 1 ORDER BY 2 DESC LIMIT ?&quot;
+    return con.execute(q, [category, min(n, 20)]).df().to_dict(&quot;records&quot;)
+
+@server.resource(&quot;schema://sales&quot;)
+def sales_schema() -&gt; str:
+    &quot;&quot;&quot;</span>Column names <span class="hl-k">and</span> types of the sales table.<span class="hl-s">&quot;&quot;&quot;
+    return sales.dtypes.astype(str).to_json()
+
+@server.prompt()
+def monthly_review(month: str) -&gt; str:
+    &quot;&quot;&quot;</span>Prompt template <span class="hl-k">for</span> a monthly business review.<span class="hl-s">&quot;&quot;</span>&quot;
+    <span class="hl-k">return</span> <span class="hl-s">f&quot;Using the sales tools, write a monthly business review for {month}: headline numbers, three drivers, one risk and one action. Cite every number&#x27;s source.&quot;</span>
+
+<span class="hl-k">async</span> <span class="hl-k">def</span> <span class="hl-f">demo</span>():
+    <span class="hl-k">async</span> <span class="hl-k">with</span> <span class="hl-f">Client</span>(server) <span class="hl-k">as</span> client:                      <span class="hl-c"># in-process connection, ideal for testing</span>
+        tools = <span class="hl-k">await</span> <span class="hl-f">client.list_tools</span>()
+        <span class="hl-k">for</span> t <span class="hl-k">in</span> tools.tools: <span class="hl-f">print</span>(<span class="hl-s">&quot;tool:&quot;</span>, t.name, <span class="hl-s">&quot;| inputs:&quot;</span>, <span class="hl-f">list</span>(t.input_schema[<span class="hl-s">&quot;properties&quot;</span>]))
+        r = <span class="hl-k">await</span> <span class="hl-f">client.call_tool</span>(<span class="hl-s">&quot;sales_summary&quot;</span>, {<span class="hl-s">&quot;year&quot;</span>: <span class="hl-n">2025</span>, <span class="hl-s">&quot;dimension&quot;</span>: <span class="hl-s">&quot;category&quot;</span>})
+        <span class="hl-f">print</span>(<span class="hl-s">&quot;call result:&quot;</span>, r.content[<span class="hl-n">0</span>].text[:<span class="hl-n">160</span>])
+        bad = <span class="hl-k">await</span> <span class="hl-f">client.call_tool</span>(<span class="hl-s">&quot;sales_summary&quot;</span>, {<span class="hl-s">&quot;year&quot;</span>: <span class="hl-n">2025</span>, <span class="hl-s">&quot;dimension&quot;</span>: <span class="hl-s">&quot;customer_name&quot;</span>})
+        <span class="hl-f">print</span>(<span class="hl-s">&quot;error is returned, not raised:&quot;</span>, bad.is_error, <span class="hl-s">&quot;|&quot;</span>, bad.content[<span class="hl-n">0</span>].text[:<span class="hl-n">90</span>])
+        res = <span class="hl-k">await</span> <span class="hl-f">client.read_resource</span>(<span class="hl-s">&quot;schema://sales&quot;</span>); <span class="hl-f">print</span>(<span class="hl-s">&quot;resource:&quot;</span>, res.contents[<span class="hl-n">0</span>].text[:<span class="hl-n">80</span>], <span class="hl-s">&quot;...&quot;</span>)
+        p = <span class="hl-k">await</span> <span class="hl-f">client.get_prompt</span>(<span class="hl-s">&quot;monthly_review&quot;</span>, {<span class="hl-s">&quot;month&quot;</span>: <span class="hl-s">&quot;December 2025&quot;</span>}); <span class="hl-f">print</span>(<span class="hl-s">&quot;prompt:&quot;</span>, p.messages[<span class="hl-n">0</span>].content.text[:<span class="hl-n">90</span>], <span class="hl-s">&quot;...&quot;</span>)
+<span class="hl-f">asyncio.run</span>(<span class="hl-f">demo</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">tool: sales_summary | inputs: [&#x27;year&#x27;, &#x27;dimension&#x27;]
+tool: top_products | inputs: [&#x27;category&#x27;, &#x27;n&#x27;]
+call result: {
+  &quot;category&quot;: &quot;Technology&quot;,
+  &quot;sales_m&quot;: 61.65,
+  &quot;profit_m&quot;: 7.2,
+  &quot;margin_pct&quot;: 11.7
+}
+error is returned, not raised: True | Error executing tool sales_summary: dimension must be one of region, category, segment, su
+resource: {&quot;row_id&quot;:&quot;int64&quot;,&quot;order_id&quot;:&quot;object&quot;,&quot;order_date&quot;:&quot;datetime64[ns]&quot;,&quot;ship_date&quot;: ...
+prompt: Using the sales tools, write a monthly business review for December 2025: headline numbers ...</pre></div>
+<p>The same server runs for real with one line:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">if</span> __name__ == <span class="hl-s">&quot;__main__&quot;</span>:
+    <span class="hl-f">server.run</span>()            <span class="hl-c"># stdio transport (default): the host launches this script as a subprocess</span>
+    <span class="hl-c"># server.run(transport=&quot;streamable-http&quot;)   # remote server at http://host:8000/mcp</span></code></pre></div>
+<h2 id="transports">Transports</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Transport</th>
+<th>How</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>stdio</strong></td>
+<td>The host starts the server as a local process and talks over stdin/stdout</td>
+<td>Local tools: files, local databases, scripts</td>
+</tr>
+<tr>
+<td><strong>Streamable HTTP</strong></td>
+<td>The server is a web service; clients connect over HTTP (with OAuth)</td>
+<td>Shared/remote servers, SaaS integrations, teams</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="connect-it-to-ai-applications">Connect it to AI applications</h2>
+<p><strong>Claude Desktop</strong> (Settings → Developer → Edit config) — <code>claude_desktop_config.json</code>:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">{
+  &quot;mcpServers&quot;: {
+    &quot;novamart-sales&quot;: {
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;C:/projects/novamart/sales_server.py&quot;]
+    }
+  }
+}</code></pre></div>
+<p><strong>Claude Code</strong> (terminal): <code>claude mcp add novamart-sales -- python sales_server.py</code>, or add a remote server with <code>claude mcp add --transport http github https://api.githubcopilot.com/mcp/</code>.</p>
+<p><strong>VS Code / Cursor / Windsurf / ChatGPT / Gemini CLI:</strong> each has an MCP settings page or JSON file with the same idea: a command to launch (stdio) or a URL (HTTP).</p>
+<p><strong>From the Claude API</strong> you can attach remote MCP servers directly with the MCP connector, so your own app gets their tools without writing a client:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">response = <span class="hl-f">client.beta.messages.create</span>(
+    model=<span class="hl-s">&quot;claude-opus-5-5&quot;</span>, max_tokens=<span class="hl-n">16000</span>, betas=[<span class="hl-s">&quot;mcp-client-2025-11-20&quot;</span>],
+    mcp_servers=[{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;url&quot;</span>, <span class="hl-s">&quot;url&quot;</span>: <span class="hl-s">&quot;https://mcp.novamart.example/mcp&quot;</span>, <span class="hl-s">&quot;name&quot;</span>: <span class="hl-s">&quot;novamart&quot;</span>}],
+    tools=[{<span class="hl-s">&quot;type&quot;</span>: <span class="hl-s">&quot;mcp_toolset&quot;</span>, <span class="hl-s">&quot;mcp_server_name&quot;</span>: <span class="hl-s">&quot;novamart&quot;</span>}],
+    messages=[{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;Compare 2025 sales by category and name the weakest one.&quot;</span>}],
+)</code></pre></div>
+<h2 id="useful-servers-to-explore">Useful servers to explore</h2>
+<p>Official and community servers exist for filesystems, Git/GitHub, Postgres/SQLite/BigQuery/Snowflake, Google Drive, Slack, Notion, Jira, Salesforce, browsers (Playwright), Excel files, and BI tools; the analytics tools from the AI-analytics track (Metabase, MinusX) follow the same idea. Browse the MCP registry and vendor directories, and prefer servers from the vendor itself or well-maintained open-source projects.</p>
+<h2 id="security">Security</h2>
+<figure class="fig"><img src="../img/genai-08-02.png" alt="MCP security checklist." loading="lazy"><figcaption>MCP security checklist.</figcaption></figure>
+<p>Specific risks: <strong>tool poisoning</strong> (malicious instructions hidden in a tool's description), <strong>prompt injection</strong> through returned data (a web page or ticket telling the model to exfiltrate data), <strong>over-broad permissions</strong> and <strong>confused-deputy</strong> problems with shared credentials. Validate inputs in every tool (as <code>sales_summary</code> does with <code>dimension</code> and parameterised SQL), and return errors instead of crashing.</p>
+<h2 id="mcp-vs-other-integration-styles">MCP vs other integration styles</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Approach</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct tool use in your own app (lesson 6)</td>
+<td>One app, tools only it needs</td>
+</tr>
+<tr>
+<td><strong>MCP server</strong></td>
+<td>The same capability should work in many assistants (desktop, IDE, your app) or be shared across a team</td>
+</tr>
+<tr>
+<td>Plugins/skills packages</td>
+<td>Bundles of instructions + tools + workflows for an assistant (e.g. Agent Skills)</td>
+</tr>
+<tr>
+<td>Traditional REST API</td>
+<td>Non-AI consumers; MCP servers often wrap these</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>MCP is an open standard connecting AI hosts to tools and data through servers: build once, use in many assistants.</li>
+<li>Architecture: host app → one client per server → server exposing capabilities over stdio (local) or Streamable HTTP (remote).</li>
+<li>Primitives: tools (model-invoked actions), resources (read-only context), prompts (user-invoked templates).</li>
+<li>The Python SDK turns decorated, typed functions into a server; test in-process with <code>Client(server)</code>.</li>
+<li>Secure servers with trusted sources, least privilege, authentication, approvals, input validation and logging.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-08-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What problem does MCP solve?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It standardises how AI applications connect to tools and data, avoiding custom integrations per app</button><button type="button" class="opt" data-ok="0"><i>B</i>It trains models faster</button><button type="button" class="opt" data-ok="0"><i>C</i>It replaces databases</button><button type="button" class="opt" data-ok="0"><i>D</i>It is a vector database</button></div><div class="qexp"><b>Answer: A.</b> One protocol, many hosts and servers.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which MCP primitive is invoked by the model to take an action?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Tool</button><button type="button" class="opt" data-ok="0"><i>B</i>Resource</button><button type="button" class="opt" data-ok="0"><i>C</i>Prompt</button><button type="button" class="opt" data-ok="0"><i>D</i>Transport</button></div><div class="qexp"><b>Answer: A.</b> Resources are context; prompts are templates.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which transport suits a server running on the same laptop as Claude Desktop?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>stdio</button><button type="button" class="opt" data-ok="0"><i>B</i>Streamable HTTP only</button><button type="button" class="opt" data-ok="0"><i>C</i>SMTP</button><button type="button" class="opt" data-ok="0"><i>D</i>FTP</button></div><div class="qexp"><b>Answer: A.</b> The host launches it as a subprocess.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is "tool poisoning"?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Hidden malicious instructions in a tool's description or metadata</button><button type="button" class="opt" data-ok="0"><i>B</i>A slow tool</button><button type="button" class="opt" data-ok="0"><i>C</i>A tool with no parameters</button><button type="button" class="opt" data-ok="0"><i>D</i>Too many tools</button></div><div class="qexp"><b>Answer: A.</b> Only install trusted servers.</div></div><div class="qq"><p class="qtext"><b>5.</b> How should an MCP tool handle an invalid argument?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Validate it and return a clear error message</button><button type="button" class="opt" data-ok="0"><i>B</i>Run the query anyway</button><button type="button" class="opt" data-ok="0"><i>C</i>Crash the server</button><button type="button" class="opt" data-ok="0"><i>D</i>Ignore it silently</button></div><div class="qexp"><b>Answer: A.</b> The client receives <code>is_error</code> and the model can retry.</div></div><div class="qq"><p class="qtext"><b>6.</b> When is building an MCP server better than direct tool use inside one app?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When the capability should work across several assistants or be shared by a team</button><button type="button" class="opt" data-ok="0"><i>B</i>Never</button><button type="button" class="opt" data-ok="0"><i>C</i>Only for images</button><button type="button" class="opt" data-ok="0"><i>D</i>When there is one user and one app</button></div><div class="qexp"><b>Answer: A.</b> Build once, reuse everywhere.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Add a <code>margin_trend(sub_category)</code> tool to the server and test it with <code>Client(server)</code>. (2) Add a resource listing the valid categories. (3) Save the server as <code>sales_server.py</code>, register it in Claude Desktop or Claude Code, and ask three questions. (4) Review a public MCP server's code and list the permissions it needs.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">@<span class="hl-f">server.tool</span>()
+<span class="hl-k">def</span> <span class="hl-f">margin_trend</span>(sub_category: str) -&gt; list[dict]:
+    <span class="hl-s">&quot;&quot;&quot;Yearly profit margin (%) for one sub-category.&quot;&quot;&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT YEAR(order_date) AS yr, ROUND(100*SUM(profit)/SUM(sales), 1) AS margin FROM sales WHERE sub_category = ? GROUP BY 1 ORDER BY 1&quot;</span>, [sub_category]).<span class="hl-f">df</span>().<span class="hl-f">to_dict</span>(<span class="hl-s">&quot;records&quot;</span>)
+@<span class="hl-f">server.resource</span>(<span class="hl-s">&quot;lists://categories&quot;</span>)
+<span class="hl-k">def</span> <span class="hl-f">categories</span>() -&gt; str:
+    <span class="hl-s">&quot;&quot;&quot;Valid category names.&quot;&quot;&quot;</span>
+    <span class="hl-k">return</span> <span class="hl-f">json.dumps</span>(<span class="hl-f">sorted</span>(<span class="hl-f">sales.category.unique</span>().<span class="hl-f">tolist</span>()))
+<span class="hl-k">async</span> <span class="hl-k">def</span> <span class="hl-f">test</span>():
+    <span class="hl-k">async</span> <span class="hl-k">with</span> <span class="hl-f">Client</span>(server) <span class="hl-k">as</span> c: <span class="hl-f">print</span>((<span class="hl-k">await</span> <span class="hl-f">c.call_tool</span>(<span class="hl-s">&quot;margin_trend&quot;</span>, {<span class="hl-s">&quot;sub_category&quot;</span>: <span class="hl-s">&quot;Tables&quot;</span>})).content[<span class="hl-n">0</span>].text)
+<span class="hl-f">asyncio.run</span>(<span class="hl-f">test</span>())</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain MCP and why it matters.</strong>
+An open protocol that standardises how AI assistants discover and call external tools and read data. Organisations build a server once and make internal systems available to any compliant assistant, with consistent security and governance.</p>
+<p><strong>Q: Tools vs resources in MCP?</strong>
+Tools perform actions or computations and are chosen by the model; resources are read-only data the application or user attaches as context.</p>
+<p><strong>Q: What are the main security risks of MCP and how do you mitigate them?</strong>
+Untrusted servers, tool poisoning, prompt injection via returned content, and over-privileged credentials; mitigate with vetted servers, least privilege, OAuth, user approval for side effects, input validation and audit logging.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html"><small>← Previous</small><b>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</b></a><a class="next" href="genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html"><small>Next →</small><b>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-problem-mcp-solves">The problem MCP solves</a><a href="#the-three-primitives">The three primitives</a><a href="#build-an-mcp-server">Build an MCP server</a><a href="#transports">Transports</a><a href="#connect-it-to-ai-applications">Connect it to AI applications</a><a href="#useful-servers-to-explore">Useful servers to explore</a><a href="#security">Security</a><a href="#mcp-vs-other-integration-styles">MCP vs other integration styles</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

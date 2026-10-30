@@ -1,0 +1,221 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Descriptive Statistics: Centre, Spread, Shape and Relationships · Stats &amp; ML Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Describe data with numbers before modelling it. Types of data and measurement scales, mean, median and mode, range, variance, standard deviation, IQR and coefficient of variation, percentiles and z-scores, skewness and kurtosis, covariance and correlation (Pearson and Spearman), all on the house-price and HR datasets."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class="on"><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class=""><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-01">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 1 of 28</div><h1>Descriptive Statistics: Centre, Spread, Shape and Relationships</h1>
+<p class="sum">Describe data with numbers before modelling it. Types of data and measurement scales, mean, median and mode, range, variance, standard deviation, IQR and coefficient of variation, percentiles and z-scores, skewness and kurtosis, covariance and correlation (Pearson and Spearman), all on the house-price and HR datasets.</p><div class="tags"><span class="tag live">● Python class 14</span><span class="tag new">✦ pandas 3 · SciPy 1.1x</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_01_Descriptive_Statistics_Centre_Spread_Shape_and_Relationships.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Classify variables as categorical (nominal, ordinal) or numeric (discrete, continuous; interval, ratio)</li><li>Compute and interpret mean, median, mode, weighted mean and trimmed mean</li><li>Compute and interpret range, IQR, variance, standard deviation and coefficient of variation</li><li>Use percentiles and z-scores and describe skewness and kurtosis</li><li>Measure association with covariance, Pearson and Spearman correlation, and explain why correlation is not causation</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="statistics-in-data-science">Statistics in data science</h2>
+<p><strong>Descriptive statistics</strong> summarise the data you have. <strong>Inferential statistics</strong> use a sample to draw conclusions about a larger population (next lessons). Machine learning builds on both.</p>
+<figure class="fig"><img src="../img/ml-01-01.png" alt="The statistics roadmap for this track." loading="lazy"><figcaption>The statistics roadmap for this track.</figcaption></figure>
+<h2 id="types-of-data">Types of data</h2>
+<figure class="fig"><img src="../img/ml-01-02.png" alt="Variable types decide which statistics and charts make sense." loading="lazy"><figcaption>Variable types decide which statistics and charts make sense.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Scale</th>
+<th>Has order?</th>
+<th>Equal intervals?</th>
+<th>True zero?</th>
+<th>Example</th>
+<th>Allowed statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nominal</td>
+<td>No</td>
+<td>–</td>
+<td>–</td>
+<td>City</td>
+<td>Mode, counts</td>
+</tr>
+<tr>
+<td>Ordinal</td>
+<td>Yes</td>
+<td>No</td>
+<td>–</td>
+<td>Satisfaction 1–4</td>
+<td>Median, percentiles</td>
+</tr>
+<tr>
+<td>Interval</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Temperature °C</td>
+<td>Mean, sd (no ratios)</td>
+</tr>
+<tr>
+<td>Ratio</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Income, price</td>
+<td>Everything, including ratios</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="measures-of-centre">Measures of centre</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+<span class="hl-k">from</span> scipy <span class="hl-k">import</span> stats
+h = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;house_prices.csv&quot;</span>)
+p = h[<span class="hl-s">&quot;price_lakh&quot;</span>]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;mean {p.mean():.1f} | median {p.median():.1f} | mode (rounded to 10) {(p.round(-1)).mode()[0]:.0f} | trimmed mean 10% {stats.trim_mean(p, 0.1):.1f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;bedrooms mode:&quot;</span>, h[<span class="hl-s">&quot;bedrooms&quot;</span>].<span class="hl-f">mode</span>().<span class="hl-f">tolist</span>(), <span class="hl-s">&quot;| city mode:&quot;</span>, h[<span class="hl-s">&quot;city&quot;</span>].<span class="hl-f">mode</span>()[<span class="hl-n">0</span>])
+w = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;city_avg_price&quot;</span>: [<span class="hl-n">62</span>, <span class="hl-n">88</span>, <span class="hl-n">75</span>], <span class="hl-s">&quot;houses&quot;</span>: [<span class="hl-n">100</span>, <span class="hl-n">20</span>, <span class="hl-n">50</span>]})
+<span class="hl-f">print</span>(<span class="hl-s">&quot;simple mean of city averages:&quot;</span>, <span class="hl-f">w.city_avg_price.mean</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>), <span class="hl-s">&quot;| weighted mean:&quot;</span>, <span class="hl-f">np.average</span>(w.city_avg_price, weights=w.houses).<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">mean 80.4 | median 78.9 | mode (rounded to 10) 80 | trimmed mean 10% 78.9
+bedrooms mode: [2] | city mode: Bengaluru
+simple mean of city averages: 75.0 | weighted mean: 68.9</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Measure</th>
+<th>Use when</th>
+<th>Sensitive to outliers?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean</td>
+<td>Symmetric numeric data; totals matter</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Median</td>
+<td>Skewed data (income, prices), ordinal data</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Mode</td>
+<td>Categories, most common value</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Trimmed mean</td>
+<td>Want a mean but robust to extremes</td>
+<td>Less</td>
+</tr>
+<tr>
+<td>Weighted mean</td>
+<td>Groups of different sizes</td>
+<td>Depends</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">salaries = <span class="hl-f">pd.Series</span>([<span class="hl-n">40</span>, <span class="hl-n">42</span>, <span class="hl-n">45</span>, <span class="hl-n">47</span>, <span class="hl-n">50</span>, <span class="hl-n">52</span>, <span class="hl-n">55</span>, <span class="hl-n">60</span>, <span class="hl-n">65</span>, <span class="hl-n">900</span>])      <span class="hl-c"># one CEO in thousands</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;mean {salaries.mean():.1f}K vs median {salaries.median():.1f}K: one extreme value moves the mean, not the median&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">mean 135.6K vs median 51.0K: one extreme value moves the mean, not the median</pre></div>
+<h2 id="measures-of-spread">Measures of spread</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">spread</span>(x):
+    q1, q3 = <span class="hl-f">x.quantile</span>([.<span class="hl-n">25</span>, .<span class="hl-n">75</span>])
+    <span class="hl-k">return</span> <span class="hl-f">pd.Series</span>({<span class="hl-s">&quot;range&quot;</span>: <span class="hl-f">x.max</span>() - <span class="hl-f">x.min</span>(), <span class="hl-s">&quot;IQR&quot;</span>: q3 - q1, <span class="hl-s">&quot;variance&quot;</span>: <span class="hl-f">x.var</span>(), <span class="hl-s">&quot;std&quot;</span>: <span class="hl-f">x.std</span>(), <span class="hl-s">&quot;CV_%&quot;</span>: <span class="hl-n">100</span> * <span class="hl-f">x.std</span>() / <span class="hl-f">x.mean</span>(), <span class="hl-s">&quot;MAD&quot;</span>: (x - <span class="hl-f">x.median</span>()).<span class="hl-f">abs</span>().<span class="hl-f">median</span>()})
+<span class="hl-f">print</span>(<span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;price_lakh&quot;</span>: <span class="hl-f">spread</span>(p), <span class="hl-s">&quot;area_sqft&quot;</span>: <span class="hl-f">spread</span>(h[<span class="hl-s">&quot;area_sqft&quot;</span>].<span class="hl-f">dropna</span>()), <span class="hl-s">&quot;age_years&quot;</span>: <span class="hl-f">spread</span>(h[<span class="hl-s">&quot;age_years&quot;</span>])}).<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">          price_lakh  area_sqft  age_years
+range          518.0     2130.0       29.0
+IQR             42.2      580.0       15.0
+variance      1261.9   158572.6       74.2
+std             35.5      398.2        8.6
+CV_%            44.2       32.1       59.8
+MAD             21.0      290.0        7.0</pre></div>
+<ul>
+<li><strong>Variance</strong> = average squared distance from the mean; <strong>standard deviation</strong> (sd) = its square root, in the original units.</li>
+<li>pandas <code>.std()</code> uses the <strong>sample</strong> formula (divide by <em>n − 1</em>, Bessel's correction); NumPy <code>np.std</code> defaults to population (<em>n</em>).</li>
+<li><strong>Coefficient of variation</strong> (CV = sd ÷ mean) compares spread across variables with different units.</li>
+<li><strong>IQR</strong> (Q3 − Q1) is the spread of the middle 50%, robust to outliers.</li>
+</ul>
+<figure class="math"><img src="../img/ml-01-math-3d1a8cfc.png" alt="s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar x)^2}" loading="lazy"></figure>
+<h2 id="percentiles-z-scores-and-the-five-number-summary">Percentiles, z-scores and the five-number summary</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">p.quantile</span>([<span class="hl-n">0</span>, .<span class="hl-n">1</span>, .<span class="hl-n">25</span>, .<span class="hl-n">5</span>, .<span class="hl-n">75</span>, .<span class="hl-n">9</span>, <span class="hl-n">1</span>]).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">to_dict</span>())
+z = (p - <span class="hl-f">p.mean</span>()) / <span class="hl-f">p.std</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;a ₹150 lakh house has z = {(150 - p.mean()) / p.std():.2f} | {(z.abs() &gt; 2).mean():.1%} of houses are beyond ±2 sd&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;percentile rank of ₹150 lakh: {stats.percentileofscore(p, 150):.1f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{0.0: 2.0, 0.1: 40.5, 0.25: 57.3, 0.5: 78.9, 0.75: 99.4, 0.9: 120.1, 1.0: 520.0}
+a ₹150 lakh house has z = 1.96 | 1.7% of houses are beyond ±2 sd
+percentile rank of ₹150 lakh: 98.2</pre></div>
+<p>A <strong>z-score</strong> says how many standard deviations a value is from the mean: it puts different variables on one scale (used in standardisation for ML).</p>
+<h2 id="shape-skewness-and-kurtosis">Shape: skewness and kurtosis</h2>
+<figure class="fig"><img src="../img/ml-01-03.png" alt="Right-skewed (income), roughly symmetric (age) and the mean/median positions." loading="lazy"><figcaption>Right-skewed (income), roughly symmetric (age) and the mean/median positions.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> col <span class="hl-k">in</span> [<span class="hl-s">&quot;monthly_income&quot;</span>, <span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;years_at_company&quot;</span>, <span class="hl-s">&quot;distance_from_home_km&quot;</span>]:
+    x = hr[col]; <span class="hl-f">print</span>(<span class="hl-s">f&quot;{col:24s} skew {x.skew():6.2f} | excess kurtosis {x.kurt():6.2f} | mean {x.mean():10,.1f} | median {x.median():10,.1f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;log(income) skew:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">np.log</span>(hr.monthly_income).<span class="hl-f">skew</span>(), <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">monthly_income           skew   1.02 | excess kurtosis   0.95 | mean   82,610.7 | median   74,708.5
+age                      skew   0.27 | excess kurtosis  -0.39 | mean       34.5 | median       34.0
+years_at_company         skew   1.55 | excess kurtosis   3.00 | mean        3.8 | median        3.0
+distance_from_home_km    skew   0.00 | excess kurtosis  -1.26 | mean       15.2 | median       15.0
+log(income) skew: 0.28</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Skewness</th>
+<th>Shape</th>
+<th>Mean vs median</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≈ 0</td>
+<td>Symmetric</td>
+<td>Mean ≈ median</td>
+</tr>
+<tr>
+<td>&gt; 0</td>
+<td>Right (positive) skew, long right tail</td>
+<td>Mean &gt; median</td>
+</tr>
+<tr>
+<td>&lt; 0</td>
+<td>Left skew</td>
+<td>Mean &lt; median</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Kurtosis</strong> describes tail heaviness (excess kurtosis 0 = normal; positive = more extreme values). A log transform often makes right-skewed money variables more symmetric.</p>
+<h2 id="relationships-covariance-and-correlation">Relationships: covariance and correlation</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">num = h[[<span class="hl-s">&quot;price_lakh&quot;</span>, <span class="hl-s">&quot;area_sqft&quot;</span>, <span class="hl-s">&quot;bedrooms&quot;</span>, <span class="hl-s">&quot;age_years&quot;</span>, <span class="hl-s">&quot;distance_to_center_km&quot;</span>]].<span class="hl-f">dropna</span>()
+<span class="hl-f">print</span>(<span class="hl-s">&quot;covariance price-area:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">num.price_lakh.cov</span>(num.area_sqft), <span class="hl-n">1</span>), <span class="hl-s">&quot;(units: lakh × sq ft, hard to interpret)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">num.corr</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>)[<span class="hl-s">&quot;price_lakh&quot;</span>].<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Spearman (rank):&quot;</span>, <span class="hl-f">num.corr</span>(method=<span class="hl-s">&quot;spearman&quot;</span>).<span class="hl-f">round</span>(<span class="hl-n">2</span>)[<span class="hl-s">&quot;price_lakh&quot;</span>].<span class="hl-f">drop</span>(<span class="hl-s">&quot;price_lakh&quot;</span>).<span class="hl-f">to_dict</span>())
+r, pval = <span class="hl-f">stats.pearsonr</span>(num.area_sqft, num.price_lakh); <span class="hl-f">print</span>(<span class="hl-s">f&quot;Pearson r = {r:.3f}, p-value = {pval:.1e}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">covariance price-area: 11182.8 (units: lakh × sq ft, hard to interpret)
+price_lakh               1.00
+area_sqft                0.79
+bedrooms                 0.58
+distance_to_center_km   -0.07
+age_years               -0.11
+Name: price_lakh, dtype: float64
+Spearman (rank): {&#x27;area_sqft&#x27;: 0.9, &#x27;bedrooms&#x27;: 0.68, &#x27;age_years&#x27;: -0.13, &#x27;distance_to_center_km&#x27;: -0.06}
+Pearson r = 0.787, p-value = 3.3e-248</pre></div>
+<ul>
+<li><strong>Pearson r</strong> measures linear association (−1 to +1). Rough guide: |r| &lt; 0.3 weak, 0.3–0.7 moderate, &gt; 0.7 strong.</li>
+<li><strong>Spearman ρ</strong> correlates ranks: robust to outliers and captures monotonic non-linear relations.</li>
+<li><strong>Cramér's V</strong> (categorical × categorical) and point-biserial (binary × numeric) cover other pairs.</li>
+</ul>
+<figure class="fig"><img src="../img/ml-01-04.png" alt="Anscombe&#x27;s quartet: four datasets with the same mean, variance and correlation (r ≈ 0.82) but completely different shapes. Always plot your data." loading="lazy"><figcaption>Anscombe's quartet: four datasets with the same mean, variance and correlation (r ≈ 0.82) but completely different shapes. Always plot your data.</figcaption></figure>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Correlation is not causation</b></div><p>Ice-cream sales and drowning both rise in summer (a <strong>confounder</strong>: temperature). Correlation can also come from reverse causation, selection bias or chance. Only experiments or careful causal methods show cause.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Know the variable type and scale first: it decides valid statistics.</li>
+<li>Centre: mean (sensitive), median (robust), mode (categories); use weighted means for groups of different sizes.</li>
+<li>Spread: range, IQR (robust), variance and sd (sample uses n − 1), CV to compare variables.</li>
+<li>Shape: skewness (mean vs median), kurtosis (tails); log transforms reduce right skew.</li>
+<li>z-scores standardise; percentiles rank. Correlation (Pearson linear, Spearman rank) measures association, not causation; always plot.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which is the best measure of centre for household income?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Mean</button><button type="button" class="opt" data-ok="1"><i>B</i>Median</button><button type="button" class="opt" data-ok="0"><i>C</i>Mode</button><button type="button" class="opt" data-ok="0"><i>D</i>Range</button></div><div class="qexp"><b>Answer: B.</b> Income is right-skewed; the median resists extremes.</div></div><div class="qq"><p class="qtext"><b>2.</b> In a right-skewed distribution, which is usually true?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Mean &gt; median</button><button type="button" class="opt" data-ok="0"><i>B</i>Mean &lt; median</button><button type="button" class="opt" data-ok="0"><i>C</i>Mean = median</button><button type="button" class="opt" data-ok="0"><i>D</i>Mode &gt; mean</button></div><div class="qexp"><b>Answer: A.</b> The long right tail pulls the mean up.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why does the sample standard deviation divide by n − 1?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To make it larger for fun</button><button type="button" class="opt" data-ok="1"><i>B</i>To correct the bias from estimating the mean from the same sample (Bessel's correction)</button><button type="button" class="opt" data-ok="0"><i>C</i>Because n is unknown</button><button type="button" class="opt" data-ok="0"><i>D</i>It is a convention with no reason</button></div><div class="qexp"><b>Answer: B.</b> It gives an unbiased variance estimate.</div></div><div class="qq"><p class="qtext"><b>4.</b> A z-score of −1.5 means…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The value is 1.5 standard deviations below the mean</button><button type="button" class="opt" data-ok="0"><i>B</i>The value is negative</button><button type="button" class="opt" data-ok="0"><i>C</i>The value is in the 15th percentile exactly</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: A.</b> z = (x − mean) / sd.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which correlation suits a monotonic but non-linear relationship?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pearson</button><button type="button" class="opt" data-ok="1"><i>B</i>Spearman</button><button type="button" class="opt" data-ok="0"><i>C</i>Covariance</button><button type="button" class="opt" data-ok="0"><i>D</i>None</button></div><div class="qexp"><b>Answer: B.</b> Spearman uses ranks.</div></div><div class="qq"><p class="qtext"><b>6.</b> What does Anscombe's quartet teach?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Correlation proves causation</button><button type="button" class="opt" data-ok="1"><i>B</i>Identical summary statistics can hide very different patterns, so plot the data</button><button type="button" class="opt" data-ok="0"><i>C</i>Means are useless</button><button type="button" class="opt" data-ok="0"><i>D</i>Outliers never matter</button></div><div class="qexp"><b>Answer: B.</b> Visualise before you summarise.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice (hr_employees.csv)</b></div><p>(1) Mean, median and sd of <code>monthly_income</code> by department; which department is most variable (CV)? (2) The 90th percentile of income. (3) The share of employees beyond ±3 sd of income. (4) Pearson and Spearman correlation between age and income. (5) Classify each column by type and scale.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">g = <span class="hl-f">hr.groupby</span>(<span class="hl-s">&quot;department&quot;</span>)[<span class="hl-s">&quot;monthly_income&quot;</span>].<span class="hl-f">agg</span>([<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;median&quot;</span>, <span class="hl-s">&quot;std&quot;</span>]); g[<span class="hl-s">&quot;cv&quot;</span>] = g[<span class="hl-s">&quot;std&quot;</span>] / g[<span class="hl-s">&quot;mean&quot;</span>]; <span class="hl-f">print</span>(<span class="hl-f">g.sort_values</span>(<span class="hl-s">&quot;cv&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-f">hr.monthly_income.quantile</span>(.<span class="hl-n">9</span>))
+zi = (hr.monthly_income - <span class="hl-f">hr.monthly_income.mean</span>()) / <span class="hl-f">hr.monthly_income.std</span>(); <span class="hl-f">print</span>((<span class="hl-f">zi.abs</span>() &gt; <span class="hl-n">3</span>).<span class="hl-f">mean</span>())
+<span class="hl-f">print</span>(hr[[<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;monthly_income&quot;</span>]].<span class="hl-f">corr</span>().iloc[<span class="hl-n">0</span>, <span class="hl-n">1</span>], hr[[<span class="hl-s">&quot;age&quot;</span>, <span class="hl-s">&quot;monthly_income&quot;</span>]].<span class="hl-f">corr</span>(<span class="hl-s">&quot;spearman&quot;</span>).iloc[<span class="hl-n">0</span>, <span class="hl-n">1</span>])
+<span class="hl-c"># gender, department, city: nominal; education, job_satisfaction, performance_rating: ordinal; age, income: ratio</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Mean vs median: when do you report each?</strong>
+Median for skewed data or outliers (income, house prices, delivery times); mean for symmetric data or when totals matter.</p>
+<p><strong>Q: What does a standard deviation of 0 mean?</strong>
+All values are identical.</p>
+<p><strong>Q: Correlation is 0. Are the variables independent?</strong>
+Not necessarily: Pearson only captures linear relationships; a perfect U-shape can have r = 0.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html"><small>Next →</small><b>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#statistics-in-data-science">Statistics in data science</a><a href="#types-of-data">Types of data</a><a href="#measures-of-centre">Measures of centre</a><a href="#measures-of-spread">Measures of spread</a><a href="#percentiles-z-scores-and-the-five-number-summary">Percentiles, z-scores and the five-number summary</a><a href="#shape-skewness-and-kurtosis">Shape: skewness and kurtosis</a><a href="#relationships-covariance-and-correlation">Relationships: covariance and correlation</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

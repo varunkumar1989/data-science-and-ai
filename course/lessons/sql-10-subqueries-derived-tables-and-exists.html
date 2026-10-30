@@ -1,0 +1,606 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subqueries, Derived Tables &amp; EXISTS · SQL Lesson 10 · Data Science &amp; AI Handbook</title><meta name="description" content="Put queries inside queries. Use scalar subqueries, multi-row subqueries with IN, ANY and ALL, correlated subqueries, EXISTS and NOT EXISTS, and derived tables (inline views) to answer questions that one level of SELECT cannot, and learn when a join, CTE or window function is better."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 10</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class="on"><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-10">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 10 of 15</div><h1>Subqueries, Derived Tables &amp; EXISTS</h1>
+<p class="sum">Put queries inside queries. Use scalar subqueries, multi-row subqueries with IN, ANY and ALL, correlated subqueries, EXISTS and NOT EXISTS, and derived tables (inline views) to answer questions that one level of SELECT cannot, and learn when a join, CTE or window function is better.</p><div class="tags"><span class="tag live">● SQL classes 4–5</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_10_Subqueries_Derived_Tables_EXISTS.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-10">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Identify scalar, multi-row, multi-column and table subqueries and where each can be used</li><li>Filter with subqueries using comparison operators, IN, NOT IN, ANY and ALL</li><li>Write correlated subqueries and explain how they are evaluated</li><li>Use EXISTS and NOT EXISTS safely, and know why NOT IN fails with NULLs</li><li>Build derived tables (inline views) to aggregate before joining</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/hr_employees.csv" download>hr_employees.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-a-subquery">What is a subquery?</h2>
+<p>A <strong>subquery</strong> (inner query, nested query) is a <code>SELECT</code> written inside another statement, in brackets. The outer query uses its result.</p>
+<figure class="fig"><img src="../img/sql-10-01.png" alt="Where subqueries can appear and what they return." loading="lazy"><figcaption>Where subqueries can appear and what they return.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>By what it returns</th>
+<th>Example</th>
+<th>Used with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scalar</strong> (one value)</td>
+<td><code>(SELECT AVG(sales) FROM superstore)</code></td>
+<td><code>=, &gt;, &lt;</code> … or as a column</td>
+</tr>
+<tr>
+<td><strong>Multi-row</strong> (one column, many rows)</td>
+<td><code>(SELECT customer_id FROM orders WHERE …)</code></td>
+<td><code>IN</code>, <code>NOT IN</code>, <code>ANY</code>, <code>ALL</code>, <code>EXISTS</code></td>
+</tr>
+<tr>
+<td><strong>Table</strong> (many columns and rows)</td>
+<td><code>(SELECT region, SUM(sales) … GROUP BY region)</code></td>
+<td><code>FROM</code> as a derived table</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="scalar-subqueries">Scalar subqueries</h2>
+<p>"Which order lines are above the average line value?"</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines_above_average,
+       (<span class="hl-k">SELECT</span> <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(sales), <span class="hl-n">0</span>) <span class="hl-k">FROM</span> superstore) <span class="hl-k">AS</span> average_line_sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> sales &gt; (<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(sales) <span class="hl-k">FROM</span> superstore);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>lines_above_average</th>
+      <th>average_line_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1603</td>
+      <td>31,854</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<p>The inner query runs first and returns one number; the outer query compares each row with it. You cannot write <code>WHERE sales &gt; AVG(sales)</code> directly, because aggregates are not allowed in WHERE (Lesson 5's processing order).</p>
+<p>"Show each region's sales and its share of the grand total":</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> region,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales), <span class="hl-n">0</span>)                                                    <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(sales) / (<span class="hl-k">SELECT</span> <span class="hl-f">SUM</span>(sales) <span class="hl-k">FROM</span> superstore), <span class="hl-n">1</span>)       <span class="hl-k">AS</span> pct_of_total
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>sales</th>
+      <th>pct_of_total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>South</td>
+      <td>53,952,769</td>
+      <td>26.8</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>51,958,521</td>
+      <td>25.8</td>
+    </tr>
+    <tr>
+      <td>North</td>
+      <td>49,018,161</td>
+      <td>24.3</td>
+    </tr>
+    <tr>
+      <td>East</td>
+      <td>46,484,119</td>
+      <td>23.1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<h2 id="multi-row-subqueries-in-not-in-any-all">Multi-row subqueries: IN, NOT IN, ANY, ALL</h2>
+<p>"Orders from customers in the Corporate segment" (without a join):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> corporate_orders
+<span class="hl-k">FROM</span> orders
+<span class="hl-k">WHERE</span> customer_id <span class="hl-k">IN</span> (<span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> customers <span class="hl-k">WHERE</span> segment = <span class="hl-s">&#x27;Corporate&#x27;</span>);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>corporate_orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>955</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>"Employees earning more than <strong>every</strong> employee in HR" and "more than <strong>at least one</strong> Sales manager":</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> earn_more_than_all_hr
+<span class="hl-k">FROM</span> employees
+<span class="hl-k">WHERE</span> monthly_income &gt; <span class="hl-k">ALL</span> (<span class="hl-k">SELECT</span> monthly_income <span class="hl-k">FROM</span> employees <span class="hl-k">WHERE</span> department = <span class="hl-s">&#x27;HR&#x27;</span>);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>earn_more_than_all_hr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> earn_more_than_some_sales_manager
+<span class="hl-k">FROM</span> employees
+<span class="hl-k">WHERE</span> monthly_income &gt; ANY (<span class="hl-k">SELECT</span> monthly_income <span class="hl-k">FROM</span> employees <span class="hl-k">WHERE</span> job_title = <span class="hl-s">&#x27;Sales Manager&#x27;</span>);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>earn_more_than_some_sales_manager</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>745</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&gt; ALL (…)</code></td>
+<td>Greater than every value</td>
+<td><code>&gt; (SELECT MAX(…))</code></td>
+</tr>
+<tr>
+<td><code>&gt; ANY (…)</code> / <code>&gt; SOME (…)</code></td>
+<td>Greater than at least one value</td>
+<td><code>&gt; (SELECT MIN(…))</code></td>
+</tr>
+<tr>
+<td><code>= ANY (…)</code></td>
+<td>Equal to one of the values</td>
+<td><code>IN (…)</code></td>
+</tr>
+<tr>
+<td><code>&lt;&gt; ALL (…)</code></td>
+<td>Different from every value</td>
+<td><code>NOT IN (…)</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="correlated-subqueries">Correlated subqueries</h2>
+<p>A <strong>correlated</strong> subquery refers to a column of the outer query, so its result changes for every outer row.</p>
+<p>"Which employees earn more than the average of <strong>their own</strong> department?"</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> e.emp_id, e.department, e.job_title, e.monthly_income
+<span class="hl-k">FROM</span> employees <span class="hl-k">AS</span> e
+<span class="hl-k">WHERE</span> e.monthly_income &gt; (<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(e2.monthly_income)
+                          <span class="hl-k">FROM</span> employees <span class="hl-k">AS</span> e2
+                          <span class="hl-k">WHERE</span> e2.department = e.department)     <span class="hl-c">-- refers to the outer row</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> e.monthly_income <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>emp_id</th>
+      <th>department</th>
+      <th>job_title</th>
+      <th>monthly_income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>E00210</td>
+      <td>R&amp;D</td>
+      <td>Research Director</td>
+      <td>218417</td>
+    </tr>
+    <tr>
+      <td>E00519</td>
+      <td>Finance</td>
+      <td>Finance Manager</td>
+      <td>209833</td>
+    </tr>
+    <tr>
+      <td>E00328</td>
+      <td>Operations</td>
+      <td>Operations Manager</td>
+      <td>202750</td>
+    </tr>
+    <tr>
+      <td>E01187</td>
+      <td>IT</td>
+      <td>Support Engineer</td>
+      <td>196167</td>
+    </tr>
+    <tr>
+      <td>E01094</td>
+      <td>HR</td>
+      <td>HR Manager</td>
+      <td>194917</td>
+    </tr>
+    <tr>
+      <td>E01473</td>
+      <td>IT</td>
+      <td>Tech Lead</td>
+      <td>194500</td>
+    </tr>
+    <tr>
+      <td>E00439</td>
+      <td>IT</td>
+      <td>Tech Lead</td>
+      <td>193917</td>
+    </tr>
+    <tr>
+      <td>E00580</td>
+      <td>R&amp;D</td>
+      <td>Research Director</td>
+      <td>188083</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">638 rows × 4 columns (first 8 shown)</div></div>
+<p>Conceptually, for each employee <code>e</code>, SQL computes the average of e's department and compares. Optimisers usually rewrite this efficiently, but on large tables a window function (Lesson 12: <code>AVG(…) OVER (PARTITION BY department)</code>) or a join to a derived table is often clearer and faster.</p>
+<p>"Latest order of each customer" (a classic):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> o.customer_id, o.order_id, o.order_date
+<span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o
+<span class="hl-k">WHERE</span> o.order_date = (<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(o2.order_date)
+                      <span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o2
+                      <span class="hl-k">WHERE</span> o2.customer_id = o.customer_id)
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> o.customer_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>order_id</th>
+      <th>order_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0001</td>
+      <td>IN-2025-02263</td>
+      <td>2025-04-09</td>
+    </tr>
+    <tr>
+      <td>C0002</td>
+      <td>IN-2025-02871</td>
+      <td>2025-10-21</td>
+    </tr>
+    <tr>
+      <td>C0003</td>
+      <td>IN-2025-02642</td>
+      <td>2025-08-18</td>
+    </tr>
+    <tr>
+      <td>C0004</td>
+      <td>IN-2025-02344</td>
+      <td>2025-05-10</td>
+    </tr>
+    <tr>
+      <td>C0005</td>
+      <td>IN-2025-02982</td>
+      <td>2025-11-12</td>
+    </tr>
+    <tr>
+      <td>C0006</td>
+      <td>IN-2025-02960</td>
+      <td>2025-11-08</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">793 rows × 3 columns (first 6 shown)</div></div>
+<h2 id="exists-and-not-exists">EXISTS and NOT EXISTS</h2>
+<p><code>EXISTS (subquery)</code> is TRUE if the subquery returns <strong>at least one row</strong>. It stops at the first match, and the columns it selects do not matter (<code>SELECT 1</code> is conventional).</p>
+<p>"Customers who bought at least one Copier":</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> customers_who_bought_copiers
+<span class="hl-k">FROM</span> customers <span class="hl-k">AS</span> c
+<span class="hl-k">WHERE</span> <span class="hl-k">EXISTS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">1</span>
+              <span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o
+              <span class="hl-k">JOIN</span> order_items <span class="hl-k">AS</span> oi <span class="hl-k">ON</span> oi.order_id = o.order_id
+              <span class="hl-k">JOIN</span> products <span class="hl-k">AS</span> p     <span class="hl-k">ON</span> p.product_id = oi.product_id
+              <span class="hl-k">WHERE</span> o.customer_id = c.customer_id
+                <span class="hl-k">AND</span> p.sub_category = <span class="hl-s">&#x27;Copiers&#x27;</span>);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers_who_bought_copiers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>343</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>"Customers who have never ordered" (anti-join, compare with Lesson 8):</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> customers_without_orders
+<span class="hl-k">FROM</span> customers <span class="hl-k">AS</span> c
+<span class="hl-k">WHERE</span> <span class="hl-k">NOT</span> <span class="hl-k">EXISTS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">1</span> <span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o <span class="hl-k">WHERE</span> o.customer_id = c.customer_id);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers_without_orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="why-not-exists-is-safer-than-not-in">Why NOT EXISTS is safer than NOT IN</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> a <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">1</span> <span class="hl-k">AS</span> id <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-n">2</span> <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-n">3</span>),
+     b <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">2</span> <span class="hl-k">AS</span> id <span class="hl-k">UNION</span> <span class="hl-k">ALL</span> <span class="hl-k">SELECT</span> <span class="hl-k">NULL</span>)
+<span class="hl-k">SELECT</span>
+    (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> a <span class="hl-k">WHERE</span> id <span class="hl-k">NOT</span> <span class="hl-k">IN</span> (<span class="hl-k">SELECT</span> id <span class="hl-k">FROM</span> b))                         <span class="hl-k">AS</span> not_in_rows,
+    (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> a <span class="hl-k">WHERE</span> <span class="hl-k">NOT</span> <span class="hl-k">EXISTS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">1</span> <span class="hl-k">FROM</span> b <span class="hl-k">WHERE</span> b.id = a.id))       <span class="hl-k">AS</span> not_exists_rows;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>not_in_rows</th>
+      <th>not_exists_rows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<p><code>NOT IN</code> returns <strong>0 rows</strong> because <code>b</code> contains a NULL: <code>3 NOT IN (2, NULL)</code> means <code>3 &lt;&gt; 2 AND 3 &lt;&gt; NULL</code>, which is UNKNOWN. <code>NOT EXISTS</code> correctly returns 2 rows (1 and 3). Prefer <code>NOT EXISTS</code>, or add <code>WHERE id IS NOT NULL</code> inside the <code>NOT IN</code> subquery.</p>
+<h2 id="derived-tables-inline-views">Derived tables (inline views)</h2>
+<p>A subquery in <code>FROM</code> acts as a temporary table for the rest of the query. It <strong>must have an alias</strong>. Derived tables are the standard way to <strong>aggregate first, then filter, join or aggregate again</strong>.</p>
+<p>"Average order value by segment" requires two levels: first total each order, then average the orders.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> segment,
+       <span class="hl-f">COUNT</span>(*)                   <span class="hl-k">AS</span> orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(order_total), <span class="hl-n">0</span>) <span class="hl-k">AS</span> avg_order_value
+<span class="hl-k">FROM</span> (
+    <span class="hl-k">SELECT</span> o.order_id, c.segment, <span class="hl-f">SUM</span>(oi.sales) <span class="hl-k">AS</span> order_total     <span class="hl-c">-- level 1: one row per order</span>
+    <span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o
+    <span class="hl-k">JOIN</span> customers <span class="hl-k">AS</span> c    <span class="hl-k">ON</span> c.customer_id = o.customer_id
+    <span class="hl-k">JOIN</span> order_items <span class="hl-k">AS</span> oi <span class="hl-k">ON</span> oi.order_id   = o.order_id
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> o.order_id, c.segment
+) <span class="hl-k">AS</span> order_totals                                                    <span class="hl-c">-- level 2: average of orders</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> segment
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> avg_order_value <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>segment</th>
+      <th>orders</th>
+      <th>avg_order_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Consumer</td>
+      <td>1554</td>
+      <td>63,451</td>
+    </tr>
+    <tr>
+      <td>Home Office</td>
+      <td>691</td>
+      <td>63,237</td>
+    </tr>
+    <tr>
+      <td>Corporate</td>
+      <td>955</td>
+      <td>61,899</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 3 columns</div></div>
+<p>If you averaged <code>oi.sales</code> directly, you would get the average <strong>line</strong> value, not the average <strong>order</strong> value: a frequent interview trap.</p>
+<p>"Cities whose 2025 sales beat their 2024 sales", using two derived tables joined together:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> a.city, <span class="hl-f">ROUND</span>(a.sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales_2024, <span class="hl-f">ROUND</span>(b.sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales_2025,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * (b.sales - a.sales) / a.sales, <span class="hl-n">1</span>) <span class="hl-k">AS</span> growth_pct
+<span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> city, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2024</span> <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city) <span class="hl-k">AS</span> a
+<span class="hl-k">JOIN</span> (<span class="hl-k">SELECT</span> city, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span> <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city) <span class="hl-k">AS</span> b
+  <span class="hl-k">ON</span> b.city = a.city
+<span class="hl-k">WHERE</span> b.sales &gt; a.sales
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> growth_pct <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>city</th>
+      <th>sales_2024</th>
+      <th>sales_2025</th>
+      <th>growth_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pune</td>
+      <td>4,469,290</td>
+      <td>8,808,243</td>
+      <td>97.1</td>
+    </tr>
+    <tr>
+      <td>Jaipur</td>
+      <td>2,381,435</td>
+      <td>4,387,920</td>
+      <td>84.3</td>
+    </tr>
+    <tr>
+      <td>Bengaluru</td>
+      <td>3,955,891</td>
+      <td>5,909,257</td>
+      <td>49.4</td>
+    </tr>
+    <tr>
+      <td>Bhubaneswar</td>
+      <td>3,241,529</td>
+      <td>4,715,977</td>
+      <td>45.5</td>
+    </tr>
+    <tr>
+      <td>Chennai</td>
+      <td>4,306,703</td>
+      <td>6,192,082</td>
+      <td>43.8</td>
+    </tr>
+    <tr>
+      <td>Guwahati</td>
+      <td>3,063,023</td>
+      <td>4,156,269</td>
+      <td>35.7</td>
+    </tr>
+    <tr>
+      <td>Kolkata</td>
+      <td>4,204,948</td>
+      <td>5,388,829</td>
+      <td>28.2</td>
+    </tr>
+    <tr>
+      <td>Kochi</td>
+      <td>4,419,418</td>
+      <td>5,550,394</td>
+      <td>25.6</td>
+    </tr>
+    <tr>
+      <td>Indore</td>
+      <td>4,663,519</td>
+      <td>5,766,524</td>
+      <td>23.7</td>
+    </tr>
+    <tr>
+      <td>Ahmedabad</td>
+      <td>3,655,966</td>
+      <td>4,499,715</td>
+      <td>23.1</td>
+    </tr>
+    <tr>
+      <td>Chandigarh</td>
+      <td>3,384,407</td>
+      <td>3,711,620</td>
+      <td>9.7</td>
+    </tr>
+    <tr>
+      <td>Patna</td>
+      <td>4,459,339</td>
+      <td>4,649,126</td>
+      <td>4.3</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">12 rows × 4 columns</div></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Nested (ordinary) subqueries vs inline views</b></div><p>A subquery in <code>WHERE</code> that does not refer to the outer query is an <strong>ordinary (nested) subquery</strong>: it runs once. A subquery in <code>FROM</code> is an <strong>inline view</strong> (derived table). One that refers to the outer row is <strong>correlated</strong>. In class these were introduced as inline views and ordinary subqueries; the next step is the <strong>CTE</strong> (Lesson 13), which is a named, more readable inline view.</p></div>
+<h2 id="subqueries-in-select">Subqueries in SELECT</h2>
+<p>A scalar subquery in the column list adds a per-row value:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> c.customer_id, c.customer_name,
+       (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o <span class="hl-k">WHERE</span> o.customer_id = c.customer_id)     <span class="hl-k">AS</span> order_count,
+       (<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(o.order_date) <span class="hl-k">FROM</span> orders <span class="hl-k">AS</span> o <span class="hl-k">WHERE</span> o.customer_id = c.customer_id) <span class="hl-k">AS</span> last_order
+<span class="hl-k">FROM</span> customers <span class="hl-k">AS</span> c
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_count <span class="hl-k">DESC</span>, c.customer_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>customer_name</th>
+      <th>order_count</th>
+      <th>last_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0219</td>
+      <td>Reyansh Verma</td>
+      <td>10</td>
+      <td>2025-04-10</td>
+    </tr>
+    <tr>
+      <td>C0396</td>
+      <td>Saanvi Patel</td>
+      <td>10</td>
+      <td>2025-07-18</td>
+    </tr>
+    <tr>
+      <td>C0069</td>
+      <td>Isha Verma</td>
+      <td>9</td>
+      <td>2025-10-04</td>
+    </tr>
+    <tr>
+      <td>C0110</td>
+      <td>Riya Das</td>
+      <td>9</td>
+      <td>2025-12-07</td>
+    </tr>
+    <tr>
+      <td>C0271</td>
+      <td>Meera Khan</td>
+      <td>9</td>
+      <td>2025-12-26</td>
+    </tr>
+    <tr>
+      <td>C0291</td>
+      <td>Meera Rao</td>
+      <td>9</td>
+      <td>2025-02-04</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">800 rows × 4 columns (first 6 shown)</div></div>
+<p>Each correlated scalar subquery runs per customer. For many such columns, a single <code>LEFT JOIN</code> to an aggregated derived table is usually faster.</p>
+<h2 id="choosing-the-right-tool">Choosing the right tool</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Good options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compare with an overall aggregate</td>
+<td>Scalar subquery, or window function</td>
+</tr>
+<tr>
+<td>Filter by membership in another table</td>
+<td><code>IN</code>, <code>EXISTS</code>, or <code>JOIN</code></td>
+</tr>
+<tr>
+<td>Rows with no match</td>
+<td><code>NOT EXISTS</code> (safest), <code>LEFT JOIN … IS NULL</code>, <code>EXCEPT</code></td>
+</tr>
+<tr>
+<td>Compare with the row's own group</td>
+<td>Correlated subquery, or <code>AVG() OVER (PARTITION BY …)</code></td>
+</tr>
+<tr>
+<td>Aggregate in two steps</td>
+<td>Derived table or CTE</td>
+</tr>
+<tr>
+<td>Reuse the same subquery several times</td>
+<td>CTE (Lesson 13)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Subqueries are queries in brackets inside another query; they can return a value, a list or a table.</li>
+<li>Scalar subqueries compare with or display a single value (e.g. the overall average).</li>
+<li><code>IN</code>, <code>ANY</code>, <code>ALL</code> work with multi-row subqueries; <code>&gt; ALL</code> = greater than the max.</li>
+<li>Correlated subqueries reference the outer row (e.g. above the employee's department average).</li>
+<li><code>EXISTS</code> / <code>NOT EXISTS</code> test for matching rows; prefer <code>NOT EXISTS</code> over <code>NOT IN</code> when NULLs are possible.</li>
+<li>Derived tables (inline views) aggregate first, then filter/join; they need an alias.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-10-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why does <code>WHERE sales &gt; AVG(sales)</code> fail?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>AVG needs GROUP BY</button><button type="button" class="opt" data-ok="1"><i>B</i>Aggregate functions are not allowed in WHERE; use a subquery</button><button type="button" class="opt" data-ok="0"><i>C</i>sales must be in brackets</button><button type="button" class="opt" data-ok="0"><i>D</i>The comparison must use ALL</button></div><div class="qexp"><b>Answer: B.</b> WHERE runs before aggregation, so compute the average in a subquery.</div></div><div class="qq"><p class="qtext"><b>2.</b> A subquery in FROM must have:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>An ORDER BY</button><button type="button" class="opt" data-ok="1"><i>B</i>An alias</button><button type="button" class="opt" data-ok="0"><i>C</i>A WHERE clause</button><button type="button" class="opt" data-ok="0"><i>D</i>A GROUP BY</button></div><div class="qexp"><b>Answer: B.</b> Derived tables must be named.</div></div><div class="qq"><p class="qtext"><b>3.</b> <code>WHERE x NOT IN (SELECT y FROM t)</code> returns no rows even though some x values are missing from t. Most likely cause?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>t is empty</button><button type="button" class="opt" data-ok="1"><i>B</i>t.y contains a NULL</button><button type="button" class="opt" data-ok="0"><i>C</i>x has duplicates</button><button type="button" class="opt" data-ok="0"><i>D</i>NOT IN cannot be used with subqueries</button></div><div class="qexp"><b>Answer: B.</b> One NULL in the list makes every NOT IN comparison UNKNOWN.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is a correlated subquery?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A subquery in FROM</button><button type="button" class="opt" data-ok="1"><i>B</i>A subquery that references a column from the outer query</button><button type="button" class="opt" data-ok="0"><i>C</i>A subquery with a JOIN</button><button type="button" class="opt" data-ok="0"><i>D</i>A subquery that returns one value</button></div><div class="qexp"><b>Answer: B.</b> It is evaluated in the context of each outer row.</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>salary &gt; ALL (SELECT salary FROM emp WHERE dept = 'HR')</code> is equivalent to:</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>salary &gt; the maximum HR salary</button><button type="button" class="opt" data-ok="0"><i>B</i>salary &gt; the minimum HR salary</button><button type="button" class="opt" data-ok="0"><i>C</i>salary &gt; the average HR salary</button><button type="button" class="opt" data-ok="0"><i>D</i>salary IN the HR salaries</button></div><div class="qexp"><b>Answer: A.</b> Greater than all values means greater than the largest one.</div></div><div class="qq"><p class="qtext"><b>6.</b> To compute average order value from order lines, you should:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>AVG(sales) on order_items</button><button type="button" class="opt" data-ok="1"><i>B</i>Sum sales per order in a derived table, then average those totals</button><button type="button" class="opt" data-ok="0"><i>C</i>Divide total sales by the number of lines</button><button type="button" class="opt" data-ok="0"><i>D</i>Use COUNT(DISTINCT sales)</button></div><div class="qexp"><b>Answer: B.</b> Average order value is the mean of order totals, which needs two aggregation levels.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Subquery practice</b></div><p>(1) List products whose total sales are above the average product's total sales. (2) For each department, show employees whose income is the highest in that department. (3) Find cities where every order line in 2025 had a discount of at most 20%. (4) Show customers whose first order was in 2025.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">SELECT</span> product_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> order_items <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> product_id
+<span class="hl-k">HAVING</span> <span class="hl-f">SUM</span>(sales) &gt; (<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(t.s) <span class="hl-k">FROM</span> (<span class="hl-k">SELECT</span> <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> s <span class="hl-k">FROM</span> order_items <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> product_id) <span class="hl-k">AS</span> t);
+<span class="hl-c">-- (2)</span>
+<span class="hl-k">SELECT</span> e.department, e.emp_id, e.monthly_income <span class="hl-k">FROM</span> employees e
+<span class="hl-k">WHERE</span> e.monthly_income = (<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(e2.monthly_income) <span class="hl-k">FROM</span> employees e2 <span class="hl-k">WHERE</span> e2.department = e.department);
+<span class="hl-c">-- (3)</span>
+<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> city <span class="hl-k">FROM</span> superstore s
+<span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+  <span class="hl-k">AND</span> <span class="hl-k">NOT</span> <span class="hl-k">EXISTS</span> (<span class="hl-k">SELECT</span> <span class="hl-n">1</span> <span class="hl-k">FROM</span> superstore s2 <span class="hl-k">WHERE</span> s2.city = s.city <span class="hl-k">AND</span> <span class="hl-f">YEAR</span>(s2.order_date) = <span class="hl-n">2025</span> <span class="hl-k">AND</span> s2.discount &gt; <span class="hl-n">0.2</span>);
+<span class="hl-c">-- (4)</span>
+<span class="hl-k">SELECT</span> customer_id <span class="hl-k">FROM</span> orders <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id <span class="hl-k">HAVING</span> <span class="hl-f">MIN</span>(order_date) &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span>;</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between a correlated and a non-correlated subquery?</strong>
+A non-correlated subquery runs independently once; a correlated subquery references the outer query and is evaluated per outer row.</p>
+<p><strong>Q: EXISTS vs IN?</strong>
+IN compares a value with a list; EXISTS checks for the existence of matching rows and stops at the first one. EXISTS handles NULLs safely in the negative form (NOT EXISTS).</p>
+<p><strong>Q: Find employees who earn more than their department's average.</strong>
+Correlated subquery on department, or <code>AVG(income) OVER (PARTITION BY department)</code> in a CTE and filter.</p>
+<p><strong>Q: Subquery vs JOIN: which is faster?</strong>
+It depends; modern optimisers often produce the same plan. Joins are usually clearer for combining columns; EXISTS for existence tests; derived tables/CTEs for multi-step aggregation. Check the execution plan.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-09-set-operators-union-union-all-intersect-and-except.html"><small>← Previous</small><b>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</b></a><a class="next" href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html"><small>Next →</small><b>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-a-subquery">What is a subquery?</a><a href="#scalar-subqueries">Scalar subqueries</a><a href="#multi-row-subqueries-in-not-in-any-all">Multi-row subqueries: IN, NOT IN, ANY, ALL</a><a href="#correlated-subqueries">Correlated subqueries</a><a href="#exists-and-not-exists">EXISTS and NOT EXISTS</a><a href="#derived-tables-inline-views">Derived tables (inline views)</a><a href="#subqueries-in-select">Subqueries in SELECT</a><a href="#choosing-the-right-tool">Choosing the right tool</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

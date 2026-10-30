@@ -1,0 +1,676 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Window Functions II: Running Totals, LEAD, LAG &amp; Frames · SQL Lesson 12 · Data Science &amp; AI Handbook</title><meta name="description" content="Build time-series analytics in SQL. Use window frames (ROWS BETWEEN) for running totals and moving averages, LAG and LEAD for month-on-month and year-on-year growth, FIRST_VALUE and LAST_VALUE, cumulative percentages, PERCENT_RANK, CUME_DIST and PERCENTILE_CONT, and gaps-and-islands patterns."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 12</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class="on"><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-12">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 12 of 15</div><h1>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</h1>
+<p class="sum">Build time-series analytics in SQL. Use window frames (ROWS BETWEEN) for running totals and moving averages, LAG and LEAD for month-on-month and year-on-year growth, FIRST_VALUE and LAST_VALUE, cumulative percentages, PERCENT_RANK, CUME_DIST and PERCENTILE_CONT, and gaps-and-islands patterns.</p><div class="tags"><span class="tag live">● SQL class 5–6</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_12_Window_Functions_II_Running_Totals_LEAD_LAG_Frames.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-12">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Define a window frame with ROWS BETWEEN and explain the default frame when ORDER BY is present</li><li>Calculate running totals, moving averages and cumulative shares</li><li>Compare each row with the previous or next row using LAG and LEAD (MoM, YoY, gaps)</li><li>Use FIRST_VALUE, LAST_VALUE and NTH_VALUE, PERCENT_RANK, CUME_DIST and PERCENTILE_CONT</li><li>Solve streak and gap problems with ROW_NUMBER differences</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a></div></div></div>
+<div class="content"><h2 id="window-frames">Window frames</h2>
+<p>Inside <code>OVER</code>, <code>ORDER BY</code> defines the order and an optional <strong>frame</strong> defines <em>which rows around the current row</em> the function uses.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-f">SUM</span>(x) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> p <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> d
+             <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> &lt;start&gt; <span class="hl-k">AND</span> &lt;<span class="hl-k">end</span>&gt;)</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Frame boundary</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UNBOUNDED PRECEDING</code></td>
+<td>From the first row of the partition</td>
+</tr>
+<tr>
+<td><code>n PRECEDING</code></td>
+<td>n rows before the current row</td>
+</tr>
+<tr>
+<td><code>CURRENT ROW</code></td>
+<td>The current row</td>
+</tr>
+<tr>
+<td><code>n FOLLOWING</code></td>
+<td>n rows after</td>
+</tr>
+<tr>
+<td><code>UNBOUNDED FOLLOWING</code></td>
+<td>To the last row of the partition</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/sql-12-01.png" alt="Frames relative to the current row (highlighted). A running total uses everything up to the current row; a 3-row moving average uses the previous two rows plus the current one." loading="lazy"><figcaption>Frames relative to the current row (highlighted). A running total uses everything up to the current row; a 3-row moving average uses the previous two rows plus the current one.</figcaption></figure>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>The default frame trap</b></div><p>When <code>ORDER BY</code> is present and no frame is written, SQL Server uses <code>RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code>. <code>RANGE</code> treats rows with the <strong>same ORDER BY value</strong> as peers and includes them all, which gives surprising results with ties, and <code>LAST_VALUE</code> then returns the current row's value. For running totals always write <code>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code> explicitly; it is also much faster.</p></div>
+<h2 id="running-totals">Running totals</h2>
+<p>First build the monthly sales table, then add a running (cumulative) total and a share:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> monthly <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">YEAR</span>(order_date) <span class="hl-k">AS</span> yr, <span class="hl-f">MONTH</span>(order_date) <span class="hl-k">AS</span> mth, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-f">YEAR</span>(order_date), <span class="hl-f">MONTH</span>(order_date)
+)
+<span class="hl-k">SELECT</span> yr, mth,
+       <span class="hl-f">ROUND</span>(sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> yr <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> mth
+                              <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-k">UNBOUNDED</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">CURRENT</span> <span class="hl-k">ROW</span>), <span class="hl-n">0</span>) <span class="hl-k">AS</span> ytd_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> yr <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> mth
+                              <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-k">UNBOUNDED</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">CURRENT</span> <span class="hl-k">ROW</span>)
+                   / <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> yr), <span class="hl-n">1</span>)                          <span class="hl-k">AS</span> ytd_pct_of_year
+<span class="hl-k">FROM</span> monthly
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> yr, mth;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>yr</th>
+      <th>mth</th>
+      <th>sales</th>
+      <th>ytd_sales</th>
+      <th>ytd_pct_of_year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>1</td>
+      <td>2,447,151</td>
+      <td>2,447,151</td>
+      <td>4.2</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>2</td>
+      <td>3,861,852</td>
+      <td>6,309,002</td>
+      <td>10.9</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>3</td>
+      <td>3,441,306</td>
+      <td>9,750,308</td>
+      <td>16.9</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>4</td>
+      <td>3,927,557</td>
+      <td>13,677,865</td>
+      <td>23.7</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>5</td>
+      <td>4,840,130</td>
+      <td>18,517,994</td>
+      <td>32.1</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>6</td>
+      <td>5,785,712</td>
+      <td>24,303,706</td>
+      <td>42.2</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>7</td>
+      <td>5,390,409</td>
+      <td>29,694,115</td>
+      <td>51.5</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>8</td>
+      <td>4,129,386</td>
+      <td>33,823,500</td>
+      <td>58.7</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>9</td>
+      <td>5,714,731</td>
+      <td>39,538,231</td>
+      <td>68.6</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>10</td>
+      <td>5,134,331</td>
+      <td>44,672,561</td>
+      <td>77.5</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>11</td>
+      <td>5,815,308</td>
+      <td>50,487,869</td>
+      <td>87.6</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>12</td>
+      <td>7,152,348</td>
+      <td>57,640,217</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>1</td>
+      <td>6,022,738</td>
+      <td>6,022,738</td>
+      <td>9.2</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>2</td>
+      <td>2,463,147</td>
+      <td>8,485,885</td>
+      <td>13.0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">36 rows × 5 columns (first 14 shown)</div></div>
+<p><code>PARTITION BY yr</code> restarts the running total every January (year-to-date). The percentage uses a second window (the whole year) as the denominator.</p>
+<h2 id="moving-averages">Moving averages</h2>
+<p>A moving average smooths noisy data and shows the trend. Here is the 7-day average of daily units sold:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">date</span>, units_sold,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(units_sold * <span class="hl-n">1.0</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-k">date</span> <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-n">6</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">CURRENT</span> <span class="hl-k">ROW</span>), <span class="hl-n">1</span>) <span class="hl-k">AS</span> avg_7_day
+<span class="hl-k">FROM</span> daily_sales
+<span class="hl-k">WHERE</span> <span class="hl-k">date</span> &gt;= <span class="hl-s">&#x27;2025-11-01&#x27;</span>
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> <span class="hl-k">date</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>date</th>
+      <th>units_sold</th>
+      <th>avg_7_day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-11-01</td>
+      <td>387</td>
+      <td>387.0</td>
+    </tr>
+    <tr>
+      <td>2025-11-02</td>
+      <td>396</td>
+      <td>391.5</td>
+    </tr>
+    <tr>
+      <td>2025-11-03</td>
+      <td>353</td>
+      <td>378.7</td>
+    </tr>
+    <tr>
+      <td>2025-11-04</td>
+      <td>348</td>
+      <td>371.0</td>
+    </tr>
+    <tr>
+      <td>2025-11-05</td>
+      <td>356</td>
+      <td>368.0</td>
+    </tr>
+    <tr>
+      <td>2025-11-06</td>
+      <td>350</td>
+      <td>365.0</td>
+    </tr>
+    <tr>
+      <td>2025-11-07</td>
+      <td>358</td>
+      <td>364.0</td>
+    </tr>
+    <tr>
+      <td>2025-11-08</td>
+      <td>357</td>
+      <td>359.7</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">61 rows × 3 columns (first 8 shown)</div></div>
+<figure class="fig"><img src="../img/sql-12-02.png" alt="Daily units sold and the 7-day and 28-day moving averages (last 6 months of 2025). The weekly pattern (weekend peaks) disappears in the averages; the 28-day line shows the trend." loading="lazy"><figcaption>Daily units sold and the 7-day and 28-day moving averages (last 6 months of 2025). The weekly pattern (weekend peaks) disappears in the averages; the 28-day line shows the trend.</figcaption></figure>
+<p>The first six rows of a 7-row window have fewer than seven rows available: SQL averages whatever exists (partial windows). Check <code>COUNT(*) OVER (...)</code> if you need to exclude them.</p>
+<h2 id="lag-and-lead-compare-with-previous-and-next-rows">LAG and LEAD: compare with previous and next rows</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LAG(col, n, default)</code></td>
+<td>The value n rows <strong>before</strong> the current row (default n = 1)</td>
+</tr>
+<tr>
+<td><code>LEAD(col, n, default)</code></td>
+<td>The value n rows <strong>after</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> monthly <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">YEAR</span>(order_date) * <span class="hl-n">100</span> + <span class="hl-f">MONTH</span>(order_date) <span class="hl-k">AS</span> ym, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-f">YEAR</span>(order_date) * <span class="hl-n">100</span> + <span class="hl-f">MONTH</span>(order_date)
+)
+<span class="hl-k">SELECT</span> ym,
+       <span class="hl-f">ROUND</span>(sales, <span class="hl-n">0</span>)                                               <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">LAG</span>(sales)  <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym), <span class="hl-n">0</span>)                      <span class="hl-k">AS</span> prev_month,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * (sales - <span class="hl-f">LAG</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym)) / <span class="hl-f">LAG</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym), <span class="hl-n">1</span>) <span class="hl-k">AS</span> mom_pct,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">LAG</span>(sales, <span class="hl-n">12</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym), <span class="hl-n">0</span>)                   <span class="hl-k">AS</span> same_month_last_year,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * (sales - <span class="hl-f">LAG</span>(sales, <span class="hl-n">12</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym)) / <span class="hl-f">LAG</span>(sales, <span class="hl-n">12</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym), <span class="hl-n">1</span>) <span class="hl-k">AS</span> yoy_pct,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">LEAD</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym), <span class="hl-n">0</span>)                      <span class="hl-k">AS</span> next_month
+<span class="hl-k">FROM</span> monthly
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>ym</th>
+      <th>sales</th>
+      <th>prev_month</th>
+      <th>mom_pct</th>
+      <th>same_month_last_year</th>
+      <th>yoy_pct</th>
+      <th>next_month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>202301</td>
+      <td>2,447,151</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>3,861,852</td>
+    </tr>
+    <tr>
+      <td>202302</td>
+      <td>3,861,852</td>
+      <td>2,447,151</td>
+      <td>57.8</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>3,441,306</td>
+    </tr>
+    <tr>
+      <td>202303</td>
+      <td>3,441,306</td>
+      <td>3,861,852</td>
+      <td>-10.9</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>3,927,557</td>
+    </tr>
+    <tr>
+      <td>202304</td>
+      <td>3,927,557</td>
+      <td>3,441,306</td>
+      <td>14.1</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>4,840,130</td>
+    </tr>
+    <tr>
+      <td>202305</td>
+      <td>4,840,130</td>
+      <td>3,927,557</td>
+      <td>23.2</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>5,785,712</td>
+    </tr>
+    <tr>
+      <td>202306</td>
+      <td>5,785,712</td>
+      <td>4,840,130</td>
+      <td>19.5</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>5,390,409</td>
+    </tr>
+    <tr>
+      <td>202307</td>
+      <td>5,390,409</td>
+      <td>5,785,712</td>
+      <td>-6.8</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>4,129,386</td>
+    </tr>
+    <tr>
+      <td>202308</td>
+      <td>4,129,386</td>
+      <td>5,390,409</td>
+      <td>-23.4</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>5,714,731</td>
+    </tr>
+    <tr>
+      <td>202309</td>
+      <td>5,714,731</td>
+      <td>4,129,386</td>
+      <td>38.4</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>5,134,331</td>
+    </tr>
+    <tr>
+      <td>202310</td>
+      <td>5,134,331</td>
+      <td>5,714,731</td>
+      <td>-10.2</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>5,815,308</td>
+    </tr>
+    <tr>
+      <td>202311</td>
+      <td>5,815,308</td>
+      <td>5,134,331</td>
+      <td>13.3</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>7,152,348</td>
+    </tr>
+    <tr>
+      <td>202312</td>
+      <td>7,152,348</td>
+      <td>5,815,308</td>
+      <td>23.0</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>6,022,738</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">36 rows × 7 columns (first 12 shown)</div></div>
+<ul>
+<li><strong>MoM</strong> compares with <code>LAG(sales, 1)</code>; <strong>YoY</strong> compares with <code>LAG(sales, 12)</code> when there is exactly one row per month. This is the SQL equivalent of the pivot table's "Difference From" settings (Excel Lesson 8).</li>
+<li>The first row has no previous value, so <code>LAG</code> returns NULL (or the default you supply: <code>LAG(sales, 1, 0)</code>).</li>
+</ul>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Gaps in the data</b></div><p><code>LAG(sales, 12)</code> assumes every month exists. If a month has no sales it also has no row, so LAG(12) points at the wrong month. Build a calendar table (a list of every month) and LEFT JOIN the sales onto it first.</p></div>
+<h3 id="time-between-events">Time between events</h3>
+<p>"How many days passed between each customer's consecutive orders?"</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> o <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, order_date,
+           <span class="hl-f">LAG</span>(order_date) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> customer_id <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_date) <span class="hl-k">AS</span> prev_order
+    <span class="hl-k">FROM</span> orders
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                                          <span class="hl-k">AS</span> repeat_orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(<span class="hl-f">DATEDIFF</span>(day, prev_order, order_date) * <span class="hl-n">1.0</span>), <span class="hl-n">1</span>) <span class="hl-k">AS</span> avg_days_between_orders,
+       <span class="hl-f">MIN</span>(<span class="hl-f">DATEDIFF</span>(day, prev_order, order_date))        <span class="hl-k">AS</span> shortest_gap,
+       <span class="hl-f">MAX</span>(<span class="hl-f">DATEDIFF</span>(day, prev_order, order_date))        <span class="hl-k">AS</span> longest_gap
+<span class="hl-k">FROM</span> o
+<span class="hl-k">WHERE</span> prev_order <span class="hl-k">IS</span> <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>repeat_orders</th>
+      <th>avg_days_between_orders</th>
+      <th>shortest_gap</th>
+      <th>longest_gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2415</td>
+      <td>186.6</td>
+      <td>0</td>
+      <td>1001</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 4 columns</div></div>
+<h2 id="first_value-last_value-nth_value">FIRST_VALUE, LAST_VALUE, NTH_VALUE</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> department, emp_id, monthly_income,
+       <span class="hl-f">FIRST_VALUE</span>(emp_id) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> monthly_income <span class="hl-k">DESC</span>)               <span class="hl-k">AS</span> top_earner,
+       <span class="hl-f">LAST_VALUE</span>(emp_id)  <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> monthly_income <span class="hl-k">DESC</span>
+                                 <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-k">UNBOUNDED</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">UNBOUNDED</span> <span class="hl-k">FOLLOWING</span>)             <span class="hl-k">AS</span> lowest_earner,
+       monthly_income - <span class="hl-f">FIRST_VALUE</span>(monthly_income) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> monthly_income <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> gap_to_top
+<span class="hl-k">FROM</span> employees
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> department, monthly_income <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>department</th>
+      <th>emp_id</th>
+      <th>monthly_income</th>
+      <th>top_earner</th>
+      <th>lowest_earner</th>
+      <th>gap_to_top</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Finance</td>
+      <td>E00519</td>
+      <td>209833</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00145</td>
+      <td>185500</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-24333</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00336</td>
+      <td>174417</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-35416</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00201</td>
+      <td>169500</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-40333</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E01172</td>
+      <td>168167</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-41666</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E01151</td>
+      <td>155167</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-54666</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E00759</td>
+      <td>152083</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-57750</td>
+    </tr>
+    <tr>
+      <td>Finance</td>
+      <td>E01004</td>
+      <td>144667</td>
+      <td>E00519</td>
+      <td>E00322</td>
+      <td>-65166</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1,500 rows × 6 columns (first 8 shown)</div></div>
+<p><code>LAST_VALUE</code> needs the explicit full frame (<code>UNBOUNDED FOLLOWING</code>); with the default frame it just returns the current row.</p>
+<h2 id="distribution-functions">Distribution functions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PERCENT_RANK()</code></td>
+<td>(rank − 1) ÷ (rows − 1): 0 for the lowest, 1 for the highest</td>
+</tr>
+<tr>
+<td><code>CUME_DIST()</code></td>
+<td>Share of rows with a value ≤ the current one</td>
+</tr>
+<tr>
+<td><code>PERCENTILE_CONT(p) WITHIN GROUP (ORDER BY x) OVER (…)</code></td>
+<td>Interpolated percentile (e.g. median at p = 0.5)</td>
+</tr>
+<tr>
+<td><code>PERCENTILE_DISC(p) …</code></td>
+<td>An actual value from the data</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> department,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.5</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> monthly_income) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department), <span class="hl-n">0</span>) <span class="hl-k">AS</span> median_income,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(monthly_income) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> department), <span class="hl-n">0</span>)                                          <span class="hl-k">AS</span> mean_income
+<span class="hl-k">FROM</span> employees
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> department;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>department</th>
+      <th>median_income</th>
+      <th>mean_income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Finance</td>
+      <td>77,709</td>
+      <td>83,681</td>
+    </tr>
+    <tr>
+      <td>HR</td>
+      <td>86,833</td>
+      <td>87,805</td>
+    </tr>
+    <tr>
+      <td>IT</td>
+      <td>68,750</td>
+      <td>79,051</td>
+    </tr>
+    <tr>
+      <td>Operations</td>
+      <td>92,667</td>
+      <td>92,461</td>
+    </tr>
+    <tr>
+      <td>R&amp;D</td>
+      <td>70,250</td>
+      <td>80,255</td>
+    </tr>
+    <tr>
+      <td>Sales</td>
+      <td>74,709</td>
+      <td>82,448</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 3 columns</div></div>
+<p>In SQL Server, <code>PERCENTILE_CONT</code> is a window function (needs <code>OVER</code>); PostgreSQL uses it as an aggregate (<code>GROUP BY</code>). Mean above median is the signature of a right-skewed distribution (Statistics, ML track).</p>
+<h2 id="cumulative-share-the-pareto-in-sql">Cumulative share: the Pareto in SQL</h2>
+<p>Which products produce the first 80% of sales?</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> p <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> product_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> order_items <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> product_id
+), c <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> product_id, sales,
+           <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span> <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-k">UNBOUNDED</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">CURRENT</span> <span class="hl-k">ROW</span>) * <span class="hl-n">1.0</span> / <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> () <span class="hl-k">AS</span> cum_share,
+           <span class="hl-f">ROW_NUMBER</span>() <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> sales <span class="hl-k">DESC</span>) <span class="hl-k">AS</span> rnk
+    <span class="hl-k">FROM</span> p
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> products_for_80pct_of_sales,
+       (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> p)  <span class="hl-k">AS</span> total_products
+<span class="hl-k">FROM</span> c
+<span class="hl-k">WHERE</span> cum_share &lt;= <span class="hl-n">0.8</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>products_for_80pct_of_sales</th>
+      <th>total_products</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20</td>
+      <td>78</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<h2 id="gaps-and-islands-streaks">Gaps and islands: streaks</h2>
+<p>A classic: find runs of consecutive days. The trick is that <code>date − ROW_NUMBER()</code> is <strong>constant within a streak</strong>.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> days <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> order_date <span class="hl-k">AS</span> d <span class="hl-k">FROM</span> orders <span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-s">&#x27;2025-12-01&#x27;</span>
+), g <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> d, <span class="hl-f">DATEADD</span>(day, -<span class="hl-f">ROW_NUMBER</span>() <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> d), d) <span class="hl-k">AS</span> grp <span class="hl-k">FROM</span> days
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">MIN</span>(d) <span class="hl-k">AS</span> streak_start, <span class="hl-f">MAX</span>(d) <span class="hl-k">AS</span> streak_end, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> days_in_streak
+<span class="hl-k">FROM</span> g
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> grp
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> streak_start;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>streak_start</th>
+      <th>streak_end</th>
+      <th>days_in_streak</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-12-01</td>
+      <td>2025-12-31</td>
+      <td>31</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 3 columns</div></div>
+<p>Each group of consecutive order days becomes one row: all of December 2025 had orders every day, so there is a single streak. The same pattern finds consecutive login days, uninterrupted employment spells and missing-sequence ranges.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><strong>Frames</strong> (<code>ROWS BETWEEN … AND …</code>) choose the rows around the current row; always write <code>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code> for running totals (the default RANGE frame includes ties).</li>
+<li>Running totals, YTD, cumulative % and moving averages use aggregate functions with frames.</li>
+<li><code>LAG</code>/<code>LEAD</code> read the previous/next row (MoM, YoY, time between events); fill calendar gaps first.</li>
+<li><code>FIRST_VALUE</code>/<code>LAST_VALUE</code> need an explicit full frame for LAST_VALUE.</li>
+<li><code>PERCENT_RANK</code>, <code>CUME_DIST</code>, <code>PERCENTILE_CONT</code> describe position and median within a distribution.</li>
+<li>Gaps and islands: <code>value − ROW_NUMBER()</code> is constant within a consecutive run.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-12-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which frame gives a 3-month moving average (current and two previous rows)?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>ROWS BETWEEN 3 PRECEDING AND CURRENT ROW</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>RANGE 3</code></button></div><div class="qexp"><b>Answer: B.</b> Two preceding rows plus the current row make three rows.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>LAG(sales, 12) OVER (ORDER BY ym)</code> return for monthly data?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Sales 12 months in the future</button><button type="button" class="opt" data-ok="1"><i>B</i>Sales for the same month last year (if no month is missing)</button><button type="button" class="opt" data-ok="0"><i>C</i>The 12th highest sales</button><button type="button" class="opt" data-ok="0"><i>D</i>The average of 12 months</button></div><div class="qexp"><b>Answer: B.</b> LAG reads n rows back; with one row per month that is 12 months earlier.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why does LAST_VALUE often return the current row's value?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The default frame ends at the current row, so you must extend it to UNBOUNDED FOLLOWING</button><button type="button" class="opt" data-ok="0"><i>B</i>LAST_VALUE is broken in SQL Server</button><button type="button" class="opt" data-ok="0"><i>C</i>It only works with PARTITION BY</button><button type="button" class="opt" data-ok="0"><i>D</i>ORDER BY is missing</button></div><div class="qexp"><b>Answer: A.</b> Specify ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING.</div></div><div class="qq"><p class="qtext"><b>4.</b> How do you restart a running total every year?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>ORDER BY year</button><button type="button" class="opt" data-ok="1"><i>B</i>PARTITION BY year in the OVER clause</button><button type="button" class="opt" data-ok="0"><i>C</i>GROUP BY year only</button><button type="button" class="opt" data-ok="0"><i>D</i>Use LAG</button></div><div class="qexp"><b>Answer: B.</b> Each partition has its own running total.</div></div><div class="qq"><p class="qtext"><b>5.</b> In the gaps-and-islands trick, what stays constant inside a streak of consecutive dates?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The date</button><button type="button" class="opt" data-ok="0"><i>B</i>The row number</button><button type="button" class="opt" data-ok="1"><i>C</i>The date minus its ROW_NUMBER</button><button type="button" class="opt" data-ok="0"><i>D</i>The count</button></div><div class="qexp"><b>Answer: C.</b> Both increase by 1 per row, so their difference is constant.</div></div><div class="qq"><p class="qtext"><b>6.</b> Mean income is much higher than median income. What does that suggest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Symmetric data</button><button type="button" class="opt" data-ok="1"><i>B</i>A right-skewed distribution with a few very high values</button><button type="button" class="opt" data-ok="0"><i>C</i>Missing data</button><button type="button" class="opt" data-ok="0"><i>D</i>A data error</button></div><div class="qexp"><b>Answer: B.</b> A long right tail pulls the mean above the median.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Time-series practice</b></div><p>(1) Monthly sales per region with MoM %; (2) for each customer, the days since their previous order and a flag for "returned within 30 days"; (3) a 3-month moving average of sales by category; (4) the month when cumulative 2025 sales first exceeded ₹5 crore.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- (1)</span>
+<span class="hl-k">WITH</span> m <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> region, <span class="hl-f">YEAR</span>(order_date)*<span class="hl-n">100</span>+<span class="hl-f">MONTH</span>(order_date) <span class="hl-k">AS</span> ym, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> region, <span class="hl-f">YEAR</span>(order_date)*<span class="hl-n">100</span>+<span class="hl-f">MONTH</span>(order_date))
+<span class="hl-k">SELECT</span> region, ym, <span class="hl-f">ROUND</span>(sales,<span class="hl-n">0</span>) <span class="hl-k">AS</span> sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span>*(sales - <span class="hl-f">LAG</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym)) / <span class="hl-f">LAG</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> region <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym), <span class="hl-n">1</span>) <span class="hl-k">AS</span> mom_pct <span class="hl-k">FROM</span> m <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> region, ym;
+<span class="hl-c">-- (2)</span>
+<span class="hl-k">WITH</span> o <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> customer_id, order_date, <span class="hl-f">LAG</span>(order_date) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> customer_id <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_date) <span class="hl-k">AS</span> prev <span class="hl-k">FROM</span> orders)
+<span class="hl-k">SELECT</span> customer_id, order_date, <span class="hl-f">DATEDIFF</span>(day, prev, order_date) <span class="hl-k">AS</span> days_since_prev,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> <span class="hl-f">DATEDIFF</span>(day, prev, order_date) &lt;= <span class="hl-n">30</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span> <span class="hl-k">AS</span> within_30_days <span class="hl-k">FROM</span> o <span class="hl-k">WHERE</span> prev <span class="hl-k">IS</span> <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>;
+<span class="hl-c">-- (3)</span>
+<span class="hl-k">WITH</span> m <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> category, <span class="hl-f">YEAR</span>(order_date)*<span class="hl-n">100</span>+<span class="hl-f">MONTH</span>(order_date) <span class="hl-k">AS</span> ym, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> category, <span class="hl-f">YEAR</span>(order_date)*<span class="hl-n">100</span>+<span class="hl-f">MONTH</span>(order_date))
+<span class="hl-k">SELECT</span> category, ym, <span class="hl-f">AVG</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">PARTITION</span> <span class="hl-k">BY</span> category <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> ym <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-n">2</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">CURRENT</span> <span class="hl-k">ROW</span>) <span class="hl-k">AS</span> ma3 <span class="hl-k">FROM</span> m;
+<span class="hl-c">-- (4)</span>
+<span class="hl-k">WITH</span> m <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> <span class="hl-f">MONTH</span>(order_date) <span class="hl-k">AS</span> mth, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales <span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span> <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-f">MONTH</span>(order_date)),
+     c <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> mth, <span class="hl-f">SUM</span>(sales) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> mth <span class="hl-k">ROWS</span> <span class="hl-k">BETWEEN</span> <span class="hl-k">UNBOUNDED</span> <span class="hl-k">PRECEDING</span> <span class="hl-k">AND</span> <span class="hl-k">CURRENT</span> <span class="hl-k">ROW</span>) <span class="hl-k">AS</span> cum <span class="hl-k">FROM</span> m)
+<span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">1</span> mth <span class="hl-k">FROM</span> c <span class="hl-k">WHERE</span> cum &gt; <span class="hl-n">50000000</span> <span class="hl-k">ORDER</span> <span class="hl-k">BY</span> mth;</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you calculate a running total in SQL?</strong>
+<code>SUM(x) OVER (ORDER BY d ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)</code>, optionally partitioned.</p>
+<p><strong>Q: How do you calculate month-on-month growth?</strong>
+Aggregate to months, then <code>(sales − LAG(sales) OVER (ORDER BY month)) / LAG(sales) OVER (ORDER BY month)</code>; use <code>LAG(…, 12)</code> for YoY.</p>
+<p><strong>Q: ROWS vs RANGE in a window frame?</strong>
+ROWS counts physical rows; RANGE includes all rows with the same ORDER BY value as the current row (peers). ROWS is predictable and faster.</p>
+<p><strong>Q: How would you find consecutive login days?</strong>
+Gaps and islands: <code>date − ROW_NUMBER() OVER (PARTITION BY user ORDER BY date)</code> as a group key, then GROUP BY it.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html"><small>← Previous</small><b>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</b></a><a class="next" href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html"><small>Next →</small><b>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#window-frames">Window frames</a><a href="#running-totals">Running totals</a><a href="#moving-averages">Moving averages</a><a href="#lag-and-lead-compare-with-previous-and-next-rows">LAG and LEAD: compare with previous and next rows</a><a href="#first_value-last_value-nth_value">FIRST_VALUE, LAST_VALUE, NTH_VALUE</a><a href="#distribution-functions">Distribution functions</a><a href="#cumulative-share-the-pareto-in-sql">Cumulative share: the Pareto in SQL</a><a href="#gaps-and-islands-streaks">Gaps and islands: streaks</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

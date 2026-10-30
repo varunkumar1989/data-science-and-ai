@@ -1,0 +1,161 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers · Career Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="A compact question bank with model answers for data scientist, ML engineer and GenAI roles: Python and pandas, statistics, ML fundamentals, model evaluation, feature engineering, system and case design (churn, fraud, recommendations), MLOps, LLMs, RAG and agents, plus how to handle take-home assignments and live coding."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-career"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-career">Capstone, Portfolio &amp; Interviews</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#475569">Capstone, Portfolio &amp; Interviews</div>
+<ol class="side-l"><li class=""><a href="career-01-portfolio-github-and-resume-for-data-roles.html" data-lid="career-01"><span>01</span>Portfolio, GitHub and Resume for Data Roles</a></li><li class=""><a href="career-02-data-analyst-interview-preparation-sql-excel-power-bi-statis.html" data-lid="career-02"><span>02</span>Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions</a></li><li class="on"><a href="career-03-data-scientist-ml-and-genai-interview-preparation-questions.html" data-lid="career-03"><span>03</span>Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers</a></li><li class=""><a href="career-04-your-90-day-plan-learning-roadmap-job-search-strategy-and-gr.html" data-lid="career-04"><span>04</span>Your 90-Day Plan: Learning Roadmap, Job Search Strategy and Growing in Your First Role</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="career-03">
+<div class="lhead" style="--tc:#475569"><div class="kick">Capstone, Portfolio &amp; Interviews · Lesson 3 of 4</div><h1>Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers</h1>
+<p class="sum">A compact question bank with model answers for data scientist, ML engineer and GenAI roles: Python and pandas, statistics, ML fundamentals, model evaluation, feature engineering, system and case design (churn, fraud, recommendations), MLOps, LLMs, RAG and agents, plus how to handle take-home assignments and live coding.</p><div class="tags"><span class="tag live">● Career track</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/career/Career_03_Data_Scientist_ML_and_GenAI_Interview_Preparation_Questions_and_Model_.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="career-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Answer core Python, statistics and ML questions concisely</li><li>Walk through an end-to-end ML system design</li><li>Explain LLM, RAG and agent concepts and trade-offs</li><li>Plan and present take-home assignments</li></ul></div></div>
+<div class="content"><h2 id="python-and-pandas-quick-answers">Python and pandas (quick answers)</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List vs tuple vs set vs dict?</td>
+<td>Mutable sequence / immutable record / unique unordered / key→value; sets and dicts give O(1) lookups</td>
+</tr>
+<tr>
+<td><code>apply</code> vs vectorisation?</td>
+<td>Vectorised column operations run in C and are much faster; avoid <code>apply(axis=1)</code> on large data</td>
+</tr>
+<tr>
+<td><code>merge</code> vs <code>join</code> vs <code>concat</code>?</td>
+<td>merge on columns, join on index, concat stacks</td>
+</tr>
+<tr>
+<td>How to handle missing values?</td>
+<td>Understand why, then drop, impute (median, group-wise, model) or flag; impute inside CV</td>
+</tr>
+<tr>
+<td>Generator vs list?</td>
+<td>Generators are lazy and memory-efficient, consumed once</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="statistics-and-ml-fundamentals">Statistics and ML fundamentals</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Model answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bias-variance trade-off?</td>
+<td>Simple models underfit (bias), complex models overfit (variance); choose complexity by validation error</td>
+</tr>
+<tr>
+<td>L1 vs L2?</td>
+<td>L1 zeroes coefficients (selection); L2 shrinks smoothly; Elastic Net mixes</td>
+</tr>
+<tr>
+<td>Why cross-validation?</td>
+<td>A single split is noisy; k-fold averages and supports tuning without touching the test set</td>
+</tr>
+<tr>
+<td>Precision vs recall?</td>
+<td>Precision: flagged that are right; recall: positives caught; choose by error costs</td>
+</tr>
+<tr>
+<td>ROC-AUC vs PR-AUC?</td>
+<td>PR-AUC is more informative for rare positives</td>
+</tr>
+<tr>
+<td>Bagging vs boosting?</td>
+<td>Parallel averaging (variance) vs sequential error correction (bias)</td>
+</tr>
+<tr>
+<td>How does gradient descent work?</td>
+<td>Iteratively step weights against the loss gradient with a learning rate</td>
+</tr>
+<tr>
+<td>What is data leakage?</td>
+<td>Using information unavailable at prediction time; prevent with pipelines, time-based splits and feature cut-offs</td>
+</tr>
+<tr>
+<td>p-value?</td>
+<td>Probability of data at least this extreme if H0 were true; not the probability H0 is true</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="ml-system-design-a-template">ML system design: a template</h2>
+<figure class="fig"><img src="../img/career-03-01.png" alt="Answer ML design questions in this order." loading="lazy"><figcaption>Answer ML design questions in this order.</figcaption></figure>
+<p>Example: <strong>"Design a fraud detection system for UPI payments."</strong> Real-time decision under 100 ms; label = confirmed fraud (delayed, imbalanced); features: amount vs user history, device/location change, merchant risk, velocity, graph links; model: gradient boosting + rules + anomaly scores; evaluate PR-AUC and recall at alert capacity; serve with a feature store and low-latency API; monitor drift and attack patterns; human review queue; A/B test thresholds.</p>
+<h2 id="llm-rag-and-agent-questions">LLM, RAG and agent questions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Model answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How do LLMs work?</td>
+<td>Transformers trained to predict the next token, then instruction-tuned and aligned with feedback</td>
+</tr>
+<tr>
+<td>RAG vs fine-tuning?</td>
+<td>RAG for changing knowledge with citations; fine-tuning for behaviour/format</td>
+</tr>
+<tr>
+<td>How to evaluate a RAG system?</td>
+<td>Retrieval hit rate/MRR + answer correctness, faithfulness, abstention on a labelled set</td>
+</tr>
+<tr>
+<td>How to reduce hallucinations?</td>
+<td>Grounding, tools, "say I don't know", citations, validation, evaluation</td>
+</tr>
+<tr>
+<td>What is an agent?</td>
+<td>An LLM in a loop choosing tool actions toward a goal, with memory and stopping conditions</td>
+</tr>
+<tr>
+<td>What is MCP?</td>
+<td>Open protocol to connect assistants to tools/data via servers (tools, resources, prompts)</td>
+</tr>
+<tr>
+<td>Prompt injection defence?</td>
+<td>Separate data from instructions, least-privilege tools, approvals, output checks</td>
+</tr>
+<tr>
+<td>Cost control?</td>
+<td>Model routing, caching, batching, shorter context and outputs</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="take-home-assignments">Take-home assignments</h2>
+<ol>
+<li>Restate the problem and assumptions in the first lines of your report.</li>
+<li>Do a focused EDA; do not chart everything.</li>
+<li>Baseline first, then 1–2 better models; validate correctly.</li>
+<li>Translate results into business impact and a recommendation.</li>
+<li>Clean, runnable code (requirements, README); a 5-slide summary.</li>
+<li>State limitations and next steps honestly.</li>
+</ol>
+<h2 id="live-coding-tips">Live coding tips</h2>
+<p>Clarify inputs/outputs and edge cases, start with a simple correct solution, test with a small example, then optimise and state Big-O (Python DSA lessons 26–28).</p>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Answer concisely, then go deeper only if asked.</li>
+<li>Use the design template: goal → metric → data → features → model → serving → monitoring.</li>
+<li>Know LLM/RAG/agent trade-offs, evaluation and safety.</li>
+<li>Take-homes: baseline, correct validation, business recommendation, clean code, honest limitations.</li>
+</ul></div>
+<div class="quiz" id="quiz-career-03-0"><div class="quiz-h"><b>Quick quiz</b><span>4 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What should you state first in an ML system-design answer?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The business goal and the decision the model supports</button><button type="button" class="opt" data-ok="0"><i>B</i>The algorithm</button><button type="button" class="opt" data-ok="0"><i>C</i>The GPU type</button><button type="button" class="opt" data-ok="0"><i>D</i>The library version</button></div><div class="qexp"><b>Answer: A.</b> Framing first.</div></div><div class="qq"><p class="qtext"><b>2.</b> Best metric for a fraud model with 0.5% fraud?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>PR-AUC and recall at the alert capacity</button><button type="button" class="opt" data-ok="0"><i>B</i>Accuracy</button><button type="button" class="opt" data-ok="0"><i>C</i>R²</button><button type="button" class="opt" data-ok="0"><i>D</i>MAE</button></div><div class="qexp"><b>Answer: A.</b> Rare positives.</div></div><div class="qq"><p class="qtext"><b>3.</b> RAG or fine-tuning for policy documents that change monthly?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>RAG</button><button type="button" class="opt" data-ok="0"><i>B</i>Fine-tuning</button><button type="button" class="opt" data-ok="0"><i>C</i>Neither</button><button type="button" class="opt" data-ok="0"><i>D</i>Training from scratch</button></div><div class="qexp"><b>Answer: A.</b> Knowledge belongs in retrieval.</div></div><div class="qq"><p class="qtext"><b>4.</b> What must a take-home report include besides the model?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Business impact, recommendation and limitations</button><button type="button" class="opt" data-ok="0"><i>B</i>Only code</button><button type="button" class="opt" data-ok="0"><i>C</i>Only accuracy</button><button type="button" class="opt" data-ok="0"><i>D</i>Every chart possible</button></div><div class="qexp"><b>Answer: A.</b> Decision-makers read conclusions.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Answer "Design a product recommendation system for an e-commerce home page" using the template. (2) Explain RAG to a non-technical manager in 60 seconds. (3) Do one timed take-home on the telecom churn data (3 hours).</p><details class="sol"><summary>Show solution</summary><p>Recommendations: goal = revenue per session; candidates via collaborative filtering/embeddings + popularity; ranking model with user, item and context features; offline metrics (recall@k, NDCG) + online A/B test on revenue; cold start with popular/contextual items; monitor diversity and drift.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/">W3Schools quizzes hub ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions?hostSegmentIdFilter=5">Kaggle competitions (Getting started) ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.stratascratch.com/">StrataScratch data interview questions ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="career-02-data-analyst-interview-preparation-sql-excel-power-bi-statis.html"><small>← Previous</small><b>Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions</b></a><a class="next" href="career-04-your-90-day-plan-learning-roadmap-job-search-strategy-and-gr.html"><small>Next →</small><b>Your 90-Day Plan: Learning Roadmap, Job Search Strategy and Growing in Your First Role</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#python-and-pandas-quick-answers">Python and pandas (quick answers)</a><a href="#statistics-and-ml-fundamentals">Statistics and ML fundamentals</a><a href="#ml-system-design-a-template">ML system design: a template</a><a href="#llm-rag-and-agent-questions">LLM, RAG and agent questions</a><a href="#take-home-assignments">Take-home assignments</a><a href="#live-coding-tips">Live coding tips</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

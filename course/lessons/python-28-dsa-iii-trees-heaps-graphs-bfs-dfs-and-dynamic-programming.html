@@ -1,0 +1,327 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming · Python Lesson 28 · Data Science &amp; AI Handbook</title><meta name="description" content="Finish the DSA toolkit. Binary trees and binary search trees with traversals, heaps and priority queues with heapq (top-k, merge k lists, running median), graphs with adjacency lists, BFS and DFS, shortest paths and topological sort (as used in data pipelines), and dynamic programming from memoisation to tables."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 28</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class="on"><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-28">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 28 of 29</div><h1>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</h1>
+<p class="sum">Finish the DSA toolkit. Binary trees and binary search trees with traversals, heaps and priority queues with heapq (top-k, merge k lists, running median), graphs with adjacency lists, BFS and DFS, shortest paths and topological sort (as used in data pipelines), and dynamic programming from memoisation to tables.</p><div class="tags"><span class="tag live">● DSA for data roles (added)</span><span class="tag new">✦ Python 3.13</span><span class="tag">Advanced</span><span class="tag">⏱ 130 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_28_DSA_III_Trees_Heaps_Graphs_BFS_DFS_and_Dynamic_Programming.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-28">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Traverse binary trees (pre-, in-, post- and level-order) and use a binary search tree</li><li>Use heapq for top-k, k-way merge, scheduling and running medians</li><li>Represent graphs and apply BFS, DFS, Dijkstra and topological sort</li><li>Recognise dynamic-programming problems and solve them with memoisation and tabulation</li><li>Connect these structures to data tools (B-tree indexes, DAG schedulers, recommendation graphs)</li></ul></div></div>
+<div class="content"><h2 id="trees">Trees</h2>
+<p>A <strong>tree</strong> is a hierarchy of nodes: one root, each node with children, no cycles. Examples: folders, org charts, JSON documents, decision trees in ML, and B-tree indexes in databases.</p>
+<figure class="fig"><img src="../img/python-28-01.png" alt="A binary search tree: every left child is smaller and every right child larger than its parent." loading="lazy"><figcaption>A binary search tree: every left child is smaller and every right child larger than its parent.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">class</span> TreeNode:
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, val, left=<span class="hl-k">None</span>, right=<span class="hl-k">None</span>): self.val, self.left, self.right = val, left, right
+<span class="hl-k">def</span> <span class="hl-f">insert</span>(root, val):                          <span class="hl-c"># BST insert, O(height)</span>
+    <span class="hl-k">if</span> <span class="hl-k">not</span> root: <span class="hl-k">return</span> <span class="hl-f">TreeNode</span>(val)
+    <span class="hl-k">if</span> val &lt; root.val: root.left = <span class="hl-f">insert</span>(root.left, val)
+    <span class="hl-k">else</span>: root.right = <span class="hl-f">insert</span>(root.right, val)
+    <span class="hl-k">return</span> root
+root = <span class="hl-k">None</span>
+<span class="hl-k">for</span> v <span class="hl-k">in</span> [<span class="hl-n">8</span>, <span class="hl-n">3</span>, <span class="hl-n">10</span>, <span class="hl-n">1</span>, <span class="hl-n">6</span>, <span class="hl-n">14</span>, <span class="hl-n">4</span>, <span class="hl-n">7</span>, <span class="hl-n">13</span>]: root = <span class="hl-f">insert</span>(root, v)
+<span class="hl-k">def</span> <span class="hl-f">inorder</span>(n): <span class="hl-k">return</span> <span class="hl-f">inorder</span>(n.left) + [n.val] + <span class="hl-f">inorder</span>(n.right) <span class="hl-k">if</span> n <span class="hl-k">else</span> []
+<span class="hl-k">def</span> <span class="hl-f">preorder</span>(n): <span class="hl-k">return</span> [n.val] + <span class="hl-f">preorder</span>(n.left) + <span class="hl-f">preorder</span>(n.right) <span class="hl-k">if</span> n <span class="hl-k">else</span> []
+<span class="hl-k">def</span> <span class="hl-f">postorder</span>(n): <span class="hl-k">return</span> <span class="hl-f">postorder</span>(n.left) + <span class="hl-f">postorder</span>(n.right) + [n.val] <span class="hl-k">if</span> n <span class="hl-k">else</span> []
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> deque
+<span class="hl-k">def</span> <span class="hl-f">level_order</span>(n):
+    out, q = [], <span class="hl-f">deque</span>([n])
+    <span class="hl-k">while</span> q:
+        level = []
+        <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(q)):
+            node = <span class="hl-f">q.popleft</span>(); <span class="hl-f">level.append</span>(node.val)
+            <span class="hl-f">q.extend</span>(c <span class="hl-k">for</span> c <span class="hl-k">in</span> (node.left, node.right) <span class="hl-k">if</span> c)
+        <span class="hl-f">out.append</span>(level)
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">height</span>(n): <span class="hl-k">return</span> <span class="hl-n">1</span> + <span class="hl-f">max</span>(<span class="hl-f">height</span>(n.left), <span class="hl-f">height</span>(n.right)) <span class="hl-k">if</span> n <span class="hl-k">else</span> <span class="hl-n">0</span>
+<span class="hl-k">def</span> <span class="hl-f">contains</span>(n, x):
+    <span class="hl-k">while</span> n:
+        <span class="hl-k">if</span> x == n.val: <span class="hl-k">return</span> <span class="hl-k">True</span>
+        n = n.left <span class="hl-k">if</span> x &lt; n.val <span class="hl-k">else</span> n.right
+    <span class="hl-k">return</span> <span class="hl-k">False</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;in-order  :&quot;</span>, <span class="hl-f">inorder</span>(root), <span class="hl-s">&quot;(sorted!)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;pre-order :&quot;</span>, <span class="hl-f">preorder</span>(root)); <span class="hl-f">print</span>(<span class="hl-s">&quot;post-order:&quot;</span>, <span class="hl-f">postorder</span>(root)); <span class="hl-f">print</span>(<span class="hl-s">&quot;levels    :&quot;</span>, <span class="hl-f">level_order</span>(root))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;height&quot;</span>, <span class="hl-f">height</span>(root), <span class="hl-s">&quot;| contains 7?&quot;</span>, <span class="hl-f">contains</span>(root, <span class="hl-n">7</span>), <span class="hl-s">&quot;| contains 5?&quot;</span>, <span class="hl-f">contains</span>(root, <span class="hl-n">5</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">in-order  : [1, 3, 4, 6, 7, 8, 10, 13, 14] (sorted!)
+pre-order : [8, 3, 1, 6, 4, 7, 10, 14, 13]
+post-order: [1, 4, 7, 6, 3, 13, 14, 10, 8]
+levels    : [[8], [3, 10], [1, 6, 14], [4, 7, 13]]
+height 4 | contains 7? True | contains 5? False</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Traversal</th>
+<th>Order</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-order</td>
+<td>left, node, right</td>
+<td>BST → sorted output</td>
+</tr>
+<tr>
+<td>Pre-order</td>
+<td>node, left, right</td>
+<td>Copy/serialise a tree</td>
+</tr>
+<tr>
+<td>Post-order</td>
+<td>left, right, node</td>
+<td>Delete, compute sizes bottom-up</td>
+</tr>
+<tr>
+<td>Level-order (BFS)</td>
+<td>level by level</td>
+<td>Shortest path in unweighted trees, org levels</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">is_valid_bst</span>(n, lo=<span class="hl-f">float</span>(<span class="hl-s">&quot;-inf&quot;</span>), hi=<span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)):
+    <span class="hl-k">return</span> <span class="hl-k">not</span> n <span class="hl-k">or</span> (lo &lt; n.val &lt; hi <span class="hl-k">and</span> <span class="hl-f">is_valid_bst</span>(n.left, lo, n.val) <span class="hl-k">and</span> <span class="hl-f">is_valid_bst</span>(n.right, n.val, hi))
+<span class="hl-k">def</span> <span class="hl-f">lowest_common_ancestor</span>(n, a, b):            <span class="hl-c"># in a BST</span>
+    <span class="hl-k">while</span> n:
+        <span class="hl-k">if</span> a &lt; n.val <span class="hl-k">and</span> b &lt; n.val: n = n.left
+        <span class="hl-k">elif</span> a &gt; n.val <span class="hl-k">and</span> b &gt; n.val: n = n.right
+        <span class="hl-k">else</span>: <span class="hl-k">return</span> n.val
+<span class="hl-k">def</span> <span class="hl-f">max_path_sum_root_to_leaf</span>(n):
+    <span class="hl-k">if</span> <span class="hl-k">not</span> n: <span class="hl-k">return</span> <span class="hl-f">float</span>(<span class="hl-s">&quot;-inf&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-k">not</span> n.left <span class="hl-k">and</span> <span class="hl-k">not</span> n.right: <span class="hl-k">return</span> n.val
+    <span class="hl-k">return</span> n.val + <span class="hl-f">max</span>(<span class="hl-f">max_path_sum_root_to_leaf</span>(n.left), <span class="hl-f">max_path_sum_root_to_leaf</span>(n.right))
+<span class="hl-f">print</span>(<span class="hl-f">is_valid_bst</span>(root), <span class="hl-f">lowest_common_ancestor</span>(root, <span class="hl-n">4</span>, <span class="hl-n">7</span>), <span class="hl-f">lowest_common_ancestor</span>(root, <span class="hl-n">1</span>, <span class="hl-n">14</span>), <span class="hl-f">max_path_sum_root_to_leaf</span>(root))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True 6 8 45</pre></div>
+<p>A BST is O(log n) only when <strong>balanced</strong>; inserting sorted data creates a "linked list" with O(n) lookups. Databases use balanced <strong>B-trees</strong>, which is why an index makes <code>WHERE id = 42</code> fast.</p>
+<h2 id="heaps-and-priority-queues">Heaps and priority queues</h2>
+<p>A <strong>heap</strong> always gives the smallest item in O(1) and inserts/removes in O(log n). Python's <code>heapq</code> is a min-heap on a list.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> heapq
+h = []
+<span class="hl-k">for</span> x <span class="hl-k">in</span> [<span class="hl-n">5</span>, <span class="hl-n">1</span>, <span class="hl-n">8</span>, <span class="hl-n">3</span>, <span class="hl-n">9</span>, <span class="hl-n">2</span>]: <span class="hl-f">heapq.heappush</span>(h, x)
+<span class="hl-f">print</span>(h[<span class="hl-n">0</span>], [<span class="hl-f">heapq.heappop</span>(h) <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">3</span>)])
+sales = {<span class="hl-s">&quot;Pune&quot;</span>: <span class="hl-n">120</span>, <span class="hl-s">&quot;Delhi&quot;</span>: <span class="hl-n">340</span>, <span class="hl-s">&quot;Kochi&quot;</span>: <span class="hl-n">90</span>, <span class="hl-s">&quot;Goa&quot;</span>: <span class="hl-n">210</span>, <span class="hl-s">&quot;Jaipur&quot;</span>: <span class="hl-n">175</span>}
+<span class="hl-f">print</span>(<span class="hl-f">heapq.nlargest</span>(<span class="hl-n">3</span>, <span class="hl-f">sales.items</span>(), key=<span class="hl-k">lambda</span> kv: kv[<span class="hl-n">1</span>]))
+<span class="hl-k">def</span> <span class="hl-f">top_k_stream</span>(stream, k):                 <span class="hl-c"># keep a size-k min-heap: O(n log k), constant memory</span>
+    heap = []
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> stream:
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(heap) &lt; k: <span class="hl-f">heapq.heappush</span>(heap, x)
+        <span class="hl-k">elif</span> x &gt; heap[<span class="hl-n">0</span>]: <span class="hl-f">heapq.heapreplace</span>(heap, x)
+    <span class="hl-k">return</span> <span class="hl-f">sorted</span>(heap, reverse=<span class="hl-k">True</span>)
+<span class="hl-f">print</span>(<span class="hl-f">top_k_stream</span>(<span class="hl-f">iter</span>([<span class="hl-n">15</span>, <span class="hl-n">3</span>, <span class="hl-n">99</span>, <span class="hl-n">42</span>, <span class="hl-n">7</span>, <span class="hl-n">64</span>, <span class="hl-n">23</span>, <span class="hl-n">88</span>]), <span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">heapq.merge</span>([<span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">9</span>], [<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">10</span>], [<span class="hl-n">0</span>, <span class="hl-n">7</span>])))              <span class="hl-c"># k-way merge of sorted lists (external sort)</span>
+tasks = [(<span class="hl-n">2</span>, <span class="hl-s">&quot;send report&quot;</span>), (<span class="hl-n">1</span>, <span class="hl-s">&quot;fix pipeline&quot;</span>), (<span class="hl-n">3</span>, <span class="hl-s">&quot;update deck&quot;</span>)]  <span class="hl-c"># (priority, task)</span>
+<span class="hl-f">heapq.heapify</span>(tasks); <span class="hl-f">print</span>([<span class="hl-f">heapq.heappop</span>(tasks)[<span class="hl-n">1</span>] <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">3</span>)])
+
+<span class="hl-k">class</span> RunningMedian:                          <span class="hl-c"># two heaps: max-heap (negated) + min-heap</span>
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self): self.lo, self.hi = [], []
+    <span class="hl-k">def</span> <span class="hl-f">add</span>(self, x):
+        <span class="hl-f">heapq.heappush</span>(self.lo, -x); <span class="hl-f">heapq.heappush</span>(self.hi, -<span class="hl-f">heapq.heappop</span>(self.lo))
+        <span class="hl-k">if</span> <span class="hl-f">len</span>(self.hi) &gt; <span class="hl-f">len</span>(self.lo): <span class="hl-f">heapq.heappush</span>(self.lo, -<span class="hl-f">heapq.heappop</span>(self.hi))
+    <span class="hl-k">def</span> <span class="hl-f">median</span>(self): <span class="hl-k">return</span> -self.lo[<span class="hl-n">0</span>] <span class="hl-k">if</span> <span class="hl-f">len</span>(self.lo) &gt; <span class="hl-f">len</span>(self.hi) <span class="hl-k">else</span> (-self.lo[<span class="hl-n">0</span>] + self.hi[<span class="hl-n">0</span>]) / <span class="hl-n">2</span>
+rm = <span class="hl-f">RunningMedian</span>(); out = []
+<span class="hl-k">for</span> x <span class="hl-k">in</span> [<span class="hl-n">5</span>, <span class="hl-n">15</span>, <span class="hl-n">1</span>, <span class="hl-n">3</span>, <span class="hl-n">8</span>, <span class="hl-n">7</span>]: <span class="hl-f">rm.add</span>(x); <span class="hl-f">out.append</span>(<span class="hl-f">rm.median</span>())
+<span class="hl-f">print</span>(out)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">1 [1, 2, 3]
+[(&#x27;Delhi&#x27;, 340), (&#x27;Goa&#x27;, 210), (&#x27;Jaipur&#x27;, 175)]
+[99, 88, 64]
+[0, 1, 2, 3, 4, 7, 9, 10]
+[&#x27;fix pipeline&#x27;, &#x27;send report&#x27;, &#x27;update deck&#x27;]
+[5, 10.0, 5, 4.0, 5, 6.0]</pre></div>
+<h2 id="graphs">Graphs</h2>
+<p>A <strong>graph</strong> has nodes (vertices) and edges, optionally directed and weighted. Social networks, road maps, product co-purchases, and data-pipeline dependencies are graphs.</p>
+<figure class="fig"><img src="../img/python-28-02.png" alt="A directed acyclic graph (DAG) of pipeline tasks: a task runs only after its dependencies. Airflow, dbt and Dagster schedule exactly this." loading="lazy"><figcaption>A directed acyclic graph (DAG) of pipeline tasks: a task runs only after its dependencies. Airflow, dbt and Dagster schedule exactly this.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> collections <span class="hl-k">import</span> defaultdict, deque
+edges = [(<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>), (<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;C&quot;</span>), (<span class="hl-s">&quot;B&quot;</span>, <span class="hl-s">&quot;D&quot;</span>), (<span class="hl-s">&quot;C&quot;</span>, <span class="hl-s">&quot;D&quot;</span>), (<span class="hl-s">&quot;D&quot;</span>, <span class="hl-s">&quot;E&quot;</span>), (<span class="hl-s">&quot;F&quot;</span>, <span class="hl-s">&quot;G&quot;</span>)]
+g = <span class="hl-f">defaultdict</span>(list)
+<span class="hl-k">for</span> u, v <span class="hl-k">in</span> edges: g[u].<span class="hl-f">append</span>(v); g[v].<span class="hl-f">append</span>(u)               <span class="hl-c"># undirected adjacency list</span>
+<span class="hl-k">def</span> <span class="hl-f">bfs</span>(start):
+    seen, order, q = {start}, [], <span class="hl-f">deque</span>([start])
+    <span class="hl-k">while</span> q:
+        node = <span class="hl-f">q.popleft</span>(); <span class="hl-f">order.append</span>(node)
+        <span class="hl-k">for</span> nb <span class="hl-k">in</span> g[node]:
+            <span class="hl-k">if</span> nb <span class="hl-k">not</span> <span class="hl-k">in</span> seen: <span class="hl-f">seen.add</span>(nb); <span class="hl-f">q.append</span>(nb)
+    <span class="hl-k">return</span> order
+<span class="hl-k">def</span> <span class="hl-f">dfs</span>(node, seen=<span class="hl-k">None</span>):
+    seen = seen <span class="hl-k">if</span> seen <span class="hl-k">is</span> <span class="hl-k">not</span> <span class="hl-k">None</span> <span class="hl-k">else</span> <span class="hl-f">set</span>(); <span class="hl-f">seen.add</span>(node); out = [node]
+    <span class="hl-k">for</span> nb <span class="hl-k">in</span> g[node]:
+        <span class="hl-k">if</span> nb <span class="hl-k">not</span> <span class="hl-k">in</span> seen: out += <span class="hl-f">dfs</span>(nb, seen)
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">shortest_hops</span>(a, b):                      <span class="hl-c"># BFS gives shortest path in unweighted graphs</span>
+    q, prev = <span class="hl-f">deque</span>([a]), {a: <span class="hl-k">None</span>}
+    <span class="hl-k">while</span> q:
+        n = <span class="hl-f">q.popleft</span>()
+        <span class="hl-k">if</span> n == b: <span class="hl-k">break</span>
+        <span class="hl-k">for</span> nb <span class="hl-k">in</span> g[n]:
+            <span class="hl-k">if</span> nb <span class="hl-k">not</span> <span class="hl-k">in</span> prev: prev[nb] = n; <span class="hl-f">q.append</span>(nb)
+    path = []
+    <span class="hl-k">while</span> b <span class="hl-k">is</span> <span class="hl-k">not</span> <span class="hl-k">None</span>: <span class="hl-f">path.append</span>(b); b = <span class="hl-f">prev.get</span>(b)
+    <span class="hl-k">return</span> path[::-<span class="hl-n">1</span>]
+<span class="hl-k">def</span> <span class="hl-f">components</span>():
+    seen, comps = <span class="hl-f">set</span>(), []
+    <span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">list</span>(g):
+        <span class="hl-k">if</span> n <span class="hl-k">not</span> <span class="hl-k">in</span> seen: c = <span class="hl-f">dfs</span>(n, seen); <span class="hl-f">comps.append</span>(<span class="hl-f">sorted</span>(c))
+    <span class="hl-k">return</span> comps
+<span class="hl-f">print</span>(<span class="hl-s">&quot;BFS from A:&quot;</span>, <span class="hl-f">bfs</span>(<span class="hl-s">&quot;A&quot;</span>), <span class="hl-s">&quot;| DFS from A:&quot;</span>, <span class="hl-f">dfs</span>(<span class="hl-s">&quot;A&quot;</span>), <span class="hl-s">&quot;| path A→E:&quot;</span>, <span class="hl-f">shortest_hops</span>(<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;E&quot;</span>), <span class="hl-s">&quot;| components:&quot;</span>, <span class="hl-f">components</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">BFS from A: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;] | DFS from A: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;D&#x27;, &#x27;C&#x27;, &#x27;E&#x27;] | path A→E: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;D&#x27;, &#x27;E&#x27;] | components: [[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;], [&#x27;F&#x27;, &#x27;G&#x27;]]</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">number_of_islands</span>(grid):                  <span class="hl-c"># classic grid DFS</span>
+    rows, cols, count = <span class="hl-f">len</span>(grid), <span class="hl-f">len</span>(grid[<span class="hl-n">0</span>]), <span class="hl-n">0</span>
+    <span class="hl-k">def</span> <span class="hl-f">sink</span>(r, c):
+        <span class="hl-k">if</span> <span class="hl-n">0</span> &lt;= r &lt; rows <span class="hl-k">and</span> <span class="hl-n">0</span> &lt;= c &lt; cols <span class="hl-k">and</span> grid[r][c] == <span class="hl-s">&quot;1&quot;</span>:
+            grid[r][c] = <span class="hl-s">&quot;0&quot;</span>
+            <span class="hl-k">for</span> dr, dc <span class="hl-k">in</span> ((<span class="hl-n">1</span>, <span class="hl-n">0</span>), (-<span class="hl-n">1</span>, <span class="hl-n">0</span>), (<span class="hl-n">0</span>, <span class="hl-n">1</span>), (<span class="hl-n">0</span>, -<span class="hl-n">1</span>)): <span class="hl-f">sink</span>(r + dr, c + dc)
+    <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">range</span>(rows):
+        <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(cols):
+            <span class="hl-k">if</span> grid[r][c] == <span class="hl-s">&quot;1&quot;</span>: count += <span class="hl-n">1</span>; <span class="hl-f">sink</span>(r, c)
+    <span class="hl-k">return</span> count
+<span class="hl-f">print</span>(<span class="hl-f">number_of_islands</span>([<span class="hl-f">list</span>(<span class="hl-s">&quot;11000&quot;</span>), <span class="hl-f">list</span>(<span class="hl-s">&quot;11000&quot;</span>), <span class="hl-f">list</span>(<span class="hl-s">&quot;00100&quot;</span>), <span class="hl-f">list</span>(<span class="hl-s">&quot;00011&quot;</span>)]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">3</pre></div>
+<h3 id="dijkstras-shortest-path-weighted">Dijkstra's shortest path (weighted)</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">dijkstra</span>(graph, src):
+    dist = {src: <span class="hl-n">0</span>}; pq = [(<span class="hl-n">0</span>, src)]
+    <span class="hl-k">while</span> pq:
+        d, u = <span class="hl-f">heapq.heappop</span>(pq)
+        <span class="hl-k">if</span> d &gt; <span class="hl-f">dist.get</span>(u, <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)): <span class="hl-k">continue</span>
+        <span class="hl-k">for</span> v, w <span class="hl-k">in</span> <span class="hl-f">graph.get</span>(u, []):
+            <span class="hl-k">if</span> d + w &lt; <span class="hl-f">dist.get</span>(v, <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)): dist[v] = d + w; <span class="hl-f">heapq.heappush</span>(pq, (d + w, v))
+    <span class="hl-k">return</span> dist
+roads = {<span class="hl-s">&quot;Mumbai&quot;</span>: [(<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-n">150</span>), (<span class="hl-s">&quot;Nashik&quot;</span>, <span class="hl-n">170</span>)], <span class="hl-s">&quot;Pune&quot;</span>: [(<span class="hl-s">&quot;Satara&quot;</span>, <span class="hl-n">110</span>), (<span class="hl-s">&quot;Nashik&quot;</span>, <span class="hl-n">210</span>)], <span class="hl-s">&quot;Nashik&quot;</span>: [(<span class="hl-s">&quot;Aurangabad&quot;</span>, <span class="hl-n">180</span>)], <span class="hl-s">&quot;Satara&quot;</span>: [(<span class="hl-s">&quot;Kolhapur&quot;</span>, <span class="hl-n">120</span>)], <span class="hl-s">&quot;Aurangabad&quot;</span>: [], <span class="hl-s">&quot;Kolhapur&quot;</span>: []}
+<span class="hl-f">print</span>(<span class="hl-f">dijkstra</span>(roads, <span class="hl-s">&quot;Mumbai&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;Mumbai&#x27;: 0, &#x27;Pune&#x27;: 150, &#x27;Nashik&#x27;: 170, &#x27;Satara&#x27;: 260, &#x27;Aurangabad&#x27;: 350, &#x27;Kolhapur&#x27;: 380}</pre></div>
+<h3 id="topological-sort-ordering-a-pipeline">Topological sort: ordering a pipeline</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">deps = {<span class="hl-s">&quot;extract_orders&quot;</span>: [], <span class="hl-s">&quot;extract_customers&quot;</span>: [], <span class="hl-s">&quot;clean_orders&quot;</span>: [<span class="hl-s">&quot;extract_orders&quot;</span>], <span class="hl-s">&quot;join_customers&quot;</span>: [<span class="hl-s">&quot;clean_orders&quot;</span>, <span class="hl-s">&quot;extract_customers&quot;</span>],
+        <span class="hl-s">&quot;build_marts&quot;</span>: [<span class="hl-s">&quot;join_customers&quot;</span>], <span class="hl-s">&quot;refresh_dashboard&quot;</span>: [<span class="hl-s">&quot;build_marts&quot;</span>], <span class="hl-s">&quot;train_model&quot;</span>: [<span class="hl-s">&quot;join_customers&quot;</span>]}
+<span class="hl-k">def</span> <span class="hl-f">topo_sort</span>(deps):                          <span class="hl-c"># Kahn&#x27;s algorithm</span>
+    indeg = {t: <span class="hl-f">len</span>(d) <span class="hl-k">for</span> t, d <span class="hl-k">in</span> <span class="hl-f">deps.items</span>()}; children = <span class="hl-f">defaultdict</span>(list)
+    <span class="hl-k">for</span> t, ds <span class="hl-k">in</span> <span class="hl-f">deps.items</span>():
+        <span class="hl-k">for</span> d <span class="hl-k">in</span> ds: children[d].<span class="hl-f">append</span>(t)
+    q = <span class="hl-f">deque</span>(<span class="hl-f">sorted</span>(t <span class="hl-k">for</span> t, k <span class="hl-k">in</span> <span class="hl-f">indeg.items</span>() <span class="hl-k">if</span> k == <span class="hl-n">0</span>)); order = []
+    <span class="hl-k">while</span> q:
+        t = <span class="hl-f">q.popleft</span>(); <span class="hl-f">order.append</span>(t)
+        <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">sorted</span>(children[t]):
+            indeg[c] -= <span class="hl-n">1</span>
+            <span class="hl-k">if</span> indeg[c] == <span class="hl-n">0</span>: <span class="hl-f">q.append</span>(c)
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(order) != <span class="hl-f">len</span>(deps): <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;cycle detected&quot;</span>)
+    <span class="hl-k">return</span> order
+<span class="hl-f">print</span>(<span class="hl-f">topo_sort</span>(deps))
+<span class="hl-k">from</span> graphlib <span class="hl-k">import</span> TopologicalSorter        <span class="hl-c"># standard-library version</span>
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">TopologicalSorter</span>(deps).<span class="hl-f">static_order</span>())[:<span class="hl-n">3</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;extract_customers&#x27;, &#x27;extract_orders&#x27;, &#x27;clean_orders&#x27;, &#x27;join_customers&#x27;, &#x27;build_marts&#x27;, &#x27;train_model&#x27;, &#x27;refresh_dashboard&#x27;]
+[&#x27;extract_orders&#x27;, &#x27;extract_customers&#x27;, &#x27;clean_orders&#x27;]</pre></div>
+<h2 id="dynamic-programming">Dynamic programming</h2>
+<p><strong>Dynamic programming (DP)</strong> solves problems with <strong>overlapping subproblems</strong> and <strong>optimal substructure</strong> by storing answers to subproblems instead of recomputing them.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> functools, time
+<span class="hl-k">def</span> <span class="hl-f">fib_naive</span>(n): <span class="hl-k">return</span> n <span class="hl-k">if</span> n &lt; <span class="hl-n">2</span> <span class="hl-k">else</span> <span class="hl-f">fib_naive</span>(n - <span class="hl-n">1</span>) + <span class="hl-f">fib_naive</span>(n - <span class="hl-n">2</span>)
+@functools.cache
+<span class="hl-k">def</span> <span class="hl-f">fib_memo</span>(n): <span class="hl-k">return</span> n <span class="hl-k">if</span> n &lt; <span class="hl-n">2</span> <span class="hl-k">else</span> <span class="hl-f">fib_memo</span>(n - <span class="hl-n">1</span>) + <span class="hl-f">fib_memo</span>(n - <span class="hl-n">2</span>)
+<span class="hl-k">def</span> <span class="hl-f">fib_table</span>(n):
+    a, b = <span class="hl-n">0</span>, <span class="hl-n">1</span>
+    <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(n): a, b = b, a + b
+    <span class="hl-k">return</span> a
+t0 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">fib_naive</span>(<span class="hl-n">27</span>); t1 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">fib_memo</span>(<span class="hl-n">27</span>); t2 = <span class="hl-f">time.perf_counter</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;naive {1000*(t1-t0):.0f} ms (O(2^n)) | memoised {1000*(t2-t1):.3f} ms (O(n)) | values equal: {fib_naive(20) == fib_memo(20) == fib_table(20)}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">naive 31 ms (O(2^n)) | memoised 0.022 ms (O(n)) | values equal: True</pre></div>
+<figure class="fig"><img src="../img/python-28-03.png" alt="Top-down (memoisation) vs bottom-up (tabulation) dynamic programming." loading="lazy"><figcaption>Top-down (memoisation) vs bottom-up (tabulation) dynamic programming.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">climb_stairs</span>(n):                          <span class="hl-c"># 1 or 2 steps at a time</span>
+    a, b = <span class="hl-n">1</span>, <span class="hl-n">1</span>
+    <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(n): a, b = b, a + b
+    <span class="hl-k">return</span> a
+<span class="hl-k">def</span> <span class="hl-f">coin_change</span>(coins, amount):               <span class="hl-c"># fewest coins</span>
+    dp = [<span class="hl-n">0</span>] + [<span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)] * amount
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, amount + <span class="hl-n">1</span>):
+        dp[x] = <span class="hl-f">min</span>((dp[x - c] + <span class="hl-n">1</span> <span class="hl-k">for</span> c <span class="hl-k">in</span> coins <span class="hl-k">if</span> c &lt;= x), default=<span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>))
+    <span class="hl-k">return</span> dp[amount] <span class="hl-k">if</span> dp[amount] != <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>) <span class="hl-k">else</span> -<span class="hl-n">1</span>
+<span class="hl-k">def</span> <span class="hl-f">house_robber</span>(nums):                       <span class="hl-c"># no two adjacent</span>
+    take = skip = <span class="hl-n">0</span>
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums: take, skip = skip + x, <span class="hl-f">max</span>(take, skip)
+    <span class="hl-k">return</span> <span class="hl-f">max</span>(take, skip)
+<span class="hl-k">def</span> <span class="hl-f">lis</span>(nums):                                <span class="hl-c"># longest increasing subsequence, O(n log n)</span>
+    <span class="hl-k">import</span> bisect; tails = []
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums:
+        i = <span class="hl-f">bisect.bisect_left</span>(tails, x)
+        tails[i:i + <span class="hl-n">1</span>] = [x]
+    <span class="hl-k">return</span> <span class="hl-f">len</span>(tails)
+<span class="hl-k">def</span> <span class="hl-f">edit_distance</span>(a, b):                      <span class="hl-c"># Levenshtein: used in fuzzy matching of names</span>
+    dp = <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-f">len</span>(b) + <span class="hl-n">1</span>))
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(a) + <span class="hl-n">1</span>):
+        prev, dp[<span class="hl-n">0</span>] = dp[<span class="hl-n">0</span>], i
+        <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(b) + <span class="hl-n">1</span>):
+            prev, dp[j] = dp[j], <span class="hl-f">min</span>(dp[j] + <span class="hl-n">1</span>, dp[j - <span class="hl-n">1</span>] + <span class="hl-n">1</span>, prev + (a[i - <span class="hl-n">1</span>] != b[j - <span class="hl-n">1</span>]))
+    <span class="hl-k">return</span> dp[-<span class="hl-n">1</span>]
+<span class="hl-k">def</span> <span class="hl-f">knapsack</span>(items, cap):                     <span class="hl-c"># 0/1 knapsack: (weight, value)</span>
+    dp = [<span class="hl-n">0</span>] * (cap + <span class="hl-n">1</span>)
+    <span class="hl-k">for</span> w, v <span class="hl-k">in</span> items:
+        <span class="hl-k">for</span> c <span class="hl-k">in</span> <span class="hl-f">range</span>(cap, w - <span class="hl-n">1</span>, -<span class="hl-n">1</span>): dp[c] = <span class="hl-f">max</span>(dp[c], dp[c - w] + v)
+    <span class="hl-k">return</span> dp[cap]
+<span class="hl-f">print</span>(<span class="hl-f">climb_stairs</span>(<span class="hl-n">10</span>), <span class="hl-f">coin_change</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>], <span class="hl-n">11</span>), <span class="hl-f">coin_change</span>([<span class="hl-n">2</span>], <span class="hl-n">3</span>), <span class="hl-f">house_robber</span>([<span class="hl-n">2</span>, <span class="hl-n">7</span>, <span class="hl-n">9</span>, <span class="hl-n">3</span>, <span class="hl-n">1</span>]), <span class="hl-f">lis</span>([<span class="hl-n">10</span>, <span class="hl-n">9</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>, <span class="hl-n">3</span>, <span class="hl-n">7</span>, <span class="hl-n">101</span>, <span class="hl-n">18</span>]))
+<span class="hl-f">print</span>(<span class="hl-f">edit_distance</span>(<span class="hl-s">&quot;Bangalore&quot;</span>, <span class="hl-s">&quot;Bengaluru&quot;</span>), <span class="hl-f">edit_distance</span>(<span class="hl-s">&quot;kitten&quot;</span>, <span class="hl-s">&quot;sitting&quot;</span>), <span class="hl-f">knapsack</span>([(<span class="hl-n">1</span>, <span class="hl-n">1</span>), (<span class="hl-n">3</span>, <span class="hl-n">4</span>), (<span class="hl-n">4</span>, <span class="hl-n">5</span>), (<span class="hl-n">5</span>, <span class="hl-n">7</span>)], <span class="hl-n">7</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">89 3 -1 12 4
+3 3 9</pre></div>
+<p>How to spot DP: "minimum/maximum/number of ways", choices at each step, and the same subproblem appearing again. Define the <strong>state</strong> (<code>dp[x]</code> = best answer for amount x), the <strong>transition</strong>, and the <strong>base case</strong>.</p>
+<h2 id="where-these-appear-in-data-work">Where these appear in data work</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Structure</th>
+<th>In data tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B-trees</td>
+<td>Database indexes</td>
+</tr>
+<tr>
+<td>Hash tables</td>
+<td>Hash joins, <code>GROUP BY</code>, Python dicts, Spark shuffles</td>
+</tr>
+<tr>
+<td>Heaps</td>
+<td>Top-N queries, schedulers, k-way merge in external sorting</td>
+</tr>
+<tr>
+<td>DAGs + topological sort</td>
+<td>Airflow, dbt, Dagster, Spark execution plans</td>
+</tr>
+<tr>
+<td>Graphs + BFS</td>
+<td>Recommendations ("people also bought"), fraud rings, knowledge graphs for GenAI</td>
+</tr>
+<tr>
+<td>Edit distance (DP)</td>
+<td>Fuzzy matching, deduplicating customer names</td>
+</tr>
+<tr>
+<td>Trees</td>
+<td>Decision trees, random forests, gradient boosting</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Trees: four traversals; a BST's in-order traversal is sorted; balanced trees give O(log n) search (database B-tree indexes).</li>
+<li>Heaps (<code>heapq</code>) give the minimum in O(1) and push/pop in O(log n): top-k, k-way merge, priority scheduling, running median.</li>
+<li>Graphs as adjacency lists; BFS (queue) for levels and shortest unweighted paths, DFS (recursion/stack) for components and islands; Dijkstra for weighted paths; topological sort for DAG pipelines.</li>
+<li>DP = overlapping subproblems + optimal substructure; use memoisation (<code>@functools.cache</code>) or tabulation; define state, transition and base case.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-28-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which traversal of a BST returns the values in sorted order?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pre-order</button><button type="button" class="opt" data-ok="1"><i>B</i>In-order</button><button type="button" class="opt" data-ok="0"><i>C</i>Post-order</button><button type="button" class="opt" data-ok="0"><i>D</i>Level-order</button></div><div class="qexp"><b>Answer: B.</b> Left subtree, node, right subtree.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>heapq</code> give you in O(1)?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The smallest item</button><button type="button" class="opt" data-ok="0"><i>B</i>The largest item</button><button type="button" class="opt" data-ok="0"><i>C</i>The median</button><button type="button" class="opt" data-ok="0"><i>D</i>A sorted list</button></div><div class="qexp"><b>Answer: A.</b> Negate values for a max-heap.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which search finds the shortest path in an unweighted graph?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>BFS</button><button type="button" class="opt" data-ok="0"><i>B</i>DFS</button><button type="button" class="opt" data-ok="0"><i>C</i>Binary search</button><button type="button" class="opt" data-ok="0"><i>D</i>Sorting</button></div><div class="qexp"><b>Answer: A.</b> BFS explores level by level.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which algorithm orders tasks so each runs after its dependencies?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Dijkstra</button><button type="button" class="opt" data-ok="1"><i>B</i>Topological sort</button><button type="button" class="opt" data-ok="0"><i>C</i>Merge sort</button><button type="button" class="opt" data-ok="0"><i>D</i>Kadane</button></div><div class="qexp"><b>Answer: B.</b> It works on directed acyclic graphs.</div></div><div class="qq"><p class="qtext"><b>5.</b> Two signs that a problem suits dynamic programming are…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Overlapping subproblems and optimal substructure</button><button type="button" class="opt" data-ok="0"><i>B</i>Sorted input and unique values</button><button type="button" class="opt" data-ok="0"><i>C</i>A graph and a heap</button><button type="button" class="opt" data-ok="0"><i>D</i>Strings only</button></div><div class="qexp"><b>Answer: A.</b> Store and reuse subproblem answers.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why does a database index speed up lookups?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It stores data in CSV</button><button type="button" class="opt" data-ok="1"><i>B</i>It keeps keys in a balanced tree (B-tree) so lookups are O(log n)</button><button type="button" class="opt" data-ok="0"><i>C</i>It caches every query</button><button type="button" class="opt" data-ok="0"><i>D</i>It compresses the table</button></div><div class="qexp"><b>Answer: B.</b> Without an index the database scans every row.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice set</b></div><p>(1) Return the maximum depth and the left view of a binary tree. (2) Find the k closest points to the origin with a heap. (3) Detect a cycle in a directed graph of task dependencies. (4) Count the number of ways to make change for an amount. (5) Longest common subsequence of two strings.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">left_view</span>(n): <span class="hl-k">return</span> [lvl[<span class="hl-n">0</span>] <span class="hl-k">for</span> lvl <span class="hl-k">in</span> <span class="hl-f">level_order</span>(n)]
+<span class="hl-k">def</span> <span class="hl-f">k_closest</span>(points, k): <span class="hl-k">return</span> <span class="hl-f">heapq.nsmallest</span>(k, points, key=<span class="hl-k">lambda</span> p: p[<span class="hl-n">0</span>] ** <span class="hl-n">2</span> + p[<span class="hl-n">1</span>] ** <span class="hl-n">2</span>)
+<span class="hl-k">def</span> <span class="hl-f">has_cycle_directed</span>(deps):
+    <span class="hl-k">try</span>: <span class="hl-f">topo_sort</span>(deps); <span class="hl-k">return</span> <span class="hl-k">False</span>
+    <span class="hl-k">except</span> ValueError: <span class="hl-k">return</span> <span class="hl-k">True</span>
+<span class="hl-k">def</span> <span class="hl-f">ways_to_change</span>(coins, amount):
+    dp = [<span class="hl-n">1</span>] + [<span class="hl-n">0</span>] * amount
+    <span class="hl-k">for</span> c <span class="hl-k">in</span> coins:
+        <span class="hl-k">for</span> x <span class="hl-k">in</span> <span class="hl-f">range</span>(c, amount + <span class="hl-n">1</span>): dp[x] += dp[x - c]
+    <span class="hl-k">return</span> dp[amount]
+<span class="hl-k">def</span> <span class="hl-f">lcs</span>(a, b):
+    dp = [[<span class="hl-n">0</span>] * (<span class="hl-f">len</span>(b) + <span class="hl-n">1</span>) <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(a) + <span class="hl-n">1</span>)]
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(a) + <span class="hl-n">1</span>):
+        <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(b) + <span class="hl-n">1</span>):
+            dp[i][j] = dp[i - <span class="hl-n">1</span>][j - <span class="hl-n">1</span>] + <span class="hl-n">1</span> <span class="hl-k">if</span> a[i - <span class="hl-n">1</span>] == b[j - <span class="hl-n">1</span>] <span class="hl-k">else</span> <span class="hl-f">max</span>(dp[i - <span class="hl-n">1</span>][j], dp[i][j - <span class="hl-n">1</span>])
+    <span class="hl-k">return</span> dp[-<span class="hl-n">1</span>][-<span class="hl-n">1</span>]
+<span class="hl-f">print</span>(<span class="hl-f">height</span>(root), <span class="hl-f">left_view</span>(root), <span class="hl-f">k_closest</span>([(<span class="hl-n">1</span>, <span class="hl-n">3</span>), (-<span class="hl-n">2</span>, <span class="hl-n">2</span>), (<span class="hl-n">5</span>, <span class="hl-n">8</span>)], <span class="hl-n">2</span>), <span class="hl-f">has_cycle_directed</span>({<span class="hl-s">&quot;a&quot;</span>: [<span class="hl-s">&quot;b&quot;</span>], <span class="hl-s">&quot;b&quot;</span>: [<span class="hl-s">&quot;a&quot;</span>]}), <span class="hl-f">ways_to_change</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">5</span>], <span class="hl-n">5</span>), <span class="hl-f">lcs</span>(<span class="hl-s">&quot;abcde&quot;</span>, <span class="hl-s">&quot;ace&quot;</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: BFS vs DFS?</strong>
+BFS uses a queue, explores by distance and finds shortest unweighted paths; DFS uses recursion or a stack, goes deep first, and suits connectivity, cycle detection and topological ordering. Both are O(V + E).</p>
+<p><strong>Q: How would you get the top 10 products from a stream of billions of sales?</strong>
+Maintain a size-10 min-heap of running totals per product (or approximate with Count-Min Sketch), or aggregate in SQL/Spark and take the top 10.</p>
+<p><strong>Q: Memoisation vs tabulation?</strong>
+Memoisation caches results of a top-down recursion; tabulation fills a table bottom-up. Same complexity; tabulation avoids recursion limits and often allows space optimisation.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html"><small>← Previous</small><b>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</b></a><a class="next" href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html"><small>Next →</small><b>Python Capstone: End-to-End Retail Sales Analytics Project</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#trees">Trees</a><a href="#heaps-and-priority-queues">Heaps and priority queues</a><a href="#graphs">Graphs</a><a href="#dynamic-programming">Dynamic programming</a><a href="#where-these-appear-in-data-work">Where these appear in data work</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,408 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI · AI Analytics Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand what generative AI is and how large language models behave (tokens, context, temperature, hallucination), how AI, machine learning, deep learning, GenAI and agentic AI differ, and how to write prompts that give analysts accurate, checkable results, with reusable templates and privacy rules."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ai-analytics"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ai-analytics">AI for Data Analysis</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#DB2777">AI for Data Analysis</div>
+<ol class="side-l"><li class="on"><a href="ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html" data-lid="ai-analytics-01"><span>01</span>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI</a></li><li class=""><a href="ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html" data-lid="ai-analytics-02"><span>02</span>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</a></li><li class=""><a href="ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html" data-lid="ai-analytics-03"><span>03</span>AI in Excel &amp; Office: Copilot, Gemini, Claude, Python in Excel &amp; Agents</a></li><li class=""><a href="ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html" data-lid="ai-analytics-04"><span>04</span>The AI-Assisted Analyst Workflow, Agents &amp; Governance (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ai-analytics-01">
+<div class="lhead" style="--tc:#DB2777"><div class="kick">AI for Data Analysis · Lesson 1 of 4</div><h1>Generative AI for Analysts: How It Works, Prompting &amp; AI vs GenAI vs Agentic AI</h1>
+<p class="sum">Understand what generative AI is and how large language models behave (tokens, context, temperature, hallucination), how AI, machine learning, deep learning, GenAI and agentic AI differ, and how to write prompts that give analysts accurate, checkable results, with reusable templates and privacy rules.</p><div class="tags"><span class="tag live">● DVA with AI · class 1</span><span class="tag new">✦ Models and tools as of 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ai-analytics/AI_Analytics_01_Generative_AI_for_Analysts_How_It_Works_Prompting_AI_vs_GenAI_vs_Agent.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ai-analytics-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the relationship between AI, ML, deep learning, generative AI and agentic AI</li><li>Describe in plain language how an LLM generates text and why it can be confidently wrong (hallucination)</li><li>Write prompts using role, context, task, format and constraints, with examples and step-by-step reasoning</li><li>Use prompt templates for common analyst tasks and know what never to paste into an AI tool</li><li>Choose a suitable tool and check an AI answer before using it</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="the-ai-family-tree">The AI family tree</h2>
+<figure class="fig"><img src="../img/ai-analytics-01-01.png" alt="How the terms relate. Each ring is a subset of the one before it. Agentic AI uses generative models as its brain but adds goals, tools and loops." loading="lazy"><figcaption>How the terms relate. Each ring is a subset of the one before it. Agentic AI uses generative models as its brain but adds goals, tools and loops.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Term</th>
+<th>What it means</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI</strong></td>
+<td>Machines doing tasks that normally need human intelligence</td>
+<td>Rule-based chess engine, spam filter</td>
+</tr>
+<tr>
+<td><strong>Machine learning (ML)</strong></td>
+<td>Systems that <strong>learn patterns from data</strong> instead of following hand-written rules</td>
+<td>Predict loan default from past loans</td>
+</tr>
+<tr>
+<td><strong>Deep learning</strong></td>
+<td>ML with many-layered neural networks</td>
+<td>Image recognition, speech-to-text</td>
+</tr>
+<tr>
+<td><strong>Generative AI (GenAI)</strong></td>
+<td>Models that <strong>create new content</strong> (text, images, code, audio)</td>
+<td>ChatGPT, Claude, Gemini, Copilot, Midjourney</td>
+</tr>
+<tr>
+<td><strong>LLM</strong></td>
+<td>Large language model: the GenAI engine for text and code</td>
+<td>GPT, Claude, Gemini, Llama</td>
+</tr>
+<tr>
+<td><strong>Agentic AI</strong></td>
+<td>An LLM <strong>plus goals, tools and a loop</strong>: it plans, calls tools (run SQL, search, edit files), checks results and continues until the goal is met</td>
+<td>An analyst agent that explores a database and writes the report</td>
+</tr>
+<tr>
+<td><strong>AGI</strong></td>
+<td>Hypothetical AI at human level across tasks</td>
+<td>Not here yet; ignore the hype</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="ai-vs-genai-vs-agentic-ai">AI vs GenAI vs agentic AI</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Traditional ML</th>
+<th>Generative AI</th>
+<th>Agentic AI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Output</td>
+<td>A prediction (number, label)</td>
+<td>New content (text, code, image)</td>
+<td>A completed multi-step task</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>Structured data</td>
+<td>A prompt (text, files, images)</td>
+<td>A goal in plain language</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>You train and deploy a model</td>
+<td>You ask once, get one answer</td>
+<td>The system decides the next step</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>"Will this customer churn?" → 0.82</td>
+<td>"Summarise these reviews" → paragraph</td>
+<td>"Find why sales fell in Q3 and draft a memo" → runs queries, charts, writes</td>
+</tr>
+<tr>
+<td>Main risk</td>
+<td>Bias, drift</td>
+<td>Hallucination</td>
+<td>Hallucination <strong>plus actions</strong>: wrong tool calls, runaway cost, security</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="how-an-llm-works-without-maths">How an LLM works (without maths)</h2>
+<p>An LLM is trained on vast amounts of text to predict <strong>the next token</strong> (a word or word piece). Repeating that prediction one token at a time produces sentences, code and tables. It has learnt statistical patterns of language, facts and reasoning styles, but it does <strong>not look things up</strong> unless it is given a tool or documents.</p>
+<figure class="fig"><img src="../img/ai-analytics-01-02.png" alt="Generating an answer: the prompt is split into tokens; the model repeatedly predicts the next token from everything so far." loading="lazy"><figcaption>Generating an answer: the prompt is split into tokens; the model repeatedly predicts the next token from everything so far.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Concept</th>
+<th>Meaning</th>
+<th>Why analysts care</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Token</strong></td>
+<td>Roughly ¾ of an English word (about 4 characters)</td>
+<td>Limits and costs are measured in tokens</td>
+</tr>
+<tr>
+<td><strong>Context window</strong></td>
+<td>How much text the model can consider at once (prompt + answer)</td>
+<td>A long file may not fit; the model forgets what is outside</td>
+</tr>
+<tr>
+<td><strong>Temperature</strong></td>
+<td>Randomness of word choice</td>
+<td>Low (0–0.3) for SQL, maths and extraction; higher for brainstorming</td>
+</tr>
+<tr>
+<td><strong>System prompt</strong></td>
+<td>Hidden instructions that set behaviour</td>
+<td>Custom GPTs/Projects store your standing instructions</td>
+</tr>
+<tr>
+<td><strong>Training cut-off</strong></td>
+<td>The model's knowledge stops at some date</td>
+<td>It may not know recent tools or prices; give it documents</td>
+</tr>
+<tr>
+<td><strong>Grounding / RAG</strong></td>
+<td>Supplying real documents or data in the prompt (Retrieval-Augmented Generation)</td>
+<td>Cuts hallucination: "answer only from this file"</td>
+</tr>
+<tr>
+<td><strong>Tool use / function calling</strong></td>
+<td>The model asks the app to run a calculator, database query or code</td>
+<td>Makes answers computed instead of guessed</td>
+</tr>
+<tr>
+<td><strong>Multimodal</strong></td>
+<td>Accepts images, PDFs, audio as well as text</td>
+<td>Paste a chart screenshot and ask what it shows</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Hallucination</b></div><p>Because an LLM generates <em>plausible</em> text, it can state false things with complete confidence: invented statistics, non-existent functions, wrong column names, fake citations. <strong>Never use an AI answer as a fact until you have checked it</strong>: run the code, recompute the number, open the source.</p></div>
+<h2 id="prompt-engineering-for-analysts">Prompt engineering for analysts</h2>
+<p>A prompt is an instruction plus the material the model needs. The most reliable structure has five parts:</p>
+<figure class="fig"><img src="../img/ai-analytics-01-03.png" alt="A prompt recipe: Role, Context, Task, Format, Constraints." loading="lazy"><figcaption>A prompt recipe: Role, Context, Task, Format, Constraints.</figcaption></figure>
+<h3 id="weak-vs-strong-prompt">Weak vs strong prompt</h3>
+<p><strong>Weak:</strong> <em>"Analyse my sales data."</em></p>
+<p><strong>Strong:</strong></p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">Role: You are a senior retail data analyst for an Indian omnichannel retailer.
+Context: Table superstore(order_id, order_date, region, category, sub_category, sales, discount, profit),
+         one row per order line, Jan 2023–Dec 2025, amounts in rupees. Margin = profit / sales.
+Task: Explain why overall margin is only about 9%. Look at category, sub-category and discount band.
+Format: (1) a 3-bullet summary for the CFO, (2) a table of the 5 worst sub-categories (sales, profit, margin),
+        (3) the SQL Server queries you used.
+Constraints: Use only the columns listed. State any assumption. If a number cannot be computed from the table, say so.</code></pre></div>
+<p>The strong prompt names the grain, the metric definition, the output format and the rules for uncertainty. The result is far more likely to be right <em>and</em> checkable.</p>
+<h3 id="core-techniques">Core techniques</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Technique</th>
+<th>How</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Be specific</strong></td>
+<td>Name columns, periods, units, audience</td>
+<td>Everything</td>
+</tr>
+<tr>
+<td><strong>Few-shot examples</strong></td>
+<td>Show 2–3 input→output pairs</td>
+<td>Classification, extraction, tone matching</td>
+</tr>
+<tr>
+<td><strong>Step by step</strong></td>
+<td>"First list the assumptions, then compute, then summarise"</td>
+<td>Multi-step analysis; makes errors visible</td>
+</tr>
+<tr>
+<td><strong>Ask for checks</strong></td>
+<td>"Then list three ways this answer could be wrong"</td>
+<td>Self-critique</td>
+</tr>
+<tr>
+<td><strong>Structured output</strong></td>
+<td>"Return JSON with keys…"</td>
+<td>Feeding results into code</td>
+</tr>
+<tr>
+<td><strong>Delimiters</strong></td>
+<td>Put data in <code>"""triple quotes"""</code> or XML tags</td>
+<td>Stops the model confusing instructions with data</td>
+</tr>
+<tr>
+<td><strong>Iterate</strong></td>
+<td>Treat the first answer as a draft; refine with follow-ups</td>
+<td>Always</td>
+</tr>
+<tr>
+<td><strong>Give it the schema, not the data</strong></td>
+<td>Column names and 5 sample rows, not the whole file</td>
+<td>Privacy, token limits</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="prompt-templates-for-common-analyst-jobs">Prompt templates for common analyst jobs</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Job</th>
+<th>Template (replace brackets)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Explain a formula</strong></td>
+<td>"Explain this Excel formula step by step for a beginner and give a simpler alternative: [formula]"</td>
+</tr>
+<tr>
+<td><strong>Write SQL</strong></td>
+<td>"Dialect: SQL Server. Tables: [schema with keys and grain]. Write a query that [question]. Return only SQL, then list assumptions."</td>
+</tr>
+<tr>
+<td><strong>Debug code/SQL</strong></td>
+<td>"This [language] query gives [wrong result / this error]. Expected: [x]. Query: [code]. Find the cause and show the fix."</td>
+</tr>
+<tr>
+<td><strong>Clean data</strong></td>
+<td>"Here are 10 sample values of column [x]: [list]. Propose normalisation rules and a mapping table; flag ambiguous cases."</td>
+</tr>
+<tr>
+<td><strong>Interpret results</strong></td>
+<td>"Here is a result table: [table]. Write 3 insights for a non-technical manager, each with a number, and 2 caveats."</td>
+</tr>
+<tr>
+<td><strong>Choose a chart</strong></td>
+<td>"I want to show [message] to [audience] with [data]. Recommend a chart and what to label."</td>
+</tr>
+<tr>
+<td><strong>Draft a report</strong></td>
+<td>"Turn these findings into a one-page memo with: situation, key findings, recommendation, risks. Keep it under 250 words."</td>
+</tr>
+<tr>
+<td><strong>Interview practice</strong></td>
+<td>"Act as an interviewer for a data analyst role; ask one SQL question at a time and give feedback on my answer."</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-example"><div class="co-h"><span class="pill">Example</span><b>From vague to checkable</b></div><p>Prompt: <em>"Explain this formula: <code>=IFERROR(INDEX($C:$C,MATCH(1,($A:$A=F2)*($B:$B=G2),0)),"Not found")</code>"</em> A good answer says it looks up C where A equals F2 <strong>and</strong> B equals G2 (a two-condition lookup), returns "Not found" if none, and notes it needs array evaluation in older Excel. You can verify by testing it on 3 rows.</p></div>
+<h2 id="choosing-and-using-ai-tools">Choosing and using AI tools</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Tool type</th>
+<th>Examples</th>
+<th>Good for</th>
+<th>Watch out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>General chat assistants</strong></td>
+<td>Claude, ChatGPT, Gemini, Copilot, Grok, Perplexity</td>
+<td>Explaining, drafting, code, brainstorming</td>
+<td>Data privacy; hallucination</td>
+</tr>
+<tr>
+<td><strong>Search-grounded</strong></td>
+<td>Perplexity, Gemini with search, Copilot with web</td>
+<td>Fresh facts with citations</td>
+<td>Check the cited pages; sources vary in quality</td>
+</tr>
+<tr>
+<td><strong>Document/notebook tools</strong></td>
+<td>NotebookLM, Projects, Custom GPTs</td>
+<td>Answering <strong>only from your files</strong></td>
+<td>Quality depends on the files</td>
+</tr>
+<tr>
+<td><strong>Embedded in apps</strong></td>
+<td>Copilot in Excel/Power BI, Gemini in Sheets, Metabase/ MinusX, Claude in Excel</td>
+<td>Work where the data is</td>
+<td>Permissions; see next lessons</td>
+</tr>
+<tr>
+<td><strong>Coding assistants and agents</strong></td>
+<td>Claude Code, Cursor, GitHub Copilot, Codex</td>
+<td>Writing and running code, analysis scripts</td>
+<td>Review diffs; run tests; secrets</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="never-paste">Never paste</h3>
+<ol>
+<li><strong>Personal data</strong> (names with phone numbers, emails, Aadhaar/PAN, health, salary of identifiable people) unless your company's approved tool and policy allow it.</li>
+<li><strong>Confidential business data</strong> (unreleased financials, customer lists, contracts, source code, credentials, API keys) into public tools.</li>
+<li><strong>Anything you are not allowed to share</strong>: client data under NDA.</li>
+</ol>
+<p>Use <strong>enterprise versions</strong> with data-protection terms, <strong>mask or sample</strong> the data (replace names with IDs, share the schema and 5 fake rows), and follow your organisation's AI policy. In India, personal data is also covered by the Digital Personal Data Protection Act, 2023.</p>
+<h2 id="a-verification-habit-for-every-ai-answer">A verification habit for every AI answer</h2>
+<figure class="fig"><img src="../img/ai-analytics-01-04.png" alt="The analyst&#x27;s rule: generate with AI, verify with data." loading="lazy"><figcaption>The analyst's rule: generate with AI, verify with data.</figcaption></figure>
+<p>Here is why verification matters. Suppose an AI writes the following query for "average order value per region". It looks right, runs without error and returns plausible numbers, but it averages order <strong>lines</strong>, not <strong>orders</strong>:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> duckdb, pandas <span class="hl-k">as</span> pd
+con = <span class="hl-f">duckdb.connect</span>()
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;CREATE TABLE superstore AS SELECT * FROM read_csv_auto(&#x27;superstore_sales.csv&#x27;)&quot;</span>)
+wrong = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT region, ROUND(AVG(sales), 0) AS avg_order_value FROM superstore GROUP BY region ORDER BY region&quot;</span>).<span class="hl-f">df</span>()
+right = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;SELECT region, ROUND(AVG(order_total), 0) AS avg_order_value
+                       FROM (SELECT region, order_id, SUM(sales) AS order_total FROM superstore GROUP BY region, order_id) GROUP BY region ORDER BY region&quot;&quot;&quot;</span>).<span class="hl-f">df</span>()
+<span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;region&quot;</span>: wrong.region, <span class="hl-s">&quot;AI query (per line)&quot;</span>: wrong.avg_order_value, <span class="hl-s">&quot;Correct (per order)&quot;</span>: right.avg_order_value})</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>region</th>
+      <th>AI query (per line)</th>
+      <th>Correct (per order)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>East</td>
+      <td>30,521</td>
+      <td>60,684</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North</td>
+      <td>32,038</td>
+      <td>61,892</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>South</td>
+      <td>32,580</td>
+      <td>64,925</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>West</td>
+      <td>32,192</td>
+      <td>64,067</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<p>The AI's version understates order value by roughly half, because an average order has about two lines. A one-line sanity check (total sales ÷ number of orders) would have caught it:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">tot = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT SUM(sales) / COUNT(DISTINCT order_id) FROM superstore&quot;</span>).<span class="hl-f">fetchone</span>()[<span class="hl-n">0</span>]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Total sales / distinct orders = {tot:,.0f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Total sales / distinct orders = 62,942</pre></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Common AI-assistant failure modes</b></div><ol>
+<li><strong>Wrong grain</strong>: counting lines as orders, double-counting after a join (Lesson 8 in SQL).</li>
+<li><strong>Invented columns or functions</strong>: the code references a field that does not exist.</li>
+<li><strong>Silent assumptions</strong>: it picks a date range, currency or definition without saying.</li>
+<li><strong>Plausible but unverified numbers</strong>: especially when asked to "estimate" or "recall" data it cannot see.</li>
+<li><strong>Over-agreeing</strong>: if you assert something wrong, it may follow you. Ask it to challenge your assumption.</li>
+<li><strong>Stale knowledge</strong>: new tool versions, prices, laws.</li>
+</ol></div>
+<h2 id="responsible-use">Responsible use</h2>
+<ul>
+<li><strong>Accountability stays with you</strong>: you sign off on the analysis, not the model.</li>
+<li><strong>Bias</strong>: models mirror training data; check outputs for unfair assumptions about people or regions.</li>
+<li><strong>Transparency</strong>: tell stakeholders when AI helped, and keep the prompt and verification notes.</li>
+<li><strong>Copyright and attribution</strong>: do not present generated text or images as someone else's work; check licences.</li>
+<li><strong>Security</strong>: treat prompts and uploaded files as data leaving your machine; beware prompt injection when an AI reads untrusted documents or web pages.</li>
+</ul>
+<div class="co co-ai"><div class="co-h"><span class="pill">Do it with AI</span><b>Do it with AI</b></div><p>Pick a task you did earlier in this course (for example the SQL discount analysis). Ask an AI assistant to produce the answer from the schema, run its SQL, and compare with the result in this handbook. Where it differs, work out <em>why</em> (grain? date range? definition?). This single exercise teaches more about AI limits than any lecture.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>AI ⊃ ML ⊃ deep learning ⊃ generative AI; <strong>agentic AI</strong> = an LLM with goals, tools and a loop.</li>
+<li>LLMs predict the next token; they do not look things up unless given documents or tools. They can <strong>hallucinate</strong>, so verify every answer.</li>
+<li>Good prompts have <strong>role, context, task, format and constraints</strong>, use examples and step-by-step reasoning, and give the schema (not the sensitive data).</li>
+<li>Use templates for SQL, formulas, cleaning, insights, memos and interview practice; iterate.</li>
+<li>Never paste personal or confidential data into public tools; mask or sample, and follow your company policy.</li>
+<li>The analyst's loop: ask with context → run on real data → cross-check one number → state assumptions.</li>
+</ul></div>
+<div class="quiz" id="quiz-ai-analytics-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which statement best describes agentic AI?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A model that only classifies images</button><button type="button" class="opt" data-ok="1"><i>B</i>An LLM-based system that plans, uses tools and repeats steps to achieve a goal</button><button type="button" class="opt" data-ok="0"><i>C</i>Any chatbot</button><button type="button" class="opt" data-ok="0"><i>D</i>A rule-based macro</button></div><div class="qexp"><b>Answer: B.</b> Agents add goals, tools and a decision loop on top of a language model.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why can an LLM state wrong facts confidently?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It lacks memory</button><button type="button" class="opt" data-ok="1"><i>B</i>It generates plausible text from patterns and does not verify facts unless given sources or tools</button><button type="button" class="opt" data-ok="0"><i>C</i>It is connected to the internet</button><button type="button" class="opt" data-ok="0"><i>D</i>It always copies its training data</button></div><div class="qexp"><b>Answer: B.</b> Fluency is not accuracy.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which setting is best for generating SQL?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>High temperature</button><button type="button" class="opt" data-ok="1"><i>B</i>Low temperature</button><button type="button" class="opt" data-ok="0"><i>C</i>No context</button><button type="button" class="opt" data-ok="0"><i>D</i>Maximum length</button></div><div class="qexp"><b>Answer: B.</b> Low temperature reduces random variation for precise tasks.</div></div><div class="qq"><p class="qtext"><b>4.</b> What makes a prompt more reliable for analysis?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Shorter wording</button><button type="button" class="opt" data-ok="1"><i>B</i>Role, context (schema and definitions), a clear task, an output format and constraints</button><button type="button" class="opt" data-ok="0"><i>C</i>Asking for "everything"</button><button type="button" class="opt" data-ok="0"><i>D</i>Hiding the table names</button></div><div class="qexp"><b>Answer: B.</b> Specifics reduce guesswork and make the answer checkable.</div></div><div class="qq"><p class="qtext"><b>5.</b> A teammate wants to paste a customer list with phone numbers into a public chatbot. Best advice?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Go ahead</button><button type="button" class="opt" data-ok="1"><i>B</i>Do not; mask or sample the data, or use an approved enterprise tool</button><button type="button" class="opt" data-ok="0"><i>C</i>Delete the email column only</button><button type="button" class="opt" data-ok="0"><i>D</i>Convert it to PDF first</button></div><div class="qexp"><b>Answer: B.</b> Personal data should not go into tools not approved for it.</div></div><div class="qq"><p class="qtext"><b>6.</b> An AI query returns an "average order value" half the size of total sales ÷ orders. The likely error is:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Wrong chart</button><button type="button" class="opt" data-ok="1"><i>B</i>Averaging order lines instead of order totals (wrong grain)</button><button type="button" class="opt" data-ok="0"><i>C</i>Too many decimals</button><button type="button" class="opt" data-ok="0"><i>D</i>A missing index</button></div><div class="qexp"><b>Answer: B.</b> Always sanity-check results against a simple independent calculation.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Prompt rewrite</b></div><p>Rewrite this weak prompt into a strong one and list three checks you will run on the answer: <em>"Tell me about churn in my telecom data."</em> The data is <code>telecom_churn.csv</code> with columns customer_id, senior_citizen, tenure_months, contract, internet_service, payment_method, monthly_charges, total_charges, support_calls, churn (Yes/No).</p><details class="sol"><summary>Show solution</summary><p>Strong prompt: "Role: senior telecom data analyst. Context: table telecom_churn(…columns…), one row per subscriber, churn = Yes/No. Task: find which contract types, tenure bands and support-call counts have the highest churn rate and quantify each. Format: a table (group, customers, churners, churn %), three bullets for a retention manager, and the SQL/pandas code used. Constraints: use only these columns, state assumptions, do not infer causes you cannot test, flag small groups (&lt; 50 customers)." Checks: (1) recompute the overall churn rate by hand (count of Yes ÷ rows) and match it; (2) confirm each group's customer counts add up to the total; (3) spot-check one group with an independent query.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between AI, ML and generative AI?</strong>
+AI is the broad field; ML learns patterns from data to predict or classify; generative AI (a deep-learning subset) creates new content such as text, code and images.</p>
+<p><strong>Q: What is a hallucination and how do you reduce it?</strong>
+Confident but false output. Reduce it by grounding answers in provided documents or data (RAG), using tools that compute results, lowering temperature, asking for sources and assumptions, and verifying independently.</p>
+<p><strong>Q: How do you write a good prompt for a data task?</strong>
+State the role, context (schema, grain, definitions), a single clear task, the required output format, and constraints (use only given data, state assumptions); give examples; iterate.</p>
+<p><strong>Q: What is agentic AI?</strong>
+Systems where an LLM plans and executes multi-step tasks using tools, observes results and continues until a goal is met, with human oversight for risky actions.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/copilot-excel">Microsoft Copilot in Excel help ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.metabase.com/docs/latest/">Metabase docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">Anthropic prompt engineering guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Google Prompting guide for Gemini ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html"><small>Next →</small><b>AI with SQL: Text-to-SQL, Docker, Metabase &amp; MinusX</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-ai-family-tree">The AI family tree</a><a href="#how-an-llm-works-without-maths">How an LLM works (without maths)</a><a href="#prompt-engineering-for-analysts">Prompt engineering for analysts</a><a href="#choosing-and-using-ai-tools">Choosing and using AI tools</a><a href="#a-verification-habit-for-every-ai-answer">A verification habit for every AI answer</a><a href="#responsible-use">Responsible use</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

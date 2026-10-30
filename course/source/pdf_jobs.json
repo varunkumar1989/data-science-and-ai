@@ -1,0 +1,632 @@
+[
+[
+"lessons/excel-01-getting-started-with-excel-for-data-analysis.html",
+"pdf/excel/Excel_01_Getting_Started_with_Excel_for_Data_Analysis.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 1: Getting Started with Excel for Data Analysis"
+],
+[
+"lessons/excel-02-data-entry-data-validation-and-data-cleaning.html",
+"pdf/excel/Excel_02_Data_Entry_Data_Validation_Data_Cleaning.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 2: Data Entry, Data Validation & Data Cleaning"
+],
+[
+"lessons/excel-03-number-custom-and-conditional-formatting.html",
+"pdf/excel/Excel_03_Number_Custom_Conditional_Formatting.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 3: Number, Custom & Conditional Formatting"
+],
+[
+"lessons/excel-04-formulas-cell-references-and-aggregate-functions.html",
+"pdf/excel/Excel_04_Formulas_Cell_References_Aggregate_Functions.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 4: Formulas, Cell References & Aggregate Functions"
+],
+[
+"lessons/excel-05-text-functions-logical-functions-and-if.html",
+"pdf/excel/Excel_05_Text_Functions_Logical_Functions_IF.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 5: Text Functions, Logical Functions & IF"
+],
+[
+"lessons/excel-06-sorting-filtering-and-dynamic-arrays.html",
+"pdf/excel/Excel_06_Sorting_Filtering_Dynamic_Arrays.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 6: Sorting, Filtering & Dynamic Arrays"
+],
+[
+"lessons/excel-07-lookup-functions-vlookup-xlookup-and-index-match.html",
+"pdf/excel/Excel_07_Lookup_Functions_VLOOKUP_XLOOKUP_and_INDEX_MATCH.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 7: Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH"
+],
+[
+"lessons/excel-08-pivot-tables-from-basic-to-advanced.html",
+"pdf/excel/Excel_08_Pivot_Tables_from_Basic_to_Advanced.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 8: Pivot Tables from Basic to Advanced"
+],
+[
+"lessons/excel-09-date-time-and-number-functions-and-named-ranges.html",
+"pdf/excel/Excel_09_Date_Time_Number_Functions_and_Named_Ranges.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 9: Date, Time & Number Functions and Named Ranges"
+],
+[
+"lessons/excel-10-charts-and-advanced-charts.html",
+"pdf/excel/Excel_10_Charts_and_Advanced_Charts.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 10: Charts and Advanced Charts"
+],
+[
+"lessons/excel-11-interactive-dashboard-superstore-case-study.html",
+"pdf/excel/Excel_11_Interactive_Dashboard_Superstore_Case_Study.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 11: Interactive Dashboard: Superstore Case Study"
+],
+[
+"lessons/excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html",
+"pdf/excel/Excel_12_Power_Query_Power_Pivot_Analysis_ToolPak_What_If_Analysis.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Excel Lesson 12: Power Query, Power Pivot, Analysis ToolPak & What-If Analysis"
+],
+[
+"lessons/sql-01-databases-rdbms-and-sql-basics.html",
+"pdf/sql/SQL_01_Databases_RDBMS_SQL_Basics.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 1: Databases, RDBMS & SQL Basics"
+],
+[
+"lessons/sql-02-er-diagrams-relationships-keys-and-normalisation.html",
+"pdf/sql/SQL_02_ER_Diagrams_Relationships_Keys_Normalisation.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 2: ER Diagrams, Relationships, Keys & Normalisation"
+],
+[
+"lessons/sql-03-data-types-operators-nulls-variables-and-comments.html",
+"pdf/sql/SQL_03_Data_Types_Operators_NULLs_Variables_Comments.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 3: Data Types, Operators, NULLs, Variables & Comments"
+],
+[
+"lessons/sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html",
+"pdf/sql/SQL_04_DDL_DML_Constraints_CREATE_ALTER_INSERT_UPDATE_DELETE.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 4: DDL, DML & Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE"
+],
+[
+"lessons/sql-05-select-where-order-by-and-filtering-operators.html",
+"pdf/sql/SQL_05_SELECT_WHERE_ORDER_BY_Filtering_Operators.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 5: SELECT, WHERE, ORDER BY & Filtering Operators"
+],
+[
+"lessons/sql-06-sql-functions-aggregate-text-date-and-number.html",
+"pdf/sql/SQL_06_SQL_Functions_Aggregate_Text_Date_Number.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 6: SQL Functions: Aggregate, Text, Date & Number"
+],
+[
+"lessons/sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html",
+"pdf/sql/SQL_07_GROUP_BY_HAVING_CASE_WHEN_ROLLUP_CUBE_COALESCE.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 7: GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE & COALESCE"
+],
+[
+"lessons/sql-08-joins-and-a-retail-case-study.html",
+"pdf/sql/SQL_08_Joins_and_a_Retail_Case_Study.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 8: Joins and a Retail Case Study"
+],
+[
+"lessons/sql-09-set-operators-union-union-all-intersect-and-except.html",
+"pdf/sql/SQL_09_Set_Operators_UNION_UNION_ALL_INTERSECT_EXCEPT.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 9: Set Operators: UNION, UNION ALL, INTERSECT & EXCEPT"
+],
+[
+"lessons/sql-10-subqueries-derived-tables-and-exists.html",
+"pdf/sql/SQL_10_Subqueries_Derived_Tables_EXISTS.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 10: Subqueries, Derived Tables & EXISTS"
+],
+[
+"lessons/sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html",
+"pdf/sql/SQL_11_OFFSET_FETCH_and_Window_Functions_I_OVER_PARTITION_BY_Ranking.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 11: OFFSET-FETCH and Window Functions I: OVER, PARTITION BY & Ranking"
+],
+[
+"lessons/sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html",
+"pdf/sql/SQL_12_Window_Functions_II_Running_Totals_LEAD_LAG_Frames.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 12: Window Functions II: Running Totals, LEAD, LAG & Frames"
+],
+[
+"lessons/sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html",
+"pdf/sql/SQL_13_CTEs_Views_Temporary_Tables_Stored_Procedures_Functions.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 13: CTEs, Views, Temporary Tables, Stored Procedures & Functions"
+],
+[
+"lessons/sql-14-transactions-indexes-performance-and-security.html",
+"pdf/sql/SQL_14_Transactions_Indexes_Performance_Security.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 14: Transactions, Indexes, Performance & Security"
+],
+[
+"lessons/sql-15-end-to-end-sql-case-study-and-interview-practice.html",
+"pdf/sql/SQL_15_End_to_End_SQL_Case_Study_Interview_Practice.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL Lesson 15: End-to-End SQL Case Study & Interview Practice"
+],
+[
+"lessons/powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html",
+"pdf/powerbi/Power_BI_01_Getting_Started_with_Power_BI_Your_First_HR_Report.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI Lesson 1: Getting Started with Power BI & Your First HR Report"
+],
+[
+"lessons/powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html",
+"pdf/powerbi/Power_BI_02_Power_Query_Star_Schema_Data_Modelling_Adventure_Cycles.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI Lesson 2: Power Query, Star Schema & Data Modelling (Adventure Cycles)"
+],
+[
+"lessons/powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html",
+"pdf/powerbi/Power_BI_03_DAX_Fundamentals_Measures_Filter_Context_CALCULATE.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI Lesson 3: DAX Fundamentals: Measures, Filter Context & CALCULATE"
+],
+[
+"lessons/powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html",
+"pdf/powerbi/Power_BI_04_DAX_Time_Intelligence_Ranking_Parameters_Dynamic_Measures.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI Lesson 4: DAX Time Intelligence, Ranking, Parameters & Dynamic Measures"
+],
+[
+"lessons/powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html",
+"pdf/powerbi/Power_BI_05_Visuals_Filters_Drill_through_Tooltips_Buttons_Report_Design.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI Lesson 5: Visuals, Filters, Drill-through, Tooltips, Buttons & Report Design"
+],
+[
+"lessons/powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html",
+"pdf/powerbi/Power_BI_06_Power_BI_Service_Connectivity_Modes_Security_Capstone.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI Lesson 6: Power BI Service, Connectivity Modes, Security & Capstone"
+],
+[
+"lessons/tableau-01-getting-started-with-tableau-interface-data-connections-and.html",
+"pdf/tableau/Tableau_01_Getting_Started_with_Tableau_Interface_Data_Connections_and_Your_First.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau Lesson 1: Getting Started with Tableau: Interface, Data Connections and Your First Views"
+],
+[
+"lessons/tableau-02-charts-in-tableau-from-bar-and-line-to-maps-dual-axis-histog.html",
+"pdf/tableau/Tableau_02_Charts_in_Tableau_From_Bar_and_Line_to_Maps_Dual_Axis_Histograms_and_P.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau Lesson 2: Charts in Tableau: From Bar and Line to Maps, Dual Axis, Histograms and Pareto"
+],
+[
+"lessons/tableau-03-calculations-in-tableau-calculated-fields-table-calculations.html",
+"pdf/tableau/Tableau_03_Calculations_in_Tableau_Calculated_Fields_Table_Calculations_and_LOD_E.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau Lesson 3: Calculations in Tableau: Calculated Fields, Table Calculations and LOD Expressions"
+],
+[
+"lessons/tableau-04-filters-parameters-sets-groups-and-hierarchies-in-tableau.html",
+"pdf/tableau/Tableau_04_Filters_Parameters_Sets_Groups_and_Hierarchies_in_Tableau.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau Lesson 4: Filters, Parameters, Sets, Groups and Hierarchies in Tableau"
+],
+[
+"lessons/tableau-05-data-modelling-in-tableau-relationships-joins-unions-blendin.html",
+"pdf/tableau/Tableau_05_Data_Modelling_in_Tableau_Relationships_Joins_Unions_Blending_Extracts.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau Lesson 5: Data Modelling in Tableau: Relationships, Joins, Unions, Blending, Extracts and Tableau Prep"
+],
+[
+"lessons/tableau-06-dashboards-actions-stories-and-publishing-in-tableau-capston.html",
+"pdf/tableau/Tableau_06_Dashboards_Actions_Stories_and_Publishing_in_Tableau_Capstone.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau Lesson 6: Dashboards, Actions, Stories and Publishing in Tableau (Capstone)"
+],
+[
+"lessons/ai-analytics-01-generative-ai-for-analysts-how-it-works-prompting-and-ai-vs.html",
+"pdf/ai-analytics/AI_Analytics_01_Generative_AI_for_Analysts_How_It_Works_Prompting_AI_vs_GenAI_vs_Agent.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 AI Analytics Lesson 1: Generative AI for Analysts: How It Works, Prompting & AI vs GenAI vs Agentic AI"
+],
+[
+"lessons/ai-analytics-02-ai-with-sql-text-to-sql-docker-metabase-and-minusx.html",
+"pdf/ai-analytics/AI_Analytics_02_AI_with_SQL_Text_to_SQL_Docker_Metabase_MinusX.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 AI Analytics Lesson 2: AI with SQL: Text-to-SQL, Docker, Metabase & MinusX"
+],
+[
+"lessons/ai-analytics-03-ai-in-excel-and-office-copilot-gemini-claude-python-in-excel.html",
+"pdf/ai-analytics/AI_Analytics_03_AI_in_Excel_Office_Copilot_Gemini_Claude_Python_in_Excel_Agents.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 AI Analytics Lesson 3: AI in Excel & Office: Copilot, Gemini, Claude, Python in Excel & Agents"
+],
+[
+"lessons/ai-analytics-04-the-ai-assisted-analyst-workflow-agents-and-governance-capst.html",
+"pdf/ai-analytics/AI_Analytics_04_The_AI_Assisted_Analyst_Workflow_Agents_Governance_Capstone.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 AI Analytics Lesson 4: The AI-Assisted Analyst Workflow, Agents & Governance (Capstone)"
+],
+[
+"lessons/python-01-introduction-to-python-why-install-and-jupyter-notebooks.html",
+"pdf/python/Python_01_Introduction_to_Python_Why_Install_Jupyter_Notebooks.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 1: Introduction to Python: Why, Install & Jupyter Notebooks"
+],
+[
+"lessons/python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html",
+"pdf/python/Python_02_Variables_Data_Types_Type_Conversion_print_f_strings_input.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 2: Variables, Data Types, Type Conversion, print(), f-strings & input()"
+],
+[
+"lessons/python-03-operators-strings-indexing-slicing-and-string-methods.html",
+"pdf/python/Python_03_Operators_Strings_Indexing_Slicing_String_Methods.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 3: Operators, Strings, Indexing, Slicing & String Methods"
+],
+[
+"lessons/python-04-control-flow-if-elif-else-nested-conditions-and-match.html",
+"pdf/python/Python_04_Control_Flow_if_elif_else_Nested_Conditions_match.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 4: Control Flow: if, elif, else, Nested Conditions & match"
+],
+[
+"lessons/python-05-loops-while-for-range-break-continue-and-patterns.html",
+"pdf/python/Python_05_Loops_while_for_range_break_continue_Patterns.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 5: Loops: while, for, range, break, continue & Patterns"
+],
+[
+"lessons/python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html",
+"pdf/python/Python_06_Lists_Creating_Slicing_Methods_Sorting_Comprehensions.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 6: Lists: Creating, Slicing, Methods, Sorting & Comprehensions"
+],
+[
+"lessons/python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html",
+"pdf/python/Python_07_Tuples_Sets_Immutable_Records_Unpacking_and_Set_Algebra.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 7: Tuples & Sets: Immutable Records, Unpacking and Set Algebra"
+],
+[
+"lessons/python-08-dictionaries-key-value-data-counting-and-grouping.html",
+"pdf/python/Python_08_Dictionaries_Key_Value_Data_Counting_and_Grouping.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 8: Dictionaries: Key-Value Data, Counting and Grouping"
+],
+[
+"lessons/python-09-functions-reusable-code-arguments-scope-and-docstrings.html",
+"pdf/python/Python_09_Functions_Reusable_Code_Arguments_Scope_and_Docstrings.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 9: Functions: Reusable Code, Arguments, Scope and Docstrings"
+],
+[
+"lessons/python-10-comprehensions-lambda-map-filter-and-generators.html",
+"pdf/python/Python_10_Comprehensions_Lambda_map_filter_and_Generators.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 10: Comprehensions, Lambda, map/filter and Generators"
+],
+[
+"lessons/python-11-object-oriented-python-classes-objects-inheritance-and-datac.html",
+"pdf/python/Python_11_Object_Oriented_Python_Classes_Objects_Inheritance_and_Dataclasses.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 11: Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses"
+],
+[
+"lessons/python-12-files-exceptions-json-and-csv.html",
+"pdf/python/Python_12_Files_Exceptions_JSON_and_CSV.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 12: Files, Exceptions, JSON and CSV"
+],
+[
+"lessons/python-13-modules-packages-virtual-environments-and-git.html",
+"pdf/python/Python_13_Modules_Packages_Virtual_Environments_and_Git.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 13: Modules, Packages, Virtual Environments and Git"
+],
+[
+"lessons/python-14-debugging-testing-regular-expressions-and-code-quality.html",
+"pdf/python/Python_14_Debugging_Testing_Regular_Expressions_and_Code_Quality.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 14: Debugging, Testing, Regular Expressions and Code Quality"
+],
+[
+"lessons/python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html",
+"pdf/python/Python_15_NumPy_Fast_Arrays_Vectorisation_and_Broadcasting.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 15: NumPy: Fast Arrays, Vectorisation and Broadcasting"
+],
+[
+"lessons/python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html",
+"pdf/python/Python_16_pandas_I_Series_DataFrames_Reading_Data_Selecting_and_Filtering.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 16: pandas I: Series, DataFrames, Reading Data, Selecting and Filtering"
+],
+[
+"lessons/python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html",
+"pdf/python/Python_17_pandas_II_Data_Cleaning_Missing_Values_Types_Duplicates_Text_and_Outli.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 17: pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers"
+],
+[
+"lessons/python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html",
+"pdf/python/Python_18_pandas_III_GroupBy_Pivot_Tables_Merge_Join_and_Reshape_melt_unpivot.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 18: pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)"
+],
+[
+"lessons/python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html",
+"pdf/python/Python_19_pandas_IV_Dates_Time_Series_Resampling_and_Rolling_Windows.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 19: pandas IV: Dates, Time Series, Resampling and Rolling Windows"
+],
+[
+"lessons/python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html",
+"pdf/python/Python_20_Data_Visualisation_I_Matplotlib_and_Choosing_the_Right_Chart.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 20: Data Visualisation I: Matplotlib and Choosing the Right Chart"
+],
+[
+"lessons/python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html",
+"pdf/python/Python_21_Data_Visualisation_II_Seaborn_Statistical_Charts_and_Interactive_Plotl.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 21: Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly"
+],
+[
+"lessons/python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html",
+"pdf/python/Python_22_Exploratory_Data_Analysis_EDA_Case_Study_Telecom_Customer_Churn.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 22: Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn"
+],
+[
+"lessons/python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html",
+"pdf/python/Python_23_Python_and_SQL_sqlite3_DuckDB_SQLAlchemy_and_pandas_read_sql.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 23: Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql"
+],
+[
+"lessons/python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html",
+"pdf/python/Python_24_APIs_JSON_and_Web_Scraping_with_requests_and_BeautifulSoup.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 24: APIs, JSON and Web Scraping with requests and BeautifulSoup"
+],
+[
+"lessons/python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html",
+"pdf/python/Python_25_Performance_and_Bigger_Data_Vectorisation_Memory_Parquet_Polars_and_Du.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 25: Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB"
+],
+[
+"lessons/python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html",
+"pdf/python/Python_26_DSA_I_Big_O_Arrays_Strings_Hashing_Two_Pointers_and_Sliding_Window.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 26: DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window"
+],
+[
+"lessons/python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html",
+"pdf/python/Python_27_DSA_II_Stacks_Queues_Linked_Lists_Recursion_Sorting_and_Binary_Search.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 27: DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search"
+],
+[
+"lessons/python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html",
+"pdf/python/Python_28_DSA_III_Trees_Heaps_Graphs_BFS_DFS_and_Dynamic_Programming.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 28: DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming"
+],
+[
+"lessons/python-29-python-capstone-end-to-end-retail-sales-analytics-project.html",
+"pdf/python/Python_29_Python_Capstone_End_to_End_Retail_Sales_Analytics_Project.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python Lesson 29: Python Capstone: End-to-End Retail Sales Analytics Project"
+],
+[
+"lessons/ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html",
+"pdf/ml/Stats_ML_01_Descriptive_Statistics_Centre_Spread_Shape_and_Relationships.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 1: Descriptive Statistics: Centre, Spread, Shape and Relationships"
+],
+[
+"lessons/ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html",
+"pdf/ml/Stats_ML_02_Probability_and_Distributions_Rules_Bayes_Binomial_Poisson_and_Normal.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 2: Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal"
+],
+[
+"lessons/ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html",
+"pdf/ml/Stats_ML_03_Sampling_the_Central_Limit_Theorem_and_Confidence_Intervals.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 3: Sampling, the Central Limit Theorem and Confidence Intervals"
+],
+[
+"lessons/ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html",
+"pdf/ml/Stats_ML_04_Hypothesis_Testing_I_The_Framework_p_values_z_tests_and_t_tests.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 4: Hypothesis Testing I: The Framework, p-values, z-tests and t-tests"
+],
+[
+"lessons/ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html",
+"pdf/ml/Stats_ML_05_Hypothesis_Testing_II_Chi_Square_ANOVA_Non_Parametric_Tests_and_Correl.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 5: Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests"
+],
+[
+"lessons/ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html",
+"pdf/ml/Stats_ML_06_A_B_Testing_and_Experimentation_Design_Power_Analysis_and_Pitfalls.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 6: A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls"
+],
+[
+"lessons/ml-07-introduction-to-machine-learning-types-business-framing-and.html",
+"pdf/ml/Stats_ML_07_Introduction_to_Machine_Learning_Types_Business_Framing_and_the_ML_Lif.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 7: Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle"
+],
+[
+"lessons/ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html",
+"pdf/ml/Stats_ML_08_The_scikit_learn_Workflow_Train_Test_Split_Baselines_Pipelines_and_Sav.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 8: The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models"
+],
+[
+"lessons/ml-09-data-preprocessing-and-feature-engineering-for-ml.html",
+"pdf/ml/Stats_ML_09_Data_Preprocessing_and_Feature_Engineering_for_ML.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 9: Data Preprocessing and Feature Engineering for ML"
+],
+[
+"lessons/ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html",
+"pdf/ml/Stats_ML_10_Linear_Regression_Fitting_Interpreting_Assumptions_and_Diagnostics.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 10: Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics"
+],
+[
+"lessons/ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html",
+"pdf/ml/Stats_ML_11_Gradient_Descent_How_Models_Learn_Built_from_Scratch_in_NumPy.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 11: Gradient Descent: How Models Learn (Built from Scratch in NumPy)"
+],
+[
+"lessons/ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html",
+"pdf/ml/Stats_ML_12_Overfitting_Polynomial_Regression_and_Regularisation_Ridge_Lasso_Elast.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 12: Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)"
+],
+[
+"lessons/ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html",
+"pdf/ml/Stats_ML_13_Logistic_Regression_Probabilities_Odds_Ratios_and_Credit_Risk_Scoring.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 13: Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring"
+],
+[
+"lessons/ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html",
+"pdf/ml/Stats_ML_14_Classification_Metrics_Confusion_Matrix_Precision_Recall_ROC_PR_and_Bu.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 14: Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value"
+],
+[
+"lessons/ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html",
+"pdf/ml/Stats_ML_15_Cross_Validation_and_Hyperparameter_Tuning_K_Fold_GridSearchCV_Randomi.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 15: Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna"
+],
+[
+"lessons/ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html",
+"pdf/ml/Stats_ML_16_K_Nearest_Neighbours_Classifier_and_Regressor_Bank_Loans_Case_Study.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 16: K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)"
+],
+[
+"lessons/ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html",
+"pdf/ml/Stats_ML_17_Decision_Trees_Splits_Impurity_Pruning_and_Interpretable_Rules.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 17: Decision Trees: Splits, Impurity, Pruning and Interpretable Rules"
+],
+[
+"lessons/ml-18-ensembles-i-bagging-and-random-forests.html",
+"pdf/ml/Stats_ML_18_Ensembles_I_Bagging_and_Random_Forests.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 18: Ensembles I: Bagging and Random Forests"
+],
+[
+"lessons/ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html",
+"pdf/ml/Stats_ML_19_Ensembles_II_Gradient_Boosting_XGBoost_LightGBM_and_CatBoost.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 19: Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost"
+],
+[
+"lessons/ml-20-support-vector-machines-and-naive-bayes.html",
+"pdf/ml/Stats_ML_20_Support_Vector_Machines_and_Naive_Bayes.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 20: Support Vector Machines and Naive Bayes"
+],
+[
+"lessons/ml-21-imbalanced-classification-fraud-detection-with-class-weights.html",
+"pdf/ml/Stats_ML_21_Imbalanced_Classification_Fraud_Detection_with_Class_Weights_Resamplin.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 21: Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds"
+],
+[
+"lessons/ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html",
+"pdf/ml/Stats_ML_22_Clustering_I_K_Means_and_RFM_Customer_Segmentation.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 22: Clustering I: K-Means and RFM Customer Segmentation"
+],
+[
+"lessons/ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html",
+"pdf/ml/Stats_ML_23_Clustering_II_and_Dimensionality_Reduction_Hierarchical_DBSCAN_Gaussia.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 23: Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP"
+],
+[
+"lessons/ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html",
+"pdf/ml/Stats_ML_24_Time_Series_Forecasting_Decomposition_Baselines_ETS_ARIMA_and_ML_with_.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 24: Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features"
+],
+[
+"lessons/ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html",
+"pdf/ml/Stats_ML_25_NLP_and_Text_Analytics_Cleaning_TF_IDF_Sentiment_Classification_Topics.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 25: NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings"
+],
+[
+"lessons/ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html",
+"pdf/ml/Stats_ML_26_Neural_Networks_and_Deep_Learning_From_a_Neuron_to_Transformers.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 26: Neural Networks and Deep Learning: From a Neuron to Transformers"
+],
+[
+"lessons/ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html",
+"pdf/ml/Stats_ML_27_Explainable_AI_and_MLOps_SHAP_Fairness_Deployment_Monitoring_and_Respo.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 27: Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML"
+],
+[
+"lessons/ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html",
+"pdf/ml/Stats_ML_28_ML_Capstone_End_to_End_Churn_Prediction_and_Retention_Strategy.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Stats & ML Lesson 28: ML Capstone: End-to-End Churn Prediction and Retention Strategy"
+],
+[
+"lessons/genai-01-how-large-language-models-work-tokens-embeddings-transformer.html",
+"pdf/genai/GenAI_Agents_01_How_Large_Language_Models_Work_Tokens_Embeddings_Transformers_and_Trai.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 1: How Large Language Models Work: Tokens, Embeddings, Transformers and Training"
+],
+[
+"lessons/genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html",
+"pdf/genai/GenAI_Agents_02_Prompt_Engineering_in_Depth_Patterns_Templates_Few_Shot_Reasoning_and_.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 2: Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output"
+],
+[
+"lessons/genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html",
+"pdf/genai/GenAI_Agents_03_Calling_LLM_APIs_from_Python_Messages_Streaming_Structured_Output_Cost.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 3: Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability"
+],
+[
+"lessons/genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html",
+"pdf/genai/GenAI_Agents_04_Embeddings_and_Vector_Search_Meaning_as_Numbers_Similarity_and_Vector_.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 4: Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases"
+],
+[
+"lessons/genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html",
+"pdf/genai/GenAI_Agents_05_Retrieval_Augmented_Generation_RAG_Build_Evaluate_and_Improve_a_Q_A_As.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 5: Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&A Assistant"
+],
+[
+"lessons/genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html",
+"pdf/genai/GenAI_Agents_06_Tool_Use_and_Function_Calling_Letting_LLMs_Query_Data_Call_APIs_and_Ta.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 6: Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions"
+],
+[
+"lessons/genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html",
+"pdf/genai/GenAI_Agents_07_AI_Agents_and_Agentic_AI_Loops_Planning_Memory_Multi_Agent_Systems_and.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 7: AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them"
+],
+[
+"lessons/genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html",
+"pdf/genai/GenAI_Agents_08_Model_Context_Protocol_MCP_Connecting_AI_Assistants_to_Your_Data_and_T.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 8: Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools"
+],
+[
+"lessons/genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html",
+"pdf/genai/GenAI_Agents_09_Evaluating_LLM_Applications_and_Building_Guardrails_Test_Sets_LLM_as_J.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 9: Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety"
+],
+[
+"lessons/genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html",
+"pdf/genai/GenAI_Agents_10_Customising_Models_Prompting_vs_RAG_vs_Fine_Tuning_LoRA_Distillation_a.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 10: Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models"
+],
+[
+"lessons/genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html",
+"pdf/genai/GenAI_Agents_11_GenAI_for_Data_Work_Text_to_SQL_AI_Coding_Assistants_Data_Cleaning_and.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 11: GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights"
+],
+[
+"lessons/genai-12-building-and-shipping-a-genai-app-architecture-streamlit-fas.html",
+"pdf/genai/GenAI_Agents_12_Building_and_Shipping_a_GenAI_App_Architecture_Streamlit_FastAPI_Cost_.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 GenAI & Agents Lesson 12: Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)"
+],
+[
+"lessons/career-01-portfolio-github-and-resume-for-data-roles.html",
+"pdf/career/Career_01_Portfolio_GitHub_and_Resume_for_Data_Roles.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Career Lesson 1: Portfolio, GitHub and Resume for Data Roles"
+],
+[
+"lessons/career-02-data-analyst-interview-preparation-sql-excel-power-bi-statis.html",
+"pdf/career/Career_02_Data_Analyst_Interview_Preparation_SQL_Excel_Power_BI_Statistics_and_C.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Career Lesson 2: Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions"
+],
+[
+"lessons/career-03-data-scientist-ml-and-genai-interview-preparation-questions.html",
+"pdf/career/Career_03_Data_Scientist_ML_and_GenAI_Interview_Preparation_Questions_and_Model_.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Career Lesson 3: Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers"
+],
+[
+"lessons/career-04-your-90-day-plan-learning-roadmap-job-search-strategy-and-gr.html",
+"pdf/career/Career_04_Your_90_Day_Plan_Learning_Roadmap_Job_Search_Strategy_and_Growing_in_Y.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Career Lesson 4: Your 90-Day Plan: Learning Roadmap, Job Search Strategy and Growing in Your First Role"
+],
+[
+"print/track-excel.html",
+"pdf/tracks/Track_01_Advanced_Excel.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Advanced Excel"
+],
+[
+"print/track-sql.html",
+"pdf/tracks/Track_02_SQL_for_Data_Analysis.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 SQL for Data Analysis"
+],
+[
+"print/track-powerbi.html",
+"pdf/tracks/Track_03_Power_BI.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Power BI"
+],
+[
+"print/track-tableau.html",
+"pdf/tracks/Track_04_Tableau.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Tableau"
+],
+[
+"print/track-ai-analytics.html",
+"pdf/tracks/Track_05_AI_for_Data_Analysis.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 AI for Data Analysis"
+],
+[
+"print/track-python.html",
+"pdf/tracks/Track_06_Python_for_Data_Science.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Python for Data Science"
+],
+[
+"print/track-ml.html",
+"pdf/tracks/Track_07_Statistics_Machine_Learning.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Statistics & Machine Learning"
+],
+[
+"print/track-genai.html",
+"pdf/tracks/Track_08_Generative_AI_Agentic_AI.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Generative AI & Agentic AI"
+],
+[
+"print/track-career.html",
+"pdf/tracks/Track_09_Capstone_Portfolio_Interviews.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Capstone, Portfolio & Interviews"
+],
+[
+"print/complete.html",
+"pdf/SkillNavora_Data_Science_AI_Complete_Handbook.pdf",
+"SkillNavora \u00b7 Data Science & AI Handbook \u00b7 Complete handbook"
+]
+]

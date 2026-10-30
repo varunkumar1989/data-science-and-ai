@@ -1,0 +1,179 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gradient Descent: How Models Learn (Built from Scratch in NumPy) · Stats &amp; ML Lesson 11 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand the optimisation engine behind linear regression, logistic regression and neural networks. Cost functions, gradients and the update rule, implementing batch gradient descent for linear regression in NumPy, the learning rate, feature scaling, stochastic and mini-batch variants, convergence checks, and comparison with the closed-form OLS solution and scikit-learn&#x27;s SGDRegressor."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 11</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class="on"><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class=""><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-11">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 11 of 28</div><h1>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</h1>
+<p class="sum">Understand the optimisation engine behind linear regression, logistic regression and neural networks. Cost functions, gradients and the update rule, implementing batch gradient descent for linear regression in NumPy, the learning rate, feature scaling, stochastic and mini-batch variants, convergence checks, and comparison with the closed-form OLS solution and scikit-learn's SGDRegressor.</p><div class="tags"><span class="tag live">● ML class 5</span><span class="tag new">✦ NumPy 2 · scikit-learn 1.7+</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_11_Gradient_Descent_How_Models_Learn_Built_from_Scratch_in_NumPy.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-11">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Define a cost function (MSE) and explain what its gradient tells us</li><li>Implement batch gradient descent for linear regression with NumPy</li><li>Choose a learning rate and diagnose divergence and slow convergence with cost curves</li><li>Explain why feature scaling speeds up gradient descent</li><li>Compare batch, stochastic and mini-batch gradient descent and use SGDRegressor</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a></div></div></div>
+<div class="content"><h2 id="learning-minimising-a-cost">Learning = minimising a cost</h2>
+<p>A model has <strong>parameters</strong> (weights). Learning means finding the weights that make a <strong>cost function</strong> as small as possible. For linear regression the usual cost is the <strong>mean squared error</strong>:</p>
+<figure class="math"><img src="../img/ml-11-math-00aa7992.png" alt="J(\mathbf{w}, b) = \frac{1}{2n}\sum_{i=1}^{n}\left(\hat y_i - y_i\right)^2, \qquad \hat y_i = \mathbf{w}\cdot\mathbf{x}_i + b" loading="lazy"></figure>
+<p>(The ½ simply makes the derivative tidier.) OLS has a formula for the minimum, but most models (logistic regression, neural networks) do not, so we <strong>search</strong> for it.</p>
+<h2 id="the-idea-walk-downhill">The idea: walk downhill</h2>
+<p>Imagine standing on a foggy hillside: feel the slope under your feet and step downhill; repeat until the ground is flat. The <strong>gradient</strong> is the slope; we step in the opposite direction.</p>
+<figure class="math"><img src="../img/ml-11-math-4bf881a4.png" alt="w \leftarrow w - \alpha\,\frac{\partial J}{\partial w}, \qquad b \leftarrow b - \alpha\,\frac{\partial J}{\partial b}" loading="lazy"></figure>
+<p>α is the <strong>learning rate</strong> (step size). For linear regression the gradients are:</p>
+<figure class="math"><img src="../img/ml-11-math-bbe58616.png" alt="\frac{\partial J}{\partial \mathbf{w}} = \frac{1}{n}\,X^{T}(\hat{\mathbf{y}} - \mathbf{y}) \qquad \frac{\partial J}{\partial b} = \frac{1}{n}\sum_{i}(\hat y_i - y_i)" loading="lazy"></figure>
+<figure class="fig"><img src="../img/ml-11-01.png" alt="Gradient descent on a one-parameter cost curve: each step moves against the slope; steps shrink as the slope flattens near the minimum." loading="lazy"><figcaption>Gradient descent on a one-parameter cost curve: each step moves against the slope; steps shrink as the slope flattens near the minimum.</figcaption></figure>
+<h2 id="implementation-in-numpy">Implementation in NumPy</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+h = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;house_prices.csv&quot;</span>).<span class="hl-f">dropna</span>(subset=[<span class="hl-s">&quot;area_sqft&quot;</span>])
+pps = h.price_lakh * 1e5 / h.area_sqft; h = h[<span class="hl-f">pps.between</span>(<span class="hl-f">pps.median</span>() / <span class="hl-n">3</span>, <span class="hl-f">pps.median</span>() * <span class="hl-n">3</span>)]
+feats = [<span class="hl-s">&quot;area_sqft&quot;</span>, <span class="hl-s">&quot;bedrooms&quot;</span>, <span class="hl-s">&quot;bathrooms&quot;</span>, <span class="hl-s">&quot;age_years&quot;</span>, <span class="hl-s">&quot;distance_to_center_km&quot;</span>]
+X_raw = h[feats].<span class="hl-f">to_numpy</span>(float); y = <span class="hl-f">h.price_lakh.to_numpy</span>(float)
+mu, sd = <span class="hl-f">X_raw.mean</span>(axis=<span class="hl-n">0</span>), <span class="hl-f">X_raw.std</span>(axis=<span class="hl-n">0</span>); X = (X_raw - mu) / sd          <span class="hl-c"># standardise features</span>
+
+<span class="hl-k">def</span> <span class="hl-f">gradient_descent</span>(X, y, lr=<span class="hl-n">0.1</span>, epochs=<span class="hl-n">300</span>):
+    n, p = X.shape; w, b = <span class="hl-f">np.zeros</span>(p), <span class="hl-n">0.0</span>; history = []
+    <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(epochs):
+        y_hat = X @ w + b
+        err = y_hat - y
+        <span class="hl-f">history.append</span>((err ** <span class="hl-n">2</span>).<span class="hl-f">mean</span>() / <span class="hl-n">2</span>)                                   <span class="hl-c"># cost J</span>
+        w -= lr * (X.T @ err) / n                                               <span class="hl-c"># gradient step for weights</span>
+        b -= lr * <span class="hl-f">err.mean</span>()                                                    <span class="hl-c"># gradient step for bias</span>
+    <span class="hl-k">return</span> w, b, history
+
+w, b, hist = <span class="hl-f">gradient_descent</span>(X, y)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;cost: start&quot;</span>, <span class="hl-f">round</span>(hist[<span class="hl-n">0</span>], <span class="hl-n">1</span>), <span class="hl-s">&quot;→ after 10&quot;</span>, <span class="hl-f">round</span>(hist[<span class="hl-n">9</span>], <span class="hl-n">1</span>), <span class="hl-s">&quot;→ end&quot;</span>, <span class="hl-f">round</span>(hist[-<span class="hl-n">1</span>], <span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;weights (per 1 sd of each feature):&quot;</span>, <span class="hl-f">dict</span>(<span class="hl-f">zip</span>(feats, <span class="hl-f">w.round</span>(<span class="hl-n">2</span>).<span class="hl-f">tolist</span>())), <span class="hl-s">&quot;| bias&quot;</span>, <span class="hl-f">round</span>(b, <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">cost: start 3604.0 → after 10 592.8 → end 72.59
+weights (per 1 sd of each feature): {&#x27;area_sqft&#x27;: 26.94, &#x27;bedrooms&#x27;: 1.29, &#x27;bathrooms&#x27;: -0.48, &#x27;age_years&#x27;: -3.81, &#x27;distance_to_center_km&#x27;: -1.12} | bias 79.25</pre></div>
+<h3 id="check-against-the-exact-ols-solution">Check against the exact OLS solution</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">X1 = np.c_[<span class="hl-f">np.ones</span>(<span class="hl-f">len</span>(X)), X]
+theta = <span class="hl-f">np.linalg.lstsq</span>(X1, y, rcond=<span class="hl-k">None</span>)[<span class="hl-n">0</span>]                                   <span class="hl-c"># closed form (normal equation)</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;OLS bias&quot;</span>, theta[<span class="hl-n">0</span>].<span class="hl-f">round</span>(<span class="hl-n">2</span>), <span class="hl-s">&quot;weights&quot;</span>, theta[<span class="hl-n">1</span>:].<span class="hl-f">round</span>(<span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;max difference from gradient descent:&quot;</span>, <span class="hl-f">np.abs</span>(theta[<span class="hl-n">1</span>:] - w).<span class="hl-f">max</span>().<span class="hl-f">round</span>(<span class="hl-n">4</span>))
+w_orig = w / sd; b_orig = b - (w_orig * mu).<span class="hl-f">sum</span>()                              <span class="hl-c"># convert back to original units</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;per sq ft: {w_orig[0]:.4f} lakh (≈ ₹{w_orig[0] * 1e5:,.0f}) | per year of age: {w_orig[3]:.3f} lakh&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">OLS bias 79.25 weights [26.98  1.16 -0.38 -3.81 -1.12]
+max difference from gradient descent: 0.1303
+per sq ft: 0.0677 lakh (≈ ₹6,769) | per year of age: -0.442 lakh</pre></div>
+<p>Gradient descent reached the same answer as the exact formula. The <strong>normal equation</strong> θ = (XᵀX)⁻¹Xᵀy is fine for a few thousand features, but gradient descent scales to millions of rows and parameters and to models without closed-form solutions.</p>
+<h2 id="the-learning-rate">The learning rate</h2>
+<figure class="fig"><img src="../img/ml-11-02.png" alt="Cost curves for different learning rates: too small is slow, a good rate converges quickly, too large diverges." loading="lazy"><figcaption>Cost curves for different learning rates: too small is slow, a good rate converges quickly, too large diverges.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost falls very slowly</td>
+<td>α too small</td>
+<td>Increase α (×3 steps: 0.001, 0.003, 0.01…)</td>
+</tr>
+<tr>
+<td>Cost goes up or oscillates, becomes NaN</td>
+<td>α too large</td>
+<td>Decrease α</td>
+</tr>
+<tr>
+<td>Cost flattens high</td>
+<td>Stuck / underfitting / unscaled features</td>
+<td>Scale features, more epochs, better model</td>
+</tr>
+</tbody>
+</table></div>
+<p>Plot the cost every time: it should go down and flatten.</p>
+<h2 id="why-scale-features">Why scale features?</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">best = ((X1 @ theta - y) ** <span class="hl-n">2</span>).<span class="hl-f">mean</span>() / <span class="hl-n">2</span>                                     <span class="hl-c"># the lowest possible cost (OLS)</span>
+<span class="hl-k">with</span> <span class="hl-f">np.errstate</span>(all=<span class="hl-s">&quot;ignore&quot;</span>):
+    <span class="hl-k">for</span> name, Xs, lr <span class="hl-k">in</span> [(<span class="hl-s">&quot;raw features&quot;</span>, X_raw, 1e-<span class="hl-n">7</span>), (<span class="hl-s">&quot;raw features&quot;</span>, X_raw, 1e-<span class="hl-n">6</span>), (<span class="hl-s">&quot;standardised&quot;</span>, X, <span class="hl-n">0.1</span>)]:
+        _, _, hh = <span class="hl-f">gradient_descent</span>(Xs, y, lr=lr, epochs=<span class="hl-n">300</span>)
+        gap = <span class="hl-s">&quot;diverged&quot;</span> <span class="hl-k">if</span> <span class="hl-k">not</span> <span class="hl-f">np.isfinite</span>(hh[-<span class="hl-n">1</span>]) <span class="hl-k">or</span> hh[-<span class="hl-n">1</span>] &gt; 1e6 <span class="hl-k">else</span> <span class="hl-s">f&quot;{100 * (hh[-1] / best - 1):.1f}% above the optimum&quot;</span>
+        <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:13s} lr={lr:&lt;6} cost after 300 epochs: {gap}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">raw features  lr=1e-07  cost after 300 epochs: 14.0% above the optimum
+raw features  lr=1e-06  cost after 300 epochs: 13.3% above the optimum
+standardised  lr=0.1    cost after 300 epochs: 0.0% above the optimum</pre></div>
+<p>With raw features, area (hundreds to thousands) and bedrooms (1–5) differ hugely in scale, so the cost surface is a long narrow valley: a learning rate small enough for area is far too small for bedrooms. Standardising makes the valley round, so one learning rate suits all weights.</p>
+<h2 id="batch-stochastic-and-mini-batch">Batch, stochastic and mini-batch</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Variant</th>
+<th>Gradient from</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Batch GD</td>
+<td>All n rows each step</td>
+<td>Smooth, exact</td>
+<td>Slow for big data</td>
+</tr>
+<tr>
+<td>Stochastic GD (SGD)</td>
+<td>One random row</td>
+<td>Fast updates, escapes shallow minima</td>
+<td>Noisy</td>
+</tr>
+<tr>
+<td>Mini-batch GD</td>
+<td>32–1,024 rows</td>
+<td>Best of both; GPU friendly</td>
+<td>Batch size to tune</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">minibatch_gd</span>(X, y, lr=<span class="hl-n">0.05</span>, epochs=<span class="hl-n">20</span>, batch=<span class="hl-n">32</span>, seed=<span class="hl-n">0</span>):
+    rng = <span class="hl-f">np.random.default_rng</span>(seed); n, p = X.shape; w, b = <span class="hl-f">np.zeros</span>(p), <span class="hl-n">0.0</span>; costs = []
+    <span class="hl-k">for</span> _ <span class="hl-k">in</span> <span class="hl-f">range</span>(epochs):
+        idx = <span class="hl-f">rng.permutation</span>(n)
+        <span class="hl-k">for</span> start <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">0</span>, n, batch):
+            j = idx[start:start + batch]; err = X[j] @ w + b - y[j]
+            w -= lr * X[j].T @ err / <span class="hl-f">len</span>(j); b -= lr * <span class="hl-f">err.mean</span>()
+        <span class="hl-f">costs.append</span>(((X @ w + b - y) ** <span class="hl-n">2</span>).<span class="hl-f">mean</span>() / <span class="hl-n">2</span>)
+    <span class="hl-k">return</span> w, b, costs
+wm, bm, cm = <span class="hl-f">minibatch_gd</span>(X, y)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;mini-batch cost per epoch:&quot;</span>, [<span class="hl-f">round</span>(<span class="hl-f">float</span>(c), <span class="hl-n">1</span>) <span class="hl-k">for</span> c <span class="hl-k">in</span> cm[:<span class="hl-n">5</span>]], <span class="hl-s">&quot;...&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">float</span>(cm[-<span class="hl-n">1</span>]), <span class="hl-n">2</span>), <span class="hl-s">&quot;| weights close to OLS:&quot;</span>, <span class="hl-f">np.allclose</span>(wm, theta[<span class="hl-n">1</span>:], atol=<span class="hl-n">0.5</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">mini-batch cost per epoch: [170.3, 79.1, 74.1, 73.5, 73.0] ... 72.62 | weights close to OLS: True</pre></div>
+<p>Deep learning uses mini-batch gradient descent with improved optimisers: <strong>momentum</strong> (keeps velocity), <strong>RMSProp</strong> and <strong>Adam</strong> (adaptive learning rates per parameter), plus learning-rate schedules.</p>
+<h2 id="scikit-learn-sgdregressor">scikit-learn: SGDRegressor</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> SGDRegressor, LinearRegression
+<span class="hl-k">from</span> sklearn.pipeline <span class="hl-k">import</span> make_pipeline
+<span class="hl-k">from</span> sklearn.preprocessing <span class="hl-k">import</span> StandardScaler
+<span class="hl-k">from</span> sklearn.model_selection <span class="hl-k">import</span> train_test_split
+Xtr, Xte, ytr, yte = <span class="hl-f">train_test_split</span>(h[feats], y, test_size=<span class="hl-n">0.2</span>, random_state=<span class="hl-n">0</span>)
+sgd = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">SGDRegressor</span>(learning_rate=<span class="hl-s">&quot;invscaling&quot;</span>, eta0=<span class="hl-n">0.01</span>, max_iter=<span class="hl-n">2000</span>, tol=1e-<span class="hl-n">6</span>, random_state=<span class="hl-n">0</span>)).<span class="hl-f">fit</span>(Xtr, ytr)
+ols = <span class="hl-f">make_pipeline</span>(<span class="hl-f">StandardScaler</span>(), <span class="hl-f">LinearRegression</span>()).<span class="hl-f">fit</span>(Xtr, ytr)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;test R²: SGDRegressor {sgd.score(Xte, yte):.4f} | LinearRegression {ols.score(Xte, yte):.4f} | SGD epochs used {sgd[-1].n_iter_}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">test R²: SGDRegressor 0.8513 | LinearRegression 0.8514 | SGD epochs used 23</pre></div>
+<p><code>SGDRegressor</code>/<code>SGDClassifier</code> also support <code>partial_fit</code> for data that arrives in streams or does not fit in memory, and penalties (L2, L1, elastic net) for regularisation.</p>
+<h2 id="where-gradient-descent-appears">Where gradient descent appears</h2>
+<p>Logistic regression (minimising log loss, lesson 13), neural networks and LLMs (backpropagation computes gradients for billions of weights, lesson 26), gradient boosting (fits each new tree to the gradient of the loss, lesson 19), and matrix factorisation in recommenders.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Learning = minimising a cost function; gradient descent repeatedly steps against the gradient: w ← w − α·∂J/∂w.</li>
+<li>For linear regression: gradient = Xᵀ(ŷ − y)/n; it converges to the same solution as OLS.</li>
+<li>The learning rate controls step size: too small is slow, too large diverges; always plot the cost.</li>
+<li>Scale features so one learning rate suits all weights.</li>
+<li>Batch, stochastic and mini-batch variants trade accuracy of each step for speed; Adam and momentum power deep learning.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-11-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In the update w ← w − α·∂J/∂w, what is α?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The learning rate (step size)</button><button type="button" class="opt" data-ok="0"><i>B</i>The gradient</button><button type="button" class="opt" data-ok="0"><i>C</i>The cost</button><button type="button" class="opt" data-ok="0"><i>D</i>The bias</button></div><div class="qexp"><b>Answer: A.</b> It is a hyperparameter you choose.</div></div><div class="qq"><p class="qtext"><b>2.</b> The cost increases every epoch and becomes NaN. Most likely cause?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Learning rate too small</button><button type="button" class="opt" data-ok="1"><i>B</i>Learning rate too large</button><button type="button" class="opt" data-ok="0"><i>C</i>Too much data</button><button type="button" class="opt" data-ok="0"><i>D</i>Features are scaled</button></div><div class="qexp"><b>Answer: B.</b> Steps overshoot the minimum.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why standardise features before gradient descent?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Features on very different scales create a narrow valley that slows convergence</button><button type="button" class="opt" data-ok="0"><i>B</i>To change the final OLS solution</button><button type="button" class="opt" data-ok="0"><i>C</i>To remove outliers</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required by NumPy</button></div><div class="qexp"><b>Answer: A.</b> Scaling makes one learning rate work for all weights.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does mini-batch gradient descent use for each update?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>All rows</button><button type="button" class="opt" data-ok="0"><i>B</i>One row</button><button type="button" class="opt" data-ok="1"><i>C</i>A small random subset of rows</button><button type="button" class="opt" data-ok="0"><i>D</i>Only the test set</button></div><div class="qexp"><b>Answer: C.</b> Common sizes: 32–512.</div></div><div class="qq"><p class="qtext"><b>5.</b> Gradient descent and the normal equation on the same linear regression should give…</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Approximately the same weights</button><button type="button" class="opt" data-ok="0"><i>B</i>Completely different weights</button><button type="button" class="opt" data-ok="0"><i>C</i>The same only without scaling</button><button type="button" class="opt" data-ok="0"><i>D</i>No relation</button></div><div class="qexp"><b>Answer: A.</b> Both minimise the same convex cost.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which algorithm fits each new tree to the gradient of the loss?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>K-means</button><button type="button" class="opt" data-ok="1"><i>B</i>Gradient boosting</button><button type="button" class="opt" data-ok="0"><i>C</i>KNN</button><button type="button" class="opt" data-ok="0"><i>D</i>PCA</button></div><div class="qexp"><b>Answer: B.</b> Hence the name.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Add an early-stopping rule: stop when the cost improves by less than 0.001. How many epochs are needed at α = 0.1? (2) Implement gradient descent for a model with only <code>area_sqft</code> and plot the fitted line. (3) Try mini-batch sizes 8, 64 and 512 and compare the final cost after 10 epochs.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">gd_early</span>(X, y, lr=<span class="hl-n">0.1</span>, tol=1e-<span class="hl-n">3</span>, max_epochs=10_000):
+    n, p = X.shape; w, b = <span class="hl-f">np.zeros</span>(p), <span class="hl-n">0.0</span>; prev = np.inf
+    <span class="hl-k">for</span> e <span class="hl-k">in</span> <span class="hl-f">range</span>(max_epochs):
+        err = X @ w + b - y; cost = (err ** <span class="hl-n">2</span>).<span class="hl-f">mean</span>() / <span class="hl-n">2</span>
+        <span class="hl-k">if</span> prev - cost &lt; tol: <span class="hl-k">return</span> w, b, e
+        prev = cost; w -= lr * X.T @ err / n; b -= lr * <span class="hl-f">err.mean</span>()
+    <span class="hl-k">return</span> w, b, max_epochs
+<span class="hl-f">print</span>(<span class="hl-f">gd_early</span>(X, y)[<span class="hl-n">2</span>])
+w1, b1, _ = <span class="hl-f">gradient_descent</span>(X[:, [<span class="hl-n">0</span>]], y)
+<span class="hl-k">for</span> bs <span class="hl-k">in</span> (<span class="hl-n">8</span>, <span class="hl-n">64</span>, <span class="hl-n">512</span>): <span class="hl-f">print</span>(bs, <span class="hl-f">minibatch_gd</span>(X, y, batch=bs, epochs=<span class="hl-n">10</span>)[<span class="hl-n">2</span>][-<span class="hl-n">1</span>])</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain gradient descent intuitively.</strong>
+Start with random weights, compute how wrong the model is, find the direction that reduces the error fastest (the negative gradient), take a small step, and repeat until the error stops falling.</p>
+<p><strong>Q: Batch vs stochastic gradient descent?</strong>
+Batch uses all data per step (stable, slow); stochastic uses one example (fast, noisy); mini-batch is the practical compromise.</p>
+<p><strong>Q: Can gradient descent get stuck?</strong>
+For convex costs like linear and logistic regression there is one global minimum. For neural networks it can land in local minima or saddle points; momentum, Adam and random restarts help.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html"><small>← Previous</small><b>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</b></a><a class="next" href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html"><small>Next →</small><b>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#learning-minimising-a-cost">Learning = minimising a cost</a><a href="#the-idea-walk-downhill">The idea: walk downhill</a><a href="#implementation-in-numpy">Implementation in NumPy</a><a href="#the-learning-rate">The learning rate</a><a href="#why-scale-features">Why scale features?</a><a href="#batch-stochastic-and-mini-batch">Batch, stochastic and mini-batch</a><a href="#scikit-learn-sgdregressor">scikit-learn: SGDRegressor</a><a href="#where-gradient-descent-appears">Where gradient descent appears</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

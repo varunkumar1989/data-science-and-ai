@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal · Stats &amp; ML Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="The language of uncertainty. Probability rules, conditional probability and Bayes&#x27; theorem (with a fraud-alert example), random variables and expected value, and the distributions analysts use most (Bernoulli, binomial, Poisson, uniform, normal, exponential), with scipy.stats and simulation."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class="on"><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class=""><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-02">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 2 of 28</div><h1>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</h1>
+<p class="sum">The language of uncertainty. Probability rules, conditional probability and Bayes' theorem (with a fraud-alert example), random variables and expected value, and the distributions analysts use most (Bernoulli, binomial, Poisson, uniform, normal, exponential), with scipy.stats and simulation.</p><div class="tags"><span class="tag live">● Python class 14</span><span class="tag new">✦ SciPy 1.1x · NumPy 2</span><span class="tag">Beginner</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_02_Probability_and_Distributions_Rules_Bayes_Binomial_Poisson_and_Normal.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Apply the addition, multiplication and complement rules and conditional probability</li><li>Use Bayes' theorem to update probabilities and explain base-rate effects</li><li>Compute expected value and variance of a random variable</li><li>Model counts and measurements with binomial, Poisson, normal and exponential distributions using scipy.stats</li><li>Use the empirical (68-95-99.7) rule and check normality with a Q-Q plot</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/delivery_times.csv" download>delivery_times.csv</a><a class="chip" href="../datasets/ab_test.csv" download>ab_test.csv</a></div></div></div>
+<div class="content"><h2 id="probability-basics">Probability basics</h2>
+<p><strong>Probability</strong> is a number from 0 (impossible) to 1 (certain). For equally likely outcomes, P(event) = favourable outcomes ÷ all outcomes. In data, it is a long-run frequency.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> numpy <span class="hl-k">as</span> np, pandas <span class="hl-k">as</span> pd
+<span class="hl-k">from</span> scipy <span class="hl-k">import</span> stats
+rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">7</span>)
+rolls = <span class="hl-f">rng.integers</span>(<span class="hl-n">1</span>, <span class="hl-n">7</span>, 100_000)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;P(six) theory 0.1667 | simulated&quot;</span>, <span class="hl-f">round</span>((rolls == <span class="hl-n">6</span>).<span class="hl-f">mean</span>(), <span class="hl-n">4</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;P(even or &gt; 4) theory&quot;</span>, <span class="hl-f">round</span>(<span class="hl-n">4</span> / <span class="hl-n">6</span>, <span class="hl-n">4</span>), <span class="hl-s">&quot;| simulated&quot;</span>, <span class="hl-f">round</span>(((rolls % <span class="hl-n">2</span> == <span class="hl-n">0</span>) | (rolls &gt; <span class="hl-n">4</span>)).<span class="hl-f">mean</span>(), <span class="hl-n">4</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">P(six) theory 0.1667 | simulated 0.1682
+P(even or &gt; 4) theory 0.6667 | simulated 0.6679</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Rule</th>
+<th>Formula</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Complement</td>
+<td>P(not A) = 1 − P(A)</td>
+<td>P(no conversion) = 1 − 0.10</td>
+</tr>
+<tr>
+<td>Addition</td>
+<td>P(A or B) = P(A) + P(B) − P(A and B)</td>
+<td>Even or &gt; 4: 3/6 + 2/6 − 1/6</td>
+</tr>
+<tr>
+<td>Multiplication (independent)</td>
+<td>P(A and B) = P(A) × P(B)</td>
+<td>Two sixes: 1/36</td>
+</tr>
+<tr>
+<td>Conditional</td>
+<td>P(A | B) = P(A and B) ÷ P(B)</td>
+<td>P(churn | month-to-month)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">tc = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;contract&quot;</span>: [<span class="hl-s">&quot;M2M&quot;</span>] * <span class="hl-n">1690</span> + [<span class="hl-s">&quot;1yr&quot;</span>] * <span class="hl-n">739</span> + [<span class="hl-s">&quot;2yr&quot;</span>] * <span class="hl-n">571</span>,
+                   <span class="hl-s">&quot;churn&quot;</span>: [<span class="hl-n">1</span>] * <span class="hl-n">607</span> + [<span class="hl-n">0</span>] * <span class="hl-n">1083</span> + [<span class="hl-n">1</span>] * <span class="hl-n">125</span> + [<span class="hl-n">0</span>] * <span class="hl-n">614</span> + [<span class="hl-n">1</span>] * <span class="hl-n">40</span> + [<span class="hl-n">0</span>] * <span class="hl-n">531</span>})   <span class="hl-c"># counts from the churn EDA</span>
+joint = <span class="hl-f">pd.crosstab</span>(tc.contract, tc.churn, normalize=<span class="hl-s">&quot;all&quot;</span>).<span class="hl-f">round</span>(<span class="hl-n">3</span>)
+<span class="hl-f">print</span>(joint)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;P(churn) =&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">tc.churn.mean</span>(), <span class="hl-n">3</span>), <span class="hl-s">&quot;| P(churn | M2M) =&quot;</span>, <span class="hl-f">round</span>(tc[tc.contract == <span class="hl-s">&quot;M2M&quot;</span>].<span class="hl-f">churn.mean</span>(), <span class="hl-n">3</span>), <span class="hl-s">&quot;| P(M2M | churn) =&quot;</span>, <span class="hl-f">round</span>((tc[tc.churn == <span class="hl-n">1</span>].contract == <span class="hl-s">&quot;M2M&quot;</span>).<span class="hl-f">mean</span>(), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">churn         0      1
+contract              
+1yr       0.205  0.042
+2yr       0.177  0.013
+M2M       0.361  0.202
+P(churn) = 0.257 | P(churn | M2M) = 0.359 | P(M2M | churn) = 0.786</pre></div>
+<p>P(churn | M2M) and P(M2M | churn) are <strong>different</strong> questions. Mixing them up is one of the most common reasoning errors.</p>
+<h2 id="bayes-theorem">Bayes' theorem</h2>
+<figure class="math"><img src="../img/ml-02-math-cfcd3a4e.png" alt="P(A \mid B) = \frac{P(B \mid A)\,P(A)}{P(B)}" loading="lazy"></figure>
+<p>A fraud model flags 99% of fraudulent payments and wrongly flags 2% of genuine ones. Only 0.5% of payments are fraud. If a payment is flagged, how likely is it to be fraud?</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">p_fraud, sens, fpr = <span class="hl-n">0.005</span>, <span class="hl-n">0.99</span>, <span class="hl-n">0.02</span>
+p_flag = sens * p_fraud + fpr * (<span class="hl-n">1</span> - p_fraud)                  <span class="hl-c"># law of total probability</span>
+p_fraud_given_flag = sens * p_fraud / p_flag
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;P(flag) = {p_flag:.4f} | P(fraud | flag) = {p_fraud_given_flag:.1%}&quot;</span>)
+n = 100_000; fraud = <span class="hl-f">rng.random</span>(n) &lt; p_fraud
+flag = <span class="hl-f">np.where</span>(fraud, <span class="hl-f">rng.random</span>(n) &lt; sens, <span class="hl-f">rng.random</span>(n) &lt; fpr)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;simulated: {fraud[flag].mean():.1%} of flagged payments are fraud ({flag.sum():,} flags, {(fraud &amp; flag).sum()} real fraud)&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">P(flag) = 0.0249 | P(fraud | flag) = 19.9%
+simulated: 19.9% of flagged payments are fraud (2,485 flags, 495 real fraud)</pre></div>
+<p>Only about one flag in five is real fraud, because genuine payments vastly outnumber fraud (the <strong>base rate</strong>). This is why precision matters in imbalanced ML problems (lesson 21) and why naive Bayes classifiers work (lesson 20).</p>
+<h2 id="random-variables-and-expected-value">Random variables and expected value</h2>
+<p>A <strong>random variable</strong> assigns a number to each outcome. Its <strong>expected value</strong> is the probability-weighted average: the long-run mean.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">values = <span class="hl-f">np.array</span>([<span class="hl-n">0</span>, <span class="hl-n">500</span>, <span class="hl-n">2000</span>]); probs = <span class="hl-f">np.array</span>([<span class="hl-n">0.80</span>, <span class="hl-n">0.15</span>, <span class="hl-n">0.05</span>])      <span class="hl-c"># customer spend next month</span>
+ev = (values * probs).<span class="hl-f">sum</span>(); var = ((values - ev) ** <span class="hl-n">2</span> * probs).<span class="hl-f">sum</span>()
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;E[spend] = ₹{ev:.0f} | sd = ₹{var ** 0.5:.0f}&quot;</span>)
+cost, uplift = <span class="hl-n">60</span>, <span class="hl-n">0.25</span>                                                      <span class="hl-c"># campaign: costs ₹60, raises spend by 25%</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;expected profit per customer from the campaign: ₹{ev * uplift - cost:.0f} → {&#x27;run it&#x27; if ev * uplift &gt; cost else &#x27;do not run it&#x27;}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">E[spend] = ₹175 | sd = ₹455
+expected profit per customer from the campaign: ₹-16 → do not run it</pre></div>
+<p>Expected value drives decisions: pricing, insurance, campaign ROI, and the "expected loss" in credit risk (PD × LGD × EAD).</p>
+<h2 id="discrete-distributions">Discrete distributions</h2>
+<figure class="fig"><img src="../img/ml-02-01.png" alt="Binomial (number of conversions out of 50 visitors, p = 0.1) and Poisson (support tickets per hour, mean 4)." loading="lazy"><figcaption>Binomial (number of conversions out of 50 visitors, p = 0.1) and Poisson (support tickets per hour, mean 4).</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Distribution</th>
+<th>Models</th>
+<th>Parameters</th>
+<th>Mean</th>
+<th>Variance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bernoulli</td>
+<td>One yes/no trial (did this user convert?)</td>
+<td>p</td>
+<td>p</td>
+<td>p(1 − p)</td>
+</tr>
+<tr>
+<td>Binomial</td>
+<td>Number of successes in n trials</td>
+<td>n, p</td>
+<td>np</td>
+<td>np(1 − p)</td>
+</tr>
+<tr>
+<td>Poisson</td>
+<td>Count of events in an interval (calls/hour, defects/batch)</td>
+<td>λ</td>
+<td>λ</td>
+<td>λ</td>
+</tr>
+<tr>
+<td>Geometric</td>
+<td>Trials until first success</td>
+<td>p</td>
+<td>1/p</td>
+<td>(1 − p)/p²</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">b = <span class="hl-f">stats.binom</span>(n=<span class="hl-n">50</span>, p=<span class="hl-n">0.10</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;P(exactly 5) = {b.pmf(5):.3f} | P(at most 2) = {b.cdf(2):.3f} | P(10 or more) = {b.sf(9):.4f} | mean {b.mean()} sd {b.std():.2f}&quot;</span>)
+po = <span class="hl-f">stats.poisson</span>(mu=<span class="hl-n">4</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;tickets/hour: P(0) = {po.pmf(0):.3f} | P(more than 8) = {po.sf(8):.4f} | 95th percentile = {po.ppf(0.95):.0f}&quot;</span>)
+ab = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;ab_test.csv&quot;</span>); ctrl = ab[ab.group == <span class="hl-s">&quot;A_control&quot;</span>]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;A/B control: {ctrl.converted.sum()} conversions from {len(ctrl)} users, p̂ = {ctrl.converted.mean():.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">P(exactly 5) = 0.185 | P(at most 2) = 0.112 | P(10 or more) = 0.0245 | mean 5.0 sd 2.12
+tickets/hour: P(0) = 0.018 | P(more than 8) = 0.0214 | 95th percentile = 8
+A/B control: 198 conversions from 2000 users, p̂ = 0.099</pre></div>
+<p>scipy.stats methods: <code>pmf</code>/<code>pdf</code> (probability or density at a point), <code>cdf</code> (P(X ≤ x)), <code>sf</code> (P(X &gt; x) = 1 − cdf), <code>ppf</code> (inverse cdf: percentiles), <code>rvs</code> (random samples).</p>
+<h2 id="continuous-distributions">Continuous distributions</h2>
+<p>For continuous variables, probability is the <strong>area under the density curve</strong>; P(X = exact value) is 0.</p>
+<h3 id="the-normal-distribution">The normal distribution</h3>
+<p>Bell-shaped, symmetric, described by mean μ and standard deviation σ. Heights, measurement errors and, crucially, <strong>sample means</strong> (next lesson) are approximately normal.</p>
+<figure class="fig"><img src="../img/ml-02-02.png" alt="The empirical rule: about 68%, 95% and 99.7% of a normal distribution lie within 1, 2 and 3 standard deviations of the mean." loading="lazy"><figcaption>The empirical rule: about 68%, 95% and 99.7% of a normal distribution lie within 1, 2 and 3 standard deviations of the mean.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">d = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;delivery_times.csv&quot;</span>); pune = d[d.city == <span class="hl-s">&quot;Pune&quot;</span>].delivery_minutes
+mu, sd = <span class="hl-f">pune.mean</span>(), <span class="hl-f">pune.std</span>()
+nd = <span class="hl-f">stats.norm</span>(mu, sd)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Pune delivery: mean {mu:.1f} min, sd {sd:.1f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;P(late, &gt; 40 min) model {nd.sf(40):.1%} vs data {(pune &gt; 40).mean():.1%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;promise time covering 95% of orders: {nd.ppf(0.95):.1f} min | within ±1 sd: {((pune - mu).abs() &lt;= sd).mean():.0%} of orders&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;68-95-99.7 check:&quot;</span>, [<span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-f">stats.norm.cdf</span>(k) - <span class="hl-f">stats.norm.cdf</span>(-k)), <span class="hl-n">4</span>) <span class="hl-k">for</span> k <span class="hl-k">in</span> (<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>)], <span class="hl-s">&quot;| z for 95% two-sided:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">stats.norm.ppf</span>(<span class="hl-n">0.975</span>), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Pune delivery: mean 31.7 min, sd 6.4
+P(late, &gt; 40 min) model 9.7% vs data 13.3%
+promise time covering 95% of orders: 42.2 min | within ±1 sd: 68% of orders
+68-95-99.7 check: [0.6827, 0.9545, 0.9973] | z for 95% two-sided: 1.96</pre></div>
+<p>The <strong>standard normal</strong> has μ = 0, σ = 1; any normal value converts with z = (x − μ)/σ. The number <strong>1.96</strong> (95% two-sided) appears in confidence intervals and tests.</p>
+<h3 id="other-continuous-distributions">Other continuous distributions</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Distribution</th>
+<th>Models</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uniform(a, b)</td>
+<td>Every value equally likely</td>
+<td>Random number generators, A/B bucket assignment</td>
+</tr>
+<tr>
+<td>Exponential(λ)</td>
+<td>Waiting time between Poisson events</td>
+<td>Time between support calls</td>
+</tr>
+<tr>
+<td>Log-normal</td>
+<td>Positive, right-skewed values</td>
+<td>Income, house prices, order values</td>
+</tr>
+<tr>
+<td>t, χ², F</td>
+<td>Sampling distributions for tests</td>
+<td>t-tests, chi-square tests, ANOVA</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">wait = <span class="hl-f">stats.expon</span>(scale=<span class="hl-n">1</span> / <span class="hl-n">4</span>)                     <span class="hl-c"># 4 calls per hour → mean wait 15 minutes</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;P(no call for 30+ minutes) = {wait.sf(0.5):.3f} | memoryless: P(wait &gt; 45 | already 15) = {wait.sf(0.75) / wait.sf(0.25):.3f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">P(no call for 30+ minutes) = 0.135 | memoryless: P(wait &gt; 45 | already 15) = 0.135</pre></div>
+<h2 id="is-it-normal-q-q-plots-and-tests">Is it normal? Q-Q plots and tests</h2>
+<figure class="fig"><img src="../img/ml-02-03.png" alt="Q-Q plots compare data quantiles with normal quantiles: points on the line mean &quot;approximately normal&quot;. Pune delivery times look normal; HR income is right-skewed." loading="lazy"><figcaption>Q-Q plots compare data quantiles with normal quantiles: points on the line mean "approximately normal". Pune delivery times look normal; HR income is right-skewed.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">for</span> name, data <span class="hl-k">in</span> [(<span class="hl-s">&quot;delivery (Pune)&quot;</span>, pune), (<span class="hl-s">&quot;income&quot;</span>, hr.monthly_income), (<span class="hl-s">&quot;log income&quot;</span>, <span class="hl-f">np.log</span>(hr.monthly_income))]:
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{name:16s} Shapiro-Wilk p = {stats.shapiro(data.sample(min(len(data), 500), random_state=0)).pvalue:.4f} | skew {stats.skew(data):.2f}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">delivery (Pune)  Shapiro-Wilk p = 0.1629 | skew -0.15
+income           Shapiro-Wilk p = 0.0000 | skew 1.02
+log income       Shapiro-Wilk p = 0.0000 | skew 0.28</pre></div>
+<p>A small p-value (&lt; 0.05) suggests the data are <strong>not</strong> normal. With large samples, tiny departures become "significant", so rely on plots and skewness too.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Probability rules: complement, addition, multiplication (independence), conditional P(A | B) ≠ P(B | A).</li>
+<li>Bayes' theorem updates beliefs; low base rates make most alerts false positives.</li>
+<li>Expected value = probability-weighted average, the basis of ROI and risk decisions.</li>
+<li>Binomial (successes in n trials), Poisson (counts per interval), normal (measurements, sample means), exponential (waiting times); use <code>scipy.stats</code> <code>pmf/pdf</code>, <code>cdf</code>, <code>sf</code>, <code>ppf</code>, <code>rvs</code>.</li>
+<li>Empirical rule 68-95-99.7; z = (x − μ)/σ; check normality with Q-Q plots and skewness.</li>
+</ul></div>
+<div class="quiz" id="quiz-ml-02-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A fraud test is 99% sensitive with a 2% false-positive rate, and fraud is 0.5% of payments. Roughly what share of flagged payments are fraud?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>99%</button><button type="button" class="opt" data-ok="0"><i>B</i>50%</button><button type="button" class="opt" data-ok="1"><i>C</i>About 20%</button><button type="button" class="opt" data-ok="0"><i>D</i>2%</button></div><div class="qexp"><b>Answer: C.</b> The low base rate means most flags are genuine payments.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which distribution models the number of support calls per hour?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Normal</button><button type="button" class="opt" data-ok="1"><i>B</i>Poisson</button><button type="button" class="opt" data-ok="0"><i>C</i>Uniform</button><button type="button" class="opt" data-ok="0"><i>D</i>Binomial with n = 1</button></div><div class="qexp"><b>Answer: B.</b> Counts of events in a fixed interval.</div></div><div class="qq"><p class="qtext"><b>3.</b> For a binomial with n = 50 and p = 0.1, what is the mean?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0.1</button><button type="button" class="opt" data-ok="1"><i>B</i>5</button><button type="button" class="opt" data-ok="0"><i>C</i>50</button><button type="button" class="opt" data-ok="0"><i>D</i>4.5</button></div><div class="qexp"><b>Answer: B.</b> Mean = np.</div></div><div class="qq"><p class="qtext"><b>4.</b> About what share of a normal distribution lies within ±2 standard deviations?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>68%</button><button type="button" class="opt" data-ok="1"><i>B</i>95%</button><button type="button" class="opt" data-ok="0"><i>C</i>99.7%</button><button type="button" class="opt" data-ok="0"><i>D</i>50%</button></div><div class="qexp"><b>Answer: B.</b> The empirical rule.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which scipy method gives P(X &gt; x)?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>pdf</button><button type="button" class="opt" data-ok="0"><i>B</i>cdf</button><button type="button" class="opt" data-ok="1"><i>C</i>sf</button><button type="button" class="opt" data-ok="0"><i>D</i>ppf</button></div><div class="qexp"><b>Answer: C.</b> sf = survival function = 1 − cdf.</div></div><div class="qq"><p class="qtext"><b>6.</b> P(churn | month-to-month) equals P(month-to-month | churn).</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>True</button><button type="button" class="opt" data-ok="1"><i>B</i>False</button></div><div class="qexp"><b>Answer: B.</b> They condition on different groups.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Probability of at least one conversion from 20 visitors if p = 0.08. (2) A call centre averages 6 calls per 10 minutes; probability of more than 10 calls in 10 minutes. (3) Hyderabad delivery times: estimate P(&gt; 45 min) with a normal model and compare with the data. (4) Simulate the Bayes fraud example with fraud at 2% instead of 0.5%. What changes?</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-n">1</span> - <span class="hl-n">0.92</span> ** <span class="hl-n">20</span>, <span class="hl-f">stats.binom.sf</span>(<span class="hl-n">0</span>, <span class="hl-n">20</span>, <span class="hl-n">0.08</span>))
+<span class="hl-f">print</span>(<span class="hl-f">stats.poisson.sf</span>(<span class="hl-n">10</span>, <span class="hl-n">6</span>))
+hyd = d[d.city == <span class="hl-s">&quot;Hyderabad&quot;</span>].delivery_minutes; <span class="hl-f">print</span>(<span class="hl-f">stats.norm</span>(<span class="hl-f">hyd.mean</span>(), <span class="hl-f">hyd.std</span>()).<span class="hl-f">sf</span>(<span class="hl-n">45</span>), (hyd &gt; <span class="hl-n">45</span>).<span class="hl-f">mean</span>())
+p_fraud = <span class="hl-n">0.02</span>; <span class="hl-f">print</span>(sens * p_fraud / (sens * p_fraud + fpr * (<span class="hl-n">1</span> - p_fraud)))     <span class="hl-c"># about 50%: the base rate matters</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain Bayes' theorem with an example.</strong>
+It updates a prior probability with new evidence. For a rare disease with an accurate test, a positive result can still be more likely a false positive because healthy people vastly outnumber sick ones.</p>
+<p><strong>Q: When would you use a Poisson distribution?</strong>
+For counts of independent events in a fixed time or space with a constant average rate, such as orders per minute, defects per batch or calls per hour.</p>
+<p><strong>Q: What is the difference between pdf and cdf?</strong>
+The pdf gives density at a point (probability for discrete pmf); the cdf gives the cumulative probability P(X ≤ x).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html"><small>← Previous</small><b>Descriptive Statistics: Centre, Spread, Shape and Relationships</b></a><a class="next" href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html"><small>Next →</small><b>Sampling, the Central Limit Theorem and Confidence Intervals</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#probability-basics">Probability basics</a><a href="#bayes-theorem">Bayes&#x27; theorem</a><a href="#random-variables-and-expected-value">Random variables and expected value</a><a href="#discrete-distributions">Discrete distributions</a><a href="#continuous-distributions">Continuous distributions</a><a href="#is-it-normal-q-q-plots-and-tests">Is it normal? Q-Q plots and tests</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

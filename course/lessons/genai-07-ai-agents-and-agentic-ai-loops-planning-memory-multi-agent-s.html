@@ -1,0 +1,257 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them · GenAI &amp; Agents Lesson 7 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand what makes software &quot;agentic&quot;. Workflows vs agents, the agent loop (observe, think, act), ReAct-style reasoning with tools, planning and task decomposition, short- and long-term memory, guardrails and stopping conditions, multi-agent patterns (orchestrator–workers, evaluator–optimiser, routing), the 2026 agent platforms, and how to decide whether a problem needs an agent at all, with a runnable data-analysis agent."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-genai"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-genai">Generative AI &amp; Agentic AI</a><span>/</span><b>Lesson 7</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#EA580C">Generative AI &amp; Agentic AI</div>
+<ol class="side-l"><li class=""><a href="genai-01-how-large-language-models-work-tokens-embeddings-transformer.html" data-lid="genai-01"><span>01</span>How Large Language Models Work: Tokens, Embeddings, Transformers and Training</a></li><li class=""><a href="genai-02-prompt-engineering-in-depth-patterns-templates-few-shot-reas.html" data-lid="genai-02"><span>02</span>Prompt Engineering in Depth: Patterns, Templates, Few-Shot, Reasoning and Structured Output</a></li><li class=""><a href="genai-03-calling-llm-apis-from-python-messages-streaming-structured-o.html" data-lid="genai-03"><span>03</span>Calling LLM APIs from Python: Messages, Streaming, Structured Output, Costs and Reliability</a></li><li class=""><a href="genai-04-embeddings-and-vector-search-meaning-as-numbers-similarity-a.html" data-lid="genai-04"><span>04</span>Embeddings and Vector Search: Meaning as Numbers, Similarity and Vector Databases</a></li><li class=""><a href="genai-05-retrieval-augmented-generation-rag-build-evaluate-and-improv.html" data-lid="genai-05"><span>05</span>Retrieval-Augmented Generation (RAG): Build, Evaluate and Improve a Q&amp;A Assistant</a></li><li class=""><a href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html" data-lid="genai-06"><span>06</span>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</a></li><li class="on"><a href="genai-07-ai-agents-and-agentic-ai-loops-planning-memory-multi-agent-s.html" data-lid="genai-07"><span>07</span>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</a></li><li class=""><a href="genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html" data-lid="genai-08"><span>08</span>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</a></li><li class=""><a href="genai-09-evaluating-llm-applications-and-building-guardrails-test-set.html" data-lid="genai-09"><span>09</span>Evaluating LLM Applications and Building Guardrails: Test Sets, LLM-as-Judge, Injection, PII and Safety</a></li><li class=""><a href="genai-10-customising-models-prompting-vs-rag-vs-fine-tuning-lora-dist.html" data-lid="genai-10"><span>10</span>Customising Models: Prompting vs RAG vs Fine-Tuning, LoRA, Distillation and Open-Weight Models</a></li><li class=""><a href="genai-11-genai-for-data-work-text-to-sql-ai-coding-assistants-data-cl.html" data-lid="genai-11"><span>11</span>GenAI for Data Work: Text-to-SQL, AI Coding Assistants, Data Cleaning and Automated Insights</a></li><li class=""><a href="genai-12-building-and-shipping-a-genai-app-architecture-streamlit-fas.html" data-lid="genai-12"><span>12</span>Building and Shipping a GenAI App: Architecture, Streamlit/FastAPI, Cost, Observability and Responsible AI (Capstone)</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="genai-07">
+<div class="lhead" style="--tc:#EA580C"><div class="kick">Generative AI &amp; Agentic AI · Lesson 7 of 12</div><h1>AI Agents and Agentic AI: Loops, Planning, Memory, Multi-Agent Systems and When to Use Them</h1>
+<p class="sum">Understand what makes software "agentic". Workflows vs agents, the agent loop (observe, think, act), ReAct-style reasoning with tools, planning and task decomposition, short- and long-term memory, guardrails and stopping conditions, multi-agent patterns (orchestrator–workers, evaluator–optimiser, routing), the 2026 agent platforms, and how to decide whether a problem needs an agent at all, with a runnable data-analysis agent.</p><div class="tags"><span class="tag live">● DVA + AI class 1 (AI vs GenAI vs Agentic AI) · GenAI Launchpad</span><span class="tag new">✦ 2026 agent platforms: Claude Agent SDK, Managed Agents, LangGraph, OpenAI Agents SDK, CrewAI</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/genai/GenAI_Agents_07_AI_Agents_and_Agentic_AI_Loops_Planning_Memory_Multi_Agent_Systems_and.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="genai-07">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Distinguish single LLM calls, workflows and autonomous agents</li><li>Implement an agent loop with tools, an observation history and stopping conditions</li><li>Apply planning, reflection and memory patterns</li><li>Describe multi-agent patterns and agent frameworks</li><li>Decide when an agent is worth its cost and risk, and design guardrails</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="ai-genai-and-agentic-ai">AI, GenAI and agentic AI</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Traditional AI / ML</th>
+<th>Generative AI</th>
+<th>Agentic AI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Does</td>
+<td>Predicts or classifies</td>
+<td>Creates content (text, code, images)</td>
+<td>Pursues a goal through multi-step actions</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Churn score</td>
+<td>Draft a retention email</td>
+<td>Find at-risk customers, draft personalised offers, schedule them, report results</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>Fixed pipeline</td>
+<td>One request → one response</td>
+<td>Model decides the next step in a loop, using tools</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="workflows-vs-agents">Workflows vs agents</h2>
+<figure class="fig"><img src="../img/genai-07-01.png" alt="Increasing autonomy: start with the simplest option that works." loading="lazy"><figcaption>Increasing autonomy: start with the simplest option that works.</figcaption></figure>
+<ul>
+<li><strong>Workflow:</strong> your code decides the path ("extract → classify → if complaint, draft reply"). Predictable, cheap, easy to test.</li>
+<li><strong>Agent:</strong> the model decides the path at run time: which tool, which order, when to stop. Flexible for open-ended tasks, but costlier, slower and harder to test.</li>
+</ul>
+<p>Anthropic's guidance ("Building effective agents"): use the simplest pattern that works; reach for agents when the task is <strong>open-ended, multi-step, valuable enough to justify cost and latency, and errors can be caught</strong> (tests, reviews, rollback).</p>
+<h2 id="the-agent-loop">The agent loop</h2>
+<figure class="fig"><img src="../img/genai-07-02.png" alt="Every agent is a loop around a model with tools and memory." loading="lazy"><figcaption>Every agent is a loop around a model with tools and memory.</figcaption></figure>
+<h3 id="a-runnable-data-analysis-agent">A runnable data-analysis agent</h3>
+<p>The agent below answers business questions about the sales data. A real LLM would choose each action; here a transparent rule-based "brain" plays that role so the loop runs offline, but the structure (tools, scratchpad, step limit, final answer) is the same as in production frameworks.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json, re, duckdb, pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>]); con = <span class="hl-f">duckdb.connect</span>(); <span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+<span class="hl-k">def</span> <span class="hl-f">sql</span>(q): <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(q).<span class="hl-f">df</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>)
+TOOLS = {
+    <span class="hl-s">&quot;profit_by&quot;</span>: <span class="hl-k">lambda</span> dim, year=<span class="hl-n">2025</span>: <span class="hl-f">sql</span>(<span class="hl-s">f&quot;SELECT {dim}, ROUND(SUM(profit)/1e6, 2) AS profit_m, ROUND(100*SUM(profit)/SUM(sales), 1) AS margin FROM sales WHERE YEAR(order_date) = {int(year)} GROUP BY 1 ORDER BY profit_m&quot;</span>),
+    <span class="hl-s">&quot;discount_effect&quot;</span>: <span class="hl-k">lambda</span> sub_category: <span class="hl-f">sql</span>(<span class="hl-s">f&quot;SELECT CASE WHEN discount = 0 THEN &#x27;0%&#x27; WHEN discount &lt;= 0.2 THEN &#x27;1-20%&#x27; ELSE &#x27;&gt;20%&#x27; END AS band, COUNT(*) AS n, ROUND(100*SUM(profit)/SUM(sales), 1) AS margin FROM sales WHERE sub_category = &#x27;{sub_category}&#x27; GROUP BY 1 ORDER BY 1&quot;</span>),
+    <span class="hl-s">&quot;trend&quot;</span>: <span class="hl-k">lambda</span> sub_category: <span class="hl-f">sql</span>(<span class="hl-s">f&quot;SELECT YEAR(order_date) AS yr, ROUND(SUM(profit)/1e6, 2) AS profit_m FROM sales WHERE sub_category = &#x27;{sub_category}&#x27; GROUP BY 1 ORDER BY 1&quot;</span>),
+}
+<span class="hl-k">class</span> Brain:
+    <span class="hl-s">&quot;&quot;&quot;Stand-in for the LLM policy: looks at the goal and the observations so far and picks the next action.&quot;&quot;&quot;</span>
+    <span class="hl-k">def</span> <span class="hl-f">next_action</span>(self, goal, scratch):
+        done = [s[<span class="hl-s">&quot;action&quot;</span>] <span class="hl-k">for</span> s <span class="hl-k">in</span> scratch]
+        <span class="hl-k">if</span> <span class="hl-s">&quot;profit_by&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> done: <span class="hl-k">return</span> {<span class="hl-s">&quot;thought&quot;</span>: <span class="hl-s">&quot;First find where we lose money.&quot;</span>, <span class="hl-s">&quot;action&quot;</span>: <span class="hl-s">&quot;profit_by&quot;</span>, <span class="hl-s">&quot;args&quot;</span>: {<span class="hl-s">&quot;dim&quot;</span>: <span class="hl-s">&quot;sub_category&quot;</span>}}
+        worst = scratch[<span class="hl-n">0</span>][<span class="hl-s">&quot;observation&quot;</span>].iloc[<span class="hl-n">0</span>][<span class="hl-s">&quot;sub_category&quot;</span>]
+        <span class="hl-k">if</span> <span class="hl-s">&quot;trend&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> done: <span class="hl-k">return</span> {<span class="hl-s">&quot;thought&quot;</span>: <span class="hl-s">f&quot;{worst} is the biggest loss-maker. Is it getting worse?&quot;</span>, <span class="hl-s">&quot;action&quot;</span>: <span class="hl-s">&quot;trend&quot;</span>, <span class="hl-s">&quot;args&quot;</span>: {<span class="hl-s">&quot;sub_category&quot;</span>: worst}}
+        <span class="hl-k">if</span> <span class="hl-s">&quot;discount_effect&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> done: <span class="hl-k">return</span> {<span class="hl-s">&quot;thought&quot;</span>: <span class="hl-s">f&quot;Check whether discounts explain the {worst} losses.&quot;</span>, <span class="hl-s">&quot;action&quot;</span>: <span class="hl-s">&quot;discount_effect&quot;</span>, <span class="hl-s">&quot;args&quot;</span>: {<span class="hl-s">&quot;sub_category&quot;</span>: worst}}
+        d = scratch[<span class="hl-n">2</span>][<span class="hl-s">&quot;observation&quot;</span>].<span class="hl-f">set_index</span>(<span class="hl-s">&quot;band&quot;</span>)[<span class="hl-s">&quot;margin&quot;</span>]
+        <span class="hl-k">return</span> {<span class="hl-s">&quot;thought&quot;</span>: <span class="hl-s">&quot;I have enough evidence.&quot;</span>, <span class="hl-s">&quot;final&quot;</span>: <span class="hl-s">f&quot;{worst} lost ₹{abs(scratch[0][&#x27;observation&#x27;].iloc[0][&#x27;profit_m&#x27;])}M in 2025. Margin is {d.get(&#x27;0%&#x27;)}% without discount &quot;</span>
+                <span class="hl-s">f&quot;but {d.get(&#x27;&gt;20%&#x27;)}% when discounts exceed 20%. Recommendation: cap {worst} discounts at 20% and review pricing.&quot;</span>}
+<span class="hl-k">def</span> <span class="hl-f">run_agent</span>(goal, brain, max_steps=<span class="hl-n">6</span>):
+    scratch = []
+    <span class="hl-k">for</span> step <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, max_steps + <span class="hl-n">1</span>):
+        decision = <span class="hl-f">brain.next_action</span>(goal, scratch)
+        <span class="hl-f">print</span>(<span class="hl-s">f&quot;step {step} THINK: {decision[&#x27;thought&#x27;]}&quot;</span>)
+        <span class="hl-k">if</span> <span class="hl-s">&quot;final&quot;</span> <span class="hl-k">in</span> decision: <span class="hl-k">return</span> decision[<span class="hl-s">&quot;final&quot;</span>]
+        obs = TOOLS[decision[<span class="hl-s">&quot;action&quot;</span>]](**decision[<span class="hl-s">&quot;args&quot;</span>])
+        <span class="hl-f">print</span>(<span class="hl-s">f&quot;        ACT: {decision[&#x27;action&#x27;]}({decision[&#x27;args&#x27;]}) → {len(obs)} rows; first: {obs.iloc[0].to_dict()}&quot;</span>)
+        <span class="hl-f">scratch.append</span>({<span class="hl-s">&quot;action&quot;</span>: decision[<span class="hl-s">&quot;action&quot;</span>], <span class="hl-s">&quot;args&quot;</span>: decision[<span class="hl-s">&quot;args&quot;</span>], <span class="hl-s">&quot;observation&quot;</span>: obs})
+    <span class="hl-k">return</span> <span class="hl-s">&quot;Stopped: step limit reached without an answer.&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\nFINAL:&quot;</span>, <span class="hl-f">run_agent</span>(<span class="hl-s">&quot;Why is our furniture business losing money and what should we do?&quot;</span>, <span class="hl-f">Brain</span>()))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">step 1 THINK: First find where we lose money.
+        ACT: profit_by({&#x27;dim&#x27;: &#x27;sub_category&#x27;}) → 13 rows; first: {&#x27;sub_category&#x27;: &#x27;Tables&#x27;, &#x27;profit_m&#x27;: -0.29, &#x27;margin&#x27;: -5.4}
+step 2 THINK: Tables is the biggest loss-maker. Is it getting worse?
+        ACT: trend({&#x27;sub_category&#x27;: &#x27;Tables&#x27;}) → 3 rows; first: {&#x27;yr&#x27;: 2023.0, &#x27;profit_m&#x27;: -0.23}
+step 3 THINK: Check whether discounts explain the Tables losses.
+        ACT: discount_effect({&#x27;sub_category&#x27;: &#x27;Tables&#x27;}) → 3 rows; first: {&#x27;band&#x27;: &#x27;0%&#x27;, &#x27;n&#x27;: 168, &#x27;margin&#x27;: 11.1}
+step 4 THINK: I have enough evidence.
+
+FINAL: Tables lost ₹0.29M in 2025. Margin is 11.1% without discount but -22.3% when discounts exceed 20%. Recommendation: cap Tables discounts at 20% and review pricing.</pre></div>
+<p>With an LLM, <code>next_action</code> becomes a model call whose prompt contains the goal, the tool descriptions and the scratchpad; the model returns either a tool call or a final answer (the tool-use loop of lesson 6). This <strong>reason + act</strong> cycle is called <strong>ReAct</strong>.</p>
+<h2 id="planning-reflection-and-memory">Planning, reflection and memory</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Idea</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Plan-then-execute</strong></td>
+<td>Write a step list first, then run it, re-planning if needed</td>
+<td>"1. Query losses 2. Check trend 3. Check discounts 4. Recommend"</td>
+</tr>
+<tr>
+<td><strong>Reflection / self-critique</strong></td>
+<td>Review the draft against criteria and revise</td>
+<td>"Does every number come from a tool result?"</td>
+</tr>
+<tr>
+<td><strong>Evaluator–optimiser</strong></td>
+<td>One model generates, another grades and gives feedback until it passes</td>
+<td>Report must cite figures and stay under 200 words</td>
+</tr>
+<tr>
+<td><strong>Short-term memory</strong></td>
+<td>The conversation and scratchpad in the context window</td>
+<td>Observations so far</td>
+</tr>
+<tr>
+<td><strong>Long-term memory</strong></td>
+<td>Facts saved to a store and retrieved later</td>
+<td>"This client prefers figures in lakh"</td>
+</tr>
+<tr>
+<td><strong>Context management</strong></td>
+<td>Summarise or clear old tool results in long runs</td>
+<td>Compaction, context editing</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">reflect</span>(answer, scratch_numbers):
+    issues = []
+    nums = <span class="hl-f">set</span>(<span class="hl-f">re.findall</span>(r<span class="hl-s">&quot;-?\d+\.\d+|\d+&quot;</span>, answer))
+    unsupported = [n <span class="hl-k">for</span> n <span class="hl-k">in</span> nums <span class="hl-k">if</span> n <span class="hl-k">not</span> <span class="hl-k">in</span> scratch_numbers <span class="hl-k">and</span> n <span class="hl-k">not</span> <span class="hl-k">in</span> {<span class="hl-s">&quot;20&quot;</span>, <span class="hl-s">&quot;2025&quot;</span>}]
+    <span class="hl-k">if</span> unsupported: <span class="hl-f">issues.append</span>(<span class="hl-s">f&quot;numbers not found in tool results: {unsupported}&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(<span class="hl-f">answer.split</span>()) &gt; <span class="hl-n">80</span>: <span class="hl-f">issues.append</span>(<span class="hl-s">&quot;too long&quot;</span>)
+    <span class="hl-k">if</span> <span class="hl-s">&quot;recommend&quot;</span> <span class="hl-k">not</span> <span class="hl-k">in</span> <span class="hl-f">answer.lower</span>(): <span class="hl-f">issues.append</span>(<span class="hl-s">&quot;no recommendation&quot;</span>)
+    <span class="hl-k">return</span> issues <span class="hl-k">or</span> [<span class="hl-s">&quot;passes checks&quot;</span>]
+draft = <span class="hl-s">&quot;Tables lost ₹0.29M in 2025 and margins fell 12.5 points; recommend capping discounts.&quot;</span>
+known = {<span class="hl-s">&quot;0.29&quot;</span>, <span class="hl-s">&quot;2025&quot;</span>, <span class="hl-s">&quot;-5.4&quot;</span>, <span class="hl-s">&quot;-20.6&quot;</span>}
+<span class="hl-f">print</span>(<span class="hl-f">reflect</span>(draft, known))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&quot;numbers not found in tool results: [&#x27;12.5&#x27;]&quot;]</pre></div>
+<p>A simple automated critic catches an invented number (12.5) before the answer reaches a manager: <strong>verification beats trust</strong>.</p>
+<h2 id="multi-agent-systems">Multi-agent systems</h2>
+<figure class="fig"><img src="../img/genai-07-03.png" alt="Common multi-agent patterns." loading="lazy"><figcaption>Common multi-agent patterns.</figcaption></figure>
+<p>Multi-agent systems help when work splits into <strong>independent, context-heavy sub-tasks</strong> (research across many sources, many files). They multiply token usage, so use them when the extra quality is worth it.</p>
+<h2 id="agent-platforms-in-2026">Agent platforms in 2026</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Platform</th>
+<th>What it gives you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Agent SDK</strong> (Python/TypeScript)</td>
+<td>The Claude Code agent harness as a library: file, shell, web and MCP tools, subagents, permissions</td>
+</tr>
+<tr>
+<td><strong>Claude Managed Agents</strong></td>
+<td>Anthropic-hosted agent loop and sandbox, sessions, scheduled runs</td>
+</tr>
+<tr>
+<td>Anthropic API tool runner</td>
+<td>Lightweight loop over your own tools (lesson 6)</td>
+</tr>
+<tr>
+<td>OpenAI Agents SDK</td>
+<td>Agents, handoffs, guardrails, tracing</td>
+</tr>
+<tr>
+<td>LangGraph (LangChain)</td>
+<td>Graph-based stateful workflows and agents with checkpoints</td>
+</tr>
+<tr>
+<td>CrewAI, AutoGen / AG2, LlamaIndex agents</td>
+<td>Multi-agent orchestration frameworks</td>
+</tr>
+<tr>
+<td>No-code: n8n, Zapier agents, Microsoft Copilot Studio</td>
+<td>Business automations with LLM steps</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pick by: how much control you need, where it must run (your cloud vs hosted), language, observability and team skills. Many production "agents" are really well-designed workflows with one or two agentic steps.</p>
+<h2 id="guardrails-and-evaluation-for-agents">Guardrails and evaluation for agents</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Risk</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runaway loops and cost</td>
+<td>Step limits, token/time budgets, stop conditions</td>
+</tr>
+<tr>
+<td>Wrong or harmful actions</td>
+<td>Least-privilege tools, approval for side effects, sandboxes, dry-run modes</td>
+</tr>
+<tr>
+<td>Prompt injection from tools/web</td>
+<td>Treat observations as data, restrict tools after reading untrusted content</td>
+</tr>
+<tr>
+<td>Hallucinated facts</td>
+<td>Require tool-sourced numbers, automated checks, citations</td>
+</tr>
+<tr>
+<td>Silent failure</td>
+<td>Tracing every step (LangSmith, Langfuse, OpenTelemetry), alerts</td>
+</tr>
+<tr>
+<td>Quality drift</td>
+<td>Task-level evaluation suites run on every change (lesson 9)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="should-this-be-an-agent-a-checklist">Should this be an agent? A checklist</h2>
+<ol>
+<li><strong>Complexity:</strong> is the path hard to specify in advance?</li>
+<li><strong>Value:</strong> does the outcome justify extra cost and latency?</li>
+<li><strong>Viability:</strong> can current models do each step reliably (test it)?</li>
+<li><strong>Cost of error:</strong> can mistakes be caught and undone?</li>
+</ol>
+<p>If any answer is "no", build a workflow or a single call instead.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Agentic AI pursues goals through multi-step tool use; the model chooses the next action in a loop.</li>
+<li>Prefer single calls and workflows; use agents for open-ended, valuable tasks where errors can be caught.</li>
+<li>The agent loop: think, act (tool), observe, repeat, with step limits and clear stopping conditions (ReAct).</li>
+<li>Planning, reflection/evaluator patterns and memory improve agents; verify outputs against tool results.</li>
+<li>Multi-agent patterns (orchestrator–workers, routing, evaluator–optimiser) add power and cost.</li>
+<li>Guard agents with least privilege, approvals, budgets, tracing and evaluation.</li>
+</ul></div>
+<div class="quiz" id="quiz-genai-07-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What distinguishes an agent from a workflow?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>In an agent the model decides the sequence of actions at run time</button><button type="button" class="opt" data-ok="0"><i>B</i>Agents never use tools</button><button type="button" class="opt" data-ok="0"><i>C</i>Workflows use LLMs, agents do not</button><button type="button" class="opt" data-ok="0"><i>D</i>There is no difference</button></div><div class="qexp"><b>Answer: A.</b> Workflows follow paths fixed in code.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does ReAct stand for in agent design?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Reasoning and acting: interleaving thoughts with tool actions and observations</button><button type="button" class="opt" data-ok="0"><i>B</i>React.js front-end</button><button type="button" class="opt" data-ok="0"><i>C</i>Reactive programming</button><button type="button" class="opt" data-ok="0"><i>D</i>Retrieval-augmented action</button></div><div class="qexp"><b>Answer: A.</b> Think → act → observe.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which control prevents an agent from looping forever?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A maximum number of steps or a token/time budget</button><button type="button" class="opt" data-ok="0"><i>B</i>Higher temperature</button><button type="button" class="opt" data-ok="0"><i>C</i>More tools</button><button type="button" class="opt" data-ok="0"><i>D</i>Longer prompts</button></div><div class="qexp"><b>Answer: A.</b> Always set stopping conditions.</div></div><div class="qq"><p class="qtext"><b>4.</b> When is a multi-agent design most useful?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When work splits into independent, context-heavy sub-tasks</button><button type="button" class="opt" data-ok="0"><i>B</i>For simple classification</button><button type="button" class="opt" data-ok="0"><i>C</i>When cost must be minimal</button><button type="button" class="opt" data-ok="0"><i>D</i>Always</button></div><div class="qexp"><b>Answer: A.</b> It multiplies token use.</div></div><div class="qq"><p class="qtext"><b>5.</b> An agent's report contains a number not found in any tool result. What pattern catches this?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Reflection / an evaluator that checks claims against tool outputs</button><button type="button" class="opt" data-ok="0"><i>B</i>Higher temperature</button><button type="button" class="opt" data-ok="0"><i>C</i>Removing tools</button><button type="button" class="opt" data-ok="0"><i>D</i>Using a bigger context</button></div><div class="qexp"><b>Answer: A.</b> Verify before delivering.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which is NOT a reason to choose an agent?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The task is open-ended and multi-step</button><button type="button" class="opt" data-ok="0"><i>B</i>The outcome is valuable</button><button type="button" class="opt" data-ok="1"><i>C</i>A simple fixed sequence of steps solves it reliably</button><button type="button" class="opt" data-ok="0"><i>D</i>Errors can be detected and rolled back</button></div><div class="qexp"><b>Answer: C.</b> Use a workflow then.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Extend the agent with a <code>region_breakdown(sub_category)</code> tool and a step that uses it. (2) Add a reflection step that rejects the final answer if it is over 60 words, and loop back. (3) Draw the architecture of a "monthly business review" agent: tools, data sources, approvals and outputs. (4) Decide workflow or agent for: invoice extraction, competitor research report, password reset.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">TOOLS[<span class="hl-s">&quot;region_breakdown&quot;</span>] = <span class="hl-k">lambda</span> sub_category: <span class="hl-f">sql</span>(<span class="hl-s">f&quot;SELECT region, ROUND(SUM(profit)/1e6, 2) AS profit_m FROM sales WHERE sub_category = &#x27;{sub_category}&#x27; AND YEAR(order_date) = 2025 GROUP BY 1 ORDER BY 2&quot;</span>)
+<span class="hl-c"># (4) invoice extraction → single call / workflow with validation; competitor research → agent (open-ended, many sources, human review); password reset → deterministic workflow, no LLM autonomy.</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is agentic AI and how is it different from generative AI?</strong>
+Generative AI produces content in response to a prompt; agentic AI uses models in a loop with tools and memory to pursue a goal across multiple steps, deciding what to do next.</p>
+<p><strong>Q: How would you design a reliable agent for business reporting?</strong>
+Narrow tools with read-only data access, a planning step, required tool-sourced numbers, an automated checker, human approval before distribution, step and cost limits, tracing, and an evaluation suite of past questions.</p>
+<p><strong>Q: When would you not use an agent?</strong>
+When a fixed workflow or single call solves the task, when errors are costly and hard to detect, or when latency and cost budgets are tight.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/gen_ai/">W3Schools Generative AI tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Anthropic docs (Claude API) ↗</a></li><li><a target="_blank" rel="noopener" href="https://cookbook.openai.com/">OpenAI cookbook ↗</a></li><li><a target="_blank" rel="noopener" href="https://huggingface.co/learn/llm-course">Hugging Face LLM course (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/">DeepLearning.AI short courses ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="genai-06-tool-use-and-function-calling-letting-llms-query-data-call-a.html"><small>← Previous</small><b>Tool Use and Function Calling: Letting LLMs Query Data, Call APIs and Take Actions</b></a><a class="next" href="genai-08-model-context-protocol-mcp-connecting-ai-assistants-to-your.html"><small>Next →</small><b>Model Context Protocol (MCP): Connecting AI Assistants to Your Data and Tools</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#ai-genai-and-agentic-ai">AI, GenAI and agentic AI</a><a href="#workflows-vs-agents">Workflows vs agents</a><a href="#the-agent-loop">The agent loop</a><a href="#planning-reflection-and-memory">Planning, reflection and memory</a><a href="#multi-agent-systems">Multi-agent systems</a><a href="#agent-platforms-in-2026">Agent platforms in 2026</a><a href="#guardrails-and-evaluation-for-agents">Guardrails and evaluation for agents</a><a href="#should-this-be-an-agent-a-checklist">Should this be an agent? A checklist</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

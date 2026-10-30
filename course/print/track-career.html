@@ -1,0 +1,486 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Capstone, Portfolio &amp; Interviews · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
+<section class="cover" style="--tc:#475569"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 9</div><h1>Capstone, Portfolio &amp; Interviews</h1><p>End-to-end capstone, portfolio and GitHub, analyst and data scientist interview preparation with model answers, and a 90-day plan.</p>
+<div class="cv-m"><span>4 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-career-01"><span>01</span>Portfolio, GitHub and Resume for Data Roles</a></li><li><a href="#L-career-02"><span>02</span>Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions</a></li><li><a href="#L-career-03"><span>03</span>Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers</a></li><li><a href="#L-career-04"><span>04</span>Your 90-Day Plan: Learning Roadmap, Job Search Strategy and Growing in Your First Role</a></li></ol></section><article class="lesson-art bk" id="L-career-01"><div class="lhead" style="--tc:#475569"><div class="kick">Capstone, Portfolio &amp; Interviews · Lesson 1</div><h1>Portfolio, GitHub and Resume for Data Roles</h1>
+<p class="sum">Turn your learning into evidence employers trust. Choose three to five portfolio projects, structure them on GitHub with strong READMEs, publish dashboards and apps, write an ATS-friendly one-page resume with quantified bullets, and optimise LinkedIn and Naukri profiles for analyst, data scientist, data engineer and GenAI roles.</p><div class="tags"><span class="tag live">● Career track</span><span class="tag new">✦ 2026 hiring practice in India</span><span class="tag">Beginner</span><span class="tag">⏱ 90 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Select portfolio projects that match the target role</li><li>Publish projects on GitHub with professional READMEs and live demos</li><li>Write a one-page, ATS-friendly resume with quantified impact bullets</li><li>Optimise LinkedIn and job-portal profiles and keywords</li></ul></div></div><div class="content"><h2 id="career-01-what-hiring-managers-look-for">What hiring managers look for</h2>
+<figure class="fig"><img src="../img/career-01-01.png" alt="A portfolio answers three questions for a recruiter in under two minutes." loading="lazy"><figcaption>A portfolio answers three questions for a recruiter in under two minutes.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Target role</th>
+<th>Must-have evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data / business analyst</td>
+<td>SQL case study, Excel model, Power BI dashboard, EDA with recommendations</td>
+</tr>
+<tr>
+<td>Data scientist</td>
+<td>EDA, A/B test analysis, ML model with business threshold, explainability</td>
+</tr>
+<tr>
+<td>Data engineer</td>
+<td>Pipeline (ingest → transform → warehouse), dbt/SQL models, orchestration, tests</td>
+</tr>
+<tr>
+<td>GenAI / AI engineer</td>
+<td>RAG assistant with evaluation, tool-using agent, deployed demo, cost analysis</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="career-01-pick-35-projects-from-this-handbook">Pick 3–5 projects (from this handbook)</h2>
+<ol>
+<li><strong>SQL:</strong> end-to-end sales case study (SQL lesson 15).</li>
+<li><strong>Power BI:</strong> Adventure Cycles dashboard with DAX and drill-through (Power BI capstone).</li>
+<li><strong>Python EDA:</strong> telecom churn EDA with recommendations (Python lesson 22) or retail analytics capstone (Python lesson 29).</li>
+<li><strong>ML:</strong> churn prediction with profit-based threshold and SHAP (ML lesson 28).</li>
+<li><strong>GenAI:</strong> NovaMart RAG support assistant with evaluation and guardrails (GenAI lessons 5, 9, 12).</li>
+</ol>
+<p>Make at least one project your own: a dataset from data.gov.in, Kaggle or your workplace (anonymised) about a domain you care about.</p>
+<h2 id="career-01-github-structure-and-readme">GitHub structure and README</h2>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">churn-prediction/
+├── README.md            ← the most important file
+├── data/README.md       ← source, licence, how to download (do not commit large/private data)
+├── notebooks/01_eda.ipynb
+├── src/features.py, train.py, evaluate.py
+├── reports/figures/     ← 2–4 key charts used in the README
+├── requirements.txt
+└── app/ (optional Streamlit demo)</code></pre></div>
+<p>README template: <strong>Problem</strong> (one paragraph, business framing) → <strong>Data</strong> → <strong>Approach</strong> (bullets) → <strong>Results</strong> (numbers + one chart) → <strong>Recommendation</strong> → <strong>How to run</strong> → <strong>Next steps</strong>. Put a live link (Streamlit Cloud, Hugging Face Spaces, Power BI publish-to-web with sample data, Tableau Public) at the top.</p>
+<h2 id="career-01-resume-one-page-quantified">Resume: one page, quantified</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Weak bullet</th>
+<th>Strong bullet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Worked on churn analysis using Python."</td>
+<td>"Built a churn model (ROC-AUC 0.80) and targeting rule that reaches 2.3× more churners than random outreach, worth ≈₹60K/month in saved margin."</td>
+</tr>
+<tr>
+<td>"Made Power BI dashboards."</td>
+<td>"Designed a Power BI sales dashboard (star schema, 25 DAX measures) used weekly by 4 regional managers; cut reporting time from 6 hours to 30 minutes."</td>
+</tr>
+<tr>
+<td>"Know SQL."</td>
+<td>"Wrote 40+ SQL queries (CTEs, window functions) to analyse 6,300 orders; identified tables/bookcases as loss-making due to &gt;20% discounts."</td>
+</tr>
+</tbody>
+</table></div>
+<p>Formula: <strong>action verb + what you did + tool + measurable result</strong>. Sections: header (name, city, phone, email, LinkedIn, GitHub, portfolio), summary (2 lines, target role), skills (grouped), projects/experience, education, certifications. Use a simple single-column layout (ATS systems mis-read tables and graphics), PDF format, and mirror keywords from the job description honestly.</p>
+<h2 id="career-01-linkedin-and-job-portals">LinkedIn and job portals</h2>
+<ul>
+<li>Headline: "Data Analyst | SQL · Power BI · Python | Turning sales data into decisions".</li>
+<li>About: 3 short paragraphs: who you are, what you build (link projects), what you are looking for.</li>
+<li>Featured: pin your best project and dashboard. Post a short write-up per project (problem, chart, insight).</li>
+<li>Naukri/Instahyre: complete every field, update weekly (recency boosts ranking), set salary and notice period honestly.</li>
+</ul>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Choose 3–5 projects that match the target role and show business impact.</li>
+<li>Publish on GitHub with clear READMEs, charts and live demos.</li>
+<li>One-page ATS-friendly resume; every bullet = action + tool + quantified result.</li>
+<li>Keep LinkedIn and portals complete, keyword-aligned and active.</li>
+</ul></div>
+<div class="quiz" id="quiz-career-01-0"><div class="quiz-h"><b>Quick quiz</b><span>4 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the most important file in a portfolio repository?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>README.md</button><button type="button" class="opt" data-ok="0"><i>B</i>requirements.txt</button><button type="button" class="opt" data-ok="0"><i>C</i>.gitignore</button><button type="button" class="opt" data-ok="0"><i>D</i>The largest notebook</button></div><div class="qexp"><b>Answer: A.</b> Recruiters read the README first.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which resume bullet is strongest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>"Used Python for analysis."</button><button type="button" class="opt" data-ok="1"><i>B</i>"Built a churn model (AUC 0.80) that reaches 2.3× more churners than random outreach."</button><button type="button" class="opt" data-ok="0"><i>C</i>"Familiar with machine learning."</button><button type="button" class="opt" data-ok="0"><i>D</i>"Responsible for dashboards."</button></div><div class="qexp"><b>Answer: B.</b> Action, tool and quantified result.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why avoid two-column graphic resumes for online applications?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Applicant tracking systems may parse them incorrectly</button><button type="button" class="opt" data-ok="0"><i>B</i>They look unprofessional</button><button type="button" class="opt" data-ok="0"><i>C</i>They are too short</button><button type="button" class="opt" data-ok="0"><i>D</i>Recruiters dislike colour</button></div><div class="qexp"><b>Answer: A.</b> Keep layout simple.</div></div><div class="qq"><p class="qtext"><b>4.</b> How many portfolio projects are ideal?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>3–5 strong, role-relevant projects</button><button type="button" class="opt" data-ok="0"><i>B</i>1</button><button type="button" class="opt" data-ok="0"><i>C</i>20 small ones</button><button type="button" class="opt" data-ok="0"><i>D</i>None</button></div><div class="qexp"><b>Answer: A.</b> Depth beats count.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Choose your target role and list the 4 projects you will publish. (2) Rewrite three of your current resume bullets with the formula. (3) Write the README for one project using the template.</p><details class="sol"><summary>Show solution</summary><p>A good result: a one-page resume, four public repositories with READMEs and charts, one live demo link and an updated LinkedIn headline.</p></details></div></div></article><article class="lesson-art bk" id="L-career-02"><div class="lhead" style="--tc:#475569"><div class="kick">Capstone, Portfolio &amp; Interviews · Lesson 2</div><h1>Data Analyst Interview Preparation: SQL, Excel, Power BI, Statistics and Case Questions</h1>
+<p class="sum">Prepare for analyst interviews with the question types that appear most often, model answers and practice links: SQL coding rounds (joins, aggregation, window functions), Excel and Power BI questions, statistics and A/B testing, metric and product-sense cases, and behavioural questions with the STAR method.</p><div class="tags"><span class="tag live">● Career track</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Solve common SQL interview patterns quickly and explain your approach</li><li>Answer core Excel, Power BI and DAX questions</li><li>Explain key statistics and A/B testing concepts clearly</li><li>Structure metric, root-cause and product-sense cases</li><li>Tell project stories with STAR</li></ul></div></div><div class="content"><h2 id="career-02-the-interview-loop">The interview loop</h2>
+<figure class="fig"><img src="../img/career-02-01.png" alt="A typical analyst hiring process." loading="lazy"><figcaption>A typical analyst hiring process.</figcaption></figure>
+<h2 id="career-02-sql-patterns-you-must-know">SQL patterns you must know</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> duckdb, pandas <span class="hl-k">as</span> pd
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;&quot;&quot;
+-- Top 2 products by sales in each region (window function)
+WITH r AS (
+  SELECT region, product_name, SUM(sales) AS sales,
+         RANK() OVER (PARTITION BY region ORDER BY SUM(sales) DESC) AS rnk
+  FROM sales GROUP BY region, product_name)
+SELECT region, product_name, ROUND(sales) AS sales FROM r WHERE rnk &lt;= 2 ORDER BY region, rnk;
+&quot;&quot;&quot;</span>).<span class="hl-f">df</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region        product_name      sales
+0   East     Apex Copier 347  4191180.0
+1   East   Zenith Copier 719  3323372.0
+2  North    Orbit Copier 746  3790940.0
+3  North  Zenith Machine 401  3566453.0
+4  South    Orbit Copier 746  5405517.0
+5  South   Vertex Copier 262  4258600.0
+6   West   Zenith Copier 719  4087068.0
+7   West  Zenith Machine 401  4023468.0</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> duckdb, pandas <span class="hl-k">as</span> pd
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;&quot;&quot;
+-- Month-over-month growth with LAG
+WITH m AS (SELECT DATE_TRUNC(&#x27;month&#x27;, order_date) AS month, SUM(sales) AS sales FROM sales GROUP BY 1)
+SELECT month, ROUND(sales) AS sales, ROUND(100.0 * (sales - LAG(sales) OVER (ORDER BY month)) / LAG(sales) OVER (ORDER BY month), 1) AS mom_pct
+FROM m ORDER BY month DESC LIMIT 4;
+&quot;&quot;&quot;</span>).<span class="hl-f">df</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">       month       sales  mom_pct
+0 2025-12-01   7652267.0    -25.6
+1 2025-11-01  10284516.0     67.5
+2 2025-10-01   6140290.0    -27.5
+3 2025-09-01   8468060.0     45.9</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Typical question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GROUP BY + HAVING</td>
+<td>Customers with more than 5 orders</td>
+</tr>
+<tr>
+<td>Joins (inner, left, anti)</td>
+<td>Customers who never ordered</td>
+</tr>
+<tr>
+<td>Window: ROW_NUMBER/RANK</td>
+<td>Top N per group, de-duplicate latest record</td>
+</tr>
+<tr>
+<td>Window: LAG/LEAD, running SUM</td>
+<td>Growth, retention, cumulative totals</td>
+</tr>
+<tr>
+<td>CASE WHEN</td>
+<td>Buckets, conditional counts, pivots</td>
+</tr>
+<tr>
+<td>Date functions</td>
+<td>Monthly cohorts, days between events</td>
+</tr>
+<tr>
+<td>Self join / recursive CTE</td>
+<td>Manager hierarchy, consecutive days</td>
+</tr>
+</tbody>
+</table></div>
+<p>Approach out loud: clarify the table grain → write the query step by step (CTEs) → check edge cases (NULLs, ties, duplicates) → validate with a small count.</p>
+<h2 id="career-02-excel-and-power-bi-questions">Excel and Power BI questions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Short answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VLOOKUP vs XLOOKUP vs INDEX-MATCH?</td>
+<td>XLOOKUP looks left/right, has defaults and exact match by default; INDEX-MATCH works in older versions; VLOOKUP breaks when columns move</td>
+</tr>
+<tr>
+<td>Pivot table vs Power Pivot?</td>
+<td>Power Pivot uses a data model with relationships and DAX measures across tables</td>
+</tr>
+<tr>
+<td>Calculated column vs measure (DAX)?</td>
+<td>Columns are computed row by row and stored; measures are evaluated in filter context at query time</td>
+</tr>
+<tr>
+<td>What does CALCULATE do?</td>
+<td>Evaluates an expression in a modified filter context</td>
+</tr>
+<tr>
+<td>Star schema?</td>
+<td>Fact table of events joined to dimension tables; simpler, faster models</td>
+</tr>
+<tr>
+<td>Import vs DirectQuery?</td>
+<td>Import copies data (fast, scheduled refresh); DirectQuery queries the source live (fresh, slower)</td>
+</tr>
+<tr>
+<td>Row-level security?</td>
+<td>Roles with DAX filters so users see only their rows</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="career-02-statistics-and-experiments">Statistics and experiments</h2>
+<p>Be ready to explain: mean vs median, standard deviation, distributions, correlation vs causation, confidence intervals, p-values, Type I/II errors, sample size and A/B test pitfalls (peeking, SRM, novelty). See ML lessons 1–6 for model answers.</p>
+<h2 id="career-02-case-questions-a-framework">Case questions: a framework</h2>
+<figure class="fig"><img src="../img/career-02-02.png" alt="Root-cause framework for &quot;metric X dropped&quot;." loading="lazy"><figcaption>Root-cause framework for "metric X dropped".</figcaption></figure>
+<ol>
+<li>Clarify the metric and time frame. 2. Check data quality first. 3. Segment (where is the drop?). 4. Form hypotheses (internal vs external). 5. Validate with data. 6. Recommend action and how you would measure it.</li>
+</ol>
+<p>Product-sense metrics: define a north-star metric, input metrics and guardrails (e.g. for a food-delivery app: weekly ordering customers; conversion, delivery time, order value; cancellations, complaints).</p>
+<h2 id="career-02-behavioural-star">Behavioural: STAR</h2>
+<p><strong>Situation</strong> (context) → <strong>Task</strong> (your goal) → <strong>Action</strong> (what <em>you</em> did, with tools) → <strong>Result</strong> (numbers, learning). Prepare 6 stories: a project you are proud of, a mistake you fixed, a conflict, a tight deadline, influencing without authority, learning a new tool fast.</p>
+<h2 id="career-02-practice-resources">Practice resources</h2>
+<p>W3Schools SQL quiz and exercises, LeetCode SQL 50, HackerRank SQL, StrataScratch, DataLemur, Kaggle Learn; mock interviews with peers; time yourself (15 minutes per medium SQL question).</p>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Master SQL patterns: aggregation, joins, window functions, CTEs, dates; think aloud and check edge cases.</li>
+<li>Know Excel lookups/pivots and Power BI modelling, DAX, CALCULATE, star schema and RLS.</li>
+<li>Explain statistics and A/B testing simply.</li>
+<li>Use a structured framework for metric and product cases.</li>
+<li>Prepare STAR stories with quantified results.</li>
+</ul></div>
+<div class="quiz" id="quiz-career-02-0"><div class="quiz-h"><b>Quick quiz</b><span>4 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which SQL feature finds the top 3 products in each category?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A window function such as RANK() OVER (PARTITION BY category ORDER BY sales DESC)</button><button type="button" class="opt" data-ok="0"><i>B</i>GROUP BY only</button><button type="button" class="opt" data-ok="0"><i>C</i>DISTINCT</button><button type="button" class="opt" data-ok="0"><i>D</i>UNION</button></div><div class="qexp"><b>Answer: A.</b> Then filter rank ≤ 3.</div></div><div class="qq"><p class="qtext"><b>2.</b> Sales dropped 15%. What is the first check?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Whether the data or tracking changed</button><button type="button" class="opt" data-ok="0"><i>B</i>Fire the marketing team</button><button type="button" class="opt" data-ok="0"><i>C</i>Build an ML model</button><button type="button" class="opt" data-ok="0"><i>D</i>Ignore it</button></div><div class="qexp"><b>Answer: A.</b> Rule out data issues first.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is a DAX measure?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>An expression evaluated at query time in the current filter context</button><button type="button" class="opt" data-ok="0"><i>B</i>A stored column</button><button type="button" class="opt" data-ok="0"><i>C</i>A table relationship</button><button type="button" class="opt" data-ok="0"><i>D</i>A Power Query step</button></div><div class="qexp"><b>Answer: A.</b> Columns are stored row by row.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does STAR stand for?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Situation, Task, Action, Result</button><button type="button" class="opt" data-ok="0"><i>B</i>Skills, Tools, Analysis, Reporting</button><button type="button" class="opt" data-ok="0"><i>C</i>Start, Test, Assess, Repeat</button><button type="button" class="opt" data-ok="0"><i>D</i>None</button></div><div class="qexp"><b>Answer: A.</b> Structure for behavioural answers.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Write SQL for: customers who ordered in 2024 but not in 2025; the second-highest order per customer; 7-day moving average of sales. (2) Prepare two STAR stories. (3) Do a 30-minute mock case: "Delivery complaints doubled last week."</p><details class="sol"><summary>Show solution</summary><p>Use NOT EXISTS / LEFT JOIN ... IS NULL for the anti-join, DENSE_RANK() = 2 for the second highest, and AVG(...) OVER (ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) for the moving average.</p></details></div></div></article><article class="lesson-art bk" id="L-career-03"><div class="lhead" style="--tc:#475569"><div class="kick">Capstone, Portfolio &amp; Interviews · Lesson 3</div><h1>Data Scientist, ML and GenAI Interview Preparation: Questions and Model Answers</h1>
+<p class="sum">A compact question bank with model answers for data scientist, ML engineer and GenAI roles: Python and pandas, statistics, ML fundamentals, model evaluation, feature engineering, system and case design (churn, fraud, recommendations), MLOps, LLMs, RAG and agents, plus how to handle take-home assignments and live coding.</p><div class="tags"><span class="tag live">● Career track</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Answer core Python, statistics and ML questions concisely</li><li>Walk through an end-to-end ML system design</li><li>Explain LLM, RAG and agent concepts and trade-offs</li><li>Plan and present take-home assignments</li></ul></div></div><div class="content"><h2 id="career-03-python-and-pandas-quick-answers">Python and pandas (quick answers)</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List vs tuple vs set vs dict?</td>
+<td>Mutable sequence / immutable record / unique unordered / key→value; sets and dicts give O(1) lookups</td>
+</tr>
+<tr>
+<td><code>apply</code> vs vectorisation?</td>
+<td>Vectorised column operations run in C and are much faster; avoid <code>apply(axis=1)</code> on large data</td>
+</tr>
+<tr>
+<td><code>merge</code> vs <code>join</code> vs <code>concat</code>?</td>
+<td>merge on columns, join on index, concat stacks</td>
+</tr>
+<tr>
+<td>How to handle missing values?</td>
+<td>Understand why, then drop, impute (median, group-wise, model) or flag; impute inside CV</td>
+</tr>
+<tr>
+<td>Generator vs list?</td>
+<td>Generators are lazy and memory-efficient, consumed once</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="career-03-statistics-and-ml-fundamentals">Statistics and ML fundamentals</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Model answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bias-variance trade-off?</td>
+<td>Simple models underfit (bias), complex models overfit (variance); choose complexity by validation error</td>
+</tr>
+<tr>
+<td>L1 vs L2?</td>
+<td>L1 zeroes coefficients (selection); L2 shrinks smoothly; Elastic Net mixes</td>
+</tr>
+<tr>
+<td>Why cross-validation?</td>
+<td>A single split is noisy; k-fold averages and supports tuning without touching the test set</td>
+</tr>
+<tr>
+<td>Precision vs recall?</td>
+<td>Precision: flagged that are right; recall: positives caught; choose by error costs</td>
+</tr>
+<tr>
+<td>ROC-AUC vs PR-AUC?</td>
+<td>PR-AUC is more informative for rare positives</td>
+</tr>
+<tr>
+<td>Bagging vs boosting?</td>
+<td>Parallel averaging (variance) vs sequential error correction (bias)</td>
+</tr>
+<tr>
+<td>How does gradient descent work?</td>
+<td>Iteratively step weights against the loss gradient with a learning rate</td>
+</tr>
+<tr>
+<td>What is data leakage?</td>
+<td>Using information unavailable at prediction time; prevent with pipelines, time-based splits and feature cut-offs</td>
+</tr>
+<tr>
+<td>p-value?</td>
+<td>Probability of data at least this extreme if H0 were true; not the probability H0 is true</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="career-03-ml-system-design-a-template">ML system design: a template</h2>
+<figure class="fig"><img src="../img/career-03-01.png" alt="Answer ML design questions in this order." loading="lazy"><figcaption>Answer ML design questions in this order.</figcaption></figure>
+<p>Example: <strong>"Design a fraud detection system for UPI payments."</strong> Real-time decision under 100 ms; label = confirmed fraud (delayed, imbalanced); features: amount vs user history, device/location change, merchant risk, velocity, graph links; model: gradient boosting + rules + anomaly scores; evaluate PR-AUC and recall at alert capacity; serve with a feature store and low-latency API; monitor drift and attack patterns; human review queue; A/B test thresholds.</p>
+<h2 id="career-03-llm-rag-and-agent-questions">LLM, RAG and agent questions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Model answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How do LLMs work?</td>
+<td>Transformers trained to predict the next token, then instruction-tuned and aligned with feedback</td>
+</tr>
+<tr>
+<td>RAG vs fine-tuning?</td>
+<td>RAG for changing knowledge with citations; fine-tuning for behaviour/format</td>
+</tr>
+<tr>
+<td>How to evaluate a RAG system?</td>
+<td>Retrieval hit rate/MRR + answer correctness, faithfulness, abstention on a labelled set</td>
+</tr>
+<tr>
+<td>How to reduce hallucinations?</td>
+<td>Grounding, tools, "say I don't know", citations, validation, evaluation</td>
+</tr>
+<tr>
+<td>What is an agent?</td>
+<td>An LLM in a loop choosing tool actions toward a goal, with memory and stopping conditions</td>
+</tr>
+<tr>
+<td>What is MCP?</td>
+<td>Open protocol to connect assistants to tools/data via servers (tools, resources, prompts)</td>
+</tr>
+<tr>
+<td>Prompt injection defence?</td>
+<td>Separate data from instructions, least-privilege tools, approvals, output checks</td>
+</tr>
+<tr>
+<td>Cost control?</td>
+<td>Model routing, caching, batching, shorter context and outputs</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="career-03-take-home-assignments">Take-home assignments</h2>
+<ol>
+<li>Restate the problem and assumptions in the first lines of your report.</li>
+<li>Do a focused EDA; do not chart everything.</li>
+<li>Baseline first, then 1–2 better models; validate correctly.</li>
+<li>Translate results into business impact and a recommendation.</li>
+<li>Clean, runnable code (requirements, README); a 5-slide summary.</li>
+<li>State limitations and next steps honestly.</li>
+</ol>
+<h2 id="career-03-live-coding-tips">Live coding tips</h2>
+<p>Clarify inputs/outputs and edge cases, start with a simple correct solution, test with a small example, then optimise and state Big-O (Python DSA lessons 26–28).</p>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Answer concisely, then go deeper only if asked.</li>
+<li>Use the design template: goal → metric → data → features → model → serving → monitoring.</li>
+<li>Know LLM/RAG/agent trade-offs, evaluation and safety.</li>
+<li>Take-homes: baseline, correct validation, business recommendation, clean code, honest limitations.</li>
+</ul></div>
+<div class="quiz" id="quiz-career-03-0"><div class="quiz-h"><b>Quick quiz</b><span>4 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What should you state first in an ML system-design answer?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The business goal and the decision the model supports</button><button type="button" class="opt" data-ok="0"><i>B</i>The algorithm</button><button type="button" class="opt" data-ok="0"><i>C</i>The GPU type</button><button type="button" class="opt" data-ok="0"><i>D</i>The library version</button></div><div class="qexp"><b>Answer: A.</b> Framing first.</div></div><div class="qq"><p class="qtext"><b>2.</b> Best metric for a fraud model with 0.5% fraud?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>PR-AUC and recall at the alert capacity</button><button type="button" class="opt" data-ok="0"><i>B</i>Accuracy</button><button type="button" class="opt" data-ok="0"><i>C</i>R²</button><button type="button" class="opt" data-ok="0"><i>D</i>MAE</button></div><div class="qexp"><b>Answer: A.</b> Rare positives.</div></div><div class="qq"><p class="qtext"><b>3.</b> RAG or fine-tuning for policy documents that change monthly?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>RAG</button><button type="button" class="opt" data-ok="0"><i>B</i>Fine-tuning</button><button type="button" class="opt" data-ok="0"><i>C</i>Neither</button><button type="button" class="opt" data-ok="0"><i>D</i>Training from scratch</button></div><div class="qexp"><b>Answer: A.</b> Knowledge belongs in retrieval.</div></div><div class="qq"><p class="qtext"><b>4.</b> What must a take-home report include besides the model?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Business impact, recommendation and limitations</button><button type="button" class="opt" data-ok="0"><i>B</i>Only code</button><button type="button" class="opt" data-ok="0"><i>C</i>Only accuracy</button><button type="button" class="opt" data-ok="0"><i>D</i>Every chart possible</button></div><div class="qexp"><b>Answer: A.</b> Decision-makers read conclusions.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Answer "Design a product recommendation system for an e-commerce home page" using the template. (2) Explain RAG to a non-technical manager in 60 seconds. (3) Do one timed take-home on the telecom churn data (3 hours).</p><details class="sol"><summary>Show solution</summary><p>Recommendations: goal = revenue per session; candidates via collaborative filtering/embeddings + popularity; ranking model with user, item and context features; offline metrics (recall@k, NDCG) + online A/B test on revenue; cold start with popular/contextual items; monitor diversity and drift.</p></details></div></div></article><article class="lesson-art bk" id="L-career-04"><div class="lhead" style="--tc:#475569"><div class="kick">Capstone, Portfolio &amp; Interviews · Lesson 4</div><h1>Your 90-Day Plan: Learning Roadmap, Job Search Strategy and Growing in Your First Role</h1>
+<p class="sum">Turn this handbook into a job. A week-by-week 90-day study and project plan for analyst, data science and GenAI tracks, a weekly routine, a job-search funnel with referrals and outreach messages, salary research and negotiation basics, and habits that help you grow in the first 6 months on the job.</p><div class="tags"><span class="tag live">● Career track</span><span class="tag new">✦ 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 60 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Follow a realistic 90-day roadmap with weekly goals</li><li>Run a job-search funnel with referrals and targeted applications</li><li>Prepare for salary discussions with market data</li><li>Build habits for success in the first months of a data role</li></ul></div></div><div class="content"><h2 id="career-04-90-day-roadmap">90-day roadmap</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Weeks</th>
+<th>Analyst track</th>
+<th>Data science / ML track</th>
+<th>GenAI track</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–2</td>
+<td>Excel lessons 1–6</td>
+<td>Python 1–10</td>
+<td>Python 1–12</td>
+</tr>
+<tr>
+<td>3–4</td>
+<td>Excel 7–12 + SQL 1–5</td>
+<td>Python 15–22 (NumPy, pandas, EDA)</td>
+<td>Python 15–19, 23–24 (APIs)</td>
+</tr>
+<tr>
+<td>5–6</td>
+<td>SQL 6–15 + SQL case study</td>
+<td>Stats ML 1–6 (statistics, A/B)</td>
+<td>GenAI 1–4 (LLMs, prompts, APIs, embeddings)</td>
+</tr>
+<tr>
+<td>7–8</td>
+<td>Power BI 1–6 + dashboard project</td>
+<td>ML 7–15 (workflow, regression, metrics, CV)</td>
+<td>GenAI 5–8 (RAG, tools, agents, MCP)</td>
+</tr>
+<tr>
+<td>9–10</td>
+<td>Python 1–16, 20–22</td>
+<td>ML 16–25 + one capstone</td>
+<td>GenAI 9–12 + capstone app</td>
+</tr>
+<tr>
+<td>11–12</td>
+<td>AI analytics 1–4, portfolio polish</td>
+<td>ML 26–28, portfolio polish</td>
+<td>Portfolio, deployment, write-ups</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Interview prep (Career 2) and applications</td>
+<td>Interview prep (Career 3)</td>
+<td>Interview prep (Career 3)</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/career-04-01.png" alt="A sustainable weekly routine." loading="lazy"><figcaption>A sustainable weekly routine.</figcaption></figure>
+<h2 id="career-04-job-search-funnel">Job-search funnel</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Stage</th>
+<th>Target per week</th>
+<th>Tips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Research companies and roles</td>
+<td>15</td>
+<td>Match your projects to their domain</td>
+</tr>
+<tr>
+<td>Referral / recruiter outreach</td>
+<td>10</td>
+<td>Personalised messages; alumni and community contacts</td>
+</tr>
+<tr>
+<td>Applications</td>
+<td>10–15</td>
+<td>Tailor resume keywords; apply within 3 days of posting</td>
+</tr>
+<tr>
+<td>Screens and tests</td>
+<td>2–4</td>
+<td>Track results; review mistakes</td>
+</tr>
+<tr>
+<td>Interviews</td>
+<td>1–3</td>
+<td>Prepare company-specific cases</td>
+</tr>
+</tbody>
+</table></div>
+<p>Referral message template:</p>
+<div class="code"><div class="code-h"><span>Text</span><button class="copy" type="button">Copy</button></div><pre><code class="text">Hi &lt;Name&gt;, I&#x27;m a data analyst (SQL, Power BI, Python) who built &lt;project link&gt; on &lt;domain&gt;.
+I saw the &lt;role&gt; opening at &lt;company&gt; (job id). Could you refer me or share what the team values most?
+Happy to send my one-page resume. Thank you!</code></pre></div>
+<p>Track everything in a simple sheet: company, role, date, source, status, next step, notes.</p>
+<h2 id="career-04-salary-and-offers">Salary and offers</h2>
+<p>Research ranges on AmbitionBox, Glassdoor, LinkedIn Salary and peers for your city and experience. Ask for the full CTC breakdown (fixed, variable, joining bonus, benefits), negotiate on evidence (skills, competing offers, market data), and compare learning opportunities, team quality and growth, not only salary.</p>
+<h2 id="career-04-first-90-days-in-the-job">First 90 days in the job</h2>
+<ol>
+<li>Learn the business: products, customers, key metrics and their definitions.</li>
+<li>Find the data: sources, owners, known quality issues; document as you go.</li>
+<li>Deliver a small, useful win in the first month.</li>
+<li>Communicate: weekly updates, clear charts with insight titles, assumptions stated.</li>
+<li>Automate repetitive reports; share reusable SQL and notebooks.</li>
+<li>Keep learning: one new skill per quarter (dbt, cloud, experimentation, GenAI).</li>
+</ol>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Follow the 90-day roadmap with a weekly routine of learn, build, share, practise and apply.</li>
+<li>Run the job search as a funnel with referrals, tailored applications and tracking.</li>
+<li>Negotiate with market data and evaluate the whole offer.</li>
+<li>In the new role, learn the business, deliver early wins, communicate clearly and keep learning.</li>
+</ul></div>
+<div class="quiz" id="quiz-career-04-0"><div class="quiz-h"><b>Quick quiz</b><span>3 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What should each week of the plan produce?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>At least one visible output (project progress, write-up or dashboard)</button><button type="button" class="opt" data-ok="0"><i>B</i>Only reading</button><button type="button" class="opt" data-ok="0"><i>C</i>Only certificates</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing until week 12</button></div><div class="qexp"><b>Answer: A.</b> Evidence compounds.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which outreach is most effective?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Personalised referral requests linking a relevant project</button><button type="button" class="opt" data-ok="0"><i>B</i>Generic mass messages</button><button type="button" class="opt" data-ok="0"><i>C</i>Applying to every job without reading it</button><button type="button" class="opt" data-ok="0"><i>D</i>Waiting for recruiters</button></div><div class="qexp"><b>Answer: A.</b> Relevance wins.</div></div><div class="qq"><p class="qtext"><b>3.</b> What matters when comparing offers?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Full CTC breakdown plus learning, team and growth</button><button type="button" class="opt" data-ok="0"><i>B</i>Only the fixed salary</button><button type="button" class="opt" data-ok="0"><i>C</i>Only the company logo</button><button type="button" class="opt" data-ok="0"><i>D</i>Only the job title</button></div><div class="qexp"><b>Answer: A.</b> Look at the whole package.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Write your personal 13-week plan with weekly goals, choose your capstone, create your job-tracker sheet, and send three referral messages this week.</p><details class="sol"><summary>Show solution</summary><p>A good plan names the lessons, the project deliverable and the job-search target for every week, with time blocked in your calendar.</p></details></div></div></article></body></html>

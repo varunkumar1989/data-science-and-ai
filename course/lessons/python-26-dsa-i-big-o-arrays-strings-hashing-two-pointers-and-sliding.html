@@ -1,0 +1,277 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window · Python Lesson 26 · Data Science &amp; AI Handbook</title><meta name="description" content="Data structures and algorithms for data-analyst, data-scientist and data-engineer interviews. Learn Big-O time and space complexity, then the patterns that solve most array and string questions (hash maps and sets, prefix sums, two pointers, sliding window), with worked interview problems and timings."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 26</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class="on"><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-26">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 26 of 29</div><h1>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</h1>
+<p class="sum">Data structures and algorithms for data-analyst, data-scientist and data-engineer interviews. Learn Big-O time and space complexity, then the patterns that solve most array and string questions (hash maps and sets, prefix sums, two pointers, sliding window), with worked interview problems and timings.</p><div class="tags"><span class="tag live">● DSA for data roles (added)</span><span class="tag new">✦ Python 3.13</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_26_DSA_I_Big_O_Arrays_Strings_Hashing_Two_Pointers_and_Sliding_Window.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-26">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Estimate time and space complexity with Big-O and compare common growth rates</li><li>Know the cost of operations on lists, dicts, sets and deques</li><li>Solve array and string problems with hash maps, counting and prefix sums</li><li>Apply the two-pointer and sliding-window patterns</li><li>Explain trade-offs out loud as in a coding interview</li></ul></div></div>
+<div class="content"><h2 id="why-dsa-for-data-roles">Why DSA for data roles?</h2>
+<p>Data interviews (Amazon, Flipkart, Walmart, fintechs, product companies) often include one or two coding rounds with easy–medium problems on arrays, strings, hash maps and SQL. Beyond interviews, complexity thinking explains why a join on a set is instant while a nested loop over two million rows never finishes.</p>
+<h2 id="big-o-notation">Big-O notation</h2>
+<p><strong>Big-O</strong> describes how running time (or memory) grows with input size <em>n</em>, ignoring constants.</p>
+<figure class="fig"><img src="../img/python-26-01.png" alt="Growth of common complexity classes. At n = 1,000,000 the difference between O(n log n) and O(n²) is days versus a second." loading="lazy"><figcaption>Growth of common complexity classes. At n = 1,000,000 the difference between O(n log n) and O(n²) is days versus a second.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Big-O</th>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(1)</td>
+<td>Constant</td>
+<td>Dict lookup, list index, append</td>
+</tr>
+<tr>
+<td>O(log n)</td>
+<td>Logarithmic</td>
+<td>Binary search, balanced-tree lookup</td>
+</tr>
+<tr>
+<td>O(n)</td>
+<td>Linear</td>
+<td>One loop, <code>x in list</code>, <code>sum</code></td>
+</tr>
+<tr>
+<td>O(n log n)</td>
+<td>Linearithmic</td>
+<td>Sorting (<code>sorted</code>, Timsort), merge sort</td>
+</tr>
+<tr>
+<td>O(n²)</td>
+<td>Quadratic</td>
+<td>Nested loops over the same data</td>
+</tr>
+<tr>
+<td>O(2ⁿ)</td>
+<td>Exponential</td>
+<td>All subsets, naive recursion for Fibonacci</td>
+</tr>
+</tbody>
+</table></div>
+<p>Rules: drop constants (O(2n) → O(n)); keep the dominant term (O(n² + n) → O(n²)); sequential steps add, nested steps multiply.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> time
+<span class="hl-k">def</span> <span class="hl-f">has_duplicate_quadratic</span>(a):
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(a)):
+        <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(i + <span class="hl-n">1</span>, <span class="hl-f">len</span>(a)):
+            <span class="hl-k">if</span> a[i] == a[j]: <span class="hl-k">return</span> <span class="hl-k">True</span>
+    <span class="hl-k">return</span> <span class="hl-k">False</span>
+<span class="hl-k">def</span> <span class="hl-f">has_duplicate_set</span>(a): <span class="hl-k">return</span> <span class="hl-f">len</span>(<span class="hl-f">set</span>(a)) != <span class="hl-f">len</span>(a)
+<span class="hl-k">for</span> n <span class="hl-k">in</span> (<span class="hl-n">1000</span>, <span class="hl-n">2000</span>, <span class="hl-n">4000</span>):
+    data = <span class="hl-f">list</span>(<span class="hl-f">range</span>(n))
+    t0 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">has_duplicate_quadratic</span>(data); t1 = <span class="hl-f">time.perf_counter</span>(); <span class="hl-f">has_duplicate_set</span>(data); t2 = <span class="hl-f">time.perf_counter</span>()
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;n={n:5d}: nested loops {1000*(t1-t0):7.1f} ms | set {1000*(t2-t1):.3f} ms&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">n= 1000: nested loops    15.1 ms | set 0.022 ms
+n= 2000: nested loops    59.7 ms | set 0.042 ms
+n= 4000: nested loops   261.3 ms | set 0.088 ms</pre></div>
+<p>Doubling <em>n</em> roughly quadruples the nested-loop time (O(n²)) but only doubles the set version (O(n)).</p>
+<h3 id="cost-of-python-operations">Cost of Python operations</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operation</th>
+<th>list</th>
+<th>dict / set</th>
+<th>deque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Index <code>a[i]</code></td>
+<td>O(1)</td>
+<td>—</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Append / pop at end</td>
+<td>O(1)</td>
+<td>add O(1)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Insert / pop at front</td>
+<td><strong>O(n)</strong></td>
+<td>—</td>
+<td><strong>O(1)</strong></td>
+</tr>
+<tr>
+<td><code>x in c</code></td>
+<td><strong>O(n)</strong></td>
+<td><strong>O(1)</strong></td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Sort</td>
+<td>O(n log n)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pattern-1-hash-maps-and-counting">Pattern 1: hash maps and counting</h2>
+<p>Turn "search inside a loop" (O(n²)) into "look up in a dict/set" (O(n)).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">two_sum</span>(nums, target):
+    <span class="hl-s">&quot;&quot;&quot;Return indices of two numbers adding up to target. O(n) time, O(n) space.&quot;&quot;&quot;</span>
+    seen = {}                                  <span class="hl-c"># value -&gt; index</span>
+    <span class="hl-k">for</span> i, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(nums):
+        <span class="hl-k">if</span> target - x <span class="hl-k">in</span> seen: <span class="hl-k">return</span> [seen[target - x], i]
+        seen[x] = i
+    <span class="hl-k">return</span> []
+<span class="hl-f">print</span>(<span class="hl-f">two_sum</span>([<span class="hl-n">2</span>, <span class="hl-n">7</span>, <span class="hl-n">11</span>, <span class="hl-n">15</span>], <span class="hl-n">9</span>), <span class="hl-f">two_sum</span>([<span class="hl-n">3</span>, <span class="hl-n">2</span>, <span class="hl-n">4</span>], <span class="hl-n">6</span>), <span class="hl-f">two_sum</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>], <span class="hl-n">7</span>))
+
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> Counter, defaultdict
+<span class="hl-k">def</span> <span class="hl-f">is_anagram</span>(a, b): <span class="hl-k">return</span> <span class="hl-f">Counter</span>(a) == <span class="hl-f">Counter</span>(b)
+<span class="hl-k">def</span> <span class="hl-f">group_anagrams</span>(words):
+    g = <span class="hl-f">defaultdict</span>(list)
+    <span class="hl-k">for</span> w <span class="hl-k">in</span> words: g[<span class="hl-s">&quot;&quot;</span>.<span class="hl-f">join</span>(<span class="hl-f">sorted</span>(w))].<span class="hl-f">append</span>(w)
+    <span class="hl-k">return</span> <span class="hl-f">list</span>(<span class="hl-f">g.values</span>())
+<span class="hl-k">def</span> <span class="hl-f">first_unique_char</span>(s):
+    c = <span class="hl-f">Counter</span>(s)
+    <span class="hl-k">return</span> <span class="hl-f">next</span>((i <span class="hl-k">for</span> i, ch <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(s) <span class="hl-k">if</span> c[ch] == <span class="hl-n">1</span>), -<span class="hl-n">1</span>)
+<span class="hl-k">def</span> <span class="hl-f">top_k_frequent</span>(nums, k): <span class="hl-k">return</span> [x <span class="hl-k">for</span> x, _ <span class="hl-k">in</span> <span class="hl-f">Counter</span>(nums).<span class="hl-f">most_common</span>(k)]
+<span class="hl-f">print</span>(<span class="hl-f">is_anagram</span>(<span class="hl-s">&quot;listen&quot;</span>, <span class="hl-s">&quot;silent&quot;</span>), <span class="hl-f">group_anagrams</span>([<span class="hl-s">&quot;eat&quot;</span>, <span class="hl-s">&quot;tea&quot;</span>, <span class="hl-s">&quot;tan&quot;</span>, <span class="hl-s">&quot;ate&quot;</span>, <span class="hl-s">&quot;nat&quot;</span>, <span class="hl-s">&quot;bat&quot;</span>]), <span class="hl-f">first_unique_char</span>(<span class="hl-s">&quot;leetcode&quot;</span>), <span class="hl-f">top_k_frequent</span>([<span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>], <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[0, 1] [1, 2] []
+True [[&#x27;eat&#x27;, &#x27;tea&#x27;, &#x27;ate&#x27;], [&#x27;tan&#x27;, &#x27;nat&#x27;], [&#x27;bat&#x27;]] 0 [1, 2]</pre></div>
+<h2 id="pattern-2-prefix-sums">Pattern 2: prefix sums</h2>
+<p>Precompute running totals so any range sum is O(1).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> itertools <span class="hl-k">import</span> accumulate
+sales = [<span class="hl-n">5</span>, <span class="hl-n">3</span>, <span class="hl-n">8</span>, <span class="hl-n">6</span>, <span class="hl-n">2</span>, <span class="hl-n">7</span>]
+prefix = [<span class="hl-n">0</span>] + <span class="hl-f">list</span>(<span class="hl-f">accumulate</span>(sales))                <span class="hl-c"># prefix[i] = sum of first i items</span>
+range_sum = <span class="hl-k">lambda</span> i, j: prefix[j + <span class="hl-n">1</span>] - prefix[i]    <span class="hl-c"># sum of sales[i..j]</span>
+<span class="hl-f">print</span>(prefix, <span class="hl-f">range_sum</span>(<span class="hl-n">1</span>, <span class="hl-n">3</span>), <span class="hl-f">range_sum</span>(<span class="hl-n">0</span>, <span class="hl-n">5</span>))
+
+<span class="hl-k">def</span> <span class="hl-f">subarray_sum_equals_k</span>(nums, k):
+    <span class="hl-s">&quot;&quot;&quot;Count contiguous subarrays summing to k. O(n) with prefix sums + a counter.&quot;&quot;&quot;</span>
+    count, running, seen = <span class="hl-n">0</span>, <span class="hl-n">0</span>, <span class="hl-f">Counter</span>({<span class="hl-n">0</span>: <span class="hl-n">1</span>})
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums:
+        running += x
+        count += seen[running - k]
+        seen[running] += <span class="hl-n">1</span>
+    <span class="hl-k">return</span> count
+<span class="hl-f">print</span>(<span class="hl-f">subarray_sum_equals_k</span>([<span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>], <span class="hl-n">2</span>), <span class="hl-f">subarray_sum_equals_k</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, -<span class="hl-n">3</span>, <span class="hl-n">3</span>], <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[0, 5, 8, 16, 22, 24, 31] 17 31
+2 5</pre></div>
+<h2 id="pattern-3-two-pointers">Pattern 3: two pointers</h2>
+<p>Two indices move toward each other (or in the same direction) through a <strong>sorted</strong> array or string.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">is_palindrome</span>(s):
+    s = [<span class="hl-f">c.lower</span>() <span class="hl-k">for</span> c <span class="hl-k">in</span> s <span class="hl-k">if</span> <span class="hl-f">c.isalnum</span>()]
+    i, j = <span class="hl-n">0</span>, <span class="hl-f">len</span>(s) - <span class="hl-n">1</span>
+    <span class="hl-k">while</span> i &lt; j:
+        <span class="hl-k">if</span> s[i] != s[j]: <span class="hl-k">return</span> <span class="hl-k">False</span>
+        i += <span class="hl-n">1</span>; j -= <span class="hl-n">1</span>
+    <span class="hl-k">return</span> <span class="hl-k">True</span>
+<span class="hl-k">def</span> <span class="hl-f">pair_with_sum_sorted</span>(a, target):
+    i, j = <span class="hl-n">0</span>, <span class="hl-f">len</span>(a) - <span class="hl-n">1</span>
+    <span class="hl-k">while</span> i &lt; j:
+        total = a[i] + a[j]
+        <span class="hl-k">if</span> total == target: <span class="hl-k">return</span> a[i], a[j]
+        <span class="hl-k">if</span> total &lt; target: i += <span class="hl-n">1</span>
+        <span class="hl-k">else</span>: j -= <span class="hl-n">1</span>
+    <span class="hl-k">return</span> <span class="hl-k">None</span>
+<span class="hl-k">def</span> <span class="hl-f">remove_duplicates_sorted</span>(a):              <span class="hl-c"># in place, returns new length</span>
+    <span class="hl-k">if</span> <span class="hl-k">not</span> a: <span class="hl-k">return</span> <span class="hl-n">0</span>
+    w = <span class="hl-n">1</span>
+    <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-f">len</span>(a)):
+        <span class="hl-k">if</span> a[r] != a[w - <span class="hl-n">1</span>]: a[w] = a[r]; w += <span class="hl-n">1</span>
+    <span class="hl-k">return</span> w
+<span class="hl-k">def</span> <span class="hl-f">merge_sorted</span>(a, b):
+    i = j = <span class="hl-n">0</span>; out = []
+    <span class="hl-k">while</span> i &lt; <span class="hl-f">len</span>(a) <span class="hl-k">and</span> j &lt; <span class="hl-f">len</span>(b):
+        <span class="hl-k">if</span> a[i] &lt;= b[j]: <span class="hl-f">out.append</span>(a[i]); i += <span class="hl-n">1</span>
+        <span class="hl-k">else</span>: <span class="hl-f">out.append</span>(b[j]); j += <span class="hl-n">1</span>
+    <span class="hl-k">return</span> out + a[i:] + b[j:]
+arr = [<span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">3</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>]; n = <span class="hl-f">remove_duplicates_sorted</span>(arr)
+<span class="hl-f">print</span>(<span class="hl-f">is_palindrome</span>(<span class="hl-s">&quot;A man, a plan, a canal: Panama&quot;</span>), <span class="hl-f">pair_with_sum_sorted</span>([<span class="hl-n">1</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">6</span>, <span class="hl-n">9</span>], <span class="hl-n">10</span>), arr[:n], <span class="hl-f">merge_sorted</span>([<span class="hl-n">1</span>, <span class="hl-n">4</span>, <span class="hl-n">9</span>], [<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">10</span>]))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True (1, 9) [1, 2, 3, 4] [1, 2, 3, 4, 9, 10]</pre></div>
+<h2 id="pattern-4-sliding-window">Pattern 4: sliding window</h2>
+<p>Keep a window <code>[left, right]</code> and slide it, updating a running state instead of recomputing.</p>
+<figure class="fig"><img src="../img/python-26-02.png" alt="A sliding window adds the new element on the right and removes the old one on the left." loading="lazy"><figcaption>A sliding window adds the new element on the right and removes the old one on the left.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">max_sum_window</span>(a, k):
+    window = best = <span class="hl-f">sum</span>(a[:k])
+    <span class="hl-k">for</span> r <span class="hl-k">in</span> <span class="hl-f">range</span>(k, <span class="hl-f">len</span>(a)):
+        window += a[r] - a[r - k]
+        best = <span class="hl-f">max</span>(best, window)
+    <span class="hl-k">return</span> best
+<span class="hl-k">def</span> <span class="hl-f">longest_unique_substring</span>(s):
+    last, left, best = {}, <span class="hl-n">0</span>, <span class="hl-n">0</span>
+    <span class="hl-k">for</span> right, ch <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(s):
+        <span class="hl-k">if</span> ch <span class="hl-k">in</span> last <span class="hl-k">and</span> last[ch] &gt;= left: left = last[ch] + <span class="hl-n">1</span>     <span class="hl-c"># shrink past the repeat</span>
+        last[ch] = right; best = <span class="hl-f">max</span>(best, right - left + <span class="hl-n">1</span>)
+    <span class="hl-k">return</span> best
+<span class="hl-k">def</span> <span class="hl-f">min_window_at_least</span>(nums, target):          <span class="hl-c"># shortest subarray with sum &gt;= target (positive numbers)</span>
+    left = total = <span class="hl-n">0</span>; best = <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>)
+    <span class="hl-k">for</span> right, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(nums):
+        total += x
+        <span class="hl-k">while</span> total &gt;= target:
+            best = <span class="hl-f">min</span>(best, right - left + <span class="hl-n">1</span>); total -= nums[left]; left += <span class="hl-n">1</span>
+    <span class="hl-k">return</span> <span class="hl-n">0</span> <span class="hl-k">if</span> best == <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>) <span class="hl-k">else</span> best
+<span class="hl-f">print</span>(<span class="hl-f">max_sum_window</span>([<span class="hl-n">2</span>, <span class="hl-n">1</span>, <span class="hl-n">5</span>, <span class="hl-n">1</span>, <span class="hl-n">3</span>, <span class="hl-n">2</span>], <span class="hl-n">3</span>), <span class="hl-f">longest_unique_substring</span>(<span class="hl-s">&quot;abcabcbb&quot;</span>), <span class="hl-f">longest_unique_substring</span>(<span class="hl-s">&quot;pwwkew&quot;</span>), <span class="hl-f">min_window_at_least</span>([<span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">4</span>, <span class="hl-n">3</span>], <span class="hl-n">7</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">9 3 3 2</pre></div>
+<p>The same idea appears in SQL window functions and in pandas <code>rolling</code>: a 7-day moving average is a sliding window.</p>
+<h2 id="classic-array-problems">Classic array problems</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">max_profit</span>(prices):                          <span class="hl-c"># best single buy then sell</span>
+    lo, best = <span class="hl-f">float</span>(<span class="hl-s">&quot;inf&quot;</span>), <span class="hl-n">0</span>
+    <span class="hl-k">for</span> p <span class="hl-k">in</span> prices: lo = <span class="hl-f">min</span>(lo, p); best = <span class="hl-f">max</span>(best, p - lo)
+    <span class="hl-k">return</span> best
+<span class="hl-k">def</span> <span class="hl-f">max_subarray</span>(nums):                          <span class="hl-c"># Kadane&#x27;s algorithm</span>
+    cur = best = nums[<span class="hl-n">0</span>]
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums[<span class="hl-n">1</span>:]: cur = <span class="hl-f">max</span>(x, cur + x); best = <span class="hl-f">max</span>(best, cur)
+    <span class="hl-k">return</span> best
+<span class="hl-k">def</span> <span class="hl-f">product_except_self</span>(nums):
+    n = <span class="hl-f">len</span>(nums); out = [<span class="hl-n">1</span>] * n; left = right = <span class="hl-n">1</span>
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(n): out[i] = left; left *= nums[i]
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(n - <span class="hl-n">1</span>, -<span class="hl-n">1</span>, -<span class="hl-n">1</span>): out[i] *= right; right *= nums[i]
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">move_zeroes</span>(a):
+    w = <span class="hl-n">0</span>
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> a:
+        <span class="hl-k">if</span> x != <span class="hl-n">0</span>: a[w] = x; w += <span class="hl-n">1</span>
+    a[w:] = [<span class="hl-n">0</span>] * (<span class="hl-f">len</span>(a) - w); <span class="hl-k">return</span> a
+<span class="hl-k">def</span> <span class="hl-f">rotate</span>(a, k): k %= <span class="hl-f">len</span>(a); <span class="hl-k">return</span> a[-k:] + a[:-k]
+<span class="hl-f">print</span>(<span class="hl-f">max_profit</span>([<span class="hl-n">7</span>, <span class="hl-n">1</span>, <span class="hl-n">5</span>, <span class="hl-n">3</span>, <span class="hl-n">6</span>, <span class="hl-n">4</span>]), <span class="hl-f">max_subarray</span>([-<span class="hl-n">2</span>, <span class="hl-n">1</span>, -<span class="hl-n">3</span>, <span class="hl-n">4</span>, -<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">1</span>, -<span class="hl-n">5</span>, <span class="hl-n">4</span>]), <span class="hl-f">product_except_self</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>]), <span class="hl-f">move_zeroes</span>([<span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">0</span>, <span class="hl-n">3</span>, <span class="hl-n">12</span>]), <span class="hl-f">rotate</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>], <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">5 6 [24, 12, 8, 6] [1, 3, 12, 0, 0] [4, 5, 1, 2, 3]</pre></div>
+<h2 id="how-to-answer-in-an-interview">How to answer in an interview</h2>
+<figure class="fig"><img src="../img/python-26-03.png" alt="A calm, structured approach scores better than jumping into code." loading="lazy"><figcaption>A calm, structured approach scores better than jumping into code.</figcaption></figure>
+<p>Patterns to try, in order: <strong>sort? hash map? two pointers? sliding window? prefix sum? stack? binary search? BFS/DFS? DP?</strong> (the next two lessons cover the rest).</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Big-O measures growth: O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ); drop constants, keep the dominant term.</li>
+<li><code>in</code> on a list is O(n), on a set/dict O(1); inserting at the front of a list is O(n), use <code>deque</code>.</li>
+<li>Hash maps/Counters turn searches into lookups (two-sum, anagrams, frequency).</li>
+<li>Prefix sums give O(1) range sums; two pointers work on sorted data and palindromes; sliding windows handle subarray/substring problems in O(n).</li>
+<li>In interviews: clarify, brute force, optimise with a pattern, code, test, and state complexity.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-26-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the time complexity of checking <code>x in my_set</code>?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>O(1) on average</button><button type="button" class="opt" data-ok="0"><i>B</i>O(n)</button><button type="button" class="opt" data-ok="0"><i>C</i>O(log n)</button><button type="button" class="opt" data-ok="0"><i>D</i>O(n²)</button></div><div class="qexp"><b>Answer: A.</b> Sets are hash tables.</div></div><div class="qq"><p class="qtext"><b>2.</b> Two nested loops over the same list of n items are…</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>O(n)</button><button type="button" class="opt" data-ok="0"><i>B</i>O(n log n)</button><button type="button" class="opt" data-ok="1"><i>C</i>O(n²)</button><button type="button" class="opt" data-ok="0"><i>D</i>O(2n)</button></div><div class="qexp"><b>Answer: C.</b> Nested steps multiply.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which pattern solves "longest substring without repeating characters" in O(n)?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Binary search</button><button type="button" class="opt" data-ok="1"><i>B</i>Sliding window with a dictionary of last positions</button><button type="button" class="opt" data-ok="0"><i>C</i>Sorting</button><button type="button" class="opt" data-ok="0"><i>D</i>Prefix sums only</button></div><div class="qexp"><b>Answer: B.</b> Shrink the window past repeated characters.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does the two-sum hash map store?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Each value seen so far mapped to its index</button><button type="button" class="opt" data-ok="0"><i>B</i>All pairs</button><button type="button" class="opt" data-ok="0"><i>C</i>The sorted list</button><button type="button" class="opt" data-ok="0"><i>D</i>Only the target</button></div><div class="qexp"><b>Answer: A.</b> Check whether target − x was already seen.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which algorithm finds the maximum subarray sum in O(n)?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Merge sort</button><button type="button" class="opt" data-ok="1"><i>B</i>Kadane's algorithm</button><button type="button" class="opt" data-ok="0"><i>C</i>Binary search</button><button type="button" class="opt" data-ok="0"><i>D</i>Bubble sort</button></div><div class="qexp"><b>Answer: B.</b> Keep the best sum ending at each position.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is O(3n + n² + 10) simplified?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>O(3n)</button><button type="button" class="opt" data-ok="1"><i>B</i>O(n²)</button><button type="button" class="opt" data-ok="0"><i>C</i>O(n)</button><button type="button" class="opt" data-ok="0"><i>D</i>O(10)</button></div><div class="qexp"><b>Answer: B.</b> Keep the dominant term.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice set (try before opening the solutions)</b></div><p>(1) Return the indices of all pairs that sum to a target. (2) Check if a string has all unique characters. (3) Find the majority element (appears &gt; n/2 times). (4) Longest run of consecutive 1s after flipping at most one 0 (sliding window). (5) Count customers whose total spend is in the top 10% (prefix sums not needed: think sorting).</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">all_pairs</span>(nums, t):
+    seen, out = <span class="hl-f">defaultdict</span>(list), []
+    <span class="hl-k">for</span> i, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(nums):
+        out += [(j, i) <span class="hl-k">for</span> j <span class="hl-k">in</span> seen[t - x]]; seen[x].<span class="hl-f">append</span>(i)
+    <span class="hl-k">return</span> out
+<span class="hl-k">def</span> <span class="hl-f">all_unique</span>(s): <span class="hl-k">return</span> <span class="hl-f">len</span>(<span class="hl-f">set</span>(s)) == <span class="hl-f">len</span>(s)
+<span class="hl-k">def</span> <span class="hl-f">majority</span>(nums):                       <span class="hl-c"># Boyer-Moore voting, O(1) space</span>
+    cand = cnt = <span class="hl-n">0</span>
+    <span class="hl-k">for</span> x <span class="hl-k">in</span> nums:
+        <span class="hl-k">if</span> cnt == <span class="hl-n">0</span>: cand = x
+        cnt += <span class="hl-n">1</span> <span class="hl-k">if</span> x == cand <span class="hl-k">else</span> -<span class="hl-n">1</span>
+    <span class="hl-k">return</span> cand
+<span class="hl-k">def</span> <span class="hl-f">longest_ones</span>(a, k=<span class="hl-n">1</span>):
+    left = zeros = best = <span class="hl-n">0</span>
+    <span class="hl-k">for</span> right, x <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(a):
+        zeros += x == <span class="hl-n">0</span>
+        <span class="hl-k">while</span> zeros &gt; k: zeros -= a[left] == <span class="hl-n">0</span>; left += <span class="hl-n">1</span>
+        best = <span class="hl-f">max</span>(best, right - left + <span class="hl-n">1</span>)
+    <span class="hl-k">return</span> best
+<span class="hl-f">print</span>(<span class="hl-f">all_pairs</span>([<span class="hl-n">1</span>, <span class="hl-n">5</span>, <span class="hl-n">3</span>, <span class="hl-n">3</span>, <span class="hl-n">7</span>], <span class="hl-n">6</span>), <span class="hl-f">all_unique</span>(<span class="hl-s">&quot;data&quot;</span>), <span class="hl-f">majority</span>([<span class="hl-n">2</span>, <span class="hl-n">2</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">2</span>]), <span class="hl-f">longest_ones</span>([<span class="hl-n">1</span>, <span class="hl-n">0</span>, <span class="hl-n">1</span>, <span class="hl-n">1</span>, <span class="hl-n">0</span>, <span class="hl-n">1</span>]))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Find duplicates in a list of 10 million customer IDs.</strong>
+Use a set (or <code>Counter</code>) in one pass, O(n) time and O(n) space; in pandas <code>df.id.duplicated()</code>; in SQL <code>GROUP BY id HAVING COUNT(*) &gt; 1</code>.</p>
+<p><strong>Q: Why is sorting O(n log n)?</strong>
+Comparison sorts split the problem in half repeatedly (log n levels) and do O(n) work per level; Python uses Timsort.</p>
+<p><strong>Q: Space vs time trade-off example?</strong>
+Two-sum: O(n²) time with O(1) space, or O(n) time with O(n) extra space for a hash map.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html"><small>← Previous</small><b>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</b></a><a class="next" href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html"><small>Next →</small><b>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-dsa-for-data-roles">Why DSA for data roles?</a><a href="#big-o-notation">Big-O notation</a><a href="#pattern-1-hash-maps-and-counting">Pattern 1: hash maps and counting</a><a href="#pattern-2-prefix-sums">Pattern 2: prefix sums</a><a href="#pattern-3-two-pointers">Pattern 3: two pointers</a><a href="#pattern-4-sliding-window">Pattern 4: sliding window</a><a href="#classic-array-problems">Classic array problems</a><a href="#how-to-answer-in-an-interview">How to answer in an interview</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

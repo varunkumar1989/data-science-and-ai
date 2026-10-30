@@ -1,0 +1,153 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Visualisation I: Matplotlib and Choosing the Right Chart · Python Lesson 20 · Data Science &amp; AI Handbook</title><meta name="description" content="Pick the right chart for the question and build it with Matplotlib&#x27;s object-oriented API. Line, bar, histogram, scatter, box and pie charts, subplots, annotations, styling and saving, plus design rules that make charts honest and readable."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 20</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class="on"><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-20">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 20 of 29</div><h1>Data Visualisation I: Matplotlib and Choosing the Right Chart</h1>
+<p class="sum">Pick the right chart for the question and build it with Matplotlib's object-oriented API. Line, bar, histogram, scatter, box and pie charts, subplots, annotations, styling and saving, plus design rules that make charts honest and readable.</p><div class="tags"><span class="tag live">● Python class 16</span><span class="tag new">✦ Matplotlib 3.10</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_20_Data_Visualisation_I_Matplotlib_and_Choosing_the_Right_Chart.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-20">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose a chart type from the analytical question (trend, comparison, distribution, relationship, composition)</li><li>Build charts with fig, ax = plt.subplots() and customise titles, labels, ticks, legends and colours</li><li>Combine several charts with subplots and annotate key points</li><li>Plot directly from pandas and save figures at publication quality</li><li>Apply design rules: start bars at zero, remove clutter, label directly, use colour with purpose</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/house_prices.csv" download>house_prices.csv</a></div></div></div>
+<div class="content"><h2 id="choose-the-chart-from-the-question">Choose the chart from the question</h2>
+<figure class="fig"><img src="../img/python-20-01.png" alt="Start from the question, not the chart type." loading="lazy"><figcaption>Start from the question, not the chart type.</figcaption></figure>
+<h2 id="the-object-oriented-api">The object-oriented API</h2>
+<p>Matplotlib has two styles. Use the <strong>object-oriented</strong> one: create a <strong>Figure</strong> (the canvas) and one or more <strong>Axes</strong> (plots), then call methods on the axes.</p>
+<figure class="fig"><img src="../img/python-20-02.png" alt="Monthly Superstore sales: a line chart shows the trend and the seasonal peaks." loading="lazy"><figcaption>Monthly Superstore sales: a line chart shows the trend and the seasonal peaks.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> matplotlib.pyplot <span class="hl-k">as</span> plt
+fig, ax = <span class="hl-f">plt.subplots</span>(figsize=(<span class="hl-n">9</span>, <span class="hl-n">3.6</span>))   <span class="hl-c"># one figure, one axes</span>
+<span class="hl-f">ax.plot</span>(x, y)                              <span class="hl-c"># draw</span>
+<span class="hl-f">ax.set_title</span>(<span class="hl-s">&quot;...&quot;</span>); <span class="hl-f">ax.set_xlabel</span>(<span class="hl-s">&quot;...&quot;</span>); <span class="hl-f">ax.set_ylabel</span>(<span class="hl-s">&quot;...&quot;</span>)
+<span class="hl-f">fig.savefig</span>(<span class="hl-s">&quot;chart.png&quot;</span>, dpi=<span class="hl-n">200</span>, bbox_inches=<span class="hl-s">&quot;tight&quot;</span>)
+<span class="hl-f">plt.show</span>()                                 <span class="hl-c"># in scripts; notebooks display automatically</span></code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Element</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Title, axis labels</td>
+<td><code>ax.set_title</code>, <code>ax.set_xlabel</code>, <code>ax.set_ylabel</code></td>
+</tr>
+<tr>
+<td>Limits, ticks</td>
+<td><code>ax.set_ylim(0)</code>, <code>ax.set_xticks</code>, <code>ax.tick_params(rotation=45)</code></td>
+</tr>
+<tr>
+<td>Legend</td>
+<td><code>label="..."</code> in the plot call, then <code>ax.legend()</code></td>
+</tr>
+<tr>
+<td>Grid, spines</td>
+<td><code>ax.grid(axis="y")</code>, <code>ax.spines[["top","right"]].set_visible(False)</code></td>
+</tr>
+<tr>
+<td>Text, arrows</td>
+<td><code>ax.text</code>, <code>ax.annotate</code></td>
+</tr>
+<tr>
+<td>Reference lines</td>
+<td><code>ax.axhline(y)</code>, <code>ax.axvline(x)</code>, <code>ax.axvspan</code></td>
+</tr>
+<tr>
+<td>Number format</td>
+<td><code>ax.yaxis.set_major_formatter(...)</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="bar-charts">Bar charts</h2>
+<figure class="fig"><img src="../img/python-20-03.png" alt="Sorted horizontal bars make category comparisons easy; one highlight colour draws the eye." loading="lazy"><figcaption>Sorted horizontal bars make category comparisons easy; one highlight colour draws the eye.</figcaption></figure>
+<p>Grouped and stacked bars compare two dimensions:</p>
+<figure class="fig"><img src="../img/python-20-04.png" alt="Sales by region and category, as grouped bars (compare within region) and stacked bars (compare totals)." loading="lazy"><figcaption>Sales by region and category, as grouped bars (compare within region) and stacked bars (compare totals).</figcaption></figure>
+<h2 id="distributions-histogram-and-box-plot">Distributions: histogram and box plot</h2>
+<figure class="fig"><img src="../img/python-20-05.png" alt="House prices are right-skewed: the mean sits above the median. Box plots compare distributions across cities." loading="lazy"><figcaption>House prices are right-skewed: the mean sits above the median. Box plots compare distributions across cities.</figcaption></figure>
+<p>Bins matter: too few hide the shape, too many look noisy. Try <code>bins="auto"</code> or a few values.</p>
+<h2 id="relationships-scatter">Relationships: scatter</h2>
+<figure class="fig"><img src="../img/python-20-06.png" alt="Larger houses cost more (r ≈ 0.8); colour shows a third variable, the distance to the centre." loading="lazy"><figcaption>Larger houses cost more (r ≈ 0.8); colour shows a third variable, the distance to the centre.</figcaption></figure>
+<h2 id="part-of-a-whole">Part of a whole</h2>
+<figure class="fig"><img src="../img/python-20-07.png" alt="Pie charts work for a few parts; the donut variant leaves room for a label." loading="lazy"><figcaption>Pie charts work for a few parts; the donut variant leaves room for a label.</figcaption></figure>
+<p>For more than 4 parts, or to compare parts across groups, use (stacked) bars.</p>
+<h2 id="plotting-from-pandas">Plotting from pandas</h2>
+<p>DataFrames and Series have <code>.plot()</code>, a quick wrapper around Matplotlib that returns an <code>ax</code> you can keep styling.</p>
+<figure class="fig"><img src="../img/python-20-08.png" alt="One line of pandas plotting, then a little Matplotlib styling." loading="lazy"><figcaption>One line of pandas plotting, then a little Matplotlib styling.</figcaption></figure>
+<p><code>kind=</code> can be <code>line</code>, <code>bar</code>, <code>barh</code>, <code>hist</code>, <code>box</code>, <code>scatter</code> (with <code>x=</code>, <code>y=</code>), <code>area</code>, <code>pie</code>.</p>
+<h2 id="subplots-dashboards-and-saving">Subplots dashboards and saving</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">fig, axes = <span class="hl-f">plt.subplots</span>(<span class="hl-n">2</span>, <span class="hl-n">2</span>, figsize=(<span class="hl-n">11</span>, <span class="hl-n">7</span>), constrained_layout=<span class="hl-k">True</span>)
+axes[<span class="hl-n">0</span>, <span class="hl-n">0</span>].<span class="hl-f">plot</span>(...); axes[<span class="hl-n">0</span>, <span class="hl-n">1</span>].<span class="hl-f">barh</span>(...); axes[<span class="hl-n">1</span>, <span class="hl-n">0</span>].<span class="hl-f">hist</span>(...); axes[<span class="hl-n">1</span>, <span class="hl-n">1</span>].<span class="hl-f">scatter</span>(...)
+<span class="hl-f">fig.suptitle</span>(<span class="hl-s">&quot;Sales overview&quot;</span>, fontsize=<span class="hl-n">15</span>, weight=<span class="hl-s">&quot;bold&quot;</span>)
+<span class="hl-f">fig.savefig</span>(<span class="hl-s">&quot;overview.png&quot;</span>, dpi=<span class="hl-n">200</span>, bbox_inches=<span class="hl-s">&quot;tight&quot;</span>)   <span class="hl-c"># also .svg / .pdf for crisp vector output</span></code></pre></div>
+<h2 id="design-rules-that-make-charts-honest">Design rules that make charts honest</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Rule</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bars start at zero</td>
+<td>Truncated bars exaggerate differences</td>
+</tr>
+<tr>
+<td>Sort categories by value</td>
+<td>Faster comparison</td>
+</tr>
+<tr>
+<td>Title states the insight</td>
+<td>"Tables lose money" beats "Profit by sub-category"</td>
+</tr>
+<tr>
+<td>Label directly, remove chart junk</td>
+<td>Fewer eye movements</td>
+</tr>
+<tr>
+<td>One highlight colour, grey for context</td>
+<td>Colour carries meaning</td>
+</tr>
+<tr>
+<td>Colour-blind safe palettes (viridis, Okabe-Ito)</td>
+<td>About 1 in 12 men are colour-blind</td>
+</tr>
+<tr>
+<td>Same scale when comparing panels</td>
+<td>Avoid misleading comparisons</td>
+</tr>
+<tr>
+<td>Avoid 3-D and dual axes when possible</td>
+<td>They distort perception</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Pick the chart from the question: trend → line, comparison → sorted bar, distribution → histogram/box, relationship → scatter, composition → stacked bar (pie only for a few parts).</li>
+<li>Use <code>fig, ax = plt.subplots()</code> and style the axes: titles, labels, limits, spines, legends, annotations.</li>
+<li><code>plt.subplots(rows, cols)</code> builds small multiples; <code>fig.savefig(..., dpi=200, bbox_inches="tight")</code> exports.</li>
+<li>pandas <code>.plot()</code> is a fast start that returns a Matplotlib axes.</li>
+<li>Honest design: zero-based bars, sorted categories, insight titles, purposeful colour.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-20-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which chart best shows a trend over 36 months?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Pie</button><button type="button" class="opt" data-ok="1"><i>B</i>Line</button><button type="button" class="opt" data-ok="0"><i>C</i>Histogram</button><button type="button" class="opt" data-ok="0"><i>D</i>Box plot</button></div><div class="qexp"><b>Answer: B.</b> Lines connect ordered time points.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which chart shows the distribution of one numeric variable?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Scatter</button><button type="button" class="opt" data-ok="1"><i>B</i>Histogram</button><button type="button" class="opt" data-ok="0"><i>C</i>Pie</button><button type="button" class="opt" data-ok="0"><i>D</i>Stacked bar</button></div><div class="qexp"><b>Answer: B.</b> Box and violin plots also work.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>fig, ax = plt.subplots(1, 2)</code> create?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>One chart</button><button type="button" class="opt" data-ok="1"><i>B</i>One figure with two axes side by side</button><button type="button" class="opt" data-ok="0"><i>C</i>Two separate windows</button><button type="button" class="opt" data-ok="0"><i>D</i>A 2 × 2 grid</button></div><div class="qexp"><b>Answer: B.</b> <code>ax</code> becomes an array of two axes.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why should bar charts start at zero?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Matplotlib requires it</button><button type="button" class="opt" data-ok="1"><i>B</i>Bar length encodes value; a cut axis exaggerates differences</button><button type="button" class="opt" data-ok="0"><i>C</i>It looks better</button><button type="button" class="opt" data-ok="0"><i>D</i>It saves space</button></div><div class="qexp"><b>Answer: B.</b> Line charts can zoom; bars should not.</div></div><div class="qq"><p class="qtext"><b>5.</b> When is a pie chart acceptable?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>For 12 categories</button><button type="button" class="opt" data-ok="1"><i>B</i>For a few parts of one whole, when exact comparison is not needed</button><button type="button" class="opt" data-ok="0"><i>C</i>For trends</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: B.</b> Otherwise use bars.</div></div><div class="qq"><p class="qtext"><b>6.</b> How do you save a sharp image without cut-off labels?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>plt.show()</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>fig.savefig("c.png", dpi=200, bbox_inches="tight")</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Screenshot</button><button type="button" class="opt" data-ok="0"><i>D</i><code>fig.close()</code></button></div><div class="qexp"><b>Answer: B.</b> SVG/PDF give vector output.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Chart practice</b></div><p>(1) Line chart of monthly profit with a horizontal line at zero. (2) Sorted horizontal bar of sales by state (top 10). (3) Histogram of <code>discount</code>. (4) Scatter of <code>discount</code> vs <code>profit</code> (what do you see?). (5) A 2 × 2 dashboard of these four charts saved as PNG.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">mp = <span class="hl-f">s.set_index</span>(<span class="hl-s">&quot;order_date&quot;</span>)[<span class="hl-s">&quot;profit&quot;</span>].<span class="hl-f">resample</span>(<span class="hl-s">&quot;ME&quot;</span>).<span class="hl-f">sum</span>()
+fig, axes = <span class="hl-f">plt.subplots</span>(<span class="hl-n">2</span>, <span class="hl-n">2</span>, figsize=(<span class="hl-n">11</span>, <span class="hl-n">7</span>), constrained_layout=<span class="hl-k">True</span>)
+axes[<span class="hl-n">0</span>, <span class="hl-n">0</span>].<span class="hl-f">plot</span>(mp.index, mp / 1e6); axes[<span class="hl-n">0</span>, <span class="hl-n">0</span>].<span class="hl-f">axhline</span>(<span class="hl-n">0</span>, color=<span class="hl-s">&quot;grey&quot;</span>)
+st = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;state&quot;</span>)[<span class="hl-s">&quot;sales&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">nlargest</span>(<span class="hl-n">10</span>).<span class="hl-f">sort_values</span>(); axes[<span class="hl-n">0</span>, <span class="hl-n">1</span>].<span class="hl-f">barh</span>(st.index, st / 1e6)
+axes[<span class="hl-n">1</span>, <span class="hl-n">0</span>].<span class="hl-f">hist</span>(s.discount, bins=<span class="hl-n">9</span>)
+axes[<span class="hl-n">1</span>, <span class="hl-n">1</span>].<span class="hl-f">scatter</span>(s.discount, s.profit, s=<span class="hl-n">4</span>, alpha=.<span class="hl-n">3</span>)   <span class="hl-c"># profit falls as discount rises</span>
+<span class="hl-f">fig.savefig</span>(<span class="hl-s">&quot;dashboard.png&quot;</span>, dpi=<span class="hl-n">150</span>, bbox_inches=<span class="hl-s">&quot;tight&quot;</span>)</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you choose a chart?</strong>
+Start from the question (trend, comparison, distribution, relationship, composition), the number of variables and the audience, then remove anything that does not help the message.</p>
+<p><strong>Q: What makes a chart misleading?</strong>
+Truncated bar axes, inconsistent scales, 3-D effects, cherry-picked ranges, dual axes with arbitrary scaling, and areas that do not match values.</p>
+<p><strong>Q: Matplotlib vs Seaborn vs Plotly?</strong>
+Matplotlib is the low-level foundation with full control; Seaborn adds statistical charts with good defaults on top; Plotly makes interactive web charts.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html"><small>← Previous</small><b>pandas IV: Dates, Time Series, Resampling and Rolling Windows</b></a><a class="next" href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html"><small>Next →</small><b>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#choose-the-chart-from-the-question">Choose the chart from the question</a><a href="#the-object-oriented-api">The object-oriented API</a><a href="#bar-charts">Bar charts</a><a href="#distributions-histogram-and-box-plot">Distributions: histogram and box plot</a><a href="#relationships-scatter">Relationships: scatter</a><a href="#part-of-a-whole">Part of a whole</a><a href="#plotting-from-pandas">Plotting from pandas</a><a href="#subplots-dashboards-and-saving">Subplots dashboards and saving</a><a href="#design-rules-that-make-charts-honest">Design rules that make charts honest</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

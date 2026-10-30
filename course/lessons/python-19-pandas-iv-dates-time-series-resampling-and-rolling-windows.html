@@ -1,0 +1,220 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pandas IV: Dates, Time Series, Resampling and Rolling Windows · Python Lesson 19 · Data Science &amp; AI Handbook</title><meta name="description" content="Work with time. Parse dates, extract parts with .dt, do date arithmetic, set a DatetimeIndex, resample to weeks, months and quarters, compute rolling and expanding windows, shifts and growth rates, and build a cohort-style monthly report with the daily sales data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 19</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class="on"><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-19">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 19 of 29</div><h1>pandas IV: Dates, Time Series, Resampling and Rolling Windows</h1>
+<p class="sum">Work with time. Parse dates, extract parts with .dt, do date arithmetic, set a DatetimeIndex, resample to weeks, months and quarters, compute rolling and expanding windows, shifts and growth rates, and build a cohort-style monthly report with the daily sales data.</p><div class="tags"><span class="tag live">● Python class 15</span><span class="tag new">✦ pandas 2.3 / 3.0</span><span class="tag">Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_19_pandas_IV_Dates_Time_Series_Resampling_and_Rolling_Windows.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-19">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Parse and format dates and extract year, month, weekday and quarter</li><li>Do date arithmetic with Timedelta and DateOffset, including business days</li><li>Resample time series and use rolling, expanding and exponentially weighted windows</li><li>Compute period-over-period change, year-over-year growth and cumulative totals with shift, pct_change and cumsum</li><li>Handle time zones and missing dates</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="parsing-dates">Parsing dates</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd, numpy <span class="hl-k">as</span> np
+<span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.max_columns&quot;</span>, <span class="hl-n">20</span>); <span class="hl-f">pd.set_option</span>(<span class="hl-s">&quot;display.width&quot;</span>, <span class="hl-n">160</span>)
+d = <span class="hl-f">pd.to_datetime</span>(<span class="hl-f">pd.Series</span>([<span class="hl-s">&quot;2025-01-15&quot;</span>, <span class="hl-s">&quot;2025-03-01&quot;</span>, <span class="hl-s">&quot;2025-12-31&quot;</span>]))
+<span class="hl-f">print</span>(<span class="hl-f">d.dt.year.tolist</span>(), <span class="hl-f">d.dt.month_name</span>().<span class="hl-f">tolist</span>(), <span class="hl-f">d.dt.day_name</span>().<span class="hl-f">tolist</span>(), <span class="hl-f">d.dt.quarter.tolist</span>(), <span class="hl-f">d.dt.isocalendar</span>().<span class="hl-f">week.tolist</span>())
+<span class="hl-f">print</span>(<span class="hl-f">pd.to_datetime</span>(<span class="hl-s">&quot;05/01/2025&quot;</span>, dayfirst=<span class="hl-k">True</span>).<span class="hl-f">date</span>(), <span class="hl-f">pd.to_datetime</span>(<span class="hl-s">&quot;05/01/2025&quot;</span>).<span class="hl-f">date</span>())     <span class="hl-c"># 5 Jan vs 1 May!</span>
+<span class="hl-f">print</span>(<span class="hl-f">pd.to_datetime</span>(<span class="hl-s">&quot;2025-01-15 14:30&quot;</span>).<span class="hl-f">strftime</span>(<span class="hl-s">&quot;%d %b %Y, %I:%M %p&quot;</span>), <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-02-28&quot;</span>).is_month_end)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[2025, 2025, 2025] [&#x27;January&#x27;, &#x27;March&#x27;, &#x27;December&#x27;] [&#x27;Wednesday&#x27;, &#x27;Saturday&#x27;, &#x27;Wednesday&#x27;] [1, 1, 4] [3, 9, 1]
+2025-01-05 2025-05-01
+15 Jan 2025, 02:30 PM True</pre></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Day-first dates</b></div><p>Indian and European data often write 05/01/2025 for 5 January. Pass <code>dayfirst=True</code> or, better, an explicit <code>format="%d/%m/%Y"</code>. Check a few parsed values every time.</p></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th><code>.dt</code> accessor</th>
+<th>Gives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.year</code>, <code>.month</code>, <code>.day</code>, <code>.hour</code></td>
+<td>Parts</td>
+</tr>
+<tr>
+<td><code>.day_name()</code>, <code>.month_name()</code></td>
+<td>Text names</td>
+</tr>
+<tr>
+<td><code>.dayofweek</code> (Mon = 0), <code>.quarter</code>, <code>.isocalendar().week</code></td>
+<td>Calendar positions</td>
+</tr>
+<tr>
+<td><code>.to_period("M")</code>, <code>.to_period("Q")</code></td>
+<td>Month / quarter periods</td>
+</tr>
+<tr>
+<td><code>.floor("D")</code>, <code>.normalize()</code></td>
+<td>Truncate time</td>
+</tr>
+<tr>
+<td><code>.is_month_end</code>, <code>.days_in_month</code></td>
+<td>Calendar flags</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="date-arithmetic">Date arithmetic</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+s[<span class="hl-s">&quot;ship_days&quot;</span>] = (s[<span class="hl-s">&quot;ship_date&quot;</span>] - s[<span class="hl-s">&quot;order_date&quot;</span>]).dt.days
+<span class="hl-f">print</span>(<span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;ship_mode&quot;</span>)[<span class="hl-s">&quot;ship_days&quot;</span>].<span class="hl-f">agg</span>([<span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]).<span class="hl-f">round</span>(<span class="hl-n">1</span>))
+t = <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-01-31&quot;</span>)
+<span class="hl-f">print</span>(t + <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">30</span>), t + <span class="hl-f">pd.DateOffset</span>(months=<span class="hl-n">1</span>), t + <span class="hl-f">pd.offsets.MonthEnd</span>(<span class="hl-n">1</span>), t + <span class="hl-f">pd.offsets.BDay</span>(<span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-f">np.busday_count</span>(<span class="hl-s">&quot;2025-10-01&quot;</span>, <span class="hl-s">&quot;2025-11-01&quot;</span>), <span class="hl-s">&quot;working days in October 2025 (Mon–Fri)&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">pd.date_range</span>(<span class="hl-s">&quot;2025-01-01&quot;</span>, periods=<span class="hl-n">4</span>, freq=<span class="hl-s">&quot;W-MON&quot;</span>).<span class="hl-f">date.tolist</span>(), <span class="hl-f">pd.date_range</span>(<span class="hl-s">&quot;2025-01-01&quot;</span>, <span class="hl-s">&quot;2025-06-30&quot;</span>, freq=<span class="hl-s">&quot;QE&quot;</span>).<span class="hl-f">date.tolist</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                mean  max
+ship_mode                
+First Class      1.5    2
+Same Day         0.0    0
+Second Class     3.0    4
+Standard Class   5.6    7
+2025-03-02 00:00:00 2025-02-28 00:00:00 2025-02-28 00:00:00 2025-02-05 00:00:00
+23 working days in October 2025 (Mon–Fri)
+[datetime.date(2025, 1, 6), datetime.date(2025, 1, 13), datetime.date(2025, 1, 20), datetime.date(2025, 1, 27)] [datetime.date(2025, 3, 31), datetime.date(2025, 6, 30)]</pre></div>
+<p><code>Timedelta</code> adds exact durations; <code>DateOffset</code> and offsets follow the calendar (month ends, business days).</p>
+<h2 id="a-time-series-with-a-datetimeindex">A time series with a DatetimeIndex</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">daily = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;daily_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;date&quot;</span>]).<span class="hl-f">set_index</span>(<span class="hl-s">&quot;date&quot;</span>).<span class="hl-f">sort_index</span>()
+<span class="hl-f">print</span>(daily.shape, <span class="hl-f">daily.index.min</span>().<span class="hl-f">date</span>(), <span class="hl-s">&quot;to&quot;</span>, <span class="hl-f">daily.index.max</span>().<span class="hl-f">date</span>())
+<span class="hl-f">print</span>(daily.loc[<span class="hl-s">&quot;2023-03&quot;</span>].<span class="hl-f">head</span>(<span class="hl-n">3</span>))                     <span class="hl-c"># partial-string indexing: all of March 2023</span>
+<span class="hl-f">print</span>(daily.loc[<span class="hl-s">&quot;2023-12-24&quot;</span>:<span class="hl-s">&quot;2023-12-27&quot;</span>])
+full = <span class="hl-f">pd.date_range</span>(<span class="hl-f">daily.index.min</span>(), <span class="hl-f">daily.index.max</span>(), freq=<span class="hl-s">&quot;D&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;missing days:&quot;</span>, <span class="hl-f">len</span>(<span class="hl-f">full.difference</span>(daily.index)))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(1461, 1) 2022-01-01 to 2025-12-31
+            units_sold
+date                  
+2023-03-01         260
+2023-03-02         272
+2023-03-03         234
+            units_sold
+date                  
+2023-12-24         343
+2023-12-25         270
+2023-12-26         232
+2023-12-27         257
+missing days: 0</pre></div>
+<h2 id="resampling">Resampling</h2>
+<p><code>resample</code> is <code>groupby</code> for time: change the frequency and aggregate.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">monthly = daily[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">resample</span>(<span class="hl-s">&quot;ME&quot;</span>).<span class="hl-f">sum</span>()
+<span class="hl-f">print</span>(<span class="hl-f">monthly.head</span>(<span class="hl-n">4</span>))
+q = daily[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">resample</span>(<span class="hl-s">&quot;QE&quot;</span>).<span class="hl-f">agg</span>([<span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;mean&quot;</span>, <span class="hl-s">&quot;max&quot;</span>]).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(<span class="hl-f">q.tail</span>(<span class="hl-n">4</span>))
+wk = daily[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">resample</span>(<span class="hl-s">&quot;W-SUN&quot;</span>).<span class="hl-f">sum</span>()
+<span class="hl-f">print</span>(<span class="hl-f">wk.describe</span>().<span class="hl-f">round</span>(<span class="hl-n">0</span>))
+<span class="hl-f">print</span>(<span class="hl-f">daily.groupby</span>(<span class="hl-f">daily.index.day_name</span>())[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">mean</span>().<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">sort_values</span>(ascending=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">date
+2022-01-31    5998
+2022-02-28    5797
+2022-03-31    6756
+2022-04-30    7156
+Freq: ME, Name: units_sold, dtype: int64
+              sum   mean  max
+date                         
+2025-03-31  30462  338.5  405
+2025-06-30  34592  380.1  440
+2025-09-30  34786  378.1  432
+2025-12-31  33080  359.6  415
+count     210.0
+mean     2073.0
+std       391.0
+min       420.0
+25%      1766.0
+50%      2073.0
+75%      2362.0
+max      2801.0
+Name: units_sold, dtype: float64
+date
+Sunday       323.3
+Saturday     320.4
+Friday       289.5
+Tuesday      288.6
+Thursday     288.5
+Monday       287.9
+Wednesday    287.3
+Name: units_sold, dtype: float64</pre></div>
+<p>Frequencies: <code>D</code> day, <code>W</code> week, <code>ME</code> month end, <code>MS</code> month start, <code>QE</code> quarter, <code>YE</code> year, <code>h</code> hour, <code>min</code> minute.</p>
+<h2 id="rolling-and-expanding-windows">Rolling and expanding windows</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">ts = daily[<span class="hl-s">&quot;units_sold&quot;</span>]
+df = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;units&quot;</span>: ts, <span class="hl-s">&quot;ma_7&quot;</span>: <span class="hl-f">ts.rolling</span>(<span class="hl-n">7</span>).<span class="hl-f">mean</span>(), <span class="hl-s">&quot;ma_30&quot;</span>: <span class="hl-f">ts.rolling</span>(<span class="hl-n">30</span>).<span class="hl-f">mean</span>(), <span class="hl-s">&quot;ewm_14&quot;</span>: <span class="hl-f">ts.ewm</span>(span=<span class="hl-n">14</span>).<span class="hl-f">mean</span>(),
+                   <span class="hl-s">&quot;max_so_far&quot;</span>: <span class="hl-f">ts.expanding</span>().<span class="hl-f">max</span>(), <span class="hl-s">&quot;cum_units&quot;</span>: <span class="hl-f">ts.cumsum</span>()})
+<span class="hl-f">print</span>(df.iloc[[<span class="hl-n">0</span>, <span class="hl-n">6</span>, <span class="hl-n">29</span>, <span class="hl-n">400</span>, -<span class="hl-n">1</span>]].<span class="hl-f">round</span>(<span class="hl-n">1</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">            units   ma_7  ma_30  ewm_14  max_so_far  cum_units
+date                                                          
+2022-01-01    202    NaN    NaN   202.0       202.0        202
+2022-01-07    154  181.1    NaN   176.0       218.0       1268
+2022-01-30    239  198.0  193.7   203.2       246.0       5811
+2023-02-05    273  252.6  244.1   251.9       305.0      93681
+2025-12-31    351  362.6  357.9   359.0       440.0     435285</pre></div>
+<figure class="fig"><img src="../img/python-19-01.png" alt="Daily units with 7-day and 30-day moving averages: averages smooth out daily noise and reveal trend and seasonality." loading="lazy"><figcaption>Daily units with 7-day and 30-day moving averages: averages smooth out daily noise and reveal trend and seasonality.</figcaption></figure>
+<h2 id="shifts-and-growth">Shifts and growth</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">m = <span class="hl-f">monthly.to_frame</span>(<span class="hl-s">&quot;units&quot;</span>)
+m[<span class="hl-s">&quot;prev_month&quot;</span>] = m[<span class="hl-s">&quot;units&quot;</span>].<span class="hl-f">shift</span>(<span class="hl-n">1</span>)
+m[<span class="hl-s">&quot;mom_%&quot;</span>] = (<span class="hl-n">100</span> * m[<span class="hl-s">&quot;units&quot;</span>].<span class="hl-f">pct_change</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+m[<span class="hl-s">&quot;yoy_%&quot;</span>] = (<span class="hl-n">100</span> * m[<span class="hl-s">&quot;units&quot;</span>].<span class="hl-f">pct_change</span>(<span class="hl-n">12</span>)).<span class="hl-f">round</span>(<span class="hl-n">1</span>)          <span class="hl-c"># same month last year</span>
+m[<span class="hl-s">&quot;ytd&quot;</span>] = <span class="hl-f">m.groupby</span>(m.index.year)[<span class="hl-s">&quot;units&quot;</span>].<span class="hl-f">cumsum</span>()
+<span class="hl-f">print</span>(<span class="hl-f">m.tail</span>(<span class="hl-n">4</span>))
+yr = daily[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">resample</span>(<span class="hl-s">&quot;YE&quot;</span>).<span class="hl-f">sum</span>()
+<span class="hl-f">print</span>(yr, (<span class="hl-n">100</span> * <span class="hl-f">yr.pct_change</span>()).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">tolist</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">            units  prev_month  mom_%  yoy_%     ytd
+date                                               
+2025-09-30  11071     11798.0   -6.2   12.3   99840
+2025-10-31  11291     11071.0    2.0   15.3  111131
+2025-11-30  10721     11291.0   -5.0   14.7  121852
+2025-12-31  11068     10721.0    3.2   15.1  132920
+date
+2022-12-31     85031
+2023-12-31    100536
+2024-12-31    116798
+2025-12-31    132920
+Freq: YE-DEC, Name: units_sold, dtype: int64 [nan, 18.2, 16.2, 13.8]</pre></div>
+<p><code>shift(1)</code> is SQL's <code>LAG</code>; <code>shift(-1)</code> is <code>LEAD</code>; <code>pct_change(12)</code> on monthly data is year-over-year growth.</p>
+<h2 id="time-zones">Time zones</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">ts_utc = <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-03-10 09:00&quot;</span>, tz=<span class="hl-s">&quot;UTC&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">ts_utc.tz_convert</span>(<span class="hl-s">&quot;Asia/Kolkata&quot;</span>), <span class="hl-f">ts_utc.tz_convert</span>(<span class="hl-s">&quot;America/New_York&quot;</span>))
+naive = <span class="hl-f">pd.Series</span>(<span class="hl-f">pd.to_datetime</span>([<span class="hl-s">&quot;2025-03-10 09:00&quot;</span>]))
+<span class="hl-f">print</span>(<span class="hl-f">naive.dt.tz_localize</span>(<span class="hl-s">&quot;Asia/Kolkata&quot;</span>).<span class="hl-f">dt.tz_convert</span>(<span class="hl-s">&quot;UTC&quot;</span>).<span class="hl-f">tolist</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2025-03-10 14:30:00+05:30 2025-03-10 05:00:00-04:00
+[Timestamp(&#x27;2025-03-10 03:30:00+0000&#x27;, tz=&#x27;UTC&#x27;)]</pre></div>
+<p>Store timestamps in UTC; convert to local time only for reporting.</p>
+<h2 id="mini-case-monthly-kpi-report">Mini case: monthly KPI report</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s[<span class="hl-s">&quot;month&quot;</span>] = s[<span class="hl-s">&quot;order_date&quot;</span>].<span class="hl-f">dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>)
+kpi = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;month&quot;</span>).<span class="hl-f">agg</span>(sales=(<span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;sum&quot;</span>), orders=(<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>), customers=(<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;nunique&quot;</span>))
+kpi[<span class="hl-s">&quot;aov&quot;</span>] = (kpi.sales / kpi.orders).<span class="hl-f">round</span>(<span class="hl-n">0</span>)
+kpi[<span class="hl-s">&quot;sales_3m_avg&quot;</span>] = <span class="hl-f">kpi.sales.rolling</span>(<span class="hl-n">3</span>).<span class="hl-f">mean</span>().<span class="hl-f">round</span>(<span class="hl-n">0</span>)
+kpi[<span class="hl-s">&quot;yoy_%&quot;</span>] = (<span class="hl-n">100</span> * <span class="hl-f">kpi.sales.pct_change</span>(<span class="hl-n">12</span>)).<span class="hl-f">round</span>(<span class="hl-n">1</span>)
+<span class="hl-f">print</span>((<span class="hl-f">kpi.tail</span>(<span class="hl-n">6</span>).<span class="hl-f">assign</span>(sales=<span class="hl-k">lambda</span> d: (d.sales / 1e6).<span class="hl-f">round</span>(<span class="hl-n">2</span>), sales_3m_avg=<span class="hl-k">lambda</span> d: (d.sales_3m_avg / 1e6).<span class="hl-f">round</span>(<span class="hl-n">2</span>))))
+first = <span class="hl-f">s.groupby</span>(<span class="hl-s">&quot;customer_id&quot;</span>)[<span class="hl-s">&quot;order_date&quot;</span>].<span class="hl-f">min</span>().<span class="hl-f">dt.to_period</span>(<span class="hl-s">&quot;M&quot;</span>).<span class="hl-f">rename</span>(<span class="hl-s">&quot;first_month&quot;</span>)
+s2 = <span class="hl-f">s.join</span>(first, on=<span class="hl-s">&quot;customer_id&quot;</span>)
+new_vs_repeat = <span class="hl-f">s2.assign</span>(kind=<span class="hl-f">np.where</span>(s2.month == s2.first_month, <span class="hl-s">&quot;new&quot;</span>, <span class="hl-s">&quot;repeat&quot;</span>)).<span class="hl-f">groupby</span>([<span class="hl-s">&quot;month&quot;</span>, <span class="hl-s">&quot;kind&quot;</span>])[<span class="hl-s">&quot;customer_id&quot;</span>].<span class="hl-f">nunique</span>().<span class="hl-f">unstack</span>().<span class="hl-f">tail</span>(<span class="hl-n">3</span>)
+<span class="hl-f">print</span>(new_vs_repeat)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">         sales  orders  customers      aov  sales_3m_avg  yoy_%
+month                                                          
+2025-07   7.19      99         91  72627.0          5.86   49.2
+2025-08   5.80      99         91  58608.0          5.65    0.8
+2025-09   8.47     107        101  79141.0          7.15   58.9
+2025-10   6.14     124        115  49518.0          6.80  -15.4
+2025-11  10.28     152        139  67661.0          8.30   41.2
+2025-12   7.65     134        121  57106.0          8.03   15.3
+kind     new  repeat
+month               
+2025-10  8.0   107.0
+2025-11  4.0   135.0
+2025-12  5.0   116.0</pre></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Parse with <code>pd.to_datetime</code> (give <code>format</code> or <code>dayfirst</code>); use <code>.dt</code> for parts and <code>to_period</code> for months/quarters.</li>
+<li><code>Timedelta</code> = exact duration; <code>DateOffset</code>/<code>MonthEnd</code>/<code>BDay</code> = calendar-aware moves; <code>date_range</code> builds calendars.</li>
+<li>A sorted <code>DatetimeIndex</code> allows partial-string slicing (<code>df.loc["2025-03"]</code>) and <code>resample</code>.</li>
+<li>Rolling, expanding and EWM windows smooth series; <code>shift</code> = lag/lead, <code>pct_change(n)</code> = growth, <code>cumsum</code> = running totals.</li>
+<li>Keep timestamps in UTC, check for missing dates, and convert for display.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-19-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>daily.resample("ME").sum()</code> produce?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Daily totals</button><button type="button" class="opt" data-ok="1"><i>B</i>Monthly totals (labelled at month end)</button><button type="button" class="opt" data-ok="0"><i>C</i>A 7-day average</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> ME = month end frequency.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which gives year-over-year growth on monthly data?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>pct_change(1)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>pct_change(12)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>shift(-12)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>rolling(12).mean()</code></button></div><div class="qexp"><b>Answer: B.</b> Compare each month with the same month a year earlier.</div></div><div class="qq"><p class="qtext"><b>3.</b> <code>shift(1)</code> is equivalent to which SQL function?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>LAG</button><button type="button" class="opt" data-ok="0"><i>B</i>LEAD</button><button type="button" class="opt" data-ok="0"><i>C</i>ROW_NUMBER</button><button type="button" class="opt" data-ok="0"><i>D</i>NTILE</button></div><div class="qexp"><b>Answer: A.</b> <code>shift(-1)</code> is LEAD.</div></div><div class="qq"><p class="qtext"><b>4.</b> How do you parse "05/01/2025" as 5 January?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>pd.to_datetime(x)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>pd.to_datetime(x, dayfirst=True)</code> or <code>format="%d/%m/%Y"</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>.dt.day</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>astype(str)</code></button></div><div class="qexp"><b>Answer: B.</b> The default assumes month first.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does <code>ts.rolling(7).mean()</code> give for the first 6 rows?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>0</button><button type="button" class="opt" data-ok="1"><i>B</i>NaN (not enough values yet)</button><button type="button" class="opt" data-ok="0"><i>C</i>The value itself</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> Use <code>min_periods=1</code> to allow partial windows.</div></div><div class="qq"><p class="qtext"><b>6.</b> What is the difference between <code>Timedelta(days=30)</code> and <code>DateOffset(months=1)</code> from 31 Jan?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Timedelta adds exactly 30 days (2 Mar); DateOffset moves to the same day next month, clipped to 28 Feb</button><button type="button" class="opt" data-ok="0"><i>B</i>They are identical</button><button type="button" class="opt" data-ok="0"><i>C</i>Timedelta is calendar-aware</button><button type="button" class="opt" data-ok="0"><i>D</i>DateOffset adds 30 days</button></div><div class="qexp"><b>Answer: A.</b> Use calendar offsets for month logic.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Time-series practice (daily_sales.csv)</b></div><p>(1) Which month had the highest total units? (2) Compute the 28-day rolling sum and its maximum. (3) Average units by weekday and month (a heatmap-ready pivot). (4) Year-over-year growth by quarter. (5) Flag days where units exceed the 30-day average by 50%.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">monthly.idxmax</span>(), <span class="hl-f">monthly.max</span>())
+<span class="hl-f">print</span>(<span class="hl-f">ts.rolling</span>(<span class="hl-n">28</span>).<span class="hl-f">sum</span>().<span class="hl-f">max</span>())
+pv = <span class="hl-f">daily.assign</span>(wd=<span class="hl-f">daily.index.day_name</span>(), m=daily.index.month).<span class="hl-f">pivot_table</span>(index=<span class="hl-s">&quot;wd&quot;</span>, columns=<span class="hl-s">&quot;m&quot;</span>, values=<span class="hl-s">&quot;units_sold&quot;</span>, aggfunc=<span class="hl-s">&quot;mean&quot;</span>).<span class="hl-f">round</span>(<span class="hl-n">0</span>)
+qq = <span class="hl-f">ts.resample</span>(<span class="hl-s">&quot;QE&quot;</span>).<span class="hl-f">sum</span>(); <span class="hl-f">print</span>((<span class="hl-n">100</span> * <span class="hl-f">qq.pct_change</span>(<span class="hl-n">4</span>)).<span class="hl-f">round</span>(<span class="hl-n">1</span>).<span class="hl-f">dropna</span>())
+spikes = daily[ts &gt; <span class="hl-n">1.5</span> * <span class="hl-f">ts.rolling</span>(<span class="hl-n">30</span>).<span class="hl-f">mean</span>()]; <span class="hl-f">print</span>(<span class="hl-f">len</span>(spikes))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: resample vs groupby?</strong>
+<code>resample</code> is a time-based groupby on a DatetimeIndex that also creates empty periods; <code>groupby</code> with <code>dt.to_period</code> is similar but only returns periods present in the data.</p>
+<p><strong>Q: How do you compute a 7-day moving average in pandas and in SQL?</strong>
+<code>s.rolling(7).mean()</code>; in SQL <code>AVG(x) OVER (ORDER BY d ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)</code>.</p>
+<p><strong>Q: How do you handle missing dates in a daily series?</strong>
+Reindex to a full <code>date_range</code>, then decide: fill with 0 (no sales), forward-fill (stock levels), or interpolate (sensor readings).</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html"><small>← Previous</small><b>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</b></a><a class="next" href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html"><small>Next →</small><b>Data Visualisation I: Matplotlib and Choosing the Right Chart</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#parsing-dates">Parsing dates</a><a href="#date-arithmetic">Date arithmetic</a><a href="#a-time-series-with-a-datetimeindex">A time series with a DatetimeIndex</a><a href="#resampling">Resampling</a><a href="#rolling-and-expanding-windows">Rolling and expanding windows</a><a href="#shifts-and-growth">Shifts and growth</a><a href="#time-zones">Time zones</a><a href="#mini-case-monthly-kpi-report">Mini case: monthly KPI report</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

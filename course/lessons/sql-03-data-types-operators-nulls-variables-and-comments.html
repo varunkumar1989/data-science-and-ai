@@ -1,0 +1,701 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Types, Operators, NULLs, Variables &amp; Comments · SQL Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Choose the right SQL Server data type for every column, use arithmetic, comparison, logical and string operators correctly, understand NULL and three-valued logic, declare variables, follow naming rules and write readable, commented SQL."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class="on"><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-03">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 3 of 15</div><h1>Data Types, Operators, NULLs, Variables &amp; Comments</h1>
+<p class="sum">Choose the right SQL Server data type for every column, use arithmetic, comparison, logical and string operators correctly, understand NULL and three-valued logic, declare variables, follow naming rules and write readable, commented SQL.</p><div class="tags"><span class="tag live">● SQL class 2</span><span class="tag new">✦ SQL Server 2022, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_03_Data_Types_Operators_NULLs_Variables_Comments.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Pick suitable numeric, text, date/time and other data types, and know why the choice matters</li><li>Use arithmetic, comparison, logical and concatenation operators, including integer division and modulo</li><li>Explain NULL, three-valued logic, IS NULL and COALESCE</li><li>Declare and use T-SQL variables with DECLARE, SET and SELECT</li><li>Follow identifier naming rules and conventions, and comment code</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-data-types-matter">Why data types matter</h2>
+<p>Every column has exactly one <strong>data type</strong>. The type decides what values are allowed, how much storage they use, how they sort and compare, and which functions work on them. A column of dates stored as text sorts "01-02-2026" before "31-01-2025" and cannot be used for date arithmetic, the same problem you met in Excel.</p>
+<h2 id="sql-server-data-types">SQL Server data types</h2>
+<figure class="fig"><img src="../img/sql-03-01.png" alt="The main families of SQL Server data types." loading="lazy"><figcaption>The main families of SQL Server data types.</figcaption></figure>
+<h3 id="numbers">Numbers</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Range / precision</th>
+<th>Storage</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TINYINT</code></td>
+<td>0 to 255</td>
+<td>1 byte</td>
+<td>Ratings, small codes</td>
+</tr>
+<tr>
+<td><code>SMALLINT</code></td>
+<td>−32,768 to 32,767</td>
+<td>2 bytes</td>
+<td>Small counts</td>
+</tr>
+<tr>
+<td><code>INT</code></td>
+<td>about ±2.1 billion</td>
+<td>4 bytes</td>
+<td>IDs, quantities (default choice)</td>
+</tr>
+<tr>
+<td><code>BIGINT</code></td>
+<td>about ±9.2 × 10¹⁸</td>
+<td>8 bytes</td>
+<td>Very large IDs, event logs</td>
+</tr>
+<tr>
+<td><code>DECIMAL(p, s)</code> / <code>NUMERIC</code></td>
+<td>exact, p digits with s after the point</td>
+<td>5–17 bytes</td>
+<td><strong>Money</strong>, rates: <code>DECIMAL(12,2)</code> holds up to 9,999,999,999.99</td>
+</tr>
+<tr>
+<td><code>MONEY</code></td>
+<td>exact, 4 decimals</td>
+<td>8 bytes</td>
+<td>Currency (DECIMAL is more portable)</td>
+</tr>
+<tr>
+<td><code>FLOAT</code>, <code>REAL</code></td>
+<td><strong>approximate</strong> binary floating point</td>
+<td>8 / 4 bytes</td>
+<td>Scientific measurements, ML scores</td>
+</tr>
+<tr>
+<td><code>BIT</code></td>
+<td>0, 1 or NULL</td>
+<td>1 bit</td>
+<td>Yes/No flags</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Never store money in FLOAT</b></div><p><code>FLOAT</code> cannot represent many decimal fractions exactly (0.1 + 0.2 is not exactly 0.3), so totals drift by tiny amounts. Use <code>DECIMAL(p, s)</code> for currency.</p></div>
+<h3 id="text">Text</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CHAR(n)</code></td>
+<td>Fixed length, padded with spaces</td>
+<td><code>CHAR(2)</code> for state codes <code>MH</code></td>
+</tr>
+<tr>
+<td><code>VARCHAR(n)</code></td>
+<td>Variable length, up to n bytes (n ≤ 8000)</td>
+<td><code>VARCHAR(100)</code> for names in English</td>
+</tr>
+<tr>
+<td><code>NVARCHAR(n)</code></td>
+<td>Variable length <strong>Unicode</strong> (Hindi, Tamil, emoji)</td>
+<td><code>NVARCHAR(100)</code> for names in any language</td>
+</tr>
+<tr>
+<td><code>VARCHAR(MAX)</code>, <code>NVARCHAR(MAX)</code></td>
+<td>Up to 2 GB</td>
+<td>Long descriptions, JSON</td>
+</tr>
+</tbody>
+</table></div>
+<p>Prefix Unicode string literals with <code>N</code>: <code>N'नमस्ते'</code>. Without <code>N</code>, non-Latin characters can turn into <code>?</code>.</p>
+<h3 id="dates-and-times">Dates and times</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Stores</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATE</code></td>
+<td>Date only</td>
+<td><code>2026-04-27</code></td>
+</tr>
+<tr>
+<td><code>TIME</code></td>
+<td>Time only</td>
+<td><code>14:30:00</code></td>
+</tr>
+<tr>
+<td><code>DATETIME2(p)</code></td>
+<td>Date + time, precise (preferred)</td>
+<td><code>2026-04-27 14:30:15.1234567</code></td>
+</tr>
+<tr>
+<td><code>DATETIME</code></td>
+<td>Older date + time (3.33 ms precision)</td>
+<td>Legacy tables</td>
+</tr>
+<tr>
+<td><code>DATETIMEOFFSET</code></td>
+<td>Date + time + time zone</td>
+<td><code>2026-04-27 14:30 +05:30</code></td>
+</tr>
+<tr>
+<td><code>SMALLDATETIME</code></td>
+<td>Date + time to the minute</td>
+<td>Low-precision logs</td>
+</tr>
+</tbody>
+</table></div>
+<p>Always write date literals in the unambiguous <strong>ISO format</strong> <code>'YYYY-MM-DD'</code> (<code>'2026-04-27'</code>). <code>'04/05/2026'</code> means April 5 or May 4 depending on the server's language settings.</p>
+<h3 id="others">Others</h3>
+<p><code>UNIQUEIDENTIFIER</code> (GUIDs), <code>VARBINARY</code> (files, images), <code>XML</code>, JSON stored in <code>NVARCHAR(MAX)</code> with JSON functions, <code>GEOGRAPHY</code> (maps), and from SQL Server 2025 a native <code>VECTOR</code> type for AI embeddings.</p>
+<h3 id="choosing-types-for-the-retail-tables">Choosing types for the retail tables</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Column</th>
+<th>Good type</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customer_id</code></td>
+<td><code>VARCHAR(10)</code></td>
+<td>Codes like C0001 keep leading letters/zeros</td>
+</tr>
+<tr>
+<td><code>customer_name</code></td>
+<td><code>NVARCHAR(100)</code></td>
+<td>Names in any language</td>
+</tr>
+<tr>
+<td><code>order_date</code></td>
+<td><code>DATE</code></td>
+<td>No time needed</td>
+</tr>
+<tr>
+<td><code>quantity</code></td>
+<td><code>INT</code> (or <code>SMALLINT</code>)</td>
+<td>Whole numbers</td>
+</tr>
+<tr>
+<td><code>discount</code></td>
+<td><code>DECIMAL(4,2)</code></td>
+<td>0.00 to 0.99 exactly</td>
+</tr>
+<tr>
+<td><code>sales</code>, <code>profit</code></td>
+<td><code>DECIMAL(12,2)</code></td>
+<td>Money</td>
+</tr>
+<tr>
+<td><code>is_returned</code></td>
+<td><code>BIT</code></td>
+<td>Yes/No</td>
+</tr>
+</tbody>
+</table></div>
+<p>Here are the types DuckDB inferred when loading the CSV (SSMS's Import Flat File wizard does the same kind of guessing; always review its suggestions):</p>
+<div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>column_name</th>
+      <th>column_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>row_id</td>
+      <td>BIGINT</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>order_id</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>order_date</td>
+      <td>DATE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ship_date</td>
+      <td>DATE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ship_mode</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>customer_id</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>customer_name</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>segment</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>city</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>state</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>region</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>product_id</td>
+      <td>VARCHAR</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">19 rows × 2 columns (first 12 shown)</div></div>
+<h2 id="operators">Operators</h2>
+<h3 id="arithmetic">Arithmetic</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Result in SQL Server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td>Add</td>
+<td><code>SELECT 7 + 2</code></td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>Subtract</td>
+<td><code>SELECT 7 - 2</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>Multiply</td>
+<td><code>SELECT 7 * 2</code></td>
+<td>14</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>Divide</td>
+<td><code>SELECT 7 / 2</code></td>
+<td><strong>3</strong> (integer ÷ integer = integer)</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>Divide</td>
+<td><code>SELECT 7 / 2.0</code></td>
+<td>3.500000</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>Modulo (remainder)</td>
+<td><code>SELECT 7 % 2</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>Integer division</b></div><p>In SQL Server, dividing two integers drops the decimals: <code>SELECT 1/3</code> returns 0, and <code>COUNT(...)/COUNT(...)</code> returns 0 or 1 instead of a percentage. Multiply by <code>1.0</code> or <code>CAST</code> one side: <code>SELECT 100.0 * returned / total</code> or <code>CAST(returned AS DECIMAL(10,2)) / total</code>. (PostgreSQL behaves the same way; MySQL and DuckDB return decimals.)</p></div>
+<p>Calculated columns are written right in the <code>SELECT</code> list. Here is unit price and margin for a few order lines:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">6</span>
+       order_id,
+       quantity,
+       sales,
+       profit,
+       <span class="hl-f">ROUND</span>(sales / quantity, <span class="hl-n">2</span>)          <span class="hl-k">AS</span> unit_price,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * profit / sales, <span class="hl-n">1</span>)    <span class="hl-k">AS</span> margin_pct
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> row_id;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>order_id</th>
+      <th>quantity</th>
+      <th>sales</th>
+      <th>profit</th>
+      <th>unit_price</th>
+      <th>margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>2</td>
+      <td>36,000</td>
+      <td>3,472.55</td>
+      <td>18,000</td>
+      <td>9.6</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>1</td>
+      <td>3,850</td>
+      <td>1,169.54</td>
+      <td>3,850</td>
+      <td>30.4</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00001</td>
+      <td>4</td>
+      <td>62,080</td>
+      <td>6,044.47</td>
+      <td>15,520</td>
+      <td>9.7</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00002</td>
+      <td>2</td>
+      <td>5,216</td>
+      <td>450.16</td>
+      <td>2,608</td>
+      <td>8.6</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>3</td>
+      <td>24,591</td>
+      <td>-5,512.33</td>
+      <td>8,197</td>
+      <td>-22.4</td>
+    </tr>
+    <tr>
+      <td>IN-2023-00003</td>
+      <td>1</td>
+      <td>8,288</td>
+      <td>-1,598.43</td>
+      <td>8,288</td>
+      <td>-19.3</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 6 columns</div></div>
+<h3 id="comparison">Comparison</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=</code></td>
+<td>Equal</td>
+</tr>
+<tr>
+<td><code>&lt;&gt;</code> or <code>!=</code></td>
+<td>Not equal</td>
+</tr>
+<tr>
+<td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td>
+<td>Greater / less (than or equal)</td>
+</tr>
+<tr>
+<td><code>BETWEEN a AND b</code></td>
+<td>Inclusive range</td>
+</tr>
+<tr>
+<td><code>IN (…)</code></td>
+<td>Matches any value in a list</td>
+</tr>
+<tr>
+<td><code>LIKE</code></td>
+<td>Pattern match with <code>%</code> and <code>_</code></td>
+</tr>
+<tr>
+<td><code>IS NULL</code> / <code>IS NOT NULL</code></td>
+<td>Tests for missing values</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="logical">Logical</h3>
+<p><code>AND</code> (both true), <code>OR</code> (at least one true), <code>NOT</code> (reverses). <strong>Precedence</strong>: <code>NOT</code> first, then <code>AND</code>, then <code>OR</code>. Use brackets to make intent obvious.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Without brackets, AND is evaluated first:</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> rows_without_brackets
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> region = <span class="hl-s">&#x27;North&#x27;</span> <span class="hl-k">OR</span> region = <span class="hl-s">&#x27;South&#x27;</span> <span class="hl-k">AND</span> category = <span class="hl-s">&#x27;Technology&#x27;</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>rows_without_brackets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- With brackets: (North or South) and Technology</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> rows_with_brackets
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> (region = <span class="hl-s">&#x27;North&#x27;</span> <span class="hl-k">OR</span> region = <span class="hl-s">&#x27;South&#x27;</span>) <span class="hl-k">AND</span> category = <span class="hl-s">&#x27;Technology&#x27;</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>rows_with_brackets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>952</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<p>The first query returns all North rows plus South Technology rows: probably not what was meant. Brackets fix it.</p>
+<h3 id="string-concatenation">String concatenation</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Example</th>
+<th>NULL behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td><code>first_name + ' ' + last_name</code></td>
+<td>Any NULL makes the whole result NULL</td>
+</tr>
+<tr>
+<td><code>CONCAT()</code></td>
+<td><code>CONCAT(first_name, ' ', last_name)</code></td>
+<td>Treats NULL as empty text</td>
+</tr>
+<tr>
+<td><code>CONCAT_WS()</code></td>
+<td><code>CONCAT_WS(', ', city, state, 'India')</code></td>
+<td>Separator; skips NULLs</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">4</span> customer_name,
+       <span class="hl-f">CONCAT</span>(city, <span class="hl-s">&#x27;, &#x27;</span>, state)            <span class="hl-k">AS</span> city_state,
+       <span class="hl-f">CONCAT_WS</span>(<span class="hl-s">&#x27; | &#x27;</span>, segment, region)    <span class="hl-k">AS</span> segment_region
+<span class="hl-k">FROM</span> customers;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_name</th>
+      <th>city_state</th>
+      <th>segment_region</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Saanvi Khan</td>
+      <td>Chandigarh, Punjab</td>
+      <td>Corporate | North</td>
+    </tr>
+    <tr>
+      <td>Meera Bose</td>
+      <td>Delhi, Delhi</td>
+      <td>Corporate | North</td>
+    </tr>
+    <tr>
+      <td>Riya Shah</td>
+      <td>Kolkata, West Bengal</td>
+      <td>Consumer | East</td>
+    </tr>
+    <tr>
+      <td>Diya Fernandes</td>
+      <td>Indore, Madhya Pradesh</td>
+      <td>Corporate | West</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 3 columns</div></div>
+<h2 id="null-the-missing-value">NULL: the missing value</h2>
+<p><code>NULL</code> means <strong>unknown or missing</strong>. It is not zero and not an empty string. Any comparison with NULL returns <strong>UNKNOWN</strong>, not TRUE or FALSE. SQL uses <strong>three-valued logic</strong>:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Expression</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NULL = NULL</code></td>
+<td>UNKNOWN</td>
+</tr>
+<tr>
+<td><code>NULL &lt;&gt; 5</code></td>
+<td>UNKNOWN</td>
+</tr>
+<tr>
+<td><code>5 + NULL</code></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td><code>TRUE AND UNKNOWN</code></td>
+<td>UNKNOWN</td>
+</tr>
+<tr>
+<td><code>FALSE AND UNKNOWN</code></td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td><code>TRUE OR UNKNOWN</code></td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td><code>NOT UNKNOWN</code></td>
+<td>UNKNOWN</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="fig"><img src="../img/sql-03-02.png" alt="Three-valued logic. Any comparison involving NULL is UNKNOWN; WHERE keeps only TRUE rows." loading="lazy"><figcaption>Three-valued logic. Any comparison involving NULL is UNKNOWN; WHERE keeps only TRUE rows.</figcaption></figure>
+<p><code>WHERE</code> keeps only rows where the condition is TRUE, so rows where it is UNKNOWN disappear silently. That is why you must test with <code>IS NULL</code>:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> t <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;A&#x27;</span> <span class="hl-k">AS</span> item, <span class="hl-n">10</span> <span class="hl-k">AS</span> score <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;B&#x27;</span>, <span class="hl-k">NULL</span> <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> <span class="hl-s">&#x27;C&#x27;</span>, <span class="hl-n">30</span>
+)
+<span class="hl-k">SELECT</span>
+    (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> t <span class="hl-k">WHERE</span> score = <span class="hl-k">NULL</span>)   <span class="hl-k">AS</span> equals_null_rows,     <span class="hl-c">-- always 0!</span>
+    (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> t <span class="hl-k">WHERE</span> score <span class="hl-k">IS</span> <span class="hl-k">NULL</span>)  <span class="hl-k">AS</span> is_null_rows,
+    (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(score) <span class="hl-k">FROM</span> t)                  <span class="hl-k">AS</span> count_score,          <span class="hl-c">-- ignores NULL</span>
+    (<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">FROM</span> t)                      <span class="hl-k">AS</span> count_star,
+    (<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(score * <span class="hl-n">1.0</span>) <span class="hl-k">FROM</span> t)              <span class="hl-k">AS</span> avg_ignores_null,     <span class="hl-c">-- (10+30)/2</span>
+    (<span class="hl-k">SELECT</span> <span class="hl-f">AVG</span>(<span class="hl-f">COALESCE</span>(score, <span class="hl-n">0</span>) * <span class="hl-n">1.0</span>) <span class="hl-k">FROM</span> t) <span class="hl-k">AS</span> avg_null_as_zero;     <span class="hl-c">-- (10+0+30)/3</span></code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>equals_null_rows</th>
+      <th>is_null_rows</th>
+      <th>count_score</th>
+      <th>count_star</th>
+      <th>avg_ignores_null</th>
+      <th>avg_null_as_zero</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>20</td>
+      <td>13.33</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 6 columns</div></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ISNULL(x, y)</code></td>
+<td>T-SQL: return y when x is NULL</td>
+</tr>
+<tr>
+<td><code>COALESCE(x, y, z, …)</code></td>
+<td>ANSI: the first non-NULL value; works in every database</td>
+</tr>
+<tr>
+<td><code>NULLIF(a, b)</code></td>
+<td>NULL if a = b, otherwise a. Classic use: <code>sales / NULLIF(qty, 0)</code> avoids divide-by-zero errors</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="variables-in-t-sql">Variables in T-SQL</h2>
+<p>T-SQL lets you store a value in a variable for the length of a batch. Variable names start with <code>@</code>.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">DECLARE</span> @target_region <span class="hl-k">VARCHAR</span>(<span class="hl-n">20</span>) = <span class="hl-s">&#x27;West&#x27;</span>;     <span class="hl-c">-- declare and assign</span>
+<span class="hl-k">DECLARE</span> @min_sales     <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>,<span class="hl-n">2</span>);
+<span class="hl-k">SET</span> @min_sales = <span class="hl-n">50000</span>;                           <span class="hl-c">-- assign with SET</span>
+
+<span class="hl-k">SELECT</span> order_id, city, sales
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> region = @target_region <span class="hl-k">AND</span> sales &gt;= @min_sales;
+
+<span class="hl-k">DECLARE</span> @total <span class="hl-k">DECIMAL</span>(<span class="hl-n">14</span>,<span class="hl-n">2</span>);
+<span class="hl-k">SELECT</span> @total = <span class="hl-f">SUM</span>(sales) <span class="hl-k">FROM</span> superstore;       <span class="hl-c">-- assign from a query</span>
+<span class="hl-k">PRINT</span> <span class="hl-f">CONCAT</span>(<span class="hl-s">&#x27;Total sales: &#x27;</span>, @total);            <span class="hl-c">-- message in the Messages tab</span></code></pre></div>
+<p>Variables make scripts reusable (change <code>'West'</code> once) and are the basis of stored procedures (Lesson 13). Other databases use different syntax (PostgreSQL <code>DO</code> blocks or <code>\set</code> in psql).</p>
+<h2 id="identifiers-naming-rules-and-conventions">Identifiers: naming rules and conventions</h2>
+<p><strong>Rules</strong> (SQL Server):
+- Start with a letter, <code>_</code>, <code>@</code> (variables) or <code>#</code> (temporary tables).
+- Up to 128 characters; letters, digits, <code>_</code>, <code>@</code>, <code>$</code>, <code>#</code>.
+- Reserved words (<code>ORDER</code>, <code>GROUP</code>, <code>USER</code>) and names with spaces must be wrapped in <code>[square brackets]</code> (or <code>"double quotes"</code>): <code>[Order Details]</code>, <code>[order]</code>.</p>
+<p><strong>Conventions</strong> used in this handbook (pick one style and be consistent):
+- <code>snake_case</code>, lowercase table and column names: <code>order_items</code>, <code>customer_id</code>.
+- Plural table names (<code>customers</code>) or singular (<code>customer</code>): be consistent.
+- Primary key <code>id</code> or <code>&lt;table&gt;_id</code>; foreign keys named after the referenced key (<code>customer_id</code>).
+- Prefix views <code>vw_</code>, procedures <code>usp_</code>, indexes <code>ix_</code>.
+- Avoid spaces, special characters and reserved words, so you never need brackets.</p>
+<h2 id="comments-and-formatting">Comments and formatting</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- A single-line comment: everything after -- is ignored</span>
+
+<span class="hl-c">/* A multi-line comment:
+   Purpose : Top 10 customers by 2025 sales
+   Author  : Varun Kumar
+   Updated : 27-Apr-2026                         */</span>
+
+<span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">10</span>
+       customer_id,
+       <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> total_sales           <span class="hl-c">-- revenue in rupees</span>
+<span class="hl-k">FROM</span>   superstore
+<span class="hl-k">WHERE</span>  order_date &gt;= <span class="hl-s">&#x27;2025-01-01&#x27;</span>
+  <span class="hl-k">AND</span>  order_date &lt;  <span class="hl-s">&#x27;2026-01-01&#x27;</span>          <span class="hl-c">-- half-open range: safe with times</span>
+<span class="hl-k">GROUP</span>  <span class="hl-k">BY</span> customer_id
+<span class="hl-k">ORDER</span>  <span class="hl-k">BY</span> total_sales <span class="hl-k">DESC</span>;</code></pre></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Readable SQL checklist</b></div><p>One clause per line (<code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>…), one column per line in long queries, consistent indentation, keywords in capitals, meaningful aliases, and a header comment explaining the purpose. Tools such as the "Format SQL" extension or SQLFluff format code automatically.</p></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Choose types deliberately: <code>INT</code> for IDs and counts, <code>DECIMAL(p,s)</code> for money, <code>NVARCHAR</code> for names, <code>DATE</code>/<code>DATETIME2</code> for dates; never <code>FLOAT</code> for money.</li>
+<li>Write dates as <code>'YYYY-MM-DD'</code>.</li>
+<li><code>7/2 = 3</code> in SQL Server: use <code>1.0 *</code> or <code>CAST</code> for decimal division; <code>%</code> gives the remainder.</li>
+<li>Precedence: NOT, AND, OR; use brackets.</li>
+<li><code>NULL</code> is unknown: compare with <code>IS NULL</code>; aggregates ignore NULLs; <code>COALESCE</code>, <code>ISNULL</code> and <code>NULLIF</code> handle them.</li>
+<li><code>CONCAT</code> treats NULL as empty; <code>+</code> with a NULL returns NULL.</li>
+<li>Variables: <code>DECLARE @x type = value</code>; name things consistently and comment your code.</li>
+</ul></div>
+<div class="quiz" id="quiz-sql-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which data type should store a product price in rupees and paise?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>FLOAT</button><button type="button" class="opt" data-ok="0"><i>B</i>INT</button><button type="button" class="opt" data-ok="1"><i>C</i>DECIMAL(10,2)</button><button type="button" class="opt" data-ok="0"><i>D</i>VARCHAR(10)</button></div><div class="qexp"><b>Answer: C.</b> DECIMAL stores exact decimal values, which money needs.</div></div><div class="qq"><p class="qtext"><b>2.</b> In SQL Server, what does <code>SELECT 9 / 4</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>2</button><button type="button" class="opt" data-ok="0"><i>B</i>2.25</button><button type="button" class="opt" data-ok="0"><i>C</i>2.0</button><button type="button" class="opt" data-ok="0"><i>D</i>3</button></div><div class="qexp"><b>Answer: A.</b> Integer divided by integer gives an integer (the fraction is dropped).</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>WHERE discount = NULL</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Rows where discount is missing</button><button type="button" class="opt" data-ok="1"><i>B</i>No rows</button><button type="button" class="opt" data-ok="0"><i>C</i>All rows</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> Comparisons with NULL are UNKNOWN, so WHERE keeps nothing. Use IS NULL.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which expression returns 'Pune' when city is NULL?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>city + 'Pune'</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>COALESCE(city, 'Pune')</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>NULLIF(city, 'Pune')</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>city = 'Pune'</code></button></div><div class="qexp"><b>Answer: B.</b> COALESCE returns the first non-NULL value.</div></div><div class="qq"><p class="qtext"><b>5.</b> <code>WHERE a = 1 OR b = 2 AND c = 3</code> is evaluated as:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>(a = 1 OR b = 2) AND c = 3</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>a = 1 OR (b = 2 AND c = 3)</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Left to right with equal precedence</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> AND has higher precedence than OR.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why use NVARCHAR instead of VARCHAR for customer names?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is faster</button><button type="button" class="opt" data-ok="1"><i>B</i>It stores Unicode characters such as Devanagari or Tamil correctly</button><button type="button" class="opt" data-ok="0"><i>C</i>It allows numbers</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required for primary keys</button></div><div class="qexp"><b>Answer: B.</b> NVARCHAR stores Unicode text; VARCHAR may lose characters outside the code page.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Fix the query</b></div><p>A colleague wrote: <code>SELECT order_id, profit/sales*100 AS margin FROM superstore WHERE category = 'Furniture' OR category = 'Technology' AND discount &gt; 0.2 AND ship_mode = NULL;</code> List every problem and rewrite it.</p><details class="sol"><summary>Show solution</summary><ol>
+<li><code>AND</code> binds before <code>OR</code>, so the discount and ship-mode filters apply only to Technology: add brackets.</li>
+<li><code>ship_mode = NULL</code> never matches: use <code>IS NULL</code> (or remove it if not needed).</li>
+<li>If profit and sales were integers, <code>profit/sales</code> would be integer division; use <code>100.0 * profit / sales</code> and guard against zero with <code>NULLIF(sales, 0)</code>.
+Rewritten:
+<code>SELECT order_id, ROUND(100.0 * profit / NULLIF(sales, 0), 1) AS margin_pct FROM superstore WHERE category IN ('Furniture', 'Technology') AND discount &gt; 0.2;</code></li>
+</ol></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is the difference between CHAR, VARCHAR and NVARCHAR?</strong>
+CHAR is fixed length (padded), VARCHAR is variable length non-Unicode, NVARCHAR is variable length Unicode (two bytes per character for most scripts).</p>
+<p><strong>Q: How does SQL treat NULL?</strong>
+As unknown: comparisons return UNKNOWN, aggregates (except COUNT(*)) ignore NULLs, arithmetic with NULL returns NULL. Use IS NULL, COALESCE/ISNULL and NULLIF.</p>
+<p><strong>Q: Why does <code>SELECT 100 * returned / total</code> give 0?</strong>
+Integer division when both values are integers; cast to decimal or multiply by 100.0.</p>
+<p><strong>Q: DECIMAL vs FLOAT?</strong>
+DECIMAL is exact (money, rates); FLOAT is approximate binary (scientific values) and can introduce rounding errors.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-02-er-diagrams-relationships-keys-and-normalisation.html"><small>← Previous</small><b>ER Diagrams, Relationships, Keys &amp; Normalisation</b></a><a class="next" href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html"><small>Next →</small><b>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-data-types-matter">Why data types matter</a><a href="#sql-server-data-types">SQL Server data types</a><a href="#operators">Operators</a><a href="#null-the-missing-value">NULL: the missing value</a><a href="#variables-in-t-sql">Variables in T-SQL</a><a href="#identifiers-naming-rules-and-conventions">Identifiers: naming rules and conventions</a><a href="#comments-and-formatting">Comments and formatting</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

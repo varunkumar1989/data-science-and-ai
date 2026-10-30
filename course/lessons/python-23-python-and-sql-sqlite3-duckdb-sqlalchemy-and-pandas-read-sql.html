@@ -1,0 +1,194 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql · Python Lesson 23 · Data Science &amp; AI Handbook</title><meta name="description" content="Connect Python to databases. Create and query SQLite with the standard library, use parameterised queries safely, load DataFrames to tables and back, query CSV and DataFrames directly with DuckDB, connect to MySQL, PostgreSQL and SQL Server with SQLAlchemy, and decide what to do in SQL versus pandas."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 23</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class="on"><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-23">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 23 of 29</div><h1>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</h1>
+<p class="sum">Connect Python to databases. Create and query SQLite with the standard library, use parameterised queries safely, load DataFrames to tables and back, query CSV and DataFrames directly with DuckDB, connect to MySQL, PostgreSQL and SQL Server with SQLAlchemy, and decide what to do in SQL versus pandas.</p><div class="tags"><span class="tag live">● Python class 18</span><span class="tag new">✦ DuckDB 1.x/2.x · SQLAlchemy 2</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_23_Python_and_SQL_sqlite3_DuckDB_SQLAlchemy_and_pandas_read_sql.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-23">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Create a SQLite database, run DDL/DML from Python and fetch results</li><li>Write parameterised queries and explain SQL injection</li><li>Move data between pandas and databases with to_sql and read_sql</li><li>Query files and DataFrames with DuckDB</li><li>Connect to server databases with SQLAlchemy connection URLs and secrets kept out of code</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="why-connect-python-to-sql">Why connect Python to SQL?</h2>
+<p>Company data lives in databases and warehouses (MySQL, PostgreSQL, SQL Server, Snowflake, BigQuery, Databricks). The usual pattern: <strong>filter and aggregate in SQL</strong> (close to the data), then <strong>analyse, model and chart in Python</strong>.</p>
+<figure class="fig"><img src="../img/python-23-01.png" alt="SQL pulls and summarises; Python analyses, models and presents." loading="lazy"><figcaption>SQL pulls and summarises; Python analyses, models and presents.</figcaption></figure>
+<h2 id="sqlite3-a-database-in-a-file">sqlite3: a database in a file</h2>
+<p>SQLite ships with Python. It is perfect for learning, prototypes and small apps.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> sqlite3, pandas <span class="hl-k">as</span> pd
+con = <span class="hl-f">sqlite3.connect</span>(<span class="hl-s">&quot;:memory:&quot;</span>)                   <span class="hl-c"># or &quot;shop.db&quot; for a file</span>
+cur = <span class="hl-f">con.cursor</span>()
+<span class="hl-f">cur.executescript</span>(<span class="hl-s">&quot;&quot;&quot;
+CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT NOT NULL, city TEXT);
+CREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER REFERENCES customers(id), amount REAL, order_date TEXT);
+&quot;&quot;&quot;</span>)
+<span class="hl-f">cur.executemany</span>(<span class="hl-s">&quot;INSERT INTO customers (name, city) VALUES (?, ?)&quot;</span>, [(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>), (<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>), (<span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>)])
+<span class="hl-f">cur.executemany</span>(<span class="hl-s">&quot;INSERT INTO orders (customer_id, amount, order_date) VALUES (?, ?, ?)&quot;</span>,
+                [(<span class="hl-n">1</span>, <span class="hl-n">1200</span>, <span class="hl-s">&quot;2025-01-05&quot;</span>), (<span class="hl-n">1</span>, <span class="hl-n">450</span>, <span class="hl-s">&quot;2025-02-11&quot;</span>), (<span class="hl-n">2</span>, <span class="hl-n">3000</span>, <span class="hl-s">&quot;2025-02-14&quot;</span>), (<span class="hl-n">3</span>, <span class="hl-n">780</span>, <span class="hl-s">&quot;2025-03-01&quot;</span>)])
+<span class="hl-f">con.commit</span>()
+<span class="hl-f">cur.execute</span>(<span class="hl-s">&quot;SELECT c.name, COUNT(*), SUM(o.amount) FROM orders o JOIN customers c ON c.id = o.customer_id GROUP BY c.name ORDER BY 3 DESC&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">cur.fetchall</span>())
+<span class="hl-f">cur.execute</span>(<span class="hl-s">&quot;SELECT * FROM customers WHERE city = ?&quot;</span>, (<span class="hl-s">&quot;Pune&quot;</span>,)); <span class="hl-f">print</span>(<span class="hl-f">cur.fetchone</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[(&#x27;Ravi&#x27;, 1, 3000.0), (&#x27;Asha&#x27;, 2, 1650.0), (&#x27;Meera&#x27;, 1, 780.0)]
+(1, &#x27;Asha&#x27;, &#x27;Pune&#x27;)</pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>con.execute(sql, params)</code> / <code>cursor.execute</code></td>
+<td>Run one statement</td>
+</tr>
+<tr>
+<td><code>executemany(sql, rows)</code></td>
+<td>Insert many rows</td>
+</tr>
+<tr>
+<td><code>fetchone()</code>, <code>fetchall()</code>, <code>fetchmany(n)</code></td>
+<td>Read results</td>
+</tr>
+<tr>
+<td><code>con.commit()</code> / <code>con.rollback()</code></td>
+<td>Save / undo a transaction</td>
+</tr>
+<tr>
+<td><code>with con:</code></td>
+<td>Commits on success, rolls back on error</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="parameterised-queries-and-sql-injection">Parameterised queries and SQL injection</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">user_input = <span class="hl-s">&quot;Pune&#x27; OR &#x27;1&#x27;=&#x27;1&quot;</span>
+unsafe = <span class="hl-s">f&quot;SELECT name FROM customers WHERE city = &#x27;{user_input}&#x27;&quot;</span>       <span class="hl-c"># NEVER build SQL with f-strings</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;unsafe returns:&quot;</span>, <span class="hl-f">con.execute</span>(unsafe).<span class="hl-f">fetchall</span>())
+<span class="hl-f">print</span>(<span class="hl-s">&quot;safe returns:  &quot;</span>, <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT name FROM customers WHERE city = ?&quot;</span>, (user_input,)).<span class="hl-f">fetchall</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">unsafe returns: [(&#x27;Asha&#x27;,), (&#x27;Ravi&#x27;,), (&#x27;Meera&#x27;,)]
+safe returns:   []</pre></div>
+<p>The unsafe query returned <strong>every</strong> customer because the input changed the SQL. Placeholders (<code>?</code> in SQLite, <code>%s</code> or <code>:name</code> in other drivers) send values separately, so input can never become code.</p>
+<h3 id="transactions">Transactions</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">try</span>:
+    <span class="hl-k">with</span> con:                                                        <span class="hl-c"># one transaction</span>
+        <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;UPDATE orders SET amount = amount - 500 WHERE id = 1&quot;</span>)
+        <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;INSERT INTO orders (customer_id, amount) VALUES (2, 500)&quot;</span>)          <span class="hl-c"># second change</span>
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;payment gateway down&quot;</span>)                      <span class="hl-c"># simulate a failure mid-way</span>
+<span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;rolled back:&quot;</span>, e)
+<span class="hl-f">print</span>(<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT id, amount FROM orders WHERE id = 1&quot;</span>).<span class="hl-f">fetchone</span>(), <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT COUNT(*) FROM orders&quot;</span>).<span class="hl-f">fetchone</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">rolled back: payment gateway down
+(1, 1200.0) (4,)</pre></div>
+<p>Both changes were undone together: that is atomicity (the A in ACID).</p>
+<h2 id="pandas-database">pandas ↔ database</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+<span class="hl-f">s.to_sql</span>(<span class="hl-s">&quot;sales&quot;</span>, con, index=<span class="hl-k">False</span>, if_exists=<span class="hl-s">&quot;replace&quot;</span>)               <span class="hl-c"># DataFrame -&gt; table</span>
+q = <span class="hl-s">&quot;&quot;&quot;
+SELECT region, category, ROUND(SUM(sales) / 1e6, 2) AS sales_m, ROUND(100.0 * SUM(profit) / SUM(sales), 1) AS margin_pct
+FROM sales WHERE discount &lt;= :max_disc GROUP BY region, category ORDER BY sales_m DESC LIMIT 5
+&quot;&quot;&quot;</span>
+<span class="hl-f">print</span>(<span class="hl-f">pd.read_sql</span>(q, con, params={<span class="hl-s">&quot;max_disc&quot;</span>: <span class="hl-n">0.1</span>}))                  <span class="hl-c"># query -&gt; DataFrame</span>
+<span class="hl-f">con.close</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  region    category  sales_m  margin_pct
+0  South  Technology    32.14        15.9
+1   West  Technology    30.21        16.1
+2  North  Technology    29.93        16.6
+3   East  Technology    26.57        17.5
+4   West   Furniture     5.36        10.3</pre></div>
+<p>For large tables, read in pieces with <code>chunksize=</code> or push the aggregation into SQL so only the summary travels.</p>
+<h2 id="duckdb-sql-on-files-and-dataframes">DuckDB: SQL on files and DataFrames</h2>
+<p><strong>DuckDB</strong> is an in-process analytical database: no server, very fast on columnar data, and it can query CSV, Parquet and pandas DataFrames directly.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> duckdb
+<span class="hl-f">print</span>(<span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;&quot;&quot;
+    SELECT category, COUNT(*) AS lines, ROUND(SUM(sales)/1e6, 2) AS sales_m
+    FROM &#x27;superstore_sales.csv&#x27; GROUP BY category ORDER BY sales_m DESC
+&quot;&quot;&quot;</span>).<span class="hl-f">df</span>())
+customers = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+top = <span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;&quot;&quot;
+    SELECT c.state, COUNT(DISTINCT s.customer_id) AS customers, ROUND(SUM(s.sales)/1e6, 2) AS sales_m,
+           RANK() OVER (ORDER BY SUM(s.sales) DESC) AS rnk
+    FROM s JOIN customers c USING (customer_id)                       -- s and customers are pandas DataFrames!
+    GROUP BY c.state QUALIFY rnk &lt;= 5 ORDER BY rnk
+&quot;&quot;&quot;</span>).<span class="hl-f">df</span>()
+<span class="hl-f">print</span>(top, duckdb.__version__)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">          category  lines  sales_m
+0       Technology   1892   156.44
+1        Furniture   1917    34.84
+2  Office Supplies   2514    10.13
+            state  customers  sales_m  rnk
+0     Maharashtra         93    25.67    1
+1           Delhi         54    15.66    2
+2          Kerala         48    14.71    3
+3  Madhya Pradesh         57    14.41    4
+4     West Bengal         54    13.89    5 2.0.0</pre></div>
+<p>DuckDB also writes Parquet (<code>COPY (SELECT ...) TO 'out.parquet'</code>), reads from S3, and powers tools such as MotherDuck and the Metabase/MinusX demos in the AI analytics track.</p>
+<h2 id="server-databases-with-sqlalchemy">Server databases with SQLAlchemy</h2>
+<p><code>SQLAlchemy</code> gives one interface to many databases. You need the database's driver package too.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sqlalchemy <span class="hl-k">import</span> create_engine, text
+<span class="hl-k">import</span> os, pandas <span class="hl-k">as</span> pd
+
+<span class="hl-c"># Connection URLs:  dialect+driver://user:password@host:port/database</span>
+url = os.environ[<span class="hl-s">&quot;DB_URL&quot;</span>]          <span class="hl-c"># e.g. &quot;postgresql+psycopg://analyst:***@db.company.com:5432/sales&quot;</span>
+<span class="hl-c">#   MySQL:       &quot;mysql+pymysql://user:pw@host:3306/db&quot;</span>
+<span class="hl-c">#   SQL Server:  &quot;mssql+pyodbc://user:pw@server/db?driver=ODBC+Driver+18+for+SQL+Server&quot;</span>
+<span class="hl-c">#   SQLite:      &quot;sqlite:///shop.db&quot;</span>
+engine = <span class="hl-f">create_engine</span>(url)
+
+<span class="hl-k">with</span> <span class="hl-f">engine.connect</span>() <span class="hl-k">as</span> conn:
+    df = <span class="hl-f">pd.read_sql</span>(<span class="hl-f">text</span>(<span class="hl-s">&quot;SELECT * FROM orders WHERE order_date &gt;= :d&quot;</span>), conn, params={<span class="hl-s">&quot;d&quot;</span>: <span class="hl-s">&quot;2025-01-01&quot;</span>})
+
+<span class="hl-f">df_summary.to_sql</span>(<span class="hl-s">&quot;daily_summary&quot;</span>, engine, if_exists=<span class="hl-s">&quot;append&quot;</span>, index=<span class="hl-k">False</span>, chunksize=10_000)</code></pre></div>
+<p>Warehouses have their own connectors (<code>snowflake-connector-python</code>, <code>google-cloud-bigquery</code>, <code>databricks-sql-connector</code>), and most also accept SQLAlchemy URLs.</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Keep credentials out of code</b></div><p>Read passwords from environment variables, a <code>.env</code> file (with <code>python-dotenv</code>) that is in <code>.gitignore</code>, or a secrets manager. Use a read-only database user for analysis.</p></div>
+<h2 id="sql-or-pandas">SQL or pandas?</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Do it in SQL when…</th>
+<th>Do it in pandas when…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The data is large and lives in the database</td>
+<td>The data fits in memory</td>
+</tr>
+<tr>
+<td>Filtering, joining, aggregating</td>
+<td>Complex reshaping, statistics, ML, charts</td>
+</tr>
+<tr>
+<td>Many people need the same logic (views)</td>
+<td>Exploratory, one-off analysis</td>
+</tr>
+<tr>
+<td>You want the database's indexes and compute</td>
+<td>You need Python libraries</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li><code>sqlite3</code> creates databases in a file or memory; <code>execute</code>, <code>executemany</code>, <code>fetchall</code>, <code>commit</code>; <code>with con:</code> wraps a transaction.</li>
+<li>Always use parameter placeholders, never f-strings, to prevent SQL injection.</li>
+<li><code>df.to_sql</code> writes tables; <code>pd.read_sql(query, con, params=...)</code> reads results into DataFrames.</li>
+<li>DuckDB runs fast SQL directly on CSV/Parquet files and pandas DataFrames.</li>
+<li>SQLAlchemy connects to MySQL, PostgreSQL, SQL Server and warehouses with a URL; keep credentials in environment variables.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-23-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> How should user input be passed into a SQL query?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>With an f-string</button><button type="button" class="opt" data-ok="1"><i>B</i>As parameters with placeholders (<code>?</code>, <code>%s</code>, <code>:name</code>)</button><button type="button" class="opt" data-ok="0"><i>C</i>With string concatenation</button><button type="button" class="opt" data-ok="0"><i>D</i>In a comment</button></div><div class="qexp"><b>Answer: B.</b> Placeholders prevent SQL injection.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>with con:</code> do in sqlite3?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Opens a file</button><button type="button" class="opt" data-ok="1"><i>B</i>Commits if the block succeeds and rolls back on an exception</button><button type="button" class="opt" data-ok="0"><i>C</i>Closes the database</button><button type="button" class="opt" data-ok="0"><i>D</i>Creates a table</button></div><div class="qexp"><b>Answer: B.</b> It makes the block a transaction.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which writes a DataFrame to a database table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>pd.read_sql</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>df.to_sql("table", con)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>df.to_csv</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>con.fetchall</code></button></div><div class="qexp"><b>Answer: B.</b> <code>if_exists</code> controls replace/append.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is special about DuckDB?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It requires a server</button><button type="button" class="opt" data-ok="1"><i>B</i>It runs in-process and can query CSV, Parquet and DataFrames directly with SQL</button><button type="button" class="opt" data-ok="0"><i>C</i>It only stores text</button><button type="button" class="opt" data-ok="0"><i>D</i>It replaces pandas entirely</button></div><div class="qexp"><b>Answer: B.</b> It is optimised for analytics.</div></div><div class="qq"><p class="qtext"><b>5.</b> Where should a database password be stored?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In the notebook</button><button type="button" class="opt" data-ok="1"><i>B</i>In an environment variable or secrets manager</button><button type="button" class="opt" data-ok="0"><i>C</i>In the SQL query</button><button type="button" class="opt" data-ok="0"><i>D</i>On GitHub</button></div><div class="qexp"><b>Answer: B.</b> Never commit credentials.</div></div><div class="qq"><p class="qtext"><b>6.</b> Why aggregate in SQL before loading into pandas?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>SQL is always faster to write</button><button type="button" class="opt" data-ok="1"><i>B</i>Only the small summary travels over the network and into memory</button><button type="button" class="opt" data-ok="0"><i>C</i>pandas cannot aggregate</button><button type="button" class="opt" data-ok="0"><i>D</i>It is required</button></div><div class="qexp"><b>Answer: B.</b> Push heavy work to the database.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>(1) Load <code>customers.csv</code> and <code>superstore_sales.csv</code> into SQLite. (2) In SQL, find the top 5 cities by profit and read the result into pandas. (3) Repeat with DuckDB directly on the CSV files. (4) Write a function <code>get_sales(con, region)</code> that uses a parameterised query.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">con = <span class="hl-f">sqlite3.connect</span>(<span class="hl-s">&quot;:memory:&quot;</span>)
+<span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>).<span class="hl-f">to_sql</span>(<span class="hl-s">&quot;customers&quot;</span>, con, index=<span class="hl-k">False</span>)
+<span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>).<span class="hl-f">to_sql</span>(<span class="hl-s">&quot;sales&quot;</span>, con, index=<span class="hl-k">False</span>)
+<span class="hl-f">print</span>(<span class="hl-f">pd.read_sql</span>(<span class="hl-s">&quot;SELECT city, SUM(profit) p FROM sales GROUP BY city ORDER BY p DESC LIMIT 5&quot;</span>, con))
+<span class="hl-f">print</span>(<span class="hl-f">duckdb.sql</span>(<span class="hl-s">&quot;SELECT city, SUM(profit) p FROM &#x27;superstore_sales.csv&#x27; GROUP BY city ORDER BY p DESC LIMIT 5&quot;</span>).<span class="hl-f">df</span>())
+<span class="hl-k">def</span> <span class="hl-f">get_sales</span>(con, region):
+    <span class="hl-k">return</span> <span class="hl-f">pd.read_sql</span>(<span class="hl-s">&quot;SELECT SUM(sales) AS sales FROM sales WHERE region = ?&quot;</span>, con, params=(region,))
+<span class="hl-f">print</span>(<span class="hl-f">get_sales</span>(con, <span class="hl-s">&quot;West&quot;</span>))</code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: What is SQL injection and how do you prevent it?</strong>
+Malicious input that changes a query's meaning; prevent it with parameterised queries (and least-privilege accounts, input validation, ORMs).</p>
+<p><strong>Q: How do you load a 50 GB table for analysis?</strong>
+Aggregate or sample in the database, read in chunks, or use a columnar engine (DuckDB, Spark, the warehouse itself) instead of pulling everything into pandas.</p>
+<p><strong>Q: What does ACID mean?</strong>
+Atomicity, Consistency, Isolation, Durability: transactions are all-or-nothing, keep rules valid, do not interfere, and survive crashes.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html"><small>← Previous</small><b>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</b></a><a class="next" href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html"><small>Next →</small><b>APIs, JSON and Web Scraping with requests and BeautifulSoup</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-connect-python-to-sql">Why connect Python to SQL?</a><a href="#sqlite3-a-database-in-a-file">sqlite3: a database in a file</a><a href="#pandas-database">pandas ↔ database</a><a href="#duckdb-sql-on-files-and-dataframes">DuckDB: SQL on files and DataFrames</a><a href="#server-databases-with-sqlalchemy">Server databases with SQLAlchemy</a><a href="#sql-or-pandas">SQL or pandas?</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

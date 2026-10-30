@@ -1,0 +1,244 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions · Python Lesson 6 · Data Science &amp; AI Handbook</title><meta name="description" content="Store and process ordered collections with lists. Index and slice them, add, remove and sort items, understand mutability, aliasing and copying (shallow vs deep), use nested lists, list comprehensions, and common patterns for cleaning and summarising data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 6</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class="on"><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-06">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 6 of 29</div><h1>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</h1>
+<p class="sum">Store and process ordered collections with lists. Index and slice them, add, remove and sort items, understand mutability, aliasing and copying (shallow vs deep), use nested lists, list comprehensions, and common patterns for cleaning and summarising data.</p><div class="tags"><span class="tag live">● Python class 5</span><span class="tag new">✦ Python 3.13</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_06_Lists_Creating_Slicing_Methods_Sorting_Comprehensions.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-06">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Create lists and use indexing, slicing, concatenation, repetition and membership tests</li><li>Apply list methods (append, extend, insert, remove, pop, sort, reverse, index, count) and built-ins (len, sum, min, max, sorted)</li><li>Explain mutability, aliasing and the difference between assignment, shallow copy and deep copy</li><li>Build lists with comprehensions, including conditions and nested loops</li><li>Use lists for typical data tasks: filtering, ranking, de-duplicating while keeping order, flattening and unzipping</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/employees_small.csv" download>employees_small.csv</a></div></div></div>
+<div class="content"><h2 id="what-is-a-list">What is a list?</h2>
+<p>A <strong>list</strong> is an ordered, <strong>mutable</strong> collection of items written in square brackets. Items can be of any type, and may repeat.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">cities = [<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>]
+mixed = [<span class="hl-n">101</span>, <span class="hl-s">&quot;Kavya&quot;</span>, <span class="hl-n">97000.5</span>, <span class="hl-k">True</span>, <span class="hl-k">None</span>]
+empty = []
+<span class="hl-f">print</span>(cities, <span class="hl-f">len</span>(cities), <span class="hl-f">type</span>(cities).__name__)
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-s">&quot;data&quot;</span>), <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">5</span>)), <span class="hl-f">list</span>((<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>)), [<span class="hl-n">0</span>] * <span class="hl-n">5</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;Pune&#x27;, &#x27;Delhi&#x27;, &#x27;Kochi&#x27;, &#x27;Delhi&#x27;] 4 list
+[&#x27;d&#x27;, &#x27;a&#x27;, &#x27;t&#x27;, &#x27;a&#x27;] [0, 1, 2, 3, 4] [1, 2, 3] [0, 0, 0, 0, 0]</pre></div>
+<figure class="fig"><img src="../img/python-06-01.png" alt="A list is a row of numbered boxes. Items are referenced by position; the list itself can grow, shrink and change." loading="lazy"><figcaption>A list is a row of numbered boxes. Items are referenced by position; the list itself can grow, shrink and change.</figcaption></figure>
+<h2 id="indexing-and-slicing">Indexing and slicing</h2>
+<p>Works exactly like strings (Lesson 3), but lists can also be <strong>changed</strong>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">nums = [<span class="hl-n">10</span>, <span class="hl-n">20</span>, <span class="hl-n">30</span>, <span class="hl-n">40</span>, <span class="hl-n">50</span>, <span class="hl-n">60</span>]
+<span class="hl-f">print</span>(nums[<span class="hl-n">0</span>], nums[-<span class="hl-n">1</span>], nums[<span class="hl-n">1</span>:<span class="hl-n">4</span>], nums[:<span class="hl-n">2</span>], nums[-<span class="hl-n">2</span>:], nums[::<span class="hl-n">2</span>], nums[::-<span class="hl-n">1</span>])
+nums[<span class="hl-n">0</span>] = <span class="hl-n">99</span>                   <span class="hl-c"># change one item</span>
+nums[<span class="hl-n">1</span>:<span class="hl-n">3</span>] = [<span class="hl-n">21</span>, <span class="hl-n">31</span>, <span class="hl-n">32</span>]      <span class="hl-c"># replace a slice (the length may change)</span>
+<span class="hl-f">print</span>(nums)
+<span class="hl-f">print</span>(<span class="hl-n">3</span> <span class="hl-k">in</span> nums, <span class="hl-n">99</span> <span class="hl-k">in</span> nums, <span class="hl-f">nums.count</span>(<span class="hl-n">40</span>), <span class="hl-f">nums.index</span>(<span class="hl-n">40</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">10 60 [20, 30, 40] [10, 20] [50, 60] [10, 30, 50] [60, 50, 40, 30, 20, 10]
+[99, 21, 31, 32, 40, 50, 60]
+False True 1 4</pre></div>
+<h2 id="adding-and-removing-items">Adding and removing items</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+<th>Example</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>append(x)</code></td>
+<td>Add one item at the end</td>
+<td><code>a.append(5)</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>extend(iterable)</code> or <code>+=</code></td>
+<td>Add all items from another sequence</td>
+<td><code>a.extend([6, 7])</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>insert(i, x)</code></td>
+<td>Insert before position i</td>
+<td><code>a.insert(0, "first")</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>remove(x)</code></td>
+<td>Delete the first item equal to x</td>
+<td><code>a.remove(5)</code></td>
+<td>None (error if missing)</td>
+</tr>
+<tr>
+<td><code>pop(i=-1)</code></td>
+<td>Remove and return item at i</td>
+<td><code>last = a.pop()</code></td>
+<td>the item</td>
+</tr>
+<tr>
+<td><code>del a[i]</code> / <code>del a[i:j]</code></td>
+<td>Delete by position or slice</td>
+<td><code>del a[0]</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>clear()</code></td>
+<td>Empty the list</td>
+<td><code>a.clear()</code></td>
+<td>None</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">a = [<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]
+<span class="hl-f">a.append</span>(<span class="hl-n">4</span>); <span class="hl-f">a.extend</span>([<span class="hl-n">5</span>, <span class="hl-n">6</span>]); <span class="hl-f">a.insert</span>(<span class="hl-n">0</span>, <span class="hl-n">0</span>); a += [<span class="hl-n">7</span>]
+<span class="hl-f">print</span>(a)
+<span class="hl-f">print</span>(<span class="hl-f">a.pop</span>(), <span class="hl-f">a.pop</span>(<span class="hl-n">0</span>), a)          <span class="hl-c"># removes 7, then 0</span>
+<span class="hl-f">a.remove</span>(<span class="hl-n">3</span>); del a[<span class="hl-n">0</span>]; <span class="hl-f">print</span>(a)
+<span class="hl-f">print</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>] + [<span class="hl-n">3</span>], [<span class="hl-n">1</span>, <span class="hl-n">2</span>] * <span class="hl-n">2</span>)       <span class="hl-c"># concatenation creates new lists</span>
+<span class="hl-f">print</span>(<span class="hl-f">a.append</span>(<span class="hl-n">9</span>))                    <span class="hl-c"># None! methods that change a list return None</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[0, 1, 2, 3, 4, 5, 6, 7]
+7 0 [1, 2, 3, 4, 5, 6]
+[2, 4, 5, 6]
+[1, 2, 3] [1, 2, 1, 2]
+None</pre></div>
+<div class="co co-mistake"><div class="co-h"><span class="pill">Common mistakes</span><b>`x = x.append(...)`</b></div><p><code>append</code>, <code>sort</code>, <code>reverse</code> and <code>extend</code> change the list <strong>in place</strong> and return <code>None</code>. Writing <code>nums = nums.sort()</code> leaves <code>nums</code> as <code>None</code>. Use <code>sorted(nums)</code> when you want a new list.</p></div>
+<h2 id="sorting-and-reversing">Sorting and reversing</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">scores = [<span class="hl-n">72</span>, <span class="hl-n">95</span>, <span class="hl-n">61</span>, <span class="hl-n">88</span>, <span class="hl-n">95</span>]
+<span class="hl-f">print</span>(<span class="hl-f">sorted</span>(scores), <span class="hl-f">sorted</span>(scores, reverse=<span class="hl-k">True</span>), scores)         <span class="hl-c"># sorted() returns a new list</span>
+<span class="hl-f">scores.sort</span>(); <span class="hl-f">print</span>(scores)                                         <span class="hl-c"># .sort() changes the list in place</span>
+words = [<span class="hl-s">&quot;banana&quot;</span>, <span class="hl-s">&quot;Apple&quot;</span>, <span class="hl-s">&quot;cherry&quot;</span>, <span class="hl-s">&quot;apple&quot;</span>]
+<span class="hl-f">print</span>(<span class="hl-f">sorted</span>(words), <span class="hl-f">sorted</span>(words, key=str.lower), <span class="hl-f">sorted</span>(words, key=len))
+staff = [(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-n">29</span>, <span class="hl-n">61000</span>), (<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-n">34</span>, <span class="hl-n">88000</span>), (<span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-n">41</span>, <span class="hl-n">72000</span>)]
+<span class="hl-f">print</span>(<span class="hl-f">sorted</span>(staff, key=<span class="hl-k">lambda</span> p: p[<span class="hl-n">2</span>], reverse=<span class="hl-k">True</span>))               <span class="hl-c"># sort records by the 3rd field</span>
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">reversed</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>])), <span class="hl-f">min</span>(staff, key=<span class="hl-k">lambda</span> p: p[<span class="hl-n">1</span>])[<span class="hl-n">0</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[61, 72, 88, 95, 95] [95, 95, 88, 72, 61] [72, 95, 61, 88, 95]
+[61, 72, 88, 95, 95]
+[&#x27;Apple&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27;] [&#x27;Apple&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27;] [&#x27;Apple&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27;]
+[(&#x27;Ravi&#x27;, 34, 88000), (&#x27;Meera&#x27;, 41, 72000), (&#x27;Asha&#x27;, 29, 61000)]
+[3, 2, 1] Asha</pre></div>
+<p><code>sorted()</code> and <code>.sort()</code> are <strong>stable</strong>: equal items keep their original order, so you can sort by several keys by sorting repeatedly from the least to the most important key, or use a tuple key: <code>key=lambda p: (p[1], -p[2])</code>.</p>
+<h2 id="built-in-helpers">Built-in helpers</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">data = [<span class="hl-n">4</span>, <span class="hl-n">8</span>, <span class="hl-n">15</span>, <span class="hl-n">16</span>, <span class="hl-n">23</span>, <span class="hl-n">42</span>]
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(data), <span class="hl-f">sum</span>(data), <span class="hl-f">min</span>(data), <span class="hl-f">max</span>(data), <span class="hl-f">sum</span>(data) / <span class="hl-f">len</span>(data))
+<span class="hl-f">print</span>(<span class="hl-f">any</span>(x &gt; <span class="hl-n">40</span> <span class="hl-k">for</span> x <span class="hl-k">in</span> data), <span class="hl-f">all</span>(x &gt; <span class="hl-n">0</span> <span class="hl-k">for</span> x <span class="hl-k">in</span> data))
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">enumerate</span>([<span class="hl-s">&quot;a&quot;</span>, <span class="hl-s">&quot;b&quot;</span>], <span class="hl-n">1</span>)), <span class="hl-f">list</span>(<span class="hl-f">zip</span>([<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>], <span class="hl-s">&quot;abc&quot;</span>)))
+a, b, *rest = data; <span class="hl-f">print</span>(a, b, rest)                                <span class="hl-c"># unpacking with *</span>
+first, *middle, last = data; <span class="hl-f">print</span>(first, middle, last)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 108 4 42 18.0
+True True
+[(1, &#x27;a&#x27;), (2, &#x27;b&#x27;)] [(1, &#x27;a&#x27;), (2, &#x27;b&#x27;), (3, &#x27;c&#x27;)]
+4 8 [15, 16, 23, 42]
+4 [8, 15, 16, 23] 42</pre></div>
+<h2 id="mutability-aliasing-and-copying">Mutability, aliasing and copying</h2>
+<p>A variable holds a <strong>reference</strong> to a list. Assigning a list to another name does <strong>not</strong> copy it.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">a = [<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>]
+b = a                      <span class="hl-c"># b is another name for the SAME list</span>
+<span class="hl-f">b.append</span>(<span class="hl-n">4</span>)
+<span class="hl-f">print</span>(a, b, a <span class="hl-k">is</span> b)
+c = <span class="hl-f">a.copy</span>()               <span class="hl-c"># a real (shallow) copy; also list(a) or a[:]</span>
+<span class="hl-f">c.append</span>(<span class="hl-n">99</span>)
+<span class="hl-f">print</span>(a, c, a <span class="hl-k">is</span> c)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[1, 2, 3, 4] [1, 2, 3, 4] True
+[1, 2, 3, 4] [1, 2, 3, 4, 99] False</pre></div>
+<figure class="fig"><img src="../img/python-06-02.png" alt="Assignment gives two names for one list; copy() makes a second list. A shallow copy still shares inner lists." loading="lazy"><figcaption>Assignment gives two names for one list; copy() makes a second list. A shallow copy still shares inner lists.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> copy
+grid = [[<span class="hl-n">1</span>, <span class="hl-n">2</span>], [<span class="hl-n">3</span>, <span class="hl-n">4</span>]]
+shallow = <span class="hl-f">grid.copy</span>(); deep = <span class="hl-f">copy.deepcopy</span>(grid)
+grid[<span class="hl-n">0</span>][<span class="hl-n">0</span>] = <span class="hl-n">100</span>
+<span class="hl-f">print</span>(shallow, deep)       <span class="hl-c"># shallow copy sees the change in the inner list; deep copy does not</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[[100, 2], [3, 4]] [[1, 2], [3, 4]]</pre></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Mutable default arguments and `[[0] * 3] * 3`</b></div><p><code>[[0] * 3] * 3</code> creates <strong>three references to the same inner list</strong>; changing one row changes all. Build grids with a comprehension: <code>[[0] * 3 for _ in range(3)]</code>. Never use a list as a default function argument (<code>def f(x, items=[])</code>): use <code>None</code> and create the list inside (Lesson 9).</p></div>
+<h2 id="nested-lists">Nested lists</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">matrix = [[<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>], [<span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>], [<span class="hl-n">7</span>, <span class="hl-n">8</span>, <span class="hl-n">9</span>]]
+<span class="hl-f">print</span>(matrix[<span class="hl-n">1</span>][<span class="hl-n">2</span>], [row[<span class="hl-n">0</span>] <span class="hl-k">for</span> row <span class="hl-k">in</span> matrix], [<span class="hl-f">sum</span>(row) <span class="hl-k">for</span> row <span class="hl-k">in</span> matrix])
+<span class="hl-f">print</span>([<span class="hl-f">list</span>(col) <span class="hl-k">for</span> col <span class="hl-k">in</span> <span class="hl-f">zip</span>(*matrix)])                <span class="hl-c"># transpose</span>
+flat = [x <span class="hl-k">for</span> row <span class="hl-k">in</span> matrix <span class="hl-k">for</span> x <span class="hl-k">in</span> row]; <span class="hl-f">print</span>(flat)    <span class="hl-c"># flatten</span></code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">6 [1, 4, 7] [6, 15, 24]
+[[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]</pre></div>
+<h2 id="list-comprehensions">List comprehensions</h2>
+<p>A comprehension builds a list in one readable line: <code>[expression for item in iterable if condition]</code>.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">squares = [n ** <span class="hl-n">2</span> <span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">8</span>)]
+evens = [n <span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">20</span>) <span class="hl-k">if</span> n % <span class="hl-n">2</span> == <span class="hl-n">0</span>]
+upper = [<span class="hl-f">c.upper</span>() <span class="hl-k">for</span> c <span class="hl-k">in</span> [<span class="hl-s">&quot;pune&quot;</span>, <span class="hl-s">&quot;delhi&quot;</span>]]
+labels = [<span class="hl-s">&quot;High&quot;</span> <span class="hl-k">if</span> s &gt;= <span class="hl-n">80</span> <span class="hl-k">else</span> <span class="hl-s">&quot;Low&quot;</span> <span class="hl-k">for</span> s <span class="hl-k">in</span> [<span class="hl-n">95</span>, <span class="hl-n">60</span>, <span class="hl-n">82</span>]]
+pairs = [(i, j) <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">4</span>) <span class="hl-k">for</span> j <span class="hl-k">in</span> <span class="hl-f">range</span>(i, <span class="hl-n">4</span>)]
+<span class="hl-f">print</span>(squares, evens, upper, labels, pairs, sep=<span class="hl-s">&quot;\n&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[1, 4, 9, 16, 25, 36, 49]
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+[&#x27;PUNE&#x27;, &#x27;DELHI&#x27;]
+[&#x27;High&#x27;, &#x27;Low&#x27;, &#x27;High&#x27;]
+[(1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 3)]</pre></div>
+<p>Compare with the loop version:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">result = []
+<span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">20</span>):
+    <span class="hl-k">if</span> n % <span class="hl-n">2</span> == <span class="hl-n">0</span>:
+        <span class="hl-f">result.append</span>(n)
+<span class="hl-f">print</span>(result == [n <span class="hl-k">for</span> n <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">20</span>) <span class="hl-k">if</span> n % <span class="hl-n">2</span> == <span class="hl-n">0</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">True</pre></div>
+<p>Use comprehensions for <strong>simple</strong> transformations and filters; switch to a loop when the logic needs several statements. For very large data use generators (Lesson 10) or pandas.</p>
+<h2 id="data-tasks-with-lists">Data tasks with lists</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+emp = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;employees_small.csv&quot;</span>)
+salaries = <span class="hl-f">emp.salary.tolist</span>(); names = <span class="hl-f">emp.name.tolist</span>(); depts = <span class="hl-f">emp.department.tolist</span>()
+top3 = <span class="hl-f">sorted</span>(<span class="hl-f">zip</span>(salaries, names), reverse=<span class="hl-k">True</span>)[:<span class="hl-n">3</span>]
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Top 3:&quot;</span>, [(n, s) <span class="hl-k">for</span> s, n <span class="hl-k">in</span> top3])
+fin = [s <span class="hl-k">for</span> s, d <span class="hl-k">in</span> <span class="hl-f">zip</span>(salaries, depts) <span class="hl-k">if</span> d == <span class="hl-s">&quot;Finance&quot;</span>]
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Finance:&quot;</span>, <span class="hl-f">len</span>(fin), <span class="hl-s">&quot;people, average&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">sum</span>(fin) / <span class="hl-f">len</span>(fin)))
+above_avg = [n <span class="hl-k">for</span> n, s <span class="hl-k">in</span> <span class="hl-f">zip</span>(names, salaries) <span class="hl-k">if</span> s &gt; <span class="hl-f">sum</span>(salaries) / <span class="hl-f">len</span>(salaries)]
+<span class="hl-f">print</span>(<span class="hl-f">len</span>(above_avg), <span class="hl-s">&quot;people earn above the average;&quot;</span>, above_avg[:<span class="hl-n">3</span>], <span class="hl-s">&quot;…&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Top 3: [(&#x27;Vivaan Gupta&#x27;, 157000), (&#x27;Imran Reddy&#x27;, 157000), (&#x27;Krishna Khan&#x27;, 156000)]
+Finance: 7 people, average 95714
+9 people earn above the average; [&#x27;Imran Reddy&#x27;, &#x27;Harpreet Kulkarni&#x27;, &#x27;Simran Iyer&#x27;] …</pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Remove duplicates but keep the original order (set() would lose the order)</span>
+raw = [<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Kochi&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Goa&quot;</span>]
+seen, unique = <span class="hl-f">set</span>(), []
+<span class="hl-k">for</span> c <span class="hl-k">in</span> raw:
+    <span class="hl-k">if</span> c <span class="hl-k">not</span> <span class="hl-k">in</span> seen: <span class="hl-f">seen.add</span>(c); <span class="hl-f">unique.append</span>(c)
+<span class="hl-f">print</span>(unique, <span class="hl-s">&quot;| shortcut:&quot;</span>, <span class="hl-f">list</span>(<span class="hl-f">dict.fromkeys</span>(raw)))
+<span class="hl-c"># Chunk a list into groups of 4</span>
+ids = <span class="hl-f">list</span>(<span class="hl-f">range</span>(<span class="hl-n">1</span>, <span class="hl-n">11</span>)); <span class="hl-f">print</span>([ids[i:i + <span class="hl-n">4</span>] <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">0</span>, <span class="hl-f">len</span>(ids), <span class="hl-n">4</span>)])
+<span class="hl-c"># Moving average of 3</span>
+x = [<span class="hl-n">10</span>, <span class="hl-n">12</span>, <span class="hl-n">9</span>, <span class="hl-n">14</span>, <span class="hl-n">15</span>, <span class="hl-n">13</span>]; <span class="hl-f">print</span>([<span class="hl-f">round</span>(<span class="hl-f">sum</span>(x[i:i + <span class="hl-n">3</span>]) / <span class="hl-n">3</span>, <span class="hl-n">1</span>) <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-f">len</span>(x) - <span class="hl-n">2</span>)])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">[&#x27;Pune&#x27;, &#x27;Delhi&#x27;, &#x27;Kochi&#x27;, &#x27;Goa&#x27;] | shortcut: [&#x27;Pune&#x27;, &#x27;Delhi&#x27;, &#x27;Kochi&#x27;, &#x27;Goa&#x27;]
+[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
+[10.3, 11.7, 12.7, 14.0]</pre></div>
+<h2 id="performance-notes">Performance notes</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operation</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a[i]</code>, <code>a.append(x)</code>, <code>a.pop()</code></td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td><code>x in a</code>, <code>a.index(x)</code>, <code>a.remove(x)</code>, <code>a.insert(0, x)</code></td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td><code>a.sort()</code></td>
+<td>O(n log n)</td>
+</tr>
+</tbody>
+</table></div>
+<p>For many membership tests use a <strong>set</strong> (O(1)); for a queue use <code>collections.deque</code>. (More in the DSA lessons.)</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>A list is an ordered, <strong>mutable</strong> collection; index and slice like strings; negative indexes count from the end.</li>
+<li><code>append</code>, <code>extend</code>, <code>insert</code>, <code>remove</code>, <code>pop</code>, <code>sort</code>, <code>reverse</code> change the list in place and return <code>None</code>; <code>sorted()</code> and <code>reversed()</code> give new objects.</li>
+<li><code>b = a</code> is an <strong>alias</strong>; use <code>a.copy()</code> (shallow) or <code>copy.deepcopy(a)</code> for independent copies; build grids with comprehensions.</li>
+<li>Sort records with <code>key=</code> (and tuple keys); sorting is stable.</li>
+<li>Comprehensions <code>[f(x) for x in xs if cond]</code> create lists concisely; unpack with <code>a, *rest = items</code>.</li>
+<li>Membership tests on lists are O(n): use sets for lookups.</li>
+</ul></div>
+<div class="quiz" id="quiz-python-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>[1, 2, 3].append(4)</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>[1, 2, 3, 4]</button><button type="button" class="opt" data-ok="1"><i>B</i>None (the list is changed in place)</button><button type="button" class="opt" data-ok="0"><i>C</i>4</button><button type="button" class="opt" data-ok="0"><i>D</i>A new list</button></div><div class="qexp"><b>Answer: B.</b> Mutating methods return None.</div></div><div class="qq"><p class="qtext"><b>2.</b> After <code>b = a; b.append(1)</code>, what is true?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>a is unchanged</button><button type="button" class="opt" data-ok="1"><i>B</i>a and b are the same list, so a also contains the new item</button><button type="button" class="opt" data-ok="0"><i>C</i>b is a copy</button><button type="button" class="opt" data-ok="0"><i>D</i>An error occurs</button></div><div class="qexp"><b>Answer: B.</b> Assignment creates an alias, not a copy.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does <code>[x * 2 for x in range(5) if x % 2 == 0]</code> return?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>[0, 2, 4, 6, 8]</button><button type="button" class="opt" data-ok="1"><i>B</i>[0, 4, 8]</button><button type="button" class="opt" data-ok="0"><i>C</i>[0, 2, 4]</button><button type="button" class="opt" data-ok="0"><i>D</i>[2, 6]</button></div><div class="qexp"><b>Answer: B.</b> Only x = 0, 2, 4 pass the filter and are doubled.</div></div><div class="qq"><p class="qtext"><b>4.</b> How do you sort a list of tuples by the second element, descending?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>sorted(t)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>sorted(t, key=lambda p: p[1], reverse=True)</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>t.sort(1)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>sort(t, 1)</code></button></div><div class="qexp"><b>Answer: B.</b> The key function selects the field to compare.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why does <code>grid = [[0] * 3] * 3; grid[0][0] = 1</code> change every row?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A bug in Python</button><button type="button" class="opt" data-ok="1"><i>B</i>The outer multiplication repeats references to the same inner list</button><button type="button" class="opt" data-ok="0"><i>C</i>Lists are immutable</button><button type="button" class="opt" data-ok="0"><i>D</i>Comprehensions are required for all lists</button></div><div class="qexp"><b>Answer: B.</b> Use <code>[[0] * 3 for _ in range(3)]</code>.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which is the fastest way to test if an item is in a large collection many times?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A list</button><button type="button" class="opt" data-ok="1"><i>B</i>A set</button><button type="button" class="opt" data-ok="0"><i>C</i>A string</button><button type="button" class="opt" data-ok="0"><i>D</i>A tuple</button></div><div class="qexp"><b>Answer: B.</b> Sets use hashing for O(1) average lookups.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>List drills</b></div><p>(1) From <code>[3, 8, 1, 9, 4, 8]</code> return the second-largest distinct value. (2) Remove duplicates from <code>["b","a","b","c","a"]</code> keeping order. (3) Flatten <code>[[1,2],[3],[4,5,6]]</code>. (4) Given names and salaries lists, print "name: salary" sorted by salary descending. (5) Rotate <code>[1,2,3,4,5]</code> by 2 positions to the right.</p><details class="sol"><summary>Show solution</summary><div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-f">print</span>(<span class="hl-f">sorted</span>(<span class="hl-f">set</span>([<span class="hl-n">3</span>, <span class="hl-n">8</span>, <span class="hl-n">1</span>, <span class="hl-n">9</span>, <span class="hl-n">4</span>, <span class="hl-n">8</span>]))[-<span class="hl-n">2</span>])                       <span class="hl-c"># 8</span>
+<span class="hl-f">print</span>(<span class="hl-f">list</span>(<span class="hl-f">dict.fromkeys</span>([<span class="hl-s">&quot;b&quot;</span>, <span class="hl-s">&quot;a&quot;</span>, <span class="hl-s">&quot;b&quot;</span>, <span class="hl-s">&quot;c&quot;</span>, <span class="hl-s">&quot;a&quot;</span>])))            <span class="hl-c"># [&#x27;b&#x27;, &#x27;a&#x27;, &#x27;c&#x27;]</span>
+<span class="hl-f">print</span>([x <span class="hl-k">for</span> sub <span class="hl-k">in</span> [[<span class="hl-n">1</span>, <span class="hl-n">2</span>], [<span class="hl-n">3</span>], [<span class="hl-n">4</span>, <span class="hl-n">5</span>, <span class="hl-n">6</span>]] <span class="hl-k">for</span> x <span class="hl-k">in</span> sub])      <span class="hl-c"># [1, 2, 3, 4, 5, 6]</span>
+names, sal = [<span class="hl-s">&quot;A&quot;</span>, <span class="hl-s">&quot;B&quot;</span>, <span class="hl-s">&quot;C&quot;</span>], [<span class="hl-n">50</span>, <span class="hl-n">90</span>, <span class="hl-n">70</span>]
+<span class="hl-k">for</span> n, s <span class="hl-k">in</span> <span class="hl-f">sorted</span>(<span class="hl-f">zip</span>(names, sal), key=<span class="hl-k">lambda</span> p: -p[<span class="hl-n">1</span>]): <span class="hl-f">print</span>(<span class="hl-s">f&quot;{n}: {s}&quot;</span>)
+r = [<span class="hl-n">1</span>, <span class="hl-n">2</span>, <span class="hl-n">3</span>, <span class="hl-n">4</span>, <span class="hl-n">5</span>]; <span class="hl-f">print</span>(r[-<span class="hl-n">2</span>:] + r[:-<span class="hl-n">2</span>])                      <span class="hl-c"># [4, 5, 1, 2, 3]</span></code></pre></div></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Difference between a list and a tuple?</strong>
+Lists are mutable, tuples immutable (hashable if their items are); tuples are used for fixed records and as dictionary keys, lists for collections that change.</p>
+<p><strong>Q: Shallow vs deep copy?</strong>
+A shallow copy duplicates the outer list but shares inner objects; a deep copy recursively copies everything.</p>
+<p><strong>Q: What is the time complexity of <code>x in list</code> vs <code>x in set</code>?</strong>
+O(n) vs O(1) average.</p>
+<p><strong>Q: How do you reverse a list in place?</strong>
+<code>lst.reverse()</code> or <code>lst[:] = lst[::-1]</code>; <code>lst[::-1]</code> creates a reversed copy.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-05-loops-while-for-range-break-continue-and-patterns.html"><small>← Previous</small><b>Loops: while, for, range, break, continue &amp; Patterns</b></a><a class="next" href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html"><small>Next →</small><b>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-is-a-list">What is a list?</a><a href="#indexing-and-slicing">Indexing and slicing</a><a href="#adding-and-removing-items">Adding and removing items</a><a href="#sorting-and-reversing">Sorting and reversing</a><a href="#built-in-helpers">Built-in helpers</a><a href="#mutability-aliasing-and-copying">Mutability, aliasing and copying</a><a href="#nested-lists">Nested lists</a><a href="#list-comprehensions">List comprehensions</a><a href="#data-tasks-with-lists">Data tasks with lists</a><a href="#performance-notes">Performance notes</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

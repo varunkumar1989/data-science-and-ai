@@ -1,0 +1,354 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sorting, Filtering &amp; Dynamic Arrays · Excel Lesson 6 · Data Science &amp; AI Handbook</title><meta name="description" content="Organise data with single and multi-level sorts and custom orders, find what matters with AutoFilter and Advanced Filter, and then let formulas do it for you with the dynamic array functions UNIQUE, SORT, SORTBY, FILTER and SEQUENCE, plus the power tool SUMPRODUCT."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 6</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class="on"><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-06">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 6 of 12</div><h1>Sorting, Filtering &amp; Dynamic Arrays</h1>
+<p class="sum">Organise data with single and multi-level sorts and custom orders, find what matters with AutoFilter and Advanced Filter, and then let formulas do it for you with the dynamic array functions UNIQUE, SORT, SORTBY, FILTER and SEQUENCE, plus the power tool SUMPRODUCT.</p><div class="tags"><span class="tag live">● Live class 4</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Beginner–Intermediate</span><span class="tag">⏱ 110 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_06_Sorting_Filtering_Dynamic_Arrays.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-06.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-06">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Sort by one or many levels, by custom lists, by colour and left to right</li><li>Filter text, numbers and dates, and use Advanced Filter with AND/OR criteria ranges</li><li>Explain spill ranges, the</li><li>Build live lists with UNIQUE, SORT, SORTBY, FILTER and SEQUENCE</li><li>Answer multi-condition questions with SUMPRODUCT</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="the-sample-table">The sample table</h2>
+<p>We will use this small sales table (sheet <code>Reps</code>, range <code>A1:F9</code>) so every result is easy to check by hand. Revenue is <code>=D2*E2</code>.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Reps: sample sales table</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class="c-h">Rep</td><td class="c-h">Region</td><td class="c-h">Product</td><td class="c-h">Units</td><td class="c-h">Price</td><td class="c-h">Revenue</td></tr><tr><th>2</th><td class="">Asha</td><td class="">North</td><td class="">Laptop</td><td class="num">5</td><td class="num">55,000</td><td class="fx num" title="=D2*E2">275,000</td></tr><tr><th>3</th><td class="">Ravi</td><td class="">West</td><td class="">Phone</td><td class="num">12</td><td class="num">18,000</td><td class="fx num" title="=D3*E3">216,000</td></tr><tr><th>4</th><td class="">Meera</td><td class="">South</td><td class="">Laptop</td><td class="num">3</td><td class="num">55,000</td><td class="fx num" title="=D4*E4">165,000</td></tr><tr><th>5</th><td class="">Kabir</td><td class="">North</td><td class="">Tablet</td><td class="num">8</td><td class="num">25,000</td><td class="fx num" title="=D5*E5">200,000</td></tr><tr><th>6</th><td class="">Zoya</td><td class="">East</td><td class="">Phone</td><td class="num">15</td><td class="num">18,000</td><td class="fx num" title="=D6*E6">270,000</td></tr><tr><th>7</th><td class="">Farhan</td><td class="">West</td><td class="">Laptop</td><td class="num">4</td><td class="num">55,000</td><td class="fx num" title="=D7*E7">220,000</td></tr><tr><th>8</th><td class="">Neha</td><td class="">South</td><td class="">Tablet</td><td class="num">10</td><td class="num">25,000</td><td class="fx num" title="=D8*E8">250,000</td></tr><tr><th>9</th><td class="">Rohan</td><td class="">North</td><td class="">Phone</td><td class="num">9</td><td class="num">18,000</td><td class="fx num" title="=D9*E9">162,000</td></tr></table></div></div><ul class="xl-f"><li><b>F2</b><code>=D2*E2</code></li><li class="muted">Each pattern is copied down/across to the other cells in its column.</li></ul></div>
+<h2 id="sorting">Sorting</h2>
+<h3 id="quick-sort">Quick sort</h3>
+<p>Click any cell in a column and use <strong>Data → Sort A to Z</strong> or <strong>Sort Z to A</strong> (or Home → Sort &amp; Filter). Excel detects the table around the cell and keeps each row together.</p>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Never sort a single selected column</b></div><p>If you select only one column and sort, Excel asks whether to "expand the selection". Choosing "Continue with the current selection" sorts that column alone and scrambles your data: names no longer match their revenue. Always click a single cell inside the table, or select the whole table.</p></div>
+<h3 id="multi-level-level-wise-sort">Multi-level (level-wise) sort</h3>
+<p><strong>Data → Sort</strong> opens the Sort dialog, where you add levels. Excel sorts by the first level, then breaks ties with the next.</p>
+<figure class="fig"><img src="../img/excel-06-01.png" alt="The Sort dialog with two levels: Region A to Z, then Revenue largest to smallest." loading="lazy"><figcaption>The Sort dialog with two levels: Region A to Z, then Revenue largest to smallest.</figcaption></figure>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Result: Region A→Z, then Revenue high→low</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th></tr><tr><th>1</th><td class="c-h">Rep</td><td class="c-h">Region</td><td class="c-h">Product</td><td class="c-h">Revenue</td></tr><tr><th>2</th><td class="">Zoya</td><td class="c-p">East</td><td class="">Phone</td><td class="num">270,000</td></tr><tr><th>3</th><td class="">Asha</td><td class="c-p">North</td><td class="">Laptop</td><td class="num">275,000</td></tr><tr><th>4</th><td class="">Kabir</td><td class="c-p">North</td><td class="">Tablet</td><td class="num">200,000</td></tr><tr><th>5</th><td class="">Rohan</td><td class="c-p">North</td><td class="">Phone</td><td class="num">162,000</td></tr><tr><th>6</th><td class="">Neha</td><td class="c-p">South</td><td class="">Tablet</td><td class="num">250,000</td></tr><tr><th>7</th><td class="">Meera</td><td class="c-p">South</td><td class="">Laptop</td><td class="num">165,000</td></tr><tr><th>8</th><td class="">Farhan</td><td class="c-p">West</td><td class="">Laptop</td><td class="num">220,000</td></tr><tr><th>9</th><td class="">Ravi</td><td class="c-p">West</td><td class="">Phone</td><td class="num">216,000</td></tr></table></div></div></div>
+<h3 id="other-sort-options">Other sort options</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Option</th>
+<th>Where</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Custom list</strong></td>
+<td>Order → Custom List</td>
+<td>Sort months Jan, Feb, Mar instead of alphabetically; sort sizes S, M, L, XL; sort priority High, Medium, Low</td>
+</tr>
+<tr>
+<td><strong>Sort by colour</strong></td>
+<td>Sort On → Cell Color / Font Color / Conditional Formatting Icon</td>
+<td>Put all red-flagged rows on top</td>
+</tr>
+<tr>
+<td><strong>Left to right</strong></td>
+<td>Options → Sort left to right</td>
+<td>Reorder columns by a header row</td>
+</tr>
+<tr>
+<td><strong>Case sensitive</strong></td>
+<td>Options</td>
+<td>Rarely needed</td>
+</tr>
+<tr>
+<td><strong>Random order</strong></td>
+<td>Add a column <code>=RAND()</code> and sort by it</td>
+<td>Draw a random sample</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Keep the original order</b></div><p>Before sorting raw data, add an <code>Index</code> column with 1, 2, 3 … (type 1 and 2, double-click the fill handle). You can always sort by Index to get back to the original order.</p></div>
+<h2 id="filtering">Filtering</h2>
+<h3 id="autofilter">AutoFilter</h3>
+<p>Click inside the data and press <code>Ctrl + Shift + L</code> (Data → Filter). Every header gets a drop-down arrow.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Filter type</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Text filters</strong></td>
+<td>Equals, does not equal, begins with, ends with, contains, does not contain, custom (with <code>*</code> and <code>?</code>)</td>
+</tr>
+<tr>
+<td><strong>Number filters</strong></td>
+<td>Greater than, between, Top 10 (items or percent), above/below average</td>
+</tr>
+<tr>
+<td><strong>Date filters</strong></td>
+<td>Today, this week, last month, next quarter, year to date, between, and grouped tick-boxes by year → month → day</td>
+</tr>
+<tr>
+<td><strong>By colour</strong></td>
+<td>Filter by cell colour, font colour or icon</td>
+</tr>
+<tr>
+<td><strong>Search box</strong></td>
+<td>Type part of a value to tick only matching items</td>
+</tr>
+</tbody>
+</table></div>
+<p>Filters on several columns combine with <strong>AND</strong>: Region = North <strong>and</strong> Product = Laptop. Within one column, ticking several items is <strong>OR</strong>: North <strong>or</strong> South.</p>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Filtered totals</b></div><p>When you filter, the status bar shows "8 of 6,323 records found". Use <code>SUBTOTAL(109, …)</code> (Lesson 4) or the Table Total Row for totals that follow the filter. To copy only the visible rows, select them, press <code>Alt + ;</code> (visible cells only), then copy.</p></div>
+<p>Here is the same idea on the full Superstore file: filter to Technology orders in the West with a discount above 20%.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+s = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+f = s[(s.category == <span class="hl-s">&quot;Technology&quot;</span>) &amp; (s.region == <span class="hl-s">&quot;West&quot;</span>) &amp; (s.discount &gt; <span class="hl-n">0.2</span>)]
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{len(f)} of {len(s):,} records found  |  visible sales total: {f.sales.sum():,.0f}  |  visible profit total: {f.profit.sum():,.0f}&quot;</span>)
+f[[<span class="hl-s">&quot;order_id&quot;</span>, <span class="hl-s">&quot;city&quot;</span>, <span class="hl-s">&quot;sub_category&quot;</span>, <span class="hl-s">&quot;sales&quot;</span>, <span class="hl-s">&quot;discount&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>]].<span class="hl-f">head</span>(<span class="hl-n">5</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">36 of 6,323 records found  |  visible sales total: 1,725,761  |  visible profit total: -323,079</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>city</th>
+      <th>sub_category</th>
+      <th>sales</th>
+      <th>discount</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>14</th>
+      <td>IN-2023-00007</td>
+      <td>Mumbai</td>
+      <td>Phones</td>
+      <td>23,904</td>
+      <td>0.4</td>
+      <td>-4,153.37</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>IN-2023-00021</td>
+      <td>Ahmedabad</td>
+      <td>Accessories</td>
+      <td>2,821</td>
+      <td>0.3</td>
+      <td>-281.53</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>IN-2023-00037</td>
+      <td>Ahmedabad</td>
+      <td>Accessories</td>
+      <td>4,668</td>
+      <td>0.4</td>
+      <td>-1,569.18</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>IN-2023-00038</td>
+      <td>Ahmedabad</td>
+      <td>Copiers</td>
+      <td>53,082</td>
+      <td>0.4</td>
+      <td>-11,596.45</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>IN-2023-00066</td>
+      <td>Pune</td>
+      <td>Machines</td>
+      <td>22,155</td>
+      <td>0.3</td>
+      <td>-4,687.77</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 6 columns</div></div>
+<h3 id="advanced-filter-complex-andor-in-one-go">Advanced Filter: complex AND/OR in one go</h3>
+<p><strong>Data → Advanced</strong> filters with a <strong>criteria range</strong>: a small table with the same headers as your data.</p>
+<ul>
+<li>Conditions on the <strong>same row</strong> are combined with <strong>AND</strong>.</li>
+<li>Conditions on <strong>different rows</strong> are combined with <strong>OR</strong>.</li>
+</ul>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Criteria range: (North AND Revenue &gt; 1,80,000) OR (Product = Phone)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Region</td><td class="c-h">Product</td><td class="c-h">Revenue</td></tr><tr><th>2</th><td class="">North</td><td class=""></td><td class="">&gt;180000</td></tr><tr><th>3</th><td class=""></td><td class="">Phone</td><td class=""></td></tr></table></div></div></div>
+<p>Rows that match: Asha (North, 2,75,000), Kabir (North, 2,00,000), and every Phone row: Ravi, Zoya and Rohan. Rohan is in the North but has only 1,62,000; he still appears because he sells phones.</p>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Run an Advanced Filter</b></div><ol>
+<li>Type the criteria range above your data or on another sheet (headers must match exactly).</li>
+<li>Click inside the data → Data → <strong>Advanced</strong>.</li>
+<li>List range: your data. Criteria range: the criteria table including headers.</li>
+<li>Choose <strong>Copy to another location</strong> and pick an output cell to keep the original intact.</li>
+<li>Tick <strong>Unique records only</strong> to get a list without duplicates (a quick alternative to Remove Duplicates).</li>
+</ol></div>
+<p>Advanced Filter results are static: run it again after the data changes. For live results use <code>FILTER</code>.</p>
+<h2 id="dynamic-arrays-formulas-that-spill">Dynamic arrays: formulas that spill</h2>
+<p>In Microsoft 365, a formula can return <strong>many values</strong>. They <strong>spill</strong> into the cells below and to the right. The whole result is called the <strong>spill range</strong>; it has a blue border, and you can refer to it with the <code>#</code> operator.</p>
+<figure class="fig"><img src="../img/excel-06-02.png" alt="One formula in H2 spills into H2:H5. Refer to the whole result with H2#." loading="lazy"><figcaption>One formula in H2 spills into H2:H5. Refer to the whole result with H2#.</figcaption></figure>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>#SPILL!</b></div><p>If any cell in the area the result needs is not empty, the formula returns <code>#SPILL!</code>. Click the error to see which cell is blocking, and clear it. Spilling formulas also cannot be used inside an Excel Table; put them next to the table instead.</p></div>
+<h3 id="unique">UNIQUE</h3>
+<p><code>=UNIQUE(array, [by_col], [exactly_once])</code></p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>UNIQUE examples (formulas in H2 and J2)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr><tr><th>1</th><td class=""></td><td class=""></td><td class=""></td><td class="c-h">Region list =UNIQUE(B2:B9)</td><td class=""></td><td class="c-h">Product list =UNIQUE(C2:C9)</td></tr><tr><th>2</th><td class=""></td><td class=""></td><td class=""></td><td class="fx" title="=UNIQUE(Reps!B2:B9)">North</td><td class=""></td><td class="fx" title="=UNIQUE(Reps!C2:C9)">Laptop</td></tr><tr><th>3</th><td class=""></td><td class=""></td><td class=""></td><td class="spill">West</td><td class=""></td><td class="spill">Phone</td></tr><tr><th>4</th><td class=""></td><td class=""></td><td class=""></td><td class="spill">South</td><td class=""></td><td class="spill">Tablet</td></tr><tr><th>5</th><td class=""></td><td class=""></td><td class=""></td><td class="spill">East</td><td class=""></td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=<span class="hl-f">UNIQUE</span>(Reps!B2:B9)</code></li><li><b>F2</b><code>=<span class="hl-f">UNIQUE</span>(Reps!C2:C9)</code></li></ul></div>
+<ul>
+<li><code>=COUNTA(UNIQUE(C2:C9))</code> → <strong>3</strong> distinct products. (Before dynamic arrays this needed <code>=SUMPRODUCT(1/COUNTIF(C2:C9,C2:C9))</code>.)</li>
+<li><code>=UNIQUE(B2:C9)</code> returns unique <strong>combinations</strong> of Region and Product.</li>
+<li><code>=UNIQUE(B2:B9,,TRUE)</code> returns values that appear <strong>exactly once</strong>: East.</li>
+</ul>
+<h3 id="sort-and-sortby">SORT and SORTBY</h3>
+<p><code>=SORT(array, [sort_index], [sort_order], [by_col])</code> sorts by a column <strong>position</strong> in the array. <code>-1</code> means descending.
+<code>=SORTBY(array, by_array1, [order1], …)</code> sorts by <strong>other ranges</strong>, which do not have to be shown.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Top performers: =SORT(A2:F9,6,-1) and =SORTBY(A2:A9,F2:F9,-1)</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr><tr><th>1</th><td class="c-h">Rep</td><td class="c-h">Region</td><td class="c-h">Product</td><td class="c-h">Units</td><td class="c-h">Price</td><td class="c-h">Revenue</td><td class=""></td><td class="c-h">SORTBY names</td></tr><tr><th>2</th><td class="fx" title="=SORT(Reps!A2:F9,6,-1)">Asha</td><td class="spill">North</td><td class="spill">Laptop</td><td class="spill">5</td><td class="spill">55000</td><td class="spill">275000</td><td class=""></td><td class="fx" title="=SORTBY(Reps!A2:A9,Reps!F2:F9,-1)">Asha</td></tr><tr><th>3</th><td class="spill">Zoya</td><td class="spill">East</td><td class="spill">Phone</td><td class="spill">15</td><td class="spill">18000</td><td class="spill">270000</td><td class=""></td><td class="spill">Zoya</td></tr><tr><th>4</th><td class="spill">Neha</td><td class="spill">South</td><td class="spill">Tablet</td><td class="spill">10</td><td class="spill">25000</td><td class="spill">250000</td><td class=""></td><td class="spill">Neha</td></tr><tr><th>5</th><td class="spill">Farhan</td><td class="spill">West</td><td class="spill">Laptop</td><td class="spill">4</td><td class="spill">55000</td><td class="spill">220000</td><td class=""></td><td class="spill">Farhan</td></tr><tr><th>6</th><td class="spill">Ravi</td><td class="spill">West</td><td class="spill">Phone</td><td class="spill">12</td><td class="spill">18000</td><td class="spill">216000</td><td class=""></td><td class="spill">Ravi</td></tr><tr><th>7</th><td class="spill">Kabir</td><td class="spill">North</td><td class="spill">Tablet</td><td class="spill">8</td><td class="spill">25000</td><td class="spill">200000</td><td class=""></td><td class="spill">Kabir</td></tr><tr><th>8</th><td class="spill">Meera</td><td class="spill">South</td><td class="spill">Laptop</td><td class="spill">3</td><td class="spill">55000</td><td class="spill">165000</td><td class=""></td><td class="spill">Meera</td></tr><tr><th>9</th><td class="spill">Rohan</td><td class="spill">North</td><td class="spill">Phone</td><td class="spill">9</td><td class="spill">18000</td><td class="spill">162000</td><td class=""></td><td class="spill">Rohan</td></tr></table></div></div><ul class="xl-f"><li><b>A2</b><code>=<span class="hl-f">SORT</span>(Reps!A2:F9,<span class="hl-n">6</span>,-<span class="hl-n">1</span>)</code></li><li><b>H2</b><code>=<span class="hl-f">SORTBY</span>(Reps!A2:A9,Reps!F2:F9,-<span class="hl-n">1</span>)</code></li></ul></div>
+<p>Combine functions: <code>=SORT(UNIQUE(B2:B9))</code> gives the regions alphabetically: East, North, South, West. <code>=TAKE(SORT(A2:F9,6,-1),3)</code> returns only the top 3 rows.</p>
+<h3 id="filter">FILTER</h3>
+<p><code>=FILTER(array, include, [if_empty])</code></p>
+<p>The <code>include</code> argument is a TRUE/FALSE test with one result per row. Combine conditions with <code>*</code> for AND and <code>+</code> for OR.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>FILTER examples</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr><tr><th>1</th><td class="c-h">North reps</td><td class=""></td><td class="c-h">Laptops with ≥4 units</td><td class=""></td><td class="c-h">North OR Phone</td><td class=""></td><td class="c-h">No match</td></tr><tr><th>2</th><td class="fx" title="=FILTER(Reps!A2:A9,Reps!B2:B9=&quot;North&quot;)">Asha</td><td class=""></td><td class="fx" title="=FILTER(Reps!A2:A9,(Reps!C2:C9=&quot;Laptop&quot;)*(Reps!D2:D9&gt;=4))">Asha</td><td class=""></td><td class="fx" title="=FILTER(Reps!A2:A9,(Reps!B2:B9=&quot;North&quot;)+(Reps!C2:C9=&quot;Phone&quot;))">Asha</td><td class=""></td><td class="fx" title="=FILTER(Reps!A2:A9,Reps!B2:B9=&quot;Central&quot;,&quot;None found&quot;)">None found</td></tr><tr><th>3</th><td class="spill">Kabir</td><td class=""></td><td class="spill">Farhan</td><td class=""></td><td class="spill">Ravi</td><td class=""></td><td class=""></td></tr><tr><th>4</th><td class="spill">Rohan</td><td class=""></td><td class=""></td><td class=""></td><td class="spill">Kabir</td><td class=""></td><td class=""></td></tr><tr><th>5</th><td class=""></td><td class=""></td><td class=""></td><td class=""></td><td class="spill">Zoya</td><td class=""></td><td class=""></td></tr><tr><th>6</th><td class=""></td><td class=""></td><td class=""></td><td class=""></td><td class="spill">Rohan</td><td class=""></td><td class=""></td></tr></table></div></div><ul class="xl-f"><li><b>A2</b><code>=<span class="hl-f">FILTER</span>(Reps!A2:A9,Reps!B2:B9=<span class="hl-s">&quot;North&quot;</span>)</code></li><li><b>C2</b><code>=<span class="hl-f">FILTER</span>(Reps!A2:A9,(Reps!C2:C9=<span class="hl-s">&quot;Laptop&quot;</span>)*(Reps!D2:D9&gt;=<span class="hl-n">4</span>))</code></li><li><b>E2</b><code>=<span class="hl-f">FILTER</span>(Reps!A2:A9,(Reps!B2:B9=<span class="hl-s">&quot;North&quot;</span>)+(Reps!C2:C9=<span class="hl-s">&quot;Phone&quot;</span>))</code></li><li><b>G2</b><code>=<span class="hl-f">FILTER</span>(Reps!A2:A9,Reps!B2:B9=<span class="hl-s">&quot;Central&quot;</span>,<span class="hl-s">&quot;None found&quot;</span>)</code></li></ul></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Logic</th>
+<th>Write it as</th>
+<th>Why it works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AND</td>
+<td><code>(cond1)*(cond2)</code></td>
+<td>TRUE×TRUE = 1; anything × FALSE = 0</td>
+</tr>
+<tr>
+<td>OR</td>
+<td><code>(cond1)+(cond2)</code></td>
+<td>Any TRUE makes the sum ≥ 1</td>
+</tr>
+<tr>
+<td>NOT</td>
+<td><code>(cond)=FALSE</code> or <code>NOT(cond)</code></td>
+<td>Reverses the test</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>An interactive report in two cells</b></div><p>Put a Data Validation drop-down of regions in <code>H1</code> (source <code>=SORT(UNIQUE(B2:B9))</code>), then <code>=FILTER(A2:F9,B2:B9=H1)</code> below it. Choosing a region instantly shows its reps. This is the formula version of a slicer.</p></div>
+<h3 id="sequence-and-friends">SEQUENCE and friends</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SEQUENCE(rows, [cols], [start], [step])</code></td>
+<td><code>=SEQUENCE(5)</code></td>
+<td>1, 2, 3, 4, 5 down a column</td>
+</tr>
+<tr>
+<td></td>
+<td><code>=SEQUENCE(1,12,1,1)</code></td>
+<td>1 to 12 across a row</td>
+</tr>
+<tr>
+<td></td>
+<td><code>=SEQUENCE(7,1,DATE(2026,4,27),1)</code></td>
+<td>Seven consecutive dates</td>
+</tr>
+<tr>
+<td><code>RANDARRAY(rows, cols, min, max, integer)</code></td>
+<td><code>=RANDARRAY(5,1,1,100,TRUE)</code></td>
+<td>Five random whole numbers</td>
+</tr>
+<tr>
+<td><code>TAKE(array, rows)</code> / <code>DROP(array, rows)</code></td>
+<td><code>=TAKE(SORT(F2:F9,,-1),3)</code></td>
+<td>Top 3 revenues</td>
+</tr>
+<tr>
+<td><code>VSTACK</code> / <code>HSTACK</code></td>
+<td><code>=VSTACK(Jan!A2:C50,Feb!A2:C50)</code></td>
+<td>Stack two ranges into one</td>
+</tr>
+<tr>
+<td><code>CHOOSECOLS(array, 1, 6)</code></td>
+<td></td>
+<td>Only columns 1 and 6</td>
+</tr>
+<tr>
+<td><code>GROUPBY(row_fields, values, function)</code></td>
+<td><code>=GROUPBY(B2:B9,F2:F9,SUM)</code></td>
+<td>A summary by region, like a pivot table, in one formula (newer Microsoft 365)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sumproduct-the-original-array-function">SUMPRODUCT: the original array function</h2>
+<p><code>SUMPRODUCT</code> multiplies arrays element by element and adds the results. It works in <strong>every</strong> version of Excel and is the classic way to do multi-condition sums before SUMIFS existed, plus things SUMIFS cannot do.</p>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>SUMPRODUCT on the Reps table</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Question</td><td class="c-h">Formula</td><td class="c-h">Result</td></tr><tr><th>2</th><td class="">Total revenue (units × price)</td><td class="">=SUMPRODUCT(D2:D9,E2:E9)</td><td class="fx num" title="=SUMPRODUCT(Reps!D2:D9,Reps!E2:E9)">1,758,000</td></tr><tr><th>3</th><td class="">Revenue in North</td><td class="">=SUMPRODUCT((B2:B9=&quot;North&quot;)*D2:D9*E2:E9)</td><td class="fx num" title="=SUMPRODUCT((Reps!B2:B9=&quot;North&quot;)*Reps!D2:D9*Reps!E2:E9)">637,000</td></tr><tr><th>4</th><td class="">Phone units in West or East</td><td class="">=SUMPRODUCT((C2:C9=&quot;Phone&quot;)*((B2:B9=&quot;West&quot;)+(B2:B9=&quot;East&quot;))*D2:D9)</td><td class="fx num" title="=SUMPRODUCT((Reps!C2:C9=&quot;Phone&quot;)*((Reps!B2:B9=&quot;West&quot;)+(Reps!B2:B9=&quot;East&quot;))*Reps!D2:D9)">27</td></tr><tr><th>5</th><td class="">Rows where units &gt; 8</td><td class="">=SUMPRODUCT(--(D2:D9&gt;8))</td><td class="fx num" title="=SUMPRODUCT(--(Reps!D2:D9&gt;8))">4</td></tr><tr><th>6</th><td class="">Weighted average price</td><td class="">=SUMPRODUCT(D2:D9,E2:E9)/SUM(D2:D9)</td><td class="fx num" title="=SUMPRODUCT(Reps!D2:D9,Reps!E2:E9)/SUM(Reps!D2:D9)">26,636.36</td></tr></table></div></div><ul class="xl-f"><li><b>C2</b><code>=<span class="hl-f">SUMPRODUCT</span>(Reps!D2:D9,Reps!E2:E9)</code></li><li><b>C3</b><code>=<span class="hl-f">SUMPRODUCT</span>((Reps!B2:B9=<span class="hl-s">&quot;North&quot;</span>)*Reps!D2:D9*Reps!E2:E9)</code></li><li><b>C4</b><code>=<span class="hl-f">SUMPRODUCT</span>((Reps!C2:C9=<span class="hl-s">&quot;Phone&quot;</span>)*((Reps!B2:B9=<span class="hl-s">&quot;West&quot;</span>)+(Reps!B2:B9=<span class="hl-s">&quot;East&quot;</span>))*Reps!D2:D9)</code></li><li><b>C5</b><code>=<span class="hl-f">SUMPRODUCT</span>(--(Reps!D2:D9&gt;<span class="hl-n">8</span>))</code></li><li><b>C6</b><code>=<span class="hl-f">SUMPRODUCT</span>(Reps!D2:D9,Reps!E2:E9)/<span class="hl-f">SUM</span>(Reps!D2:D9)</code></li></ul></div>
+<p>Check: Phone units in West or East = Ravi 12 + Zoya 15 = 27. Rows with more than 8 units: Ravi, Zoya, Neha, Rohan = 4.</p>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Why the double minus `--`?</b></div><p><code>(D2:D9&gt;8)</code> produces TRUE/FALSE values. SUMPRODUCT ignores logical values unless they are converted to numbers. <code>--</code> (minus minus) turns TRUE into 1 and FALSE into 0. Multiplying by another array (<code>*</code>) also converts them, which is why the other formulas do not need it.</p></div>
+<h2 id="putting-it-together-a-self-updating-region-summary">Putting it together: a self-updating region summary</h2>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Region summary with UNIQUE + SUMIFS + SORT</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="c-h">Region =SORT(UNIQUE(B2:B9))</td><td class="c-h">Revenue =SUMIFS(F2:F9,B2:B9,H2#)</td><td class="c-h">Share</td></tr><tr><th>2</th><td class="fx" title="=SORT(UNIQUE(Reps!B2:B9))">East</td><td class="fx num" title="=SUMIFS(Reps!F2:F9,Reps!B2:B9,&quot;East&quot;)">270,000</td><td class="fx num" title="=B2/SUM(Reps!F2:F9)">15.4%</td></tr><tr><th>3</th><td class="spill">North</td><td class="spill">637,000</td><td class="spill">36.2%</td></tr><tr><th>4</th><td class="spill">South</td><td class="spill">415,000</td><td class="spill">23.6%</td></tr><tr><th>5</th><td class="spill">West</td><td class="spill">436,000</td><td class="spill">24.8%</td></tr></table></div></div><ul class="xl-f"><li><b>A2</b><code>=<span class="hl-f">SORT</span>(<span class="hl-f">UNIQUE</span>(Reps!B2:B9))</code></li><li><b>B2</b><code>=<span class="hl-f">SUMIFS</span>(Reps!F2:F9,Reps!B2:B9,<span class="hl-s">&quot;East&quot;</span>)</code></li><li><b>C2</b><code>=B2/<span class="hl-f">SUM</span>(Reps!F2:F9)</code></li></ul></div>
+<p>In Microsoft 365 the second column is a single formula, <code>=SUMIFS(F2:F9,B2:B9,H2#)</code>: because <code>H2#</code> refers to the whole spilled list, SUMIFS spills one total per region. Add a new region to the data and the summary grows automatically.</p>
+<p>Let's confirm the numbers with pandas:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">reps = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;rep&quot;</span>: [<span class="hl-s">&quot;Asha&quot;</span>,<span class="hl-s">&quot;Ravi&quot;</span>,<span class="hl-s">&quot;Meera&quot;</span>,<span class="hl-s">&quot;Kabir&quot;</span>,<span class="hl-s">&quot;Zoya&quot;</span>,<span class="hl-s">&quot;Farhan&quot;</span>,<span class="hl-s">&quot;Neha&quot;</span>,<span class="hl-s">&quot;Rohan&quot;</span>],
+                     <span class="hl-s">&quot;region&quot;</span>: [<span class="hl-s">&quot;North&quot;</span>,<span class="hl-s">&quot;West&quot;</span>,<span class="hl-s">&quot;South&quot;</span>,<span class="hl-s">&quot;North&quot;</span>,<span class="hl-s">&quot;East&quot;</span>,<span class="hl-s">&quot;West&quot;</span>,<span class="hl-s">&quot;South&quot;</span>,<span class="hl-s">&quot;North&quot;</span>],
+                     <span class="hl-s">&quot;units&quot;</span>: [<span class="hl-n">5</span>,<span class="hl-n">12</span>,<span class="hl-n">3</span>,<span class="hl-n">8</span>,<span class="hl-n">15</span>,<span class="hl-n">4</span>,<span class="hl-n">10</span>,<span class="hl-n">9</span>], <span class="hl-s">&quot;price&quot;</span>: [<span class="hl-n">55000</span>,<span class="hl-n">18000</span>,<span class="hl-n">55000</span>,<span class="hl-n">25000</span>,<span class="hl-n">18000</span>,<span class="hl-n">55000</span>,<span class="hl-n">25000</span>,<span class="hl-n">18000</span>]})
+reps[<span class="hl-s">&quot;revenue&quot;</span>] = reps.units * reps.price
+summary = <span class="hl-f">reps.groupby</span>(<span class="hl-s">&quot;region&quot;</span>)[<span class="hl-s">&quot;revenue&quot;</span>].<span class="hl-f">sum</span>().<span class="hl-f">to_frame</span>()
+summary[<span class="hl-s">&quot;share&quot;</span>] = (summary.revenue / <span class="hl-f">summary.revenue.sum</span>()).<span class="hl-f">round</span>(<span class="hl-n">3</span>)
+summary</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>revenue</th>
+      <th>share</th>
+    </tr>
+    <tr>
+      <th>region</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>East</th>
+      <td>270000</td>
+      <td>0.15</td>
+    </tr>
+    <tr>
+      <th>North</th>
+      <td>637000</td>
+      <td>0.36</td>
+    </tr>
+    <tr>
+      <th>South</th>
+      <td>415000</td>
+      <td>0.24</td>
+    </tr>
+    <tr>
+      <th>West</th>
+      <td>436000</td>
+      <td>0.25</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 2 columns</div></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Click <strong>one cell</strong> inside the table before sorting; use the Sort dialog for multi-level, custom-list and colour sorts.</li>
+<li>AutoFilter: AND across columns, OR within a column. Advanced Filter: AND on one row, OR across rows of a criteria range.</li>
+<li>Dynamic arrays <strong>spill</strong>; refer to the result with <code>#</code>; clear blocking cells to fix <code>#SPILL!</code>.</li>
+<li><code>UNIQUE</code>, <code>SORT</code>, <code>SORTBY</code>, <code>FILTER</code>, <code>SEQUENCE</code>, <code>TAKE</code>, <code>VSTACK</code>, <code>GROUPBY</code> replace many manual steps with live formulas.</li>
+<li>In FILTER and SUMPRODUCT, <code>*</code> means AND and <code>+</code> means OR.</li>
+<li><code>SUMPRODUCT</code> handles weighted sums and complex conditions in any Excel version.</li>
+</ul></div>
+<div class="quiz" id="quiz-excel-06-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> You select only the Revenue column and sort it, choosing "Continue with the current selection". What happens?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The whole table is sorted correctly</button><button type="button" class="opt" data-ok="1"><i>B</i>Only Revenue is reordered, so revenues no longer match their reps</button><button type="button" class="opt" data-ok="0"><i>C</i>Excel refuses to sort</button><button type="button" class="opt" data-ok="0"><i>D</i>The table is sorted by Rep name</button></div><div class="qexp"><b>Answer: B.</b> Sorting a single column separates it from the rest of the row. Always sort the whole table.</div></div><div class="qq"><p class="qtext"><b>2.</b> In an Advanced Filter criteria range, two conditions on the same row mean:</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>AND</button><button type="button" class="opt" data-ok="0"><i>B</i>OR</button><button type="button" class="opt" data-ok="0"><i>C</i>NOT</button><button type="button" class="opt" data-ok="0"><i>D</i>XOR</button></div><div class="qexp"><b>Answer: A.</b> Same row = AND; different rows = OR.</div></div><div class="qq"><p class="qtext"><b>3.</b> <code>=FILTER(A2:A9,(B2:B9="North")+(C2:C9="Phone"))</code> returns reps who are:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In the North and sell phones</button><button type="button" class="opt" data-ok="1"><i>B</i>In the North or sell phones (or both)</button><button type="button" class="opt" data-ok="0"><i>C</i>Not in the North</button><button type="button" class="opt" data-ok="0"><i>D</i>In the North but not selling phones</button></div><div class="qexp"><b>Answer: B.</b> Adding conditions works as OR.</div></div><div class="qq"><p class="qtext"><b>4.</b> A formula returns #SPILL!. What is the most likely cause?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A typo in the function name</button><button type="button" class="opt" data-ok="1"><i>B</i>A cell in the spill area is not empty</button><button type="button" class="opt" data-ok="0"><i>C</i>The data has duplicates</button><button type="button" class="opt" data-ok="0"><i>D</i>The workbook is in manual calculation mode</button></div><div class="qexp"><b>Answer: B.</b> Dynamic arrays need empty cells to spill into.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does <code>=SUMPRODUCT(--(D2:D9&gt;8))</code> calculate?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The sum of values greater than 8</button><button type="button" class="opt" data-ok="1"><i>B</i>The number of values greater than 8</button><button type="button" class="opt" data-ok="0"><i>C</i>The average of values greater than 8</button><button type="button" class="opt" data-ok="0"><i>D</i>The largest value</button></div><div class="qexp"><b>Answer: B.</b> <code>--</code> turns TRUE/FALSE into 1/0, and SUMPRODUCT adds them up: a count.</div></div><div class="qq"><p class="qtext"><b>6.</b> Which formula lists each region once, sorted A to Z?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>=UNIQUE(SORT(B2:B9),TRUE)</code></button><button type="button" class="opt" data-ok="1"><i>B</i><code>=SORT(UNIQUE(B2:B9))</code></button><button type="button" class="opt" data-ok="0"><i>C</i><code>=SORTBY(B2:B9,B2:B9)</code></button><button type="button" class="opt" data-ok="0"><i>D</i><code>=FILTER(B2:B9,B2:B9&lt;&gt;"")</code></button></div><div class="qexp"><b>Answer: B.</b> UNIQUE removes duplicates and SORT orders the result.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Superstore with dynamic arrays</b></div><p>In a copy of <code>superstore_sales.csv</code> (as a Table named <code>S</code>): (1) list the distinct sub-categories, sorted; (2) show all orders from Kochi with profit below zero; (3) show the 5 largest order lines by sales (order ID, city, sales); (4) count distinct customers.</p><details class="sol"><summary>Show solution</summary><p>(1) <code>=SORT(UNIQUE(S[sub_category]))</code>
+(2) <code>=FILTER(S,(S[city]="Kochi")*(S[profit]&lt;0),"None")</code>
+(3) <code>=TAKE(SORTBY(CHOOSECOLS(S,2,9,16),S[sales],-1),5)</code> (check the column numbers in your file: here 2 = order_id, 9 = city, 16 = sales)
+(4) <code>=COUNTA(UNIQUE(S[customer_id]))</code></p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you get a list of unique values in Excel?</strong>
+<code>UNIQUE</code> in Microsoft 365; otherwise Remove Duplicates on a copy, Advanced Filter with "Unique records only", or a pivot table.</p>
+<p><strong>Q: Explain AND/OR logic in FILTER or SUMPRODUCT.</strong>
+Each condition becomes an array of TRUE/FALSE. Multiplying arrays gives 1 only when all are TRUE (AND); adding gives at least 1 when any is TRUE (OR).</p>
+<p><strong>Q: How do you sort by a custom order such as High, Medium, Low?</strong>
+Sort dialog → Order → Custom List, and add the list; or use <code>SORTBY</code> with <code>MATCH(range,{"High","Medium","Low"},0)</code> as the sort key.</p></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-05-text-functions-logical-functions-and-if.html"><small>← Previous</small><b>Text Functions, Logical Functions &amp; IF</b></a><a class="next" href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html"><small>Next →</small><b>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-sample-table">The sample table</a><a href="#sorting">Sorting</a><a href="#filtering">Filtering</a><a href="#dynamic-arrays-formulas-that-spill">Dynamic arrays: formulas that spill</a><a href="#sumproduct-the-original-array-function">SUMPRODUCT: the original array function</a><a href="#putting-it-together-a-self-updating-region-summary">Putting it together: a self-updating region summary</a><a href="#summary">Summary</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

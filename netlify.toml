@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+[[redirects]]
+  from = "/"
+  to = "/course/"
+  status = 302
+[[headers]]
+  for = "/course/pdf/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
