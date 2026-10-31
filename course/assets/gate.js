@@ -125,7 +125,8 @@
       try { await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(row), keepalive: true }); } catch {}
       set(KEY, JSON.stringify({ t: Date.now(), n: v("name").split(" ")[0] }));
       b.disabled = false; b.textContent = "Unlock access"; close();
-      if (pending) { const p = pending; pending = null; if (sameOriginPdf(p.href) && canInline()) openPdf(p.href, p.label); else window.open(p.href, "_blank", "noopener") || (location.href = p.href); }
+      window.dispatchEvent(new Event("sn-access"));
+      if (pending && pending.href) { const p = pending; pending = null; if (sameOriginPdf(p.href) && canInline()) openPdf(p.href, p.label); else window.open(p.href, "_blank", "noopener") || (location.href = p.href); }
     });
   };
   const ask = a => {
@@ -139,5 +140,22 @@
     const a = e.target.closest && e.target.closest("a"); if (!a || !gated(a) || has()) return;
     e.preventDefault(); ask(a);
   }, true);
+  // Lessons and handbook pages lock (blurred) until the visitor gives details; admins and returning visitors skip it.
+  // Pages embedded in a frame (the in-page viewer, guide pages) are not locked: the page around them decides.
+  const lockPage = label => {
+    if (has() || window.self !== window.top || document.getElementById("sn-lockov")) return;
+    const st = document.createElement("style");
+    st.textContent = "#sn-lockov{position:fixed;inset:0;z-index:9990;background:rgba(10,12,30,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:16px}#sn-lockov .c{background:#fff;color:#17142E;border-radius:16px;padding:22px 24px;max-width:460px;text-align:center;font:15px/1.5 system-ui,sans-serif;box-shadow:0 18px 50px rgba(0,0,0,.3)}#sn-lockov h2{margin:0 0 6px;font-size:20px}#sn-lockov p{margin:0 0 14px;color:#55607a}#sn-lockov button{border:0;border-radius:10px;background:#5b4ee8;color:#fff;font:700 15px system-ui,sans-serif;padding:11px 20px;cursor:pointer}";
+    document.head.appendChild(st);
+    const ov = document.createElement("div"); ov.id = "sn-lockov";
+    ov.innerHTML = '<div class="c"><h2>Free access: enter your details to read this</h2><p>Tell us a little about you once. Then every lesson, class, tab and PDF opens.</p><button type="button">Unlock free access</button></div>';
+    document.body.appendChild(ov); document.documentElement.style.overflow = "hidden";
+    const open = () => { if (!modal) build(); pending = { href: "", label }; modal.querySelector("#sg-res").textContent = "Opening: " + label; modal.classList.add("open"); setTimeout(() => modal.querySelector("input[name=name]").focus(), 30); };
+    ov.querySelector("button").addEventListener("click", open);
+    window.addEventListener("sn-access", () => { ov.remove(); document.documentElement.style.overflow = ""; }, { once: true });
+    open();
+  };
+  const initLock = () => { const b = document.body; if (b && (b.classList.contains("lesson") || b.hasAttribute("data-gate-lock"))) lockPage((b.getAttribute("data-gate-lock") || document.title.split("·")[0]).trim().slice(0, 80)); };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initLock); else initLock();
   window.SNgate = { has };
 })();
