@@ -1,0 +1,205 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit · Agents Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Design integrations across your tools with Claude as the brain and n8n, Make, Zapier or Replit as the hands. Learn the four integration patterns, how to pick a platform, how Claude helps you design and debug automations, and build three end-to-end projects - a lead pipeline, a feedback-to-roadmap loop and a weekly executive report - with costs, reliability and security in mind."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class=""><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class=""><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class="on"><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class=""><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-04">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 4 of 6</div><h1>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</h1>
+<p class="sum">Design integrations across your tools with Claude as the brain and n8n, Make, Zapier or Replit as the hands. Learn the four integration patterns, how to pick a platform, how Claude helps you design and debug automations, and build three end-to-end projects - a lead pipeline, a feedback-to-roadmap loop and a weekly executive report - with costs, reliability and security in mind.</p><div class="tags"><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_04_Connect_All_Your_Apps_with_Claude_n8n_Make_Zapier_and_Replit.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose the right integration pattern and platform for a business need</li><li>Use Claude to design, generate and debug automations</li><li>Connect Claude to n8n, Make and Zapier through the API, MCP and webhooks</li><li>Build three end-to-end automations used by PMs and BAs</li><li>Estimate cost, plan error handling and document the integration</li></ul></div></div>
+<div class="content"><h2 id="four-ways-to-connect-apps-with-ai">Four ways to connect apps with AI</h2>
+<figure class="fig"><img src="../img/agents-04-01.png" alt="Four integration patterns, from simplest to most flexible." loading="lazy"><figcaption>Four integration patterns, from simplest to most flexible.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Best for</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude + connectors</td>
+<td>One person, ad-hoc questions and actions</td>
+<td>"Draft replies to customer emails using our refund policy"</td>
+</tr>
+<tr>
+<td>Automation calls Claude</td>
+<td>Scheduled or event-driven, many records</td>
+<td>Classify every support ticket as it arrives</td>
+</tr>
+<tr>
+<td>Claude calls automations</td>
+<td>Conversational control of business systems</td>
+<td>"Add this lead to the CRM and book a demo"</td>
+</tr>
+<tr>
+<td>Custom app</td>
+<td>A team tool with its own UI and data</td>
+<td>Internal "contract review" portal</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="choosing-the-platform">Choosing the platform</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Pick</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fast, simple, many SaaS apps, non-technical team</td>
+<td><strong>Zapier</strong></td>
+</tr>
+<tr>
+<td>Visual branching, data mapping, good price per operation</td>
+<td><strong>Make</strong></td>
+</tr>
+<tr>
+<td>Self-hosting, code steps, AI agents, high volume</td>
+<td><strong>n8n</strong></td>
+</tr>
+<tr>
+<td>A full app with UI, database and logic</td>
+<td><strong>Replit</strong> (or Lovable, Bolt)</td>
+</tr>
+<tr>
+<td>Engineering-owned integration in your codebase</td>
+<td><strong>Claude Code</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="claude-as-your-integration-designer">Claude as your integration designer</h2>
+<p>Ask Claude to do the hard thinking before you click:</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">I need an automation: when a Typeform demo request arrives, enrich the company from Clearbit-like data,
+score the lead (company size, role, budget), add to HubSpot, alert #sales in Slack for scores above 70,
+and email a booking link. Platform: n8n Cloud.
+1) Draw the flow as a list of nodes with what each does.
+2) Give the field mapping table.
+3) List failure cases and how to handle each.
+4) Give me the n8n Code node for the scoring logic.</code></pre></div>
+<p>Claude can also read an API reference page and produce the HTTP Request settings, explain an error from an execution log, or write a Make formula. In <strong>n8n</strong> the AI Assistant and in <strong>Zapier/Make</strong> the built-in AI builders do similar work inside the tool.</p>
+<h2 id="calling-claude-from-an-automation">Calling Claude from an automation</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Platform</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n8n</td>
+<td><strong>Anthropic Chat Model</strong> node inside an AI Agent/LLM Chain, or HTTP Request to the Messages API</td>
+</tr>
+<tr>
+<td>Make</td>
+<td><strong>Anthropic Claude</strong> module ("Create a prompt" / "Make an API call")</td>
+</tr>
+<tr>
+<td>Zapier</td>
+<td><strong>Anthropic (Claude)</strong> app action, or AI by Zapier</td>
+</tr>
+<tr>
+<td>Replit</td>
+<td>Replit Agent adds the Anthropic SDK and stores the key as a Secret</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># The JSON body every platform sends to Claude&#x27;s Messages API (shown here, not sent)</span>
+<span class="hl-k">import</span> json
+body = {<span class="hl-s">&quot;model&quot;</span>: <span class="hl-s">&quot;claude-sonnet-5-5&quot;</span>, <span class="hl-s">&quot;max_tokens&quot;</span>: <span class="hl-n">300</span>,
+        <span class="hl-s">&quot;system&quot;</span>: <span class="hl-s">&quot;Classify support tickets. Reply with JSON only: {\&quot;</span>category\<span class="hl-s">&quot;: one of [billing, bug, how-to, feedback], \&quot;</span>urgency\<span class="hl-s">&quot;: 1-5}&quot;</span>,
+        <span class="hl-s">&quot;messages&quot;</span>: [{<span class="hl-s">&quot;role&quot;</span>: <span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;content&quot;</span>: <span class="hl-s">&quot;I was charged twice for my Pro plan this month!&quot;</span>}]}
+<span class="hl-f">print</span>(<span class="hl-f">json.dumps</span>(body, indent=<span class="hl-n">1</span>))
+expected = {<span class="hl-s">&quot;category&quot;</span>: <span class="hl-s">&quot;billing&quot;</span>, <span class="hl-s">&quot;urgency&quot;</span>: <span class="hl-n">4</span>}
+<span class="hl-f">print</span>(<span class="hl-s">&quot;expected model output:&quot;</span>, expected)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{
+ &quot;model&quot;: &quot;claude-sonnet-5-5&quot;,
+ &quot;max_tokens&quot;: 300,
+ &quot;system&quot;: &quot;Classify support tickets. Reply with JSON only: {\&quot;category\&quot;: one of [billing, bug, how-to, feedback], \&quot;urgency\&quot;: 1-5}&quot;,
+ &quot;messages&quot;: [
+  {
+   &quot;role&quot;: &quot;user&quot;,
+   &quot;content&quot;: &quot;I was charged twice for my Pro plan this month!&quot;
+  }
+ ]
+}
+expected model output: {&#x27;category&#x27;: &#x27;billing&#x27;, &#x27;urgency&#x27;: 4}</pre></div>
+<p>Ask for <strong>JSON-only</strong> output with a fixed schema so the next node can map the fields reliably.</p>
+<h2 id="project-1-lead-pipeline-zapier-or-make">Project 1: Lead pipeline (Zapier or Make)</h2>
+<p><code>Website form</code> → <code>Claude: score and summarise the lead</code> → <code>HubSpot: create/update contact</code> → <code>Filter: score ≥ 70</code> → <code>Slack #sales</code> + <code>Gmail: send Calendly link</code>.</p>
+<h2 id="project-2-feedback-to-roadmap-loop-n8n">Project 2: Feedback-to-roadmap loop (n8n)</h2>
+<p><code>Schedule (daily)</code> → <code>Intercom/Zendesk + App Store reviews (HTTP)</code> → <code>Claude: tag theme, sentiment, feature request</code> → <code>Google Sheets: feedback log</code> → <code>Weekly: Summarize by theme</code> → <code>Claude: write the top-5 insights with quotes</code> → <code>Notion page + Slack #product</code>.</p>
+<h2 id="project-3-weekly-executive-report-claude-mcp">Project 3: Weekly executive report (Claude + MCP)</h2>
+<p>Expose an n8n workflow "get_weekly_metrics" (pulls KPIs from your warehouse or Sheets) through <strong>MCP Server Trigger</strong>. In Claude, connect it together with Jira and Drive and ask every Monday: "Prepare the weekly product report: KPIs vs target, shipped items from Jira, risks from the roadmap doc, in our report template." Schedule it with a recurring task where available.</p>
+<h2 id="cost-reliability-and-security">Cost, reliability and security</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">runs_per_day, steps, days = <span class="hl-n">400</span>, <span class="hl-n">5</span>, <span class="hl-n">30</span>
+zapier_tasks = runs_per_day * steps * days            <span class="hl-c"># Zapier counts each action step as a task</span>
+make_ops = runs_per_day * (steps + <span class="hl-n">1</span>) * days          <span class="hl-c"># Make counts each module run (incl. trigger)</span>
+n8n_executions = runs_per_day * days                  <span class="hl-c"># n8n Cloud counts workflow executions</span>
+claude_tokens = runs_per_day * days * (<span class="hl-n">600</span> + <span class="hl-n">200</span>)     <span class="hl-c"># input + output tokens per run</span>
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;Zapier ≈ {zapier_tasks:,} tasks | Make ≈ {make_ops:,} operations | n8n ≈ {n8n_executions:,} executions | Claude ≈ {claude_tokens / 1e6:.1f}M tokens / month&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Zapier ≈ 60,000 tasks | Make ≈ 72,000 operations | n8n ≈ 12,000 executions | Claude ≈ 9.6M tokens / month</pre></div>
+<p>Compare these with each platform's current plan limits before you choose; volume changes the answer.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Area</th>
+<th>Checklist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reliability</td>
+<td>Retries with back-off, error branch/workflow with alerts, idempotent writes (search before create), logging</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Credentials store only, least-privilege scopes, no secrets in prompts, PII masking, vendor DPAs</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>JSON schemas for AI output, validation step, human review for customer-facing text</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>Owner, purpose, trigger, systems, data mapping, failure handling, cost (one page per automation)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Four patterns: Claude + connectors, automations calling Claude, Claude calling automations via MCP, and custom apps.</li>
+<li>Zapier for speed, Make for visual logic, n8n for control and agents, Replit for full apps, Claude Code for engineering-owned builds.</li>
+<li>Use Claude to design flows, mappings, failure cases and code steps; ask for JSON output.</li>
+<li>Plan cost by your platform's billing unit, and build in retries, alerts and least privilege.</li>
+</ul></div>
+<div class="quiz" id="quiz-agents-04-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> You need Claude to classify 5,000 tickets a day as they arrive. Which pattern?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>An automation that calls Claude for each ticket</button><button type="button" class="opt" data-ok="0"><i>B</i>Claude chat by hand</button><button type="button" class="opt" data-ok="0"><i>C</i>A custom mobile app</button><button type="button" class="opt" data-ok="0"><i>D</i>A PDF export</button></div><div class="qexp"><b>Answer: A.</b> Event-driven volume suits pattern 2.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which platform suits a team that must self-host for data privacy and wants code steps?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>n8n</button><button type="button" class="opt" data-ok="0"><i>B</i>Zapier</button><button type="button" class="opt" data-ok="0"><i>C</i>Google Forms</button><button type="button" class="opt" data-ok="0"><i>D</i>Canva</button></div><div class="qexp"><b>Answer: A.</b> n8n can run on your own servers.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why ask Claude for JSON-only output in an automation?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>So the next step can map fields reliably</button><button type="button" class="opt" data-ok="0"><i>B</i>It is cheaper per word</button><button type="button" class="opt" data-ok="0"><i>C</i>JSON is required by email</button><button type="button" class="opt" data-ok="0"><i>D</i>To avoid using tools</button></div><div class="qexp"><b>Answer: A.</b> Validate it against a schema too.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does Zapier count for billing?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Tasks (each successful action step)</button><button type="button" class="opt" data-ok="0"><i>B</i>Executions of whole workflows only</button><button type="button" class="opt" data-ok="0"><i>C</i>Tokens</button><button type="button" class="opt" data-ok="0"><i>D</i>Users</button></div><div class="qexp"><b>Answer: A.</b> Make counts operations; n8n Cloud counts executions.</div></div><div class="qq"><p class="qtext"><b>5.</b> How can Claude trigger an n8n workflow conversationally?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Expose it with MCP Server Trigger and add it as a connector</button><button type="button" class="opt" data-ok="0"><i>B</i>Paste the workflow JSON into chat</button><button type="button" class="opt" data-ok="0"><i>C</i>It cannot</button><button type="button" class="opt" data-ok="0"><i>D</i>Through a PDF</button></div><div class="qexp"><b>Answer: A.</b> Zapier MCP and Make offer similar options.</div></div><div class="qq"><p class="qtext"><b>6.</b> What prevents duplicate CRM records when a workflow retries?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Idempotent writes: search before create or use a unique key</button><button type="button" class="opt" data-ok="0"><i>B</i>More retries</button><button type="button" class="opt" data-ok="0"><i>C</i>Bigger prompts</button><button type="button" class="opt" data-ok="0"><i>D</i>Turning off logging</button></div><div class="qexp"><b>Answer: A.</b> Design for retries from the start.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build it</b></div><p>Build Project 2 on your favourite platform with 20 sample reviews in a Google Sheet. Have Claude tag each review (theme, sentiment, feature request) as JSON, aggregate weekly, and post the top 5 insights with quotes to Slack. Document it on one page.</p><details class="sol"><summary>Show solution</summary><p>Flow: Schedule → Sheets (read new rows) → Loop → Claude (system prompt with schema) → Parse JSON → Sheets (write tags) → weekly Summarize by theme → Claude (insights) → Slack. Include an error workflow and a validation step that rejects non-JSON answers.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How would you decide between Zapier, Make and n8n for a client?</strong>
+By team skills, volume and cost model, need for self-hosting and code, complexity of branching, required apps, and governance. Prototype the riskiest step on the shortlisted tool.</p>
+<p><strong>Q: How do you make AI steps in automations reliable?</strong>
+Structured JSON output with a schema, validation and retries, deterministic settings, small focused prompts, fallbacks, human review for high-impact outputs, and monitoring of error rates.</p>
+<p><strong>Q: What goes into an integration's documentation?</strong>
+Owner, purpose, trigger, systems and endpoints, data mapping, error handling and alerts, credentials and scopes, cost, and a test checklist.</p>
+<p><strong>Q: How can Claude help a BA who does not code?</strong>
+It turns requirements into flows and mappings, writes formulas and small code steps, explains API docs and error logs, and generates test data and acceptance criteria.</p>
+<p><strong>Q: What risks come with letting AI act in business systems?</strong>
+Wrong or duplicate actions, data leakage, prompt injection, cost overruns and unclear accountability; mitigate with scopes, approvals, validation, logs and budgets.</p></div>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://n8n.io/workflows/">n8n AI templates</a></li>
+<li><a target="_blank" rel="noopener" href="https://academy.make.com/">Make Academy</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.zapier.com/">Zapier Learn</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Claude API documentation</a></li>
+</ul></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html"><small>← Previous</small><b>How AI Agents Work and How to Build One Without Code</b></a><a class="next" href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html"><small>Next →</small><b>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#four-ways-to-connect-apps-with-ai">Four ways to connect apps with AI</a><a href="#choosing-the-platform">Choosing the platform</a><a href="#claude-as-your-integration-designer">Claude as your integration designer</a><a href="#calling-claude-from-an-automation">Calling Claude from an automation</a><a href="#project-1-lead-pipeline-zapier-or-make">Project 1: Lead pipeline (Zapier or Make)</a><a href="#project-2-feedback-to-roadmap-loop-n8n">Project 2: Feedback-to-roadmap loop (n8n)</a><a href="#project-3-weekly-executive-report-claude-mcp">Project 3: Weekly executive report (Claude + MCP)</a><a href="#cost-reliability-and-security">Cost, reliability and security</a><a href="#summary">Summary</a><a href="#learn-more">Learn more</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

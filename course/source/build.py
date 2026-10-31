@@ -61,11 +61,21 @@ TRACKS = [
     dict(id="genai", name="Generative AI & Agentic AI", short="GenAI & Agents", color="#EA580C", desc="How LLMs work, prompting, LLM APIs in Python, embeddings and vector search, RAG, tool use, agents, MCP, evaluation, guardrails, fine-tuning and responsible AI.",
          practice=[("W3Schools Generative AI tutorial", f"{W3}/gen_ai/"), ("Anthropic docs (Claude API)", "https://docs.claude.com/"), ("OpenAI cookbook", "https://cookbook.openai.com/"),
                    ("Hugging Face LLM course (free)", "https://huggingface.co/learn/llm-course"), ("Model Context Protocol docs", "https://modelcontextprotocol.io/"), ("DeepLearning.AI short courses", "https://www.deeplearning.ai/short-courses/")]),
+    dict(id="agents", name="AI Agents, MCP & APIs for PMs and BAs", short="Agents", color="#0EA5E9", desc="No-code track for PMs, BAs and senior PMs: APIs, MCP with Claude, how AI agents work and how to build them, connecting apps with n8n, Make, Zapier and Replit, a complete Claude Code tutorial, and voice agents and voice cloning.",
+         practice=[("Postman Academy", "https://academy.postman.com/"), ("Model Context Protocol docs", "https://modelcontextprotocol.io/"), ("Anthropic: Building effective agents", "https://www.anthropic.com/engineering/building-effective-agents"), ("Claude Code docs", "https://docs.claude.com/en/docs/claude-code/overview")]),
     dict(id="tools", name="AI & No-Code Tools Lab", short="Tools", color="#E04F8A", desc="Complete tutorials for the design and automation tools used across the programs: Figma (design systems, prototypes, Dev Mode, Figma Make) and n8n (workflows, APIs, AI agents, MCP).",
          practice=[("Figma Help Center", "https://help.figma.com"), ("Figma Community templates", "https://www.figma.com/community"), ("n8n free courses", "https://docs.n8n.io/courses/"), ("n8n workflow templates", "https://n8n.io/workflows/")]),
     dict(id="career", name="Capstone, Portfolio & Interviews", short="Career", color="#475569", desc="End-to-end capstone, portfolio and GitHub, analyst and data scientist interview preparation with model answers, and a 90-day plan.",
          practice=[("W3Schools quizzes hub", f"{W3}/quiztest/"), ("W3Schools exercises hub", f"{W3}/exercises/"), ("LeetCode SQL 50", "https://leetcode.com/studyplan/top-sql-50/"), ("Kaggle competitions (Getting started)", "https://www.kaggle.com/competitions?hostSegmentIdFilter=5"),
                    ("StrataScratch data interview questions", "https://www.stratascratch.com/")]),
+    dict(id="sfmc", name="Salesforce Marketing Cloud (SFMC)", short="SFMC", color="#00A1E0", extra=True, desc="Complete SFMC guide: data extensions, SQL, AMPscript, Email Studio, Automation Studio, Journey Builder, mobile channels, deliverability, Einstein and certification.",
+         practice=[("Trailhead", "https://trailhead.salesforce.com/"), ("AMPscript guide", "https://developer.salesforce.com/docs/marketing/marketing-cloud-ampscript/guide/")]),
+    dict(id="marketing", name="Digital Marketing", short="Marketing", color="#F97316", extra=True, desc="Complete digital marketing guide: strategy, SEO and AI search, Google and Meta Ads, social and influencers, email and WhatsApp, GA4 and attribution, CRO, budgets and AI.",
+         practice=[("Google Skillshop", "https://skillshop.withgoogle.com/"), ("Meta Blueprint", "https://www.facebook.com/business/learn")]),
+    dict(id="content", name="Content Creation", short="Content", color="#DB2777", extra=True, desc="Complete content creation guide: niche and pillars, hooks and writing, short and long video, design, AI tools, publishing system, growth, analytics and monetisation.",
+         practice=[("YouTube Creators", "https://www.youtube.com/creators/"), ("Canva Design School", "https://www.canva.com/designschool/")]),
+    dict(id="fde", name="Forward Deployed Engineer (FDE)", short="FDE", color="#16A34A", extra=True, desc="Complete FDE guide: the role, skills stack, deployment lifecycle, LLM solutions for customers, integration patterns, a capstone and interview preparation.",
+         practice=[("Anthropic: Building effective agents", "https://www.anthropic.com/engineering/building-effective-agents"), ("Model Context Protocol", "https://modelcontextprotocol.io/")]),
 ]
 TRACK = {t["id"]: t for t in TRACKS}
 BUILD_VER = "v14"

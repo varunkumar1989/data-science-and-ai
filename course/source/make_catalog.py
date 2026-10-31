@@ -19,7 +19,7 @@ for t in TRACKS:
         ls.append({"n": n, "num": n, "title": html.unescape(title), "page": page, "file": f, "track": t["id"], "pdf": os.path.basename(pdf), "pdf_path": pdf, "live": live})
     if not ls: continue
     track_pdf = next((d for s, d in pdf_for.items() if s == f"print/track-{t['id']}.html"), None)
-    cat["tracks"].append({"id": t["id"], "name": t["name"], "color": t["color"], "desc": t["desc"], "lessons": ls, "pdf": track_pdf, "track_pdf": os.path.basename(track_pdf or "")})
+    cat["tracks"].append({"id": t["id"], "name": t["name"], "color": t["color"], "desc": t["desc"], "lessons": ls, "pdf": track_pdf, "track_pdf": os.path.basename(track_pdf or ""), "extra": bool(t.get("extra"))})
 cat["lesson_count"] = sum(len(t["lessons"]) for t in cat["tracks"])
 json.dump(cat, open(os.path.join(ROOT, "catalog.json"), "w"), indent=1, ensure_ascii=False)
 print(cat["lesson_count"], "lessons in", len(cat["tracks"]), "tracks")

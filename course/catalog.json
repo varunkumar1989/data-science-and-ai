@@ -142,7 +142,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_01_Advanced_Excel.pdf",
-   "track_pdf": "Track_01_Advanced_Excel.pdf"
+   "track_pdf": "Track_01_Advanced_Excel.pdf",
+   "extra": false
   },
   {
    "id": "sql",
@@ -317,7 +318,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_02_SQL_for_Data_Analysis.pdf",
-   "track_pdf": "Track_02_SQL_for_Data_Analysis.pdf"
+   "track_pdf": "Track_02_SQL_for_Data_Analysis.pdf",
+   "extra": false
   },
   {
    "id": "powerbi",
@@ -393,7 +395,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_03_Power_BI.pdf",
-   "track_pdf": "Track_03_Power_BI.pdf"
+   "track_pdf": "Track_03_Power_BI.pdf",
+   "extra": false
   },
   {
    "id": "tableau",
@@ -469,7 +472,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_04_Tableau.pdf",
-   "track_pdf": "Track_04_Tableau.pdf"
+   "track_pdf": "Track_04_Tableau.pdf",
+   "extra": false
   },
   {
    "id": "ai-analytics",
@@ -523,7 +527,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_05_AI_for_Data_Analysis.pdf",
-   "track_pdf": "Track_05_AI_for_Data_Analysis.pdf"
+   "track_pdf": "Track_05_AI_for_Data_Analysis.pdf",
+   "extra": false
   },
   {
    "id": "python",
@@ -852,7 +857,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_06_Python_for_Data_Science.pdf",
-   "track_pdf": "Track_06_Python_for_Data_Science.pdf"
+   "track_pdf": "Track_06_Python_for_Data_Science.pdf",
+   "extra": false
   },
   {
    "id": "ml",
@@ -1170,7 +1176,8 @@
     }
    ],
    "pdf": "pdf/tracks/Track_07_Statistics_Machine_Learning.pdf",
-   "track_pdf": "Track_07_Statistics_Machine_Learning.pdf"
+   "track_pdf": "Track_07_Statistics_Machine_Learning.pdf",
+   "extra": false
   },
   {
    "id": "genai",
@@ -1312,7 +1319,85 @@
     }
    ],
    "pdf": "pdf/tracks/Track_08_Generative_AI_Agentic_AI.pdf",
-   "track_pdf": "Track_08_Generative_AI_Agentic_AI.pdf"
+   "track_pdf": "Track_08_Generative_AI_Agentic_AI.pdf",
+   "extra": false
+  },
+  {
+   "id": "agents",
+   "name": "AI Agents, MCP & APIs for PMs and BAs",
+   "color": "#0EA5E9",
+   "desc": "No-code track for PMs, BAs and senior PMs: APIs, MCP with Claude, how AI agents work and how to build them, connecting apps with n8n, Make, Zapier and Replit, a complete Claude Code tutorial, and voice agents and voice cloning.",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs",
+     "page": "lessons/agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html",
+     "file": "agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html",
+     "track": "agents",
+     "pdf": "Agents_01_APIs_Without_Code_How_Apps_Talk_REST_JSON_Authentication_Webhooks_and_.pdf",
+     "pdf_path": "pdf/agents/Agents_01_APIs_Without_Code_How_Apps_Talk_REST_JSON_Authentication_Webhooks_and_.pdf",
+     "live": ""
+    },
+    {
+     "n": 2,
+     "num": 2,
+     "title": "MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data",
+     "page": "lessons/agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html",
+     "file": "agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html",
+     "track": "agents",
+     "pdf": "Agents_02_MCP_Model_Context_Protocol_Without_Code_Connect_Claude_to_Your_Apps_an.pdf",
+     "pdf_path": "pdf/agents/Agents_02_MCP_Model_Context_Protocol_Without_Code_Connect_Claude_to_Your_Apps_an.pdf",
+     "live": ""
+    },
+    {
+     "n": 3,
+     "num": 3,
+     "title": "How AI Agents Work and How to Build One Without Code",
+     "page": "lessons/agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html",
+     "file": "agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html",
+     "track": "agents",
+     "pdf": "Agents_03_How_AI_Agents_Work_and_How_to_Build_One_Without_Code.pdf",
+     "pdf_path": "pdf/agents/Agents_03_How_AI_Agents_Work_and_How_to_Build_One_Without_Code.pdf",
+     "live": ""
+    },
+    {
+     "n": 4,
+     "num": 4,
+     "title": "Connect All Your Apps with Claude, n8n, Make, Zapier and Replit",
+     "page": "lessons/agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html",
+     "file": "agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html",
+     "track": "agents",
+     "pdf": "Agents_04_Connect_All_Your_Apps_with_Claude_n8n_Make_Zapier_and_Replit.pdf",
+     "pdf_path": "pdf/agents/Agents_04_Connect_All_Your_Apps_with_Claude_n8n_Make_Zapier_and_Replit.pdf",
+     "live": ""
+    },
+    {
+     "n": 5,
+     "num": 5,
+     "title": "Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation",
+     "page": "lessons/agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html",
+     "file": "agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html",
+     "track": "agents",
+     "pdf": "Agents_05_Claude_Code_Complete_Tutorial_From_First_Prompt_to_Agents_MCP_Hooks_an.pdf",
+     "pdf_path": "pdf/agents/Agents_05_Claude_Code_Complete_Tutorial_From_First_Prompt_to_Agents_MCP_Hooks_an.pdf",
+     "live": ""
+    },
+    {
+     "n": 6,
+     "num": 6,
+     "title": "Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use",
+     "page": "lessons/agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html",
+     "file": "agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html",
+     "track": "agents",
+     "pdf": "Agents_06_Voice_Agents_and_Voice_Cloning_Tools_Architecture_Build_Steps_and_Resp.pdf",
+     "pdf_path": "pdf/agents/Agents_06_Voice_Agents_and_Voice_Cloning_Tools_Architecture_Build_Steps_and_Resp.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_09_AI_Agents_MCP_APIs_for_PMs_and_BAs.pdf",
+   "track_pdf": "Track_09_AI_Agents_MCP_APIs_for_PMs_and_BAs.pdf",
+   "extra": false
   },
   {
    "id": "tools",
@@ -1343,8 +1428,9 @@
      "live": ""
     }
    ],
-   "pdf": "pdf/tracks/Track_09_AI_No_Code_Tools_Lab.pdf",
-   "track_pdf": "Track_09_AI_No_Code_Tools_Lab.pdf"
+   "pdf": "pdf/tracks/Track_10_AI_No_Code_Tools_Lab.pdf",
+   "track_pdf": "Track_10_AI_No_Code_Tools_Lab.pdf",
+   "extra": false
   },
   {
    "id": "career",
@@ -1397,9 +1483,98 @@
      "live": "Career track"
     }
    ],
-   "pdf": "pdf/tracks/Track_10_Capstone_Portfolio_Interviews.pdf",
-   "track_pdf": "Track_10_Capstone_Portfolio_Interviews.pdf"
+   "pdf": "pdf/tracks/Track_11_Capstone_Portfolio_Interviews.pdf",
+   "track_pdf": "Track_11_Capstone_Portfolio_Interviews.pdf",
+   "extra": false
+  },
+  {
+   "id": "sfmc",
+   "name": "Salesforce Marketing Cloud (SFMC)",
+   "color": "#00A1E0",
+   "desc": "Complete SFMC guide: data extensions, SQL, AMPscript, Email Studio, Automation Studio, Journey Builder, mobile channels, deliverability, Einstein and certification.",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "Salesforce Marketing Cloud (SFMC) Complete Guide: Email Studio, Data Extensions, SQL, AMPscript, Journey Builder and Certification",
+     "page": "lessons/sfmc-01-salesforce-marketing-cloud-sfmc-complete-guide-email-studio.html",
+     "file": "sfmc-01-salesforce-marketing-cloud-sfmc-complete-guide-email-studio.html",
+     "track": "sfmc",
+     "pdf": "SFMC_01_Salesforce_Marketing_Cloud_SFMC_Complete_Guide_Email_Studio_Data_Exten.pdf",
+     "pdf_path": "pdf/sfmc/SFMC_01_Salesforce_Marketing_Cloud_SFMC_Complete_Guide_Email_Studio_Data_Exten.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_12_Salesforce_Marketing_Cloud_SFMC.pdf",
+   "track_pdf": "Track_12_Salesforce_Marketing_Cloud_SFMC.pdf",
+   "extra": true
+  },
+  {
+   "id": "marketing",
+   "name": "Digital Marketing",
+   "color": "#F97316",
+   "desc": "Complete digital marketing guide: strategy, SEO and AI search, Google and Meta Ads, social and influencers, email and WhatsApp, GA4 and attribution, CRO, budgets and AI.",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "Digital Marketing Complete Guide: Strategy, SEO, Google and Meta Ads, Social, Email, WhatsApp, Analytics and AI",
+     "page": "lessons/marketing-01-digital-marketing-complete-guide-strategy-seo-google-and-met.html",
+     "file": "marketing-01-digital-marketing-complete-guide-strategy-seo-google-and-met.html",
+     "track": "marketing",
+     "pdf": "Marketing_01_Digital_Marketing_Complete_Guide_Strategy_SEO_Google_and_Meta_Ads_Soci.pdf",
+     "pdf_path": "pdf/marketing/Marketing_01_Digital_Marketing_Complete_Guide_Strategy_SEO_Google_and_Meta_Ads_Soci.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_13_Digital_Marketing.pdf",
+   "track_pdf": "Track_13_Digital_Marketing.pdf",
+   "extra": true
+  },
+  {
+   "id": "content",
+   "name": "Content Creation",
+   "color": "#DB2777",
+   "desc": "Complete content creation guide: niche and pillars, hooks and writing, short and long video, design, AI tools, publishing system, growth, analytics and monetisation.",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "Content Creation Complete Guide: Strategy, Writing, Short and Long Video, Design, AI Tools, Distribution and Monetisation",
+     "page": "lessons/content-01-content-creation-complete-guide-strategy-writing-short-and-l.html",
+     "file": "content-01-content-creation-complete-guide-strategy-writing-short-and-l.html",
+     "track": "content",
+     "pdf": "Content_01_Content_Creation_Complete_Guide_Strategy_Writing_Short_and_Long_Video_.pdf",
+     "pdf_path": "pdf/content/Content_01_Content_Creation_Complete_Guide_Strategy_Writing_Short_and_Long_Video_.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_14_Content_Creation.pdf",
+   "track_pdf": "Track_14_Content_Creation.pdf",
+   "extra": true
+  },
+  {
+   "id": "fde",
+   "name": "Forward Deployed Engineer (FDE)",
+   "color": "#16A34A",
+   "desc": "Complete FDE guide: the role, skills stack, deployment lifecycle, LLM solutions for customers, integration patterns, a capstone and interview preparation.",
+   "lessons": [
+    {
+     "n": 1,
+     "num": 1,
+     "title": "Forward Deployed Engineer (FDE) Complete Guide: The Role, Skills, AI Deployments, Integrations and Interviews",
+     "page": "lessons/fde-01-forward-deployed-engineer-fde-complete-guide-the-role-skills.html",
+     "file": "fde-01-forward-deployed-engineer-fde-complete-guide-the-role-skills.html",
+     "track": "fde",
+     "pdf": "FDE_01_Forward_Deployed_Engineer_FDE_Complete_Guide_The_Role_Skills_AI_Deploy.pdf",
+     "pdf_path": "pdf/fde/FDE_01_Forward_Deployed_Engineer_FDE_Complete_Guide_The_Role_Skills_AI_Deploy.pdf",
+     "live": ""
+    }
+   ],
+   "pdf": "pdf/tracks/Track_15_Forward_Deployed_Engineer_FDE.pdf",
+   "track_pdf": "Track_15_Forward_Deployed_Engineer_FDE.pdf",
+   "extra": true
   }
  ],
- "lesson_count": 118
+ "lesson_count": 128
 }

@@ -1,0 +1,336 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Salesforce Marketing Cloud (SFMC) · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
+<section class="cover" style="--tc:#00A1E0"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 12</div><h1>Salesforce Marketing Cloud (SFMC)</h1><p>Complete SFMC guide: data extensions, SQL, AMPscript, Email Studio, Automation Studio, Journey Builder, mobile channels, deliverability, Einstein and certification.</p>
+<div class="cv-m"><span>1 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl"><li><a href="#L-sfmc-01"><span>01</span>Salesforce Marketing Cloud (SFMC) Complete Guide: Email Studio, Data Extensions, SQL, AMPscript, Journey Builder and Certification</a></li></ol></section><article class="lesson-art bk" id="L-sfmc-01"><div class="lhead" style="--tc:#00A1E0"><div class="kick">Salesforce Marketing Cloud (SFMC) · Lesson 1</div><h1>Salesforce Marketing Cloud (SFMC) Complete Guide: Email Studio, Data Extensions, SQL, AMPscript, Journey Builder and Certification</h1>
+<p class="sum">A complete training guide to Salesforce Marketing Cloud Engagement for marketers, analysts and developers. Learn the architecture and studios, subscribers and data extensions, data modelling and Contact Builder, SQL Query Activities, segmentation, Content Builder and AMPscript personalisation, Email Studio sends, Automation Studio, Journey Builder, Mobile Studio (SMS, push, WhatsApp), deliverability, consent and the DPDP Act, reporting, Einstein AI, Data Cloud and Agentforce, plus a capstone and the Marketing Cloud Email Specialist and Administrator certification paths.</p><div class="tags"><span class="tag new">✦ Salesforce Marketing Cloud Engagement, 2026</span><span class="tag">Beginner to Advanced</span><span class="tag">⏱ 240 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the Marketing Cloud architecture, studios and builders and when to use each</li><li>Model data with data extensions, sendable and testable data, primary keys and Contact Builder</li><li>Segment audiences with filters and SQL Query Activities, and personalise content with AMPscript</li><li>Build automations and multi-channel journeys with entry sources, decisions, waits and goals</li><li>Run compliant, deliverable campaigns and report on them, and prepare for SFMC certifications</li></ul></div></div><div class="content"><h2 id="sfmc-01-what-salesforce-marketing-cloud-is">What Salesforce Marketing Cloud is</h2>
+<p><strong>Salesforce Marketing Cloud Engagement</strong> (often called <strong>SFMC</strong>, formerly ExactTarget) is an enterprise platform for sending personalised email, SMS, push and WhatsApp messages and running automated customer journeys at scale. Banks, airlines, retailers and telecom companies in India use it to manage millions of customers, which is why SFMC specialists, developers and consultants are in steady demand.</p>
+<figure class="fig"><img src="../img/sfmc-01-01.png" alt="SFMC studios and builders and what each does." loading="lazy"><figcaption>SFMC studios and builders and what each does.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Role</th>
+<th>Typical work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Email/campaign specialist</strong></td>
+<td>Builds emails, segments and sends; runs A/B tests</td>
+</tr>
+<tr>
+<td><strong>SFMC developer</strong></td>
+<td>AMPscript, SSJS, SQL, CloudPages, APIs, integrations</td>
+</tr>
+<tr>
+<td><strong>Administrator</strong></td>
+<td>Business units, users and roles, sender profiles, deliverability set-up</td>
+</tr>
+<tr>
+<td><strong>Consultant/architect</strong></td>
+<td>Data model, journeys, Salesforce CRM integration (Marketing Cloud Connect)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sfmc-01-the-account-structure">The account structure</h2>
+<ul>
+<li><strong>Enterprise account</strong> with <strong>business units</strong> (e.g. India Retail, India Cards) that share or separate data and content.</li>
+<li><strong>Sender authentication package (SAP)</strong>: a branded sending domain, dedicated IP and private domain for better deliverability.</li>
+<li><strong>Sender profiles</strong>, <strong>delivery profiles</strong> and <strong>send classifications</strong> (commercial vs transactional) decide who an email is from, the footer and whether unsubscribed people can receive it.</li>
+<li><strong>Users and roles</strong> control who can create, approve and send.</li>
+</ul>
+<h2 id="sfmc-01-data-subscribers-lists-and-data-extensions">Data: subscribers, lists and data extensions</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Object</th>
+<th>What it is</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>All Subscribers</strong></td>
+<td>Master list of email subscribers with status (Active, Unsubscribed, Held, Bounced)</td>
+<td>Global unsubscribe and status</td>
+</tr>
+<tr>
+<td><strong>Lists</strong></td>
+<td>Simple subscriber lists</td>
+<td>Small, simple programs</td>
+</tr>
+<tr>
+<td><strong>Data extensions (DEs)</strong></td>
+<td>Tables with your own fields and primary keys</td>
+<td>Almost all real programs</td>
+</tr>
+<tr>
+<td><strong>Sendable DE</strong></td>
+<td>Has a field mapped to Subscriber Key (and Email)</td>
+<td>Can be the audience of a send</td>
+</tr>
+<tr>
+<td><strong>Testable DE</strong></td>
+<td>Holds test records</td>
+<td>Previews and test sends</td>
+</tr>
+<tr>
+<td><strong>Shared DE</strong></td>
+<td>Available to several business units</td>
+<td>Common reference data</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+customers = <span class="hl-f">pd.DataFrame</span>({
+    <span class="hl-s">&quot;SubscriberKey&quot;</span>: [<span class="hl-s">&quot;C001&quot;</span>, <span class="hl-s">&quot;C002&quot;</span>, <span class="hl-s">&quot;C003&quot;</span>, <span class="hl-s">&quot;C004&quot;</span>, <span class="hl-s">&quot;C005&quot;</span>],
+    <span class="hl-s">&quot;Email&quot;</span>: [<span class="hl-s">&quot;asha@ex.com&quot;</span>, <span class="hl-s">&quot;ravi@ex.com&quot;</span>, <span class="hl-s">&quot;meera@ex.com&quot;</span>, <span class="hl-s">&quot;kabir@ex.com&quot;</span>, <span class="hl-s">&quot;nisha@ex.com&quot;</span>],
+    <span class="hl-s">&quot;FirstName&quot;</span>: [<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;Nisha&quot;</span>], <span class="hl-s">&quot;City&quot;</span>: [<span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>, <span class="hl-s">&quot;Pune&quot;</span>, <span class="hl-s">&quot;Mumbai&quot;</span>, <span class="hl-s">&quot;Delhi&quot;</span>],
+    <span class="hl-s">&quot;Tier&quot;</span>: [<span class="hl-s">&quot;Gold&quot;</span>, <span class="hl-s">&quot;Silver&quot;</span>, <span class="hl-s">&quot;Gold&quot;</span>, <span class="hl-s">&quot;Bronze&quot;</span>, <span class="hl-s">&quot;Silver&quot;</span>], <span class="hl-s">&quot;LastPurchase&quot;</span>: <span class="hl-f">pd.to_datetime</span>([<span class="hl-s">&quot;2026-10-02&quot;</span>, <span class="hl-s">&quot;2026-06-14&quot;</span>, <span class="hl-s">&quot;2026-09-28&quot;</span>, <span class="hl-s">&quot;2026-03-01&quot;</span>, <span class="hl-s">&quot;2026-10-20&quot;</span>]),
+    <span class="hl-s">&quot;EmailOptIn&quot;</span>: [<span class="hl-k">True</span>, <span class="hl-k">True</span>, <span class="hl-k">False</span>, <span class="hl-k">True</span>, <span class="hl-k">True</span>]})
+<span class="hl-f">customers.dtypes.astype</span>(str).<span class="hl-f">to_dict</span>()</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">{&#x27;SubscriberKey&#x27;: &#x27;object&#x27;, &#x27;Email&#x27;: &#x27;object&#x27;, &#x27;FirstName&#x27;: &#x27;object&#x27;, &#x27;City&#x27;: &#x27;object&#x27;, &#x27;Tier&#x27;: &#x27;object&#x27;, &#x27;LastPurchase&#x27;: &#x27;datetime64[ns]&#x27;, &#x27;EmailOptIn&#x27;: &#x27;bool&#x27;}</pre></div>
+<p>Design rules: use a stable <strong>Subscriber Key</strong> (customer ID, not the email address), set a <strong>primary key</strong> on every DE, choose field types carefully (Text length, Number, Decimal, Date, Boolean, EmailAddress, Phone, Locale), and keep a <strong>data retention</strong> policy on large DEs.</p>
+<h3 id="sfmc-01-contact-builder-and-the-data-model">Contact Builder and the data model</h3>
+<p><strong>Contact Builder</strong> links DEs to the contact through <strong>attribute groups</strong> and relationships (one-to-one, one-to-many), so Journey Builder can use attributes like "Tier" or "last order value" in decisions. Plan one <strong>master customer DE</strong>, related <strong>orders</strong> and <strong>products</strong> DEs, and channel-specific DEs for SMS and push.</p>
+<h2 id="sfmc-01-segmentation-filters-and-sql">Segmentation: filters and SQL</h2>
+<p>Two ways to build audiences:</p>
+<ol>
+<li><strong>Filters</strong> (Email Studio or Contact Builder data filters): drag-and-drop conditions such as <code>City is Pune AND Tier is Gold</code>.</li>
+<li><strong>SQL Query Activities</strong> in Automation Studio (Microsoft SQL Server syntax, <code>SELECT</code> only) that write results into a target DE with <em>Overwrite</em>, <em>Update</em> or <em>Append</em>.</li>
+</ol>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> c.SubscriberKey, c.Email, c.FirstName, c.City
+<span class="hl-k">FROM</span> Customers c
+<span class="hl-k">WHERE</span> c.Tier <span class="hl-k">IN</span> (<span class="hl-s">&#x27;Gold&#x27;</span>, <span class="hl-s">&#x27;Silver&#x27;</span>)
+  <span class="hl-k">AND</span> c.EmailOptIn = <span class="hl-n">1</span>
+  <span class="hl-k">AND</span> c.LastPurchase &gt;= <span class="hl-f">DATEADD</span>(day, -<span class="hl-n">60</span>, <span class="hl-f">GETDATE</span>())</code></pre></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">recent = customers[(<span class="hl-f">customers.Tier.isin</span>([<span class="hl-s">&quot;Gold&quot;</span>, <span class="hl-s">&quot;Silver&quot;</span>])) &amp; customers.EmailOptIn &amp; (customers.LastPurchase &gt;= <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2026-10-31&quot;</span>) - <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">60</span>))]
+recent[[<span class="hl-s">&quot;SubscriberKey&quot;</span>, <span class="hl-s">&quot;FirstName&quot;</span>, <span class="hl-s">&quot;City&quot;</span>, <span class="hl-s">&quot;Tier&quot;</span>]]</code></pre></div><div class="output"><div class="out-h">Output</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SubscriberKey</th>
+      <th>FirstName</th>
+      <th>City</th>
+      <th>Tier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C001</td>
+      <td>Asha</td>
+      <td>Pune</td>
+      <td>Gold</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>C005</td>
+      <td>Nisha</td>
+      <td>Delhi</td>
+      <td>Silver</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 4 columns</div></div>
+<p>Useful system <strong>data views</strong> for SQL: <code>_Sent</code>, <code>_Open</code>, <code>_Click</code>, <code>_Bounce</code>, <code>_Unsubscribe</code>, <code>_Subscribers</code>, <code>_Job</code>, <code>_Journey</code>, <code>_JourneyActivity</code> (around six months of history), for example "people who opened but did not click in the last 30 days".</p>
+<h2 id="sfmc-01-content-builder-and-personalisation">Content Builder and personalisation</h2>
+<ul>
+<li><strong>Templates</strong> and <strong>content blocks</strong> (text, image, button, HTML, dynamic content, A/B content), reusable across emails.</li>
+<li><strong>Personalisation strings</strong>: <code>%%FirstName%%</code>, <code>%%emailaddr%%</code>.</li>
+<li><strong>Dynamic content</strong>: rules that show a block by attribute (e.g. different hero image per City).</li>
+<li><strong>AMPscript</strong>: SFMC's scripting language for advanced personalisation at send time.</li>
+</ul>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">%%[
+  VAR @name, @tier, @offer
+  SET @name = AttributeValue(&quot;FirstName&quot;)
+  SET @tier = AttributeValue(&quot;Tier&quot;)
+  IF @tier == &quot;Gold&quot; THEN
+    SET @offer = &quot;20% off + free express delivery&quot;
+  ELSEIF @tier == &quot;Silver&quot; THEN
+    SET @offer = &quot;15% off this weekend&quot;
+  ELSE
+    SET @offer = &quot;10% off your next order&quot;
+  ENDIF
+  SET @store = Lookup(&quot;Stores&quot;, &quot;StoreName&quot;, &quot;City&quot;, AttributeValue(&quot;City&quot;))
+]%%
+Hi %%=ProperCase(@name)=%%, your %%=v(@tier)=%% offer: %%=v(@offer)=%%.
+Your nearest store: %%=v(@store)=%%</code></pre></div>
+<p>Other key AMPscript functions: <code>LookupRows</code>, <code>Row</code>, <code>Field</code>, <code>FormatDate</code>, <code>FormatCurrency</code> (₹ with a locale), <code>IIF</code>, <code>Empty</code>, <code>RedirectTo</code>, <code>RequestParameter</code> and <code>CloudPagesURL</code> for landing pages. <strong>SSJS</strong> (server-side JavaScript) and <strong>CloudPages</strong> handle forms, preference centres and API calls.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># The same offer logic, to test the AMPscript rules on sample data before you send</span>
+offer = {<span class="hl-s">&quot;Gold&quot;</span>: <span class="hl-s">&quot;20% off + free express delivery&quot;</span>, <span class="hl-s">&quot;Silver&quot;</span>: <span class="hl-s">&quot;15% off this weekend&quot;</span>}
+<span class="hl-k">for</span> _, r <span class="hl-k">in</span> <span class="hl-f">customers.iterrows</span>():
+    <span class="hl-f">print</span>(<span class="hl-s">f&#x27;{r.FirstName:6s} {r.Tier:7s} -&gt; {offer.get(r.Tier, &quot;10% off your next order&quot;)}&#x27;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Asha   Gold    -&gt; 20% off + free express delivery
+Ravi   Silver  -&gt; 15% off this weekend
+Meera  Gold    -&gt; 20% off + free express delivery
+Kabir  Bronze  -&gt; 10% off your next order
+Nisha  Silver  -&gt; 15% off this weekend</pre></div>
+<h2 id="sfmc-01-sending-email">Sending email</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Send a campaign in Email Studio</b></div><ol>
+<li>Build or pick the email in Content Builder; set subject line, preheader and personalisation.</li>
+<li><strong>Preview and test</strong>: preview against a testable DE, run <em>Content Detective</em> / spam checks, send tests to seed inboxes (Gmail, Outlook, mobile).</li>
+<li>Choose the audience (sendable DE), exclusions (suppression DEs, unsubscribed, recently mailed) and the send classification.</li>
+<li><strong>A/B test</strong> subject lines or content on a sample, then auto-send the winner.</li>
+<li>Schedule (consider Einstein Send Time Optimization), approve and send; monitor the <strong>Send Log</strong> and tracking.</li>
+</ol></div>
+<h2 id="sfmc-01-automation-studio">Automation Studio</h2>
+<p>Automations run steps on a <strong>schedule</strong> or a <strong>file drop</strong> trigger:</p>
+<figure class="fig"><img src="../img/sfmc-01-02.png" alt="A typical nightly automation." loading="lazy"><figcaption>A typical nightly automation.</figcaption></figure>
+<p>Activities: Import File, SQL Query, Filter, Data Extract, File Transfer, Send Email, Script (SSJS), Verification (stop if counts look wrong), Wait, Refresh Group. Always add error notifications and a <strong>verification</strong> step before sends.</p>
+<h2 id="sfmc-01-journey-builder">Journey Builder</h2>
+<p>A <strong>journey</strong> moves each contact through steps over time:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Element</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Entry sources</strong></td>
+<td>Data extension (scheduled), API event, Salesforce data (Marketing Cloud Connect), CloudPages form, Audience Builder</td>
+</tr>
+<tr>
+<td><strong>Activities</strong></td>
+<td>Email, SMS, push, WhatsApp, in-app, update contact, Salesforce task/case, custom activity</td>
+</tr>
+<tr>
+<td><strong>Flow control</strong></td>
+<td>Wait (duration, until date, until event), Decision split, Engagement split (opened/clicked), Random split (A/B), Einstein splits</td>
+</tr>
+<tr>
+<td><strong>Goals and exit criteria</strong></td>
+<td>Stop the journey when the customer converts</td>
+</tr>
+<tr>
+<td><strong>Re-entry settings</strong></td>
+<td>Allow, after exit, or never</td>
+</tr>
+</tbody>
+</table></div>
+<p>Example: <strong>cart abandonment</strong> — entry by API event "Cart abandoned" → wait 1 hour → email with the cart (AMPscript <code>LookupRows</code>) → wait 1 day → engagement split: clicked → SMS reminder with a code; not opened → resend with a new subject → goal: order placed → exit.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">funnel = {<span class="hl-s">&quot;entered&quot;</span>: <span class="hl-n">10000</span>, <span class="hl-s">&quot;email 1 opened&quot;</span>: <span class="hl-n">4200</span>, <span class="hl-s">&quot;clicked&quot;</span>: <span class="hl-n">1150</span>, <span class="hl-s">&quot;SMS sent&quot;</span>: <span class="hl-n">1150</span>, <span class="hl-s">&quot;orders&quot;</span>: <span class="hl-n">520</span>}
+prev = <span class="hl-k">None</span>
+<span class="hl-k">for</span> step, n <span class="hl-k">in</span> <span class="hl-f">funnel.items</span>():
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{step:16s}{n:7,d}&quot;</span> + (<span class="hl-s">f&quot;   {n / prev:6.1%} of previous&quot;</span> <span class="hl-k">if</span> prev <span class="hl-k">else</span> <span class="hl-s">&quot;&quot;</span>)); prev = n
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;journey conversion: {funnel[&#x27;orders&#x27;] / funnel[&#x27;entered&#x27;]:.1%}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">entered          10,000
+email 1 opened    4,200    42.0% of previous
+clicked           1,150    27.4% of previous
+SMS sent          1,150   100.0% of previous
+orders              520    45.2% of previous
+journey conversion: 5.2%</pre></div>
+<h2 id="sfmc-01-mobile-and-other-channels">Mobile and other channels</h2>
+<ul>
+<li><strong>MobileConnect</strong>: SMS with keywords, short/long codes and templates (in India, follow DLT registration of headers and templates).</li>
+<li><strong>MobilePush</strong>: app push notifications via the SDK; in-app messages.</li>
+<li><strong>WhatsApp</strong> (Chat Messaging / via Salesforce messaging): approved templates, opt-in required.</li>
+<li><strong>Advertising Studio</strong>: send audiences to Google and Meta for ads.</li>
+</ul>
+<h2 id="sfmc-01-deliverability-consent-and-the-law">Deliverability, consent and the law</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Area</th>
+<th>Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication</td>
+<td>SPF, DKIM, DMARC on your sending domain (via SAP); warm up new IPs gradually</td>
+</tr>
+<tr>
+<td>List hygiene</td>
+<td>Remove hard bounces and long-inactive subscribers; never buy lists</td>
+</tr>
+<tr>
+<td>Engagement</td>
+<td>Relevant, segmented sends; sunset policies; preference centre</td>
+</tr>
+<tr>
+<td>Gmail/Yahoo bulk-sender rules (2024+)</td>
+<td>Authentication, one-click unsubscribe, spam complaint rate below 0.3%</td>
+</tr>
+<tr>
+<td>India</td>
+<td>DPDP Act: notice and consent, purpose limitation, easy withdrawal; TRAI/DLT rules for SMS</td>
+</tr>
+<tr>
+<td>Global</td>
+<td>GDPR (EU), CAN-SPAM (US) for international audiences</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sfmc-01-reporting-and-ai">Reporting and AI</h2>
+<ul>
+<li><strong>Tracking</strong>: sends, deliveries, opens (note Apple Mail Privacy Protection inflates opens), clicks, bounces, unsubscribes, conversions with web analytics tracking parameters.</li>
+<li><strong>Reports</strong> and <strong>Intelligence Reports</strong> for dashboards; data views + SQL for custom analysis.</li>
+<li><strong>Einstein</strong>: Engagement Scoring, Send Time Optimization, Engagement Frequency, Content Selection and Copy Insights.</li>
+<li><strong>Data Cloud and Agentforce</strong>: unified customer profiles and segments across Salesforce, and AI agents that help build segments, journeys and content.</li>
+</ul>
+<h2 id="sfmc-01-capstone-festive-campaign-for-an-indian-retailer">Capstone: festive campaign for an Indian retailer</h2>
+<ol>
+<li>Data model: Customers, Orders, Stores DEs with keys and relationships in Contact Builder.</li>
+<li>Nightly automation: import → SQL segments (Gold/Silver recent buyers, lapsed 90-day buyers) → verification.</li>
+<li>Email with AMPscript offers by tier and nearest store, dynamic hero by city, A/B subject lines.</li>
+<li>Journey: Diwali launch email → engagement split → SMS for clickers without orders → goal "order placed".</li>
+<li>Report: send-to-order conversion by tier, revenue per email, unsubscribe and complaint rates; recommendations.</li>
+</ol>
+<h2 id="sfmc-01-certifications">Certifications</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Certification</th>
+<th>Who</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Marketing Cloud Engagement <strong>Foundations</strong></td>
+<td>Beginners (start here)</td>
+</tr>
+<tr>
+<td>Marketing Cloud <strong>Email Specialist</strong></td>
+<td>Campaign specialists</td>
+</tr>
+<tr>
+<td>Marketing Cloud <strong>Administrator</strong></td>
+<td>Admins</td>
+</tr>
+<tr>
+<td>Marketing Cloud <strong>Developer</strong></td>
+<td>AMPscript/SSJS/SQL/API developers</td>
+</tr>
+<tr>
+<td>Marketing Cloud <strong>Consultant</strong></td>
+<td>Consultants and architects</td>
+</tr>
+</tbody>
+</table></div>
+<p>Prepare on <strong>Trailhead</strong> (free modules, trailmixes and superbadges), practise in a <strong>Trailhead Playground or developer org</strong> where available, and read the official exam guides for the current topic weights.</p>
+<h2 id="sfmc-01-summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>SFMC = studios and builders for data, content, automation, journeys and channels.</li>
+<li>Data extensions with stable Subscriber Keys and primary keys are the foundation; Contact Builder connects them.</li>
+<li>Segment with filters or SQL Query Activities; personalise with AMPscript and dynamic content.</li>
+<li>Automation Studio runs scheduled data work; Journey Builder runs customer-level, multi-step journeys.</li>
+<li>Deliverability and consent (SPF/DKIM/DMARC, DPDP Act, DLT for SMS) are part of the job.</li>
+</ul></div>
+<div class="quiz" id="quiz-sfmc-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which object should hold most campaign audiences in SFMC?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A sendable data extension with a Subscriber Key</button><button type="button" class="opt" data-ok="0"><i>B</i>A Word document</button><button type="button" class="opt" data-ok="0"><i>C</i>All Subscribers only</button><button type="button" class="opt" data-ok="0"><i>D</i>A content block</button></div><div class="qexp"><b>Answer: A.</b> DEs are flexible tables; mark them sendable.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which SQL dialect do Query Activities use?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Microsoft SQL Server (SELECT statements only)</button><button type="button" class="opt" data-ok="0"><i>B</i>MySQL with UPDATE</button><button type="button" class="opt" data-ok="0"><i>C</i>PostgreSQL</button><button type="button" class="opt" data-ok="0"><i>D</i>NoSQL</button></div><div class="qexp"><b>Answer: A.</b> Results are written to a target DE.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is AMPscript used for?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Personalising content and looking up data at send time</button><button type="button" class="opt" data-ok="0"><i>B</i>Importing files</button><button type="button" class="opt" data-ok="0"><i>C</i>Buying IP addresses</button><button type="button" class="opt" data-ok="0"><i>D</i>Training Einstein</button></div><div class="qexp"><b>Answer: A.</b> SSJS covers more complex server-side logic.</div></div><div class="qq"><p class="qtext"><b>4.</b> When should you use Journey Builder instead of Automation Studio?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>For multi-step, customer-level journeys with waits and decisions</button><button type="button" class="opt" data-ok="0"><i>B</i>For nightly file imports</button><button type="button" class="opt" data-ok="0"><i>C</i>For data extracts</button><button type="button" class="opt" data-ok="0"><i>D</i>For SQL only</button></div><div class="qexp"><b>Answer: A.</b> Automation Studio handles scheduled batch work.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which authentication standards improve deliverability?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>SPF, DKIM and DMARC</button><button type="button" class="opt" data-ok="0"><i>B</i>HTML and CSS</button><button type="button" class="opt" data-ok="0"><i>C</i>JSON and XML</button><button type="button" class="opt" data-ok="0"><i>D</i>SMTP only</button></div><div class="qexp"><b>Answer: A.</b> Set them up with the Sender Authentication Package.</div></div><div class="qq"><p class="qtext"><b>6.</b> What should be the Subscriber Key?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A stable customer ID, not the email address</button><button type="button" class="opt" data-ok="0"><i>B</i>The first name</button><button type="button" class="opt" data-ok="0"><i>C</i>A random number per send</button><button type="button" class="opt" data-ok="0"><i>D</i>The city</button></div><div class="qexp"><b>Answer: A.</b> Emails change; IDs should not.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Design the data model and a 4-step cart-abandonment journey for an Indian fashion retailer: list the DEs with fields and keys, write the SQL for the "abandoned in last 24 hours, not purchased" audience, write AMPscript that greets by name and shows the top cart item, and define the journey's entry, waits, splits, goal and KPIs.</p><details class="sol"><summary>Show solution</summary><p>DEs: Customers (SubscriberKey PK, Email, FirstName, City, Tier, EmailOptIn), Carts (CartID PK, SubscriberKey, Created, Status), CartItems (CartID+SKU PK, ProductName, Price, ImageURL). SQL selects carts with Status = 'Abandoned' and Created &gt;= DATEADD(hour,-24,GETDATE()) and no matching order. AMPscript uses LookupOrderedRows on CartItems by CartID ordered by Price desc. Journey: entry API event → wait 1 h → email → wait 1 d → engagement split → SMS to clickers → goal order placed; KPIs: recovery rate, revenue per recipient, unsubscribe rate.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Data extension vs list?</strong>
+Lists hold subscribers with basic attributes and are simple; data extensions are custom tables with your own fields and keys, faster at scale and needed for SQL, relational data and most journeys.</p>
+<p><strong>Q: How do you prevent sending to the wrong audience?</strong>
+Use verified SQL with counts, a Verification activity, suppression/exclusion DEs, test sends against testable DEs, approvals, and send classifications that respect unsubscribes.</p>
+<p><strong>Q: How do you improve deliverability?</strong>
+Authenticate the domain (SPF, DKIM, DMARC), warm up IPs, clean lists, segment for engagement, honour unsubscribes quickly, keep complaint rates low and monitor bounces.</p>
+<p><strong>Q: Journey Builder entry sources?</strong>
+Data extension, API event, Salesforce data via Marketing Cloud Connect, CloudPages forms, and audiences from Data Cloud.</p>
+<p><strong>Q: How would you measure a journey?</strong>
+Entry volume, step conversion, goal completion, revenue per contact, time to convert, unsubscribe and complaint rates, compared with a hold-out group.</p></div>
+<h2 id="sfmc-01-learn-more">Learn more</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://trailhead.salesforce.com/">Trailhead: Marketing Cloud Engagement trails</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.salesforce.com/">Marketing Cloud Engagement help</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.salesforce.com/docs/marketing/marketing-cloud-ampscript/guide/">AMPscript guide (Salesforce Developers)</a></li>
+<li><a target="_blank" rel="noopener" href="https://trailhead.salesforce.com/credentials/administratoroverview">Salesforce certification guides</a></li>
+</ul></div></article></body></html>

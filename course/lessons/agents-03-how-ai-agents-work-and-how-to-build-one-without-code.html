@@ -1,0 +1,214 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How AI Agents Work and How to Build One Without Code · Agents Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand the agent loop (perceive, reason, act, observe), the building blocks of an agent (model, instructions, tools, memory, knowledge, guardrails), the main design patterns, and when not to use an agent. Then build agents without code in Claude (Projects, Skills, connectors), n8n, Make, Zapier Agents and Replit Agent, and evaluate them like a product."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class=""><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class="on"><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class=""><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class=""><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-03">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 3 of 6</div><h1>How AI Agents Work and How to Build One Without Code</h1>
+<p class="sum">Understand the agent loop (perceive, reason, act, observe), the building blocks of an agent (model, instructions, tools, memory, knowledge, guardrails), the main design patterns, and when not to use an agent. Then build agents without code in Claude (Projects, Skills, connectors), n8n, Make, Zapier Agents and Replit Agent, and evaluate them like a product.</p><div class="tags"><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_03_How_AI_Agents_Work_and_How_to_Build_One_Without_Code.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the agent loop and the components of an AI agent</li><li>Choose between a workflow, a single agent and a multi-agent system</li><li>Build a no-code agent in Claude, n8n or Zapier with tools, memory and guardrails</li><li>Write agent instructions and tool descriptions that work</li><li>Evaluate an agent with a test set, success metrics and human-in-the-loop controls</li></ul></div></div>
+<div class="content"><h2 id="what-makes-something-an-agent">What makes something an agent</h2>
+<p>A chatbot answers. An <strong>agent</strong> pursues a goal: it decides which steps to take, uses tools, looks at the results and keeps going until the goal is met or it needs a human.</p>
+<figure class="fig"><img src="../img/agents-03-01.png" alt="The agent loop." loading="lazy"><figcaption>The agent loop.</figcaption></figure>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A toy agent loop: the &quot;model&quot; chooses tools until the goal is met. Real agents let the LLM make these choices.</span>
+inventory = {<span class="hl-s">&quot;SKU-1&quot;</span>: <span class="hl-n">0</span>, <span class="hl-s">&quot;SKU-2&quot;</span>: <span class="hl-n">14</span>}
+<span class="hl-k">def</span> <span class="hl-f">check_stock</span>(sku): <span class="hl-k">return</span> inventory[sku]
+<span class="hl-k">def</span> <span class="hl-f">create_po</span>(sku, qty): <span class="hl-k">return</span> <span class="hl-s">f&quot;PO created for {qty} x {sku}&quot;</span>
+goal_skus, log = [<span class="hl-s">&quot;SKU-1&quot;</span>, <span class="hl-s">&quot;SKU-2&quot;</span>], []
+<span class="hl-k">for</span> sku <span class="hl-k">in</span> goal_skus:                                 <span class="hl-c"># plan: check each SKU</span>
+    stock = <span class="hl-f">check_stock</span>(sku); <span class="hl-f">log.append</span>(<span class="hl-s">f&quot;check_stock({sku}) -&gt; {stock}&quot;</span>)      <span class="hl-c"># act + observe</span>
+    <span class="hl-k">if</span> stock &lt; <span class="hl-n">5</span>: <span class="hl-f">log.append</span>(<span class="hl-f">create_po</span>(sku, <span class="hl-n">50</span>))                               <span class="hl-c"># decide next action from the observation</span>
+<span class="hl-f">log.append</span>(<span class="hl-s">&quot;Done: low-stock items reordered; summary sent to the manager&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;\n&quot;</span>.<span class="hl-f">join</span>(log))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">check_stock(SKU-1) -&gt; 0
+PO created for 50 x SKU-1
+check_stock(SKU-2) -&gt; 14
+Done: low-stock items reordered; summary sent to the manager</pre></div>
+<h2 id="the-building-blocks">The building blocks</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Block</th>
+<th>What it is</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model</strong></td>
+<td>The LLM that reasons</td>
+<td>Claude Sonnet for most agents, a smaller model for routing</td>
+</tr>
+<tr>
+<td><strong>Instructions</strong></td>
+<td>Role, goal, rules, tone, when to stop or escalate</td>
+<td>"You are a refunds assistant. Never approve above ₹5,000; create a ticket instead."</td>
+</tr>
+<tr>
+<td><strong>Tools</strong></td>
+<td>Actions via APIs or MCP</td>
+<td>Search orders, create ticket, send email</td>
+</tr>
+<tr>
+<td><strong>Knowledge</strong></td>
+<td>Documents the agent retrieves (RAG)</td>
+<td>Policy handbook, FAQs</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>What it remembers within and across sessions</td>
+<td>Conversation window, customer profile</td>
+</tr>
+<tr>
+<td><strong>Guardrails</strong></td>
+<td>Limits and checks</td>
+<td>Approval before sending, PII masking, spending caps</td>
+</tr>
+<tr>
+<td><strong>Orchestration</strong></td>
+<td>How steps and agents are connected</td>
+<td>Single agent, router, planner + workers</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="workflow-agent-or-multi-agent">Workflow, agent or multi-agent?</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Use when</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Workflow with AI steps</strong></td>
+<td>The steps are known and fixed</td>
+<td>Classify email → extract fields → update CRM</td>
+</tr>
+<tr>
+<td><strong>Single agent with tools</strong></td>
+<td>The path varies by request</td>
+<td>Support assistant that looks up orders, policies and tickets</td>
+</tr>
+<tr>
+<td><strong>Router</strong></td>
+<td>Different request types need different specialists</td>
+<td>Billing vs technical vs sales</td>
+</tr>
+<tr>
+<td><strong>Planner + workers / multi-agent</strong></td>
+<td>Big tasks that split into parallel parts</td>
+<td>Research a market: one agent per competitor, one writer</td>
+</tr>
+<tr>
+<td><strong>Human-in-the-loop</strong></td>
+<td>Money, legal, customer-facing actions</td>
+<td>Agent drafts; a person approves</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-tip"><div class="co-h"><span class="pill">Tip</span><b>Start simple</b></div><p>Most business value comes from workflows with one or two AI steps. Add agent autonomy only where the path genuinely varies, and keep a human approval step for anything irreversible.</p></div>
+<h2 id="build-agents-without-code">Build agents without code</h2>
+<h3 id="claude-projects-connectors-skills">Claude (Projects, connectors, Skills)</h3>
+<ol>
+<li>Create a <strong>Project</strong> ("Customer insights agent"), add <strong>instructions</strong> (role, goal, output format) and upload knowledge files.</li>
+<li>Turn on <strong>connectors</strong> (Drive, Gmail, Slack, Jira) so Claude can act with tools; turn on web search if needed.</li>
+<li>Add <strong>Skills</strong>: packaged instructions and scripts Claude loads when relevant (for example your PRD format or brand style).</li>
+<li>Use <strong>Research</strong> for multi-step investigations, and <strong>scheduled tasks</strong> or Claude Code for recurring work.</li>
+</ol>
+<h3 id="n8n-ai-agent">n8n AI Agent</h3>
+<p><code>Chat Trigger</code> or <code>Gmail Trigger</code> → <strong>AI Agent</strong> node with a chat model (Claude), <strong>Window Buffer Memory</strong>, tools (Google Sheets, HTTP Request, a sub-workflow, a Vector Store retriever, MCP Client) → output. Add an <strong>IF</strong> before risky actions and a Slack approval step with a <strong>Wait</strong> node.</p>
+<h3 id="zapier-agents-and-make-ai-agents">Zapier Agents and Make AI Agents</h3>
+<ul>
+<li><strong>Zapier Agents</strong>: describe the job in plain English, give it access to apps (thousands available), set triggers (new email, schedule, form) and let it act; review its activity log.</li>
+<li><strong>Make AI Agents</strong>: an agent module inside a scenario that chooses which scenario tools to run, with Make's visual routers around it.</li>
+</ul>
+<h3 id="replit-agent-and-app-builders">Replit Agent and app builders</h3>
+<p><strong>Replit Agent</strong>, <strong>Lovable</strong> and <strong>Bolt</strong> build whole apps from a prompt, including a backend and database, so you can wrap an agent in a real product UI (for example an internal "HR policy assistant" web app).</p>
+<h2 id="writing-instructions-that-work">Writing instructions that work</h2>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">Role: You are the order-support agent for NovaMart, an online store in India.
+Goal: Resolve order questions in one reply when possible.
+Tools: get_order(order_id), get_policy(topic), create_ticket(summary, priority).
+Rules:
+- Always look up the order before answering. Quote amounts in ₹.
+- Refunds above ₹5,000, legal threats or angry customers: create_ticket with priority &quot;high&quot; and tell the customer a person will reply within 4 hours.
+- Never ask for card numbers or OTPs.
+Output: a short reply in the customer&#x27;s language, then a one-line internal note.
+Stop when the question is answered or a ticket is created.</code></pre></div>
+<h2 id="evaluating-an-agent-like-a-product">Evaluating an agent like a product</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Metric</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task success rate</td>
+<td>A test set of 30–100 real requests with expected outcomes</td>
+</tr>
+<tr>
+<td>Correct tool use</td>
+<td>Did it call the right tool with the right arguments?</td>
+</tr>
+<tr>
+<td>Escalation accuracy</td>
+<td>Did it hand over the cases it should have?</td>
+</tr>
+<tr>
+<td>Safety</td>
+<td>Red-team prompts: injection, PII, policy violations</td>
+</tr>
+<tr>
+<td>Cost and latency</td>
+<td>Tokens and seconds per task</td>
+</tr>
+<tr>
+<td>User outcome</td>
+<td>CSAT, deflection rate, time saved</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">results = [(<span class="hl-s">&quot;refund under limit&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>), (<span class="hl-s">&quot;refund 9000&quot;</span>, <span class="hl-s">&quot;escalated&quot;</span>, <span class="hl-s">&quot;escalated&quot;</span>), (<span class="hl-s">&quot;where is my order&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>),
+           (<span class="hl-s">&quot;angry legal threat&quot;</span>, <span class="hl-s">&quot;escalated&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>), (<span class="hl-s">&quot;change address&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>, <span class="hl-s">&quot;resolved&quot;</span>), (<span class="hl-s">&quot;asks for OTP&quot;</span>, <span class="hl-s">&quot;refused&quot;</span>, <span class="hl-s">&quot;refused&quot;</span>)]
+ok = <span class="hl-f">sum</span>(exp == got <span class="hl-k">for</span> _, exp, got <span class="hl-k">in</span> results)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;success {ok}/{len(results)} = {ok / len(results):.0%}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;failures:&quot;</span>, [<span class="hl-k">case</span> <span class="hl-k">for</span> <span class="hl-k">case</span>, exp, got <span class="hl-k">in</span> results <span class="hl-k">if</span> exp != got])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">success 5/6 = 83%
+failures: [&#x27;angry legal threat&#x27;]</pre></div>
+<p>The failed case (a legal threat answered instead of escalated) becomes a new rule and a new test, which is how agents improve release by release.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Agents loop: reason, act with tools, observe, repeat, until the goal is met or a human is needed.</li>
+<li>Components: model, instructions, tools, knowledge, memory, guardrails, orchestration.</li>
+<li>Prefer workflows for fixed steps; agents for variable paths; humans approve risky actions.</li>
+<li>Build without code in Claude, n8n, Zapier, Make or Replit; evaluate with test sets and metrics.</li>
+</ul></div>
+<div class="quiz" id="quiz-agents-03-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What distinguishes an agent from a chatbot?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It pursues a goal by choosing and using tools across several steps</button><button type="button" class="opt" data-ok="0"><i>B</i>It has a nicer UI</button><button type="button" class="opt" data-ok="0"><i>C</i>It never uses tools</button><button type="button" class="opt" data-ok="0"><i>D</i>It only answers FAQs</button></div><div class="qexp"><b>Answer: A.</b> Agents loop through reasoning and actions.</div></div><div class="qq"><p class="qtext"><b>2.</b> The steps are always the same: classify, extract, update CRM. What should you build?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A workflow with AI steps</button><button type="button" class="opt" data-ok="0"><i>B</i>A multi-agent system</button><button type="button" class="opt" data-ok="0"><i>C</i>A voice agent</button><button type="button" class="opt" data-ok="0"><i>D</i>Nothing</button></div><div class="qexp"><b>Answer: A.</b> Fixed steps do not need autonomy.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which component limits what an agent may do, such as refunds above a cap?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Guardrails and instructions</button><button type="button" class="opt" data-ok="0"><i>B</i>Memory</button><button type="button" class="opt" data-ok="0"><i>C</i>The chat model only</button><button type="button" class="opt" data-ok="0"><i>D</i>The UI</button></div><div class="qexp"><b>Answer: A.</b> Back them with approvals in the workflow.</div></div><div class="qq"><p class="qtext"><b>4.</b> How should you evaluate an agent before launch?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Run a test set of real requests and measure success, tool use, escalation and safety</button><button type="button" class="opt" data-ok="0"><i>B</i>Ask it if it is ready</button><button type="button" class="opt" data-ok="0"><i>C</i>Launch to all users and wait</button><button type="button" class="opt" data-ok="0"><i>D</i>Count words in its replies</button></div><div class="qexp"><b>Answer: A.</b> Treat it like a product release.</div></div><div class="qq"><p class="qtext"><b>5.</b> In n8n, what gives an agent conversation memory?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A memory sub-node such as Window Buffer Memory</button><button type="button" class="opt" data-ok="0"><i>B</i>The Schedule Trigger</button><button type="button" class="opt" data-ok="0"><i>C</i>The Merge node</button><button type="button" class="opt" data-ok="0"><i>D</i>Pin data</button></div><div class="qexp"><b>Answer: A.</b> Postgres or Redis memory persist across sessions.</div></div><div class="qq"><p class="qtext"><b>6.</b> What should happen before an agent sends money or emails customers?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A human approval step</button><button type="button" class="opt" data-ok="0"><i>B</i>Nothing</button><button type="button" class="opt" data-ok="0"><i>C</i>A longer prompt</button><button type="button" class="opt" data-ok="0"><i>D</i>More temperature</button></div><div class="qexp"><b>Answer: A.</b> Keep humans accountable for consequential actions.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build it</b></div><p>Build a "meeting follow-up agent" without code: input a meeting transcript; the agent extracts decisions and action items, creates tasks in your tool (Asana, Jira or a Sheet), drafts a follow-up email for your approval, and posts a summary to Slack. Write its instructions, list its tools, and create a 10-case test set.</p><details class="sol"><summary>Show solution</summary><p>Use Claude with connectors or n8n (Chat/Form Trigger → AI Agent with Sheets/Jira, Gmail draft and Slack tools, Window Buffer Memory). Instructions must define the output format, owners and due dates, and require approval before sending email. Test cases should include missing owners, conflicting dates, confidential items and a transcript with an injected instruction.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: When would you not use an agent?</strong>
+When the steps are fixed, accuracy must be deterministic, latency or cost is tight, or the action is high risk without a review step. A workflow, rules or a form is simpler and more reliable.</p>
+<p><strong>Q: How do you design human-in-the-loop for an agent?</strong>
+Classify actions by risk; auto-run read-only and low-risk actions; require approval for writes that affect customers, money or data; show the agent's reasoning and proposed action; log decisions; and feed overrides into evaluation.</p>
+<p><strong>Q: What metrics would you track for an AI support agent?</strong>
+Resolution and deflection rate, escalation accuracy, CSAT, handling time, cost per conversation, safety incidents and the percentage of answers with correct sources.</p>
+<p><strong>Q: Single agent or multi-agent?</strong>
+Start with one agent and good tools; split into specialists only when tasks are clearly separable or the context gets too large, because coordination adds cost and failure modes.</p>
+<p><strong>Q: How do you write a good tool description?</strong>
+Say exactly when to use the tool, what each parameter means with allowed values, what it returns, and when not to use it; then test with realistic prompts.</p></div>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.n8n.io/advanced-ai/">n8n Advanced AI</a></li>
+<li><a target="_blank" rel="noopener" href="https://zapier.com/agents">Zapier Agents</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.replit.com/">Replit Agent docs</a></li>
+</ul></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html"><small>← Previous</small><b>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</b></a><a class="next" href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html"><small>Next →</small><b>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-makes-something-an-agent">What makes something an agent</a><a href="#the-building-blocks">The building blocks</a><a href="#workflow-agent-or-multi-agent">Workflow, agent or multi-agent?</a><a href="#build-agents-without-code">Build agents without code</a><a href="#writing-instructions-that-work">Writing instructions that work</a><a href="#evaluating-an-agent-like-a-product">Evaluating an agent like a product</a><a href="#summary">Summary</a><a href="#learn-more">Learn more</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

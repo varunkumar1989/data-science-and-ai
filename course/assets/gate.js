@@ -24,7 +24,7 @@
       st.textContent = ".snpv{position:fixed;inset:0;z-index:9999;background:rgba(15,12,30,.72);display:flex;flex-direction:column;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}.snpv[hidden]{display:none}.snpv-bar{display:flex;gap:8px;align-items:center;background:#fff;color:#17142E;border-radius:10px 10px 0 0;padding:8px 12px;font:600 14px/1.3 system-ui,sans-serif}.snpv-bar b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.snpv-bar a,.snpv-bar button{font:600 13px system-ui,sans-serif;border:1px solid #d9d3ee;background:#fff;color:#17142E;border-radius:8px;padding:6px 10px;cursor:pointer;text-decoration:none}.snpv iframe{flex:1;width:100%;border:0;background:#fff;border-radius:0 0 10px 10px}";
       document.head.appendChild(st);
       viewer = document.createElement("div"); viewer.className = "snpv"; viewer.hidden = true; viewer.setAttribute("role", "dialog"); viewer.setAttribute("aria-modal", "true");
-      viewer.innerHTML = '<div class="snpv-bar"><b></b><a target="_blank" rel="noopener" data-nogate data-pdf-direct>Open in new tab ↗</a><button type="button" data-close>Close ✕</button></div><iframe title="PDF"></iframe>';
+      viewer.innerHTML = '<div class="snpv-bar"><b></b><a target="_blank" rel="noopener" data-nogate data-pdf-direct>Open in new tab ↗</a><button type="button" data-close>Close ✕</button></div><iframe title="Document"></iframe>';
       document.body.appendChild(viewer);
       const close = () => { viewer.hidden = true; viewer.querySelector("iframe").src = "about:blank"; document.documentElement.style.overflow = ""; };
       viewer.querySelector("[data-close]").addEventListener("click", close);
@@ -71,10 +71,16 @@
     const a = e.target.closest && e.target.closest("a"); if (!a || !OWNER_GH.test(a.href) || ghAdmin()) return;
     e.preventDefault(); e.stopImmediatePropagation(); ghRequest(a.href);
   }, true);
+  // Lessons and handbook pages open in the same in-page viewer when clicked from hub pages (resources, handbooks, LMS, tools, tests),
+  // so learners stay on the tab they were browsing. Inside lessons themselves, links navigate normally.
+  const HUB_PAGE = !/\/data-science\/(lessons|index)|\/handbooks\/pm\//.test(location.pathname) && window.self === window.top;
+  const sameOriginLesson = href => { try { const u = new URL(href, location.href); return HUB_PAGE && u.origin === location.origin && /\/(data-science\/lessons\/[^/]+|handbooks\/pm\/[^/]+)\.html$/.test(u.pathname); } catch { return false; } };
   const sameOriginPdf = href => { try { const u = new URL(href, location.href); return u.origin === location.origin && PDFX.test(u.pathname); } catch { return false; } };
   document.addEventListener("click", e => {
     if (e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
-    const a = e.target.closest && e.target.closest("a"); if (!a || a.hasAttribute("data-pdf-direct") || !sameOriginPdf(a.href) || !canInline()) return;
+    const a = e.target.closest && e.target.closest("a"); if (!a || a.hasAttribute("data-pdf-direct")) return;
+    if (sameOriginLesson(a.href)) { e.preventDefault(); openPdf(a.href, (a.textContent || "").replace(/\s+/g, " ").replace(/[↗⬇→]/g, "").trim().slice(0, 90)); return; }
+    if (!sameOriginPdf(a.href) || !canInline()) return;
     if (typeof has === "function" && !has() && typeof gated === "function" && gated(a)) return;   // the details form handles it first
     e.preventDefault(); openPdf(a.href, (a.textContent || "").replace(/\s+/g, " ").replace(/[↗⬇→]/g, "").trim().slice(0, 90));
   });

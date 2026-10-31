@@ -1,0 +1,258 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forward Deployed Engineer (FDE) Complete Guide: The Role, Skills, AI Deployments, Integrations and Interviews · FDE Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand the Forward Deployed Engineer role made famous by Palantir and now central at AI companies such as OpenAI and Anthropic and at enterprise software firms. Learn what FDEs do, the skills stack (software engineering, data, AI/LLM systems, integrations, cloud, security, customer skills), the deployment lifecycle from discovery to production, how to build and evaluate LLM solutions for customers, integration patterns, a capstone deployment and how to prepare for FDE interviews."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-fde"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-fde">Forward Deployed Engineer (FDE)</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#16A34A">Forward Deployed Engineer (FDE)</div>
+<ol class="side-l"><li class="on"><a href="fde-01-forward-deployed-engineer-fde-complete-guide-the-role-skills.html" data-lid="fde-01"><span>01</span>Forward Deployed Engineer (FDE) Complete Guide: The Role, Skills, AI Deployments, Integrations and Interviews</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="fde-01">
+<div class="lhead" style="--tc:#16A34A"><div class="kick">Forward Deployed Engineer (FDE) · Lesson 1 of 1</div><h1>Forward Deployed Engineer (FDE) Complete Guide: The Role, Skills, AI Deployments, Integrations and Interviews</h1>
+<p class="sum">Understand the Forward Deployed Engineer role made famous by Palantir and now central at AI companies such as OpenAI and Anthropic and at enterprise software firms. Learn what FDEs do, the skills stack (software engineering, data, AI/LLM systems, integrations, cloud, security, customer skills), the deployment lifecycle from discovery to production, how to build and evaluate LLM solutions for customers, integration patterns, a capstone deployment and how to prepare for FDE interviews.</p><div class="tags"><span class="tag new">✦ 2026</span><span class="tag">Intermediate to Advanced</span><span class="tag">⏱ 210 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/fde/FDE_01_Forward_Deployed_Engineer_FDE_Complete_Guide_The_Role_Skills_AI_Deploy.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="fde-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the FDE role and how it differs from software engineer, solutions engineer and consultant</li><li>Map the skills stack and build a learning plan for it</li><li>Run a customer deployment from discovery to production with clear success metrics</li><li>Build, integrate and evaluate an LLM-based solution with security in mind</li><li>Prepare for FDE interviews with case, coding and customer scenarios</li></ul></div></div>
+<div class="content"><h2 id="what-a-forward-deployed-engineer-does">What a Forward Deployed Engineer does</h2>
+<p>A <strong>Forward Deployed Engineer (FDE)</strong> is a software engineer who works directly with customers to make a product succeed in their real environment. Instead of building one feature for thousands of users, an FDE builds the integrations, data pipelines, workflows and AI applications that make the platform solve one important customer's problem, and feeds what they learn back into the core product.</p>
+<figure class="fig"><img src="../img/fde-01-01.png" alt="FDEs sit between the customer and the product team." loading="lazy"><figcaption>FDEs sit between the customer and the product team.</figcaption></figure>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Role</th>
+<th>Focus</th>
+<th>Writes production code?</th>
+<th>Customer-facing?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Software engineer</td>
+<td>Core product for many users</td>
+<td>Yes</td>
+<td>Rarely</td>
+</tr>
+<tr>
+<td><strong>Forward Deployed Engineer</strong></td>
+<td>Deploy and extend the product for specific customers</td>
+<td><strong>Yes</strong></td>
+<td><strong>Yes, deeply</strong></td>
+</tr>
+<tr>
+<td>Solutions / sales engineer</td>
+<td>Demos, technical sales, proofs of concept</td>
+<td>Some</td>
+<td>Yes (pre-sale)</td>
+</tr>
+<tr>
+<td>Consultant</td>
+<td>Advice, process, change management</td>
+<td>Rarely</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Customer success manager</td>
+<td>Adoption, renewals, relationship</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table></div>
+<p>The model was popularised by Palantir and is now used widely by AI companies (OpenAI, Anthropic and others hire FDEs or similar "applied AI engineer" roles) and by data and automation platforms deploying into banks, governments, healthcare and manufacturing.</p>
+<h2 id="the-skills-stack">The skills stack</h2>
+<figure class="fig"><img src="../img/fde-01-02.png" alt="Skills an FDE combines." loading="lazy"><figcaption>Skills an FDE combines.</figcaption></figure>
+<h2 id="the-deployment-lifecycle">The deployment lifecycle</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Phase</th>
+<th>What the FDE does</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Discovery</strong></td>
+<td>Interview users, shadow workflows, map systems and data, find the costly problem</td>
+<td>Problem statement, current-state map, baseline metrics</td>
+</tr>
+<tr>
+<td><strong>2. Scoping</strong></td>
+<td>Define the smallest valuable deployment, success metrics, constraints, risks</td>
+<td>Statement of work / success plan</td>
+</tr>
+<tr>
+<td><strong>3. Access and data</strong></td>
+<td>Get credentials, network access, data samples; assess quality and permissions</td>
+<td>Data inventory, access checklist</td>
+</tr>
+<tr>
+<td><strong>4. Prototype</strong></td>
+<td>Build a thin end-to-end slice quickly with real data</td>
+<td>Demo the customer can use</td>
+</tr>
+<tr>
+<td><strong>5. Productionise</strong></td>
+<td>Harden: tests, monitoring, error handling, security review, documentation</td>
+<td>Production deployment</td>
+</tr>
+<tr>
+<td><strong>6. Adoption</strong></td>
+<td>Train users, measure usage, fix friction</td>
+<td>Usage and outcome dashboard</td>
+</tr>
+<tr>
+<td><strong>7. Feedback</strong></td>
+<td>Turn repeated custom work into product features or templates</td>
+<td>Product requests, reusable components</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">baseline = {<span class="hl-s">&quot;claims processed per analyst per day&quot;</span>: <span class="hl-n">40</span>, <span class="hl-s">&quot;average handling time (min)&quot;</span>: <span class="hl-n">12</span>, <span class="hl-s">&quot;error rate&quot;</span>: <span class="hl-n">0.06</span>}
+after = {<span class="hl-s">&quot;claims processed per analyst per day&quot;</span>: <span class="hl-n">65</span>, <span class="hl-s">&quot;average handling time (min)&quot;</span>: <span class="hl-n">7</span>, <span class="hl-s">&quot;error rate&quot;</span>: <span class="hl-n">0.035</span>}
+<span class="hl-k">for</span> k <span class="hl-k">in</span> baseline:
+    change = after[k] / baseline[k] - <span class="hl-n">1</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{k:38s} {baseline[k]:&gt;6} -&gt; {after[k]:&gt;6}   ({change:+.0%})&quot;</span>)
+analysts, salary_per_day = <span class="hl-n">25</span>, <span class="hl-n">2500</span>
+saved_days = analysts * (<span class="hl-n">1</span> - baseline[<span class="hl-s">&#x27;claims processed per analyst per day&#x27;</span>] / after[<span class="hl-s">&#x27;claims processed per analyst per day&#x27;</span>])
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;capacity freed ≈ {saved_days:.1f} analyst-days per day ≈ ₹{saved_days * salary_per_day * 22:,.0f} per month&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">claims processed per analyst per day       40 -&gt;     65   (+62%)
+average handling time (min)                12 -&gt;      7   (-42%)
+error rate                               0.06 -&gt;  0.035   (-42%)
+capacity freed ≈ 9.6 analyst-days per day ≈ ₹528,846 per month</pre></div>
+<p>FDEs live by metrics like these: they make the value of a deployment concrete for the customer and their own company.</p>
+<h2 id="building-llm-solutions-for-customers">Building LLM solutions for customers</h2>
+<p>A typical AI deployment: a <strong>document-heavy workflow</strong> (claims, contracts, KYC, support) turned into an AI-assisted process.</p>
+<ol>
+<li><strong>Ingest</strong>: connect to document stores (SharePoint, S3, Drive) and systems of record (via APIs or MCP).</li>
+<li><strong>Extract and classify</strong>: LLM with structured JSON output and validation; confidence thresholds.</li>
+<li><strong>Retrieve (RAG)</strong>: chunk, embed and index policies and past cases; cite sources.</li>
+<li><strong>Act</strong>: tools that create records, draft replies or route work, with human approval for consequential steps.</li>
+<li><strong>Evaluate</strong>: a labelled test set from the customer's real data; measure accuracy per field, groundedness, latency and cost; regression tests before every change.</li>
+<li><strong>Operate</strong>: logging, tracing, PII redaction, access controls, cost dashboards, an on-call runbook.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">labels = [(<span class="hl-s">&quot;invoice_total&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-s">&quot;invoice_total&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-s">&quot;gstin&quot;</span>, <span class="hl-k">False</span>), (<span class="hl-s">&quot;gstin&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-s">&quot;due_date&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-s">&quot;due_date&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-s">&quot;vendor&quot;</span>, <span class="hl-k">True</span>), (<span class="hl-s">&quot;vendor&quot;</span>, <span class="hl-k">False</span>)]
+<span class="hl-k">from</span> collections <span class="hl-k">import</span> defaultdict
+acc = <span class="hl-f">defaultdict</span>(list)
+<span class="hl-k">for</span> field, ok <span class="hl-k">in</span> labels: acc[field].<span class="hl-f">append</span>(ok)
+<span class="hl-k">for</span> f, v <span class="hl-k">in</span> <span class="hl-f">acc.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;{f:14s} accuracy {sum(v) / len(v):.0%} on {len(v)} samples&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;overall:&quot;</span>, <span class="hl-s">f&quot;{sum(ok for _, ok in labels) / len(labels):.0%}&quot;</span>, <span class="hl-s">&quot;-&gt; add GSTIN validation rule and retest&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">invoice_total  accuracy 100% on 2 samples
+gstin          accuracy 50% on 2 samples
+due_date       accuracy 100% on 2 samples
+vendor         accuracy 50% on 2 samples
+overall: 75% -&gt; add GSTIN validation rule and retest</pre></div>
+<h2 id="integration-patterns-fdes-use">Integration patterns FDEs use</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REST API + webhooks</td>
+<td>Most SaaS and modern internal systems</td>
+</tr>
+<tr>
+<td>Batch files (SFTP/CSV)</td>
+<td>Legacy systems, nightly loads</td>
+</tr>
+<tr>
+<td>Database replication / CDC</td>
+<td>Near-real-time data from operational databases</td>
+</tr>
+<tr>
+<td>Message queues (Kafka, SQS, Pub/Sub)</td>
+<td>Event-driven, decoupled systems</td>
+</tr>
+<tr>
+<td>iPaaS (MuleSoft, Boomi, n8n, Workato)</td>
+<td>Enterprise integration with governance</td>
+</tr>
+<tr>
+<td>SSO (SAML/OIDC) and SCIM</td>
+<td>Login and user provisioning</td>
+</tr>
+<tr>
+<td>MCP servers</td>
+<td>Giving AI assistants and agents governed access to customer tools</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="working-with-customers">Working with customers</h2>
+<ul>
+<li><strong>Discovery questions</strong>: "Walk me through the last time this went wrong." "What happens if this is wrong?" "Who signs off?" "What does success look like in 90 days, in numbers?"</li>
+<li><strong>Communicate trade-offs</strong> in business terms (time, risk, cost), write short decision docs, and send weekly status: done, next, risks, asks.</li>
+<li><strong>Handle pressure</strong>: say no with alternatives, protect scope, escalate early, document every agreement.</li>
+<li><strong>Security reviews</strong> are part of the job: data flow diagrams, access lists, retention, model/provider data policies, pen-test findings.</li>
+</ul>
+<h2 id="capstone-deploy-an-ai-support-assistant-for-a-banks-credit-card-team">Capstone: deploy an AI support assistant for a bank's credit-card team</h2>
+<ol>
+<li>Discovery: top 20 call reasons, systems (CRM, card platform, knowledge base), compliance constraints.</li>
+<li>Scope: an internal agent-assist tool that drafts answers with citations for 5 call reasons; success = 20% lower handling time with no drop in quality scores.</li>
+<li>Build: RAG over policies, read-only tools to fetch card status, structured outputs, PII redaction, approval before any customer message.</li>
+<li>Evaluate: 200 historical cases labelled by quality analysts; accuracy, groundedness and compliance checks.</li>
+<li>Deploy: pilot with 15 agents, dashboard of handling time and quality, weekly feedback loop.</li>
+<li>Product feedback: write up reusable connectors and evaluation templates for the core team.</li>
+</ol>
+<h2 id="interview-preparation">Interview preparation</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Round</th>
+<th>What to practise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coding</td>
+<td>Practical Python/SQL: parse messy data, call an API, build a small service; clean, tested code</td>
+</tr>
+<tr>
+<td>System design</td>
+<td>Design an integration or AI pipeline for a customer with real constraints (security, legacy systems, scale)</td>
+</tr>
+<tr>
+<td>Decomposition / case</td>
+<td>"A hospital wants to reduce discharge delays. How would you approach it?" Structure, data, quick wins, metrics</td>
+</tr>
+<tr>
+<td>Customer role-play</td>
+<td>Unclear requirements, an angry stakeholder, a failed deployment: listen, clarify, propose</td>
+</tr>
+<tr>
+<td>Behavioural</td>
+<td>Ownership, ambiguity, learning fast, travel and on-site readiness</td>
+</tr>
+</tbody>
+</table></div>
+<p>Build a portfolio that proves the role: two or three end-to-end projects with a written "customer problem → solution → metrics" story, for example an n8n/Claude document-processing pipeline, a RAG assistant with an evaluation report, and an integration between two real APIs.</p>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>FDEs are customer-embedded software engineers who deploy and extend a product until it creates measurable value.</li>
+<li>The skills stack combines engineering, data, AI systems, integrations, cloud, security and customer skills.</li>
+<li>Deployments follow discovery → scope → access → prototype → production → adoption → product feedback.</li>
+<li>AI deployments need structured outputs, retrieval, tools with approvals, evaluation on customer data and strong operations.</li>
+</ul></div>
+<div class="quiz" id="quiz-fde-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> How is an FDE different from a solutions engineer?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>FDEs build and run production deployments with customers; solutions engineers focus mainly on pre-sale demos and proofs of concept</button><button type="button" class="opt" data-ok="0"><i>B</i>They are identical</button><button type="button" class="opt" data-ok="0"><i>C</i>FDEs never write code</button><button type="button" class="opt" data-ok="0"><i>D</i>Solutions engineers own the core product</button></div><div class="qexp"><b>Answer: A.</b> FDEs own outcomes after the sale.</div></div><div class="qq"><p class="qtext"><b>2.</b> What should come first in a customer deployment?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Discovery of the real problem, systems, data and baseline metrics</button><button type="button" class="opt" data-ok="0"><i>B</i>Choosing the LLM</button><button type="button" class="opt" data-ok="0"><i>C</i>Writing the UI</button><button type="button" class="opt" data-ok="0"><i>D</i>Signing off production</button></div><div class="qexp"><b>Answer: A.</b> Without a baseline you cannot prove value.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which pattern suits a legacy system that exports data nightly?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Batch files over SFTP</button><button type="button" class="opt" data-ok="0"><i>B</i>WebSockets</button><button type="button" class="opt" data-ok="0"><i>C</i>Push notifications</button><button type="button" class="opt" data-ok="0"><i>D</i>MCP only</button></div><div class="qexp"><b>Answer: A.</b> Many enterprise systems still work this way.</div></div><div class="qq"><p class="qtext"><b>4.</b> How should an FDE evaluate an AI extraction pipeline?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>With a labelled test set from the customer's real data, measuring accuracy per field</button><button type="button" class="opt" data-ok="0"><i>B</i>By asking the model if it is correct</button><button type="button" class="opt" data-ok="0"><i>C</i>By counting tokens</button><button type="button" class="opt" data-ok="0"><i>D</i>By demo feedback only</button></div><div class="qexp"><b>Answer: A.</b> Add regression tests before changes.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which is a good discovery question?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>"Walk me through the last time this process went wrong."</button><button type="button" class="opt" data-ok="0"><i>B</i>"Which LLM do you like?"</button><button type="button" class="opt" data-ok="0"><i>C</i>"Can we skip security review?"</button><button type="button" class="opt" data-ok="0"><i>D</i>"Do you want AI?"</button></div><div class="qexp"><b>Answer: A.</b> Concrete stories reveal the real problem.</div></div><div class="qq"><p class="qtext"><b>6.</b> What turns custom FDE work into company value at scale?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Feeding repeated patterns back into the product as features or templates</button><button type="button" class="opt" data-ok="0"><i>B</i>Keeping all code private to one customer</button><button type="button" class="opt" data-ok="0"><i>C</i>Avoiding documentation</button><button type="button" class="opt" data-ok="0"><i>D</i>Never measuring outcomes</button></div><div class="qexp"><b>Answer: A.</b> The FDE loop improves the platform.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Write a 2-page deployment plan for "AI-assisted invoice processing" at a mid-size Indian manufacturer: problem statement and baseline, scope and success metrics, systems and integration pattern (ERP, email inbox, GST portal data), AI design with validation and human review, evaluation plan, security considerations, pilot plan and the product feedback you would expect to give.</p><details class="sol"><summary>Show solution</summary><p>A strong plan quantifies the baseline (invoices per day, handling time, error rate), limits scope to the top vendors or formats first, uses email/SFTP ingestion and the ERP API, extracts fields as validated JSON (GSTIN checksum, totals that add up), routes low-confidence invoices to people, evaluates on a few hundred labelled invoices, handles PII and access, pilots with one team for 4 weeks, and proposes reusable extraction templates for the product.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Why do you want to be an FDE?</strong>
+Show that you enjoy owning real outcomes, working with customers and building end to end, with a story where you solved a messy real-world problem.</p>
+<p><strong>Q: A customer's data is messy and access is delayed. What do you do?</strong>
+Get a representative sample under an NDA or in a secure environment, build a thin slice with synthetic or masked data, document blockers with owners and dates, and escalate early with the business impact.</p>
+<p><strong>Q: How do you decide whether to build custom or wait for the product?</strong>
+Weigh customer value and urgency, how many other customers need it, maintenance cost, and whether it can be built as a reusable component; agree with the product team.</p>
+<p><strong>Q: Design an AI assistant for a support team with strict compliance.</strong>
+Read-only tools first, RAG with citations, PII redaction, human approval for outgoing messages, audit logs, evaluation on labelled cases, data residency and provider data policies, and a staged rollout.</p>
+<p><strong>Q: How do you show the value of a deployment?</strong>
+Agree baseline and target metrics upfront, instrument usage and outcomes, report weekly, and translate improvements into money, time or risk reduced.</p></div>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.claude.com/">Claude Code and Agent SDK documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol</a></li>
+<li><a target="_blank" rel="noopener" href="https://martinfowler.com/">Martin Fowler: Patterns of Enterprise Integration (articles)</a></li>
+</ul></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol ↗</a></li></ul></section>
+<div class="pn"><span></span><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-a-forward-deployed-engineer-does">What a Forward Deployed Engineer does</a><a href="#the-skills-stack">The skills stack</a><a href="#the-deployment-lifecycle">The deployment lifecycle</a><a href="#building-llm-solutions-for-customers">Building LLM solutions for customers</a><a href="#integration-patterns-fdes-use">Integration patterns FDEs use</a><a href="#working-with-customers">Working with customers</a><a href="#capstone-deploy-an-ai-support-assistant-for-a-banks-credit-card-team">Capstone: deploy an AI support assistant for a bank&#x27;s credit-card team</a><a href="#interview-preparation">Interview preparation</a><a href="#summary">Summary</a><a href="#learn-more">Learn more</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,201 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation · Agents Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn Claude Code, Anthropic&#x27;s agentic coding tool, from installation to advanced workflows. Work in the terminal, IDE, desktop and web; give context with CLAUDE.md; use plan mode, permissions and checkpoints; run slash commands, custom commands and Skills; add MCP servers; automate with hooks, subagents, headless mode and GitHub Actions; and follow best practices that work for PMs, analysts and engineers."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class=""><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class=""><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class=""><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class="on"><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-05">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 5 of 6</div><h1>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</h1>
+<p class="sum">Learn Claude Code, Anthropic's agentic coding tool, from installation to advanced workflows. Work in the terminal, IDE, desktop and web; give context with CLAUDE.md; use plan mode, permissions and checkpoints; run slash commands, custom commands and Skills; add MCP servers; automate with hooks, subagents, headless mode and GitHub Actions; and follow best practices that work for PMs, analysts and engineers.</p><div class="tags"><span class="tag new">✦ 2026</span><span class="tag">Beginner to Advanced</span><span class="tag">⏱ 180 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_05_Claude_Code_Complete_Tutorial_From_First_Prompt_to_Agents_MCP_Hooks_an.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Install Claude Code and complete a task end to end in a real project</li><li>Give Claude the right context with CLAUDE.md, files and plan mode</li><li>Control safety with permissions, checkpoints and reviews</li><li>Extend Claude Code with custom commands, Skills, MCP servers, hooks and subagents</li><li>Automate work with headless mode and GitHub Actions, and know when to use each surface</li></ul></div></div>
+<div class="content"><h2 id="what-claude-code-is">What Claude Code is</h2>
+<p><strong>Claude Code</strong> is an agent that works inside your project: it reads files, runs commands, edits code, runs tests and opens pull requests, while you watch and approve. It runs in the <strong>terminal</strong>, in <strong>VS Code / JetBrains</strong>, in the <strong>Claude desktop app</strong>, on the <strong>web</strong> (cloud sessions connected to GitHub) and on mobile, and it is used by non-engineers too: PMs build prototypes and analyses, analysts clean data and build reports.</p>
+<figure class="fig"><img src="../img/agents-05-01.png" alt="Where you can use Claude Code." loading="lazy"><figcaption>Where you can use Claude Code.</figcaption></figure>
+<h2 id="install-and-first-session">Install and first session</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Get started</b></div><ol>
+<li>Install: follow the current command on the Claude Code docs page (native installer for macOS/Linux/Windows, or <code>npm install -g @anthropic-ai/claude-code</code> with Node.js 18+).</li>
+<li>Open a terminal in your project folder and run <code>claude</code>. Sign in with your Claude subscription or an API key.</li>
+<li>Ask: "Explain this project's structure and how to run it." Claude reads files and summarises.</li>
+<li>Ask for a small change: "Add input validation to the signup form and a test for it." Review each proposed edit and command, then approve.</li>
+<li>Run <code>/init</code> to create a <strong>CLAUDE.md</strong> with build commands and conventions for future sessions.</li>
+</ol></div>
+<h2 id="context-claudemd-and-how-to-brief-claude">Context: CLAUDE.md and how to brief Claude</h2>
+<p><code>CLAUDE.md</code> files are loaded automatically: the project one (shared in git), personal ones (<code>~/.claude/CLAUDE.md</code>) and folder-level ones. Put in them: how to build and test, code style, architecture notes, "never do" rules, and how to publish. Keep them short and specific.</p>
+<p>Good prompts give the goal, constraints and how to verify:</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">Goal: add a &quot;download CSV&quot; button to the orders page.
+Constraints: reuse the existing Table component; no new dependencies; Indian date format.
+Done when: the button downloads the filtered rows, a unit test covers the CSV builder, and `npm test` passes.
+Plan first, then implement.</code></pre></div>
+<p>Use <code>@path/to/file</code> to point at files, paste screenshots for UI bugs, and ask Claude to read docs URLs.</p>
+<h2 id="plan-mode-permissions-and-checkpoints">Plan mode, permissions and checkpoints</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Plan mode</strong> (Shift+Tab to cycle modes)</td>
+<td>Claude researches and proposes a plan without editing; you approve before it acts</td>
+</tr>
+<tr>
+<td><strong>Permission modes</strong></td>
+<td>Ask before edits/commands (default), auto-accept edits, or plan only; allowlist safe commands in <code>settings.json</code></td>
+</tr>
+<tr>
+<td><strong>Checkpoints / rewind</strong></td>
+<td>Every edit is checkpointed; <code>Esc Esc</code> or <code>/rewind</code> restores code and conversation</td>
+</tr>
+<tr>
+<td><strong><code>/clear</code>, <code>/compact</code></strong></td>
+<td>Start fresh or summarise long sessions to save context</td>
+</tr>
+<tr>
+<td><strong>Thinking</strong></td>
+<td>Ask Claude to "think hard" for tricky design problems</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="built-in-slash-commands-worth-knowing">Built-in slash commands worth knowing</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Command</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/init</code></td>
+<td>Create CLAUDE.md</td>
+</tr>
+<tr>
+<td><code>/model</code></td>
+<td>Switch model</td>
+</tr>
+<tr>
+<td><code>/permissions</code></td>
+<td>Manage allowed tools and commands</td>
+</tr>
+<tr>
+<td><code>/mcp</code></td>
+<td>List and authenticate MCP servers</td>
+</tr>
+<tr>
+<td><code>/agents</code></td>
+<td>Create and manage subagents</td>
+</tr>
+<tr>
+<td><code>/hooks</code></td>
+<td>Configure hooks</td>
+</tr>
+<tr>
+<td><code>/review</code>, <code>/security-review</code></td>
+<td>Review the current changes</td>
+</tr>
+<tr>
+<td><code>/cost</code>, <code>/context</code></td>
+<td>See usage and what fills the context</td>
+</tr>
+<tr>
+<td><code>/resume</code></td>
+<td>Continue a previous session</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="extending-claude-code">Extending Claude Code</h2>
+<h3 id="custom-slash-commands-and-skills">Custom slash commands and Skills</h3>
+<ul>
+<li><strong>Custom commands</strong>: Markdown files in <code>.claude/commands/</code> (project) or <code>~/.claude/commands/</code> (personal); <code>/release-notes</code> can run your team's exact release-notes prompt with <code>$ARGUMENTS</code>.</li>
+<li><strong>Skills</strong>: folders with a <code>SKILL.md</code> (instructions + optional scripts) that Claude loads automatically when relevant, e.g. "our PRD format", "brand slide style", "how to deploy". Plugins bundle commands, skills, agents, hooks and MCP servers for sharing.</li>
+</ul>
+<h3 id="mcp-servers">MCP servers</h3>
+<p><code>claude mcp add</code> connects tools (GitHub, Jira, Sentry, Postgres, Figma, Playwright browser, your own). Claude can then read a Figma frame and build the UI, query a read-only database to answer a data question, or open a browser to test the app.</p>
+<h3 id="hooks">Hooks</h3>
+<p>Hooks run your own commands at moments in Claude's workflow (before or after a tool call, when a session ends). Examples: run the formatter after every edit, block edits to <code>.env</code> files, send a Slack message when a long task finishes.</p>
+<h3 id="subagents">Subagents</h3>
+<p>Specialised agents with their own instructions, tools and context window, e.g. a "code reviewer", "test writer" or "data analyst". Claude delegates to them, keeping the main conversation focused.</p>
+<h2 id="automation">Automation</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Mode</th>
+<th>How</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Headless</strong></td>
+<td><code>claude -p "summarise yesterday's error logs" --output-format json</code></td>
+<td>Scripts, cron jobs, CI</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions</strong></td>
+<td>Install the Claude GitHub app / action; mention <code>@claude</code> in an issue or PR</td>
+<td>Implement issues, fix CI, review PRs</td>
+</tr>
+<tr>
+<td><strong>Cloud sessions</strong></td>
+<td>Start tasks on claude.ai/code against a GitHub repo</td>
+<td>Parallel work without your laptop</td>
+</tr>
+<tr>
+<td><strong>Agent SDK</strong></td>
+<td>Python/TypeScript SDK with the same agent loop and tools</td>
+<td>Build your own production agents</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="best-practices">Best practices</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">practices = {<span class="hl-s">&quot;Explore → plan → code → verify&quot;</span>: <span class="hl-s">&quot;Ask Claude to read and plan before editing; finish with tests or a demo&quot;</span>,
+             <span class="hl-s">&quot;Give it a way to check its work&quot;</span>: <span class="hl-s">&quot;Tests, a build command, screenshots, a sample input/output&quot;</span>,
+             <span class="hl-s">&quot;Small, reviewable steps&quot;</span>: <span class="hl-s">&quot;One feature per session; commit often; use branches&quot;</span>,
+             <span class="hl-s">&quot;Keep context clean&quot;</span>: <span class="hl-s">&quot;/clear between unrelated tasks; CLAUDE.md for durable rules&quot;</span>,
+             <span class="hl-s">&quot;Never paste secrets&quot;</span>: <span class="hl-s">&quot;Use env vars and secret stores; review diffs before pushing&quot;</span>}
+<span class="hl-k">for</span> k, v <span class="hl-k">in</span> <span class="hl-f">practices.items</span>(): <span class="hl-f">print</span>(<span class="hl-s">f&quot;- {k}: {v}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">- Explore → plan → code → verify: Ask Claude to read and plan before editing; finish with tests or a demo
+- Give it a way to check its work: Tests, a build command, screenshots, a sample input/output
+- Small, reviewable steps: One feature per session; commit often; use branches
+- Keep context clean: /clear between unrelated tasks; CLAUDE.md for durable rules
+- Never paste secrets: Use env vars and secret stores; review diffs before pushing</pre></div>
+<h3 id="for-pms-and-analysts">For PMs and analysts</h3>
+<ul>
+<li><strong>Prototype</strong>: "Build a clickable prototype of the onboarding flow in this Figma file using our component library," then share a preview link.</li>
+<li><strong>Data analysis</strong>: point Claude at CSVs or a read-only database and ask for cleaned data, charts and a written summary.</li>
+<li><strong>Specs and research</strong>: read the codebase to answer "how does pricing work today?" before writing a PRD.</li>
+<li><strong>Automation scripts</strong>: small scripts that pull data from APIs into Sheets or Slack.</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>Claude Code is an agent in your project: it reads, edits, runs and verifies, with your approval.</li>
+<li>CLAUDE.md, clear goals and a verification step give the best results; plan mode and checkpoints keep you safe.</li>
+<li>Extend with custom commands, Skills, MCP servers, hooks and subagents; automate with headless mode, GitHub Actions, cloud sessions and the Agent SDK.</li>
+</ul></div>
+<div class="quiz" id="quiz-agents-05-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is CLAUDE.md for?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Durable project context: build/test commands, conventions and rules loaded every session</button><button type="button" class="opt" data-ok="0"><i>B</i>Storing API keys</button><button type="button" class="opt" data-ok="0"><i>C</i>A list of bugs</button><button type="button" class="opt" data-ok="0"><i>D</i>The licence file</button></div><div class="qexp"><b>Answer: A.</b> Run /init to create one.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which mode lets Claude research and propose before changing anything?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Plan mode</button><button type="button" class="opt" data-ok="0"><i>B</i>Auto-accept edits</button><button type="button" class="opt" data-ok="0"><i>C</i>Headless mode</button><button type="button" class="opt" data-ok="0"><i>D</i>Hooks</button></div><div class="qexp"><b>Answer: A.</b> Approve the plan, then let it implement.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you undo a set of Claude's edits?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Use checkpoints: Esc Esc or /rewind</button><button type="button" class="opt" data-ok="0"><i>B</i>Delete the repository</button><button type="button" class="opt" data-ok="0"><i>C</i>Reinstall Claude Code</button><button type="button" class="opt" data-ok="0"><i>D</i>Use /cost</button></div><div class="qexp"><b>Answer: A.</b> Git commits add a second safety net.</div></div><div class="qq"><p class="qtext"><b>4.</b> What are hooks?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Your commands that run automatically at points in Claude's workflow, such as after an edit</button><button type="button" class="opt" data-ok="0"><i>B</i>Fishing tools</button><button type="button" class="opt" data-ok="0"><i>C</i>Slash commands</button><button type="button" class="opt" data-ok="0"><i>D</i>MCP servers</button></div><div class="qexp"><b>Answer: A.</b> Use them for formatting, guards and notifications.</div></div><div class="qq"><p class="qtext"><b>5.</b> How do you run Claude Code in a script or CI job?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Headless mode with claude -p</button><button type="button" class="opt" data-ok="0"><i>B</i>Only through the desktop app</button><button type="button" class="opt" data-ok="0"><i>C</i>You cannot</button><button type="button" class="opt" data-ok="0"><i>D</i>Through Figma</button></div><div class="qexp"><b>Answer: A.</b> Combine with --output-format json.</div></div><div class="qq"><p class="qtext"><b>6.</b> What best improves the quality of Claude's code changes?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>Giving it a way to verify its work, such as tests or a build</button><button type="button" class="opt" data-ok="0"><i>B</i>Longer prompts with no goal</button><button type="button" class="opt" data-ok="0"><i>C</i>Turning off permissions</button><button type="button" class="opt" data-ok="0"><i>D</i>Skipping review</button></div><div class="qexp"><b>Answer: A.</b> Verification closes the loop.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>In a small project (or a new folder), use Claude Code to: run /init, build a small web page that reads a CSV of sales and shows a chart, add a test, create a custom command <code>/weekly-report</code> that summarises the CSV, and add one hook that runs the formatter after edits.</p><details class="sol"><summary>Show solution</summary><p>Check: CLAUDE.md lists run/test commands; the page renders; the test passes; <code>.claude/commands/weekly-report.md</code> contains the prompt with $ARGUMENTS; the hook is in <code>.claude/settings.json</code> under PostToolUse for Edit/Write tools running your formatter.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: How do you keep an AI coding agent safe in a real codebase?</strong>
+Permissions and allowlists, plan mode for big changes, branches and PR reviews, tests in CI, no secrets in context, hooks that block sensitive files, and least-privilege MCP servers.</p>
+<p><strong>Q: How would a PM use Claude Code?</strong>
+Prototype features, answer "how does it work today" questions from the codebase, analyse data, write scripts that automate reporting, and review changes in plain language.</p>
+<p><strong>Q: Subagents vs Skills?</strong>
+Subagents are separate agents with their own context and tools for delegated tasks; Skills are packaged instructions and scripts that the main agent loads when a task needs them.</p>
+<p><strong>Q: What is headless mode used for?</strong>
+Running Claude Code non-interactively from scripts, scheduled jobs and CI, with structured output.</p>
+<p><strong>Q: How do you measure the impact of AI coding tools on a team?</strong>
+Lead time for changes, PR throughput and review time, defect and rollback rates, test coverage, and developer satisfaction, compared with a baseline.</p></div>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/claude-code-best-practices">Claude Code best practices (Anthropic engineering)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.anthropic.com/learn">Anthropic Academy courses</a></li>
+</ul></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html"><small>← Previous</small><b>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</b></a><a class="next" href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html"><small>Next →</small><b>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-claude-code-is">What Claude Code is</a><a href="#install-and-first-session">Install and first session</a><a href="#context-claudemd-and-how-to-brief-claude">Context: CLAUDE.md and how to brief Claude</a><a href="#plan-mode-permissions-and-checkpoints">Plan mode, permissions and checkpoints</a><a href="#built-in-slash-commands-worth-knowing">Built-in slash commands worth knowing</a><a href="#extending-claude-code">Extending Claude Code</a><a href="#automation">Automation</a><a href="#best-practices">Best practices</a><a href="#summary">Summary</a><a href="#learn-more">Learn more</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

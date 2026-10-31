@@ -1,0 +1,243 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs · Agents Lesson 1 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand APIs well enough to write requirements, read documentation, test endpoints and design integrations without writing code. Learn requests and responses, REST verbs and status codes, JSON, authentication (API keys, OAuth 2.0), rate limits and pagination, webhooks vs polling, and how to try any API in Postman, then turn it into a PRD-ready integration spec."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 1</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class="on"><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class=""><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class=""><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class=""><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-01">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 1 of 6</div><h1>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</h1>
+<p class="sum">Understand APIs well enough to write requirements, read documentation, test endpoints and design integrations without writing code. Learn requests and responses, REST verbs and status codes, JSON, authentication (API keys, OAuth 2.0), rate limits and pagination, webhooks vs polling, and how to try any API in Postman, then turn it into a PRD-ready integration spec.</p><div class="tags"><span class="tag new">✦ 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_01_APIs_Without_Code_How_Apps_Talk_REST_JSON_Authentication_Webhooks_and_.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-01">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what an API, an endpoint, a request and a response are, with real examples</li><li>Read API documentation and JSON, and know what each HTTP method and status code means</li><li>Choose between API keys and OAuth, and between webhooks and polling</li><li>Test an API in Postman without code and save a collection for your team</li><li>Write an integration section of a PRD with data mapping, errors and limits</li></ul></div></div>
+<div class="content"><h2 id="what-an-api-is">What an API is</h2>
+<p>An <strong>API</strong> (Application Programming Interface) is a contract that lets one app ask another for data or actions. When the Swiggy app shows a restaurant's live wait time, it calls an API; when Zomato sends you an SMS, it calls an SMS provider's API; when your payment goes through, the app calls Razorpay's API.</p>
+<figure class="fig"><img src="../img/agents-01-01.png" alt="Every API call is a request and a response." loading="lazy"><figcaption>Every API call is a request and a response.</figcaption></figure>
+<h2 id="the-parts-of-a-request">The parts of a request</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Part</th>
+<th>Example</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Method</strong></td>
+<td><code>GET</code>, <code>POST</code>, <code>PUT</code>/<code>PATCH</code>, <code>DELETE</code></td>
+<td>Read, create, update, delete</td>
+</tr>
+<tr>
+<td><strong>Base URL + path (endpoint)</strong></td>
+<td><code>https://api.example.com/v1/orders/123</code></td>
+<td>Which resource</td>
+</tr>
+<tr>
+<td><strong>Query parameters</strong></td>
+<td><code>?status=paid&amp;limit=20</code></td>
+<td>Filters, sorting, paging</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td><code>Authorization: Bearer sk_live_…</code>, <code>Content-Type: application/json</code></td>
+<td>Who you are, what format</td>
+</tr>
+<tr>
+<td><strong>Body</strong></td>
+<td><code>{"amount": 49900, "currency": "INR"}</code></td>
+<td>Data you send (POST/PUT/PATCH)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="status-codes-every-pm-should-know">Status codes every PM should know</h3>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>What to put in the PRD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200 OK / 201 Created</td>
+<td>Success</td>
+<td>Show the result / confirmation</td>
+</tr>
+<tr>
+<td>400 Bad Request</td>
+<td>Invalid input</td>
+<td>Field-level validation message</td>
+</tr>
+<tr>
+<td>401 Unauthorized / 403 Forbidden</td>
+<td>Not logged in / not allowed</td>
+<td>Ask to log in / hide the action</td>
+</tr>
+<tr>
+<td>404 Not Found</td>
+<td>Resource does not exist</td>
+<td>Friendly empty state</td>
+</tr>
+<tr>
+<td>409 Conflict</td>
+<td>Duplicate or version clash</td>
+<td>"Already exists" handling</td>
+</tr>
+<tr>
+<td>429 Too Many Requests</td>
+<td>Rate limit hit</td>
+<td>Retry later, queue, back-off</td>
+</tr>
+<tr>
+<td>500 / 502 / 503</td>
+<td>Server problem</td>
+<td>Retry with back-off, show status, alert on-call</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="json-the-language-of-apis">JSON: the language of APIs</h2>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> json
+response = <span class="hl-s">&#x27;&#x27;&#x27;{&quot;order_id&quot;: &quot;ORD-1029&quot;, &quot;status&quot;: &quot;paid&quot;, &quot;amount&quot;: {&quot;value&quot;: 49900, &quot;currency&quot;: &quot;INR&quot;},
+ &quot;customer&quot;: {&quot;name&quot;: &quot;Asha Rao&quot;, &quot;city&quot;: &quot;Pune&quot;}, &quot;items&quot;: [{&quot;sku&quot;: &quot;TSHIRT-M&quot;, &quot;qty&quot;: 2}, {&quot;sku&quot;: &quot;CAP&quot;, &quot;qty&quot;: 1}]}&#x27;&#x27;&#x27;</span>
+order = <span class="hl-f">json.loads</span>(response)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Status:&quot;</span>, order[<span class="hl-s">&quot;status&quot;</span>])
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Amount in rupees:&quot;</span>, order[<span class="hl-s">&quot;amount&quot;</span>][<span class="hl-s">&quot;value&quot;</span>] / <span class="hl-n">100</span>)          <span class="hl-c"># amounts often come in paise</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Items:&quot;</span>, [<span class="hl-s">f&#x27;{i[&quot;sku&quot;]} x{i[&quot;qty&quot;]}&#x27;</span> <span class="hl-k">for</span> i <span class="hl-k">in</span> order[<span class="hl-s">&quot;items&quot;</span>]])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">Status: paid
+Amount in rupees: 499.0
+Items: [&#x27;TSHIRT-M x2&#x27;, &#x27;CAP x1&#x27;]</pre></div>
+<p>Read JSON like a tree: <code>{ }</code> is an object (named fields), <code>[ ]</code> is a list. <code>order.amount.value</code> is a path into the tree; tools like n8n, Make and Zapier let you click that path instead of typing it.</p>
+<h2 id="authentication">Authentication</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API key</strong></td>
+<td>A secret string in a header</td>
+<td>Server-to-server, internal tools</td>
+</tr>
+<tr>
+<td><strong>Bearer token</strong></td>
+<td>A token in <code>Authorization: Bearer …</code></td>
+<td>Most modern APIs</td>
+</tr>
+<tr>
+<td><strong>OAuth 2.0</strong></td>
+<td>User clicks "Allow"; the app gets a scoped, expiring token</td>
+<td>"Sign in with Google", Gmail/Slack integrations</td>
+</tr>
+<tr>
+<td><strong>Webhook signature</strong></td>
+<td>The sender signs each event with a shared secret</td>
+<td>Verifying Razorpay/Stripe/GitHub events</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-warn"><div class="co-h"><span class="pill">Watch out</span><b>Never share or paste live keys</b></div><p>Keys belong in a secrets manager or the tool's credential store, never in documents, screenshots, chats or client-side code. Rotate a key immediately if it leaks.</p></div>
+<h2 id="rate-limits-pagination-and-idempotency">Rate limits, pagination and idempotency</h2>
+<ul>
+<li><strong>Rate limits</strong>: e.g. 100 requests per minute; plan batches and back-off.</li>
+<li><strong>Pagination</strong>: results arrive in pages (<code>page=2</code>, <code>cursor=abc</code>, a <code>next</code> link); integrations must follow every page.</li>
+<li><strong>Idempotency</strong>: payment APIs accept an <code>Idempotency-Key</code> so a retried request does not charge twice.</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> math
+records, page_size, limit_per_min = 12_500, <span class="hl-n">100</span>, <span class="hl-n">60</span>
+calls = <span class="hl-f">math.ceil</span>(records / page_size)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;{calls} calls needed; at {limit_per_min}/min the first full sync takes about {math.ceil(calls / limit_per_min)} minutes&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">125 calls needed; at 60/min the first full sync takes about 3 minutes</pre></div>
+<h2 id="webhooks-vs-polling">Webhooks vs polling</h2>
+<figure class="fig"><img src="../img/agents-01-02.png" alt="Polling asks again and again; a webhook tells you when something happens." loading="lazy"><figcaption>Polling asks again and again; a webhook tells you when something happens.</figcaption></figure>
+<h2 id="try-an-api-in-postman-no-code">Try an API in Postman (no code)</h2>
+<div class="co co-steps"><div class="co-h"><span class="pill">Step by step</span><b>Your first request</b></div><ol>
+<li>Install Postman (or use the web app) and create a free workspace.</li>
+<li>New → HTTP request. Method <code>GET</code>, URL <code>https://api.github.com/repos/n8n-io/n8n</code>.</li>
+<li>Send. Read the status (200), time and the JSON body: <code>stargazers_count</code>, <code>forks_count</code>.</li>
+<li>Save it to a <strong>collection</strong>; add an <strong>environment</strong> with variables such as <code>{{base_url}}</code> and <code>{{token}}</code>.</li>
+<li>Try a <code>POST</code> against a test API (for example a sandbox from your payment provider) with a JSON body, and read the 201 or 400 responses.</li>
+<li>Use <strong>Code</strong> (the <code>&lt;/&gt;</code> icon) to see the same call as cURL: you can paste cURL into n8n's HTTP Request node.</li>
+</ol></div>
+<p>Other free ways to explore APIs: the browser address bar for simple GETs, <strong>Hoppscotch</strong>, the <strong>Swagger/OpenAPI</strong> "Try it out" pages many APIs publish, and asking Claude to explain an API reference page.</p>
+<h2 id="writing-the-integration-section-of-a-prd">Writing the integration section of a PRD</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Section</th>
+<th>What to write</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Goal</td>
+<td>"Create a Freshdesk ticket when a premium customer submits a complaint form"</td>
+</tr>
+<tr>
+<td>Systems and endpoints</td>
+<td>Form webhook → <code>POST /api/v2/tickets</code></td>
+</tr>
+<tr>
+<td>Data mapping</td>
+<td>form.email → requester_email; form.issue → description; plan → tag</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>Freshdesk API key stored in the integration platform's credentials</td>
+</tr>
+<tr>
+<td>Triggers and timing</td>
+<td>On submit (webhook), under 1 minute</td>
+</tr>
+<tr>
+<td>Errors and retries</td>
+<td>3 retries with back-off; on failure alert #support-ops</td>
+</tr>
+<tr>
+<td>Limits</td>
+<td>1,000 calls/hour; expected 200/day</td>
+</tr>
+<tr>
+<td>Security and privacy</td>
+<td>No card data; mask phone numbers in logs; DPDP consent captured on the form</td>
+</tr>
+<tr>
+<td>Acceptance criteria</td>
+<td>Ticket created with correct fields in 95% of tests; duplicates prevented by form ID</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="summary">Summary</h2>
+<div class="co co-key"><div class="co-h"><span class="pill">Key takeaways</span></div><ul>
+<li>An API call is a method + URL + headers + body; the answer is a status code + JSON.</li>
+<li>Know the common status codes and what the user should see for each.</li>
+<li>Use API keys or OAuth, respect rate limits, follow pagination and use idempotency for payments.</li>
+<li>Prefer webhooks for real-time events; test everything in Postman before you spec it.</li>
+</ul></div>
+<div class="quiz" id="quiz-agents-01-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which method creates a new record?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>POST</button><button type="button" class="opt" data-ok="0"><i>B</i>GET</button><button type="button" class="opt" data-ok="0"><i>C</i>DELETE</button><button type="button" class="opt" data-ok="0"><i>D</i>HEAD</button></div><div class="qexp"><b>Answer: A.</b> GET reads; POST creates; PUT/PATCH update; DELETE removes.</div></div><div class="qq"><p class="qtext"><b>2.</b> An integration receives 429 responses. What does it mean?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>The rate limit was exceeded; slow down and retry later</button><button type="button" class="opt" data-ok="0"><i>B</i>The record was not found</button><button type="button" class="opt" data-ok="0"><i>C</i>The login is wrong</button><button type="button" class="opt" data-ok="0"><i>D</i>Success</button></div><div class="qexp"><b>Answer: A.</b> Add back-off and batching.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which authentication lets a user grant an app scoped access to their Gmail?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>OAuth 2.0</button><button type="button" class="opt" data-ok="0"><i>B</i>A shared password in the PRD</button><button type="button" class="opt" data-ok="0"><i>C</i>No authentication</button><button type="button" class="opt" data-ok="0"><i>D</i>Basic auth with the admin password</button></div><div class="qexp"><b>Answer: A.</b> OAuth gives scoped, revocable tokens.</div></div><div class="qq"><p class="qtext"><b>4.</b> When is a webhook better than polling?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>When you need real-time updates about events such as payments</button><button type="button" class="opt" data-ok="0"><i>B</i>When the API has no webhooks</button><button type="button" class="opt" data-ok="0"><i>C</i>When you want more API calls</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: A.</b> Webhooks push events to your URL.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why do payment APIs support idempotency keys?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>So a retried request does not create a duplicate charge</button><button type="button" class="opt" data-ok="0"><i>B</i>To speed up responses</button><button type="button" class="opt" data-ok="0"><i>C</i>To encrypt the body</button><button type="button" class="opt" data-ok="0"><i>D</i>To bypass rate limits</button></div><div class="qexp"><b>Answer: A.</b> Retries are safe with the same key.</div></div><div class="qq"><p class="qtext"><b>6.</b> In JSON, what does [ ] represent?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>A list (array)</button><button type="button" class="opt" data-ok="0"><i>B</i>An object</button><button type="button" class="opt" data-ok="0"><i>C</i>A comment</button><button type="button" class="opt" data-ok="0"><i>D</i>A string</button></div><div class="qexp"><b>Answer: A.</b> { } is an object.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Practice</b></div><p>Pick a public API (GitHub, a weather API or your company's sandbox). In Postman, save three requests (one GET with a query parameter, one POST, one that returns an error) in a collection. Then write the integration section of a PRD for "send a WhatsApp confirmation when an order is paid" using the table above.</p><details class="sol"><summary>Show solution</summary><p>A good answer names the trigger (payment webhook), the endpoint of the WhatsApp provider, a data mapping table, credentials storage, retry and alert rules, the rate limit, the template approval requirement for WhatsApp business messages, consent, and testable acceptance criteria.</p></details></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Questions you may be asked</b></div><p><strong>Q: Explain an API to a non-technical stakeholder.</strong>
+It is a menu and a waiter: the menu (documentation) lists what you can ask for, you place an order (request), and the kitchen (server) returns your dish (response) or a reason it cannot.</p>
+<p><strong>Q: REST vs webhooks?</strong>
+REST is request-response: you ask when you want data. Webhooks are event notifications: the other system calls you when something happens.</p>
+<p><strong>Q: What would you check before committing to a third-party API?</strong>
+Coverage of the needed endpoints, authentication, rate limits and pricing, uptime/SLA and status page, webhooks, sandbox, data residency and privacy, versioning and deprecation policy, and support.</p>
+<p><strong>Q: How do you write acceptance criteria for an integration?</strong>
+Specify the trigger, the exact data mapping, success latency, error handling and retries, duplicates, logging, and measurable pass conditions in test and production.</p>
+<p><strong>Q: What is OpenAPI?</strong>
+A standard machine-readable description of a REST API (endpoints, parameters, schemas) used to generate docs, test pages, SDKs and tool definitions for AI agents.</p></div>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy (free)</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview">MDN: HTTP overview</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.openapis.org/">OpenAPI introduction</a></li>
+</ul></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><span></span><a class="next" href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html"><small>Next →</small><b>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-an-api-is">What an API is</a><a href="#the-parts-of-a-request">The parts of a request</a><a href="#json-the-language-of-apis">JSON: the language of APIs</a><a href="#authentication">Authentication</a><a href="#rate-limits-pagination-and-idempotency">Rate limits, pagination and idempotency</a><a href="#webhooks-vs-polling">Webhooks vs polling</a><a href="#try-an-api-in-postman-no-code">Try an API in Postman (no code)</a><a href="#writing-the-integration-section-of-a-prd">Writing the integration section of a PRD</a><a href="#summary">Summary</a><a href="#learn-more">Learn more</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

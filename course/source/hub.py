@@ -67,6 +67,7 @@ LIVE = [
 
 def build(lessons, rendered, by_track, G):
     ROOT, TRACKS, TITLE, BRAND, AUTHOR, VERSION, UPDATED, BUILD_VER, REPO, SITE, ARTIFACT = (G[k] for k in ("ROOT", "TRACKS", "TITLE", "BRAND", "AUTHOR", "VERSION", "UPDATED", "BUILD_VER", "REPO", "SITE", "ARTIFACT"))
+    core = [L for L in lessons if not next(t for t in TRACKS if t["id"] == L.track).get("extra")]
     HEAD, topbar, FOOT, inline_md = G["HEAD"], G["topbar"], G["FOOT"], G["inline_md"]
     byid = {L.id: L for L in lessons}
     total_words = sum(c["words"] for c in rendered.values()); n_img = sum(len(c["imgs"]) for c in rendered.values()); n_q = sum(len(c["quiz"]) for c in rendered.values())
@@ -78,7 +79,7 @@ def build(lessons, rendered, by_track, G):
     tr_cards = []
     for t in TRACKS:
         Ls = by_track[t["id"]]
-        if not Ls: continue
+        if not Ls or t.get("extra"): continue   # "Other programs" guides live on skillnavora.in, not in this handbook
         tpdf = f"pdf/tracks/{track_pdf_name(t, TRACKS)}"
         rows = "".join(f'<li><a href="lessons/{L.file}" data-lid="{L.id}"><span class="n">{L.num:02d}</span><span class="tt">{esc(L.title)}'
                        + (f'<em class="lv">● {esc(L.meta["live"])}</em>' if L.meta.get("live") else "") + '</span></a>'
@@ -104,13 +105,13 @@ def build(lessons, rendered, by_track, G):
     art = f'<a class="btn ghost light" href="{ARTIFACT}" target="_blank" rel="noopener">Interactive version ↗</a>' if ARTIFACT else ""
     hub = HEAD.format(title=f"{TITLE} · {BRAND}", desc="Complete Data Science & AI handbook: Excel, SQL, Power BI, Python, statistics, machine learning, generative and agentic AI. Class-wise lessons with PDFs, quizzes and practice.", r="", v=BUILD_VER, bodycls="hub") + topbar("", "") + f'''
 <section class="hero"><div class="hero-in"><div class="kick light">AI-First Data Engineer · Data Science & AI</div><h1>{TITLE}</h1>
-<p>Every class, explained simply. {len(lessons)} lessons across Excel, SQL, Power BI, Python, statistics, machine learning, generative AI and agentic AI, with real outputs, diagrams, quizzes, practice files and a downloadable PDF for each lesson.</p>
+<p>Every class, explained simply. {len(core)} lessons across Excel, SQL, Power BI, Python, statistics, machine learning, generative AI and agentic AI, with real outputs, diagrams, quizzes, practice files and a downloadable PDF for each lesson.</p>
 <div class="hero-a"><a class="btn light" href="lessons/{lessons[0].file}">Start learning →</a><a class="btn ghost light" href="#downloads">⬇ Complete handbook PDF</a><a class="btn ghost light" href="#live">Live class tracker</a>{art}</div>
-<div class="stats">{stat(len(lessons), "lessons")}{stat(len([t for t in TRACKS if by_track[t["id"]]]), "tracks")}{stat(f"{n_img}+", "diagrams and charts")}{stat(n_q, "quiz questions")}{stat(f"{total_words // 1000}k", "words")}</div>
+<div class="stats">{stat(len(core), "lessons")}{stat(len([t for t in TRACKS if by_track[t["id"]] and not t.get("extra")]), "tracks")}{stat(f"{n_img}+", "diagrams and charts")}{stat(n_q, "quiz questions")}{stat(f"{total_words // 1000}k", "words")}</div>
 <div class="by">Created by <b>{AUTHOR}</b> · Version {VERSION} · Updated {UPDATED}</div></div></section>
 <main class="hubmain">
 <section class="how"><div class="hstep"><b>1</b><span>Pick your track or follow the live class tracker.</span></div><div class="hstep"><b>2</b><span>Read the lesson, run the examples and look at every chart.</span></div><div class="hstep"><b>3</b><span>Take the quiz, solve the exercises, then practise online.</span></div><div class="hstep"><b>4</b><span>Download the PDF to revise offline and tick the lesson complete.</span></div></section>
-<nav class="tnav">{"".join(f'<a href="#t-{t["id"]}" style="--tc:{t["color"]}">{esc(t["short"])}<small>{len(by_track[t["id"]])}</small></a>' for t in TRACKS if by_track[t["id"]])}</nav>
+<nav class="tnav">{"".join(f'<a href="#t-{t["id"]}" style="--tc:{t["color"]}">{esc(t["short"])}<small>{len(by_track[t["id"]])}</small></a>' for t in TRACKS if by_track[t["id"]] and not t.get("extra"))}</nav>
 {"".join(tr_cards)}
 <section class="block" id="live"><h2>Live class tracker</h2><p>What each live class covered, and the handbook lessons that explain it in detail. Lessons go further than the class, with the latest 2026 features.</p>
 <div class="tblwrap"><table class="tbl live">{"".join(live_rows)}</table></div></section>
@@ -131,8 +132,8 @@ def build(lessons, rendered, by_track, G):
         fn = f"track-{t['id']}.html"
         open(os.path.join(ROOT, "print", fn), "w", encoding="utf-8").write(book(t["name"], f"Track {TRACKS.index(t) + 1}", t["desc"], [(t, Ls)], rendered, G, color=t["color"]))
         jobs.append([f"print/{fn}", f"pdf/tracks/{track_pdf_name(t, TRACKS)}", f"{BRAND} · {TITLE} · {t['name']}"])
-    groups = [(t, by_track[t["id"]]) for t in TRACKS if by_track[t["id"]]]
-    open(os.path.join(ROOT, "print", "complete.html"), "w", encoding="utf-8").write(book(TITLE, "Complete handbook", f"{len(lessons)} lessons across Excel, SQL, Power BI, AI for analytics, Python, statistics and machine learning, generative and agentic AI, and career preparation.", groups, rendered, G, color="#6C4CF5", complete=True))
+    groups = [(t, by_track[t["id"]]) for t in TRACKS if by_track[t["id"]] and not t.get("extra")]
+    open(os.path.join(ROOT, "print", "complete.html"), "w", encoding="utf-8").write(book(TITLE, "Complete handbook", f"{len(core)} lessons across Excel, SQL, Power BI, AI for analytics, Python, statistics and machine learning, generative and agentic AI, and career preparation.", groups, rendered, G, color="#6C4CF5", complete=True))
     jobs.append(["print/complete.html", "pdf/SkillNavora_Data_Science_AI_Complete_Handbook.pdf", f"{BRAND} · {TITLE} · Complete handbook"])
     json.dump(jobs, open(os.path.join(ROOT, "source", "pdf_jobs.json"), "w"), indent=0)
 
