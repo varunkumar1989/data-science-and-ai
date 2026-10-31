@@ -54,7 +54,7 @@ h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
 .hl-k{color:#C792EA}.hl-s{color:#C3E88D}.hl-c{color:#7F7A9C;font-style:italic}.hl-f{color:#82AAFF}.hl-n{color:#F78C6C}
 .output{margin:-8px 0 18px;border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;background:var(--surface);padding:8px 14px 12px}
 .out-h{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin:4px 0 6px}
-.stdout{margin:6px 0;white-space:pre-wrap;font-size:13px;color:var(--ink);background:none;padding:0}.err{color:#B42318;background:#FEF3F2;padding:8px;border-radius:8px;font-size:12.5px;white-space:pre-wrap}
+.stdout{margin:6px 0;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:auto;max-width:100%;font-size:13px;color:var(--ink);background:none;padding:0}.err{color:#B42318;background:#FEF3F2;padding:8px;border-radius:8px;font-size:12.5px;white-space:pre-wrap}
 .tblwrap{overflow-x:auto;margin:10px 0}.tbl{border-collapse:collapse;font-size:13.5px;min-width:40%;background:var(--surface)}
 .tbl th{background:var(--soft);color:var(--ink);text-align:left;padding:7px 11px;border-bottom:2px solid var(--line);font-weight:700;white-space:nowrap}
 .tbl td{font-variant-numeric:tabular-nums;padding:6px 11px;border-bottom:1px solid var(--line);vertical-align:top}.tbl.md{width:100%;border:1px solid var(--line);border-radius:10px}
@@ -144,3 +144,5 @@ h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
 /* v15: display equations rendered as images */
 figure.math{margin:14px 0 18px;text-align:center}
 figure.math img{max-width:100%;height:auto;max-height:90px;display:inline-block;border:0;box-shadow:none;background:transparent}
+
+:not(pre)>code{overflow-wrap:anywhere;word-break:break-word}
