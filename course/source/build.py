@@ -76,6 +76,8 @@ TRACKS = [
          practice=[("YouTube Creators", "https://www.youtube.com/creators/"), ("Canva Design School", "https://www.canva.com/designschool/")]),
     dict(id="fde", name="Forward Deployed Engineer (FDE)", short="FDE", color="#16A34A", extra=True, desc="Complete FDE guide: the role, skills stack, deployment lifecycle, LLM solutions for customers, integration patterns, a capstone and interview preparation.",
          practice=[("Anthropic: Building effective agents", "https://www.anthropic.com/engineering/building-effective-agents"), ("Model Context Protocol", "https://modelcontextprotocol.io/")]),
+    dict(id="speaking", name="Public Speaking", short="Speaking", color="#A855F7", extra=True, desc="Complete public speaking guide: confidence, structure (PREP, STAR, pyramid), storytelling, data and slides, voice and body language, Q&A, meetings, interviews, video and AI practice tools.",
+         practice=[("Toastmasters", "https://www.toastmasters.org/"), ("TED", "https://www.ted.com/")]),
 ]
 TRACK = {t["id"]: t for t in TRACKS}
 BUILD_VER = "v14"
