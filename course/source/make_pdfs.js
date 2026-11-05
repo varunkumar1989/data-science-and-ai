@@ -9,6 +9,8 @@ const FOOT = t => `<div style="font:7.5px Inter,Arial,sans-serif;color:#7A759A;w
 (async () => {
   const b = await pw.chromium.launch();
   const ctx = await b.newContext();
+  // lessons are gated for visitors on the website; mark this browser as having access so the printed PDF is clean
+  await ctx.addInitScript(() => { try { localStorage.setItem('sn_admin', '1'); localStorage.setItem('sn_access', '1'); } catch (e) {} });
   for (const [src, dst, t] of jobs) {
     if (filt && !src.includes(filt) && !dst.includes(filt)) continue;
     const out = path.join(ROOT, dst); fs.mkdirSync(path.dirname(out), { recursive: true });
