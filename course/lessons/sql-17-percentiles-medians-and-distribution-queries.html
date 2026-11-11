@@ -1,0 +1,321 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Percentiles, Medians and Distribution Queries · SQL Lesson 17 · Data Science &amp; AI Handbook</title><meta name="description" content="Go beyond averages. Compute medians and percentiles, split customers into quartiles and deciles, measure how skewed a distribution is, and find outliers with SQL that works on real retail data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 17</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li><li class=""><a href="sql-16-recursive-ctes-hierarchies-and-number-series.html" data-lid="sql-16"><span>16</span>Recursive CTEs, Hierarchies and Number Series</a></li><li class="on"><a href="sql-17-percentiles-medians-and-distribution-queries.html" data-lid="sql-17"><span>17</span>Percentiles, Medians and Distribution Queries</a></li><li class=""><a href="sql-18-business-sql-cohorts-funnels-churn-lifetime-value-and-retent.html" data-lid="sql-18"><span>18</span>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</a></li><li class=""><a href="sql-19-incremental-loading-and-data-quality-sql.html" data-lid="sql-19"><span>19</span>Incremental Loading and Data-Quality SQL</a></li><li class=""><a href="sql-20-sql-across-platforms-sql-server-bigquery-snowflake-and-datab.html" data-lid="sql-20"><span>20</span>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-17">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 17 of 20</div><h1>Percentiles, Medians and Distribution Queries</h1>
+<p class="sum">Go beyond averages. Compute medians and percentiles, split customers into quartiles and deciles, measure how skewed a distribution is, and find outliers with SQL that works on real retail data.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_17_Percentiles_Medians_and_Distribution_Queries.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-17">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain why the median and percentiles can be more honest than the mean for skewed money data</li><li>Compute medians and arbitrary percentiles with PERCENTILE_CONT and PERCENTILE_DISC</li><li>Bucket rows into quartiles and deciles with NTILE and percent-rank measures</li><li>Flag outliers with the interquartile range</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-averages-mislead">Why averages mislead</h2>
+<p>Order values in retail are skewed: most orders are small, and a few very large ones pull the average up. The mean order value may look healthy while the typical customer spends much less. The <strong>median</strong> (the middle value) and <strong>percentiles</strong> (values below which a chosen share of rows fall) describe the typical case and the spread.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Is the average order really typical?</b></div><p>The sales director quotes "average order value of about 2,000 rupees". The question is whether that describes a typical order, or whether a few big corporate orders dominate it. Answering needs the median, the quartiles and the top percentile, not one average.</p></div>
+<h2 id="median-and-percentiles-with-percentile_cont">Median and percentiles with PERCENTILE_CONT</h2>
+<p><code>PERCENTILE_CONT(p) WITHIN GROUP (ORDER BY x)</code> returns the value at fraction <code>p</code>, interpolating between rows when needed. <code>p = 0.5</code> is the median.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> order_totals <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> order_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> order_value
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> order_id
+)
+<span class="hl-k">SELECT</span>
+    <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(order_value), <span class="hl-n">0</span>)                                              <span class="hl-k">AS</span> mean_order_value,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.25</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> p25,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.50</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> median,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.75</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> p75,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.90</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> p90,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">MAX</span>(order_value), <span class="hl-n">0</span>)                                              <span class="hl-k">AS</span> largest_order
+<span class="hl-k">FROM</span> order_totals;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>mean_order_value</th>
+      <th>p25</th>
+      <th>median</th>
+      <th>p75</th>
+      <th>p90</th>
+      <th>largest_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>62,942</td>
+      <td>6,526</td>
+      <td>26,101</td>
+      <td>78,458</td>
+      <td>178,860</td>
+      <td>622,758</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 6 columns</div></div>
+<p>If the mean is far above the median, a small share of large orders is pulling it up. Report both, and say which one describes a typical order.</p>
+<p><strong>PERCENTILE_CONT versus PERCENTILE_DISC</strong>: <code>PERCENTILE_CONT</code> interpolates between two values; <code>PERCENTILE_DISC</code> returns an actual value from the data. Use <code>PERCENTILE_DISC</code> when the answer must be a real observed order, such as "the order value that 90% of orders are below".</p>
+<h2 id="quartiles-and-deciles-with-ntile">Quartiles and deciles with NTILE</h2>
+<p><code>NTILE(n)</code> assigns each row to one of <code>n</code> equal-sized groups. It is the easiest way to segment customers by spend. The query below ranks customers into quartiles by lifetime sales.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> customer_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> lifetime_sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+),
+quartiles <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, lifetime_sales,
+           <span class="hl-f">NTILE</span>(<span class="hl-n">4</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales) <span class="hl-k">AS</span> spend_quartile
+    <span class="hl-k">FROM</span> customer_sales
+)
+<span class="hl-k">SELECT</span> spend_quartile,
+       <span class="hl-f">COUNT</span>(*)                          <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">MIN</span>(lifetime_sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> min_spend,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">MAX</span>(lifetime_sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> max_spend,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(lifetime_sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> total_spend,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(lifetime_sales) / <span class="hl-f">SUM</span>(<span class="hl-f">SUM</span>(lifetime_sales)) <span class="hl-k">OVER</span> (), <span class="hl-n">1</span>) <span class="hl-k">AS</span> share_of_sales_pct
+<span class="hl-k">FROM</span> quartiles
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> spend_quartile
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> spend_quartile;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>spend_quartile</th>
+      <th>customers</th>
+      <th>min_spend</th>
+      <th>max_spend</th>
+      <th>total_spend</th>
+      <th>share_of_sales_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>197</td>
+      <td>140</td>
+      <td>88,830</td>
+      <td>7,935,534</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>196</td>
+      <td>89,102</td>
+      <td>200,899</td>
+      <td>28,192,185</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>196</td>
+      <td>201,378</td>
+      <td>373,460</td>
+      <td>54,558,902</td>
+      <td>27.1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>196</td>
+      <td>373,864</td>
+      <td>1,204,439</td>
+      <td>110,726,949</td>
+      <td>55.0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 6 columns</div></div>
+<p>Quartile 4 is the top 25% of customers by spend. The share column usually shows that a small quartile produces a large share of revenue. That is the Pareto pattern that marketing budgets should reflect.</p>
+<p>::::note Ties and buckets
+<code>NTILE</code> splits rows by position, so customers with identical spend can land in different buckets. If you need every customer with the same value to share one bucket, use <code>PERCENT_RANK()</code> or <code>CUME_DIST()</code> and cut at thresholds instead.
+::::</p>
+<h2 id="percent-rank-and-cumulative-distribution">Percent rank and cumulative distribution</h2>
+<p><code>PERCENT_RANK()</code> gives each row a value from 0 to 1 showing its relative position. <code>CUME_DIST()</code> gives the share of rows at or below its value. Both answer "what share of customers spend less than this one?"</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> customer_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> lifetime_sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+)
+<span class="hl-k">SELECT</span> customer_id,
+       <span class="hl-f">ROUND</span>(lifetime_sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> lifetime_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENT_RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales), <span class="hl-n">3</span>) <span class="hl-k">AS</span> percent_rank,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">CUME_DIST</span>()    <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales), <span class="hl-n">3</span>) <span class="hl-k">AS</span> cume_dist
+<span class="hl-k">FROM</span> customer_sales
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales <span class="hl-k">DESC</span>
+<span class="hl-k">LIMIT</span> <span class="hl-n">10</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>lifetime_sales</th>
+      <th>percent_rank</th>
+      <th>cume_dist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0741</td>
+      <td>1,204,439</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0092</td>
+      <td>1,140,540</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0306</td>
+      <td>1,126,867</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0781</td>
+      <td>1,123,527</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0443</td>
+      <td>1,113,058</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0720</td>
+      <td>1,100,213</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0493</td>
+      <td>1,004,382</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0028</td>
+      <td>1,000,189</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0630</td>
+      <td>1,000,175</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0262</td>
+      <td>952,738</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">10 rows × 4 columns</div></div>
+<p>Use these measures when you want to say "this customer is in the top 5%" without forcing exact bucket sizes.</p>
+<h2 id="spread-standard-deviation-and-the-interquartile-range">Spread: standard deviation and the interquartile range</h2>
+<p>The median says where the middle is; the spread says how much values vary. Two measures are common:</p>
+<ul>
+<li><strong>Standard deviation</strong> (<code>STDDEV_SAMP</code>) measures typical distance from the mean. It assumes a roughly symmetric shape.</li>
+<li><strong>Interquartile range</strong> (IQR = P75 minus P25) measures the spread of the middle half. It is robust to outliers.</li>
+</ul>
+<p>The next query computes the IQR for profit per line and counts lines outside the usual outlier fences (1.5 times the IQR beyond the quartiles).</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> q <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.25</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit) <span class="hl-k">AS</span> q1,
+           <span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.75</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit) <span class="hl-k">AS</span> q3
+    <span class="hl-k">FROM</span> order_items
+),
+fences <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> q1, q3, q3 - q1 <span class="hl-k">AS</span> iqr,
+           q1 - <span class="hl-n">1.5</span> * (q3 - q1) <span class="hl-k">AS</span> lower_fence,
+           q3 + <span class="hl-n">1.5</span> * (q3 - q1) <span class="hl-k">AS</span> upper_fence
+    <span class="hl-k">FROM</span> q
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">ROUND</span>(f.q1, <span class="hl-n">1</span>) <span class="hl-k">AS</span> q1, <span class="hl-f">ROUND</span>(f.q3, <span class="hl-n">1</span>) <span class="hl-k">AS</span> q3, <span class="hl-f">ROUND</span>(f.iqr, <span class="hl-n">1</span>) <span class="hl-k">AS</span> iqr,
+       <span class="hl-f">ROUND</span>(f.lower_fence, <span class="hl-n">1</span>) <span class="hl-k">AS</span> lower_fence, <span class="hl-f">ROUND</span>(f.upper_fence, <span class="hl-n">1</span>) <span class="hl-k">AS</span> upper_fence,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> i.profit &lt; f.lower_fence <span class="hl-k">OR</span> i.profit &gt; f.upper_fence) <span class="hl-k">AS</span> outlier_lines,
+       <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> all_lines
+<span class="hl-k">FROM</span> order_items i
+<span class="hl-k">CROSS</span> <span class="hl-k">JOIN</span> fences f
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> f.q1, f.q3, f.iqr, f.lower_fence, f.upper_fence;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>q1</th>
+      <th>q3</th>
+      <th>iqr</th>
+      <th>lower_fence</th>
+      <th>upper_fence</th>
+      <th>outlier_lines</th>
+      <th>all_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-17.9</td>
+      <td>2,270.1</td>
+      <td>2,288.1</td>
+      <td>-3,450.1</td>
+      <td>5,702.3</td>
+      <td>1361</td>
+      <td>6323</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 7 columns</div></div>
+<p>Outliers are not automatically errors. A very large profitable line may be a genuine bulk deal. Investigate each one before excluding it.</p>
+<h2 id="skewness-check-in-plain-sql">Skewness check in plain SQL</h2>
+<p>A quick comparison of mean and median shows the direction of skew. If the mean is greater than the median, the distribution has a long right tail; if it is smaller, a long left tail. The query below reports that gap for sales per line by category.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> p.category,
+       <span class="hl-f">COUNT</span>(*)                                                         <span class="hl-k">AS</span> lines,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(i.sales), <span class="hl-n">0</span>)                                           <span class="hl-k">AS</span> mean_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.5</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> i.sales), <span class="hl-n">0</span>)  <span class="hl-k">AS</span> median_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(i.sales) - <span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.5</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> i.sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> mean_minus_median
+<span class="hl-k">FROM</span> order_items i
+<span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = i.product_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> p.category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> mean_minus_median <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>lines</th>
+      <th>mean_sales</th>
+      <th>median_sales</th>
+      <th>mean_minus_median</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Technology</td>
+      <td>1892</td>
+      <td>82,684</td>
+      <td>56,789</td>
+      <td>25,895</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>1917</td>
+      <td>18,175</td>
+      <td>12,970</td>
+      <td>5,205</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>2514</td>
+      <td>4,031</td>
+      <td>1,152</td>
+      <td>2,879</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 5 columns</div></div>
+<p>A large positive gap in a category means a few expensive lines dominate that category's average, which affects how you set targets for it.</p>
+<p>::::warn Averages of averages
+Never average a set of averages (for example, averaging each region's mean order value) and call it the overall mean unless the groups are the same size. Recompute from the underlying rows, or use the median.
+::::</p>
+<p>::::key What to remember
+- Report the median and percentiles beside the mean for money data, which is usually skewed.
+- <code>PERCENTILE_CONT</code> interpolates; <code>PERCENTILE_DISC</code> returns an actual observed value.
+- <code>NTILE</code> gives equal-sized groups by position; <code>PERCENT_RANK</code> and <code>CUME_DIST</code> give relative positions.
+- The IQR and its fences flag outliers without being distorted by them.
+- Investigate outliers before you remove them.
+::::</p>
+<div class="quiz" id="quiz-sql-17-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A category has a mean sale of 5,000 and a median of 1,200. What does this suggest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Most lines are above average</button><button type="button" class="opt" data-ok="1"><i>B</i>A few very large lines pull the mean up; the typical line is much smaller</button><button type="button" class="opt" data-ok="0"><i>C</i>The data has no outliers</button><button type="button" class="opt" data-ok="0"><i>D</i>The median is wrong</button></div><div class="qexp"><b>Answer: B.</b> A mean far above the median signals a long right tail.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which function returns the median?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>AVG(x)</button><button type="button" class="opt" data-ok="0"><i>B</i>MODE(x) over the whole table</button><button type="button" class="opt" data-ok="1"><i>C</i>PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY x)</button><button type="button" class="opt" data-ok="0"><i>D</i>COUNT(DISTINCT x)</button></div><div class="qexp"><b>Answer: C.</b> Fraction 0.5 is the 50th percentile, which is the median.</div></div><div class="qq"><p class="qtext"><b>3.</b> You need an actual observed order value as the 90th percentile. Which is better?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>PERCENTILE_CONT</button><button type="button" class="opt" data-ok="1"><i>B</i>PERCENTILE_DISC</button><button type="button" class="opt" data-ok="0"><i>C</i>AVG</button><button type="button" class="opt" data-ok="0"><i>D</i>STDDEV_SAMP</button></div><div class="qexp"><b>Answer: B.</b> PERCENTILE_DISC returns a value that exists in the data.</div></div><div class="qq"><p class="qtext"><b>4.</b> NTILE(4) over customers ordered by spend creates:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Four customers</button><button type="button" class="opt" data-ok="1"><i>B</i>Four groups of roughly equal size</button><button type="button" class="opt" data-ok="0"><i>C</i>Four groups of equal spend</button><button type="button" class="opt" data-ok="0"><i>D</i>The top four customers</button></div><div class="qexp"><b>Answer: B.</b> NTILE splits rows by position into equal-sized buckets.</div></div><div class="qq"><p class="qtext"><b>5.</b> The interquartile range is calculated as:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Maximum minus minimum</button><button type="button" class="opt" data-ok="0"><i>B</i>Mean minus median</button><button type="button" class="opt" data-ok="1"><i>C</i>P75 minus P25</button><button type="button" class="opt" data-ok="0"><i>D</i>Standard deviation times 2</button></div><div class="qexp"><b>Answer: C.</b> IQR spans the middle half of the data.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Concentration of revenue</b></div><p>Write one query that returns, for each product category, the median order line sales, the 90th percentile line sales, and the share of total sales coming from lines above the category's 90th percentile.</p><details class="sol"><summary>Show solution</summary><p>Hint: compute the 90th percentile per category with <code>PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY sales)</code> in a CTE grouped by category, join it back to <code>order_items</code> through <code>products</code>, then use <code>SUM(CASE WHEN sales &gt; p90 THEN sales END)</code> divided by the total sales for the category.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-16-recursive-ctes-hierarchies-and-number-series.html"><small>← Previous</small><b>Recursive CTEs, Hierarchies and Number Series</b></a><a class="next" href="sql-18-business-sql-cohorts-funnels-churn-lifetime-value-and-retent.html"><small>Next →</small><b>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-averages-mislead">Why averages mislead</a><a href="#median-and-percentiles-with-percentile_cont">Median and percentiles with PERCENTILE_CONT</a><a href="#quartiles-and-deciles-with-ntile">Quartiles and deciles with NTILE</a><a href="#percent-rank-and-cumulative-distribution">Percent rank and cumulative distribution</a><a href="#spread-standard-deviation-and-the-interquartile-range">Spread: standard deviation and the interquartile range</a><a href="#skewness-check-in-plain-sql">Skewness check in plain SQL</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

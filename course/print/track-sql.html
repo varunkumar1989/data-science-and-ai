@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>SQL for Data Analysis · SkillNavora</title><link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="book">
 <section class="cover" style="--tc:#2563EB"><div class="cv-brand"><img src="../assets/logo.svg" alt="">Skill<em>Navora</em></div><div class="cv-k">Track 2</div><h1>SQL for Data Analysis</h1><p>Relational databases, ER diagrams and keys, DDL/DML, filtering, aggregation, joins, set operators, subqueries, window functions, CTEs, views, procedures and performance.</p>
-<div class="cv-m"><span>15 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
-<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li><a href="#L-sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li><a href="#L-sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li><a href="#L-sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li><a href="#L-sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li><a href="#L-sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li><a href="#L-sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li><a href="#L-sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li><a href="#L-sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li><a href="#L-sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li><a href="#L-sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li><a href="#L-sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li><a href="#L-sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li><a href="#L-sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li><a href="#L-sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li></ol></section><article class="lesson-art bk" id="L-sql-01"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 1</div><h1>Databases, RDBMS &amp; SQL Basics</h1>
+<div class="cv-m"><span>20 lessons</span><span>Version 2026.10</span><span>Updated October 2026</span></div><div class="cv-by">Created by <b>Varun Kumar</b><br>www.skillnavora.in</div></section>
+<section class="btoc"><h2>Contents</h2><p class="muted">Every entry is a clickable link. The PDF also has bookmarks for each lesson and section.</p><ol class="tocl two"><li><a href="#L-sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li><a href="#L-sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li><a href="#L-sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li><a href="#L-sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li><a href="#L-sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li><a href="#L-sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li><a href="#L-sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li><a href="#L-sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li><a href="#L-sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li><a href="#L-sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li><a href="#L-sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li><a href="#L-sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li><a href="#L-sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li><a href="#L-sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li><a href="#L-sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li><li><a href="#L-sql-16"><span>16</span>Recursive CTEs, Hierarchies and Number Series</a></li><li><a href="#L-sql-17"><span>17</span>Percentiles, Medians and Distribution Queries</a></li><li><a href="#L-sql-18"><span>18</span>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</a></li><li><a href="#L-sql-19"><span>19</span>Incremental Loading and Data-Quality SQL</a></li><li><a href="#L-sql-20"><span>20</span>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</a></li></ol></section><article class="lesson-art bk" id="L-sql-01"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 1</div><h1>Databases, RDBMS &amp; SQL Basics</h1>
 <p class="sum">Understand what a database is, how relational databases organise data into tables, the vocabulary of SQL, the four families of SQL statements (DDL, DML, DCL, TCL), how SQL compares with Excel, and how to install SQL Server and SSMS and run your first query.</p><div class="tags"><span class="tag live">● SQL class 1</span><span class="tag new">✦ SQL Server 2022 / SSMS 21, 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 100 min</span></div></div>
 <div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what a database, a DBMS and an RDBMS are and why companies use them instead of spreadsheets</li><li>Use the core vocabulary (table, row/record, column/field, schema, query, result set)</li><li>Classify SQL statements into DDL, DML, DQL, DCL and TCL</li><li>Compare Excel and SQL and know when to use each</li><li>Install SQL Server Developer edition and SSMS, connect, create a database and run a first SELECT</li></ul></div></div><div class="content"><h2 id="sql-01-what-is-a-database">What is a database?</h2>
 <p>A <strong>database</strong> is an organised collection of data stored so that it can be found, updated and analysed efficiently and safely by many people at the same time. A <strong>DBMS</strong> (database management system) is the software that manages it. Your bank balance, every Swiggy order, every Aadhaar-linked record and every hospital appointment lives in a database.</p>
@@ -10429,4 +10429,1352 @@ Look at the actual execution plan and I/O statistics, find scans/lookups/bad est
 <li>In interviews, state your assumptions, clarify the grain, write clean, formatted SQL, and explain the result in business language.</li>
 </ul></div>
 <div class="quiz" id="quiz-sql-15-0"><div class="quiz-h"><b>Quick quiz</b><span>6 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why must "number of orders" use COUNT(DISTINCT order_id) when joining orders to order_items?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>DISTINCT is faster</button><button type="button" class="opt" data-ok="1"><i>B</i>Each order appears once per item, so COUNT(*) would count lines</button><button type="button" class="opt" data-ok="0"><i>C</i>order_id is a text column</button><button type="button" class="opt" data-ok="0"><i>D</i>It avoids NULLs</button></div><div class="qexp"><b>Answer: B.</b> The join repeats the order for each of its items.</div></div><div class="qq"><p class="qtext"><b>2.</b> In RFM, a customer with recency 400 days, frequency 1 and low monetary value is probably:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A champion</button><button type="button" class="opt" data-ok="1"><i>B</i>Lost or hibernating</button><button type="button" class="opt" data-ok="0"><i>C</i>A loyal customer</button><button type="button" class="opt" data-ok="0"><i>D</i>A new high-value customer</button></div><div class="qexp"><b>Answer: B.</b> Long time since the last order, few orders and low spend.</div></div><div class="qq"><p class="qtext"><b>3.</b> A cohort table shows 2023 cohort size 500, year-1 active 350. Year-1 retention is:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>35%</button><button type="button" class="opt" data-ok="1"><i>B</i>70%</button><button type="button" class="opt" data-ok="0"><i>C</i>50%</button><button type="button" class="opt" data-ok="0"><i>D</i>150%</button></div><div class="qexp"><b>Answer: B.</b> 350 ÷ 500 = 70%.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which should you do before reporting KPIs?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Build a dashboard</button><button type="button" class="opt" data-ok="1"><i>B</i>Check data quality: nulls, duplicates, orphans, ranges</button><button type="button" class="opt" data-ok="0"><i>C</i>Email the CFO</button><button type="button" class="opt" data-ok="0"><i>D</i>Add indexes</button></div><div class="qexp"><b>Answer: B.</b> Untrusted data produces untrusted numbers.</div></div><div class="qq"><p class="qtext"><b>5.</b> The what-if "profit if discounts were capped at 20%" is best described as:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A forecast</button><button type="button" class="opt" data-ok="0"><i>B</i>A guarantee</button><button type="button" class="opt" data-ok="1"><i>C</i>An upper-bound estimate that ignores possible lost sales</button><button type="button" class="opt" data-ok="0"><i>D</i>A data error</button></div><div class="qexp"><b>Answer: C.</b> It assumes demand would not change, so it overstates the benefit.</div></div><div class="qq"><p class="qtext"><b>6.</b> NTILE(10) over customers ordered by sales gives:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Ten customers</button><button type="button" class="opt" data-ok="1"><i>B</i>Ten equal-sized groups (deciles) of customers</button><button type="button" class="opt" data-ok="0"><i>C</i>The top 10% only</button><button type="button" class="opt" data-ok="0"><i>D</i>The median</button></div><div class="qexp"><b>Answer: B.</b> NTILE splits rows into n buckets.</div></div></div>
-<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Capstone: your own analysis</b></div><p>Using only SQL on the retail database, prepare a one-page analysis answering: (1) Which three cities have the highest profit and which three the lowest? (2) What is the average days to ship by ship mode, and does a slower mode save money (profit per line)? (3) Which product's sales fell the most from 2024 to 2025? (4) Propose two actions with the numbers that support them.</p><details class="sol"><summary>Show solution</summary><p>Hints: (1) <code>GROUP BY city</code> with <code>ORDER BY profit</code> ascending and descending using TOP 3 in two queries or <code>RANK()</code> in a CTE. (2) Join orders to order_items, <code>AVG(DATEDIFF(day, order_date, ship_date))</code> and <code>SUM(profit)/COUNT(*)</code> by ship_mode. (3) Pivot product sales by year with conditional aggregation and compute the difference. (4) Example actions: cap Furniture discounts at 20% in two pilot regions; re-engage at-risk high-value customers. Present each action with a baseline number, an expected impact (labelled as an estimate) and a way to measure success.</p></details></div></div></article></body></html>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Capstone: your own analysis</b></div><p>Using only SQL on the retail database, prepare a one-page analysis answering: (1) Which three cities have the highest profit and which three the lowest? (2) What is the average days to ship by ship mode, and does a slower mode save money (profit per line)? (3) Which product's sales fell the most from 2024 to 2025? (4) Propose two actions with the numbers that support them.</p><details class="sol"><summary>Show solution</summary><p>Hints: (1) <code>GROUP BY city</code> with <code>ORDER BY profit</code> ascending and descending using TOP 3 in two queries or <code>RANK()</code> in a CTE. (2) Join orders to order_items, <code>AVG(DATEDIFF(day, order_date, ship_date))</code> and <code>SUM(profit)/COUNT(*)</code> by ship_mode. (3) Pivot product sales by year with conditional aggregation and compute the difference. (4) Example actions: cap Furniture discounts at 20% in two pilot regions; re-engage at-risk high-value customers. Present each action with a baseline number, an expected impact (labelled as an estimate) and a way to measure success.</p></details></div></div></article><article class="lesson-art bk" id="L-sql-16"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 16</div><h1>Recursive CTEs, Hierarchies and Number Series</h1>
+<p class="sum">Use recursive common table expressions to walk hierarchies such as org charts and category trees, build number and date series without a calendar table, and avoid runaway recursion.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the anchor member, the recursive member and the stopping condition of a recursive CTE</li><li>Walk an org chart or category tree and report each node's level and full path</li><li>Generate number and date series inside SQL</li><li>Protect queries against infinite recursion</li></ul></div></div><div class="content"><h2 id="sql-16-why-hierarchies-need-recursion">Why hierarchies need recursion</h2>
+<p>Many business tables describe a tree. An employee reports to a manager who reports to a director. A product category contains sub-categories, which contain products. A bill of materials lists parts that are themselves made of parts. A plain <code>JOIN</code> only goes one level deep. A <strong>recursive CTE</strong> keeps joining a table to its own results until no new rows appear, so it can walk any depth.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Who reports to whom?</b></div><p>A regional head wants to know, for every employee, how many management levels sit above them and who their top-level leader is, so that a re-organisation can be planned. The org chart is a single table where each row names its manager. One query has to follow that chain to the top, whatever its length.</p></div>
+<h2 id="sql-16-anatomy-of-a-recursive-cte">Anatomy of a recursive CTE</h2>
+<p>Every recursive CTE has three parts:</p>
+<ol>
+<li><strong>Anchor member</strong>: the starting rows, for example the people with no manager.</li>
+<li><strong>Recursive member</strong>: a query that joins back to the CTE itself to find the next level.</li>
+<li><strong>Stopping condition</strong>: the recursion ends when the recursive member returns no rows.</li>
+</ol>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">WITH RECURSIVE name AS (
+    SELECT ...            -- anchor: level 0
+    UNION ALL
+    SELECT ...            -- recursive: joins name to the next level
+    FROM table t
+    JOIN name n ON ...
+)
+SELECT * FROM name;</code></pre></div>
+<p><code>UNION ALL</code> is the usual choice, because it does not remove duplicates and so runs faster. Use <code>UNION</code> only when you need the engine to drop repeated rows, which also protects against cycles (see the warning below). In SQL Server the keyword <code>RECURSIVE</code> is not written; in PostgreSQL, DuckDB and SQLite it is.</p>
+<h2 id="sql-16-example-1-an-org-chart">Example 1: an org chart</h2>
+<p>The table below is self-contained so you can run it as written. Each person has at most one manager; the CEO has no manager.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">org</span>(emp_id, name, manager_id) <span class="hl-k">AS</span> (
+    <span class="hl-k">VALUES</span>
+        (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Anika&#x27;</span>,  <span class="hl-k">NULL</span>),
+        (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Rohit&#x27;</span>,  <span class="hl-n">1</span>),
+        (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Meera&#x27;</span>,  <span class="hl-n">1</span>),
+        (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Kabir&#x27;</span>,  <span class="hl-n">2</span>),
+        (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Tara&#x27;</span>,   <span class="hl-n">2</span>),
+        (<span class="hl-n">6</span>, <span class="hl-s">&#x27;Dev&#x27;</span>,    <span class="hl-n">3</span>),
+        (<span class="hl-n">7</span>, <span class="hl-s">&#x27;Isha&#x27;</span>,   <span class="hl-n">4</span>)
+),
+chain <span class="hl-k">AS</span> (
+    <span class="hl-c">-- Anchor: the top of the hierarchy</span>
+    <span class="hl-k">SELECT</span> emp_id, name, manager_id, <span class="hl-n">0</span> <span class="hl-k">AS</span> level, name <span class="hl-k">AS</span> path
+    <span class="hl-k">FROM</span> org
+    <span class="hl-k">WHERE</span> manager_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-c">-- Recursive: everyone whose manager is already in the chain</span>
+    <span class="hl-k">SELECT</span> o.emp_id, o.name, o.manager_id, c.level + <span class="hl-n">1</span>, c.path || <span class="hl-s">&#x27; &gt; &#x27;</span> || o.name
+    <span class="hl-k">FROM</span> org o
+    <span class="hl-k">JOIN</span> chain c <span class="hl-k">ON</span> o.manager_id = c.emp_id
+)
+<span class="hl-k">SELECT</span> level, name, path
+<span class="hl-k">FROM</span> chain
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> path;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>level</th>
+      <th>name</th>
+      <th>path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Anika</td>
+      <td>Anika</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Meera</td>
+      <td>Anika &gt; Meera</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Dev</td>
+      <td>Anika &gt; Meera &gt; Dev</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Rohit</td>
+      <td>Anika &gt; Rohit</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Kabir</td>
+      <td>Anika &gt; Rohit &gt; Kabir</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Isha</td>
+      <td>Anika &gt; Rohit &gt; Kabir &gt; Isha</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Tara</td>
+      <td>Anika &gt; Rohit &gt; Tara</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 3 columns</div></div>
+<p>Read the result as a tree: level 0 is the CEO, level 1 the direct reports, and so on. The <code>path</code> column is built on the way down by appending each name to the parent's path, which is a common pattern for showing a breadcrumb.</p>
+<p><strong>Key idea</strong>: the recursive member can use anything the anchor produced, here <code>c.level</code> and <code>c.path</code>. That is how depth and paths are accumulated.</p>
+<h2 id="sql-16-example-2-team-totals-across-the-whole-tree">Example 2: team totals across the whole tree</h2>
+<p>Once you can attach a root and a level to every node, you can roll up numbers. Here every person's team size counts everyone below them.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">org</span>(emp_id, name, manager_id) <span class="hl-k">AS</span> (
+    <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>,<span class="hl-s">&#x27;Anika&#x27;</span>,<span class="hl-k">NULL</span>),(<span class="hl-n">2</span>,<span class="hl-s">&#x27;Rohit&#x27;</span>,<span class="hl-n">1</span>),(<span class="hl-n">3</span>,<span class="hl-s">&#x27;Meera&#x27;</span>,<span class="hl-n">1</span>),(<span class="hl-n">4</span>,<span class="hl-s">&#x27;Kabir&#x27;</span>,<span class="hl-n">2</span>),(<span class="hl-n">5</span>,<span class="hl-s">&#x27;Tara&#x27;</span>,<span class="hl-n">2</span>),(<span class="hl-n">6</span>,<span class="hl-s">&#x27;Dev&#x27;</span>,<span class="hl-n">3</span>),(<span class="hl-n">7</span>,<span class="hl-s">&#x27;Isha&#x27;</span>,<span class="hl-n">4</span>)
+),
+below <span class="hl-k">AS</span> (
+    <span class="hl-c">-- Each person paired with every person who reports to them, at any depth</span>
+    <span class="hl-k">SELECT</span> manager_id <span class="hl-k">AS</span> boss, emp_id <span class="hl-k">AS</span> report <span class="hl-k">FROM</span> org <span class="hl-k">WHERE</span> manager_id <span class="hl-k">IS</span> <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> b.boss, o.emp_id
+    <span class="hl-k">FROM</span> below b
+    <span class="hl-k">JOIN</span> org o <span class="hl-k">ON</span> o.manager_id = b.report
+)
+<span class="hl-k">SELECT</span> o.name, <span class="hl-f">COUNT</span>(b.report) <span class="hl-k">AS</span> people_below
+<span class="hl-k">FROM</span> org o
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> below b <span class="hl-k">ON</span> b.boss = o.emp_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> o.name
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> people_below <span class="hl-k">DESC</span>, o.name;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>people_below</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Anika</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>Rohit</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Kabir</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Meera</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Dev</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Isha</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Tara</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 2 columns</div></div>
+<p>Notice that <code>below</code> is built by walking down from each boss. <code>COUNT</code> then counts every report at every depth, which a single <code>JOIN</code> could not do.</p>
+<h2 id="sql-16-example-3-category-trees-with-depth">Example 3: category trees with depth</h2>
+<p>Product catalogues often nest categories several levels deep. The example below stores a small tree as a parent-child list and returns each node with its depth, so that a report can indent the categories.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">cat</span>(cat_id, cat_name, parent_id) <span class="hl-k">AS</span> (
+    <span class="hl-k">VALUES</span>
+        (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Technology&#x27;</span>, <span class="hl-k">NULL</span>),
+        (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Phones&#x27;</span>, <span class="hl-n">1</span>),
+        (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Accessories&#x27;</span>, <span class="hl-n">1</span>),
+        (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Chargers&#x27;</span>, <span class="hl-n">3</span>),
+        (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Cables&#x27;</span>, <span class="hl-n">3</span>),
+        (<span class="hl-n">6</span>, <span class="hl-s">&#x27;Office Supplies&#x27;</span>, <span class="hl-k">NULL</span>),
+        (<span class="hl-n">7</span>, <span class="hl-s">&#x27;Paper&#x27;</span>, <span class="hl-n">6</span>)
+),
+tree <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> cat_id, cat_name, <span class="hl-n">1</span> <span class="hl-k">AS</span> depth, cat_name <span class="hl-k">AS</span> full_path
+    <span class="hl-k">FROM</span> cat <span class="hl-k">WHERE</span> parent_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> c.cat_id, c.cat_name, t.depth + <span class="hl-n">1</span>, t.full_path || <span class="hl-s">&#x27; / &#x27;</span> || c.cat_name
+    <span class="hl-k">FROM</span> cat c
+    <span class="hl-k">JOIN</span> tree t <span class="hl-k">ON</span> c.parent_id = t.cat_id
+)
+<span class="hl-k">SELECT</span> depth, <span class="hl-f">REPEAT</span>(<span class="hl-s">&#x27;   &#x27;</span>, depth - <span class="hl-n">1</span>) || cat_name <span class="hl-k">AS</span> indented_name, full_path
+<span class="hl-k">FROM</span> tree
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> full_path;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>depth</th>
+      <th>indented_name</th>
+      <th>full_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Office Supplies</td>
+      <td>Office Supplies</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Paper</td>
+      <td>Office Supplies / Paper</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Technology</td>
+      <td>Technology</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Accessories</td>
+      <td>Technology / Accessories</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Cables</td>
+      <td>Technology / Accessories / Cables</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Chargers</td>
+      <td>Technology / Accessories / Chargers</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Phones</td>
+      <td>Technology / Phones</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 3 columns</div></div>
+<p>The <code>REPEAT</code> call indents the name by its depth, which is the simplest way to show a tree in a flat table or a report.</p>
+<h2 id="sql-16-example-4-a-number-and-date-series">Example 4: a number and date series</h2>
+<p>Recursive CTEs can create rows out of nothing. This is useful for building a list of months so that a month with zero sales still appears in a report, rather than vanishing because no order was placed.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">months</span>(month_start) <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2024-01-01&#x27;</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> month_start + INTERVAL <span class="hl-n">1</span> MONTH
+    <span class="hl-k">FROM</span> months
+    <span class="hl-k">WHERE</span> month_start &lt; <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2024-12-01&#x27;</span>
+),
+monthly_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">DATE_TRUNC</span>(<span class="hl-s">&#x27;month&#x27;</span>, order_date) <span class="hl-k">AS</span> month_start, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2024-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-01-01&#x27;</span>
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-n">1</span>
+)
+<span class="hl-k">SELECT</span> m.month_start,
+       <span class="hl-f">COALESCE</span>(s.sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> months m
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> monthly_sales s <span class="hl-k">ON</span> s.month_start = m.month_start
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> m.month_start;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>month_start</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2024-01-01</td>
+      <td>6,022,738</td>
+    </tr>
+    <tr>
+      <td>2024-02-01</td>
+      <td>2,463,147</td>
+    </tr>
+    <tr>
+      <td>2024-03-01</td>
+      <td>5,940,384</td>
+    </tr>
+    <tr>
+      <td>2024-04-01</td>
+      <td>4,620,479</td>
+    </tr>
+    <tr>
+      <td>2024-05-01</td>
+      <td>5,253,017</td>
+    </tr>
+    <tr>
+      <td>2024-06-01</td>
+      <td>4,012,674</td>
+    </tr>
+    <tr>
+      <td>2024-07-01</td>
+      <td>4,818,164</td>
+    </tr>
+    <tr>
+      <td>2024-08-01</td>
+      <td>5,757,228</td>
+    </tr>
+    <tr>
+      <td>2024-09-01</td>
+      <td>5,330,618</td>
+    </tr>
+    <tr>
+      <td>2024-10-01</td>
+      <td>7,255,348</td>
+    </tr>
+    <tr>
+      <td>2024-11-01</td>
+      <td>7,284,664</td>
+    </tr>
+    <tr>
+      <td>2024-12-01</td>
+      <td>6,638,096</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">12 rows × 2 columns</div></div>
+<p>Use the same idea with <code>UNION ALL</code> and a counter to build any series, such as 1 to 100 for bucketing or a list of working days for a schedule.</p>
+<h2 id="sql-16-preventing-runaway-recursion">Preventing runaway recursion</h2>
+<p>If the data contains a loop (A reports to B, and B reports to A), a recursive query never ends. Two defences work well:</p>
+<ul>
+<li><strong>Stop by depth.</strong> Add <code>WHERE level &lt; 10</code> (or a similar limit) to the recursive member.</li>
+<li><strong>Use <code>UNION</code> instead of <code>UNION ALL</code></strong> when the same row could be reached twice, so the engine discards repeats.</li>
+</ul>
+<p>::::warn Loops in the data
+A recursive query over a table with a cycle will run until the engine gives up or runs out of memory. Always check for cycles first, and always include a depth limit in production queries.
+::::</p>
+<p>::::tip Recursion versus window functions
+Recursion is for hierarchies of unknown depth. If the question is about a fixed number of steps (for example, "the manager's manager"), two self-joins are simpler and faster.
+::::</p>
+<p>::::key What to remember
+- A recursive CTE is an anchor, a recursive member that joins to itself, and a stopping point.
+- Carry depth and path columns down the recursion to report levels and breadcrumbs.
+- Walk upwards (to the top) or downwards (to all descendants), depending on the join direction.
+- Add a depth limit to protect against cycles.
+- Recursion can also generate series of numbers and dates, filling gaps in reports.
+::::</p>
+<div class="quiz" id="quiz-sql-16-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the role of the anchor member in a recursive CTE?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It joins the CTE to itself</button><button type="button" class="opt" data-ok="0"><i>B</i>It stops the recursion</button><button type="button" class="opt" data-ok="1"><i>C</i>It supplies the starting rows of the hierarchy</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes duplicates</button></div><div class="qexp"><b>Answer: C.</b> The anchor is the non-recursive first query, such as the top-level employees.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which clause ends the recursion?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A LIMIT on the outer query</button><button type="button" class="opt" data-ok="1"><i>B</i>The recursive member returns no new rows</button><button type="button" class="opt" data-ok="0"><i>C</i>A HAVING clause</button><button type="button" class="opt" data-ok="0"><i>D</i>The ORDER BY clause</button></div><div class="qexp"><b>Answer: B.</b> Recursion stops when a pass produces no rows.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why is UNION ALL usually preferred in recursive CTEs?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It does not remove duplicates, so it is faster</button><button type="button" class="opt" data-ok="0"><i>B</i>It is the only syntax allowed</button><button type="button" class="opt" data-ok="0"><i>C</i>It sorts the rows</button><button type="button" class="opt" data-ok="0"><i>D</i>It guarantees no cycles</button></div><div class="qexp"><b>Answer: A.</b> UNION ALL skips the duplicate-removal step; the trade-off is that cycles are not stopped automatically.</div></div><div class="qq"><p class="qtext"><b>4.</b> To list every month even when a month has no sales, you should:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Use an INNER JOIN with the sales table</button><button type="button" class="opt" data-ok="1"><i>B</i>Generate the months with a recursive CTE and LEFT JOIN the sales to it</button><button type="button" class="opt" data-ok="0"><i>C</i>Use DISTINCT on the order dates</button><button type="button" class="opt" data-ok="0"><i>D</i>Filter out zero sales</button></div><div class="qexp"><b>Answer: B.</b> The generated series supplies the missing months, and the LEFT JOIN keeps them.</div></div><div class="qq"><p class="qtext"><b>5.</b> A query over employee data never finishes. The most likely cause is:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The table has too many columns</button><button type="button" class="opt" data-ok="1"><i>B</i>The data contains a cycle and the recursion has no stopping limit</button><button type="button" class="opt" data-ok="0"><i>C</i>The ORDER BY is missing</button><button type="button" class="opt" data-ok="0"><i>D</i>The anchor returns no rows</button></div><div class="qexp"><b>Answer: B.</b> A cycle makes the recursive member produce rows forever.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build a reporting line report</b></div><p>Using the org chart from Example 1, write a query that returns each person's name, their level, their direct manager's name, and the number of people who report directly to them. Order the result by level, then by name.</p><details class="sol"><summary>Show solution</summary><p>Hint: join the <code>org</code> table to itself on <code>manager_id = emp_id</code> for the manager's name, and count direct reports with a separate <code>GROUP BY</code> on <code>manager_id</code>. Use the recursive <code>chain</code> CTE from Example 1 for the level.</p></details></div></div></article><article class="lesson-art bk" id="L-sql-17"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 17</div><h1>Percentiles, Medians and Distribution Queries</h1>
+<p class="sum">Go beyond averages. Compute medians and percentiles, split customers into quartiles and deciles, measure how skewed a distribution is, and find outliers with SQL that works on real retail data.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain why the median and percentiles can be more honest than the mean for skewed money data</li><li>Compute medians and arbitrary percentiles with PERCENTILE_CONT and PERCENTILE_DISC</li><li>Bucket rows into quartiles and deciles with NTILE and percent-rank measures</li><li>Flag outliers with the interquartile range</li></ul></div></div><div class="content"><h2 id="sql-17-why-averages-mislead">Why averages mislead</h2>
+<p>Order values in retail are skewed: most orders are small, and a few very large ones pull the average up. The mean order value may look healthy while the typical customer spends much less. The <strong>median</strong> (the middle value) and <strong>percentiles</strong> (values below which a chosen share of rows fall) describe the typical case and the spread.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Is the average order really typical?</b></div><p>The sales director quotes "average order value of about 2,000 rupees". The question is whether that describes a typical order, or whether a few big corporate orders dominate it. Answering needs the median, the quartiles and the top percentile, not one average.</p></div>
+<h2 id="sql-17-median-and-percentiles-with-percentile_cont">Median and percentiles with PERCENTILE_CONT</h2>
+<p><code>PERCENTILE_CONT(p) WITHIN GROUP (ORDER BY x)</code> returns the value at fraction <code>p</code>, interpolating between rows when needed. <code>p = 0.5</code> is the median.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> order_totals <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> order_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> order_value
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> order_id
+)
+<span class="hl-k">SELECT</span>
+    <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(order_value), <span class="hl-n">0</span>)                                              <span class="hl-k">AS</span> mean_order_value,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.25</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> p25,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.50</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> median,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.75</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> p75,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.90</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> order_value), <span class="hl-n">0</span>)    <span class="hl-k">AS</span> p90,
+    <span class="hl-f">ROUND</span>(<span class="hl-f">MAX</span>(order_value), <span class="hl-n">0</span>)                                              <span class="hl-k">AS</span> largest_order
+<span class="hl-k">FROM</span> order_totals;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>mean_order_value</th>
+      <th>p25</th>
+      <th>median</th>
+      <th>p75</th>
+      <th>p90</th>
+      <th>largest_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>62,942</td>
+      <td>6,526</td>
+      <td>26,101</td>
+      <td>78,458</td>
+      <td>178,860</td>
+      <td>622,758</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 6 columns</div></div>
+<p>If the mean is far above the median, a small share of large orders is pulling it up. Report both, and say which one describes a typical order.</p>
+<p><strong>PERCENTILE_CONT versus PERCENTILE_DISC</strong>: <code>PERCENTILE_CONT</code> interpolates between two values; <code>PERCENTILE_DISC</code> returns an actual value from the data. Use <code>PERCENTILE_DISC</code> when the answer must be a real observed order, such as "the order value that 90% of orders are below".</p>
+<h2 id="sql-17-quartiles-and-deciles-with-ntile">Quartiles and deciles with NTILE</h2>
+<p><code>NTILE(n)</code> assigns each row to one of <code>n</code> equal-sized groups. It is the easiest way to segment customers by spend. The query below ranks customers into quartiles by lifetime sales.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> customer_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> lifetime_sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+),
+quartiles <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, lifetime_sales,
+           <span class="hl-f">NTILE</span>(<span class="hl-n">4</span>) <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales) <span class="hl-k">AS</span> spend_quartile
+    <span class="hl-k">FROM</span> customer_sales
+)
+<span class="hl-k">SELECT</span> spend_quartile,
+       <span class="hl-f">COUNT</span>(*)                          <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">MIN</span>(lifetime_sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> min_spend,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">MAX</span>(lifetime_sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> max_spend,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(lifetime_sales), <span class="hl-n">0</span>)     <span class="hl-k">AS</span> total_spend,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">SUM</span>(lifetime_sales) / <span class="hl-f">SUM</span>(<span class="hl-f">SUM</span>(lifetime_sales)) <span class="hl-k">OVER</span> (), <span class="hl-n">1</span>) <span class="hl-k">AS</span> share_of_sales_pct
+<span class="hl-k">FROM</span> quartiles
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> spend_quartile
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> spend_quartile;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>spend_quartile</th>
+      <th>customers</th>
+      <th>min_spend</th>
+      <th>max_spend</th>
+      <th>total_spend</th>
+      <th>share_of_sales_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>197</td>
+      <td>140</td>
+      <td>88,830</td>
+      <td>7,935,534</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>196</td>
+      <td>89,102</td>
+      <td>200,899</td>
+      <td>28,192,185</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>196</td>
+      <td>201,378</td>
+      <td>373,460</td>
+      <td>54,558,902</td>
+      <td>27.1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>196</td>
+      <td>373,864</td>
+      <td>1,204,439</td>
+      <td>110,726,949</td>
+      <td>55.0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">4 rows × 6 columns</div></div>
+<p>Quartile 4 is the top 25% of customers by spend. The share column usually shows that a small quartile produces a large share of revenue. That is the Pareto pattern that marketing budgets should reflect.</p>
+<p>::::note Ties and buckets
+<code>NTILE</code> splits rows by position, so customers with identical spend can land in different buckets. If you need every customer with the same value to share one bucket, use <code>PERCENT_RANK()</code> or <code>CUME_DIST()</code> and cut at thresholds instead.
+::::</p>
+<h2 id="sql-17-percent-rank-and-cumulative-distribution">Percent rank and cumulative distribution</h2>
+<p><code>PERCENT_RANK()</code> gives each row a value from 0 to 1 showing its relative position. <code>CUME_DIST()</code> gives the share of rows at or below its value. Both answer "what share of customers spend less than this one?"</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> customer_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> lifetime_sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+)
+<span class="hl-k">SELECT</span> customer_id,
+       <span class="hl-f">ROUND</span>(lifetime_sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> lifetime_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENT_RANK</span>() <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales), <span class="hl-n">3</span>) <span class="hl-k">AS</span> percent_rank,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">CUME_DIST</span>()    <span class="hl-k">OVER</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales), <span class="hl-n">3</span>) <span class="hl-k">AS</span> cume_dist
+<span class="hl-k">FROM</span> customer_sales
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> lifetime_sales <span class="hl-k">DESC</span>
+<span class="hl-k">LIMIT</span> <span class="hl-n">10</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>lifetime_sales</th>
+      <th>percent_rank</th>
+      <th>cume_dist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C0741</td>
+      <td>1,204,439</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0092</td>
+      <td>1,140,540</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0306</td>
+      <td>1,126,867</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0781</td>
+      <td>1,123,527</td>
+      <td>1.00</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>C0443</td>
+      <td>1,113,058</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0720</td>
+      <td>1,100,213</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0493</td>
+      <td>1,004,382</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0028</td>
+      <td>1,000,189</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0630</td>
+      <td>1,000,175</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td>C0262</td>
+      <td>952,738</td>
+      <td>0.99</td>
+      <td>0.99</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">10 rows × 4 columns</div></div>
+<p>Use these measures when you want to say "this customer is in the top 5%" without forcing exact bucket sizes.</p>
+<h2 id="sql-17-spread-standard-deviation-and-the-interquartile-range">Spread: standard deviation and the interquartile range</h2>
+<p>The median says where the middle is; the spread says how much values vary. Two measures are common:</p>
+<ul>
+<li><strong>Standard deviation</strong> (<code>STDDEV_SAMP</code>) measures typical distance from the mean. It assumes a roughly symmetric shape.</li>
+<li><strong>Interquartile range</strong> (IQR = P75 minus P25) measures the spread of the middle half. It is robust to outliers.</li>
+</ul>
+<p>The next query computes the IQR for profit per line and counts lines outside the usual outlier fences (1.5 times the IQR beyond the quartiles).</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> q <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.25</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit) <span class="hl-k">AS</span> q1,
+           <span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.75</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit) <span class="hl-k">AS</span> q3
+    <span class="hl-k">FROM</span> order_items
+),
+fences <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> q1, q3, q3 - q1 <span class="hl-k">AS</span> iqr,
+           q1 - <span class="hl-n">1.5</span> * (q3 - q1) <span class="hl-k">AS</span> lower_fence,
+           q3 + <span class="hl-n">1.5</span> * (q3 - q1) <span class="hl-k">AS</span> upper_fence
+    <span class="hl-k">FROM</span> q
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">ROUND</span>(f.q1, <span class="hl-n">1</span>) <span class="hl-k">AS</span> q1, <span class="hl-f">ROUND</span>(f.q3, <span class="hl-n">1</span>) <span class="hl-k">AS</span> q3, <span class="hl-f">ROUND</span>(f.iqr, <span class="hl-n">1</span>) <span class="hl-k">AS</span> iqr,
+       <span class="hl-f">ROUND</span>(f.lower_fence, <span class="hl-n">1</span>) <span class="hl-k">AS</span> lower_fence, <span class="hl-f">ROUND</span>(f.upper_fence, <span class="hl-n">1</span>) <span class="hl-k">AS</span> upper_fence,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> i.profit &lt; f.lower_fence <span class="hl-k">OR</span> i.profit &gt; f.upper_fence) <span class="hl-k">AS</span> outlier_lines,
+       <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> all_lines
+<span class="hl-k">FROM</span> order_items i
+<span class="hl-k">CROSS</span> <span class="hl-k">JOIN</span> fences f
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> f.q1, f.q3, f.iqr, f.lower_fence, f.upper_fence;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>q1</th>
+      <th>q3</th>
+      <th>iqr</th>
+      <th>lower_fence</th>
+      <th>upper_fence</th>
+      <th>outlier_lines</th>
+      <th>all_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-17.9</td>
+      <td>2,270.1</td>
+      <td>2,288.1</td>
+      <td>-3,450.1</td>
+      <td>5,702.3</td>
+      <td>1361</td>
+      <td>6323</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 7 columns</div></div>
+<p>Outliers are not automatically errors. A very large profitable line may be a genuine bulk deal. Investigate each one before excluding it.</p>
+<h2 id="sql-17-skewness-check-in-plain-sql">Skewness check in plain SQL</h2>
+<p>A quick comparison of mean and median shows the direction of skew. If the mean is greater than the median, the distribution has a long right tail; if it is smaller, a long left tail. The query below reports that gap for sales per line by category.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> p.category,
+       <span class="hl-f">COUNT</span>(*)                                                         <span class="hl-k">AS</span> lines,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(i.sales), <span class="hl-n">0</span>)                                           <span class="hl-k">AS</span> mean_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.5</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> i.sales), <span class="hl-n">0</span>)  <span class="hl-k">AS</span> median_sales,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(i.sales) - <span class="hl-f">PERCENTILE_CONT</span>(<span class="hl-n">0.5</span>) WITHIN <span class="hl-k">GROUP</span> (<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> i.sales), <span class="hl-n">0</span>) <span class="hl-k">AS</span> mean_minus_median
+<span class="hl-k">FROM</span> order_items i
+<span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = i.product_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> p.category
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> mean_minus_median <span class="hl-k">DESC</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>lines</th>
+      <th>mean_sales</th>
+      <th>median_sales</th>
+      <th>mean_minus_median</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Technology</td>
+      <td>1892</td>
+      <td>82,684</td>
+      <td>56,789</td>
+      <td>25,895</td>
+    </tr>
+    <tr>
+      <td>Furniture</td>
+      <td>1917</td>
+      <td>18,175</td>
+      <td>12,970</td>
+      <td>5,205</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>2514</td>
+      <td>4,031</td>
+      <td>1,152</td>
+      <td>2,879</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 5 columns</div></div>
+<p>A large positive gap in a category means a few expensive lines dominate that category's average, which affects how you set targets for it.</p>
+<p>::::warn Averages of averages
+Never average a set of averages (for example, averaging each region's mean order value) and call it the overall mean unless the groups are the same size. Recompute from the underlying rows, or use the median.
+::::</p>
+<p>::::key What to remember
+- Report the median and percentiles beside the mean for money data, which is usually skewed.
+- <code>PERCENTILE_CONT</code> interpolates; <code>PERCENTILE_DISC</code> returns an actual observed value.
+- <code>NTILE</code> gives equal-sized groups by position; <code>PERCENT_RANK</code> and <code>CUME_DIST</code> give relative positions.
+- The IQR and its fences flag outliers without being distorted by them.
+- Investigate outliers before you remove them.
+::::</p>
+<div class="quiz" id="quiz-sql-17-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A category has a mean sale of 5,000 and a median of 1,200. What does this suggest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Most lines are above average</button><button type="button" class="opt" data-ok="1"><i>B</i>A few very large lines pull the mean up; the typical line is much smaller</button><button type="button" class="opt" data-ok="0"><i>C</i>The data has no outliers</button><button type="button" class="opt" data-ok="0"><i>D</i>The median is wrong</button></div><div class="qexp"><b>Answer: B.</b> A mean far above the median signals a long right tail.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which function returns the median?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>AVG(x)</button><button type="button" class="opt" data-ok="0"><i>B</i>MODE(x) over the whole table</button><button type="button" class="opt" data-ok="1"><i>C</i>PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY x)</button><button type="button" class="opt" data-ok="0"><i>D</i>COUNT(DISTINCT x)</button></div><div class="qexp"><b>Answer: C.</b> Fraction 0.5 is the 50th percentile, which is the median.</div></div><div class="qq"><p class="qtext"><b>3.</b> You need an actual observed order value as the 90th percentile. Which is better?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>PERCENTILE_CONT</button><button type="button" class="opt" data-ok="1"><i>B</i>PERCENTILE_DISC</button><button type="button" class="opt" data-ok="0"><i>C</i>AVG</button><button type="button" class="opt" data-ok="0"><i>D</i>STDDEV_SAMP</button></div><div class="qexp"><b>Answer: B.</b> PERCENTILE_DISC returns a value that exists in the data.</div></div><div class="qq"><p class="qtext"><b>4.</b> NTILE(4) over customers ordered by spend creates:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Four customers</button><button type="button" class="opt" data-ok="1"><i>B</i>Four groups of roughly equal size</button><button type="button" class="opt" data-ok="0"><i>C</i>Four groups of equal spend</button><button type="button" class="opt" data-ok="0"><i>D</i>The top four customers</button></div><div class="qexp"><b>Answer: B.</b> NTILE splits rows by position into equal-sized buckets.</div></div><div class="qq"><p class="qtext"><b>5.</b> The interquartile range is calculated as:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Maximum minus minimum</button><button type="button" class="opt" data-ok="0"><i>B</i>Mean minus median</button><button type="button" class="opt" data-ok="1"><i>C</i>P75 minus P25</button><button type="button" class="opt" data-ok="0"><i>D</i>Standard deviation times 2</button></div><div class="qexp"><b>Answer: C.</b> IQR spans the middle half of the data.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Concentration of revenue</b></div><p>Write one query that returns, for each product category, the median order line sales, the 90th percentile line sales, and the share of total sales coming from lines above the category's 90th percentile.</p><details class="sol"><summary>Show solution</summary><p>Hint: compute the 90th percentile per category with <code>PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY sales)</code> in a CTE grouped by category, join it back to <code>order_items</code> through <code>products</code>, then use <code>SUM(CASE WHEN sales &gt; p90 THEN sales END)</code> divided by the total sales for the category.</p></details></div></div></article><article class="lesson-art bk" id="L-sql-18"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 18</div><h1>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</h1>
+<p class="sum">Write the SQL behind the business questions that analysts are asked every week: cohort retention, conversion funnels, churn, customer lifetime value and retention rates, using the retail database.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build a cohort table and read a retention triangle</li><li>Measure a multi-step funnel with conditional aggregation</li><li>Define churn precisely and calculate a churn rate for a period</li><li>Estimate customer lifetime value from historical orders</li><li>Compute repeat-purchase and retention rates</li></ul></div></div><div class="content"><h2 id="sql-18-business-definitions-first">Business definitions first</h2>
+<p>Most SQL errors in business reporting come from unclear definitions, not from syntax. Before you query, write the definition in one sentence:</p>
+<ul>
+<li><strong>Active customer</strong>: placed at least one order in the period.</li>
+<li><strong>Churned customer</strong>: active in the previous period and not active in this one.</li>
+<li><strong>Cohort</strong>: customers grouped by the period of their first order.</li>
+<li><strong>Lifetime value (CLV)</strong>: total gross profit or sales a customer generates over their relationship with the business, in this lesson measured on the data we have.</li>
+</ul>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The retention review</b></div><p>The growth team wants to know whether customers acquired in 2023 still buy in 2024 and 2025, and whether the business is losing customers faster than it gains them. The answers need a cohort table, a churn rate and a lifetime value estimate, all built from the same orders table.</p></div>
+<h2 id="sql-18-cohort-retention">Cohort retention</h2>
+<p>A cohort table counts how many customers from each first-order year were still active in later years. Each row is a cohort; each column is the year.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> first_order <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">MIN</span>(<span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date)) <span class="hl-k">AS</span> cohort_year
+    <span class="hl-k">FROM</span> orders
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+),
+activity <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> o.customer_id, <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> o.order_date) <span class="hl-k">AS</span> active_year
+    <span class="hl-k">FROM</span> orders o
+)
+<span class="hl-k">SELECT</span> f.cohort_year,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> f.customer_id)                                                    <span class="hl-k">AS</span> cohort_size,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> a.active_year = f.cohort_year     <span class="hl-k">THEN</span> a.customer_id <span class="hl-k">END</span>) <span class="hl-k">AS</span> active_y0,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> a.active_year = f.cohort_year + <span class="hl-n">1</span> <span class="hl-k">THEN</span> a.customer_id <span class="hl-k">END</span>) <span class="hl-k">AS</span> active_y1,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> a.active_year = f.cohort_year + <span class="hl-n">2</span> <span class="hl-k">THEN</span> a.customer_id <span class="hl-k">END</span>) <span class="hl-k">AS</span> active_y2
+<span class="hl-k">FROM</span> first_order f
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> activity a <span class="hl-k">ON</span> a.customer_id = f.customer_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> f.cohort_year
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> f.cohort_year;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cohort_year</th>
+      <th>cohort_size</th>
+      <th>active_y0</th>
+      <th>active_y1</th>
+      <th>active_y2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>540</td>
+      <td>540</td>
+      <td>397</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>193</td>
+      <td>193</td>
+      <td>156</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>52</td>
+      <td>52</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 5 columns</div></div>
+<p>Read the table across a row to see decay: if <code>active_y1</code> is well below <code>cohort_size</code>, the first renewal is where customers leave. Convert each count to a percentage of <code>cohort_size</code> for the retention triangle that stakeholders expect.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> first_order <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">MIN</span>(<span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date)) <span class="hl-k">AS</span> cohort_year
+    <span class="hl-k">FROM</span> orders <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+),
+activity <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> customer_id, <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) <span class="hl-k">AS</span> active_year <span class="hl-k">FROM</span> orders
+),
+cohort <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> f.cohort_year, a.active_year - f.cohort_year <span class="hl-k">AS</span> years_since_first, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> a.customer_id) <span class="hl-k">AS</span> active
+    <span class="hl-k">FROM</span> first_order f
+    <span class="hl-k">JOIN</span> activity a <span class="hl-k">ON</span> a.customer_id = f.customer_id
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-n">1</span>, <span class="hl-n">2</span>
+),
+sizes <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> cohort_year, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> cohort_size <span class="hl-k">FROM</span> first_order <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> cohort_year
+)
+<span class="hl-k">SELECT</span> c.cohort_year, c.years_since_first,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * c.active / s.cohort_size, <span class="hl-n">1</span>) <span class="hl-k">AS</span> retention_pct
+<span class="hl-k">FROM</span> cohort c
+<span class="hl-k">JOIN</span> sizes s <span class="hl-k">ON</span> s.cohort_year = c.cohort_year
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> c.cohort_year, c.years_since_first;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cohort_year</th>
+      <th>years_since_first</th>
+      <th>retention_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>1</td>
+      <td>73.5</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>2</td>
+      <td>76.9</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>1</td>
+      <td>80.8</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>0</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 3 columns</div></div>
+<p>::::tip Use the right denominator
+Retention is always measured against the cohort's starting size, not against the previous year's active count. Dividing by the wrong base is one of the most common cohort mistakes.
+::::</p>
+<h2 id="sql-18-conversion-funnels">Conversion funnels</h2>
+<p>A funnel counts customers who reach each stage. The retail data has no page views, so this example builds a simple funnel from the order history: customers who placed any order, customers who placed a second order, and customers who placed a third order.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> per_customer <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id,
+           <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders_placed
+    <span class="hl-k">FROM</span> orders
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+)
+<span class="hl-k">SELECT</span>
+    <span class="hl-f">COUNT</span>(*)                                                    <span class="hl-k">AS</span> stage_1_customers,
+    <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">2</span>)                  <span class="hl-k">AS</span> stage_2_repeat_buyers,
+    <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">3</span>)                  <span class="hl-k">AS</span> stage_3_loyal_buyers,
+    <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">2</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> pct_stage_1_to_2,
+    <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">3</span>)
+          / <span class="hl-f">NULLIF</span>(<span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">2</span>), <span class="hl-n">0</span>), <span class="hl-n">1</span>)        <span class="hl-k">AS</span> pct_stage_2_to_3
+<span class="hl-k">FROM</span> per_customer;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>stage_1_customers</th>
+      <th>stage_2_repeat_buyers</th>
+      <th>stage_3_loyal_buyers</th>
+      <th>pct_stage_1_to_2</th>
+      <th>pct_stage_2_to_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>785</td>
+      <td>729</td>
+      <td>606</td>
+      <td>92.9</td>
+      <td>83.1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 5 columns</div></div>
+<p>Each stage is a subset of the one above it, so the counts can only fall. The conversion between stages is the figure to track: a small improvement from stage 1 to stage 2 usually matters more than any change further down.</p>
+<p>::::note Funnels need ordered events
+A real funnel uses ordered events with timestamps (visit, add to cart, checkout, purchase). The pattern above is the same, but each stage must also be restricted to happen before the next, for example with <code>MIN(event_time)</code> per stage per user.
+::::</p>
+<h2 id="sql-18-churn">Churn</h2>
+<p>Churn is easy to misreport, so define it in the query. The example below defines a customer as churned in a year if they were active the previous year and did not order in this year.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> active <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> customer_id, <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) <span class="hl-k">AS</span> y <span class="hl-k">FROM</span> orders
+),
+years <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) <span class="hl-k">AS</span> y <span class="hl-k">FROM</span> orders)
+<span class="hl-k">SELECT</span> p.y <span class="hl-k">AS</span> year,
+       <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> active_last_year,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> c.customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>) <span class="hl-k">AS</span> churned_this_year,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> c.customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> churn_rate_pct
+<span class="hl-k">FROM</span> active p
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> active c <span class="hl-k">ON</span> c.customer_id = p.customer_id <span class="hl-k">AND</span> c.y = p.y + <span class="hl-n">1</span>
+<span class="hl-k">WHERE</span> p.y + <span class="hl-n">1</span> <span class="hl-k">IN</span> (<span class="hl-k">SELECT</span> y <span class="hl-k">FROM</span> years)
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> p.y
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> p.y;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>active_last_year</th>
+      <th>churned_this_year</th>
+      <th>churn_rate_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>540</td>
+      <td>143</td>
+      <td>26.5</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>590</td>
+      <td>123</td>
+      <td>20.8</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 4 columns</div></div>
+<p>Read the output carefully: the rate is churn from one year to the next, measured on customers who were active in the earlier year. Customers who were new in the later year are not part of this calculation.</p>
+<p>::::warn Churn depends on the window
+A customer who bought in December 2023 and again in January 2025 is churned in 2024 under the yearly definition used above, then reactivated in 2025. Monthly, quarterly and yearly definitions give different churn rates. State the one you used on every chart.
+::::</p>
+<h2 id="sql-18-customer-lifetime-value">Customer lifetime value</h2>
+<p>A simple, honest estimate of customer lifetime value from history is the average gross profit per customer multiplied by the average number of orders per customer, with the period stated. Real CLV models add discounting and predicted future behaviour; this query gives the historical baseline.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> cust <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> o.customer_id,
+           <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id) <span class="hl-k">AS</span> orders,
+           <span class="hl-f">SUM</span>(i.sales)               <span class="hl-k">AS</span> revenue,
+           <span class="hl-f">SUM</span>(i.profit)              <span class="hl-k">AS</span> gross_profit
+    <span class="hl-k">FROM</span> orders o
+    <span class="hl-k">JOIN</span> order_items i <span class="hl-k">ON</span> i.order_id = o.order_id
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> o.customer_id
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                               <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(orders), <span class="hl-n">2</span>)                  <span class="hl-k">AS</span> avg_orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(revenue), <span class="hl-n">0</span>)                 <span class="hl-k">AS</span> avg_revenue,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(gross_profit), <span class="hl-n">0</span>)            <span class="hl-k">AS</span> avg_profit_to_date,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(gross_profit / <span class="hl-f">NULLIF</span>(orders, <span class="hl-n">0</span>)), <span class="hl-n">0</span>) <span class="hl-k">AS</span> avg_profit_per_order
+<span class="hl-k">FROM</span> cust;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers</th>
+      <th>avg_orders</th>
+      <th>avg_revenue</th>
+      <th>avg_profit_to_date</th>
+      <th>avg_profit_per_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>785</td>
+      <td>4.08</td>
+      <td>256,578</td>
+      <td>23,379</td>
+      <td>5,881</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 5 columns</div></div>
+<p>To find the value of a segment, repeat the query per segment (for example, by <code>segment</code> from the customers table). Compare segments on profit, not revenue: a segment with high revenue and thin margins may be worth less.</p>
+<h2 id="sql-18-retention-and-repeat-rate">Retention and repeat rate</h2>
+<p>The repeat rate is the share of customers with two or more orders. It is simple and widely reported, and it shows whether one-time buyers are the main pattern.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> counts <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders <span class="hl-k">FROM</span> orders <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                                                    <span class="hl-k">AS</span> customers,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders = <span class="hl-n">1</span>)                          <span class="hl-k">AS</span> one_time_buyers,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders &gt;= <span class="hl-n">2</span>)                         <span class="hl-k">AS</span> repeat_buyers,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders &gt;= <span class="hl-n">2</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> repeat_rate_pct
+<span class="hl-k">FROM</span> counts;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers</th>
+      <th>one_time_buyers</th>
+      <th>repeat_buyers</th>
+      <th>repeat_rate_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>785</td>
+      <td>56</td>
+      <td>729</td>
+      <td>92.9</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 4 columns</div></div>
+<p>::::key What to remember
+- Write the definition (active, churned, cohort, CLV) before writing SQL.
+- Cohorts group customers by first purchase; retention divides by the cohort's starting size.
+- Funnels are subsets that shrink at each stage; report the stage-to-stage conversion.
+- Churn depends on the window you choose, so state it.
+- CLV from history is a baseline; use profit, not revenue, to compare segments.
+::::</p>
+<div class="quiz" id="quiz-sql-18-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In a cohort table, a customer's cohort is based on:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Their most recent order</button><button type="button" class="opt" data-ok="1"><i>B</i>Their first order</button><button type="button" class="opt" data-ok="0"><i>C</i>Their segment</button><button type="button" class="opt" data-ok="0"><i>D</i>The product they bought most</button></div><div class="qexp"><b>Answer: B.</b> A cohort groups customers by the period of their first activity.</div></div><div class="qq"><p class="qtext"><b>2.</b> Retention for year 1 should be divided by:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The previous year's active count</button><button type="button" class="opt" data-ok="0"><i>B</i>Total revenue</button><button type="button" class="opt" data-ok="1"><i>C</i>The cohort's starting size</button><button type="button" class="opt" data-ok="0"><i>D</i>The number of orders</button></div><div class="qexp"><b>Answer: C.</b> Retention is measured against the group you started with.</div></div><div class="qq"><p class="qtext"><b>3.</b> A funnel's stage 2 count is larger than stage 1. What is wrong?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing; funnels can grow</button><button type="button" class="opt" data-ok="1"><i>B</i>Stage 2 is a subset of stage 1, so the definition or the join is wrong</button><button type="button" class="opt" data-ok="0"><i>C</i>Stage 1 should be ignored</button><button type="button" class="opt" data-ok="0"><i>D</i>Stage 2 must use revenue</button></div><div class="qexp"><b>Answer: B.</b> Each stage must be a subset of the stage before it.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why is comparing segments on profit safer than on revenue?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Profit is always larger</button><button type="button" class="opt" data-ok="1"><i>B</i>Revenue can be high while margins are thin, so profit shows which segment is worth more</button><button type="button" class="opt" data-ok="0"><i>C</i>Revenue cannot be queried</button><button type="button" class="opt" data-ok="0"><i>D</i>Profit includes discounts</button></div><div class="qexp"><b>Answer: B.</b> Profit shows what the business keeps.</div></div><div class="qq"><p class="qtext"><b>5.</b> The repeat rate counts customers with:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>One order</button><button type="button" class="opt" data-ok="1"><i>B</i>Two or more orders</button><button type="button" class="opt" data-ok="0"><i>C</i>No orders</button><button type="button" class="opt" data-ok="0"><i>D</i>The highest spend</button></div><div class="qexp"><b>Answer: B.</b> Repeat buyers placed at least two orders.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Win-back list</b></div><p>Write a query that lists customers who were active in 2024 but placed no order in 2025. For each, show their segment, their 2024 gross profit and their last order date. Order by 2024 profit, highest first, and return the top 20.</p><details class="sol"><summary>Show solution</summary><p>Hint: find 2024 customers and 2025 customers in two CTEs, keep 2024 customers with <code>LEFT JOIN</code> to 2025 and <code>WHERE</code> the 2025 side is <code>NULL</code>. Join <code>customers</code> for the segment and aggregate <code>order_items</code> for profit.</p></details></div></div></article><article class="lesson-art bk" id="L-sql-19"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 19</div><h1>Incremental Loading and Data-Quality SQL</h1>
+<p class="sum">Load only what has changed, using watermarks, MERGE and upserts, and protect the warehouse with reusable data-quality checks for nulls, duplicates, orphans, ranges and freshness.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain full versus incremental loads and when each is appropriate</li><li>Use a watermark (high-water mark) to pick up only new and changed rows</li><li>Write an upsert with MERGE (or INSERT ... ON CONFLICT) that does not create duplicates</li><li>Run a standard set of data-quality checks and report failures with counts</li></ul></div></div><div class="content"><h2 id="sql-19-why-incremental-loads-matter">Why incremental loads matter</h2>
+<p>A full reload copies every row from the source each night. That is fine for ten thousand rows and painful for ten million. An <strong>incremental load</strong> copies only rows that are new or changed since the last run. It is faster, cheaper, and easier to recover from a failed run, provided it is designed correctly.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The nightly sales feed</b></div><p>The order system writes new orders and corrections all day. The warehouse must show yesterday's sales by 8 a.m. without reloading three years of history every night, and without double-counting the orders that were corrected. The engineer's job is to design the load and to prove the numbers match.</p></div>
+<h2 id="sql-19-the-watermark">The watermark</h2>
+<p>A <strong>watermark</strong> is the highest value of a column that the last successful load reached, most often a timestamp such as <code>updated_at</code>. The next run asks for rows strictly greater than the watermark.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Pretend the warehouse table already holds orders up to 30 November 2025</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> fact_orders <span class="hl-k">AS</span>
+<span class="hl-k">SELECT</span> row_id, order_id, order_date, ship_date, ship_mode, customer_id, sales, profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_date &lt;= <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-11-30&#x27;</span>;
+
+<span class="hl-c">-- Watermark: the latest order date already loaded</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(order_date) <span class="hl-k">AS</span> watermark <span class="hl-k">FROM</span> fact_orders;
+
+<span class="hl-c">-- The incremental batch: only rows after the watermark</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> new_rows, <span class="hl-f">MIN</span>(order_date) <span class="hl-k">AS</span> first_new, <span class="hl-f">MAX</span>(order_date) <span class="hl-k">AS</span> last_new
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_date &gt; (<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(order_date) <span class="hl-k">FROM</span> fact_orders);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="rs-n">Result set 1</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>watermark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-11-30</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div><div class="rs-n">Result set 2</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>new_rows</th>
+      <th>first_new</th>
+      <th>last_new</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>262</td>
+      <td>2025-12-01</td>
+      <td>2025-12-31</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 3 columns</div></div>
+<p>The watermark is only as reliable as the column behind it. Two common traps:</p>
+<ul>
+<li><strong>Late-arriving rows</strong>: a row dated yesterday may arrive today. A watermark on the event date misses it; a watermark on the arrival or <code>updated_at</code> timestamp catches it.</li>
+<li><strong>Corrected rows</strong>: an updated order keeps its old date, so a date-based watermark never sees the change. Use <code>updated_at</code>, or re-load a safety window (for example, the last seven days) and let the upsert handle repeats.</li>
+</ul>
+<p>::::tip A safety window
+Many teams reload the last few days on every run and rely on an idempotent upsert. The extra rows cost little, and the design survives late corrections without special logic.
+::::</p>
+<h2 id="sql-19-upserts-insert-new-rows-and-update-changed-ones">Upserts: insert new rows and update changed ones</h2>
+<p>An <strong>upsert</strong> inserts a row when its key is new and updates it when the key exists. Without it, a re-run creates duplicates. Standard SQL uses <code>MERGE</code>; PostgreSQL and DuckDB offer <code>INSERT ... ON CONFLICT</code>. The example below uses <code>INSERT ... ON CONFLICT</code> on the line-level key, which DuckDB supports.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Target table keyed on the order line</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> fact_lines (
+    row_id     <span class="hl-k">BIGINT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>,
+    order_id   <span class="hl-k">VARCHAR</span>,
+    product_id <span class="hl-k">VARCHAR</span>,
+    sales      DOUBLE,
+    quantity   <span class="hl-k">BIGINT</span>,
+    discount   DOUBLE,
+    profit     DOUBLE
+);
+
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> fact_lines
+<span class="hl-k">SELECT</span> row_id, order_id, product_id, sales, quantity, discount, profit
+<span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> row_id &lt;= <span class="hl-n">100</span>;
+
+<span class="hl-c">-- Incoming batch: 50 lines, some of them corrected (same row_id, changed profit)</span>
+<span class="hl-k">CREATE</span> TEMP <span class="hl-k">TABLE</span> incoming <span class="hl-k">AS</span>
+<span class="hl-k">SELECT</span> row_id, order_id, product_id, sales, quantity, discount,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> row_id &lt;= <span class="hl-n">10</span> <span class="hl-k">THEN</span> profit + <span class="hl-n">100</span> <span class="hl-k">ELSE</span> profit <span class="hl-k">END</span> <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> row_id <span class="hl-k">BETWEEN</span> <span class="hl-n">60</span> <span class="hl-k">AND</span> <span class="hl-n">110</span>;
+
+<span class="hl-c">-- Upsert: new keys are inserted, existing keys are updated</span>
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> fact_lines
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> incoming
+<span class="hl-k">ON</span> CONFLICT (row_id) DO <span class="hl-k">UPDATE</span> <span class="hl-k">SET</span>
+    sales = excluded.sales,
+    quantity = excluded.quantity,
+    discount = excluded.discount,
+    profit = excluded.profit;
+
+<span class="hl-c">-- Check: no duplicate keys, and the expected total row count</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> total_rows, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> row_id) <span class="hl-k">AS</span> distinct_keys <span class="hl-k">FROM</span> fact_lines;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(100 rows affected)
+Commands completed successfully.
+(51 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>total_rows</th>
+      <th>distinct_keys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>110</td>
+      <td>110</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<p>After the run, <code>total_rows</code> equals <code>distinct_keys</code>: the rows that overlapped were updated, not copied. Running the same batch twice produces the same result, which is the property called <strong>idempotency</strong>. Idempotent loads can be re-run safely after a failure.</p>
+<p>::::warn Plain INSERT is not an incremental load
+Inserting the batch without a key check doubles the overlapping rows. If a job failed halfway and was restarted, the totals would be wrong and nobody would see it without a check.
+::::</p>
+<h2 id="sql-19-data-quality-checks">Data-quality checks</h2>
+<p>Good pipelines run checks after each load and stop or alert when a check fails. The five checks below cover most cases. Each query returns the number of failing rows, so zero means pass.</p>
+<h3 id="sql-19-1-nulls-in-required-columns">1. Nulls in required columns</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> failing_rows
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> order_date <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>failing_rows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="sql-19-2-duplicate-keys">2. Duplicate keys</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> duplicated_keys
+<span class="hl-k">FROM</span> (
+    <span class="hl-k">SELECT</span> row_id <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> row_id <span class="hl-k">HAVING</span> <span class="hl-f">COUNT</span>(*) &gt; <span class="hl-n">1</span>
+) d;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>duplicated_keys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="sql-19-3-orphans-rows-whose-parent-does-not-exist">3. Orphans: rows whose parent does not exist</h3>
+<p>Here every order line must have a product in the product table. An orphan means the product was deleted in the source, or the join key was typed incorrectly.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> orphan_lines
+<span class="hl-k">FROM</span> superstore s
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = s.product_id
+<span class="hl-k">WHERE</span> p.product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>orphan_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="sql-19-4-range-checks">4. Range checks</h3>
+<p>Quantities and discounts have business limits. A discount above 100% or a negative quantity is almost always a source error.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span>
+    <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> quantity &lt;= <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>)           <span class="hl-k">AS</span> non_positive_quantity,
+    <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> discount &lt; <span class="hl-n">0</span> <span class="hl-k">OR</span> discount &gt; <span class="hl-n">1</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> discount_out_of_range,
+    <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> sales &lt; <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>)                <span class="hl-k">AS</span> negative_sales
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>non_positive_quantity</th>
+      <th>discount_out_of_range</th>
+      <th>negative_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 3 columns</div></div>
+<h3 id="sql-19-5-freshness">5. Freshness</h3>
+<p>A load that succeeds but brings no recent data is a failure too. This check reports how many days old the newest order is.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(order_date) <span class="hl-k">AS</span> latest_order,
+       <span class="hl-f">DATE_DIFF</span>(<span class="hl-s">&#x27;day&#x27;</span>, <span class="hl-f">MAX</span>(order_date), <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-12-31&#x27;</span>) <span class="hl-k">AS</span> days_behind_reference
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>latest_order</th>
+      <th>days_behind_reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-12-31</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<p>The reference date stands in for "today" so that the example is repeatable. In production, use <code>CURRENT_DATE</code>.</p>
+<h2 id="sql-19-a-reusable-check-table">A reusable check table</h2>
+<p>Store results so that trends can be watched over time, not only at the moment of a failure.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> <span class="hl-k">IF</span> <span class="hl-k">NOT</span> <span class="hl-k">EXISTS</span> dq_results (
+    check_name <span class="hl-k">VARCHAR</span>,
+    failing_rows <span class="hl-k">BIGINT</span>,
+    checked_on <span class="hl-k">DATE</span>
+);
+
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> dq_results
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;null_required_columns&#x27;</span>, <span class="hl-f">COUNT</span>(*), <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-12-31&#x27;</span>
+<span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> order_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> order_date <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;orphan_product_lines&#x27;</span>, <span class="hl-f">COUNT</span>(*), <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-12-31&#x27;</span>
+<span class="hl-k">FROM</span> superstore s <span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = s.product_id <span class="hl-k">WHERE</span> p.product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;
+
+<span class="hl-k">SELECT</span> check_name, failing_rows,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> failing_rows = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;PASS&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;FAIL&#x27;</span> <span class="hl-k">END</span> <span class="hl-k">AS</span> status
+<span class="hl-k">FROM</span> dq_results;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(2 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>check_name</th>
+      <th>failing_rows</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>null_required_columns</td>
+      <td>0</td>
+      <td>PASS</td>
+    </tr>
+    <tr>
+      <td>orphan_product_lines</td>
+      <td>0</td>
+      <td>PASS</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 3 columns</div></div>
+<p>::::key Rules of thumb
+- Use a watermark on an arrival or update timestamp, and a safety window for late data.
+- Upsert on a stable key so that re-running a load does not create duplicates.
+- Check nulls, duplicates, orphans, ranges and freshness after every load, and record the results.
+- A check that returns a count is easy to alert on; a check that returns rows is easy to investigate.
+::::</p>
+<div class="quiz" id="quiz-sql-19-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is a watermark in an incremental load?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The total row count</button><button type="button" class="opt" data-ok="1"><i>B</i>The highest value of a column that the last successful load reached</button><button type="button" class="opt" data-ok="0"><i>C</i>The name of the source system</button><button type="button" class="opt" data-ok="0"><i>D</i>A password for the warehouse</button></div><div class="qexp"><b>Answer: B.</b> The next run loads rows beyond the watermark.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why is a date-based watermark risky?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Dates cannot be compared</button><button type="button" class="opt" data-ok="1"><i>B</i>Late-arriving or corrected rows may keep an old date and be missed</button><button type="button" class="opt" data-ok="0"><i>C</i>Dates are always duplicated</button><button type="button" class="opt" data-ok="0"><i>D</i>It is slower than a full load</button></div><div class="qexp"><b>Answer: B.</b> Updates to old rows do not move the event date forward.</div></div><div class="qq"><p class="qtext"><b>3.</b> What makes a load idempotent?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It runs only once</button><button type="button" class="opt" data-ok="1"><i>B</i>Running it again with the same input gives the same result</button><button type="button" class="opt" data-ok="0"><i>C</i>It deletes the target first</button><button type="button" class="opt" data-ok="0"><i>D</i>It uses no keys</button></div><div class="qexp"><b>Answer: B.</b> Idempotent loads are safe to repeat after a failure.</div></div><div class="qq"><p class="qtext"><b>4.</b> A data-quality check that returns 0 usually means:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The check failed</button><button type="button" class="opt" data-ok="1"><i>B</i>The check passed, because no rows broke the rule</button><button type="button" class="opt" data-ok="0"><i>C</i>The table is empty</button><button type="button" class="opt" data-ok="0"><i>D</i>The query has a syntax error</button></div><div class="qexp"><b>Answer: B.</b> Checks in this lesson count failing rows, so zero is a pass.</div></div><div class="qq"><p class="qtext"><b>5.</b> An orphan row is one that:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Has no date</button><button type="button" class="opt" data-ok="1"><i>B</i>Refers to a parent key that does not exist in the parent table</button><button type="button" class="opt" data-ok="0"><i>C</i>Is a duplicate</button><button type="button" class="opt" data-ok="0"><i>D</i>Has a negative value</button></div><div class="qexp"><b>Answer: B.</b> Orphans break joins and silently drop rows from reports.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Freshness and volume alerts</b></div><p>Write a single query over <code>superstore</code> that returns one row per month of 2025 with the number of order lines and the sales total. Add a column <code>alert</code> that shows 'LOW VOLUME' when the month's line count is less than 80% of the average monthly line count for 2025, otherwise 'OK'.</p><details class="sol"><summary>Show solution</summary><p>Hint: use a CTE with <code>DATE_TRUNC('month', order_date)</code> grouped by month, then a window <code>AVG(lines) OVER ()</code> to get the average, and a <code>CASE</code> expression comparing each month to <code>0.8 * average</code>.</p></details></div></div></article><article class="lesson-art bk" id="L-sql-20"><div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 20</div><h1>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</h1>
+<p class="sum">Learn the same analysis on the four platforms most job postings name, see where their SQL dialects differ (dates, string functions, limits, top-N, identifiers), and know which platform concept maps to which.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Name the main SQL platforms and what each is typically used for</li><li>Translate common operations (top N, dates, string concatenation, casting) between dialects</li><li>Explain the platform concepts of warehouse, dataset or schema and compute cost</li><li>Write portable SQL and know which parts to rewrite when moving platforms</li></ul></div></div><div class="content"><h2 id="sql-20-one-language-four-dialects">One language, four dialects</h2>
+<p>SQL is a standard, but every platform adds its own functions, limits and naming rules. An analyst who knows the logic can move between platforms quickly; the work is in translating the syntax. The queries in this course run in DuckDB, which is close to PostgreSQL. The examples below show the same question written for each platform.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Platform</th>
+<th>Typical use</th>
+<th>Where the company runs it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL Server (T-SQL)</td>
+<td>Operational databases, enterprise reporting</td>
+<td>On-premises, or Azure SQL</td>
+</tr>
+<tr>
+<td>BigQuery</td>
+<td>Serverless analytics on very large data</td>
+<td>Google Cloud</td>
+</tr>
+<tr>
+<td>Snowflake</td>
+<td>Cloud data warehouse, shared data</td>
+<td>Snowflake on AWS, Azure or Google Cloud</td>
+</tr>
+<tr>
+<td>Databricks SQL</td>
+<td>SQL on a lakehouse (Delta tables)</td>
+<td>Databricks on the major clouds</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>One question, four platforms</b></div><p>A product manager asks for the top five cities by profit in 2025. The analyst writes the same logic on each platform, because the company's warehouse, reporting tool and data team may each use a different one.</p></div>
+<h2 id="sql-20-top-n-rows">Top N rows</h2>
+<p>The question "top five cities by profit" is written differently on each platform.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- SQL Server (T-SQL)</span>
+<span class="hl-k">SELECT</span> <span class="hl-k">TOP</span> <span class="hl-n">5</span> city, <span class="hl-f">SUM</span>(profit) <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">DESC</span>;
+
+<span class="hl-c">-- BigQuery</span>
+<span class="hl-k">SELECT</span> city, <span class="hl-f">SUM</span>(profit) <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> `project.dataset.superstore`
+<span class="hl-k">WHERE</span> <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) = <span class="hl-n">2025</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">DESC</span>
+<span class="hl-k">LIMIT</span> <span class="hl-n">5</span>;
+
+<span class="hl-c">-- Snowflake</span>
+<span class="hl-k">SELECT</span> city, <span class="hl-f">SUM</span>(profit) <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">DESC</span>
+<span class="hl-k">LIMIT</span> <span class="hl-n">5</span>;
+
+<span class="hl-c">-- Databricks SQL (Spark SQL)</span>
+<span class="hl-k">SELECT</span> city, <span class="hl-f">SUM</span>(profit) <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> <span class="hl-f">YEAR</span>(order_date) = <span class="hl-n">2025</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">DESC</span>
+<span class="hl-k">LIMIT</span> <span class="hl-n">5</span>;</code></pre></div>
+<p>The logic is identical. The differences are <code>TOP</code> against <code>LIMIT</code>, and the way each platform names tables and the date parts it accepts.</p>
+<p>The same query runs in DuckDB, which is the engine used for the lessons in this course:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> city, <span class="hl-f">ROUND</span>(<span class="hl-f">SUM</span>(profit), <span class="hl-n">0</span>) <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) = <span class="hl-n">2025</span>
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> city
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> profit <span class="hl-k">DESC</span>
+<span class="hl-k">LIMIT</span> <span class="hl-n">5</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>city</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pune</td>
+      <td>912,526</td>
+    </tr>
+    <tr>
+      <td>Kolkata</td>
+      <td>739,621</td>
+    </tr>
+    <tr>
+      <td>Indore</td>
+      <td>527,368</td>
+    </tr>
+    <tr>
+      <td>Bengaluru</td>
+      <td>527,164</td>
+    </tr>
+    <tr>
+      <td>Chennai</td>
+      <td>504,760</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">5 rows × 2 columns</div></div>
+<h2 id="sql-20-dates">Dates</h2>
+<p>Date handling is the most common source of dialect errors.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Task</th>
+<th>SQL Server</th>
+<th>BigQuery</th>
+<th>Snowflake</th>
+<th>Databricks SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year of a date</td>
+<td><code>YEAR(d)</code></td>
+<td><code>EXTRACT(YEAR FROM d)</code></td>
+<td><code>YEAR(d)</code></td>
+<td><code>YEAR(d)</code></td>
+</tr>
+<tr>
+<td>Start of month</td>
+<td><code>DATEFROMPARTS(YEAR(d), MONTH(d), 1)</code></td>
+<td><code>DATE_TRUNC(d, MONTH)</code></td>
+<td><code>DATE_TRUNC('month', d)</code></td>
+<td><code>DATE_TRUNC('MONTH', d)</code></td>
+</tr>
+<tr>
+<td>Add 30 days</td>
+<td><code>DATEADD(day, 30, d)</code></td>
+<td><code>DATE_ADD(d, INTERVAL 30 DAY)</code></td>
+<td><code>DATEADD(day, 30, d)</code></td>
+<td><code>DATE_ADD(d, 30)</code></td>
+</tr>
+<tr>
+<td>Days between</td>
+<td><code>DATEDIFF(day, a, b)</code></td>
+<td><code>DATE_DIFF(b, a, DAY)</code></td>
+<td><code>DATEDIFF(day, a, b)</code></td>
+<td><code>DATEDIFF(day, a, b)</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Notice that <code>DATEDIFF</code> takes its arguments in a different order on BigQuery: <code>DATE_DIFF(later, earlier, DAY)</code>. Argument order is a frequent source of wrong results that pass without error.</p>
+<h2 id="sql-20-strings-and-casting">Strings and casting</h2>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- SQL Server: concatenation with +, and NULL makes the result NULL</span>
+<span class="hl-k">SELECT</span> customer_name + <span class="hl-s">&#x27; (&#x27;</span> + city + <span class="hl-s">&#x27;)&#x27;</span> <span class="hl-k">FROM</span> customers;
+
+<span class="hl-c">-- Snowflake, BigQuery and Databricks: || or CONCAT</span>
+<span class="hl-k">SELECT</span> customer_name || <span class="hl-s">&#x27; (&#x27;</span> || city || <span class="hl-s">&#x27;)&#x27;</span> <span class="hl-k">FROM</span> customers;
+<span class="hl-k">SELECT</span> <span class="hl-f">CONCAT</span>(customer_name, <span class="hl-s">&#x27; (&#x27;</span>, city, <span class="hl-s">&#x27;)&#x27;</span>) <span class="hl-k">FROM</span> customers;
+
+<span class="hl-c">-- Casting</span>
+<span class="hl-c">-- SQL Server and Snowflake: CAST(x AS INT)</span>
+<span class="hl-c">-- BigQuery: CAST(x AS INT64)</span>
+<span class="hl-c">-- Databricks: CAST(x AS INT)</span></code></pre></div>
+<p>Concatenation with <code>+</code> in SQL Server returns NULL if any part is NULL, while <code>CONCAT</code> treats NULL as an empty string. Check your platform's behaviour before trusting names with missing middle parts.</p>
+<h2 id="sql-20-table-names-and-identifiers">Table names and identifiers</h2>
+<ul>
+<li><strong>SQL Server</strong>: <code>database.schema.table</code>, with square brackets for unusual names: <code>[Order Date]</code>.</li>
+<li><strong>BigQuery</strong>: <code>project.dataset.table</code>, with backticks around the full name.</li>
+<li><strong>Snowflake</strong>: <code>database.schema.table</code>. Unquoted names are converted to upper case, so <code>order_date</code> and <code>ORDER_DATE</code> are the same column unless quoted.</li>
+<li><strong>Databricks</strong>: <code>catalog.schema.table</code> in Unity Catalog, or <code>schema.table</code> in older workspaces.</li>
+</ul>
+<p>::::warn Case sensitivity
+Snowflake folds unquoted names to upper case. A quoted name such as <code>"Order_Date"</code> is different from <code>order_date</code>. Choose one naming convention and stick to it.
+::::</p>
+<h2 id="sql-20-platform-concepts-you-will-hear-about">Platform concepts you will hear about</h2>
+<ul>
+<li><strong>Warehouse (Snowflake)</strong>: a compute cluster that you size and pause. Cost depends on how long it runs, so auto-suspend matters.</li>
+<li><strong>Slots and bytes billed (BigQuery)</strong>: you pay for the bytes a query scans, so selecting only the columns you need reduces cost.</li>
+<li><strong>Delta tables (Databricks)</strong>: tables stored as Parquet files with a transaction log. They support <code>MERGE</code>, time travel and schema evolution, covered in the Power BI and Fabric lessons.</li>
+<li><strong>Clusters and SQL warehouses (Databricks)</strong>: compute attached to notebooks or SQL endpoints.</li>
+<li><strong>Indexes and statistics (SQL Server)</strong>: a clustered index orders the table on disk. Columnar warehouses such as Snowflake and BigQuery handle scans differently and rely less on manual indexes.</li>
+</ul>
+<h2 id="sql-20-writing-portable-sql">Writing portable SQL</h2>
+<p>When the company may move platforms, keep the logic in a layer that is easy to translate:</p>
+<ol>
+<li>Use ANSI functions where they exist: <code>CASE</code>, <code>COALESCE</code>, <code>CAST</code>, <code>SUM OVER</code>, <code>ROW_NUMBER</code>, <code>DATE_TRUNC</code> (with care about its argument order on each platform).</li>
+<li>Keep platform-specific date and string code in views or macros, not scattered through reports.</li>
+<li>Use the same test queries on every platform, such as row counts and totals per month, to check a migration.</li>
+<li>Note each platform's limits, such as the maximum number of columns in a select or the size of a <code>GROUP BY</code>.</li>
+</ol>
+<p>::::tip Test the translation with numbers
+A moved query is correct only when it returns the same totals. Compare the old and new results by month and by category, not just by the grand total, because two errors can cancel out in the total.
+::::</p>
+<p>::::key What to remember
+- The logic of SQL transfers; the dialect (top N, dates, strings, identifiers) does not.
+- Check argument order for date functions on every platform.
+- Snowflake folds unquoted names to upper case; BigQuery uses backticks and three-part names.
+- Compute cost is a platform concept: warehouses (Snowflake), bytes scanned (BigQuery) and clusters (Databricks).
+- Verify any migration by comparing results by period and category.
+::::</p>
+<div class="quiz" id="quiz-sql-20-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which clause returns the first five rows in SQL Server?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>LIMIT 5</button><button type="button" class="opt" data-ok="1"><i>B</i>TOP 5</button><button type="button" class="opt" data-ok="0"><i>C</i>FETCH FIRST 5 ROWS ONLY on every platform</button><button type="button" class="opt" data-ok="0"><i>D</i>ROWNUM &lt; 5 only</button></div><div class="qexp"><b>Answer: B.</b> SQL Server uses TOP; LIMIT is used by BigQuery, Snowflake and Databricks.</div></div><div class="qq"><p class="qtext"><b>2.</b> BigQuery's DATE_DIFF takes its arguments in which order?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Earlier date then later date</button><button type="button" class="opt" data-ok="1"><i>B</i>Later date then earlier date, then the unit</button><button type="button" class="opt" data-ok="0"><i>C</i>The unit first</button><button type="button" class="opt" data-ok="0"><i>D</i>Dates are not allowed</button></div><div class="qexp"><b>Answer: B.</b> DATE_DIFF(later, earlier, DAY) gives a positive result for a later first date.</div></div><div class="qq"><p class="qtext"><b>3.</b> In SQL Server, <code>'Asha' + ' ' + NULL</code> returns:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>'Asha '</button><button type="button" class="opt" data-ok="1"><i>B</i>NULL</button><button type="button" class="opt" data-ok="0"><i>C</i>'Asha'</button><button type="button" class="opt" data-ok="0"><i>D</i>An error only</button></div><div class="qexp"><b>Answer: B.</b> SQL Server's + operator returns NULL when any part is NULL.</div></div><div class="qq"><p class="qtext"><b>4.</b> Snowflake folds unquoted identifiers to:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Lower case</button><button type="button" class="opt" data-ok="1"><i>B</i>Upper case</button><button type="button" class="opt" data-ok="0"><i>C</i>Title case</button><button type="button" class="opt" data-ok="0"><i>D</i>Their original case</button></div><div class="qexp"><b>Answer: B.</b> <code>order_date</code> and <code>ORDER_DATE</code> are the same column unless quoted.</div></div><div class="qq"><p class="qtext"><b>5.</b> On BigQuery, the most direct way to reduce cost is to:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Add more indexes</button><button type="button" class="opt" data-ok="1"><i>B</i>Select only the columns the query needs</button><button type="button" class="opt" data-ok="0"><i>C</i>Turn off caching</button><button type="button" class="opt" data-ok="0"><i>D</i>Use more warehouses</button></div><div class="qexp"><b>Answer: B.</b> BigQuery bills by the bytes scanned.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Translate a query</b></div><p>Rewrite this T-SQL for Snowflake and for BigQuery, keeping the same result:
+<code>SELECT TOP 10 customer_id, DATEDIFF(day, MIN(order_date), MAX(order_date)) AS days_active FROM orders GROUP BY customer_id ORDER BY days_active DESC;</code></p><details class="sol"><summary>Show solution</summary><p>Snowflake: the same <code>DATEDIFF(day, ...)</code> works, with <code>LIMIT 10</code> replacing <code>TOP 10</code>. BigQuery: <code>DATE_DIFF(MAX(order_date), MIN(order_date), DAY)</code> (later date first), <code>LIMIT 10</code> at the end, and the table written as <code>project.dataset.orders</code>.</p></details></div></div></article></body></html>

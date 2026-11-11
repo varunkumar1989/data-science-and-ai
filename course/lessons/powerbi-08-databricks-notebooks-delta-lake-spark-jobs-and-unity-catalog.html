@@ -1,0 +1,141 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Databricks: Notebooks, Delta Lake, Spark Jobs and Unity Catalog · Power BI Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Work on a lakehouse with Databricks. Write notebooks in SQL and PySpark, store tables as Delta Lake with merges and time travel, run Spark jobs on a schedule, and govern data with Unity Catalog so that reports read trusted tables."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-powerbi"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-powerbi">Power BI</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E2A400">Power BI</div>
+<ol class="side-l"><li class=""><a href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html" data-lid="powerbi-01"><span>01</span>Getting Started with Power BI &amp; Your First HR Report</a></li><li class=""><a href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html" data-lid="powerbi-02"><span>02</span>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</a></li><li class=""><a href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html" data-lid="powerbi-03"><span>03</span>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</a></li><li class=""><a href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html" data-lid="powerbi-04"><span>04</span>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</a></li><li class=""><a href="powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html" data-lid="powerbi-05"><span>05</span>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</a></li><li class=""><a href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html" data-lid="powerbi-06"><span>06</span>Power BI Service, Connectivity Modes, Security &amp; Capstone</a></li><li class=""><a href="powerbi-07-microsoft-fabric-lakehouse-warehouse-dataflows-and-semantic.html" data-lid="powerbi-07"><span>07</span>Microsoft Fabric: Lakehouse, Warehouse, Dataflows and Semantic Models</a></li><li class="on"><a href="powerbi-08-databricks-notebooks-delta-lake-spark-jobs-and-unity-catalog.html" data-lid="powerbi-08"><span>08</span>Databricks: Notebooks, Delta Lake, Spark Jobs and Unity Catalog</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="powerbi-08">
+<div class="lhead" style="--tc:#E2A400"><div class="kick">Power BI · Lesson 8 of 8</div><h1>Databricks: Notebooks, Delta Lake, Spark Jobs and Unity Catalog</h1>
+<p class="sum">Work on a lakehouse with Databricks. Write notebooks in SQL and PySpark, store tables as Delta Lake with merges and time travel, run Spark jobs on a schedule, and govern data with Unity Catalog so that reports read trusted tables.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ Databricks 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/powerbi/Power_BI_08_Databricks_Notebooks_Delta_Lake_Spark_Jobs_and_Unity_Catalog.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="powerbi-08">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the Databricks workspace, clusters and notebooks</li><li>Write a Delta table with SQL and PySpark, and explain why Delta adds reliability</li><li>Use MERGE, time travel and schema checks on Delta tables</li><li>Schedule a Spark job and understand how it differs from a local pandas script</li><li>Organise data with Unity Catalog catalogs, schemas and permissions</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/adventure_cycles/fact_sales.csv" download>adventure_cycles/fact_sales.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_customer.csv" download>adventure_cycles/dim_customer.csv</a></div></div></div>
+<div class="content"><h2 id="what-databricks-adds">What Databricks adds</h2>
+<p><strong>Databricks</strong> is a data platform built on Apache Spark. Spark processes data in parallel across a cluster of machines, so it handles data too large for one computer. Databricks adds managed clusters, notebooks, scheduled jobs and a governance layer called Unity Catalog. Its storage format, <strong>Delta Lake</strong>, adds reliable updates and history to files stored in cloud object storage.</p>
+<p>For a Power BI analyst the practical point is simple: many companies keep their reporting tables in Databricks, and reports connect to them through the SQL warehouse endpoint or through Power BI's Databricks connector.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Millions of rows, one daily refresh</b></div><p>The sales file has grown to 80 million rows and no longer fits in a Power BI import. The data team keeps the detail in Delta tables in Databricks and builds a daily summary table with a scheduled Spark job. The report reads the summary, and the detail is queried only when someone drills down.</p></div>
+<h2 id="workspace-clusters-and-notebooks">Workspace, clusters and notebooks</h2>
+<ul>
+<li><strong>Workspace</strong>: where notebooks, jobs and tables are organised.</li>
+<li><strong>Cluster</strong> (or serverless compute): the machines that run your code. Clusters start, scale and stop; you pay while they run, so auto-termination matters.</li>
+<li><strong>Notebook</strong>: a document of cells that mix Markdown, SQL, Python and PySpark. Each notebook attaches to a cluster and runs one cell at a time.</li>
+</ul>
+<p>A notebook can switch language per cell with a magic command such as <code>%sql</code>, so one notebook can read a table in SQL and transform it in PySpark.</p>
+<h2 id="reading-data-with-pyspark">Reading data with PySpark</h2>
+<p>PySpark is the Python API for Spark. A DataFrame in Spark looks like a pandas DataFrame, but the work is split across the cluster and runs lazily: transformations are planned until a result is needed.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># In a Databricks notebook, `spark` is already created</span>
+sales = <span class="hl-f">spark.read.table</span>(<span class="hl-s">&quot;retail.bronze.sales_raw&quot;</span>)
+
+summary = (
+    sales
+    .<span class="hl-f">filter</span>(<span class="hl-s">&quot;order_date &gt;= &#x27;2025-01-01&#x27;&quot;</span>)
+    .<span class="hl-f">groupBy</span>(<span class="hl-s">&quot;region&quot;</span>, <span class="hl-s">&quot;category&quot;</span>)
+    .<span class="hl-f">agg</span>({<span class="hl-s">&quot;sales&quot;</span>: <span class="hl-s">&quot;sum&quot;</span>, <span class="hl-s">&quot;profit&quot;</span>: <span class="hl-s">&quot;sum&quot;</span>})
+    .<span class="hl-f">withColumnRenamed</span>(<span class="hl-s">&quot;sum(sales)&quot;</span>, <span class="hl-s">&quot;total_sales&quot;</span>)
+    .<span class="hl-f">withColumnRenamed</span>(<span class="hl-s">&quot;sum(profit)&quot;</span>, <span class="hl-s">&quot;total_profit&quot;</span>)
+)
+
+<span class="hl-f">summary.write.mode</span>(<span class="hl-s">&quot;overwrite&quot;</span>).<span class="hl-f">saveAsTable</span>(<span class="hl-s">&quot;retail.gold.sales_summary_2025&quot;</span>)</code></pre></div>
+<p>The names <code>retail.bronze.sales_raw</code> and <code>retail.gold.sales_summary_2025</code> follow the bronze, silver and gold layering: raw data, cleaned data and reporting data. This is the common pattern for lakehouse work.</p>
+<p>::::note Lazy evaluation
+Calling <code>filter</code> or <code>groupBy</code> does not run anything. Spark runs the plan when you call an action such as <code>write</code>, <code>count</code> or <code>show</code>. A slow notebook is often a plan that recomputes data many times, which <code>cache()</code> or writing an intermediate table can fix.
+::::</p>
+<h2 id="delta-lake-reliable-tables-on-files">Delta Lake: reliable tables on files</h2>
+<p>A Delta table is a set of Parquet data files plus a transaction log that records every change. The log gives you:</p>
+<ul>
+<li><strong>ACID writes</strong>: an update either completes or does not happen, so readers never see half-written data.</li>
+<li><strong>MERGE</strong>: insert new rows and update changed ones in one statement, which is the upsert from the SQL incremental-loading lesson.</li>
+<li><strong>Time travel</strong>: query the table as it was at an earlier version or time.</li>
+<li><strong>Schema enforcement</strong>: writes with the wrong columns or types are rejected.</li>
+</ul>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Upsert new and corrected order lines into the Delta table</span>
+<span class="hl-k">MERGE</span> <span class="hl-k">INTO</span> retail.silver.fact_sales <span class="hl-k">AS</span> target
+<span class="hl-k">USING</span> retail.bronze.sales_today <span class="hl-k">AS</span> source
+<span class="hl-k">ON</span> target.line_id = source.line_id
+<span class="hl-k">WHEN</span> <span class="hl-k">MATCHED</span> <span class="hl-k">THEN</span> <span class="hl-k">UPDATE</span> <span class="hl-k">SET</span> *
+<span class="hl-k">WHEN</span> <span class="hl-k">NOT</span> <span class="hl-k">MATCHED</span> <span class="hl-k">THEN</span> <span class="hl-k">INSERT</span> *;
+
+<span class="hl-c">-- What did the table look like yesterday?</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> lines, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> total_sales
+<span class="hl-k">FROM</span> retail.silver.fact_sales VERSION <span class="hl-k">AS</span> OF <span class="hl-n">12</span>;
+
+<span class="hl-c">-- The history of changes</span>
+DESCRIBE HISTORY retail.silver.fact_sales;</code></pre></div>
+<p>Time travel is valuable for audits and for undoing a bad load: restore the previous version rather than rebuilding the table. Check retention settings first, because old versions are removed after a period.</p>
+<p>::::warn MERGE needs a unique key
+If the source has two rows with the same <code>line_id</code>, MERGE fails or updates the same target row twice. Deduplicate the source before the merge, using the latest record for each key.
+::::</p>
+<h2 id="scheduled-spark-jobs">Scheduled Spark jobs</h2>
+<p>A notebook becomes production work when it runs as a <strong>job</strong>:</p>
+<ol>
+<li>Open the notebook, choose <strong>Schedule</strong> or create a job, and select a cluster or serverless compute.</li>
+<li>Set the schedule (for example, every day at 5 a.m.) and the parameters.</li>
+<li>Add a notification for failure, and set a retry for transient errors.</li>
+<li>Check the run history after the first few runs, and compare the output totals with the source.</li>
+</ol>
+<p>A job should be idempotent, like the loads in the SQL lesson: running it twice should not double the totals. Overwrite a summary table, or merge into a fact table, rather than appending.</p>
+<h2 id="unity-catalog-governance-across-the-platform">Unity Catalog: governance across the platform</h2>
+<p><strong>Unity Catalog</strong> is the central place to organise and secure data. Its three-level name is <strong>catalog.schema.table</strong>:</p>
+<ul>
+<li><strong>Catalog</strong>: a top-level container, often one per environment or business unit (for example <code>retail</code>).</li>
+<li><strong>Schema</strong>: a group of related tables (for example <code>gold</code> for reporting tables).</li>
+<li><strong>Table or view</strong>: the data itself.</li>
+</ul>
+<p>Permissions are granted on these objects, so a group can read <code>retail.gold</code> but not <code>retail.bronze</code>:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">GRANT</span> <span class="hl-k">USE</span> CATALOG <span class="hl-k">ON</span> CATALOG retail TO `analysts`;
+<span class="hl-k">GRANT</span> <span class="hl-k">USE</span> <span class="hl-k">SCHEMA</span> <span class="hl-k">ON</span> <span class="hl-k">SCHEMA</span> retail.gold TO `analysts`;
+<span class="hl-k">GRANT</span> <span class="hl-k">SELECT</span> <span class="hl-k">ON</span> <span class="hl-k">SCHEMA</span> retail.gold TO `analysts`;</code></pre></div>
+<p>Unity Catalog also records lineage, which shows which tables and notebooks produced a table. Use it to answer "where does this number come from?" before a report is trusted.</p>
+<p>::::tip Give reports gold tables only
+Point Power BI at the gold layer, not at raw bronze tables. Gold tables are the cleaned, agreed definitions, so the report does not repeat cleaning logic and does not expose raw data to viewers.
+::::</p>
+<h2 id="connecting-databricks-to-power-bi">Connecting Databricks to Power BI</h2>
+<p>Power BI connects to a Databricks SQL warehouse through its Databricks connector, using the server hostname, HTTP path and an authentication method approved by the data team. Import mode suits daily summaries; DirectQuery suits large tables that must stay current. Choose the mode the same way as in the modes lesson: by data size, freshness and the number of users.</p>
+<h2 id="comparing-the-platforms">Comparing the platforms</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Fabric</th>
+<th>Databricks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage</td>
+<td>OneLake</td>
+<td>Cloud storage with Delta tables</td>
+</tr>
+<tr>
+<td>Large-scale code</td>
+<td>Spark notebooks in a lakehouse</td>
+<td>Spark notebooks and jobs</td>
+</tr>
+<tr>
+<td>Governance</td>
+<td>Workspaces, endorsement, lineage</td>
+<td>Unity Catalog</td>
+</tr>
+<tr>
+<td>Reporting</td>
+<td>Native semantic models</td>
+<td>Connect Power BI to a SQL warehouse</td>
+</tr>
+</tbody>
+</table></div>
+<p>Both platforms run Spark, store tables in open formats, and feed Power BI. Learn the concepts once; the names change.</p>
+<p>::::key What to remember
+- Databricks runs Spark on managed clusters; notebooks mix SQL and PySpark.
+- Delta Lake adds ACID writes, MERGE, time travel and schema checks to files.
+- Build summary tables as scheduled jobs, and make jobs safe to re-run.
+- Unity Catalog governs catalogs, schemas and tables with permissions and lineage.
+- Point reports at gold tables that hold agreed definitions.
+::::</p>
+<div class="quiz" id="quiz-powerbi-08-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is Delta Lake?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A type of chart</button><button type="button" class="opt" data-ok="1"><i>B</i>A table format that adds transaction logs, MERGE and time travel to files</button><button type="button" class="opt" data-ok="0"><i>C</i>A Power BI gateway</button><button type="button" class="opt" data-ok="0"><i>D</i>A programming language</button></div><div class="qexp"><b>Answer: B.</b> Delta stores Parquet files with a log of every change.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does time travel let you do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Make the cluster faster</button><button type="button" class="opt" data-ok="1"><i>B</i>Query a table as it was at an earlier version</button><button type="button" class="opt" data-ok="0"><i>C</i>Rename columns</button><button type="button" class="opt" data-ok="0"><i>D</i>Skip a refresh</button></div><div class="qexp"><b>Answer: B.</b> Time travel reads earlier table versions for audits and recovery.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why must a MERGE source have unique keys?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Keys are optional in Delta</button><button type="button" class="opt" data-ok="1"><i>B</i>Duplicate keys in the source can make the merge fail or update one target row twice</button><button type="button" class="opt" data-ok="0"><i>C</i>MERGE only works on text</button><button type="button" class="opt" data-ok="0"><i>D</i>It speeds up the cluster</button></div><div class="qexp"><b>Answer: B.</b> Deduplicate the source before merging.</div></div><div class="qq"><p class="qtext"><b>4.</b> In <code>retail.gold.sales_summary</code>, what is <code>gold</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The catalog</button><button type="button" class="opt" data-ok="1"><i>B</i>The schema</button><button type="button" class="opt" data-ok="0"><i>C</i>The table</button><button type="button" class="opt" data-ok="0"><i>D</i>The cluster</button></div><div class="qexp"><b>Answer: B.</b> The three-level name is catalog.schema.table.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why should Power BI read gold tables rather than bronze?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Bronze tables are faster to read</button><button type="button" class="opt" data-ok="1"><i>B</i>Gold tables hold the cleaned, agreed definitions and avoid exposing raw data</button><button type="button" class="opt" data-ok="0"><i>C</i>Gold tables cannot be queried</button><button type="button" class="opt" data-ok="0"><i>D</i>Bronze tables are always deleted</button></div><div class="qexp"><b>Answer: B.</b> Gold is the reporting layer.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Design a daily job</b></div><p>A retail team loads raw sales files each night into a bronze table. Design the daily job that produces a gold summary of sales by region and month for Power BI. Write the steps, state whether the summary is overwritten or merged and why, list one check to run before publishing, and name the Unity Catalog permission that lets the analysts read the summary but not the raw data.</p><details class="sol"><summary>Show solution</summary><p>Steps: read the bronze table, deduplicate by line ID, filter the new period, aggregate sales and profit by region and month, write to the gold schema. Overwrite the summary because it is derived in full each run (re-runs give the same result). Check that the total sales in the summary equal the total in the cleaned silver table for the same period. Permission: <code>GRANT SELECT ON SCHEMA retail.gold TO analysts</code> with no grant on the bronze schema.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/career-paths/data-analyst">Microsoft Learn: Power BI data analyst path (PL-300) ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://dax.guide/">DAX Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.sqlbi.com/">SQLBI articles and videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets">Power BI sample datasets (Microsoft) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="powerbi-07-microsoft-fabric-lakehouse-warehouse-dataflows-and-semantic.html"><small>← Previous</small><b>Microsoft Fabric: Lakehouse, Warehouse, Dataflows and Semantic Models</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-databricks-adds">What Databricks adds</a><a href="#workspace-clusters-and-notebooks">Workspace, clusters and notebooks</a><a href="#reading-data-with-pyspark">Reading data with PySpark</a><a href="#delta-lake-reliable-tables-on-files">Delta Lake: reliable tables on files</a><a href="#scheduled-spark-jobs">Scheduled Spark jobs</a><a href="#unity-catalog-governance-across-the-platform">Unity Catalog: governance across the platform</a><a href="#connecting-databricks-to-power-bi">Connecting Databricks to Power BI</a><a href="#comparing-the-platforms">Comparing the platforms</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

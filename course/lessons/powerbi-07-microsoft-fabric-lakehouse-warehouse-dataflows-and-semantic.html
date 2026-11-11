@@ -1,0 +1,150 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Microsoft Fabric: Lakehouse, Warehouse, Dataflows and Semantic Models · Power BI Lesson 7 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand Microsoft Fabric as one platform. Load data into a lakehouse, shape it in a warehouse or dataflow, publish a semantic model that Power BI reports read from, and keep the whole chain governed and refreshed."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-powerbi"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-powerbi">Power BI</a><span>/</span><b>Lesson 7</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#E2A400">Power BI</div>
+<ol class="side-l"><li class=""><a href="powerbi-01-getting-started-with-power-bi-and-your-first-hr-report.html" data-lid="powerbi-01"><span>01</span>Getting Started with Power BI &amp; Your First HR Report</a></li><li class=""><a href="powerbi-02-power-query-star-schema-and-data-modelling-adventure-cycles.html" data-lid="powerbi-02"><span>02</span>Power Query, Star Schema &amp; Data Modelling (Adventure Cycles)</a></li><li class=""><a href="powerbi-03-dax-fundamentals-measures-filter-context-and-calculate.html" data-lid="powerbi-03"><span>03</span>DAX Fundamentals: Measures, Filter Context &amp; CALCULATE</a></li><li class=""><a href="powerbi-04-dax-time-intelligence-ranking-parameters-and-dynamic-measure.html" data-lid="powerbi-04"><span>04</span>DAX Time Intelligence, Ranking, Parameters &amp; Dynamic Measures</a></li><li class=""><a href="powerbi-05-visuals-filters-drill-through-tooltips-buttons-and-report-de.html" data-lid="powerbi-05"><span>05</span>Visuals, Filters, Drill-through, Tooltips, Buttons &amp; Report Design</a></li><li class=""><a href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html" data-lid="powerbi-06"><span>06</span>Power BI Service, Connectivity Modes, Security &amp; Capstone</a></li><li class="on"><a href="powerbi-07-microsoft-fabric-lakehouse-warehouse-dataflows-and-semantic.html" data-lid="powerbi-07"><span>07</span>Microsoft Fabric: Lakehouse, Warehouse, Dataflows and Semantic Models</a></li><li class=""><a href="powerbi-08-databricks-notebooks-delta-lake-spark-jobs-and-unity-catalog.html" data-lid="powerbi-08"><span>08</span>Databricks: Notebooks, Delta Lake, Spark Jobs and Unity Catalog</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="powerbi-07">
+<div class="lhead" style="--tc:#E2A400"><div class="kick">Power BI · Lesson 7 of 8</div><h1>Microsoft Fabric: Lakehouse, Warehouse, Dataflows and Semantic Models</h1>
+<p class="sum">Understand Microsoft Fabric as one platform. Load data into a lakehouse, shape it in a warehouse or dataflow, publish a semantic model that Power BI reports read from, and keep the whole chain governed and refreshed.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ Microsoft Fabric 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/powerbi/Power_BI_07_Microsoft_Fabric_Lakehouse_Warehouse_Dataflows_and_Semantic_Models.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="powerbi-07">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Describe the Fabric workspace items: lakehouse, warehouse, dataflow, notebook and semantic model</li><li>Choose between a lakehouse and a warehouse for a given workload</li><li>Load and shape data with a dataflow and with the SQL analytics endpoint</li><li>Publish a semantic model and connect a Power BI report to it</li><li>Explain OneLake, shortcuts and the refresh chain</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/adventure_cycles/fact_sales.csv" download>adventure_cycles/fact_sales.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_customer.csv" download>adventure_cycles/dim_customer.csv</a><a class="chip" href="../datasets/adventure_cycles/dim_product.csv" download>adventure_cycles/dim_product.csv</a></div></div></div>
+<div class="content"><h2 id="what-fabric-is">What Fabric is</h2>
+<p><strong>Microsoft Fabric</strong> is a single platform for data work, built on one storage layer called <strong>OneLake</strong>. Instead of separate tools for storage, pipelines, warehousing and reporting, every item in Fabric reads from the same copy of the data. Power BI is one of the experiences inside Fabric.</p>
+<p>For a Power BI analyst, the important items are:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Item</th>
+<th>What it is</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lakehouse</td>
+<td>Files and tables stored in OneLake, read with SQL or Spark</td>
+<td>Large data, mixed files and tables</td>
+</tr>
+<tr>
+<td>Warehouse</td>
+<td>A SQL-first store for structured tables</td>
+<td>Star schemas for reporting</td>
+</tr>
+<tr>
+<td>Dataflow Gen2</td>
+<td>No-code Power Query data preparation</td>
+<td>Cleaning and loading without code</td>
+</tr>
+<tr>
+<td>Notebook</td>
+<td>Python, PySpark or SQL code</td>
+<td>Advanced transformations and data science</td>
+</tr>
+<tr>
+<td>Semantic model</td>
+<td>The model (tables, relationships, DAX measures) that reports use</td>
+<td>Shared, governed measures</td>
+</tr>
+<tr>
+<td>Report</td>
+<td>The Power BI visuals</td>
+<td>What people look at</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>One sales model, many reports</b></div><p>A retail company keeps sales data in OneLake. Finance, marketing and operations each want their own report, but they must all agree on what "revenue" means. The answer is one semantic model in a Fabric workspace that all three reports connect to, so the measure is written once and changed in one place.</p></div>
+<h2 id="onelake-and-shortcuts">OneLake and shortcuts</h2>
+<p>OneLake is the single logical data lake for the organisation. Each workspace has a lakehouse or warehouse, and the data is stored once. A <strong>shortcut</strong> points to data in another location (another lakehouse, or Azure storage, or Amazon S3) without copying it. Use shortcuts to avoid duplicating large tables across workspaces.</p>
+<p>::::tip Shortcut, do not copy
+A copy drifts out of date and doubles storage. A shortcut always reads the current data. Copy only when you need a snapshot, for example for an audit.
+::::</p>
+<h2 id="lakehouse-versus-warehouse">Lakehouse versus warehouse</h2>
+<p>Both store tables in OneLake. The choice depends on the workload:</p>
+<ul>
+<li><strong>Lakehouse</strong>: keeps files (CSV, JSON, Parquet) alongside tables. Spark notebooks and SQL both work on it. Good for data engineering and mixed data.</li>
+<li><strong>Warehouse</strong>: SQL-only tables with full T-SQL support, including stored procedures and fine-grained permissions. Good for structured reporting and teams that think in SQL.</li>
+</ul>
+<p>A lakehouse also exposes a <strong>SQL analytics endpoint</strong>, which lets you query its tables with SQL. Many teams therefore land raw data in a lakehouse, then build reporting tables in a warehouse or view them through the endpoint.</p>
+<h2 id="loading-data-with-a-dataflow">Loading data with a dataflow</h2>
+<p>A dataflow uses Power Query, the same tool as Power BI Desktop, to load and shape data in the service. It is the right choice when the transformation is ordinary cleaning and the team does not write code.</p>
+<p>Steps:</p>
+<ol>
+<li>In the workspace, select <strong>New item &gt; Dataflow Gen2</strong>.</li>
+<li>Add a source, for example a CSV file uploaded to the lakehouse.</li>
+<li>Apply transformations: change types, remove blank rows, merge with a customer table.</li>
+<li>Set the output destination to a lakehouse or warehouse table.</li>
+<li>Publish, then run the dataflow once to check the output.</li>
+</ol>
+<p>The output is a table in OneLake. Any report can read it, which is why dataflows suit shared, reusable cleaned data.</p>
+<p>::::warn Keep logic in one place
+If the same cleaning happens in a dataflow, in a notebook and again in Power BI Desktop, the three versions will disagree. Choose one place for each transformation and document it.
+::::</p>
+<h2 id="building-a-star-schema-in-the-warehouse">Building a star schema in the warehouse</h2>
+<p>Reporting works best on a star schema: one fact table of sales and several dimension tables of customers and products. Create the tables in the warehouse with a short script, then load them.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Dimension: customers (one row per customer)</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> dbo.dim_customer (
+    customer_key   <span class="hl-k">INT</span>         <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>,
+    customer_name  <span class="hl-k">VARCHAR</span>(<span class="hl-n">100</span>),
+    segment        <span class="hl-k">VARCHAR</span>(<span class="hl-n">50</span>),
+    territory      <span class="hl-k">VARCHAR</span>(<span class="hl-n">50</span>)
+);
+
+<span class="hl-c">-- Fact: sales (one row per order line, keys point to dimensions)</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> dbo.fact_sales (
+    order_date     <span class="hl-k">DATE</span>,
+    customer_key   <span class="hl-k">INT</span>,
+    product_key    <span class="hl-k">INT</span>,
+    quantity       <span class="hl-k">INT</span>,
+    sales_amount   <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>, <span class="hl-n">2</span>),
+    cost_amount    <span class="hl-k">DECIMAL</span>(<span class="hl-n">12</span>, <span class="hl-n">2</span>)
+);</code></pre></div>
+<p>The fact table holds numbers and keys. Descriptive text lives in dimensions. This shape keeps the semantic model small and fast, and it matches the star schema taught in the modelling lesson.</p>
+<h2 id="publishing-a-semantic-model">Publishing a semantic model</h2>
+<p>A semantic model is the Power BI dataset in Fabric. You create it from the warehouse or lakehouse tables, add relationships and measures, and publish it to the workspace.</p>
+<ol>
+<li>Open the warehouse and choose <strong>New semantic model</strong>.</li>
+<li>Select the tables to include, for example <code>fact_sales</code>, <code>dim_customer</code> and <code>dim_product</code>.</li>
+<li>Confirm the relationships. They should run from each dimension (one side) to the fact table (many side).</li>
+<li>Write the DAX measures in the model, not in individual reports, so every report uses the same definition:</li>
+</ol>
+<div class="code"><div class="code-h"><span>DAX</span><button class="copy" type="button">Copy</button></div><pre><code class="dax">Total Sales = SUM ( fact_sales[sales_amount] )
+Total Cost  = SUM ( fact_sales[cost_amount] )
+Gross Margin % = DIVIDE ( [Total Sales] - [Total Cost], [Total Sales] )</code></pre></div>
+<ol start="5">
+<li>Save the model. Reports now connect to it in Power BI and see the same measures.</li>
+</ol>
+<h2 id="connecting-a-report">Connecting a report</h2>
+<p>From Power BI Desktop, choose <strong>Get data &gt; Power BI semantic models</strong> and select the published model. The report is built on top of the shared model: visuals and measures come from the model, while layout and filters belong to the report.</p>
+<p>This separation is the key idea. A change to the model's measure updates every report that uses it, without editing each one. The reverse also matters: a report should not define its own revenue measure, or the numbers will drift.</p>
+<h2 id="refresh-and-the-chain-of-dependencies">Refresh and the chain of dependencies</h2>
+<p>Data flows through a chain: source, then dataflow or notebook, then lakehouse or warehouse, then semantic model, then report. A refresh must run in order. If the dataflow fails, the model shows yesterday's data, and the report shows yesterday's numbers without any visible error.</p>
+<p>Practical rules:</p>
+<ul>
+<li>Schedule the upstream item first, and the semantic model refresh after it, with a short gap.</li>
+<li>Check the refresh history after each run, not only when a report looks wrong.</li>
+<li>Use a notification on failure so that the team hears about it first.</li>
+</ul>
+<h2 id="governance-basics-in-fabric">Governance basics in Fabric</h2>
+<ul>
+<li><strong>Workspace roles</strong> (Admin, Member, Contributor, Viewer) control who can change items. Give analysts Contributor or Member only where they need to build.</li>
+<li><strong>Endorsement</strong> marks a semantic model as Promoted or Certified, so people know which model to trust.</li>
+<li><strong>Lineage view</strong> shows how a report depends on the model, the warehouse and the source, which speeds up impact checks before a change.</li>
+<li><strong>Sensitivity labels</strong> can classify data, for example as Confidential, and follow it through the chain.</li>
+</ul>
+<p>::::key What to remember
+- Fabric keeps all data in one place, OneLake, and every item reads from it.
+- Use shortcuts instead of copies, and lakehouses for files and mixed data, warehouses for structured reporting.
+- Dataflows suit no-code cleaning; notebooks suit code; both write tables to OneLake.
+- Define measures once in the semantic model, and let every report use them.
+- Refresh in order, and check refresh history, because a silent failure shows old numbers.
+::::</p>
+<div class="quiz" id="quiz-powerbi-07-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is OneLake?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A single report in Power BI</button><button type="button" class="opt" data-ok="1"><i>B</i>The single logical data lake that all Fabric items read from</button><button type="button" class="opt" data-ok="0"><i>C</i>A type of DAX measure</button><button type="button" class="opt" data-ok="0"><i>D</i>A gateway for on-premises data</button></div><div class="qexp"><b>Answer: B.</b> OneLake is the shared storage layer for Fabric.</div></div><div class="qq"><p class="qtext"><b>2.</b> When is a shortcut better than a copy?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>When you need an audit snapshot</button><button type="button" class="opt" data-ok="1"><i>B</i>When you want the other location to read current data without duplicating storage</button><button type="button" class="opt" data-ok="0"><i>C</i>When the source is offline</button><button type="button" class="opt" data-ok="0"><i>D</i>Never; copies are always better</button></div><div class="qexp"><b>Answer: B.</b> A shortcut points to the data, so it stays current.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which item suits a team that writes T-SQL and needs stored procedures?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A dataflow</button><button type="button" class="opt" data-ok="1"><i>B</i>A warehouse</button><button type="button" class="opt" data-ok="0"><i>C</i>A report</button><button type="button" class="opt" data-ok="0"><i>D</i>A shortcut</button></div><div class="qexp"><b>Answer: B.</b> Warehouses support full T-SQL, including stored procedures.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why define measures in the semantic model rather than in each report?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Reports cannot store measures</button><button type="button" class="opt" data-ok="1"><i>B</i>So every report uses one definition, and a change is made once</button><button type="button" class="opt" data-ok="0"><i>C</i>Measures run faster there only</button><button type="button" class="opt" data-ok="0"><i>D</i>It hides the measures</button></div><div class="qexp"><b>Answer: B.</b> One definition prevents numbers from drifting between reports.</div></div><div class="qq"><p class="qtext"><b>5.</b> A dataflow fails overnight and nobody notices until a manager asks. What is the best fix?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Remove the dataflow</button><button type="button" class="opt" data-ok="1"><i>B</i>Schedule refreshes in order and set a failure notification</button><button type="button" class="opt" data-ok="0"><i>C</i>Refresh the report manually every hour</button><button type="button" class="opt" data-ok="0"><i>D</i>Turn off the semantic model</button></div><div class="qexp"><b>Answer: B.</b> Refresh order and failure alerts make silent failures visible.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Design the chain</b></div><p>A company has order data in CSV files, customer and product lists in a CRM export, and three reports for finance, sales and operations. Draw the Fabric chain: which items you would use (lakehouse, warehouse, dataflow, notebook, semantic model, report), in what order, and where you would define the revenue and margin measures. Name one refresh rule and one governance control.</p><details class="sol"><summary>Show solution</summary><p>One possible design: CSV files land in a lakehouse; a Dataflow Gen2 cleans and types them into tables; the tables are modelled as a star schema in a warehouse; one semantic model holds the relationships and the Total Sales and Gross Margin % measures; the three reports connect to that model. Refresh the dataflow first, then the model. Governance: endorse the model as Certified and limit edit rights to a named team.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/career-paths/data-analyst">Microsoft Learn: Power BI data analyst path (PL-300) ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference ↗</a></li><li><a target="_blank" rel="noopener" href="https://dax.guide/">DAX Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.sqlbi.com/">SQLBI articles and videos ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-datasets">Power BI sample datasets (Microsoft) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="powerbi-06-power-bi-service-connectivity-modes-security-and-capstone.html"><small>← Previous</small><b>Power BI Service, Connectivity Modes, Security &amp; Capstone</b></a><a class="next" href="powerbi-08-databricks-notebooks-delta-lake-spark-jobs-and-unity-catalog.html"><small>Next →</small><b>Databricks: Notebooks, Delta Lake, Spark Jobs and Unity Catalog</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-fabric-is">What Fabric is</a><a href="#onelake-and-shortcuts">OneLake and shortcuts</a><a href="#lakehouse-versus-warehouse">Lakehouse versus warehouse</a><a href="#loading-data-with-a-dataflow">Loading data with a dataflow</a><a href="#building-a-star-schema-in-the-warehouse">Building a star schema in the warehouse</a><a href="#publishing-a-semantic-model">Publishing a semantic model</a><a href="#connecting-a-report">Connecting a report</a><a href="#refresh-and-the-chain-of-dependencies">Refresh and the chain of dependencies</a><a href="#governance-basics-in-fabric">Governance basics in Fabric</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,140 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Office Scripts, Power Automate and AI-Assisted Excel Formulas · Excel Lesson 15 · Data Science &amp; AI Handbook</title><meta name="description" content="Automate Excel on the web with Office Scripts written in TypeScript, run them on a schedule with Power Automate, and use AI assistants to draft formulas, with a checklist for testing every formula before you rely on it."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-excel"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-excel">Advanced Excel</a><span>/</span><b>Lesson 15</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#1E8E5A">Advanced Excel</div>
+<ol class="side-l"><li class=""><a href="excel-01-getting-started-with-excel-for-data-analysis.html" data-lid="excel-01"><span>01</span>Getting Started with Excel for Data Analysis</a></li><li class=""><a href="excel-02-data-entry-data-validation-and-data-cleaning.html" data-lid="excel-02"><span>02</span>Data Entry, Data Validation &amp; Data Cleaning</a></li><li class=""><a href="excel-03-number-custom-and-conditional-formatting.html" data-lid="excel-03"><span>03</span>Number, Custom &amp; Conditional Formatting</a></li><li class=""><a href="excel-04-formulas-cell-references-and-aggregate-functions.html" data-lid="excel-04"><span>04</span>Formulas, Cell References &amp; Aggregate Functions</a></li><li class=""><a href="excel-05-text-functions-logical-functions-and-if.html" data-lid="excel-05"><span>05</span>Text Functions, Logical Functions &amp; IF</a></li><li class=""><a href="excel-06-sorting-filtering-and-dynamic-arrays.html" data-lid="excel-06"><span>06</span>Sorting, Filtering &amp; Dynamic Arrays</a></li><li class=""><a href="excel-07-lookup-functions-vlookup-xlookup-and-index-match.html" data-lid="excel-07"><span>07</span>Lookup Functions: VLOOKUP, XLOOKUP and INDEX-MATCH</a></li><li class=""><a href="excel-08-pivot-tables-from-basic-to-advanced.html" data-lid="excel-08"><span>08</span>Pivot Tables from Basic to Advanced</a></li><li class=""><a href="excel-09-date-time-and-number-functions-and-named-ranges.html" data-lid="excel-09"><span>09</span>Date, Time &amp; Number Functions and Named Ranges</a></li><li class=""><a href="excel-10-charts-and-advanced-charts.html" data-lid="excel-10"><span>10</span>Charts and Advanced Charts</a></li><li class=""><a href="excel-11-interactive-dashboard-superstore-case-study.html" data-lid="excel-11"><span>11</span>Interactive Dashboard: Superstore Case Study</a></li><li class=""><a href="excel-12-power-query-power-pivot-analysis-toolpak-and-what-if-analysi.html" data-lid="excel-12"><span>12</span>Power Query, Power Pivot, Analysis ToolPak &amp; What-If Analysis</a></li><li class=""><a href="excel-13-flash-fill-text-to-columns-and-standardising-messy-data.html" data-lid="excel-13"><span>13</span>Flash Fill, Text to Columns and Standardising Messy Data</a></li><li class=""><a href="excel-14-excel-macros-and-vba-recording-and-writing-automation.html" data-lid="excel-14"><span>14</span>Excel Macros and VBA: Recording and Writing Automation</a></li><li class="on"><a href="excel-15-office-scripts-power-automate-and-ai-assisted-excel-formulas.html" data-lid="excel-15"><span>15</span>Office Scripts, Power Automate and AI-Assisted Excel Formulas</a></li><li class=""><a href="excel-16-excel-business-projects-complaints-finance-productivity-and.html" data-lid="excel-16"><span>16</span>Excel Business Projects: Complaints, Finance, Productivity and Segmentation</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="excel-15">
+<div class="lhead" style="--tc:#1E8E5A"><div class="kick">Advanced Excel · Lesson 15 of 16</div><h1>Office Scripts, Power Automate and AI-Assisted Excel Formulas</h1>
+<p class="sum">Automate Excel on the web with Office Scripts written in TypeScript, run them on a schedule with Power Automate, and use AI assistants to draft formulas, with a checklist for testing every formula before you rely on it.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ Excel for Microsoft 365, 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/excel/Excel_15_Office_Scripts_Power_Automate_and_AI_Assisted_Excel_Formulas.pdf" download>⬇ Download PDF</a><a class="btn ghost" href="../files/excel/excel-15.xlsx" download>⬇ Practice workbook (.xlsx)</a><button class="btn ghost done" type="button" data-lid="excel-15">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain how Office Scripts differ from VBA macros</li><li>Record and edit an Office Script in Excel on the web</li><li>Trigger a script from Power Automate on a schedule</li><li>Test an AI-written formula on edge cases before using it</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="office-scripts-automation-for-excel-on-the-web">Office Scripts: automation for Excel on the web</h2>
+<p>Office Scripts are automations written in <strong>TypeScript</strong> that run in Excel on the web and in Microsoft 365. They do not need a desktop macro, so they work on any device with a browser, and they can be started by Power Automate. Use them when the file lives in SharePoint or OneDrive and the team works in the browser.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>VBA macro</th>
+<th>Office Script</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language</td>
+<td>VBA</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Runs in</td>
+<td>Excel desktop</td>
+<td>Excel on the web and desktop (Microsoft 365)</td>
+</tr>
+<tr>
+<td>Started by</td>
+<td>Button, shortcut, Alt+F8</td>
+<td>Button, Power Automate, Excel on the web</td>
+</tr>
+<tr>
+<td>File type</td>
+<td>.xlsm</td>
+<td>Normal .xlsx</td>
+</tr>
+<tr>
+<td>Good for</td>
+<td>Desktop-only tasks</td>
+<td>Shared team files and scheduled runs</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A Monday summary for the team</b></div><p>A team lead wants a summary sheet rebuilt every Monday from the shared sales file: totals by region, a sort by sales and a timestamp. The file is in SharePoint and edited by five people. A script runs at 7 a.m. through Power Automate, so the summary is ready before the team arrives.</p></div>
+<h2 id="step-1-record-and-open-a-script">Step 1: record and open a script</h2>
+<ol>
+<li>Open the workbook in Excel on the web.</li>
+<li>Go to <strong>Automate &gt; Record Actions</strong>.</li>
+<li>Format a table, add a total row and sort it. Click <strong>Stop</strong>.</li>
+<li>Open <strong>Automate &gt; Code Editor</strong> to see the script.</li>
+</ol>
+<p>The recorded script uses the Office Scripts API. It is written as a function, with the workbook passed in as <code>workbook</code>:</p>
+<div class="code"><div class="code-h"><span>TYPESCRIPT</span><button class="copy" type="button">Copy</button></div><pre><code class="typescript">function <span class="hl-f">main</span>(workbook: ExcelScript.Workbook) {
+    let sheet = <span class="hl-f">workbook.getActiveWorksheet</span>();
+    let range = <span class="hl-f">sheet.getRange</span>(<span class="hl-s">&quot;A1:F1&quot;</span>);
+    <span class="hl-f">range.getFormat</span>().<span class="hl-f">getFont</span>().<span class="hl-f">setBold</span>(true);
+    <span class="hl-f">range.getFormat</span>().<span class="hl-f">getFill</span>().<span class="hl-f">setColor</span>(<span class="hl-s">&quot;#1E8E5A&quot;</span>);
+}</code></pre></div>
+<p>As with VBA, recorded code uses fixed addresses. Replace them with values that come from the data.</p>
+<h2 id="step-2-make-the-script-adapt">Step 2: make the script adapt</h2>
+<p>This version finds the used range and totals the sales column, whatever its size:</p>
+<div class="code"><div class="code-h"><span>TYPESCRIPT</span><button class="copy" type="button">Copy</button></div><pre><code class="typescript">function <span class="hl-f">main</span>(workbook: ExcelScript.Workbook) {
+    const sheet = <span class="hl-f">workbook.getActiveWorksheet</span>();
+    const used = <span class="hl-f">sheet.getUsedRange</span>();
+    const rowCount = <span class="hl-f">used.getRowCount</span>();
+
+    // Column E holds sales; rows <span class="hl-n">2</span> to the last data row
+    const sales = <span class="hl-f">sheet.getRange</span>(`E2:E${rowCount}`);
+    const total = <span class="hl-f">sales.getValues</span>().<span class="hl-f">reduce</span>((sum, row) =&gt; sum + <span class="hl-f">Number</span>(row[<span class="hl-n">0</span>] || <span class="hl-n">0</span>), <span class="hl-n">0</span>);
+
+    // Write the total in a labelled cell below the data
+    <span class="hl-f">sheet.getRange</span>(`D${rowCount + <span class="hl-n">2</span>}:E${rowCount + <span class="hl-n">2</span>}`).<span class="hl-f">setValues</span>([[<span class="hl-s">&quot;Total sales&quot;</span>, total]]);
+    <span class="hl-f">sheet.getRange</span>(`E${rowCount + <span class="hl-n">2</span>}`).<span class="hl-f">getFormat</span>().<span class="hl-f">setColumnWidth</span>(<span class="hl-n">110</span>);
+}</code></pre></div>
+<p>The <code>reduce</code> call adds up the numbers in JavaScript. Writing a total as a value is fine for a report; if the total must update as data changes, write a formula with <code>setFormula("=SUM(E2:E...)")</code> instead.</p>
+<p>::::tip Prefer formulas for live totals
+A script that writes a value stops being correct the moment the data changes. A script that writes a formula stays correct. Use values for a snapshot (for example, a Monday report that must not change later) and formulas for anything that people will keep editing.
+::::</p>
+<h2 id="step-3-run-it-on-a-schedule-with-power-automate">Step 3: run it on a schedule with Power Automate</h2>
+<p>Office Scripts can be called from a Power Automate flow:</p>
+<ol>
+<li>Create a flow with the trigger <strong>Recurrence</strong>, set to every Monday at 7:00.</li>
+<li>Add the action <strong>Excel Online (Business) &gt; Run script</strong>.</li>
+<li>Choose the workbook from SharePoint or OneDrive, and the script name.</li>
+<li>Optional: add <strong>Send an email</strong> to notify the team after the run.</li>
+</ol>
+<p>Test the flow once by running it manually, and open the workbook to check the result before you rely on the schedule.</p>
+<p>::::warn Scheduled runs need care
+A scheduled script runs without anyone watching. Make sure it cannot overwrite the source data, works on a copy if the file is shared, and sends a notice when it fails. Keep the raw data on a separate sheet from the output.
+::::</p>
+<h2 id="ai-assisted-formulas">AI-assisted formulas</h2>
+<p>AI tools inside Excel, such as Copilot, and general AI assistants can write formulas from a plain-language request. This is useful for drafting, and dangerous when the result is trusted without checking.</p>
+<p>A good request names the columns, the logic and the output:</p>
+<blockquote>
+<p>"In column F, show 'High' if sales in column E are above 5000 and the region in column C is 'North' or 'South', otherwise 'Standard'. Use one formula."</p>
+</blockquote>
+<p>A reasonable answer is:</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">=IF(AND(E2&gt;5000, OR(C2=&quot;North&quot;, C2=&quot;South&quot;)), &quot;High&quot;, &quot;Standard&quot;)</code></pre></div>
+<p>Read the formula before you use it. Ask: does it match the rule, the column letters and the case of the text?</p>
+<h2 id="testing-an-ai-written-formula">Testing an AI-written formula</h2>
+<p>Every formula from an AI tool should pass four tests before it enters a report:</p>
+<ol>
+<li><strong>Known answer</strong>: pick three rows where you know the right result by hand and check them.</li>
+<li><strong>Boundary values</strong>: test exactly 5000 (is it "above"?), blank cells and zeros.</li>
+<li><strong>Unexpected text</strong>: test "north" in lower case, extra spaces and misspellings.</li>
+<li><strong>Totals</strong>: compare the total of the new column with an independent calculation, such as a pivot table.</li>
+</ol>
+<div class="xl"><div class="xl-title"><span class="xl-ico">X</span>Test cases for the High/Standard formula</div><div class="xl-scroll"><table class="sheet"><tr><th class="corner"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr><tr><th>1</th><td class="c-h">Sales</td><td class="c-h">Region</td><td class="c-h">Expected</td><td class="c-h">Formula result</td><td class="c-h">Pass?</td></tr><tr><th>2</th><td class="num">6000</td><td class="">North</td><td class="">High</td><td class="fx" title="=IF(AND(A2&gt;5000,OR(B2=&quot;North&quot;,B2=&quot;South&quot;)),&quot;High&quot;,&quot;Standard&quot;)">High</td><td class="fx" title="=IF(D2=C2,&quot;yes&quot;,&quot;NO&quot;)">yes</td></tr><tr><th>3</th><td class="num">5000</td><td class="">North</td><td class="">Standard</td><td class="fx" title="=IF(AND(A3&gt;5000,OR(B3=&quot;North&quot;,B3=&quot;South&quot;)),&quot;High&quot;,&quot;Standard&quot;)">Standard</td><td class="fx" title="=IF(D3=C3,&quot;yes&quot;,&quot;NO&quot;)">yes</td></tr><tr><th>4</th><td class="num">7000</td><td class="">north</td><td class="">High</td><td class="fx" title="=IF(AND(A4&gt;5000,OR(B4=&quot;North&quot;,B4=&quot;South&quot;)),&quot;High&quot;,&quot;Standard&quot;)">High</td><td class="fx" title="=IF(D4=C4,&quot;yes&quot;,&quot;NO&quot;)">yes</td></tr></table></div></div><ul class="xl-f"><li><b>D2</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">AND</span>(A2&gt;<span class="hl-n">5000</span>,<span class="hl-f">OR</span>(B2=<span class="hl-s">&quot;North&quot;</span>,B2=<span class="hl-s">&quot;South&quot;</span>)),<span class="hl-s">&quot;High&quot;</span>,<span class="hl-s">&quot;Standard&quot;</span>)</code></li><li><b>E2</b><code>=<span class="hl-f">IF</span>(D2=C2,<span class="hl-s">&quot;yes&quot;</span>,<span class="hl-s">&quot;NO&quot;</span>)</code></li><li><b>D3</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">AND</span>(A3&gt;<span class="hl-n">5000</span>,<span class="hl-f">OR</span>(B3=<span class="hl-s">&quot;North&quot;</span>,B3=<span class="hl-s">&quot;South&quot;</span>)),<span class="hl-s">&quot;High&quot;</span>,<span class="hl-s">&quot;Standard&quot;</span>)</code></li><li><b>E3</b><code>=<span class="hl-f">IF</span>(D3=C3,<span class="hl-s">&quot;yes&quot;</span>,<span class="hl-s">&quot;NO&quot;</span>)</code></li><li><b>D4</b><code>=<span class="hl-f">IF</span>(<span class="hl-f">AND</span>(A4&gt;<span class="hl-n">5000</span>,<span class="hl-f">OR</span>(B4=<span class="hl-s">&quot;North&quot;</span>,B4=<span class="hl-s">&quot;South&quot;</span>)),<span class="hl-s">&quot;High&quot;</span>,<span class="hl-s">&quot;Standard&quot;</span>)</code></li><li><b>E4</b><code>=<span class="hl-f">IF</span>(D4=C4,<span class="hl-s">&quot;yes&quot;</span>,<span class="hl-s">&quot;NO&quot;</span>)</code></li></ul></div>
+<p>All three rows pass. The third row passes because Excel's text comparison (<code>=</code>) ignores case, so "north" matches "North". That is the behaviour you want here, but you should know it is a choice, not an accident. If a future rule needed case-sensitive matching, the test would catch the difference only if you had written a case-sensitive expectation.</p>
+<p>::::note Case sensitivity in Excel
+Excel comparisons with <code>=</code> ignore case, so "north" equals "North". Use <code>EXACT(a, b)</code> only when case must matter.
+::::</p>
+<h2 id="choosing-the-right-tool">Choosing the right tool</h2>
+<ul>
+<li><strong>Repeated steps on a shared file in the browser</strong>: Office Scripts, run by hand or by Power Automate.</li>
+<li><strong>Repeated steps on a desktop file</strong>: a VBA macro.</li>
+<li><strong>Combining and cleaning many files</strong>: Power Query, which refreshes with one click.</li>
+<li><strong>A one-off formula</strong>: write it yourself, or check an AI draft with the four tests.</li>
+</ul>
+<p>::::key What to remember
+- Office Scripts are TypeScript automations for Excel on the web; they run without desktop macros.
+- Power Automate can run a script on a schedule; test the flow manually first.
+- Prefer formulas over values for totals that must keep updating.
+- Test every AI-written formula with a known answer, boundary values, unexpected text and a total check.
+::::</p>
+<div class="quiz" id="quiz-excel-15-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What language are Office Scripts written in?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>VBA</button><button type="button" class="opt" data-ok="0"><i>B</i>Python</button><button type="button" class="opt" data-ok="1"><i>C</i>TypeScript</button><button type="button" class="opt" data-ok="0"><i>D</i>C#</button></div><div class="qexp"><b>Answer: C.</b> Office Scripts use TypeScript and the Office Scripts API.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which tool can run an Office Script every Monday without someone opening the file?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Power Query</button><button type="button" class="opt" data-ok="1"><i>B</i>Power Automate with a Recurrence trigger</button><button type="button" class="opt" data-ok="0"><i>C</i>Goal Seek</button><button type="button" class="opt" data-ok="0"><i>D</i>Conditional Formatting</button></div><div class="qexp"><b>Answer: B.</b> A Recurrence trigger starts the flow on a schedule, and the flow runs the script.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why should a script that writes a total use a formula rather than a value if people keep editing the data?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Values cannot be stored</button><button type="button" class="opt" data-ok="1"><i>B</i>The value stops being correct when the data changes, while a formula updates</button><button type="button" class="opt" data-ok="0"><i>C</i>Formulas are faster to write</button><button type="button" class="opt" data-ok="0"><i>D</i>Scripts cannot write values</button></div><div class="qexp"><b>Answer: B.</b> Formulas recalculate; a pasted value does not.</div></div><div class="qq"><p class="qtext"><b>4.</b> An AI-written formula gives the right result for the rows you tested. What should you do next?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Use it in the report immediately</button><button type="button" class="opt" data-ok="1"><i>B</i>Test boundary values, blanks and unexpected text before relying on it</button><button type="button" class="opt" data-ok="0"><i>C</i>Delete it</button><button type="button" class="opt" data-ok="0"><i>D</i>Convert it to a macro</button></div><div class="qexp"><b>Answer: B.</b> Passing one set of rows does not prove the formula handles every case.</div></div><div class="qq"><p class="qtext"><b>5.</b> Does <code>=</code> in Excel distinguish "North" from "north"?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>No, text comparison with = ignores case</button><button type="button" class="opt" data-ok="0"><i>B</i>Yes, always</button><button type="button" class="opt" data-ok="0"><i>C</i>Only in pivot tables</button><button type="button" class="opt" data-ok="0"><i>D</i>Only on Excel for the web</button></div><div class="qexp"><b>Answer: A.</b> Use EXACT if case must matter.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>A scheduled summary</b></div><p>Record an Office Script that takes a sheet of sales lines, creates a new sheet called "Summary" with total sales by region using formulas (<code>=SUMIF</code>), and writes the run time in a labelled cell. Then write the Power Automate flow that runs it every weekday at 8:00. List the four tests you would run on the summary before the team sees it.</p><details class="sol"><summary>Show solution</summary><p>Hints: in the script, use <code>workbook.addWorksheet("Summary")</code> and <code>setFormula</code> with <code>=SUMIF(Data!C:C, A2, Data!E:E)</code>. For the timestamp, write <code>=NOW()</code> or the script's <code>new Date()</code> value with a label. Test with a known total, a region that has no sales, a blank row in the data, and a changed source value to see whether the summary updates.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/excel/index.php">W3Schools Excel tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/exercises/">W3Schools exercises hub (Excel) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/excel">Microsoft Excel training (official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188">Excel functions reference (Microsoft) ↗</a></li><li><a target="_blank" rel="noopener" href="https://chandoo.org/wp/excel-school/">Chandoo.org free Excel lessons ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="excel-14-excel-macros-and-vba-recording-and-writing-automation.html"><small>← Previous</small><b>Excel Macros and VBA: Recording and Writing Automation</b></a><a class="next" href="excel-16-excel-business-projects-complaints-finance-productivity-and.html"><small>Next →</small><b>Excel Business Projects: Complaints, Finance, Productivity and Segmentation</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#office-scripts-automation-for-excel-on-the-web">Office Scripts: automation for Excel on the web</a><a href="#step-1-record-and-open-a-script">Step 1: record and open a script</a><a href="#step-2-make-the-script-adapt">Step 2: make the script adapt</a><a href="#step-3-run-it-on-a-schedule-with-power-automate">Step 3: run it on a schedule with Power Automate</a><a href="#ai-assisted-formulas">AI-assisted formulas</a><a href="#testing-an-ai-written-formula">Testing an AI-written formula</a><a href="#choosing-the-right-tool">Choosing the right tool</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

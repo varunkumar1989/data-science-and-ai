@@ -1,0 +1,262 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Incremental Loading and Data-Quality SQL · SQL Lesson 19 · Data Science &amp; AI Handbook</title><meta name="description" content="Load only what has changed, using watermarks, MERGE and upserts, and protect the warehouse with reusable data-quality checks for nulls, duplicates, orphans, ranges and freshness."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 19</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li><li class=""><a href="sql-16-recursive-ctes-hierarchies-and-number-series.html" data-lid="sql-16"><span>16</span>Recursive CTEs, Hierarchies and Number Series</a></li><li class=""><a href="sql-17-percentiles-medians-and-distribution-queries.html" data-lid="sql-17"><span>17</span>Percentiles, Medians and Distribution Queries</a></li><li class=""><a href="sql-18-business-sql-cohorts-funnels-churn-lifetime-value-and-retent.html" data-lid="sql-18"><span>18</span>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</a></li><li class="on"><a href="sql-19-incremental-loading-and-data-quality-sql.html" data-lid="sql-19"><span>19</span>Incremental Loading and Data-Quality SQL</a></li><li class=""><a href="sql-20-sql-across-platforms-sql-server-bigquery-snowflake-and-datab.html" data-lid="sql-20"><span>20</span>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-19">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 19 of 20</div><h1>Incremental Loading and Data-Quality SQL</h1>
+<p class="sum">Load only what has changed, using watermarks, MERGE and upserts, and protect the warehouse with reusable data-quality checks for nulls, duplicates, orphans, ranges and freshness.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_19_Incremental_Loading_and_Data_Quality_SQL.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-19">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain full versus incremental loads and when each is appropriate</li><li>Use a watermark (high-water mark) to pick up only new and changed rows</li><li>Write an upsert with MERGE (or INSERT ... ON CONFLICT) that does not create duplicates</li><li>Run a standard set of data-quality checks and report failures with counts</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-incremental-loads-matter">Why incremental loads matter</h2>
+<p>A full reload copies every row from the source each night. That is fine for ten thousand rows and painful for ten million. An <strong>incremental load</strong> copies only rows that are new or changed since the last run. It is faster, cheaper, and easier to recover from a failed run, provided it is designed correctly.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The nightly sales feed</b></div><p>The order system writes new orders and corrections all day. The warehouse must show yesterday's sales by 8 a.m. without reloading three years of history every night, and without double-counting the orders that were corrected. The engineer's job is to design the load and to prove the numbers match.</p></div>
+<h2 id="the-watermark">The watermark</h2>
+<p>A <strong>watermark</strong> is the highest value of a column that the last successful load reached, most often a timestamp such as <code>updated_at</code>. The next run asks for rows strictly greater than the watermark.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Pretend the warehouse table already holds orders up to 30 November 2025</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> fact_orders <span class="hl-k">AS</span>
+<span class="hl-k">SELECT</span> row_id, order_id, order_date, ship_date, ship_mode, customer_id, sales, profit
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_date &lt;= <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-11-30&#x27;</span>;
+
+<span class="hl-c">-- Watermark: the latest order date already loaded</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(order_date) <span class="hl-k">AS</span> watermark <span class="hl-k">FROM</span> fact_orders;
+
+<span class="hl-c">-- The incremental batch: only rows after the watermark</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> new_rows, <span class="hl-f">MIN</span>(order_date) <span class="hl-k">AS</span> first_new, <span class="hl-f">MAX</span>(order_date) <span class="hl-k">AS</span> last_new
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_date &gt; (<span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(order_date) <span class="hl-k">FROM</span> fact_orders);</code></pre></div><div class="output"><div class="out-h">Result</div><div class="rs-n">Result set 1</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>watermark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-11-30</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div><div class="rs-n">Result set 2</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>new_rows</th>
+      <th>first_new</th>
+      <th>last_new</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>262</td>
+      <td>2025-12-01</td>
+      <td>2025-12-31</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 3 columns</div></div>
+<p>The watermark is only as reliable as the column behind it. Two common traps:</p>
+<ul>
+<li><strong>Late-arriving rows</strong>: a row dated yesterday may arrive today. A watermark on the event date misses it; a watermark on the arrival or <code>updated_at</code> timestamp catches it.</li>
+<li><strong>Corrected rows</strong>: an updated order keeps its old date, so a date-based watermark never sees the change. Use <code>updated_at</code>, or re-load a safety window (for example, the last seven days) and let the upsert handle repeats.</li>
+</ul>
+<p>::::tip A safety window
+Many teams reload the last few days on every run and rely on an idempotent upsert. The extra rows cost little, and the design survives late corrections without special logic.
+::::</p>
+<h2 id="upserts-insert-new-rows-and-update-changed-ones">Upserts: insert new rows and update changed ones</h2>
+<p>An <strong>upsert</strong> inserts a row when its key is new and updates it when the key exists. Without it, a re-run creates duplicates. Standard SQL uses <code>MERGE</code>; PostgreSQL and DuckDB offer <code>INSERT ... ON CONFLICT</code>. The example below uses <code>INSERT ... ON CONFLICT</code> on the line-level key, which DuckDB supports.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- Target table keyed on the order line</span>
+<span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> fact_lines (
+    row_id     <span class="hl-k">BIGINT</span> <span class="hl-k">PRIMARY</span> <span class="hl-k">KEY</span>,
+    order_id   <span class="hl-k">VARCHAR</span>,
+    product_id <span class="hl-k">VARCHAR</span>,
+    sales      DOUBLE,
+    quantity   <span class="hl-k">BIGINT</span>,
+    discount   DOUBLE,
+    profit     DOUBLE
+);
+
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> fact_lines
+<span class="hl-k">SELECT</span> row_id, order_id, product_id, sales, quantity, discount, profit
+<span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> row_id &lt;= <span class="hl-n">100</span>;
+
+<span class="hl-c">-- Incoming batch: 50 lines, some of them corrected (same row_id, changed profit)</span>
+<span class="hl-k">CREATE</span> TEMP <span class="hl-k">TABLE</span> incoming <span class="hl-k">AS</span>
+<span class="hl-k">SELECT</span> row_id, order_id, product_id, sales, quantity, discount,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> row_id &lt;= <span class="hl-n">10</span> <span class="hl-k">THEN</span> profit + <span class="hl-n">100</span> <span class="hl-k">ELSE</span> profit <span class="hl-k">END</span> <span class="hl-k">AS</span> profit
+<span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> row_id <span class="hl-k">BETWEEN</span> <span class="hl-n">60</span> <span class="hl-k">AND</span> <span class="hl-n">110</span>;
+
+<span class="hl-c">-- Upsert: new keys are inserted, existing keys are updated</span>
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> fact_lines
+<span class="hl-k">SELECT</span> * <span class="hl-k">FROM</span> incoming
+<span class="hl-k">ON</span> CONFLICT (row_id) DO <span class="hl-k">UPDATE</span> <span class="hl-k">SET</span>
+    sales = excluded.sales,
+    quantity = excluded.quantity,
+    discount = excluded.discount,
+    profit = excluded.profit;
+
+<span class="hl-c">-- Check: no duplicate keys, and the expected total row count</span>
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> total_rows, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> row_id) <span class="hl-k">AS</span> distinct_keys <span class="hl-k">FROM</span> fact_lines;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(100 rows affected)
+Commands completed successfully.
+(51 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>total_rows</th>
+      <th>distinct_keys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>110</td>
+      <td>110</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<p>After the run, <code>total_rows</code> equals <code>distinct_keys</code>: the rows that overlapped were updated, not copied. Running the same batch twice produces the same result, which is the property called <strong>idempotency</strong>. Idempotent loads can be re-run safely after a failure.</p>
+<p>::::warn Plain INSERT is not an incremental load
+Inserting the batch without a key check doubles the overlapping rows. If a job failed halfway and was restarted, the totals would be wrong and nobody would see it without a check.
+::::</p>
+<h2 id="data-quality-checks">Data-quality checks</h2>
+<p>Good pipelines run checks after each load and stop or alert when a check fails. The five checks below cover most cases. Each query returns the number of failing rows, so zero means pass.</p>
+<h3 id="1-nulls-in-required-columns">1. Nulls in required columns</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> failing_rows
+<span class="hl-k">FROM</span> superstore
+<span class="hl-k">WHERE</span> order_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> order_date <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>failing_rows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="2-duplicate-keys">2. Duplicate keys</h3>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> duplicated_keys
+<span class="hl-k">FROM</span> (
+    <span class="hl-k">SELECT</span> row_id <span class="hl-k">FROM</span> superstore <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> row_id <span class="hl-k">HAVING</span> <span class="hl-f">COUNT</span>(*) &gt; <span class="hl-n">1</span>
+) d;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>duplicated_keys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="3-orphans-rows-whose-parent-does-not-exist">3. Orphans: rows whose parent does not exist</h3>
+<p>Here every order line must have a product in the product table. An orphan means the product was deleted in the source, or the join key was typed incorrectly.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> orphan_lines
+<span class="hl-k">FROM</span> superstore s
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = s.product_id
+<span class="hl-k">WHERE</span> p.product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>orphan_lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 1 columns</div></div>
+<h3 id="4-range-checks">4. Range checks</h3>
+<p>Quantities and discounts have business limits. A discount above 100% or a negative quantity is almost always a source error.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span>
+    <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> quantity &lt;= <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>)           <span class="hl-k">AS</span> non_positive_quantity,
+    <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> discount &lt; <span class="hl-n">0</span> <span class="hl-k">OR</span> discount &gt; <span class="hl-n">1</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>) <span class="hl-k">AS</span> discount_out_of_range,
+    <span class="hl-f">SUM</span>(<span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> sales &lt; <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-n">1</span> <span class="hl-k">ELSE</span> <span class="hl-n">0</span> <span class="hl-k">END</span>)                <span class="hl-k">AS</span> negative_sales
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>non_positive_quantity</th>
+      <th>discount_out_of_range</th>
+      <th>negative_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 3 columns</div></div>
+<h3 id="5-freshness">5. Freshness</h3>
+<p>A load that succeeds but brings no recent data is a failure too. This check reports how many days old the newest order is.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">SELECT</span> <span class="hl-f">MAX</span>(order_date) <span class="hl-k">AS</span> latest_order,
+       <span class="hl-f">DATE_DIFF</span>(<span class="hl-s">&#x27;day&#x27;</span>, <span class="hl-f">MAX</span>(order_date), <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-12-31&#x27;</span>) <span class="hl-k">AS</span> days_behind_reference
+<span class="hl-k">FROM</span> superstore;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>latest_order</th>
+      <th>days_behind_reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025-12-31</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 2 columns</div></div>
+<p>The reference date stands in for "today" so that the example is repeatable. In production, use <code>CURRENT_DATE</code>.</p>
+<h2 id="a-reusable-check-table">A reusable check table</h2>
+<p>Store results so that trends can be watched over time, not only at the moment of a failure.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">CREATE</span> <span class="hl-k">TABLE</span> <span class="hl-k">IF</span> <span class="hl-k">NOT</span> <span class="hl-k">EXISTS</span> dq_results (
+    check_name <span class="hl-k">VARCHAR</span>,
+    failing_rows <span class="hl-k">BIGINT</span>,
+    checked_on <span class="hl-k">DATE</span>
+);
+
+<span class="hl-k">INSERT</span> <span class="hl-k">INTO</span> dq_results
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;null_required_columns&#x27;</span>, <span class="hl-f">COUNT</span>(*), <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-12-31&#x27;</span>
+<span class="hl-k">FROM</span> superstore <span class="hl-k">WHERE</span> order_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> order_date <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span> <span class="hl-k">OR</span> product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+<span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+<span class="hl-k">SELECT</span> <span class="hl-s">&#x27;orphan_product_lines&#x27;</span>, <span class="hl-f">COUNT</span>(*), <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-12-31&#x27;</span>
+<span class="hl-k">FROM</span> superstore s <span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> products p <span class="hl-k">ON</span> p.product_id = s.product_id <span class="hl-k">WHERE</span> p.product_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>;
+
+<span class="hl-k">SELECT</span> check_name, failing_rows,
+       <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> failing_rows = <span class="hl-n">0</span> <span class="hl-k">THEN</span> <span class="hl-s">&#x27;PASS&#x27;</span> <span class="hl-k">ELSE</span> <span class="hl-s">&#x27;FAIL&#x27;</span> <span class="hl-k">END</span> <span class="hl-k">AS</span> status
+<span class="hl-k">FROM</span> dq_results;</code></pre></div><div class="output"><div class="out-h">Result</div><pre class="stdout msgs">Commands completed successfully.
+(2 rows affected)</pre><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>check_name</th>
+      <th>failing_rows</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>null_required_columns</td>
+      <td>0</td>
+      <td>PASS</td>
+    </tr>
+    <tr>
+      <td>orphan_product_lines</td>
+      <td>0</td>
+      <td>PASS</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 3 columns</div></div>
+<p>::::key Rules of thumb
+- Use a watermark on an arrival or update timestamp, and a safety window for late data.
+- Upsert on a stable key so that re-running a load does not create duplicates.
+- Check nulls, duplicates, orphans, ranges and freshness after every load, and record the results.
+- A check that returns a count is easy to alert on; a check that returns rows is easy to investigate.
+::::</p>
+<div class="quiz" id="quiz-sql-19-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is a watermark in an incremental load?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The total row count</button><button type="button" class="opt" data-ok="1"><i>B</i>The highest value of a column that the last successful load reached</button><button type="button" class="opt" data-ok="0"><i>C</i>The name of the source system</button><button type="button" class="opt" data-ok="0"><i>D</i>A password for the warehouse</button></div><div class="qexp"><b>Answer: B.</b> The next run loads rows beyond the watermark.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why is a date-based watermark risky?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Dates cannot be compared</button><button type="button" class="opt" data-ok="1"><i>B</i>Late-arriving or corrected rows may keep an old date and be missed</button><button type="button" class="opt" data-ok="0"><i>C</i>Dates are always duplicated</button><button type="button" class="opt" data-ok="0"><i>D</i>It is slower than a full load</button></div><div class="qexp"><b>Answer: B.</b> Updates to old rows do not move the event date forward.</div></div><div class="qq"><p class="qtext"><b>3.</b> What makes a load idempotent?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It runs only once</button><button type="button" class="opt" data-ok="1"><i>B</i>Running it again with the same input gives the same result</button><button type="button" class="opt" data-ok="0"><i>C</i>It deletes the target first</button><button type="button" class="opt" data-ok="0"><i>D</i>It uses no keys</button></div><div class="qexp"><b>Answer: B.</b> Idempotent loads are safe to repeat after a failure.</div></div><div class="qq"><p class="qtext"><b>4.</b> A data-quality check that returns 0 usually means:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The check failed</button><button type="button" class="opt" data-ok="1"><i>B</i>The check passed, because no rows broke the rule</button><button type="button" class="opt" data-ok="0"><i>C</i>The table is empty</button><button type="button" class="opt" data-ok="0"><i>D</i>The query has a syntax error</button></div><div class="qexp"><b>Answer: B.</b> Checks in this lesson count failing rows, so zero is a pass.</div></div><div class="qq"><p class="qtext"><b>5.</b> An orphan row is one that:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Has no date</button><button type="button" class="opt" data-ok="1"><i>B</i>Refers to a parent key that does not exist in the parent table</button><button type="button" class="opt" data-ok="0"><i>C</i>Is a duplicate</button><button type="button" class="opt" data-ok="0"><i>D</i>Has a negative value</button></div><div class="qexp"><b>Answer: B.</b> Orphans break joins and silently drop rows from reports.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Freshness and volume alerts</b></div><p>Write a single query over <code>superstore</code> that returns one row per month of 2025 with the number of order lines and the sales total. Add a column <code>alert</code> that shows 'LOW VOLUME' when the month's line count is less than 80% of the average monthly line count for 2025, otherwise 'OK'.</p><details class="sol"><summary>Show solution</summary><p>Hint: use a CTE with <code>DATE_TRUNC('month', order_date)</code> grouped by month, then a window <code>AVG(lines) OVER ()</code> to get the average, and a <code>CASE</code> expression comparing each month to <code>0.8 * average</code>.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-18-business-sql-cohorts-funnels-churn-lifetime-value-and-retent.html"><small>← Previous</small><b>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</b></a><a class="next" href="sql-20-sql-across-platforms-sql-server-bigquery-snowflake-and-datab.html"><small>Next →</small><b>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-incremental-loads-matter">Why incremental loads matter</a><a href="#the-watermark">The watermark</a><a href="#upserts-insert-new-rows-and-update-changed-ones">Upserts: insert new rows and update changed ones</a><a href="#data-quality-checks">Data-quality checks</a><a href="#a-reusable-check-table">A reusable check table</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

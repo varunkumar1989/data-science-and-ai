@@ -1,0 +1,334 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recursive CTEs, Hierarchies and Number Series · SQL Lesson 16 · Data Science &amp; AI Handbook</title><meta name="description" content="Use recursive common table expressions to walk hierarchies such as org charts and category trees, build number and date series without a calendar table, and avoid runaway recursion."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 16</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li><li class="on"><a href="sql-16-recursive-ctes-hierarchies-and-number-series.html" data-lid="sql-16"><span>16</span>Recursive CTEs, Hierarchies and Number Series</a></li><li class=""><a href="sql-17-percentiles-medians-and-distribution-queries.html" data-lid="sql-17"><span>17</span>Percentiles, Medians and Distribution Queries</a></li><li class=""><a href="sql-18-business-sql-cohorts-funnels-churn-lifetime-value-and-retent.html" data-lid="sql-18"><span>18</span>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</a></li><li class=""><a href="sql-19-incremental-loading-and-data-quality-sql.html" data-lid="sql-19"><span>19</span>Incremental Loading and Data-Quality SQL</a></li><li class=""><a href="sql-20-sql-across-platforms-sql-server-bigquery-snowflake-and-datab.html" data-lid="sql-20"><span>20</span>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-16">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 16 of 20</div><h1>Recursive CTEs, Hierarchies and Number Series</h1>
+<p class="sum">Use recursive common table expressions to walk hierarchies such as org charts and category trees, build number and date series without a calendar table, and avoid runaway recursion.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_16_Recursive_CTEs_Hierarchies_and_Number_Series.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-16">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the anchor member, the recursive member and the stopping condition of a recursive CTE</li><li>Walk an org chart or category tree and report each node's level and full path</li><li>Generate number and date series inside SQL</li><li>Protect queries against infinite recursion</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-hierarchies-need-recursion">Why hierarchies need recursion</h2>
+<p>Many business tables describe a tree. An employee reports to a manager who reports to a director. A product category contains sub-categories, which contain products. A bill of materials lists parts that are themselves made of parts. A plain <code>JOIN</code> only goes one level deep. A <strong>recursive CTE</strong> keeps joining a table to its own results until no new rows appear, so it can walk any depth.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Who reports to whom?</b></div><p>A regional head wants to know, for every employee, how many management levels sit above them and who their top-level leader is, so that a re-organisation can be planned. The org chart is a single table where each row names its manager. One query has to follow that chain to the top, whatever its length.</p></div>
+<h2 id="anatomy-of-a-recursive-cte">Anatomy of a recursive CTE</h2>
+<p>Every recursive CTE has three parts:</p>
+<ol>
+<li><strong>Anchor member</strong>: the starting rows, for example the people with no manager.</li>
+<li><strong>Recursive member</strong>: a query that joins back to the CTE itself to find the next level.</li>
+<li><strong>Stopping condition</strong>: the recursion ends when the recursive member returns no rows.</li>
+</ol>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">WITH RECURSIVE name AS (
+    SELECT ...            -- anchor: level 0
+    UNION ALL
+    SELECT ...            -- recursive: joins name to the next level
+    FROM table t
+    JOIN name n ON ...
+)
+SELECT * FROM name;</code></pre></div>
+<p><code>UNION ALL</code> is the usual choice, because it does not remove duplicates and so runs faster. Use <code>UNION</code> only when you need the engine to drop repeated rows, which also protects against cycles (see the warning below). In SQL Server the keyword <code>RECURSIVE</code> is not written; in PostgreSQL, DuckDB and SQLite it is.</p>
+<h2 id="example-1-an-org-chart">Example 1: an org chart</h2>
+<p>The table below is self-contained so you can run it as written. Each person has at most one manager; the CEO has no manager.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">org</span>(emp_id, name, manager_id) <span class="hl-k">AS</span> (
+    <span class="hl-k">VALUES</span>
+        (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Anika&#x27;</span>,  <span class="hl-k">NULL</span>),
+        (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Rohit&#x27;</span>,  <span class="hl-n">1</span>),
+        (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Meera&#x27;</span>,  <span class="hl-n">1</span>),
+        (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Kabir&#x27;</span>,  <span class="hl-n">2</span>),
+        (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Tara&#x27;</span>,   <span class="hl-n">2</span>),
+        (<span class="hl-n">6</span>, <span class="hl-s">&#x27;Dev&#x27;</span>,    <span class="hl-n">3</span>),
+        (<span class="hl-n">7</span>, <span class="hl-s">&#x27;Isha&#x27;</span>,   <span class="hl-n">4</span>)
+),
+chain <span class="hl-k">AS</span> (
+    <span class="hl-c">-- Anchor: the top of the hierarchy</span>
+    <span class="hl-k">SELECT</span> emp_id, name, manager_id, <span class="hl-n">0</span> <span class="hl-k">AS</span> level, name <span class="hl-k">AS</span> path
+    <span class="hl-k">FROM</span> org
+    <span class="hl-k">WHERE</span> manager_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-c">-- Recursive: everyone whose manager is already in the chain</span>
+    <span class="hl-k">SELECT</span> o.emp_id, o.name, o.manager_id, c.level + <span class="hl-n">1</span>, c.path || <span class="hl-s">&#x27; &gt; &#x27;</span> || o.name
+    <span class="hl-k">FROM</span> org o
+    <span class="hl-k">JOIN</span> chain c <span class="hl-k">ON</span> o.manager_id = c.emp_id
+)
+<span class="hl-k">SELECT</span> level, name, path
+<span class="hl-k">FROM</span> chain
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> path;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>level</th>
+      <th>name</th>
+      <th>path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Anika</td>
+      <td>Anika</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Meera</td>
+      <td>Anika &gt; Meera</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Dev</td>
+      <td>Anika &gt; Meera &gt; Dev</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Rohit</td>
+      <td>Anika &gt; Rohit</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Kabir</td>
+      <td>Anika &gt; Rohit &gt; Kabir</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Isha</td>
+      <td>Anika &gt; Rohit &gt; Kabir &gt; Isha</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Tara</td>
+      <td>Anika &gt; Rohit &gt; Tara</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 3 columns</div></div>
+<p>Read the result as a tree: level 0 is the CEO, level 1 the direct reports, and so on. The <code>path</code> column is built on the way down by appending each name to the parent's path, which is a common pattern for showing a breadcrumb.</p>
+<p><strong>Key idea</strong>: the recursive member can use anything the anchor produced, here <code>c.level</code> and <code>c.path</code>. That is how depth and paths are accumulated.</p>
+<h2 id="example-2-team-totals-across-the-whole-tree">Example 2: team totals across the whole tree</h2>
+<p>Once you can attach a root and a level to every node, you can roll up numbers. Here every person's team size counts everyone below them.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">org</span>(emp_id, name, manager_id) <span class="hl-k">AS</span> (
+    <span class="hl-k">VALUES</span> (<span class="hl-n">1</span>,<span class="hl-s">&#x27;Anika&#x27;</span>,<span class="hl-k">NULL</span>),(<span class="hl-n">2</span>,<span class="hl-s">&#x27;Rohit&#x27;</span>,<span class="hl-n">1</span>),(<span class="hl-n">3</span>,<span class="hl-s">&#x27;Meera&#x27;</span>,<span class="hl-n">1</span>),(<span class="hl-n">4</span>,<span class="hl-s">&#x27;Kabir&#x27;</span>,<span class="hl-n">2</span>),(<span class="hl-n">5</span>,<span class="hl-s">&#x27;Tara&#x27;</span>,<span class="hl-n">2</span>),(<span class="hl-n">6</span>,<span class="hl-s">&#x27;Dev&#x27;</span>,<span class="hl-n">3</span>),(<span class="hl-n">7</span>,<span class="hl-s">&#x27;Isha&#x27;</span>,<span class="hl-n">4</span>)
+),
+below <span class="hl-k">AS</span> (
+    <span class="hl-c">-- Each person paired with every person who reports to them, at any depth</span>
+    <span class="hl-k">SELECT</span> manager_id <span class="hl-k">AS</span> boss, emp_id <span class="hl-k">AS</span> report <span class="hl-k">FROM</span> org <span class="hl-k">WHERE</span> manager_id <span class="hl-k">IS</span> <span class="hl-k">NOT</span> <span class="hl-k">NULL</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> b.boss, o.emp_id
+    <span class="hl-k">FROM</span> below b
+    <span class="hl-k">JOIN</span> org o <span class="hl-k">ON</span> o.manager_id = b.report
+)
+<span class="hl-k">SELECT</span> o.name, <span class="hl-f">COUNT</span>(b.report) <span class="hl-k">AS</span> people_below
+<span class="hl-k">FROM</span> org o
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> below b <span class="hl-k">ON</span> b.boss = o.emp_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> o.name
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> people_below <span class="hl-k">DESC</span>, o.name;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>people_below</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Anika</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>Rohit</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Kabir</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Meera</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Dev</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Isha</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Tara</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 2 columns</div></div>
+<p>Notice that <code>below</code> is built by walking down from each boss. <code>COUNT</code> then counts every report at every depth, which a single <code>JOIN</code> could not do.</p>
+<h2 id="example-3-category-trees-with-depth">Example 3: category trees with depth</h2>
+<p>Product catalogues often nest categories several levels deep. The example below stores a small tree as a parent-child list and returns each node with its depth, so that a report can indent the categories.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">cat</span>(cat_id, cat_name, parent_id) <span class="hl-k">AS</span> (
+    <span class="hl-k">VALUES</span>
+        (<span class="hl-n">1</span>, <span class="hl-s">&#x27;Technology&#x27;</span>, <span class="hl-k">NULL</span>),
+        (<span class="hl-n">2</span>, <span class="hl-s">&#x27;Phones&#x27;</span>, <span class="hl-n">1</span>),
+        (<span class="hl-n">3</span>, <span class="hl-s">&#x27;Accessories&#x27;</span>, <span class="hl-n">1</span>),
+        (<span class="hl-n">4</span>, <span class="hl-s">&#x27;Chargers&#x27;</span>, <span class="hl-n">3</span>),
+        (<span class="hl-n">5</span>, <span class="hl-s">&#x27;Cables&#x27;</span>, <span class="hl-n">3</span>),
+        (<span class="hl-n">6</span>, <span class="hl-s">&#x27;Office Supplies&#x27;</span>, <span class="hl-k">NULL</span>),
+        (<span class="hl-n">7</span>, <span class="hl-s">&#x27;Paper&#x27;</span>, <span class="hl-n">6</span>)
+),
+tree <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> cat_id, cat_name, <span class="hl-n">1</span> <span class="hl-k">AS</span> depth, cat_name <span class="hl-k">AS</span> full_path
+    <span class="hl-k">FROM</span> cat <span class="hl-k">WHERE</span> parent_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> c.cat_id, c.cat_name, t.depth + <span class="hl-n">1</span>, t.full_path || <span class="hl-s">&#x27; / &#x27;</span> || c.cat_name
+    <span class="hl-k">FROM</span> cat c
+    <span class="hl-k">JOIN</span> tree t <span class="hl-k">ON</span> c.parent_id = t.cat_id
+)
+<span class="hl-k">SELECT</span> depth, <span class="hl-f">REPEAT</span>(<span class="hl-s">&#x27;   &#x27;</span>, depth - <span class="hl-n">1</span>) || cat_name <span class="hl-k">AS</span> indented_name, full_path
+<span class="hl-k">FROM</span> tree
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> full_path;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>depth</th>
+      <th>indented_name</th>
+      <th>full_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Office Supplies</td>
+      <td>Office Supplies</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Paper</td>
+      <td>Office Supplies / Paper</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Technology</td>
+      <td>Technology</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Accessories</td>
+      <td>Technology / Accessories</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Cables</td>
+      <td>Technology / Accessories / Cables</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Chargers</td>
+      <td>Technology / Accessories / Chargers</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Phones</td>
+      <td>Technology / Phones</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">7 rows × 3 columns</div></div>
+<p>The <code>REPEAT</code> call indents the name by its depth, which is the simplest way to show a tree in a flat table or a report.</p>
+<h2 id="example-4-a-number-and-date-series">Example 4: a number and date series</h2>
+<p>Recursive CTEs can create rows out of nothing. This is useful for building a list of months so that a month with zero sales still appears in a report, rather than vanishing because no order was placed.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> <span class="hl-k">RECURSIVE</span> <span class="hl-f">months</span>(month_start) <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2024-01-01&#x27;</span>
+    <span class="hl-k">UNION</span> <span class="hl-k">ALL</span>
+    <span class="hl-k">SELECT</span> month_start + INTERVAL <span class="hl-n">1</span> MONTH
+    <span class="hl-k">FROM</span> months
+    <span class="hl-k">WHERE</span> month_start &lt; <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2024-12-01&#x27;</span>
+),
+monthly_sales <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-f">DATE_TRUNC</span>(<span class="hl-s">&#x27;month&#x27;</span>, order_date) <span class="hl-k">AS</span> month_start, <span class="hl-f">SUM</span>(sales) <span class="hl-k">AS</span> sales
+    <span class="hl-k">FROM</span> superstore
+    <span class="hl-k">WHERE</span> order_date &gt;= <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2024-01-01&#x27;</span> <span class="hl-k">AND</span> order_date &lt; <span class="hl-k">DATE</span> <span class="hl-s">&#x27;2025-01-01&#x27;</span>
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-n">1</span>
+)
+<span class="hl-k">SELECT</span> m.month_start,
+       <span class="hl-f">COALESCE</span>(s.sales, <span class="hl-n">0</span>) <span class="hl-k">AS</span> sales
+<span class="hl-k">FROM</span> months m
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> monthly_sales s <span class="hl-k">ON</span> s.month_start = m.month_start
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> m.month_start;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>month_start</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2024-01-01</td>
+      <td>6,022,738</td>
+    </tr>
+    <tr>
+      <td>2024-02-01</td>
+      <td>2,463,147</td>
+    </tr>
+    <tr>
+      <td>2024-03-01</td>
+      <td>5,940,384</td>
+    </tr>
+    <tr>
+      <td>2024-04-01</td>
+      <td>4,620,479</td>
+    </tr>
+    <tr>
+      <td>2024-05-01</td>
+      <td>5,253,017</td>
+    </tr>
+    <tr>
+      <td>2024-06-01</td>
+      <td>4,012,674</td>
+    </tr>
+    <tr>
+      <td>2024-07-01</td>
+      <td>4,818,164</td>
+    </tr>
+    <tr>
+      <td>2024-08-01</td>
+      <td>5,757,228</td>
+    </tr>
+    <tr>
+      <td>2024-09-01</td>
+      <td>5,330,618</td>
+    </tr>
+    <tr>
+      <td>2024-10-01</td>
+      <td>7,255,348</td>
+    </tr>
+    <tr>
+      <td>2024-11-01</td>
+      <td>7,284,664</td>
+    </tr>
+    <tr>
+      <td>2024-12-01</td>
+      <td>6,638,096</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">12 rows × 2 columns</div></div>
+<p>Use the same idea with <code>UNION ALL</code> and a counter to build any series, such as 1 to 100 for bucketing or a list of working days for a schedule.</p>
+<h2 id="preventing-runaway-recursion">Preventing runaway recursion</h2>
+<p>If the data contains a loop (A reports to B, and B reports to A), a recursive query never ends. Two defences work well:</p>
+<ul>
+<li><strong>Stop by depth.</strong> Add <code>WHERE level &lt; 10</code> (or a similar limit) to the recursive member.</li>
+<li><strong>Use <code>UNION</code> instead of <code>UNION ALL</code></strong> when the same row could be reached twice, so the engine discards repeats.</li>
+</ul>
+<p>::::warn Loops in the data
+A recursive query over a table with a cycle will run until the engine gives up or runs out of memory. Always check for cycles first, and always include a depth limit in production queries.
+::::</p>
+<p>::::tip Recursion versus window functions
+Recursion is for hierarchies of unknown depth. If the question is about a fixed number of steps (for example, "the manager's manager"), two self-joins are simpler and faster.
+::::</p>
+<p>::::key What to remember
+- A recursive CTE is an anchor, a recursive member that joins to itself, and a stopping point.
+- Carry depth and path columns down the recursion to report levels and breadcrumbs.
+- Walk upwards (to the top) or downwards (to all descendants), depending on the join direction.
+- Add a depth limit to protect against cycles.
+- Recursion can also generate series of numbers and dates, filling gaps in reports.
+::::</p>
+<div class="quiz" id="quiz-sql-16-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the role of the anchor member in a recursive CTE?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It joins the CTE to itself</button><button type="button" class="opt" data-ok="0"><i>B</i>It stops the recursion</button><button type="button" class="opt" data-ok="1"><i>C</i>It supplies the starting rows of the hierarchy</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes duplicates</button></div><div class="qexp"><b>Answer: C.</b> The anchor is the non-recursive first query, such as the top-level employees.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which clause ends the recursion?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A LIMIT on the outer query</button><button type="button" class="opt" data-ok="1"><i>B</i>The recursive member returns no new rows</button><button type="button" class="opt" data-ok="0"><i>C</i>A HAVING clause</button><button type="button" class="opt" data-ok="0"><i>D</i>The ORDER BY clause</button></div><div class="qexp"><b>Answer: B.</b> Recursion stops when a pass produces no rows.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why is UNION ALL usually preferred in recursive CTEs?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>It does not remove duplicates, so it is faster</button><button type="button" class="opt" data-ok="0"><i>B</i>It is the only syntax allowed</button><button type="button" class="opt" data-ok="0"><i>C</i>It sorts the rows</button><button type="button" class="opt" data-ok="0"><i>D</i>It guarantees no cycles</button></div><div class="qexp"><b>Answer: A.</b> UNION ALL skips the duplicate-removal step; the trade-off is that cycles are not stopped automatically.</div></div><div class="qq"><p class="qtext"><b>4.</b> To list every month even when a month has no sales, you should:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Use an INNER JOIN with the sales table</button><button type="button" class="opt" data-ok="1"><i>B</i>Generate the months with a recursive CTE and LEFT JOIN the sales to it</button><button type="button" class="opt" data-ok="0"><i>C</i>Use DISTINCT on the order dates</button><button type="button" class="opt" data-ok="0"><i>D</i>Filter out zero sales</button></div><div class="qexp"><b>Answer: B.</b> The generated series supplies the missing months, and the LEFT JOIN keeps them.</div></div><div class="qq"><p class="qtext"><b>5.</b> A query over employee data never finishes. The most likely cause is:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The table has too many columns</button><button type="button" class="opt" data-ok="1"><i>B</i>The data contains a cycle and the recursion has no stopping limit</button><button type="button" class="opt" data-ok="0"><i>C</i>The ORDER BY is missing</button><button type="button" class="opt" data-ok="0"><i>D</i>The anchor returns no rows</button></div><div class="qexp"><b>Answer: B.</b> A cycle makes the recursive member produce rows forever.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build a reporting line report</b></div><p>Using the org chart from Example 1, write a query that returns each person's name, their level, their direct manager's name, and the number of people who report directly to them. Order the result by level, then by name.</p><details class="sol"><summary>Show solution</summary><p>Hint: join the <code>org</code> table to itself on <code>manager_id = emp_id</code> for the manager's name, and count direct reports with a separate <code>GROUP BY</code> on <code>manager_id</code>. Use the recursive <code>chain</code> CTE from Example 1 for the level.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-15-end-to-end-sql-case-study-and-interview-practice.html"><small>← Previous</small><b>End-to-End SQL Case Study &amp; Interview Practice</b></a><a class="next" href="sql-17-percentiles-medians-and-distribution-queries.html"><small>Next →</small><b>Percentiles, Medians and Distribution Queries</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-hierarchies-need-recursion">Why hierarchies need recursion</a><a href="#anatomy-of-a-recursive-cte">Anatomy of a recursive CTE</a><a href="#example-1-an-org-chart">Example 1: an org chart</a><a href="#example-2-team-totals-across-the-whole-tree">Example 2: team totals across the whole tree</a><a href="#example-3-category-trees-with-depth">Example 3: category trees with depth</a><a href="#example-4-a-number-and-date-series">Example 4: a number and date series</a><a href="#preventing-runaway-recursion">Preventing runaway recursion</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

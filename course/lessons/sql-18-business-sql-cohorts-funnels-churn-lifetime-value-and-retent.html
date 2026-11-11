@@ -1,0 +1,299 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention · SQL Lesson 18 · Data Science &amp; AI Handbook</title><meta name="description" content="Write the SQL behind the business questions that analysts are asked every week: cohort retention, conversion funnels, churn, customer lifetime value and retention rates, using the retail database."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-sql"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-sql">SQL for Data Analysis</a><span>/</span><b>Lesson 18</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#2563EB">SQL for Data Analysis</div>
+<ol class="side-l"><li class=""><a href="sql-01-databases-rdbms-and-sql-basics.html" data-lid="sql-01"><span>01</span>Databases, RDBMS &amp; SQL Basics</a></li><li class=""><a href="sql-02-er-diagrams-relationships-keys-and-normalisation.html" data-lid="sql-02"><span>02</span>ER Diagrams, Relationships, Keys &amp; Normalisation</a></li><li class=""><a href="sql-03-data-types-operators-nulls-variables-and-comments.html" data-lid="sql-03"><span>03</span>Data Types, Operators, NULLs, Variables &amp; Comments</a></li><li class=""><a href="sql-04-ddl-dml-and-constraints-create-alter-insert-update-delete.html" data-lid="sql-04"><span>04</span>DDL, DML &amp; Constraints: CREATE, ALTER, INSERT, UPDATE, DELETE</a></li><li class=""><a href="sql-05-select-where-order-by-and-filtering-operators.html" data-lid="sql-05"><span>05</span>SELECT, WHERE, ORDER BY &amp; Filtering Operators</a></li><li class=""><a href="sql-06-sql-functions-aggregate-text-date-and-number.html" data-lid="sql-06"><span>06</span>SQL Functions: Aggregate, Text, Date &amp; Number</a></li><li class=""><a href="sql-07-group-by-having-case-when-rollup-cube-and-coalesce.html" data-lid="sql-07"><span>07</span>GROUP BY, HAVING, CASE WHEN, ROLLUP, CUBE &amp; COALESCE</a></li><li class=""><a href="sql-08-joins-and-a-retail-case-study.html" data-lid="sql-08"><span>08</span>Joins and a Retail Case Study</a></li><li class=""><a href="sql-09-set-operators-union-union-all-intersect-and-except.html" data-lid="sql-09"><span>09</span>Set Operators: UNION, UNION ALL, INTERSECT &amp; EXCEPT</a></li><li class=""><a href="sql-10-subqueries-derived-tables-and-exists.html" data-lid="sql-10"><span>10</span>Subqueries, Derived Tables &amp; EXISTS</a></li><li class=""><a href="sql-11-offset-fetch-and-window-functions-i-over-partition-by-and-ra.html" data-lid="sql-11"><span>11</span>OFFSET-FETCH and Window Functions I: OVER, PARTITION BY &amp; Ranking</a></li><li class=""><a href="sql-12-window-functions-ii-running-totals-lead-lag-and-frames.html" data-lid="sql-12"><span>12</span>Window Functions II: Running Totals, LEAD, LAG &amp; Frames</a></li><li class=""><a href="sql-13-ctes-views-temporary-tables-stored-procedures-and-functions.html" data-lid="sql-13"><span>13</span>CTEs, Views, Temporary Tables, Stored Procedures &amp; Functions</a></li><li class=""><a href="sql-14-transactions-indexes-performance-and-security.html" data-lid="sql-14"><span>14</span>Transactions, Indexes, Performance &amp; Security</a></li><li class=""><a href="sql-15-end-to-end-sql-case-study-and-interview-practice.html" data-lid="sql-15"><span>15</span>End-to-End SQL Case Study &amp; Interview Practice</a></li><li class=""><a href="sql-16-recursive-ctes-hierarchies-and-number-series.html" data-lid="sql-16"><span>16</span>Recursive CTEs, Hierarchies and Number Series</a></li><li class=""><a href="sql-17-percentiles-medians-and-distribution-queries.html" data-lid="sql-17"><span>17</span>Percentiles, Medians and Distribution Queries</a></li><li class="on"><a href="sql-18-business-sql-cohorts-funnels-churn-lifetime-value-and-retent.html" data-lid="sql-18"><span>18</span>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</a></li><li class=""><a href="sql-19-incremental-loading-and-data-quality-sql.html" data-lid="sql-19"><span>19</span>Incremental Loading and Data-Quality SQL</a></li><li class=""><a href="sql-20-sql-across-platforms-sql-server-bigquery-snowflake-and-datab.html" data-lid="sql-20"><span>20</span>SQL Across Platforms: SQL Server, BigQuery, Snowflake and Databricks SQL</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="sql-18">
+<div class="lhead" style="--tc:#2563EB"><div class="kick">SQL for Data Analysis · Lesson 18 of 20</div><h1>Business SQL: Cohorts, Funnels, Churn, Lifetime Value and Retention</h1>
+<p class="sum">Write the SQL behind the business questions that analysts are asked every week: cohort retention, conversion funnels, churn, customer lifetime value and retention rates, using the retail database.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/sql/SQL_18_Business_SQL_Cohorts_Funnels_Churn_Lifetime_Value_and_Retention.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="sql-18">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Build a cohort table and read a retention triangle</li><li>Measure a multi-step funnel with conditional aggregation</li><li>Define churn precisely and calculate a churn rate for a period</li><li>Estimate customer lifetime value from historical orders</li><li>Compute repeat-purchase and retention rates</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="business-definitions-first">Business definitions first</h2>
+<p>Most SQL errors in business reporting come from unclear definitions, not from syntax. Before you query, write the definition in one sentence:</p>
+<ul>
+<li><strong>Active customer</strong>: placed at least one order in the period.</li>
+<li><strong>Churned customer</strong>: active in the previous period and not active in this one.</li>
+<li><strong>Cohort</strong>: customers grouped by the period of their first order.</li>
+<li><strong>Lifetime value (CLV)</strong>: total gross profit or sales a customer generates over their relationship with the business, in this lesson measured on the data we have.</li>
+</ul>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The retention review</b></div><p>The growth team wants to know whether customers acquired in 2023 still buy in 2024 and 2025, and whether the business is losing customers faster than it gains them. The answers need a cohort table, a churn rate and a lifetime value estimate, all built from the same orders table.</p></div>
+<h2 id="cohort-retention">Cohort retention</h2>
+<p>A cohort table counts how many customers from each first-order year were still active in later years. Each row is a cohort; each column is the year.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> first_order <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">MIN</span>(<span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date)) <span class="hl-k">AS</span> cohort_year
+    <span class="hl-k">FROM</span> orders
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+),
+activity <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> o.customer_id, <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> o.order_date) <span class="hl-k">AS</span> active_year
+    <span class="hl-k">FROM</span> orders o
+)
+<span class="hl-k">SELECT</span> f.cohort_year,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> f.customer_id)                                                    <span class="hl-k">AS</span> cohort_size,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> a.active_year = f.cohort_year     <span class="hl-k">THEN</span> a.customer_id <span class="hl-k">END</span>) <span class="hl-k">AS</span> active_y0,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> a.active_year = f.cohort_year + <span class="hl-n">1</span> <span class="hl-k">THEN</span> a.customer_id <span class="hl-k">END</span>) <span class="hl-k">AS</span> active_y1,
+       <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> <span class="hl-k">CASE</span> <span class="hl-k">WHEN</span> a.active_year = f.cohort_year + <span class="hl-n">2</span> <span class="hl-k">THEN</span> a.customer_id <span class="hl-k">END</span>) <span class="hl-k">AS</span> active_y2
+<span class="hl-k">FROM</span> first_order f
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> activity a <span class="hl-k">ON</span> a.customer_id = f.customer_id
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> f.cohort_year
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> f.cohort_year;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cohort_year</th>
+      <th>cohort_size</th>
+      <th>active_y0</th>
+      <th>active_y1</th>
+      <th>active_y2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>540</td>
+      <td>540</td>
+      <td>397</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>193</td>
+      <td>193</td>
+      <td>156</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>52</td>
+      <td>52</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">3 rows × 5 columns</div></div>
+<p>Read the table across a row to see decay: if <code>active_y1</code> is well below <code>cohort_size</code>, the first renewal is where customers leave. Convert each count to a percentage of <code>cohort_size</code> for the retention triangle that stakeholders expect.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> first_order <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">MIN</span>(<span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date)) <span class="hl-k">AS</span> cohort_year
+    <span class="hl-k">FROM</span> orders <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+),
+activity <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> customer_id, <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) <span class="hl-k">AS</span> active_year <span class="hl-k">FROM</span> orders
+),
+cohort <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> f.cohort_year, a.active_year - f.cohort_year <span class="hl-k">AS</span> years_since_first, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> a.customer_id) <span class="hl-k">AS</span> active
+    <span class="hl-k">FROM</span> first_order f
+    <span class="hl-k">JOIN</span> activity a <span class="hl-k">ON</span> a.customer_id = f.customer_id
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> <span class="hl-n">1</span>, <span class="hl-n">2</span>
+),
+sizes <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> cohort_year, <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> cohort_size <span class="hl-k">FROM</span> first_order <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> cohort_year
+)
+<span class="hl-k">SELECT</span> c.cohort_year, c.years_since_first,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * c.active / s.cohort_size, <span class="hl-n">1</span>) <span class="hl-k">AS</span> retention_pct
+<span class="hl-k">FROM</span> cohort c
+<span class="hl-k">JOIN</span> sizes s <span class="hl-k">ON</span> s.cohort_year = c.cohort_year
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> c.cohort_year, c.years_since_first;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cohort_year</th>
+      <th>years_since_first</th>
+      <th>retention_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>1</td>
+      <td>73.5</td>
+    </tr>
+    <tr>
+      <td>2023</td>
+      <td>2</td>
+      <td>76.9</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>1</td>
+      <td>80.8</td>
+    </tr>
+    <tr>
+      <td>2025</td>
+      <td>0</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">6 rows × 3 columns</div></div>
+<p>::::tip Use the right denominator
+Retention is always measured against the cohort's starting size, not against the previous year's active count. Dividing by the wrong base is one of the most common cohort mistakes.
+::::</p>
+<h2 id="conversion-funnels">Conversion funnels</h2>
+<p>A funnel counts customers who reach each stage. The retail data has no page views, so this example builds a simple funnel from the order history: customers who placed any order, customers who placed a second order, and customers who placed a third order.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> per_customer <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id,
+           <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders_placed
+    <span class="hl-k">FROM</span> orders
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+)
+<span class="hl-k">SELECT</span>
+    <span class="hl-f">COUNT</span>(*)                                                    <span class="hl-k">AS</span> stage_1_customers,
+    <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">2</span>)                  <span class="hl-k">AS</span> stage_2_repeat_buyers,
+    <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">3</span>)                  <span class="hl-k">AS</span> stage_3_loyal_buyers,
+    <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">2</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> pct_stage_1_to_2,
+    <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">3</span>)
+          / <span class="hl-f">NULLIF</span>(<span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders_placed &gt;= <span class="hl-n">2</span>), <span class="hl-n">0</span>), <span class="hl-n">1</span>)        <span class="hl-k">AS</span> pct_stage_2_to_3
+<span class="hl-k">FROM</span> per_customer;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>stage_1_customers</th>
+      <th>stage_2_repeat_buyers</th>
+      <th>stage_3_loyal_buyers</th>
+      <th>pct_stage_1_to_2</th>
+      <th>pct_stage_2_to_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>785</td>
+      <td>729</td>
+      <td>606</td>
+      <td>92.9</td>
+      <td>83.1</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 5 columns</div></div>
+<p>Each stage is a subset of the one above it, so the counts can only fall. The conversion between stages is the figure to track: a small improvement from stage 1 to stage 2 usually matters more than any change further down.</p>
+<p>::::note Funnels need ordered events
+A real funnel uses ordered events with timestamps (visit, add to cart, checkout, purchase). The pattern above is the same, but each stage must also be restricted to happen before the next, for example with <code>MIN(event_time)</code> per stage per user.
+::::</p>
+<h2 id="churn">Churn</h2>
+<p>Churn is easy to misreport, so define it in the query. The example below defines a customer as churned in a year if they were active the previous year and did not order in this year.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> active <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> customer_id, <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) <span class="hl-k">AS</span> y <span class="hl-k">FROM</span> orders
+),
+years <span class="hl-k">AS</span> (<span class="hl-k">SELECT</span> <span class="hl-k">DISTINCT</span> <span class="hl-f">EXTRACT</span>(YEAR <span class="hl-k">FROM</span> order_date) <span class="hl-k">AS</span> y <span class="hl-k">FROM</span> orders)
+<span class="hl-k">SELECT</span> p.y <span class="hl-k">AS</span> year,
+       <span class="hl-f">COUNT</span>(*) <span class="hl-k">AS</span> active_last_year,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> c.customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>) <span class="hl-k">AS</span> churned_this_year,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> c.customer_id <span class="hl-k">IS</span> <span class="hl-k">NULL</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> churn_rate_pct
+<span class="hl-k">FROM</span> active p
+<span class="hl-k">LEFT</span> <span class="hl-k">JOIN</span> active c <span class="hl-k">ON</span> c.customer_id = p.customer_id <span class="hl-k">AND</span> c.y = p.y + <span class="hl-n">1</span>
+<span class="hl-k">WHERE</span> p.y + <span class="hl-n">1</span> <span class="hl-k">IN</span> (<span class="hl-k">SELECT</span> y <span class="hl-k">FROM</span> years)
+<span class="hl-k">GROUP</span> <span class="hl-k">BY</span> p.y
+<span class="hl-k">ORDER</span> <span class="hl-k">BY</span> p.y;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>active_last_year</th>
+      <th>churned_this_year</th>
+      <th>churn_rate_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023</td>
+      <td>540</td>
+      <td>143</td>
+      <td>26.5</td>
+    </tr>
+    <tr>
+      <td>2024</td>
+      <td>590</td>
+      <td>123</td>
+      <td>20.8</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">2 rows × 4 columns</div></div>
+<p>Read the output carefully: the rate is churn from one year to the next, measured on customers who were active in the earlier year. Customers who were new in the later year are not part of this calculation.</p>
+<p>::::warn Churn depends on the window
+A customer who bought in December 2023 and again in January 2025 is churned in 2024 under the yearly definition used above, then reactivated in 2025. Monthly, quarterly and yearly definitions give different churn rates. State the one you used on every chart.
+::::</p>
+<h2 id="customer-lifetime-value">Customer lifetime value</h2>
+<p>A simple, honest estimate of customer lifetime value from history is the average gross profit per customer multiplied by the average number of orders per customer, with the period stated. Real CLV models add discounting and predicted future behaviour; this query gives the historical baseline.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> cust <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> o.customer_id,
+           <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> o.order_id) <span class="hl-k">AS</span> orders,
+           <span class="hl-f">SUM</span>(i.sales)               <span class="hl-k">AS</span> revenue,
+           <span class="hl-f">SUM</span>(i.profit)              <span class="hl-k">AS</span> gross_profit
+    <span class="hl-k">FROM</span> orders o
+    <span class="hl-k">JOIN</span> order_items i <span class="hl-k">ON</span> i.order_id = o.order_id
+    <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> o.customer_id
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                               <span class="hl-k">AS</span> customers,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(orders), <span class="hl-n">2</span>)                  <span class="hl-k">AS</span> avg_orders,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(revenue), <span class="hl-n">0</span>)                 <span class="hl-k">AS</span> avg_revenue,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(gross_profit), <span class="hl-n">0</span>)            <span class="hl-k">AS</span> avg_profit_to_date,
+       <span class="hl-f">ROUND</span>(<span class="hl-f">AVG</span>(gross_profit / <span class="hl-f">NULLIF</span>(orders, <span class="hl-n">0</span>)), <span class="hl-n">0</span>) <span class="hl-k">AS</span> avg_profit_per_order
+<span class="hl-k">FROM</span> cust;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers</th>
+      <th>avg_orders</th>
+      <th>avg_revenue</th>
+      <th>avg_profit_to_date</th>
+      <th>avg_profit_per_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>785</td>
+      <td>4.08</td>
+      <td>256,578</td>
+      <td>23,379</td>
+      <td>5,881</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 5 columns</div></div>
+<p>To find the value of a segment, repeat the query per segment (for example, by <code>segment</code> from the customers table). Compare segments on profit, not revenue: a segment with high revenue and thin margins may be worth less.</p>
+<h2 id="retention-and-repeat-rate">Retention and repeat rate</h2>
+<p>The repeat rate is the share of customers with two or more orders. It is simple and widely reported, and it shows whether one-time buyers are the main pattern.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-k">WITH</span> counts <span class="hl-k">AS</span> (
+    <span class="hl-k">SELECT</span> customer_id, <span class="hl-f">COUNT</span>(<span class="hl-k">DISTINCT</span> order_id) <span class="hl-k">AS</span> orders <span class="hl-k">FROM</span> orders <span class="hl-k">GROUP</span> <span class="hl-k">BY</span> customer_id
+)
+<span class="hl-k">SELECT</span> <span class="hl-f">COUNT</span>(*)                                                    <span class="hl-k">AS</span> customers,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders = <span class="hl-n">1</span>)                          <span class="hl-k">AS</span> one_time_buyers,
+       <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders &gt;= <span class="hl-n">2</span>)                         <span class="hl-k">AS</span> repeat_buyers,
+       <span class="hl-f">ROUND</span>(<span class="hl-n">100.0</span> * <span class="hl-f">COUNT</span>(*) FILTER (<span class="hl-k">WHERE</span> orders &gt;= <span class="hl-n">2</span>) / <span class="hl-f">COUNT</span>(*), <span class="hl-n">1</span>) <span class="hl-k">AS</span> repeat_rate_pct
+<span class="hl-k">FROM</span> counts;</code></pre></div><div class="output"><div class="out-h">Result</div><div class="tblwrap"><table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customers</th>
+      <th>one_time_buyers</th>
+      <th>repeat_buyers</th>
+      <th>repeat_rate_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>785</td>
+      <td>56</td>
+      <td>729</td>
+      <td>92.9</td>
+    </tr>
+  </tbody>
+</table></div></div><div class="shape">1 rows × 4 columns</div></div>
+<p>::::key What to remember
+- Write the definition (active, churned, cohort, CLV) before writing SQL.
+- Cohorts group customers by first purchase; retention divides by the cohort's starting size.
+- Funnels are subsets that shrink at each stage; report the stage-to-stage conversion.
+- Churn depends on the window you choose, so state it.
+- CLV from history is a baseline; use profit, not revenue, to compare segments.
+::::</p>
+<div class="quiz" id="quiz-sql-18-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In a cohort table, a customer's cohort is based on:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Their most recent order</button><button type="button" class="opt" data-ok="1"><i>B</i>Their first order</button><button type="button" class="opt" data-ok="0"><i>C</i>Their segment</button><button type="button" class="opt" data-ok="0"><i>D</i>The product they bought most</button></div><div class="qexp"><b>Answer: B.</b> A cohort groups customers by the period of their first activity.</div></div><div class="qq"><p class="qtext"><b>2.</b> Retention for year 1 should be divided by:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The previous year's active count</button><button type="button" class="opt" data-ok="0"><i>B</i>Total revenue</button><button type="button" class="opt" data-ok="1"><i>C</i>The cohort's starting size</button><button type="button" class="opt" data-ok="0"><i>D</i>The number of orders</button></div><div class="qexp"><b>Answer: C.</b> Retention is measured against the group you started with.</div></div><div class="qq"><p class="qtext"><b>3.</b> A funnel's stage 2 count is larger than stage 1. What is wrong?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing; funnels can grow</button><button type="button" class="opt" data-ok="1"><i>B</i>Stage 2 is a subset of stage 1, so the definition or the join is wrong</button><button type="button" class="opt" data-ok="0"><i>C</i>Stage 1 should be ignored</button><button type="button" class="opt" data-ok="0"><i>D</i>Stage 2 must use revenue</button></div><div class="qexp"><b>Answer: B.</b> Each stage must be a subset of the stage before it.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why is comparing segments on profit safer than on revenue?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Profit is always larger</button><button type="button" class="opt" data-ok="1"><i>B</i>Revenue can be high while margins are thin, so profit shows which segment is worth more</button><button type="button" class="opt" data-ok="0"><i>C</i>Revenue cannot be queried</button><button type="button" class="opt" data-ok="0"><i>D</i>Profit includes discounts</button></div><div class="qexp"><b>Answer: B.</b> Profit shows what the business keeps.</div></div><div class="qq"><p class="qtext"><b>5.</b> The repeat rate counts customers with:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>One order</button><button type="button" class="opt" data-ok="1"><i>B</i>Two or more orders</button><button type="button" class="opt" data-ok="0"><i>C</i>No orders</button><button type="button" class="opt" data-ok="0"><i>D</i>The highest spend</button></div><div class="qexp"><b>Answer: B.</b> Repeat buyers placed at least two orders.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Win-back list</b></div><p>Write a query that lists customers who were active in 2024 but placed no order in 2025. For each, show their segment, their 2024 gross profit and their last order date. Order by 2024 profit, highest first, and return the top 20.</p><details class="sol"><summary>Show solution</summary><p>Hint: find 2024 customers and 2025 customers in two CTEs, keep 2024 customers with <code>LEFT JOIN</code> to 2025 and <code>WHERE</code> the 2025 side is <code>NULL</code>. Join <code>customers</code> for the segment and aggregate <code>order_items</code> for profit.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/default.asp">W3Schools SQL tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/sql/sql_exercises.asp">W3Schools SQL exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL">W3Schools SQL quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://sqlbolt.com/">SQLBolt interactive lessons ↗</a></li><li><a target="_blank" rel="noopener" href="https://leetcode.com/studyplan/top-sql-50/">LeetCode SQL 50 study plan ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/domains/sql">HackerRank SQL practice ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sql/t-sql/language-reference">T-SQL reference (Microsoft Learn) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="sql-17-percentiles-medians-and-distribution-queries.html"><small>← Previous</small><b>Percentiles, Medians and Distribution Queries</b></a><a class="next" href="sql-19-incremental-loading-and-data-quality-sql.html"><small>Next →</small><b>Incremental Loading and Data-Quality SQL</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#business-definitions-first">Business definitions first</a><a href="#cohort-retention">Cohort retention</a><a href="#conversion-funnels">Conversion funnels</a><a href="#churn">Churn</a><a href="#customer-lifetime-value">Customer lifetime value</a><a href="#retention-and-repeat-rate">Retention and repeat rate</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>
