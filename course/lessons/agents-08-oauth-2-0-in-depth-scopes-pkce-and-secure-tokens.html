@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OAuth 2.0 in Depth: Scopes, PKCE and Secure Tokens · Agents Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand how OAuth 2.0 lets an app act for a user without seeing the user&#x27;s password. Learn the authorisation code flow with PKCE, how scopes limit a token, how access and refresh tokens expire and renew, and how to store and protect tokens so that AI agents and integrations do not become a security hole."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class=""><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class=""><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class=""><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class=""><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li><li class=""><a href="agents-07-openapi-and-swagger-describing-apis-so-machines-and-people-c.html" data-lid="agents-07"><span>07</span>OpenAPI and Swagger: Describing APIs So Machines and People Can Use Them</a></li><li class="on"><a href="agents-08-oauth-2-0-in-depth-scopes-pkce-and-secure-tokens.html" data-lid="agents-08"><span>08</span>OAuth 2.0 in Depth: Scopes, PKCE and Secure Tokens</a></li><li class=""><a href="agents-09-mcp-security-and-business-integrations-crm-erp-jira-slack-an.html" data-lid="agents-09"><span>09</span>MCP Security and Business Integrations: CRM, ERP, Jira, Slack and Notion</a></li><li class=""><a href="agents-10-agent-frameworks-langgraph-crewai-and-autogen.html" data-lid="agents-10"><span>10</span>Agent Frameworks: LangGraph, CrewAI and AutoGen</a></li><li class=""><a href="agents-11-agent-evaluation-and-monitoring-measuring-whether-an-agent-w.html" data-lid="agents-11"><span>11</span>Agent Evaluation and Monitoring: Measuring Whether an Agent Works</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-08">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 8 of 11</div><h1>OAuth 2.0 in Depth: Scopes, PKCE and Secure Tokens</h1>
+<p class="sum">Understand how OAuth 2.0 lets an app act for a user without seeing the user's password. Learn the authorisation code flow with PKCE, how scopes limit a token, how access and refresh tokens expire and renew, and how to store and protect tokens so that AI agents and integrations do not become a security hole.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_08_OAuth_2_0_in_Depth_Scopes_PKCE_and_Secure_Tokens.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-08">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain the roles in OAuth 2.0: resource owner, client, authorisation server and resource server</li><li>Walk through the authorisation code flow with PKCE step by step</li><li>Request the smallest set of scopes an integration needs</li><li>Store, rotate and revoke tokens safely</li></ul></div></div>
+<div class="content"><h2 id="the-problem-oauth-solves">The problem OAuth solves</h2>
+<p>A bot that reads a user's email should not ask for the user's password. Passwords give full access, cannot be limited, and are hard to revoke without changing them everywhere. <strong>OAuth 2.0</strong> is the standard that lets a user approve a specific kind of access for a specific app, through the provider that holds the account. The app receives a <strong>token</strong>, which it presents instead of the password.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A Slack bot that posts, but cannot read</b></div><p>A team wants a bot that posts daily summaries to one channel. The bot needs only the permission to post messages. With OAuth, the team approves a token limited to posting. If the bot is compromised, it cannot read private channels or change settings.</p></div>
+<h2 id="the-four-roles">The four roles</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Role</th>
+<th>Who</th>
+<th>In the Slack example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resource owner</td>
+<td>The person whose data is accessed</td>
+<td>The workspace admin who approves</td>
+</tr>
+<tr>
+<td>Client</td>
+<td>The app that wants access</td>
+<td>The summary bot</td>
+</tr>
+<tr>
+<td>Authorisation server</td>
+<td>Issues tokens after the user approves</td>
+<td>Slack's sign-in service</td>
+</tr>
+<tr>
+<td>Resource server</td>
+<td>Holds the data and checks tokens</td>
+<td>Slack's API</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-authorisation-code-flow-with-pkce">The authorisation code flow with PKCE</h2>
+<p>For apps that run on a user's device or in a browser, the standard flow is the <strong>authorisation code flow with PKCE</strong> (Proof Key for Code Exchange, pronounced "pixy"). PKCE stops an attacker who intercepts the authorisation code from using it.</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">1. Client creates a random secret (code_verifier) and its hash (code_challenge)
+2. Client sends the user to the authorisation server with:
+      client_id, redirect_uri, scope, state, code_challenge, code_challenge_method=S256
+3. User signs in and approves the requested scopes
+4. Authorisation server redirects back with a one-time code and the state value
+5. Client checks state matches (protects against forged redirects)
+6. Client sends the code + code_verifier to the token endpoint
+7. Server checks the verifier matches the challenge and returns:
+      access_token (short-lived), refresh_token (optional), expires_in, scope
+8. Client calls the resource server with: Authorization: Bearer &lt;access_token&gt;</code></pre></div>
+<p>Two values protect the flow. <code>state</code> is a random value the client checks on return, so that a forged redirect is rejected. The <code>code_verifier</code> must match the <code>code_challenge</code> sent earlier, so a stolen code is useless on its own.</p>
+<p>Here is the token exchange in Python, shown as code and <strong>not run</strong>, because it needs a live provider:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Illustrative only: replace the URLs and values with your provider&#x27;s documentation.</span>
+<span class="hl-k">import</span> base64, hashlib, secrets, urllib.parse
+<span class="hl-k">import</span> requests
+
+verifier = <span class="hl-f">base64.urlsafe_b64encode</span>(<span class="hl-f">secrets.token_bytes</span>(<span class="hl-n">32</span>)).<span class="hl-f">rstrip</span>(b<span class="hl-s">&quot;=&quot;</span>).<span class="hl-f">decode</span>()
+challenge = <span class="hl-f">base64.urlsafe_b64encode</span>(<span class="hl-f">hashlib.sha256</span>(<span class="hl-f">verifier.encode</span>()).<span class="hl-f">digest</span>()).<span class="hl-f">rstrip</span>(b<span class="hl-s">&quot;=&quot;</span>).<span class="hl-f">decode</span>()
+
+auth_url = <span class="hl-s">&quot;https://provider.example/oauth/authorize?&quot;</span> + <span class="hl-f">urllib.parse.urlencode</span>({
+    <span class="hl-s">&quot;client_id&quot;</span>: <span class="hl-s">&quot;YOUR_CLIENT_ID&quot;</span>, <span class="hl-s">&quot;redirect_uri&quot;</span>: <span class="hl-s">&quot;https://app.example/callback&quot;</span>,
+    <span class="hl-s">&quot;response_type&quot;</span>: <span class="hl-s">&quot;code&quot;</span>, <span class="hl-s">&quot;scope&quot;</span>: <span class="hl-s">&quot;chat:write&quot;</span>,
+    <span class="hl-s">&quot;state&quot;</span>: <span class="hl-f">secrets.token_urlsafe</span>(<span class="hl-n">16</span>), <span class="hl-s">&quot;code_challenge&quot;</span>: challenge, <span class="hl-s">&quot;code_challenge_method&quot;</span>: <span class="hl-s">&quot;S256&quot;</span>})
+
+<span class="hl-c"># ... user approves, your callback receives ?code=...&amp;state=...</span>
+resp = <span class="hl-f">requests.post</span>(<span class="hl-s">&quot;https://provider.example/oauth/token&quot;</span>, data={
+    <span class="hl-s">&quot;grant_type&quot;</span>: <span class="hl-s">&quot;authorization_code&quot;</span>, <span class="hl-s">&quot;code&quot;</span>: <span class="hl-s">&quot;CODE_FROM_CALLBACK&quot;</span>,
+    <span class="hl-s">&quot;redirect_uri&quot;</span>: <span class="hl-s">&quot;https://app.example/callback&quot;</span>, <span class="hl-s">&quot;client_id&quot;</span>: <span class="hl-s">&quot;YOUR_CLIENT_ID&quot;</span>,
+    <span class="hl-s">&quot;code_verifier&quot;</span>: verifier}, timeout=<span class="hl-n">30</span>)
+token = <span class="hl-f">resp.json</span>()[<span class="hl-s">&quot;access_token&quot;</span>]</code></pre></div>
+<h2 id="scopes-give-the-smallest-permission-that-works">Scopes: give the smallest permission that works</h2>
+<p>A <strong>scope</strong> names a permission, such as <code>chat:write</code> or <code>orders:read</code>. The token carries only the scopes the user approved. Request the minimum:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Integration</th>
+<th>Needed scopes</th>
+<th>Not needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily summary poster</td>
+<td><code>chat:write</code></td>
+<td><code>channels:read</code>, <code>users:read</code>, admin scopes</td>
+</tr>
+<tr>
+<td>Order status lookup</td>
+<td><code>orders:read</code></td>
+<td><code>orders:write</code>, <code>payments:*</code></td>
+</tr>
+<tr>
+<td>Ticket triage bot</td>
+<td><code>tickets:read</code>, <code>tickets:comment</code></td>
+<td><code>tickets:delete</code>, <code>admin</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Ask for more scopes later, when a feature needs them, and explain why. A user who sees "read and write everything" will refuse; one who sees "post messages" will say yes.</p>
+<p>::::warn Admin tokens for an AI client
+An AI client that holds an administrator's token can do anything the administrator can do, including by mistake or under prompt injection. This is the single most common mistake with agent integrations. Give the agent a token for a service account with only the scopes the task needs.
+::::</p>
+<h2 id="access-tokens-refresh-tokens-and-expiry">Access tokens, refresh tokens and expiry</h2>
+<ul>
+<li><strong>Access tokens</strong> are short-lived (minutes to an hour). If one leaks, its useful life is limited.</li>
+<li><strong>Refresh tokens</strong> are longer-lived and exchanged for new access tokens without the user signing in again. They are the most sensitive token, because they keep access alive.</li>
+<li><strong>Revocation</strong> lets a user or administrator cancel access. Build a way to revoke a token from your admin page, and test it.</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Renewing an access token with a refresh token (illustrative; not run)</span>
+<span class="hl-k">def</span> <span class="hl-f">refresh_access_token</span>(refresh_token: str) -&gt; str:
+    resp = <span class="hl-f">requests.post</span>(<span class="hl-s">&quot;https://provider.example/oauth/token&quot;</span>, data={
+        <span class="hl-s">&quot;grant_type&quot;</span>: <span class="hl-s">&quot;refresh_token&quot;</span>, <span class="hl-s">&quot;refresh_token&quot;</span>: refresh_token,
+        <span class="hl-s">&quot;client_id&quot;</span>: <span class="hl-s">&quot;YOUR_CLIENT_ID&quot;</span>}, timeout=<span class="hl-n">30</span>)
+    <span class="hl-f">resp.raise_for_status</span>()
+    <span class="hl-k">return</span> <span class="hl-f">resp.json</span>()[<span class="hl-s">&quot;access_token&quot;</span>]</code></pre></div>
+<h2 id="storing-and-protecting-tokens">Storing and protecting tokens</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Do</th>
+<th>Do not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Store tokens in a secrets manager or an encrypted database column</td>
+<td>Store tokens in source code, config files committed to git, or client-side JavaScript</td>
+</tr>
+<tr>
+<td>Keep access tokens in server memory or a short-lived cache</td>
+<td>Put tokens in URLs, query strings or browser storage</td>
+</tr>
+<tr>
+<td>Redact tokens from logs</td>
+<td>Log full request headers</td>
+</tr>
+<tr>
+<td>Rotate client secrets and review scopes regularly</td>
+<td>Reuse one token across many systems</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="a-checklist-for-every-oauth-integration">A checklist for every OAuth integration</h2>
+<ol>
+<li>The smallest scope set is documented with the reason for each scope.</li>
+<li>PKCE and <code>state</code> are used for any flow involving a browser.</li>
+<li>Tokens are stored in a secrets manager, not in code or logs.</li>
+<li>Access tokens expire; refresh tokens are protected and revocable.</li>
+<li>The integration uses a service account, not a personal admin login.</li>
+<li>A test confirms that a revoked token is refused.</li>
+</ol>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you let an AI agent read a customer&#x27;s support tickets safely?</b></div><p>Use OAuth with a read-only scope such as <code>tickets:read</code> and a service account limited to the customer's team. Keep the token in a secrets manager, use short-lived access tokens, log each tool call without logging the token, and add a human approval step before any write action such as closing a ticket.</p></div>
+<p>::::key What to remember
+- OAuth lets an app act for a user without the user's password.
+- The authorisation code flow with PKCE and the <code>state</code> value protect the sign-in.
+- Request the smallest set of scopes, and never give an AI client admin rights.
+- Access tokens expire; refresh tokens are the most sensitive and must be revocable.
+- Store tokens in a secrets manager and keep them out of logs, URLs and code.
+::::</p>
+<div class="quiz" id="quiz-agents-08-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does the <code>scope</code> in an OAuth request define?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The time the token lasts</button><button type="button" class="opt" data-ok="0"><i>B</i>The server that issues the token</button><button type="button" class="opt" data-ok="1"><i>C</i>The permissions the token grants</button><button type="button" class="opt" data-ok="0"><i>D</i>The user's password</button></div><div class="qexp"><b>Answer: C.</b> Scopes limit what the token can be used for.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does PKCE protect against?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Slow networks</button><button type="button" class="opt" data-ok="1"><i>B</i>An attacker who intercepts the authorisation code and tries to use it</button><button type="button" class="opt" data-ok="0"><i>C</i>Expired passwords</button><button type="button" class="opt" data-ok="0"><i>D</i>Duplicate scopes</button></div><div class="qexp"><b>Answer: B.</b> The code verifier must match the challenge, so an intercepted code is not enough.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why is the <code>state</code> value checked when the user returns?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To count logins</button><button type="button" class="opt" data-ok="1"><i>B</i>To reject a forged or mismatched redirect</button><button type="button" class="opt" data-ok="0"><i>C</i>To choose the scopes</button><button type="button" class="opt" data-ok="0"><i>D</i>To store the token</button></div><div class="qexp"><b>Answer: B.</b> State ties the redirect to the request the client started.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which token is the most sensitive, because it keeps access alive?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The access token</button><button type="button" class="opt" data-ok="0"><i>B</i>The authorisation code</button><button type="button" class="opt" data-ok="1"><i>C</i>The refresh token</button><button type="button" class="opt" data-ok="0"><i>D</i>The client ID</button></div><div class="qexp"><b>Answer: C.</b> Refresh tokens are long-lived and can mint new access tokens.</div></div><div class="qq"><p class="qtext"><b>5.</b> A chatbot needs only to post messages. Which scope set is correct?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Full administrator access</button><button type="button" class="opt" data-ok="1"><i>B</i>The single posting scope, such as <code>chat:write</code></button><button type="button" class="opt" data-ok="0"><i>C</i>Read and delete for all channels</button><button type="button" class="opt" data-ok="0"><i>D</i>The user's password</button></div><div class="qexp"><b>Answer: B.</b> The smallest scope that works is the right choice.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Design a token policy</b></div><p>For an integration that reads order status and creates support tickets, write a one-page token policy: which scopes you request and why, how long access tokens last, where refresh tokens are stored, how a leaked token is revoked, and which log lines are safe to keep.</p><details class="sol"><summary>Show solution</summary><p>Hints: separate read and write scopes into different service accounts if possible. Name the revocation step (who clicks, what happens to running jobs). Confirm that no log line contains the <code>Authorization</code> header.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="agents-07-openapi-and-swagger-describing-apis-so-machines-and-people-c.html"><small>← Previous</small><b>OpenAPI and Swagger: Describing APIs So Machines and People Can Use Them</b></a><a class="next" href="agents-09-mcp-security-and-business-integrations-crm-erp-jira-slack-an.html"><small>Next →</small><b>MCP Security and Business Integrations: CRM, ERP, Jira, Slack and Notion</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-problem-oauth-solves">The problem OAuth solves</a><a href="#the-four-roles">The four roles</a><a href="#the-authorisation-code-flow-with-pkce">The authorisation code flow with PKCE</a><a href="#scopes-give-the-smallest-permission-that-works">Scopes: give the smallest permission that works</a><a href="#access-tokens-refresh-tokens-and-expiry">Access tokens, refresh tokens and expiry</a><a href="#storing-and-protecting-tokens">Storing and protecting tokens</a><a href="#a-checklist-for-every-oauth-integration">A checklist for every OAuth integration</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Requirements, User Stories, PRDs, Data Storytelling and Agile Delivery for Analytics · Governance Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Specify analytics work so that it gets built right the first time. Write requirements, user stories and acceptance criteria, draft a product requirements document, communicate findings with data storytelling, and run analytics delivery in short agile cycles with a backlog, sprints and reviews."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-governance"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-governance">Governance, Privacy &amp; Business Consulting</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C2D12">Governance, Privacy &amp; Business Consulting</div>
+<ol class="side-l"><li class=""><a href="governance-01-business-problem-solving-kpis-process-mapping-discovery-and.html" data-lid="governance-01"><span>01</span>Business Problem-Solving: KPIs, Process Mapping, Discovery and Hypotheses</a></li><li class="on"><a href="governance-02-requirements-user-stories-prds-data-storytelling-and-agile-d.html" data-lid="governance-02"><span>02</span>Requirements, User Stories, PRDs, Data Storytelling and Agile Delivery for Analytics</a></li><li class=""><a href="governance-03-data-ownership-stewardship-retention-and-privacy-law-gdpr-an.html" data-lid="governance-03"><span>03</span>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act</a></li><li class=""><a href="governance-04-data-masking-row-level-security-and-access-control.html" data-lid="governance-04"><span>04</span>Data Masking, Row-Level Security and Access Control</a></li><li class=""><a href="governance-05-responsible-ai-threat-modelling-and-incident-response.html" data-lid="governance-05"><span>05</span>Responsible AI, Threat Modelling and Incident Response</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="governance-02">
+<div class="lhead" style="--tc:#7C2D12"><div class="kick">Governance, Privacy &amp; Business Consulting · Lesson 2 of 5</div><h1>Requirements, User Stories, PRDs, Data Storytelling and Agile Delivery for Analytics</h1>
+<p class="sum">Specify analytics work so that it gets built right the first time. Write requirements, user stories and acceptance criteria, draft a product requirements document, communicate findings with data storytelling, and run analytics delivery in short agile cycles with a backlog, sprints and reviews.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/governance/Governance_02_Requirements_User_Stories_PRDs_Data_Storytelling_and_Agile_Delivery_fo.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="governance-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write user stories with acceptance criteria that can be tested</li><li>Separate functional and non-functional requirements</li><li>Draft a short product requirements document for an analytics product</li><li>Structure a data story and run agile delivery with a backlog and sprint reviews</li></ul></div></div>
+<div class="content"><h2 id="requirements-are-a-contract-about-meaning">Requirements are a contract about meaning</h2>
+<p>Most failed analytics projects were not technically hard. They built what was asked, and the person asking meant something different. A requirement is a statement of what the solution must do, written so that the builder and the user agree on the meaning. Writing it down is cheaper than rebuilding a dashboard three times.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The dashboard nobody used</b></div><p>A team built a churn dashboard with forty charts. The sponsor wanted to decide, each Monday, which customers to call. The dashboard answered many questions and none of the Monday decision. A short user story, "As the retention lead, I want a Monday list of customers at risk, so that I can call the top 50 before Wednesday", would have shaped a single table and saved six weeks.</p></div>
+<h2 id="user-stories-and-acceptance-criteria">User stories and acceptance criteria</h2>
+<p>A <strong>user story</strong> describes value from the user's point of view:</p>
+<blockquote>
+<p>As a <strong>[role]</strong>, I want <strong>[need]</strong>, so that <strong>[benefit]</strong>.</p>
+</blockquote>
+<p>The benefit matters most. It tells the builder which details are essential and which are decoration. An <strong>acceptance criterion</strong> says how to test that the story is done, using the form:</p>
+<blockquote>
+<p>Given <strong>[context]</strong>, when <strong>[action]</strong>, then <strong>[result]</strong>.</p>
+</blockquote>
+<p><strong>Example.</strong> As an operations manager, I want a daily list of late orders, so that I can call customers before 10:00.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Given an order is 2 hours or more late, when the list is generated at 07:00, then the order appears on the list</td>
+<td>Create a late test order; check the list</td>
+</tr>
+<tr>
+<td>Given an order was delivered, when the list is generated, then the order does not appear</td>
+<td>Check a delivered order is excluded</td>
+</tr>
+<tr>
+<td>Given there are no late orders, when the list is generated, then the list shows "no late orders today"</td>
+<td>Run on a day with zero late orders</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each criterion is a test. If a criterion cannot be tested, rewrite it until it can.</p>
+<h2 id="functional-and-non-functional-requirements">Functional and non-functional requirements</h2>
+<p><strong>Functional</strong> requirements say what the solution does. <strong>Non-functional</strong> requirements say how well it does it: speed, accuracy, security, availability, cost, and how long data may be kept.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Functional</td>
+<td>The list shows order id, customer, days late and the owner</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>The list is ready by 07:00 for 95% of days</td>
+</tr>
+<tr>
+<td>Accuracy</td>
+<td>Days late matches the logistics system within one hour</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Only the operations team can see customer contact details</td>
+</tr>
+<tr>
+<td>Availability</td>
+<td>The list is available during working hours, 99% of days</td>
+</tr>
+</tbody>
+</table></div>
+<p>Non-functional requirements are often forgotten and then cause the most expensive rework. Write them down at the start.</p>
+<h2 id="a-short-prd">A short PRD</h2>
+<p>A <strong>product requirements document (PRD)</strong> gathers the story, the requirements and the success measures for a product, in one or two pages. For an analytics product, a useful PRD has these sections:</p>
+<ol>
+<li><strong>Problem and decision.</strong> The problem statement and the decision the product supports.</li>
+<li><strong>Users and their stories.</strong> Each user role with its stories and acceptance criteria.</li>
+<li><strong>Data.</strong> Sources, grain, freshness and owners.</li>
+<li><strong>Requirements.</strong> Functional and non-functional, with priority (must, should, could).</li>
+<li><strong>Out of scope.</strong> What is deliberately not included.</li>
+<li><strong>Success measures.</strong> The metric and target, and how it will be measured after launch.</li>
+<li><strong>Open questions.</strong> What must be answered, by whom and by when.</li>
+</ol>
+<p>::::tip The out-of-scope section protects the team
+Most scope creep arrives as a "small addition". A written out-of-scope list lets the team say "that is a good idea for the next version" with a reason, rather than negotiating it from scratch each time.
+::::</p>
+<h2 id="data-storytelling">Data storytelling</h2>
+<p>A data story turns findings into a decision. The usual structure is short:</p>
+<ol>
+<li><strong>The answer first.</strong> One sentence: "Churn rose four points in March, driven by two plans."</li>
+<li><strong>The evidence.</strong> One chart per message, labelled so that it can be read without the speaker.</li>
+<li><strong>The decision.</strong> What should happen, who owns it, and by when.</li>
+</ol>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Weak</th>
+<th>Stronger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Here are twelve charts about churn."</td>
+<td>"Churn rose four points in March. Fix onboarding for the two plans driving it by 15 May."</td>
+</tr>
+<tr>
+<td>A chart with no title and a rainbow palette</td>
+<td>A chart titled with its message, one highlighted series</td>
+</tr>
+<tr>
+<td>Ending with "any questions?"</td>
+<td>Ending with the decision needed and the owner</td>
+</tr>
+</tbody>
+</table></div>
+<p>The same data can support different stories for different audiences. An executive needs the decision; an analyst needs the method. Prepare the first slide for the decision and keep the method in an appendix.</p>
+<h2 id="agile-delivery-for-analytics">Agile delivery for analytics</h2>
+<p><strong>Agile</strong> delivers work in short cycles, so that the user sees something useful early and changes direction cheaply. The core parts are:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Part</th>
+<th>What it is</th>
+<th>Analytics example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backlog</td>
+<td>Work ordered by value</td>
+<td>"Late order list", "churn drivers", "margin by region"</td>
+</tr>
+<tr>
+<td>Sprint</td>
+<td>A fixed period, usually one or two weeks, with a goal</td>
+<td>Sprint goal: first version of the late order list</td>
+</tr>
+<tr>
+<td>Review</td>
+<td>Showing the increment to stakeholders</td>
+<td>Demo to the operations manager with real data</td>
+</tr>
+<tr>
+<td>Retrospective</td>
+<td>What to improve in the way the team works</td>
+<td>The data delay was found too late; add a freshness check</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Kanban</strong> is an alternative that shows work moving across columns (to do, in progress, review, done) and limits the number of items in progress. It suits support-style analytics work with unpredictable requests.</p>
+<p>Delivery management adds three controls: a scope list that changes only through the backlog, a risk register that names the risks and their owners, and a dependency list that shows which work waits for which data or person.</p>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How do you keep an analytics project from drifting?</b></div><p>Write the problem statement and the user stories first, with acceptance criteria. Keep the scope in a backlog with an out-of-scope list. Deliver a first version within a sprint and review it with the user on real data. Each change goes through the backlog with its benefit stated, so that the trade-off is visible.</p></div>
+<p>::::key What to remember
+- Write user stories with a benefit and acceptance criteria that can be tested.
+- Specify non-functional requirements (speed, accuracy, security, availability) early.
+- A PRD states the decision, the users, the data, the requirements, the out-of-scope list and the success measures.
+- Storytelling: the answer first, one chart per message, and the decision with an owner.
+- Deliver in short cycles, review on real data, and change scope through the backlog.
+::::</p>
+<div class="quiz" id="quiz-governance-02-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the most important part of a user story?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The number of words</button><button type="button" class="opt" data-ok="1"><i>B</i>The benefit, which shows what matters most to the user</button><button type="button" class="opt" data-ok="0"><i>C</i>The author's name</button><button type="button" class="opt" data-ok="0"><i>D</i>The tool to use</button></div><div class="qexp"><b>Answer: B.</b> The benefit guides what is essential.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which is a valid acceptance criterion?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The dashboard should look nice</button><button type="button" class="opt" data-ok="1"><i>B</i>Given an order is two hours late, when the list runs at 07:00, then the order appears on it</button><button type="button" class="opt" data-ok="0"><i>C</i>Users will be happy</button><button type="button" class="opt" data-ok="0"><i>D</i>The data should be fast</button></div><div class="qexp"><b>Answer: B.</b> A criterion has a context, an action and a testable result.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why write non-functional requirements at the start?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They are required by agile</button><button type="button" class="opt" data-ok="1"><i>B</i>They are often forgotten and cause the most expensive rework when discovered late</button><button type="button" class="opt" data-ok="0"><i>C</i>They replace functional requirements</button><button type="button" class="opt" data-ok="0"><i>D</i>They are optional</button></div><div class="qexp"><b>Answer: B.</b> Speed, security and accuracy shape the design.</div></div><div class="qq"><p class="qtext"><b>4.</b> In data storytelling, what should come first?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The method</button><button type="button" class="opt" data-ok="0"><i>B</i>The list of charts</button><button type="button" class="opt" data-ok="1"><i>C</i>The answer in one sentence</button><button type="button" class="opt" data-ok="0"><i>D</i>The thank-you slide</button></div><div class="qexp"><b>Answer: C.</b> The answer first respects the audience's time.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is the purpose of a sprint review?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To close the project</button><button type="button" class="opt" data-ok="1"><i>B</i>To show the working increment to stakeholders and gather feedback on real data</button><button type="button" class="opt" data-ok="0"><i>C</i>To assign blame</button><button type="button" class="opt" data-ok="0"><i>D</i>To choose the tool</button></div><div class="qexp"><b>Answer: B.</b> Reviews make feedback concrete and early.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Write the spec for one dashboard</b></div><p>Write a one-page PRD for a dashboard that a sales manager will use each Monday: the decision, two user stories with three acceptance criteria each, four non-functional requirements, the out-of-scope list, two success measures and two open questions. Then write a three-sentence data story for its first review.</p><details class="sol"><summary>Show solution</summary><p>Hints: make each acceptance criterion testable against the data. Put at least one security requirement in the non-functional list. The data story must lead with the answer, even if the answer is a question the dashboard will settle.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://gdpr-info.eu/">GDPR text (EU, official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.meity.gov.in/">Ministry of Electronics and IT (India, official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://genai.owasp.org/">OWASP Top 10 for LLM Applications ↗</a></li><li><a target="_blank" rel="noopener" href="https://scrumguides.org/">Scrum Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls">Microsoft Learn: row-level security in Power BI ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="governance-01-business-problem-solving-kpis-process-mapping-discovery-and.html"><small>← Previous</small><b>Business Problem-Solving: KPIs, Process Mapping, Discovery and Hypotheses</b></a><a class="next" href="governance-03-data-ownership-stewardship-retention-and-privacy-law-gdpr-an.html"><small>Next →</small><b>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#requirements-are-a-contract-about-meaning">Requirements are a contract about meaning</a><a href="#user-stories-and-acceptance-criteria">User stories and acceptance criteria</a><a href="#functional-and-non-functional-requirements">Functional and non-functional requirements</a><a href="#a-short-prd">A short PRD</a><a href="#data-storytelling">Data storytelling</a><a href="#agile-delivery-for-analytics">Agile delivery for analytics</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

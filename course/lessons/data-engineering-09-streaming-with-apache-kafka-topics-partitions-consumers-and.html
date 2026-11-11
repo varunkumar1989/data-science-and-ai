@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees · Data Eng Lesson 9 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand event streaming with Apache Kafka. Learn topics, partitions, offsets, consumer groups and retention, the three delivery guarantees (at most once, at least once, exactly once effect), and how to build a consumer that deduplicates and commits offsets safely."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 9</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class="on"><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-09">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 9 of 15</div><h1>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</h1>
+<p class="sum">Understand event streaming with Apache Kafka. Learn topics, partitions, offsets, consumer groups and retention, the three delivery guarantees (at most once, at least once, exactly once effect), and how to build a consumer that deduplicates and commits offsets safely.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_09_Streaming_with_Apache_Kafka_Topics_Partitions_Consumers_and_Delivery_G.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-09">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain topics, partitions, offsets and consumer groups</li><li>Choose a delivery guarantee and design the consumer to match</li><li>Make a consumer idempotent with deduplication on event IDs</li><li>Describe how Kafka fits with batch pipelines and stream processing</li></ul></div></div>
+<div class="content"><h2 id="what-kafka-is">What Kafka is</h2>
+<p><strong>Apache Kafka</strong> is a system for recording and distributing streams of events: a click, a payment, a sensor reading, an order status change. Producers write events to a <strong>topic</strong>; consumers read them. Kafka keeps the events for a set time, so consumers can read at their own pace, replay history, and join the stream later.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A payment that was counted twice</b></div><p>A payments service publishes "payment captured" events. A consumer that updates the ledger crashed after writing to the ledger but before recording its progress. On restart it re-read the event and counted the payment twice. The fix was not to avoid crashes; it was to make the consumer's write idempotent, so that a repeated event changes nothing.</p></div>
+<h2 id="topics-partitions-and-offsets">Topics, partitions and offsets</h2>
+<p>A <strong>topic</strong> is a named stream. Each topic is split into <strong>partitions</strong>: ordered, append-only logs. Events with the same key always go to the same partition, so their order is kept for that key. Each event in a partition has an <strong>offset</strong>, a sequence number that a consumer uses to say where it has read up to.</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">Topic: orders
+  Partition 0:  [offset 0] [offset 1] [offset 2] ...   keys A, C, A
+  Partition 1:  [offset 0] [offset 1] ...              keys B, B</code></pre></div>
+<p>Partitions give parallelism: more partitions let more consumers read at once. Order is guaranteed only within a partition, which is why the key matters.</p>
+<h2 id="consumer-groups">Consumer groups</h2>
+<p>A <strong>consumer group</strong> is a set of consumers that share a topic's partitions, so each partition is read by one member of the group at a time. Adding consumers to the group spreads the load. A second, separate group reads the same topic independently, which is how one stream feeds several systems (the warehouse, a fraud check, a dashboard).</p>
+<h2 id="retention">Retention</h2>
+<p>Kafka keeps events for a configured time or size, whether or not consumers have read them. Retention makes replay possible: a new consumer can start from the beginning, or a consumer can rewind after a bug fix. It is not a permanent archive; long-term storage belongs in the lake.</p>
+<h2 id="delivery-guarantees">Delivery guarantees</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Guarantee</th>
+<th>Meaning</th>
+<th>When it happens</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>At most once</td>
+<td>An event may be lost but is never processed twice</td>
+<td>Offsets committed before processing</td>
+<td>Loss on failure</td>
+</tr>
+<tr>
+<td>At least once</td>
+<td>An event is never lost but may be processed twice</td>
+<td>Offsets committed after processing</td>
+<td>Duplicates on failure</td>
+</tr>
+<tr>
+<td>Exactly once (effect)</td>
+<td>The result is as if each event were processed once</td>
+<td>Idempotent processing, or transactions</td>
+<td>Requires design or transactional features</td>
+</tr>
+</tbody>
+</table></div>
+<p>Most systems run <strong>at least once</strong> and make the processing idempotent. That is simpler and more robust than trying to make delivery itself exactly once.</p>
+<h2 id="an-idempotent-consumer">An idempotent consumer</h2>
+<p>The consumer below is written as a pattern, not a finished program. It records each event's ID in the same transaction as the business write, so a repeated event is recognised and skipped.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Illustrative pattern (not run: needs a Kafka client and a database).</span>
+<span class="hl-c"># Shows the logic that makes at-least-once delivery safe.</span>
+
+<span class="hl-k">def</span> <span class="hl-f">handle</span>(event, db):
+    <span class="hl-k">with</span> <span class="hl-f">db.transaction</span>():                              <span class="hl-c"># one transaction for both writes</span>
+        <span class="hl-k">if</span> <span class="hl-f">db.exists</span>(<span class="hl-s">&quot;processed_events&quot;</span>, event[<span class="hl-s">&quot;event_id&quot;</span>]):
+            <span class="hl-k">return</span> <span class="hl-s">&quot;skipped (already processed)&quot;</span>        <span class="hl-c"># a duplicate: do nothing</span>
+        <span class="hl-f">db.execute</span>(
+            <span class="hl-s">&quot;INSERT INTO ledger (order_id, amount) VALUES (%s, %s)&quot;</span>,
+            (event[<span class="hl-s">&quot;order_id&quot;</span>], event[<span class="hl-s">&quot;amount&quot;</span>]),
+        )
+        <span class="hl-f">db.execute</span>(<span class="hl-s">&quot;INSERT INTO processed_events (event_id) VALUES (%s)&quot;</span>, (event[<span class="hl-s">&quot;event_id&quot;</span>],))
+    <span class="hl-k">return</span> <span class="hl-s">&quot;processed&quot;</span>
+
+<span class="hl-c"># Offsets are committed only after handle() returns, so a crash causes a re-read,</span>
+<span class="hl-c"># and the duplicate is skipped by the check above.</span></code></pre></div>
+<p>The key is that the business write and the record of processing succeed or fail together. If the record is written but the offset is not committed, the event is read again and skipped. If neither is written, the event is processed on the retry.</p>
+<p>::::warn Commit offsets after the work, not before
+Committing the offset before processing turns a crash into a lost event. Commit after the work is safely stored, and make the work idempotent so that the repeat is harmless.
+::::</p>
+<h2 id="batch-and-streaming-together">Batch and streaming together</h2>
+<p>Kafka rarely replaces the warehouse. A common design lands the stream in the lake as files (for example, hourly Parquet partitions), and the batch pipelines of the earlier lessons process those files into reporting tables. Stream processing (Kafka Streams, Flink, Spark Structured Streaming) is used when the result must be updated within seconds, such as a fraud alert or a live stock count.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Choose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reports refreshed daily</td>
+<td>Batch from files or tables</td>
+</tr>
+<tr>
+<td>Reports refreshed hourly</td>
+<td>Micro-batch from landed files</td>
+</tr>
+<tr>
+<td>Alerts within seconds</td>
+<td>Stream processing on Kafka</td>
+</tr>
+<tr>
+<td>Feeding several systems from one source</td>
+<td>Kafka topic with several consumer groups</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="operational-checks">Operational checks</h2>
+<ul>
+<li>Consumer lag (how far behind the newest offset each group is) is the first health metric to watch.</li>
+<li>Track the number of duplicates skipped; a rising number signals retries or producer problems.</li>
+<li>Plan partition counts ahead, because increasing them later changes which partition each key goes to.</li>
+<li>Protect topics with access control; events often contain personal data.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How do you guarantee that a streaming consumer does not double-count?</b></div><p>Assume at-least-once delivery, because that is what most systems provide. Make each write idempotent by recording the event ID in the same transaction as the business write, skip events already recorded, and commit offsets only after the work is stored. Monitor consumer lag and the rate of skipped duplicates.</p></div>
+<p>::::key What to remember
+- A topic is split into ordered partitions; order is guaranteed only within a partition, per key.
+- Consumer groups share the work and let several systems read the same topic independently.
+- Retention enables replay; it is not a permanent archive.
+- Design for at-least-once delivery and make processing idempotent.
+- Commit offsets after the work is stored, not before.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-09-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Where is event order guaranteed in Kafka?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Across the whole topic</button><button type="button" class="opt" data-ok="1"><i>B</i>Within a single partition, for events with the same key</button><button type="button" class="opt" data-ok="0"><i>C</i>Between topics</button><button type="button" class="opt" data-ok="0"><i>D</i>Nowhere</button></div><div class="qexp"><b>Answer: B.</b> Partition-level order, with keys mapping events to partitions.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does a consumer group do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Stores the data permanently</button><button type="button" class="opt" data-ok="1"><i>B</i>Shares a topic's partitions among its members so each partition is read by one at a time</button><button type="button" class="opt" data-ok="0"><i>C</i>Deletes old events</button><button type="button" class="opt" data-ok="0"><i>D</i>Encrypts events</button></div><div class="qexp"><b>Answer: B.</b> Consumer groups divide the work.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which guarantee can lose events on failure?</p><div class="opts"><button type="button" class="opt" data-ok="1"><i>A</i>At most once</button><button type="button" class="opt" data-ok="0"><i>B</i>At least once</button><button type="button" class="opt" data-ok="0"><i>C</i>Exactly once (effect)</button><button type="button" class="opt" data-ok="0"><i>D</i>Idempotent</button></div><div class="qexp"><b>Answer: A.</b> Committing before processing risks losing work on a crash.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why record the event ID in the same transaction as the business write?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes the database faster</button><button type="button" class="opt" data-ok="1"><i>B</i>So the write and the record of processing succeed or fail together, which prevents double counting</button><button type="button" class="opt" data-ok="0"><i>C</i>Kafka requires it</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes the need for offsets</button></div><div class="qexp"><b>Answer: B.</b> Atomic recording makes the duplicate check reliable.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which metric is the first health check for a consumer group?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The number of topics</button><button type="button" class="opt" data-ok="1"><i>B</i>Consumer lag</button><button type="button" class="opt" data-ok="0"><i>C</i>The message colour</button><button type="button" class="opt" data-ok="0"><i>D</i>The size of the cluster only</button></div><div class="qexp"><b>Answer: B.</b> Lag shows how far behind a group is.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Design the offset policy</b></div><p>A consumer updates a customer's loyalty points from a Kafka topic. Describe the delivery guarantee you would design for, the idempotency mechanism, when offsets are committed, and what happens after a crash at each of three points: before the write, after the write but before the record, and after both.</p><details class="sol"><summary>Show solution</summary><p>Expected: at-least-once delivery with idempotent writes; the event ID record in the same transaction; commit after success. Crash before the write: the event is re-read and processed. Crash after the write but before the record: impossible if they are in one transaction, and otherwise the duplicate is detected by the existence check. After both: the offset is committed late, the event is re-read and skipped.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html"><small>← Previous</small><b>Apache Spark and PySpark: Distributed Processing for Large Data</b></a><a class="next" href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html"><small>Next →</small><b>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-kafka-is">What Kafka is</a><a href="#topics-partitions-and-offsets">Topics, partitions and offsets</a><a href="#consumer-groups">Consumer groups</a><a href="#retention">Retention</a><a href="#delivery-guarantees">Delivery guarantees</a><a href="#an-idempotent-consumer">An idempotent consumer</a><a href="#batch-and-streaming-together">Batch and streaming together</a><a href="#operational-checks">Operational checks</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

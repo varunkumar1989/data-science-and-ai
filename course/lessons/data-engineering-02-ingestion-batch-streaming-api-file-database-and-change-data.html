@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture · Data Eng Lesson 2 · Data Science &amp; AI Handbook</title><meta name="description" content="Move data from its source into the platform reliably. Compare batch, streaming, API pulls, file drops, database extracts and change data capture (CDC), and learn the patterns that make each one safe to rerun, including watermarks, paging and deduplication."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 2</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class="on"><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-02">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 2 of 15</div><h1>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</h1>
+<p class="sum">Move data from its source into the platform reliably. Compare batch, streaming, API pulls, file drops, database extracts and change data capture (CDC), and learn the patterns that make each one safe to rerun, including watermarks, paging and deduplication.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_02_Ingestion_Batch_Streaming_API_File_Database_and_Change_Data_Capture.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-02">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose an ingestion method from freshness, volume and source capabilities</li><li>Ingest a file and an API into a landing zone with a load record</li><li>Use watermarks and pagination to fetch only new data</li><li>Deduplicate events and explain what CDC captures</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a></div></div></div>
+<div class="content"><h2 id="what-ingestion-is">What ingestion is</h2>
+<p><strong>Ingestion</strong> copies data from a source into the platform's landing zone without changing its meaning. The landing zone is the first place the data lives on your side: a bucket, a folder or a raw table. Keeping an unchanged copy makes every later step repeatable, because you can rebuild the rest from it.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Three sources, three ways in</b></div><p>A retailer needs sales from its point-of-sale files (delivered as daily CSVs), its online store (a REST API with new orders) and its inventory database (changes must appear within the hour). The same platform needs three ingestion methods. Choosing wrongly means either stale data or a source overloaded by constant queries.</p></div>
+<h2 id="the-five-methods">The five methods</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Freshness</th>
+<th>Load on source</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Batch</td>
+<td>Copy everything, or a period, at intervals</td>
+<td>Hours to days</td>
+<td>Periodic and heavy</td>
+<td>Daily files, full table dumps</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>Events are sent as they happen</td>
+<td>Seconds</td>
+<td>Low per event</td>
+<td>Clicks, sensor data, payments</td>
+</tr>
+<tr>
+<td>API pull</td>
+<td>Call an endpoint, page through results</td>
+<td>Minutes to hours</td>
+<td>Depends on rate limits</td>
+<td>SaaS tools, partner data</td>
+</tr>
+<tr>
+<td>File drop</td>
+<td>A system places files in a folder or bucket</td>
+<td>Per drop</td>
+<td>Low</td>
+<td>Vendor exports, reports</td>
+</tr>
+<tr>
+<td>Database extract</td>
+<td>Query a table for rows changed since a point</td>
+<td>Minutes to hours</td>
+<td>Query load on the database</td>
+<td>Operational tables</td>
+</tr>
+<tr>
+<td>Change data capture (CDC)</td>
+<td>Read the database's change log</td>
+<td>Seconds to minutes</td>
+<td>Very low</td>
+<td>Keeping a warehouse close to live</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="incremental-pulls-with-a-watermark">Incremental pulls with a watermark</h2>
+<p>Copying everything every time is expensive. An <strong>incremental</strong> pull fetches only rows changed since the last successful run. The last value seen (the <strong>watermark</strong>, often an <code>updated_at</code> timestamp) is stored in a control table and advanced only after the load succeeds.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> duckdb
+
+con = <span class="hl-f">duckdb.connect</span>()
+source = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;daily_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;date&quot;</span>]).<span class="hl-f">rename</span>(columns={<span class="hl-s">&quot;date&quot;</span>: <span class="hl-s">&quot;updated_at&quot;</span>})
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;source_rows&quot;</span>, source)
+
+<span class="hl-c"># Control table: one row per source, holding the last watermark that loaded successfully</span>
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;CREATE TABLE IF NOT EXISTS load_control (source VARCHAR PRIMARY KEY, watermark TIMESTAMP)&quot;</span>)
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;CREATE TABLE IF NOT EXISTS landing_sales (updated_at TIMESTAMP, units_sold BIGINT)&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">incremental_load</span>(con, source_name, cutoff):
+    wm = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT watermark FROM load_control WHERE source = ?&quot;</span>, [source_name]).<span class="hl-f">fetchone</span>()
+    last = wm[<span class="hl-n">0</span>] <span class="hl-k">if</span> wm <span class="hl-k">else</span> <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;1900-01-01&quot;</span>)
+    new = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT * FROM source_rows WHERE updated_at &gt; ? AND updated_at &lt;= ?&quot;</span>,
+                      [last, cutoff]).<span class="hl-f">fetchdf</span>()
+    <span class="hl-f">con.register</span>(<span class="hl-s">&quot;batch&quot;</span>, new)
+    <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;INSERT INTO landing_sales SELECT updated_at, units_sold FROM batch&quot;</span>)
+    new_wm = new[<span class="hl-s">&quot;updated_at&quot;</span>].<span class="hl-f">max</span>() <span class="hl-k">if</span> <span class="hl-f">len</span>(new) <span class="hl-k">else</span> last
+    <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;INSERT OR REPLACE INTO load_control VALUES (?, ?)&quot;</span>, [source_name, new_wm])
+    <span class="hl-k">return</span> <span class="hl-f">len</span>(new), new_wm
+
+<span class="hl-f">print</span>(<span class="hl-f">incremental_load</span>(con, <span class="hl-s">&quot;pos_daily&quot;</span>, <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-01-31&quot;</span>)))
+<span class="hl-f">print</span>(<span class="hl-f">incremental_load</span>(con, <span class="hl-s">&quot;pos_daily&quot;</span>, <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-01-31&quot;</span>)))   <span class="hl-c"># rerun: loads nothing new</span>
+<span class="hl-f">print</span>(<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT COUNT(*) FROM landing_sales&quot;</span>).<span class="hl-f">fetchone</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(1127, Timestamp(&#x27;2025-01-31 00:00:00&#x27;))
+(0, datetime.datetime(2025, 1, 31, 0, 0))
+(1127,)</pre></div>
+<p>The second run loads nothing, because the watermark already covers that period. The watermark moves only when the load succeeds, so a failed run leaves it where it was and the next run retries the same rows. The rerun safety here is the same idea as the idempotent loads in the SQL lessons.</p>
+<p>::::warn Watermarks on event time can miss late rows
+A row dated yesterday that arrives today is skipped by a watermark on the event date. Use the time the record was written or updated when the source provides it, or re-load a short safety window and deduplicate.
+::::</p>
+<h2 id="paging-through-an-api">Paging through an API</h2>
+<p>APIs rarely return everything at once. They return pages, often with a cursor or a <code>next</code> link. The ingestion code must follow every page, handle rate limits, and stop only when the source says there is nothing left.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Illustrative pattern (not run: needs a live API). Replace the URL and field names</span>
+<span class="hl-c"># with the source&#x27;s documentation.</span>
+<span class="hl-k">import</span> time
+<span class="hl-k">import</span> requests
+
+<span class="hl-k">def</span> <span class="hl-f">fetch_all</span>(url, token, page_size=<span class="hl-n">100</span>, max_retries=<span class="hl-n">5</span>):
+    headers = {<span class="hl-s">&quot;Authorization&quot;</span>: <span class="hl-s">f&quot;Bearer {token}&quot;</span>}
+    cursor, rows = <span class="hl-k">None</span>, []
+    <span class="hl-k">while</span> <span class="hl-k">True</span>:
+        params = {<span class="hl-s">&quot;limit&quot;</span>: page_size}
+        <span class="hl-k">if</span> cursor:
+            params[<span class="hl-s">&quot;cursor&quot;</span>] = cursor
+        <span class="hl-k">for</span> attempt <span class="hl-k">in</span> <span class="hl-f">range</span>(max_retries):
+            resp = <span class="hl-f">requests.get</span>(url, headers=headers, params=params, timeout=<span class="hl-n">30</span>)
+            <span class="hl-k">if</span> resp.status_code == <span class="hl-n">429</span>:               <span class="hl-c"># rate limited: wait, then retry</span>
+                <span class="hl-f">time.sleep</span>(<span class="hl-n">2</span> ** attempt)
+                <span class="hl-k">continue</span>
+            <span class="hl-f">resp.raise_for_status</span>()
+            <span class="hl-k">break</span>
+        body = <span class="hl-f">resp.json</span>()
+        <span class="hl-f">rows.extend</span>(body[<span class="hl-s">&quot;data&quot;</span>])
+        cursor = <span class="hl-f">body.get</span>(<span class="hl-s">&quot;next_cursor&quot;</span>)
+        <span class="hl-k">if</span> <span class="hl-k">not</span> cursor:
+            <span class="hl-k">return</span> rows                                <span class="hl-c"># no more pages: stop</span></code></pre></div>
+<p>Every API has its own limits and paging style. Read the documentation before writing the loop, and record how many rows each run fetched so that a silent change in page size is visible.</p>
+<h2 id="streaming-and-deduplication">Streaming and deduplication</h2>
+<p>Streaming sources can deliver the same event twice (for example, after a network retry). Deduplicate on a unique event identifier, not on the whole row, because two genuine events can look identical.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+events = <span class="hl-f">pd.DataFrame</span>({
+    <span class="hl-s">&quot;event_id&quot;</span>: [<span class="hl-s">&quot;e1&quot;</span>, <span class="hl-s">&quot;e2&quot;</span>, <span class="hl-s">&quot;e2&quot;</span>, <span class="hl-s">&quot;e3&quot;</span>],          <span class="hl-c"># e2 was delivered twice</span>
+    <span class="hl-s">&quot;order_id&quot;</span>: [<span class="hl-s">&quot;A10&quot;</span>, <span class="hl-s">&quot;A11&quot;</span>, <span class="hl-s">&quot;A11&quot;</span>, <span class="hl-s">&quot;A12&quot;</span>],
+    <span class="hl-s">&quot;amount&quot;</span>:   [<span class="hl-n">120.0</span>, <span class="hl-n">80.0</span>, <span class="hl-n">80.0</span>, <span class="hl-n">45.0</span>],
+})
+unique_events = <span class="hl-f">events.drop_duplicates</span>(subset=[<span class="hl-s">&quot;event_id&quot;</span>], keep=<span class="hl-s">&quot;last&quot;</span>)
+<span class="hl-f">print</span>(unique_events)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;duplicates removed:&quot;</span>, <span class="hl-f">len</span>(events) - <span class="hl-f">len</span>(unique_events))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  event_id order_id  amount
+0       e1      A10   120.0
+2       e2      A11    80.0
+3       e3      A12    45.0
+duplicates removed: 1</pre></div>
+<h2 id="change-data-capture">Change data capture</h2>
+<p><strong>CDC</strong> reads the database's own log of inserts, updates and deletes, instead of querying the tables. It sees every change, including deletes that a query would miss, and it puts little load on the database.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Approach</th>
+<th>Sees deletes?</th>
+<th>Sees every change?</th>
+<th>Load on source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Query by updated_at</td>
+<td>No (deleted rows vanish)</td>
+<td>Only if the column is reliable</td>
+<td>Query load</td>
+</tr>
+<tr>
+<td>Full reload</td>
+<td>Yes, by comparison</td>
+<td>Yes, but slowly</td>
+<td>Heavy</td>
+</tr>
+<tr>
+<td>CDC from the log</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Very low</td>
+</tr>
+</tbody>
+</table></div>
+<p>CDC needs access to the database log and careful handling of schema changes: when a column is added, the capture must know about it before the next change arrives. Tools built for this exist; check the documentation of the database and tool you choose.</p>
+<h2 id="landing-zone-rules">Landing zone rules</h2>
+<ul>
+<li>Store the raw copy unchanged, with the load time and source name attached.</li>
+<li>Keep one load record per run: source, rows read, rows written, watermark, status.</li>
+<li>Never transform data on the way in; transform in the next layer.</li>
+<li>Keep raw data long enough to rebuild the layers above it.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you ingest data from a source that has no timestamp column?</b></div><p>Options: a full reload with a comparison of keys to find inserts, updates and deletes, if the table is small; CDC from the database log, if access is available; or a trigger that writes changes to an audit table. State the trade-off: full reloads are simple but heavy, CDC is precise but needs access and maintenance.</p></div>
+<p>::::key What to remember
+- Pick ingestion by freshness, volume and what the source allows.
+- Incremental loads use a watermark that moves only after success.
+- Follow every page of an API and respect its rate limits.
+- Deduplicate streams on a unique event ID.
+- CDC captures deletes and changes with little load, but needs access and schema care.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-02-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> When does a watermark move forward?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>At the start of the run</button><button type="button" class="opt" data-ok="1"><i>B</i>Only after the load succeeds</button><button type="button" class="opt" data-ok="0"><i>C</i>Every hour regardless of success</button><button type="button" class="opt" data-ok="0"><i>D</i>When the source changes</button></div><div class="qexp"><b>Answer: B.</b> A failed run must leave the watermark where it was.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why follow the <code>next</code> cursor of an API?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To make the data bigger</button><button type="button" class="opt" data-ok="1"><i>B</i>Because a single response does not contain all the records</button><button type="button" class="opt" data-ok="0"><i>C</i>To reduce cost to zero</button><button type="button" class="opt" data-ok="0"><i>D</i>To change the schema</button></div><div class="qexp"><b>Answer: B.</b> Paging is how APIs return large results.</div></div><div class="qq"><p class="qtext"><b>3.</b> What is the main advantage of CDC?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is always the cheapest to build</button><button type="button" class="opt" data-ok="1"><i>B</i>It captures every change, including deletes, with little load on the source</button><button type="button" class="opt" data-ok="0"><i>C</i>It requires no access</button><button type="button" class="opt" data-ok="0"><i>D</i>It replaces the warehouse</button></div><div class="qexp"><b>Answer: B.</b> CDC reads the change log rather than querying tables.</div></div><div class="qq"><p class="qtext"><b>4.</b> Two rows in a stream are identical except for their timestamps. What should you do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Remove both</button><button type="button" class="opt" data-ok="1"><i>B</i>Deduplicate on the unique event ID, since they may be genuine separate events</button><button type="button" class="opt" data-ok="0"><i>C</i>Keep only the first row by content</button><button type="button" class="opt" data-ok="0"><i>D</i>Ignore duplicates</button></div><div class="qexp"><b>Answer: B.</b> Event IDs, not row contents, identify a unique event.</div></div><div class="qq"><p class="qtext"><b>5.</b> A source has no updated_at column and is small. Which approach is simplest and safe?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Stream it</button><button type="button" class="opt" data-ok="1"><i>B</i>A full reload with key comparison to find changes</button><button type="button" class="opt" data-ok="0"><i>C</i>Ignore changes</button><button type="button" class="opt" data-ok="0"><i>D</i>Store only the first row</button></div><div class="qexp"><b>Answer: B.</b> A small table can be reloaded and compared without special access.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Ingest with a safety window</b></div><p>Using <code>daily_sales.csv</code>, write an incremental load that uses a 3-day safety window: each run reloads the last three days of rows and deduplicates on the date. Run it twice with the same cutoff and once with a cutoff two days later, and report the row count after each run.</p><details class="sol"><summary>Show solution</summary><p>Hints: keep the watermark as the maximum date loaded. Deduplicate on <code>updated_at</code> after the insert, keeping the last. The row count should not change on a rerun with the same cutoff, and should grow only by the new days.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html"><small>← Previous</small><b>What Data Engineering Is, Its Roles and the Data Formats It Uses</b></a><a class="next" href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html"><small>Next →</small><b>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-ingestion-is">What ingestion is</a><a href="#the-five-methods">The five methods</a><a href="#incremental-pulls-with-a-watermark">Incremental pulls with a watermark</a><a href="#paging-through-an-api">Paging through an API</a><a href="#streaming-and-deduplication">Streaming and deduplication</a><a href="#change-data-capture">Change data capture</a><a href="#landing-zone-rules">Landing zone rules</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

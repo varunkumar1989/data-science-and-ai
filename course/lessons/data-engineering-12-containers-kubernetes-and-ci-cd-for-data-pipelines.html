@@ -1,0 +1,148 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Containers, Kubernetes and CI/CD for Data Pipelines · Data Eng Lesson 12 · Data Science &amp; AI Handbook</title><meta name="description" content="Package a data pipeline so that it runs the same way on any machine. Write a Dockerfile, understand what Kubernetes adds for scheduling and scaling, and build a continuous integration and deployment pipeline that tests a dbt or Python project before it reaches production."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 12</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class="on"><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-12">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 12 of 15</div><h1>Containers, Kubernetes and CI/CD for Data Pipelines</h1>
+<p class="sum">Package a data pipeline so that it runs the same way on any machine. Write a Dockerfile, understand what Kubernetes adds for scheduling and scaling, and build a continuous integration and deployment pipeline that tests a dbt or Python project before it reaches production.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_12_Containers_Kubernetes_and_CI_CD_for_Data_Pipelines.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-12">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain images, containers and why they make pipelines portable</li><li>Write a Dockerfile for a Python data job and run it with mounted data</li><li>Describe Kubernetes objects and when they are needed for data work</li><li>Design a CI/CD pipeline that runs tests and deploys a data project safely</li></ul></div></div>
+<div class="content"><h2 id="why-containers">Why containers</h2>
+<p>A pipeline that works on one laptop often fails on a server: a different Python version, a missing library, a path that does not exist. A <strong>container</strong> packages the code and its dependencies into a single unit that runs the same way everywhere. An <strong>image</strong> is the packaged recipe; a <strong>container</strong> is a running copy of it.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>&quot;It works on my machine&quot;</b></div><p>A data job needed a specific pandas version and a system library. Each engineer installed them differently, and the nightly server had a third setup. Once the job ran in a container built from one Dockerfile, every environment behaved the same, and the nightly failures stopped.</p></div>
+<h2 id="a-dockerfile-for-a-data-job">A Dockerfile for a data job</h2>
+<p>A <strong>Dockerfile</strong> lists the steps that build an image. The example below packages a Python job that reads a CSV and writes a summary. It is shown as code and <strong>not run</strong>, because it needs Docker installed.</p>
+<div class="code"><div class="code-h"><span>DOCKERFILE</span><button class="copy" type="button">Copy</button></div><pre><code class="dockerfile"><span class="hl-c"># Dockerfile</span>
+FROM python:<span class="hl-n">3.12</span>-slim
+
+WORKDIR /app
+
+<span class="hl-c"># Install dependencies first: this layer is cached until requirements.txt changes</span>
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+<span class="hl-c"># Copy the code last: code changes do not reinstall dependencies</span>
+COPY summarise_sales.py .
+
+<span class="hl-c"># Data is mounted at run time, not copied into the image</span>
+ENTRYPOINT [<span class="hl-s">&quot;python&quot;</span>, <span class="hl-s">&quot;summarise_sales.py&quot;</span>]</code></pre></div>
+<p>Build and run it:</p>
+<div class="code"><div class="code-h"><span>Terminal</span><button class="copy" type="button">Copy</button></div><pre><code class="bash"><span class="hl-k">docker</span> build -t sales-summary:<span class="hl-n">1.0</span> .
+<span class="hl-k">docker</span> run --rm -v <span class="hl-s">&quot;$PWD/data:/data&quot;</span> sales-summary:<span class="hl-n">1.0</span> --input /data/daily_sales.csv --output /data/summary.csv</code></pre></div>
+<p>Key ideas:</p>
+<ul>
+<li><strong>Layer order</strong> matters. Put the things that change least (dependencies) first, so rebuilds are fast.</li>
+<li><strong>Pin versions</strong> in <code>requirements.txt</code> so that a rebuild next month does not change behaviour.</li>
+<li><strong>Do not copy secrets into the image.</strong> Pass them at run time as environment variables or from a secrets store.</li>
+<li><strong>Mount data</strong> rather than baking it in. The same image can then process today's file or last month's.</li>
+</ul>
+<p>::::warn Images are not secret vaults
+Anything written into an image layer can be read by anyone who can pull the image, even if a later layer deletes it. Keep credentials out of the Dockerfile and out of the build context.
+::::</p>
+<h2 id="what-kubernetes-adds">What Kubernetes adds</h2>
+<p><strong>Kubernetes</strong> runs containers across a cluster of machines. You describe the desired state (for example, "run three copies of this worker, restart it if it crashes, give it 2 GB of memory"), and Kubernetes keeps reality matching that description.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Kubernetes object</th>
+<th>Purpose in data work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pod</td>
+<td>One or more containers that run together</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>Keeps a long-running service (for example a streaming consumer) alive</td>
+</tr>
+<tr>
+<td>Job / CronJob</td>
+<td>Runs a batch task to completion, or on a schedule</td>
+</tr>
+<tr>
+<td>ConfigMap and Secret</td>
+<td>Configuration and credentials, kept out of the image</td>
+</tr>
+<tr>
+<td>Horizontal autoscaler</td>
+<td>Adds workers when a queue grows</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>YAML</span><button class="copy" type="button">Copy</button></div><pre><code class="yaml"># A scheduled batch job (CronJob), shown as configuration; not run
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nightly-sales-summary
+spec:
+  schedule: &quot;0 2 * * *&quot;            # 02:00 every day
+  concurrencyPolicy: Forbid        # never start a second run while one is running
+  jobTemplate:
+    spec:
+      backoffLimit: 3              # retry up to three times
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: summary
+              image: registry.example.com/sales-summary:1.0
+              envFrom:
+                - secretRef:
+                    name: warehouse-credentials</code></pre></div>
+<p>Kubernetes is powerful and has a learning cost. For a single nightly job, a managed scheduler (for example Airflow or a cloud scheduler) may be simpler. Use Kubernetes when you run many services or need fine control over scaling and placement.</p>
+<h2 id="cicd-for-data-projects">CI/CD for data projects</h2>
+<p><strong>Continuous integration (CI)</strong> runs the tests and checks on every change. <strong>Continuous deployment (CD)</strong> releases a tested version to an environment automatically or with an approval step. For data, the pipeline should also run the data tests, not only the code tests.</p>
+<p>A sensible pipeline for a dbt or Python data project:</p>
+<div class="code"><div class="code-h"><span>YAML</span><button class="copy" type="button">Copy</button></div><pre><code class="yaml"># Illustrative CI workflow (GitHub Actions style); adapt to your platform
+name: data-ci
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: &quot;3.12&quot;}
+      - run: pip install -r requirements.txt
+      - run: python -m pytest tests/             # unit tests for transformation code
+      - run: dbt build --target ci               # models and their data tests in a CI schema
+  deploy-staging:
+    needs: test
+    if: github.ref == &#x27;refs/heads/main&#x27;
+    runs-on: ubuntu-latest
+    steps:
+      - run: dbt build --target staging</code></pre></div>
+<p>The <code>dbt build --target ci</code> step builds into a temporary schema, so the tests run on real data structures without touching production. Deploy to staging only after the tests pass, and promote to production with an approval.</p>
+<p>::::tip Test data, not only code
+A passing unit test does not prove the table is right. Include data tests (uniqueness, not-null, reconciliation totals) in the CI run, and fail the pipeline when they fail. A change that breaks a metric should be caught before the merge.
+::::</p>
+<h2 id="release-habits">Release habits</h2>
+<ul>
+<li>Tag each release with a version number; record which version produced each output table.</li>
+<li>Keep environments separate (CI, staging, production) with their own credentials.</li>
+<li>Make deployments reversible: keep the previous image and the previous dbt state, so a rollback is one command.</li>
+<li>Never deploy by editing production by hand; the pipeline is the only route.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you ship a change to a data pipeline safely?</b></div><p>Work on a branch, run unit and data tests in CI against a temporary schema, compare the output metrics with the previous version, deploy to staging, then promote to production with an approval and a recorded version. Keep the previous version available so that a rollback is quick.</p></div>
+<p>::::key What to remember
+- Containers package code and dependencies so that a pipeline runs the same everywhere.
+- Layer Dockerfiles for fast rebuilds, pin versions, and keep secrets out of images.
+- Kubernetes runs and scales containers; use it when the operational need justifies it.
+- CI runs unit and data tests on every change; CD promotes tested versions with approval.
+- Version every release and keep rollbacks simple.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-12-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the difference between an image and a container?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They are the same thing</button><button type="button" class="opt" data-ok="1"><i>B</i>An image is the packaged recipe; a container is a running copy of it</button><button type="button" class="opt" data-ok="0"><i>C</i>A container is a file on disk only</button><button type="button" class="opt" data-ok="0"><i>D</i>An image runs without a host</button></div><div class="qexp"><b>Answer: B.</b> The image is built once; containers are started from it.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why put the dependency installation before copying the code in a Dockerfile?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is required by Docker</button><button type="button" class="opt" data-ok="1"><i>B</i>So that the dependency layer is cached and rebuilds after code changes are fast</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the image smaller</button><button type="button" class="opt" data-ok="0"><i>D</i>It installs the code twice</button></div><div class="qexp"><b>Answer: B.</b> Layer order determines what Docker can reuse.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why should secrets not be baked into an image?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They are too large</button><button type="button" class="opt" data-ok="1"><i>B</i>Anyone who can pull the image can read them, even if a later layer deletes them</button><button type="button" class="opt" data-ok="0"><i>C</i>Images cannot run with secrets</button><button type="button" class="opt" data-ok="0"><i>D</i>Secrets are always public</button></div><div class="qexp"><b>Answer: B.</b> Image layers are readable by anyone with access.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does <code>concurrencyPolicy: Forbid</code> do in a CronJob?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It stops the job from running at all</button><button type="button" class="opt" data-ok="1"><i>B</i>It prevents a new run starting while the previous run is still active</button><button type="button" class="opt" data-ok="0"><i>C</i>It doubles the retries</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes the schedule</button></div><div class="qexp"><b>Answer: B.</b> It stops overlapping runs.</div></div><div class="qq"><p class="qtext"><b>5.</b> What makes a CI pipeline valuable for data projects?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It only checks the code style</button><button type="button" class="opt" data-ok="1"><i>B</i>It runs data tests on a temporary schema before a change reaches production</button><button type="button" class="opt" data-ok="0"><i>C</i>It deploys without review</button><button type="button" class="opt" data-ok="0"><i>D</i>It runs once a year</button></div><div class="qexp"><b>Answer: B.</b> Data tests catch errors that code tests cannot see.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Write a CI plan</b></div><p>For a data project you know, write a CI and CD plan with five steps: the trigger, the code tests, the data tests and where they run, the staging deployment, and the production promotion with its approval. Name the one control that would have stopped the most serious past failure in that project.</p><details class="sol"><summary>Show solution</summary><p>Hints: keep credentials in the CI system's secrets store. For the data tests, choose the three most important checks for the project. The control should be a test or an approval that the failure would have hit.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html"><small>← Previous</small><b>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</b></a><a class="next" href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html"><small>Next →</small><b>Data Architecture and System Design for Data and AI Systems</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-containers">Why containers</a><a href="#a-dockerfile-for-a-data-job">A Dockerfile for a data job</a><a href="#what-kubernetes-adds">What Kubernetes adds</a><a href="#cicd-for-data-projects">CI/CD for data projects</a><a href="#release-habits">Release habits</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

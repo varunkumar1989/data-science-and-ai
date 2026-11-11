@@ -1,0 +1,165 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recommendation Systems: Collaborative, Content-Based and Hybrid · Stats &amp; ML Lesson 29 · Data Science &amp; AI Handbook</title><meta name="description" content="Build recommenders that suggest the next product or item. Learn collaborative filtering from a user-item matrix, content-based filtering from item features, how to combine them, how to handle new users, and how to evaluate with precision at k and hit rate without recommending what people already own."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 29</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class=""><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li><li class="on"><a href="ml-29-recommendation-systems-collaborative-content-based-and-hybri.html" data-lid="ml-29"><span>29</span>Recommendation Systems: Collaborative, Content-Based and Hybrid</a></li><li class=""><a href="ml-30-regression-metrics-mae-mse-rmse-and-r-squared.html" data-lid="ml-30"><span>30</span>Regression Metrics: MAE, MSE, RMSE and R-Squared</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-29">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 29 of 30</div><h1>Recommendation Systems: Collaborative, Content-Based and Hybrid</h1>
+<p class="sum">Build recommenders that suggest the next product or item. Learn collaborative filtering from a user-item matrix, content-based filtering from item features, how to combine them, how to handle new users, and how to evaluate with precision at k and hit rate without recommending what people already own.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_29_Recommendation_Systems_Collaborative_Content_Based_and_Hybrid.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-29">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain collaborative, content-based and hybrid recommendation</li><li>Build a user-item matrix and compute item-item similarity</li><li>Recommend items a user has not yet bought, with a score</li><li>Evaluate a recommender with precision at k and hit rate on held-out interactions</li><li>Describe the cold-start problem and two ways to handle it</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/retail_transactions.csv" download>retail_transactions.csv</a></div></div></div>
+<div class="content"><h2 id="what-a-recommender-does">What a recommender does</h2>
+<p>A recommender answers one question: <strong>which items should this person see next?</strong> Streaming services suggest films, shops suggest products, banks suggest products, and job boards suggest roles. Good recommendations raise sales and engagement; bad ones show things people already own or never want.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The &quot;customers also bought&quot; widget</b></div><p>An online shop wants a "you may also like" list on each product page. The data is a log of which customers bought which products. The task is to build a recommender, measure whether it suggests products people actually buy, and avoid suggesting what the customer already owns.</p></div>
+<h2 id="step-1-the-user-item-matrix">Step 1: the user-item matrix</h2>
+<p>Almost every recommender starts with a table: one row per user, one column per item, and a value showing interaction (a purchase, a rating, a click). Most cells are empty, because nobody buys everything.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+<span class="hl-c"># A tiny purchase log: 1 means the customer bought the product</span>
+purchases = <span class="hl-f">pd.DataFrame</span>(
+    [(<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;tea&quot;</span>), (<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;biscuits&quot;</span>), (<span class="hl-s">&quot;Asha&quot;</span>, <span class="hl-s">&quot;honey&quot;</span>),
+     (<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;tea&quot;</span>), (<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;biscuits&quot;</span>), (<span class="hl-s">&quot;Ravi&quot;</span>, <span class="hl-s">&quot;jam&quot;</span>),
+     (<span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;tea&quot;</span>), (<span class="hl-s">&quot;Meera&quot;</span>, <span class="hl-s">&quot;honey&quot;</span>),
+     (<span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;coffee&quot;</span>), (<span class="hl-s">&quot;Kabir&quot;</span>, <span class="hl-s">&quot;sugar&quot;</span>),
+     (<span class="hl-s">&quot;Tara&quot;</span>, <span class="hl-s">&quot;biscuits&quot;</span>), (<span class="hl-s">&quot;Tara&quot;</span>, <span class="hl-s">&quot;jam&quot;</span>)],
+    columns=[<span class="hl-s">&quot;user&quot;</span>, <span class="hl-s">&quot;item&quot;</span>],
+)
+matrix = <span class="hl-f">pd.crosstab</span>(purchases[<span class="hl-s">&quot;user&quot;</span>], purchases[<span class="hl-s">&quot;item&quot;</span>]).<span class="hl-f">clip</span>(upper=<span class="hl-n">1</span>)
+<span class="hl-f">print</span>(matrix)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">item   biscuits  coffee  honey  jam  sugar  tea
+user                                           
+Asha          1       0      1    0      0    1
+Kabir         0       1      0    0      1    0
+Meera         0       0      1    0      0    1
+Ravi          1       0      0    1      0    1
+Tara          1       0      0    1      0    0</pre></div>
+<p>Each row is a basket. The matrix is the only input the collaborative method needs. Real logs are much larger and sparser, so the matrix is usually stored in a sparse format.</p>
+<h2 id="step-2-item-item-similarity-collaborative-filtering">Step 2: item-item similarity (collaborative filtering)</h2>
+<p><strong>Collaborative filtering</strong> says: items bought by the same kinds of customers are related. Measure how similar two items are by the customers who bought each one. <strong>Cosine similarity</strong> of two items' columns is a standard measure: 1 means they are bought by exactly the same customers, 0 means no overlap.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> numpy <span class="hl-k">as</span> np
+
+items = matrix.columns
+vectors = <span class="hl-f">matrix.T.values.astype</span>(float)          <span class="hl-c"># one row per item</span>
+norms = <span class="hl-f">np.linalg.norm</span>(vectors, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>)
+norms[norms == <span class="hl-n">0</span>] = <span class="hl-n">1</span>                            <span class="hl-c"># avoid dividing by zero</span>
+similarity = <span class="hl-f">pd.DataFrame</span>(vectors @ vectors.T / (norms @ norms.T), index=items, columns=items)
+<span class="hl-f">print</span>(<span class="hl-f">similarity.round</span>(<span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">item      biscuits  coffee  honey   jam  sugar   tea
+item                                                
+biscuits      1.00     0.0   0.41  0.82    0.0  0.67
+coffee        0.00     1.0   0.00  0.00    1.0  0.00
+honey         0.41     0.0   1.00  0.00    0.0  0.82
+jam           0.82     0.0   0.00  1.00    0.0  0.41
+sugar         0.00     1.0   0.00  0.00    1.0  0.00
+tea           0.67     0.0   0.82  0.41    0.0  1.00</pre></div>
+<p>Tea and biscuits are bought together by Asha and Ravi, so their similarity is high. Coffee and sugar, which only Kabir bought, are similar only to each other.</p>
+<h2 id="step-3-recommend-what-the-user-does-not-have">Step 3: recommend what the user does not have</h2>
+<p>To recommend for a user, add up the similarity of every item to the items they already own, then <strong>remove the items they already own</strong>. Removing owned items is the step beginners forget, and it is the most visible failure in practice.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">recommend</span>(user, matrix, similarity, k=<span class="hl-n">3</span>):
+    owned = matrix.columns[matrix.loc[user] == <span class="hl-n">1</span>]
+    scores = similarity[owned].<span class="hl-f">sum</span>(axis=<span class="hl-n">1</span>)
+    scores = <span class="hl-f">scores.drop</span>(labels=owned, errors=<span class="hl-s">&quot;ignore&quot;</span>)     <span class="hl-c"># never recommend owned items</span>
+    <span class="hl-k">return</span> <span class="hl-f">scores.sort_values</span>(ascending=<span class="hl-k">False</span>).<span class="hl-f">head</span>(k)
+
+<span class="hl-f">print</span>(<span class="hl-f">recommend</span>(<span class="hl-s">&quot;Meera&quot;</span>, matrix, similarity))
+<span class="hl-f">print</span>(<span class="hl-f">recommend</span>(<span class="hl-s">&quot;Ravi&quot;</span>, matrix, similarity))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">item
+biscuits    1.074915
+jam         0.408248
+coffee      0.000000
+dtype: float64
+item
+honey     1.224745
+coffee    0.000000
+sugar     0.000000
+dtype: float64</pre></div>
+<p>For Meera, the top suggestion is an item that similar customers buy with tea and honey, not tea or honey themselves. The score is only a ranking, not a probability.</p>
+<h2 id="step-4-content-based-filtering">Step 4: content-based filtering</h2>
+<p><strong>Content-based filtering</strong> uses the features of each item rather than the behaviour of other users: category, brand, price, description. It recommends items that look like the ones the user liked. It works for a new item with no purchase history, because its features are known.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">features = <span class="hl-f">pd.DataFrame</span>({
+    <span class="hl-s">&quot;category&quot;</span>: [<span class="hl-s">&quot;food&quot;</span>, <span class="hl-s">&quot;food&quot;</span>, <span class="hl-s">&quot;food&quot;</span>, <span class="hl-s">&quot;food&quot;</span>, <span class="hl-s">&quot;food&quot;</span>, <span class="hl-s">&quot;beverage&quot;</span>, <span class="hl-s">&quot;beverage&quot;</span>],
+    <span class="hl-s">&quot;price_band&quot;</span>: [<span class="hl-s">&quot;low&quot;</span>, <span class="hl-s">&quot;low&quot;</span>, <span class="hl-s">&quot;mid&quot;</span>, <span class="hl-s">&quot;low&quot;</span>, <span class="hl-s">&quot;low&quot;</span>, <span class="hl-s">&quot;mid&quot;</span>, <span class="hl-s">&quot;mid&quot;</span>],
+}, index=[<span class="hl-s">&quot;tea&quot;</span>, <span class="hl-s">&quot;biscuits&quot;</span>, <span class="hl-s">&quot;honey&quot;</span>, <span class="hl-s">&quot;jam&quot;</span>, <span class="hl-s">&quot;sugar&quot;</span>, <span class="hl-s">&quot;coffee&quot;</span>, <span class="hl-s">&quot;milk&quot;</span>])
+encoded = <span class="hl-f">pd.get_dummies</span>(features).<span class="hl-f">astype</span>(float)
+
+profile = encoded.loc[[<span class="hl-s">&quot;tea&quot;</span>, <span class="hl-s">&quot;honey&quot;</span>]].<span class="hl-f">mean</span>()          <span class="hl-c"># the user&#x27;s taste: average of liked items</span>
+candidates = <span class="hl-f">encoded.drop</span>(index=[<span class="hl-s">&quot;tea&quot;</span>, <span class="hl-s">&quot;honey&quot;</span>])
+content_scores = <span class="hl-f">candidates.dot</span>(profile) / (<span class="hl-f">np.linalg.norm</span>(candidates, axis=<span class="hl-n">1</span>) * <span class="hl-f">np.linalg.norm</span>(profile))
+<span class="hl-f">print</span>(<span class="hl-f">content_scores.sort_values</span>(ascending=<span class="hl-k">False</span>).<span class="hl-f">round</span>(<span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">biscuits    0.87
+jam         0.87
+sugar       0.87
+coffee      0.29
+milk        0.29
+dtype: float64</pre></div>
+<p>Content-based suggestions are easy to explain ("similar to what you bought") but they can narrow tastes too much: the user only ever sees more of the same.</p>
+<h2 id="step-5-hybrid-systems-and-cold-start">Step 5: hybrid systems and cold start</h2>
+<p>A <strong>hybrid</strong> recommender blends the two scores: <code>score = w × collaborative + (1 − w) × content</code>. The weight <code>w</code> is tuned on held-out data.</p>
+<p><strong>Cold start</strong> is the problem of a new user with no history or a new item with no purchases. Common responses:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Situation</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New user, no history</td>
+<td>Show popular items in the category they came from, or ask for preferences at sign-up</td>
+</tr>
+<tr>
+<td>New item, no purchases</td>
+<td>Use content-based scores from its features until purchases arrive</td>
+</tr>
+<tr>
+<td>New shop, little data</td>
+<td>Start with editorial picks or bestsellers and collect data</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you recommend products to a new user with no history?</b></div><p>Start with a popularity-based list, optionally filtered by the category or search term the user came from. Ask one or two preference questions at sign-up. As soon as the user has interactions, switch to the hybrid model. Measure the early experience separately, because the cold-start results are usually weaker.</p></div>
+<h2 id="step-6-evaluation">Step 6: evaluation</h2>
+<p>Recommenders are judged on held-out interactions. Hide one or two purchases per user, recommend from what remains, and check whether the hidden items appear in the top k.</p>
+<ul>
+<li><strong>Precision at k</strong>: of the k items recommended, the share that the user actually bought (on the held-out set).</li>
+<li><strong>Hit rate</strong>: the share of users for whom at least one hidden item appears in the top k.</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">precision_at_k</span>(recs, hidden, k):
+    top = <span class="hl-f">list</span>(recs[:k])
+    <span class="hl-k">return</span> <span class="hl-f">len</span>(<span class="hl-f">set</span>(top) &amp; <span class="hl-f">set</span>(hidden)) / k
+
+<span class="hl-c"># Hide one purchase per customer, rebuild the matrix, recommend, and compare</span>
+held_out = {<span class="hl-s">&quot;Asha&quot;</span>: <span class="hl-s">&quot;honey&quot;</span>, <span class="hl-s">&quot;Ravi&quot;</span>: <span class="hl-s">&quot;jam&quot;</span>, <span class="hl-s">&quot;Meera&quot;</span>: <span class="hl-s">&quot;honey&quot;</span>, <span class="hl-s">&quot;Kabir&quot;</span>: <span class="hl-s">&quot;sugar&quot;</span>, <span class="hl-s">&quot;Tara&quot;</span>: <span class="hl-s">&quot;jam&quot;</span>}
+train = purchases[~<span class="hl-f">purchases.apply</span>(<span class="hl-k">lambda</span> r: <span class="hl-f">held_out.get</span>(r[<span class="hl-s">&quot;user&quot;</span>]) == r[<span class="hl-s">&quot;item&quot;</span>], axis=<span class="hl-n">1</span>)]
+train_matrix = <span class="hl-f">pd.crosstab</span>(train[<span class="hl-s">&quot;user&quot;</span>], train[<span class="hl-s">&quot;item&quot;</span>]).<span class="hl-f">clip</span>(upper=<span class="hl-n">1</span>).<span class="hl-f">reindex</span>(columns=matrix.columns, fill_value=<span class="hl-n">0</span>)
+vec = <span class="hl-f">train_matrix.T.values.astype</span>(float)
+nrm = <span class="hl-f">np.linalg.norm</span>(vec, axis=<span class="hl-n">1</span>, keepdims=<span class="hl-k">True</span>); nrm[nrm == <span class="hl-n">0</span>] = <span class="hl-n">1</span>
+sim_train = <span class="hl-f">pd.DataFrame</span>(vec @ vec.T / (nrm @ nrm.T), index=items, columns=items)
+
+precisions, hits = [], <span class="hl-n">0</span>
+<span class="hl-k">for</span> user, hidden_item <span class="hl-k">in</span> <span class="hl-f">held_out.items</span>():
+    recs = <span class="hl-f">recommend</span>(user, train_matrix, sim_train, k=<span class="hl-n">3</span>).<span class="hl-f">index.tolist</span>()
+    <span class="hl-f">precisions.append</span>(<span class="hl-f">precision_at_k</span>(recs, [hidden_item], k=<span class="hl-n">3</span>))
+    hits += hidden_item <span class="hl-k">in</span> recs
+<span class="hl-f">print</span>(<span class="hl-s">&quot;precision@3:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">float</span>(<span class="hl-f">np.mean</span>(precisions)), <span class="hl-n">3</span>), <span class="hl-s">&quot; hit rate:&quot;</span>, <span class="hl-f">round</span>(hits / <span class="hl-f">len</span>(held_out), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">precision@3: 0.2  hit rate: 0.6</pre></div>
+<p>With only 5 users, these numbers are noisy and not a result to report. The point is the method: a real evaluation uses thousands of users, several splits, and a baseline such as "most popular items" to beat.</p>
+<p>::::warn Do not judge by accuracy alone
+Most items are never bought by a given user, so a model that recommends bestsellers can score well on accuracy without being useful. Compare against the popularity baseline, and check diversity (are the suggestions varied?) and whether recommendations are repeated for everyone.
+::::</p>
+<p>::::tip Choose the simplest method that beats the baseline
+Start with popularity. Add item-item similarity when you have enough purchases. Add content features for new items. Only add more complex models (matrix factorisation, neural recommenders, libraries such as Surprise) when the simpler versions have a measured gap.
+::::</p>
+<p>::::key What to remember
+- A recommender starts with a user-item matrix.
+- Collaborative filtering uses patterns across users; content-based uses item features; hybrid blends them.
+- Always exclude items the user already owns.
+- Cold start needs a plan: popularity, preference questions and content features.
+- Evaluate on held-out interactions with precision at k and hit rate, against a popularity baseline.
+::::</p>
+<div class="quiz" id="quiz-ml-29-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does collaborative filtering rely on?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Item descriptions only</button><button type="button" class="opt" data-ok="1"><i>B</i>Patterns of which users interact with which items</button><button type="button" class="opt" data-ok="0"><i>C</i>The user's age</button><button type="button" class="opt" data-ok="0"><i>D</i>Random ratings</button></div><div class="qexp"><b>Answer: B.</b> It uses the behaviour of many users to find related items.</div></div><div class="qq"><p class="qtext"><b>2.</b> Cosine similarity between two items is 1. This means:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The items are priced the same</button><button type="button" class="opt" data-ok="1"><i>B</i>They are bought by exactly the same customers (in proportion)</button><button type="button" class="opt" data-ok="0"><i>C</i>One item is more popular</button><button type="button" class="opt" data-ok="0"><i>D</i>They should never be recommended together</button></div><div class="qexp"><b>Answer: B.</b> A value of 1 means identical direction in the user-item vectors.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why must owned items be removed from a recommendation list?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They cannot be scored</button><button type="button" class="opt" data-ok="1"><i>B</i>Recommending what the customer already has is useless and easy to notice</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the list longer</button><button type="button" class="opt" data-ok="0"><i>D</i>The model requires it</button></div><div class="qexp"><b>Answer: B.</b> Removing owned items is a basic rule of the product.</div></div><div class="qq"><p class="qtext"><b>4.</b> A new product has no purchases yet. Which approach can still rank it?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Collaborative filtering alone</button><button type="button" class="opt" data-ok="1"><i>B</i>Content-based filtering using its features</button><button type="button" class="opt" data-ok="0"><i>C</i>Precision at k</button><button type="button" class="opt" data-ok="0"><i>D</i>Hit rate</button></div><div class="qexp"><b>Answer: B.</b> Content features exist before any interaction.</div></div><div class="qq"><p class="qtext"><b>5.</b> Precision at 5 is 0.4. What does that mean?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>40% of users were recommended something</button><button type="button" class="opt" data-ok="1"><i>B</i>2 of the 5 recommended items were in the user's held-out purchases, on average</button><button type="button" class="opt" data-ok="0"><i>C</i>The model is 40% accurate on all items</button><button type="button" class="opt" data-ok="0"><i>D</i>5 items were recommended 40 times</button></div><div class="qexp"><b>Answer: B.</b> Precision at k is the share of the top k that are relevant.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Recommender with a baseline</b></div><p>Using a ratings or purchase file you have (or the retail transactions dataset), build an item-item recommender with the functions in this lesson. Hold out one item per user, compare precision at 5 and hit rate against a popularity baseline (recommend the five most-bought items the user does not own), and write three sentences on whether the recommender is worth the extra complexity.</p><details class="sol"><summary>Show solution</summary><p>Hints: build the matrix from a 12-month window, keep only users with at least three items so each has a training history, and compute the popularity list from the training matrix only. Report both numbers side by side.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html"><small>← Previous</small><b>ML Capstone: End-to-End Churn Prediction and Retention Strategy</b></a><a class="next" href="ml-30-regression-metrics-mae-mse-rmse-and-r-squared.html"><small>Next →</small><b>Regression Metrics: MAE, MSE, RMSE and R-Squared</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-a-recommender-does">What a recommender does</a><a href="#step-1-the-user-item-matrix">Step 1: the user-item matrix</a><a href="#step-2-item-item-similarity-collaborative-filtering">Step 2: item-item similarity (collaborative filtering)</a><a href="#step-3-recommend-what-the-user-does-not-have">Step 3: recommend what the user does not have</a><a href="#step-4-content-based-filtering">Step 4: content-based filtering</a><a href="#step-5-hybrid-systems-and-cold-start">Step 5: hybrid systems and cold start</a><a href="#step-6-evaluation">Step 6: evaluation</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,194 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification · Data Eng Lesson 10 · Data Science &amp; AI Handbook</title><meta name="description" content="Define data quality with measurable rules across completeness, validity, uniqueness, consistency, timeliness and accuracy. Build a quality check suite that records results, monitor pipelines for freshness, volume and schema changes, and use catalogues, lineage and classification to find and protect data."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 10</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class="on"><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-10">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 10 of 15</div><h1>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</h1>
+<p class="sum">Define data quality with measurable rules across completeness, validity, uniqueness, consistency, timeliness and accuracy. Build a quality check suite that records results, monitor pipelines for freshness, volume and schema changes, and use catalogues, lineage and classification to find and protect data.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_10_Data_Quality_Dimensions_Observability_Catalogues_Lineage_and_Classific.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-10">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Define data quality dimensions and turn each into a measurable rule</li><li>Build a quality check suite that records pass or fail and counts</li><li>Monitor freshness, volume and schema change as observability signals</li><li>Use a catalogue, lineage and classification to find and protect data</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="quality-as-measurable-rules">Quality as measurable rules</h2>
+<p>"The data is good" means nothing until it is defined. Data quality is measured along dimensions, and each dimension becomes a rule that a query can test.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Question</th>
+<th>Example rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Completeness</td>
+<td>Are required values present?</td>
+<td><code>customer_id</code> is never null</td>
+</tr>
+<tr>
+<td>Validity</td>
+<td>Do values follow the allowed format or range?</td>
+<td><code>discount</code> between 0 and 1</td>
+</tr>
+<tr>
+<td>Uniqueness</td>
+<td>Does each entity appear once?</td>
+<td><code>row_id</code> is unique</td>
+</tr>
+<tr>
+<td>Consistency</td>
+<td>Do related values agree?</td>
+<td>every <code>customer_id</code> in sales exists in customers</td>
+</tr>
+<tr>
+<td>Timeliness</td>
+<td>Is the data recent enough?</td>
+<td>the newest order is at most one day old</td>
+</tr>
+<tr>
+<td>Accuracy</td>
+<td>Does the data match the real world or a trusted source?</td>
+<td>daily totals match the finance ledger</td>
+</tr>
+</tbody>
+</table></div>
+<p>Accuracy is the hardest dimension, because it needs a trusted reference. The others can be checked from the data itself.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The report that was complete and wrong</b></div><p>A dashboard showed no missing values and no duplicates, and still reported 3% less revenue than finance. The rule set had no accuracy check. A reconciliation against the ledger found that one region's file had been loaded with an old exchange rate. Completeness and validity were fine; accuracy was not measured.</p></div>
+<h2 id="a-quality-check-suite">A quality check suite</h2>
+<p>Each check is a query that counts failing rows. Zero means pass. Store every result, so that trends are visible and a single failure can be investigated.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> duckdb
+
+con = <span class="hl-f">duckdb.connect</span>()
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+customers = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;customers&quot;</span>, customers)
+
+checks = {
+    <span class="hl-s">&quot;completeness: customer_id is null&quot;</span>:
+        <span class="hl-s">&quot;SELECT COUNT(*) FROM sales WHERE customer_id IS NULL&quot;</span>,
+    <span class="hl-s">&quot;uniqueness: duplicate row_id&quot;</span>:
+        <span class="hl-s">&quot;SELECT COUNT(*) - COUNT(DISTINCT row_id) FROM sales&quot;</span>,
+    <span class="hl-s">&quot;validity: discount outside 0..1&quot;</span>:
+        <span class="hl-s">&quot;SELECT COUNT(*) FROM sales WHERE discount &lt; 0 OR discount &gt; 1&quot;</span>,
+    <span class="hl-s">&quot;validity: non-positive quantity&quot;</span>:
+        <span class="hl-s">&quot;SELECT COUNT(*) FROM sales WHERE quantity &lt;= 0&quot;</span>,
+    <span class="hl-s">&quot;consistency: sales customer not in customers&quot;</span>:
+        <span class="hl-s">&quot;SELECT COUNT(*) FROM sales s LEFT JOIN customers c USING (customer_id) WHERE c.customer_id IS NULL&quot;</span>,
+}
+
+results = []
+<span class="hl-k">for</span> name, sql <span class="hl-k">in</span> <span class="hl-f">checks.items</span>():
+    failing = <span class="hl-f">con.execute</span>(sql).<span class="hl-f">fetchone</span>()[<span class="hl-n">0</span>]
+    <span class="hl-f">results.append</span>({<span class="hl-s">&quot;check&quot;</span>: name, <span class="hl-s">&quot;failing_rows&quot;</span>: failing, <span class="hl-s">&quot;status&quot;</span>: <span class="hl-s">&quot;PASS&quot;</span> <span class="hl-k">if</span> failing == <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-s">&quot;FAIL&quot;</span>})
+
+report = <span class="hl-f">pd.DataFrame</span>(results)
+<span class="hl-f">print</span>(<span class="hl-f">report.to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">                                       check  failing_rows status
+           completeness: customer_id is null             0   PASS
+                uniqueness: duplicate row_id             0   PASS
+             validity: discount outside 0..1             0   PASS
+             validity: non-positive quantity             0   PASS
+consistency: sales customer not in customers             0   PASS</pre></div>
+<p>The consistency check is the one that most often fails in practice. A sales row whose customer was deleted from the customer table disappears from a join and quietly understates totals.</p>
+<p>::::tip Make the failure useful
+A check that says "FAIL" is not enough. Also store the failing rows (or a sample), the check name, the date and the threshold. Then the person on call can see what broke without rerunning the job.
+::::</p>
+<h2 id="thresholds-and-severity">Thresholds and severity</h2>
+<p>Not every failure stops the pipeline. Decide severity in advance:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Severity</th>
+<th>Example</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blocking</td>
+<td>Null primary key, duplicate keys</td>
+<td>Stop the pipeline; do not publish</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>0.5% of discounts out of range</td>
+<td>Publish with a flag; alert the owner</td>
+</tr>
+<tr>
+<td>Informational</td>
+<td>Row count up 12% week on week</td>
+<td>Record for trend review</td>
+</tr>
+</tbody>
+</table></div>
+<p>Thresholds should come from the business. A 0.5% tolerance may be acceptable for marketing data and unacceptable for invoices.</p>
+<h2 id="observability-knowing-when-something-changes">Observability: knowing when something changes</h2>
+<p>Quality rules check the data you expect. <strong>Observability</strong> watches for the things you did not expect. Three signals cover most cases:</p>
+<ol>
+<li><strong>Freshness.</strong> When did the newest record arrive? Alert if it is older than the agreed limit.</li>
+<li><strong>Volume.</strong> How many rows arrived? Alert on sharp drops or spikes against a recent average.</li>
+<li><strong>Schema.</strong> Did a column appear, disappear or change type? Alert before the change breaks a downstream model.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+history = <span class="hl-f">pd.Series</span>([<span class="hl-n">1000</span>, <span class="hl-n">1040</span>, <span class="hl-n">980</span>, <span class="hl-n">1010</span>, <span class="hl-n">1025</span>, <span class="hl-n">990</span>, <span class="hl-n">1005</span>])   <span class="hl-c"># daily row counts, last week</span>
+today = <span class="hl-n">430</span>
+mean, std = <span class="hl-f">history.mean</span>(), <span class="hl-f">history.std</span>()
+z = (today - mean) / std
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;today={today}, mean={mean:.0f}, z={z:.1f}&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;ALERT: volume drop&quot;</span> <span class="hl-k">if</span> z &lt; -<span class="hl-n">3</span> <span class="hl-k">else</span> <span class="hl-s">&quot;volume within normal range&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">today=430, mean=1007, z=-28.3
+ALERT: volume drop</pre></div>
+<p>A simple statistical rule such as "more than three standard deviations from the recent mean" catches most real incidents without tuning. Use a seasonal baseline for data with weekly patterns.</p>
+<h2 id="catalogues-lineage-and-classification">Catalogues, lineage and classification</h2>
+<p>A <strong>data catalogue</strong> is the inventory of datasets: what each one contains, who owns it, how fresh it is, and how to get access. A catalogue entry needs a description, an owner, a refresh schedule and a link to its quality results.</p>
+<p><strong>Lineage</strong> records where a dataset came from and what depends on it (see the dbt lesson for model-level lineage). It answers two questions: "why is this number wrong?" (trace upstream) and "who will be affected if I change this?" (trace downstream).</p>
+<p><strong>Classification</strong> labels columns by sensitivity: public, internal, confidential, personal. Classification drives access rules and masking. Classify at ingestion, store the label in the catalogue, and apply the masking rule in the layer that consumers read.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Column</th>
+<th>Classification</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>order_id</td>
+<td>Internal</td>
+<td>Available to analysts</td>
+</tr>
+<tr>
+<td>customer_name</td>
+<td>Personal</td>
+<td>Masked in silver and gold, restricted in bronze</td>
+</tr>
+<tr>
+<td>sales</td>
+<td>Internal</td>
+<td>Available to analysts and finance</td>
+</tr>
+<tr>
+<td>card number</td>
+<td>Personal, high risk</td>
+<td>Never loaded in raw form (see the ETL lesson)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you know a dashboard number is wrong before a business user does?</b></div><p>Combine rules and signals: completeness and consistency checks on the source, freshness and volume monitoring on each load, reconciliation with a trusted total where one exists, and lineage to find the upstream table if something drifts. Alert the owner when a check fails, and show a quality status next to the dashboard.</p></div>
+<p>::::key What to remember
+- Turn each quality dimension into a measurable rule, and record every result.
+- Accuracy needs a trusted reference; the other dimensions can be checked from the data.
+- Decide severity and thresholds with the business in advance.
+- Observe freshness, volume and schema to catch what you did not expect.
+- Catalogues, lineage and classification make data findable and protected.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-10-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which dimension asks whether each entity appears once?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Validity</button><button type="button" class="opt" data-ok="0"><i>B</i>Timeliness</button><button type="button" class="opt" data-ok="1"><i>C</i>Uniqueness</button><button type="button" class="opt" data-ok="0"><i>D</i>Accuracy</button></div><div class="qexp"><b>Answer: C.</b> Uniqueness checks for duplicates of an entity's key.</div></div><div class="qq"><p class="qtext"><b>2.</b> A check returns 0 failing rows. What does that mean?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The check did not run</button><button type="button" class="opt" data-ok="1"><i>B</i>The rule passed for every row checked</button><button type="button" class="opt" data-ok="0"><i>C</i>The data is accurate</button><button type="button" class="opt" data-ok="0"><i>D</i>The table is empty</button></div><div class="qexp"><b>Answer: B.</b> Zero failing rows is a pass, though it says nothing about accuracy.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why do consistency checks often reveal understated totals?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They add rows</button><button type="button" class="opt" data-ok="1"><i>B</i>A sales row with no matching customer drops out of an inner join, so totals fall silently</button><button type="button" class="opt" data-ok="0"><i>C</i>They remove duplicates</button><button type="button" class="opt" data-ok="0"><i>D</i>They change currency</button></div><div class="qexp"><b>Answer: B.</b> Missing parent rows make joins lose data.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which observability signal would catch a source that stopped sending files?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Schema</button><button type="button" class="opt" data-ok="1"><i>B</i>Freshness</button><button type="button" class="opt" data-ok="0"><i>C</i>Accuracy</button><button type="button" class="opt" data-ok="0"><i>D</i>Uniqueness</button></div><div class="qexp"><b>Answer: B.</b> Freshness measures how recent the newest data is.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why classify columns by sensitivity?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>To change their names</button><button type="button" class="opt" data-ok="1"><i>B</i>To decide who may see them and where masking must be applied</button><button type="button" class="opt" data-ok="0"><i>C</i>To speed up queries</button><button type="button" class="opt" data-ok="0"><i>D</i>To remove the need for a catalogue</button></div><div class="qexp"><b>Answer: B.</b> Classification drives access and masking rules.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Build a suite and a severity table</b></div><p>For the customers and sales files, write five quality checks (one per dimension, where the dimension applies), assign each a severity, and run them. Report which fail, what you would do about each, and one accuracy check you could not run and what reference you would need.</p><details class="sol"><summary>Show solution</summary><p>Hints: the consistency check uses a LEFT JOIN with a NULL test. For accuracy, name a reference such as a finance ledger total by month. Put the severity in a column of the report table, so the decision is visible.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html"><small>← Previous</small><b>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</b></a><a class="next" href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html"><small>Next →</small><b>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#quality-as-measurable-rules">Quality as measurable rules</a><a href="#a-quality-check-suite">A quality check suite</a><a href="#thresholds-and-severity">Thresholds and severity</a><a href="#observability-knowing-when-something-changes">Observability: knowing when something changes</a><a href="#catalogues-lineage-and-classification">Catalogues, lineage and classification</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act · Governance Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Assign clear ownership and stewardship to each dataset, set and enforce retention periods, and apply the core principles of privacy law, including data minimisation, consent and purpose, individual rights and breach reporting under the EU&#x27;s GDPR and India&#x27;s Digital Personal Data Protection Act, 2023."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-governance"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-governance">Governance, Privacy &amp; Business Consulting</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C2D12">Governance, Privacy &amp; Business Consulting</div>
+<ol class="side-l"><li class=""><a href="governance-01-business-problem-solving-kpis-process-mapping-discovery-and.html" data-lid="governance-01"><span>01</span>Business Problem-Solving: KPIs, Process Mapping, Discovery and Hypotheses</a></li><li class=""><a href="governance-02-requirements-user-stories-prds-data-storytelling-and-agile-d.html" data-lid="governance-02"><span>02</span>Requirements, User Stories, PRDs, Data Storytelling and Agile Delivery for Analytics</a></li><li class="on"><a href="governance-03-data-ownership-stewardship-retention-and-privacy-law-gdpr-an.html" data-lid="governance-03"><span>03</span>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act</a></li><li class=""><a href="governance-04-data-masking-row-level-security-and-access-control.html" data-lid="governance-04"><span>04</span>Data Masking, Row-Level Security and Access Control</a></li><li class=""><a href="governance-05-responsible-ai-threat-modelling-and-incident-response.html" data-lid="governance-05"><span>05</span>Responsible AI, Threat Modelling and Incident Response</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="governance-03">
+<div class="lhead" style="--tc:#7C2D12"><div class="kick">Governance, Privacy &amp; Business Consulting · Lesson 3 of 5</div><h1>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act</h1>
+<p class="sum">Assign clear ownership and stewardship to each dataset, set and enforce retention periods, and apply the core principles of privacy law, including data minimisation, consent and purpose, individual rights and breach reporting under the EU's GDPR and India's Digital Personal Data Protection Act, 2023.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/governance/Governance_03_Data_Ownership_Stewardship_Retention_and_Privacy_Law_GDPR_and_India_s_.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="governance-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Assign an owner and a steward to a dataset and state their duties</li><li>Write a retention rule and enforce it with a scheduled deletion job</li><li>Apply data minimisation, purpose limitation and consent in a dataset</li><li>Explain the main rights and duties under GDPR and India's DPDP Act, 2023</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/customers.csv" download>customers.csv</a></div></div></div>
+<div class="content"><h2 id="ownership-and-stewardship">Ownership and stewardship</h2>
+<p>Every dataset needs two named people. The <strong>owner</strong> decides who may use it and for what purpose. The <strong>steward</strong> keeps it accurate, documented and within its rules day to day. Without them, a dataset becomes a shared folder that everyone uses and nobody answers for.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Role</th>
+<th>Decides</th>
+<th>Does</th>
+<th>Answers when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td>Who may access it; the purpose; the retention period</td>
+<td>Approves access requests and changes to the purpose</td>
+<td>A regulator or auditor asks why data is held</td>
+</tr>
+<tr>
+<td>Steward</td>
+<td>How it is defined, checked and documented</td>
+<td>Runs quality checks, maintains the dictionary, applies the rules</td>
+<td>A number is questioned or a field is unclear</td>
+</tr>
+<tr>
+<td>Custodian (often engineering)</td>
+<td>How it is stored and protected</td>
+<td>Applies access controls, backups and deletion jobs</td>
+<td>The system is breached or deletion fails</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The file nobody could delete</b></div><p>A marketing team had kept a customer export for four years. Nobody knew whether it was still used, who had copies or what it contained. When a customer asked for their data to be deleted, the company could not answer within the legal deadline. A named owner and a retention rule would have turned that into a routine request.</p></div>
+<h2 id="retention-how-long-data-is-kept">Retention: how long data is kept</h2>
+<p>A <strong>retention period</strong> states how long a dataset is kept and why. It must be written in policy and enforced by a scheduled job, not by memory.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Purpose</th>
+<th>Retention</th>
+<th>Deletion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call recordings</td>
+<td>Quality review</td>
+<td>90 days</td>
+<td>Scheduled job deletes files older than 90 days and logs each deletion</td>
+</tr>
+<tr>
+<td>Order history</td>
+<td>Accounting and returns</td>
+<td>7 years (as required by tax law)</td>
+<td>Archived to cold storage, then deleted at the end of the period</td>
+</tr>
+<tr>
+<td>Marketing leads without consent</td>
+<td>Contact</td>
+<td>Deleted after 30 days</td>
+<td>Daily job removes unconsented leads</td>
+</tr>
+</tbody>
+</table></div>
+<p>Retention rules often conflict: accounting may require seven years while privacy law says keep data no longer than needed. Resolve the conflict by keeping only the fields the legal purpose requires, and deleting the rest sooner.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+<span class="hl-c"># A retention check: which records are past their retention period?</span>
+records = <span class="hl-f">pd.DataFrame</span>({
+    <span class="hl-s">&quot;record_id&quot;</span>: [<span class="hl-s">&quot;r1&quot;</span>, <span class="hl-s">&quot;r2&quot;</span>, <span class="hl-s">&quot;r3&quot;</span>],
+    <span class="hl-s">&quot;created&quot;</span>: <span class="hl-f">pd.to_datetime</span>([<span class="hl-s">&quot;2025-01-10&quot;</span>, <span class="hl-s">&quot;2025-10-01&quot;</span>, <span class="hl-s">&quot;2024-06-01&quot;</span>]),
+    <span class="hl-s">&quot;purpose&quot;</span>: [<span class="hl-s">&quot;lead without consent&quot;</span>, <span class="hl-s">&quot;order history&quot;</span>, <span class="hl-s">&quot;call recording&quot;</span>],
+})
+retention_days = {<span class="hl-s">&quot;lead without consent&quot;</span>: <span class="hl-n">30</span>, <span class="hl-s">&quot;order history&quot;</span>: <span class="hl-n">365</span> * <span class="hl-n">7</span>, <span class="hl-s">&quot;call recording&quot;</span>: <span class="hl-n">90</span>}
+as_of = <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-11-11&quot;</span>)
+
+records[<span class="hl-s">&quot;age_days&quot;</span>] = (as_of - records[<span class="hl-s">&quot;created&quot;</span>]).dt.days
+records[<span class="hl-s">&quot;retention_days&quot;</span>] = records[<span class="hl-s">&quot;purpose&quot;</span>].<span class="hl-f">map</span>(retention_days)
+records[<span class="hl-s">&quot;delete_now&quot;</span>] = records[<span class="hl-s">&quot;age_days&quot;</span>] &gt; records[<span class="hl-s">&quot;retention_days&quot;</span>]
+<span class="hl-f">print</span>(records[[<span class="hl-s">&quot;record_id&quot;</span>, <span class="hl-s">&quot;purpose&quot;</span>, <span class="hl-s">&quot;age_days&quot;</span>, <span class="hl-s">&quot;retention_days&quot;</span>, <span class="hl-s">&quot;delete_now&quot;</span>]].<span class="hl-f">to_string</span>(index=<span class="hl-k">False</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">record_id              purpose  age_days  retention_days  delete_now
+       r1 lead without consent       305              30        True
+       r2        order history        41            2555       False
+       r3       call recording       528              90        True</pre></div>
+<p>The check is simple, and that is the point: a rule expressed as code can run every night and produce a log of what it deleted.</p>
+<h2 id="data-minimisation-and-purpose">Data minimisation and purpose</h2>
+<p>Two principles run through every privacy law. <strong>Data minimisation</strong> means collecting and keeping only what the purpose needs. <strong>Purpose limitation</strong> means using the data only for the purpose it was collected for, unless the law allows another use.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+customers = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;columns before:&quot;</span>, <span class="hl-f">list</span>(customers.columns))
+
+<span class="hl-c"># The campaign needs an identifier, region and a consent flag, and nothing else</span>
+campaign = customers[[<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;region&quot;</span>]].<span class="hl-f">assign</span>(consent=<span class="hl-k">True</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;columns for campaign:&quot;</span>, <span class="hl-f">list</span>(campaign.columns))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">columns before: [&#x27;customer_id&#x27;, &#x27;customer_name&#x27;, &#x27;segment&#x27;, &#x27;city&#x27;, &#x27;state&#x27;, &#x27;region&#x27;]
+columns for campaign: [&#x27;customer_id&#x27;, &#x27;region&#x27;, &#x27;consent&#x27;]</pre></div>
+<p>A marketing dataset that carries phone numbers, addresses and dates of birth for an email campaign breaks minimisation, even if nobody misuses it.</p>
+<h2 id="consent">Consent</h2>
+<p>Consent must be specific, informed, freely given and recorded. Record what the person agreed to, when, and how, and check the record before each use. A consent flag in a table is only as good as the process that sets it: a flag that is never updated after a withdrawal is a breach.</p>
+<h2 id="gdpr-european-union">GDPR (European Union)</h2>
+<p>The General Data Protection Regulation applies to personal data of people in the EU, and to organisations outside the EU that offer goods or services to them or monitor them. Its principles include lawfulness, purpose limitation, minimisation, accuracy, storage limitation, security and accountability. Individuals have rights to access, correction, erasure, restriction and portability, and organisations must report certain breaches within 72 hours.</p>
+<h2 id="indias-digital-personal-data-protection-act-2023">India's Digital Personal Data Protection Act, 2023</h2>
+<p>India's DPDP Act, 2023 governs the processing of digital personal data in India, and some processing outside India that relates to goods or services offered in India. It is built on consent and legitimate uses, sets duties for <strong>data fiduciaries</strong> (organisations that decide how personal data is processed) and rights for <strong>data principals</strong> (the individuals). Rights include access to a summary of processing, correction and erasure. Organisations must give notice, have a grievance mechanism, protect data with reasonable security, and report breaches to the Data Protection Board and to affected individuals as the Act and its rules require. Check the current rules and notifications with counsel, because implementation details are set out in subordinate rules.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Principle</th>
+<th>GDPR</th>
+<th>India DPDP Act, 2023</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lawful basis or consent</td>
+<td>Several lawful bases, including consent</td>
+<td>Consent or specified legitimate uses</td>
+</tr>
+<tr>
+<td>Purpose limitation</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Individual rights</td>
+<td>Access, correction, erasure, portability, and more</td>
+<td>Access to summary, correction, erasure, grievance</td>
+</tr>
+<tr>
+<td>Breach reporting</td>
+<td>Within 72 hours to the authority, where required</td>
+<td>To the Board and affected individuals, as prescribed</td>
+</tr>
+<tr>
+<td>Children's data</td>
+<td>Special protection</td>
+<td>Verifiable parental consent for children</td>
+</tr>
+</tbody>
+</table></div>
+<p>::::warn This is not legal advice
+These summaries help analysts recognise the principles. Whether a particular dataset is lawful, how long it may be kept, and what a breach notice must say are legal questions. Involve the company's legal or privacy function before collecting new personal data.
+::::</p>
+<h2 id="a-privacy-checklist-for-any-dataset">A privacy checklist for any dataset</h2>
+<ul>
+<li>[ ] A named owner and steward, written in the catalogue.</li>
+<li>[ ] The purpose written down, and each field justified by it.</li>
+<li>[ ] Minimisation: fields not needed for the purpose are dropped or never collected.</li>
+<li>[ ] Consent or other lawful basis recorded, with a date and a way to withdraw.</li>
+<li>[ ] Retention period set, with a scheduled deletion job and a log.</li>
+<li>[ ] Access restricted to the people who need it, reviewed each quarter.</li>
+<li>[ ] A process for access, correction and deletion requests, with a deadline.</li>
+<li>[ ] A breach response plan that names who decides and who notifies.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>What does data minimisation mean for an analytics team?</b></div><p>Collect and keep only the fields that a stated purpose needs, and remove the rest as early as possible. For analysis, that often means aggregating or pseudonymising before the data leaves the source, so that analysts see what they need and nothing more.</p></div>
+<p>::::key What to remember
+- Each dataset has an owner (decides) and a steward (keeps it accurate).
+- Retention is a written rule, enforced by a scheduled, logged deletion.
+- Minimisation and purpose limitation are the core principles of privacy law.
+- Consent must be recorded and updated when withdrawn.
+- GDPR and India's DPDP Act share principles; their details differ, so check with counsel.
+::::</p>
+<div class="quiz" id="quiz-governance-03-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does the data owner decide?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>How the database is backed up</button><button type="button" class="opt" data-ok="1"><i>B</i>Who may access the dataset and for what purpose</button><button type="button" class="opt" data-ok="0"><i>C</i>The chart colours</button><button type="button" class="opt" data-ok="0"><i>D</i>The server model</button></div><div class="qexp"><b>Answer: B.</b> The owner is accountable for access and purpose.</div></div><div class="qq"><p class="qtext"><b>2.</b> What makes a retention rule effective?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A statement in a meeting</button><button type="button" class="opt" data-ok="1"><i>B</i>A written rule enforced by a scheduled job with a deletion log</button><button type="button" class="opt" data-ok="0"><i>C</i>A promise by one person</button><button type="button" class="opt" data-ok="0"><i>D</i>A comment in the code</button></div><div class="qexp"><b>Answer: B.</b> Rules must run automatically to be reliable.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which principle says only the fields the purpose needs should be collected?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Accuracy</button><button type="button" class="opt" data-ok="0"><i>B</i>Storage limitation only</button><button type="button" class="opt" data-ok="1"><i>C</i>Data minimisation</button><button type="button" class="opt" data-ok="0"><i>D</i>Portability</button></div><div class="qexp"><b>Answer: C.</b> Minimisation limits what is collected and kept.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why is a consent flag that is never updated a problem?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It takes space</button><button type="button" class="opt" data-ok="1"><i>B</i>Withdrawn consent is still treated as given, which breaks the law and the promise to the person</button><button type="button" class="opt" data-ok="0"><i>C</i>Flags cannot be stored</button><button type="button" class="opt" data-ok="0"><i>D</i>It is always correct</button></div><div class="qexp"><b>Answer: B.</b> A stale flag misrepresents the person's choice.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which law applies to digital personal data processed in India?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>GDPR</button><button type="button" class="opt" data-ok="1"><i>B</i>The Digital Personal Data Protection Act, 2023</button><button type="button" class="opt" data-ok="0"><i>C</i>The Copyright Act</button><button type="button" class="opt" data-ok="0"><i>D</i>The Companies Act only</button></div><div class="qexp"><b>Answer: B.</b> India's DPDP Act is the governing act for digital personal data.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Write a retention and minimisation plan</b></div><p>For a customer dataset with name, phone, email, address, date of birth, purchase history and support call recordings, write: the owner and steward roles, the purpose, the fields to keep, the retention period for each, the consent record needed, and the deletion job. Mark one item for legal review and say why.</p><details class="sol"><summary>Show solution</summary><p>Expected: drop date of birth unless a stated purpose needs it; keep purchase history for the accounting period; delete call recordings after a short period; record consent with date and channel; flag any retention period that conflicts with a legal requirement for legal review.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://gdpr-info.eu/">GDPR text (EU, official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.meity.gov.in/">Ministry of Electronics and IT (India, official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://genai.owasp.org/">OWASP Top 10 for LLM Applications ↗</a></li><li><a target="_blank" rel="noopener" href="https://scrumguides.org/">Scrum Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls">Microsoft Learn: row-level security in Power BI ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="governance-02-requirements-user-stories-prds-data-storytelling-and-agile-d.html"><small>← Previous</small><b>Requirements, User Stories, PRDs, Data Storytelling and Agile Delivery for Analytics</b></a><a class="next" href="governance-04-data-masking-row-level-security-and-access-control.html"><small>Next →</small><b>Data Masking, Row-Level Security and Access Control</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#ownership-and-stewardship">Ownership and stewardship</a><a href="#retention-how-long-data-is-kept">Retention: how long data is kept</a><a href="#data-minimisation-and-purpose">Data minimisation and purpose</a><a href="#consent">Consent</a><a href="#gdpr-european-union">GDPR (European Union)</a><a href="#indias-digital-personal-data-protection-act-2023">India&#x27;s Digital Personal Data Protection Act, 2023</a><a href="#a-privacy-checklist-for-any-dataset">A privacy checklist for any dataset</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

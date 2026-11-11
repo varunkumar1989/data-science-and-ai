@@ -1,0 +1,159 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apache Spark and PySpark: Distributed Processing for Large Data · Data Eng Lesson 8 · Data Science &amp; AI Handbook</title><meta name="description" content="Process data too large for one machine with Apache Spark. Understand lazy evaluation, partitions and shuffles, write DataFrame transformations in PySpark, read the execution plan, and fix the common causes of slow jobs such as skew, small files and unnecessary shuffles."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 8</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class="on"><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-08">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 8 of 15</div><h1>Apache Spark and PySpark: Distributed Processing for Large Data</h1>
+<p class="sum">Process data too large for one machine with Apache Spark. Understand lazy evaluation, partitions and shuffles, write DataFrame transformations in PySpark, read the execution plan, and fix the common causes of slow jobs such as skew, small files and unnecessary shuffles.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_08_Apache_Spark_and_PySpark_Distributed_Processing_for_Large_Data.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-08">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain Spark's driver, executors, partitions and lazy evaluation</li><li>Write PySpark DataFrame transformations and actions</li><li>Identify shuffles and reduce them</li><li>Diagnose slow jobs from the execution plan and the Spark UI</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-spark">Why Spark</h2>
+<p>Pandas works well while data fits in one machine's memory. When it does not, Spark splits the data into <strong>partitions</strong> and processes them in parallel on a cluster of machines. Its DataFrame API looks like pandas or SQL, but the work runs across many workers.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The job that ran for six hours</b></div><p>A nightly job joined three years of transactions to a product table, then aggregated. It took six hours and sometimes failed with memory errors. The fix was not a bigger cluster: it was filtering early, broadcasting the small table, and removing an unnecessary shuffle. The job then ran in twelve minutes.</p></div>
+<h2 id="the-architecture">The architecture</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Driver</td>
+<td>Plans the work, holds the program, coordinates the executors</td>
+</tr>
+<tr>
+<td>Executors</td>
+<td>Worker processes that run tasks on partitions and hold cached data</td>
+</tr>
+<tr>
+<td>Partition</td>
+<td>A chunk of the data processed as one task</td>
+</tr>
+<tr>
+<td>Cluster manager</td>
+<td>Allocates machines (YARN, Kubernetes, or the managed platform's own)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="lazy-evaluation">Lazy evaluation</h2>
+<p>Spark separates <strong>transformations</strong> (filter, select, join, groupBy) from <strong>actions</strong> (count, show, write). Transformations only build a plan. Nothing runs until an action asks for a result. Spark can then optimise the whole plan, combining steps and skipping work that is not needed.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Illustrative PySpark (not run: needs a Spark installation). Shows the pattern.</span>
+<span class="hl-k">from</span> pyspark.sql <span class="hl-k">import</span> SparkSession, functions <span class="hl-k">as</span> F
+
+spark = <span class="hl-f">SparkSession.builder.appName</span>(<span class="hl-s">&quot;sales_summary&quot;</span>).<span class="hl-f">getOrCreate</span>()
+
+sales = <span class="hl-f">spark.read.option</span>(<span class="hl-s">&quot;header&quot;</span>, <span class="hl-k">True</span>).<span class="hl-f">option</span>(<span class="hl-s">&quot;inferSchema&quot;</span>, <span class="hl-k">True</span>).<span class="hl-f">csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>)
+products = <span class="hl-f">spark.read.option</span>(<span class="hl-s">&quot;header&quot;</span>, <span class="hl-k">True</span>).<span class="hl-f">csv</span>(<span class="hl-s">&quot;products.csv&quot;</span>)
+
+summary = (
+    sales
+    .<span class="hl-f">filter</span>(<span class="hl-f">F.col</span>(<span class="hl-s">&quot;order_date&quot;</span>) &gt;= <span class="hl-s">&quot;2024-01-01&quot;</span>)          <span class="hl-c"># transformation: filter early</span>
+    .<span class="hl-f">join</span>(<span class="hl-f">F.broadcast</span>(products), <span class="hl-s">&quot;product_id&quot;</span>)            <span class="hl-c"># broadcast the small table</span>
+    .<span class="hl-f">groupBy</span>(<span class="hl-s">&quot;category&quot;</span>, <span class="hl-f">F.date_trunc</span>(<span class="hl-s">&quot;month&quot;</span>, <span class="hl-s">&quot;order_date&quot;</span>).<span class="hl-f">alias</span>(<span class="hl-s">&quot;month&quot;</span>))
+    .<span class="hl-f">agg</span>(<span class="hl-f">F.sum</span>(<span class="hl-s">&quot;sales&quot;</span>).<span class="hl-f">alias</span>(<span class="hl-s">&quot;sales&quot;</span>), <span class="hl-f">F.sum</span>(<span class="hl-s">&quot;profit&quot;</span>).<span class="hl-f">alias</span>(<span class="hl-s">&quot;profit&quot;</span>))
+)
+
+<span class="hl-f">summary.explain</span>()                                          <span class="hl-c"># show the plan, not yet executed</span>
+<span class="hl-f">summary.write.mode</span>(<span class="hl-s">&quot;overwrite&quot;</span>).<span class="hl-f">parquet</span>(<span class="hl-s">&quot;gold/monthly_category_sales&quot;</span>)   <span class="hl-c"># action: runs the job</span></code></pre></div>
+<p><code>explain()</code> prints the plan Spark will run. <code>write</code> is the action that starts the work. Read the plan before you tune anything.</p>
+<h2 id="shuffles-the-expensive-step">Shuffles: the expensive step</h2>
+<p>A <strong>shuffle</strong> moves data between executors so that rows with the same key end up together. Joins on non-broadcast tables and <code>groupBy</code> both shuffle. Shuffles write to disk and send data over the network, which is usually the slowest part of a job.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Operation</th>
+<th>Shuffle?</th>
+<th>Cheaper alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filter, select, map</td>
+<td>No</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>groupBy</code> with aggregation</td>
+<td>Yes, but Spark pre-aggregates first</td>
+<td>Keep aggregations simple</td>
+</tr>
+<tr>
+<td>Join with a large table</td>
+<td>Yes, both sides</td>
+<td>Partition both tables on the join key in advance</td>
+</tr>
+<tr>
+<td>Join with a small table</td>
+<td>Avoidable</td>
+<td><code>broadcast(small_table)</code></td>
+</tr>
+<tr>
+<td>Repeated sorting for each step</td>
+<td>Often</td>
+<td>Sort once, or avoid sorting</td>
+</tr>
+</tbody>
+</table></div>
+<p>::::tip Broadcast the small table
+A join with a table that fits in memory can send a copy to every executor, so the big table never has to shuffle. Use <code>F.broadcast()</code> on the small side. Spark also does this automatically below a size threshold, but explicit hints make the intent clear.
+::::</p>
+<h2 id="partitions-how-many-and-how-big">Partitions: how many and how big</h2>
+<ul>
+<li>Too few partitions leave executors idle; too many add scheduling overhead and tiny files.</li>
+<li>A common starting point is a few partitions per core, and partitions of roughly 100 to 200 MB.</li>
+<li><code>repartition(n)</code> changes the number of partitions with a shuffle; <code>coalesce(n)</code> reduces it without one.</li>
+</ul>
+<h2 id="data-skew">Data skew</h2>
+<p><strong>Skew</strong> happens when one key holds most of the rows (for example, one customer id with a million orders). The task for that key runs far longer than the others, and the job waits for it. Diagnose skew in the Spark UI: one task takes much longer than its siblings. Fixes include filtering that key separately, salting the key, or aggregating in two stages.</p>
+<h2 id="small-files">Small files</h2>
+<p>Writing many tiny files slows every later read, because each file has overhead. Compact them with <code>coalesce</code> or the platform's compaction feature before writing the output for downstream use.</p>
+<h2 id="reading-the-spark-ui">Reading the Spark UI</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Tab</th>
+<th>Look for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jobs and stages</td>
+<td>Which stage is slow and how many tasks it has</td>
+</tr>
+<tr>
+<td>Stage details</td>
+<td>Task time spread: one long task suggests skew</td>
+</tr>
+<tr>
+<td>SQL tab</td>
+<td>The physical plan with its shuffle and join types</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Cached data and how much memory it uses</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="caching">Caching</h2>
+<p><code>cache()</code> or <code>persist()</code> keeps a DataFrame in memory when you use it more than once. Cache after expensive steps that feed several outputs, and unpersist when you finish. Caching everything wastes memory and can slow the job.</p>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Why is a Spark job slow, and how would you find out?</b></div><p>Read the plan with <code>explain()</code>, open the Spark UI, and find the slowest stage. Typical causes are a large unbroadcast join, a shuffle that could be avoided by filtering earlier, skewed keys where one task runs far longer, and many small files. Fix the largest cost first and measure again.</p></div>
+<p>::::key What to remember
+- Spark processes partitions in parallel; transformations are lazy and actions start the work.
+- Shuffles are the expensive step: filter early, broadcast small tables, and avoid unnecessary sorts.
+- Choose partitions of about 100–200 MB and avoid tiny files.
+- Diagnose skew in the Spark UI and fix it with separate handling or two-stage aggregation.
+- Read the plan and the UI before tuning.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-08-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which operation starts the work in Spark?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>filter</button><button type="button" class="opt" data-ok="0"><i>B</i>select</button><button type="button" class="opt" data-ok="1"><i>C</i>write (an action)</button><button type="button" class="opt" data-ok="0"><i>D</i>withColumn</button></div><div class="qexp"><b>Answer: C.</b> Actions trigger execution; transformations only build the plan.</div></div><div class="qq"><p class="qtext"><b>2.</b> What is the main cost in a Spark job's slow step?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Writing a comment</button><button type="button" class="opt" data-ok="1"><i>B</i>Shuffling data between executors</button><button type="button" class="opt" data-ok="0"><i>C</i>Printing the schema</button><button type="button" class="opt" data-ok="0"><i>D</i>Reading the header row</button></div><div class="qexp"><b>Answer: B.</b> Shuffles move data across the network and disk.</div></div><div class="qq"><p class="qtext"><b>3.</b> How do you avoid a shuffle when joining a large table with a small lookup table?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Repartition both tables to one partition</button><button type="button" class="opt" data-ok="1"><i>B</i>Broadcast the small table</button><button type="button" class="opt" data-ok="0"><i>C</i>Sort both tables</button><button type="button" class="opt" data-ok="0"><i>D</i>Cache the output</button></div><div class="qexp"><b>Answer: B.</b> A broadcast join sends the small table to each executor.</div></div><div class="qq"><p class="qtext"><b>4.</b> One task in a stage takes 40 minutes while the others take 1 minute. What is the likely problem?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The cluster has too many machines</button><button type="button" class="opt" data-ok="1"><i>B</i>Data skew: one key holds much more data than the others</button><button type="button" class="opt" data-ok="0"><i>C</i>The file has a header</button><button type="button" class="opt" data-ok="0"><i>D</i>The output is in Parquet</button></div><div class="qexp"><b>Answer: B.</b> One long task among many short ones is the signature of skew.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why avoid writing thousands of tiny files?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They cannot be read</button><button type="button" class="opt" data-ok="1"><i>B</i>Each file adds overhead, so later reads become slow</button><button type="button" class="opt" data-ok="0"><i>C</i>Spark does not support files</button><button type="button" class="opt" data-ok="0"><i>D</i>They cost nothing</button></div><div class="qexp"><b>Answer: B.</b> Compaction reduces the overhead for downstream reads.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Tune a slow plan</b></div><p>Write, in pseudocode or PySpark, a job that joins a 500-million-row transactions table to a 2,000-row product table and aggregates by category. List three changes you would make to reduce the cost, the expected effect of each, and how you would confirm the improvement with <code>explain()</code> and the Spark UI.</p><details class="sol"><summary>Show solution</summary><p>Expected changes: broadcast the product table; filter to the needed date range before the join; avoid a second shuffle by aggregating once with the right keys. Confirm by comparing the plan's join type and the stage times in the UI.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html"><small>← Previous</small><b>dbt: Models, Tests, Documentation and Lineage</b></a><a class="next" href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html"><small>Next →</small><b>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-spark">Why Spark</a><a href="#the-architecture">The architecture</a><a href="#lazy-evaluation">Lazy evaluation</a><a href="#shuffles-the-expensive-step">Shuffles: the expensive step</a><a href="#partitions-how-many-and-how-big">Partitions: how many and how big</a><a href="#data-skew">Data skew</a><a href="#small-files">Small files</a><a href="#reading-the-spark-ui">Reading the Spark UI</a><a href="#caching">Caching</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

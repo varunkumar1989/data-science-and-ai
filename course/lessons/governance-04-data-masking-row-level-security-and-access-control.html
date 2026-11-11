@@ -1,0 +1,174 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Masking, Row-Level Security and Access Control · Governance Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Protect sensitive data while keeping it useful. Mask values in queries and in views, show only the last digits of identifiers, restrict which rows each user sees with row-level security, and audit who accessed what, with worked examples in SQL and Python and a regional report protected through RLS."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-governance"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-governance">Governance, Privacy &amp; Business Consulting</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C2D12">Governance, Privacy &amp; Business Consulting</div>
+<ol class="side-l"><li class=""><a href="governance-01-business-problem-solving-kpis-process-mapping-discovery-and.html" data-lid="governance-01"><span>01</span>Business Problem-Solving: KPIs, Process Mapping, Discovery and Hypotheses</a></li><li class=""><a href="governance-02-requirements-user-stories-prds-data-storytelling-and-agile-d.html" data-lid="governance-02"><span>02</span>Requirements, User Stories, PRDs, Data Storytelling and Agile Delivery for Analytics</a></li><li class=""><a href="governance-03-data-ownership-stewardship-retention-and-privacy-law-gdpr-an.html" data-lid="governance-03"><span>03</span>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act</a></li><li class="on"><a href="governance-04-data-masking-row-level-security-and-access-control.html" data-lid="governance-04"><span>04</span>Data Masking, Row-Level Security and Access Control</a></li><li class=""><a href="governance-05-responsible-ai-threat-modelling-and-incident-response.html" data-lid="governance-05"><span>05</span>Responsible AI, Threat Modelling and Incident Response</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="governance-04">
+<div class="lhead" style="--tc:#7C2D12"><div class="kick">Governance, Privacy &amp; Business Consulting · Lesson 4 of 5</div><h1>Data Masking, Row-Level Security and Access Control</h1>
+<p class="sum">Protect sensitive data while keeping it useful. Mask values in queries and in views, show only the last digits of identifiers, restrict which rows each user sees with row-level security, and audit who accessed what, with worked examples in SQL and Python and a regional report protected through RLS.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/governance/Governance_04_Data_Masking_Row_Level_Security_and_Access_Control.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="governance-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Choose between masking, pseudonymisation and removal for a field</li><li>Mask sensitive values with SQL views and Python functions</li><li>Restrict rows by user with a row-level security rule</li><li>Audit access to sensitive data and review the audit log</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/customers.csv" download>customers.csv</a><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="three-ways-to-protect-a-field">Three ways to protect a field</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+<th>Reversible?</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Removal</td>
+<td>The field is not stored or not passed on</td>
+<td>Not applicable</td>
+<td>The purpose does not need it</td>
+</tr>
+<tr>
+<td>Masking</td>
+<td>Part of the value is hidden (for example, last four digits)</td>
+<td>No</td>
+<td>People need to recognise a record, not identify the person</td>
+</tr>
+<tr>
+<td>Pseudonymisation</td>
+<td>The identifier is replaced with a token, kept in a separate key store</td>
+<td>Yes, with the key</td>
+<td>Analysts need to link records over time, but not see identities</td>
+</tr>
+</tbody>
+</table></div>
+<p>Choose the weakest method that still meets the purpose. Removal is strongest; pseudonymisation keeps the most utility but needs careful key management.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Support tickets for a regional review</b></div><p>A regional manager needs to review support tickets by city and product. The tickets contain customer phone numbers and full names, which the review does not need. The right design removes the names and masks the phone numbers, leaving city, product and issue type. Nothing in the review requires the full values.</p></div>
+<h2 id="masking-in-sql-with-a-view">Masking in SQL with a view</h2>
+<p>A <strong>view</strong> is a saved query that presents a table in a safer form. Analysts query the view; the raw table stays restricted to the few people who need it.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> duckdb
+
+con = <span class="hl-f">duckdb.connect</span>()
+customers = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;customers_raw&quot;</span>, customers)
+
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;
+    CREATE VIEW customers_masked AS
+    SELECT customer_id,
+           -- keep the first letter and mask the rest of the name
+           LEFT(customer_name, 1) || REPEAT(&#x27;*&#x27;, GREATEST(LENGTH(customer_name) - 1, 0)) AS name_masked,
+           segment,
+           region
+    FROM customers_raw
+&quot;&quot;&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT * FROM customers_masked LIMIT 5&quot;</span>).<span class="hl-f">fetchdf</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  customer_id     name_masked    segment region
+0       C0001     S**********  Corporate  North
+1       C0002      M*********  Corporate  North
+2       C0003       R********   Consumer   East
+3       C0004  D*************  Corporate   West
+4       C0005     N**********  Corporate  South</pre></div>
+<p>The view keeps the identifier and the analytical fields, and removes the readable name. A query on the view cannot recover the name, because the function that produced it discards it.</p>
+<h2 id="masking-in-python">Masking in Python</h2>
+<p>The same idea works in code. The function below keeps the last four digits of a phone number and hides the rest, which is useful for showing a record to a support agent who needs to confirm identity.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">def</span> <span class="hl-f">mask_phone</span>(number: str) -&gt; str:
+    digits = <span class="hl-s">&quot;&quot;</span>.<span class="hl-f">join</span>(ch <span class="hl-k">for</span> ch <span class="hl-k">in</span> number <span class="hl-k">if</span> <span class="hl-f">ch.isdigit</span>())
+    <span class="hl-k">if</span> <span class="hl-f">len</span>(digits) &lt; <span class="hl-n">4</span>:
+        <span class="hl-k">return</span> <span class="hl-s">&quot;*&quot;</span> * <span class="hl-f">len</span>(digits)
+    <span class="hl-k">return</span> <span class="hl-s">&quot;*&quot;</span> * (<span class="hl-f">len</span>(digits) - <span class="hl-n">4</span>) + digits[-<span class="hl-n">4</span>:]
+
+<span class="hl-k">for</span> phone <span class="hl-k">in</span> [<span class="hl-s">&quot;+91 98450 12345&quot;</span>, <span class="hl-s">&quot;080-2345-6789&quot;</span>, <span class="hl-s">&quot;12&quot;</span>]:
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{phone:&gt;18} -&gt; {mask_phone(phone)}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">   +91 98450 12345 -&gt; ********2345
+     080-2345-6789 -&gt; *******6789
+                12 -&gt; **</pre></div>
+<p>Masking is only as strong as the rest of the system. If the unmasked column is still readable through another table, a join, or an export, masking has protected nothing.</p>
+<h2 id="pseudonymisation-with-a-key">Pseudonymisation with a key</h2>
+<p>Pseudonymisation replaces a direct identifier with a token, so that analysts can count distinct customers and follow them across months without knowing who they are. The mapping lives in a separate, restricted table.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> hashlib
+<span class="hl-k">import</span> hmac
+
+SECRET_KEY = b<span class="hl-s">&quot;keep-this-in-a-secrets-manager&quot;</span>       <span class="hl-c"># placeholder; never hard-code in production</span>
+
+<span class="hl-k">def</span> <span class="hl-f">pseudonym</span>(customer_id: str) -&gt; str:
+    <span class="hl-k">return</span> <span class="hl-f">hmac.new</span>(SECRET_KEY, <span class="hl-f">customer_id.encode</span>(), hashlib.sha256).<span class="hl-f">hexdigest</span>()[:<span class="hl-n">16</span>]
+
+<span class="hl-f">print</span>(<span class="hl-f">pseudonym</span>(<span class="hl-s">&quot;C0001&quot;</span>), <span class="hl-f">pseudonym</span>(<span class="hl-s">&quot;C0001&quot;</span>), <span class="hl-f">pseudonym</span>(<span class="hl-s">&quot;C0002&quot;</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2972d88b78de3379 2972d88b78de3379 ddf2a050855650da</pre></div>
+<p>The same input gives the same token, so counts and joins still work. Using a keyed HMAC rather than a plain hash matters: without the key, someone who knows the possible IDs can hash them and match the token. The key must be stored separately and protected.</p>
+<p>::::warn Hashing is not anonymisation
+A plain hash of a phone number can be reversed by hashing every possible phone number. Use a keyed function, keep the key separate, and treat pseudonymised data as personal data under most privacy laws.
+::::</p>
+<h2 id="row-level-security">Row-level security</h2>
+<p><strong>Row-level security (RLS)</strong> limits which rows each user can see, within the same table or report. A regional manager sees only their region's rows, and the same report shows different rows to different people without copies of the data.</p>
+<p>The rule below is written in the style of a database policy. Check the exact syntax for your platform; the principle is the same.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- PostgreSQL-style row-level security (illustrative)</span>
+<span class="hl-k">ALTER</span> <span class="hl-k">TABLE</span> sales ENABLE <span class="hl-k">ROW</span> LEVEL SECURITY;
+
+<span class="hl-k">CREATE</span> POLICY regional_access <span class="hl-k">ON</span> sales
+    <span class="hl-k">FOR</span> <span class="hl-k">SELECT</span>
+    <span class="hl-k">USING</span> (region = <span class="hl-f">current_setting</span>(<span class="hl-s">&#x27;app.user_region&#x27;</span>));</code></pre></div>
+<p>In Power BI, the same idea is built into the data model: a role defines a filter on a table (for example <code>region = "North"</code>), and users assigned to the role see only the matching rows. Test every role by viewing the report as that user, because a role that was never tested is a role that leaks.</p>
+<p>The Python equivalent, useful for understanding the logic, filters the rows before they are returned:</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+
+<span class="hl-k">def</span> <span class="hl-f">rows_for_user</span>(df, user_region):
+    <span class="hl-c"># The filter is applied on the server side, before anything reaches the user</span>
+    <span class="hl-k">return</span> df[df[<span class="hl-s">&quot;region&quot;</span>] == user_region]
+
+north = <span class="hl-f">rows_for_user</span>(sales, <span class="hl-s">&quot;North&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;rows visible to the North manager:&quot;</span>, <span class="hl-f">len</span>(north), <span class="hl-s">&quot;| regions present:&quot;</span>, north[<span class="hl-s">&quot;region&quot;</span>].<span class="hl-f">unique</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">rows visible to the North manager: 1530 | regions present: [&#x27;North&#x27;]</pre></div>
+<div class="co co-note"><div class="co-h"><span class="pill">Note</span><b>Test the boundary</b></div><p>Check what a user sees at the edges: a row with a blank region, a manager who covers two regions, a user with no role at all. A user with no role should see nothing, not everything.</p></div>
+<h2 id="access-control-and-audit">Access control and audit</h2>
+<p>Access control answers "who may do what". Good practice:</p>
+<ul>
+<li><strong>Least privilege.</strong> Analysts read the views; only a small group reads raw tables.</li>
+<li><strong>Groups, not individuals.</strong> Grant access to a role, and manage membership in one place.</li>
+<li><strong>Review access quarterly.</strong> Remove people who changed teams or left.</li>
+<li><strong>Audit everything sensitive.</strong> Log who queried which sensitive table and when, and review unusual access, such as a large export at night.</li>
+</ul>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Audit field</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time</td>
+<td>2026-11-11 22:14</td>
+</tr>
+<tr>
+<td>User</td>
+<td>analyst.ravi</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>customers_raw</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>SELECT, 4,200 rows</td>
+</tr>
+<tr>
+<td>Purpose recorded</td>
+<td>Ticket review</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you let analysts work with customer data without exposing personal details?</b></div><p>Give them a view with personal fields removed or masked, grant raw access only to a named group with a documented purpose, apply row-level security where a manager should see only their area, and log access to the raw table. Test each role by viewing results as that role, and review access quarterly.</p></div>
+<p>::::key What to remember
+- Removal is the strongest protection; masking and pseudonymisation keep more utility.
+- Use views to present safer versions of a table to analysts.
+- Use keyed pseudonyms, with the key stored separately; plain hashes are reversible in practice.
+- Row-level security filters rows by user; test every role, including edge cases.
+- Audit access to sensitive data and review it.
+::::</p>
+<div class="quiz" id="quiz-governance-04-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which method keeps the most analytical utility while hiding identities?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Removal</button><button type="button" class="opt" data-ok="0"><i>B</i>Masking the whole value</button><button type="button" class="opt" data-ok="1"><i>C</i>Pseudonymisation with a keyed token</button><button type="button" class="opt" data-ok="0"><i>D</i>Deleting the table</button></div><div class="qexp"><b>Answer: C.</b> Keyed tokens keep joins and counts while hiding the person.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why is a plain hash of a phone number not enough?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Hashes are too slow</button><button type="button" class="opt" data-ok="1"><i>B</i>Anyone can hash every possible number and match the result</button><button type="button" class="opt" data-ok="0"><i>C</i>Hashes are always reversible by law</button><button type="button" class="opt" data-ok="0"><i>D</i>Hashes remove the data</button></div><div class="qexp"><b>Answer: B.</b> Without a secret key, the space of inputs can be tested.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does row-level security control?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Which columns are visible</button><button type="button" class="opt" data-ok="1"><i>B</i>Which rows each user can see</button><button type="button" class="opt" data-ok="0"><i>C</i>How fast a query runs</button><button type="button" class="opt" data-ok="0"><i>D</i>Where the data is stored</button></div><div class="qexp"><b>Answer: B.</b> RLS filters rows by user.</div></div><div class="qq"><p class="qtext"><b>4.</b> A user has no role assigned. What should they see?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Everything</button><button type="button" class="opt" data-ok="1"><i>B</i>Nothing</button><button type="button" class="opt" data-ok="0"><i>C</i>The last report</button><button type="button" class="opt" data-ok="0"><i>D</i>The raw table</button></div><div class="qexp"><b>Answer: B.</b> A missing role must fail closed.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why keep audit logs for sensitive tables?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They make queries faster</button><button type="button" class="opt" data-ok="1"><i>B</i>So that unusual or unauthorised access can be detected and explained</button><button type="button" class="opt" data-ok="0"><i>C</i>They replace access control</button><button type="button" class="opt" data-ok="0"><i>D</i>They are required for charts</button></div><div class="qexp"><b>Answer: B.</b> Audit logs support detection and accountability.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Protect a support dataset</b></div><p>Using the customers file, build a view that removes the full name and keeps identifiers and region, write a row-level rule so that a North manager sees only North customers, and list the audit fields you would log for a query on the raw table. Test the rule with a user who has no role and confirm they see nothing.</p><details class="sol"><summary>Show solution</summary><p>Hints: the view can use the masking expression from this lesson. Test the no-role case by making the filter compare against an empty value, which should return no rows. Keep the audit list to fields a reviewer could use.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://gdpr-info.eu/">GDPR text (EU, official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.meity.gov.in/">Ministry of Electronics and IT (India, official) ↗</a></li><li><a target="_blank" rel="noopener" href="https://genai.owasp.org/">OWASP Top 10 for LLM Applications ↗</a></li><li><a target="_blank" rel="noopener" href="https://scrumguides.org/">Scrum Guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls">Microsoft Learn: row-level security in Power BI ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="governance-03-data-ownership-stewardship-retention-and-privacy-law-gdpr-an.html"><small>← Previous</small><b>Data Ownership, Stewardship, Retention and Privacy Law: GDPR and India&#x27;s DPDP Act</b></a><a class="next" href="governance-05-responsible-ai-threat-modelling-and-incident-response.html"><small>Next →</small><b>Responsible AI, Threat Modelling and Incident Response</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#three-ways-to-protect-a-field">Three ways to protect a field</a><a href="#masking-in-sql-with-a-view">Masking in SQL with a view</a><a href="#masking-in-python">Masking in Python</a><a href="#pseudonymisation-with-a-key">Pseudonymisation with a key</a><a href="#row-level-security">Row-level security</a><a href="#access-control-and-audit">Access control and audit</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads · Data Eng Lesson 3 · Data Science &amp; AI Handbook</title><meta name="description" content="Choose between transforming data before loading (ETL) and loading first then transforming (ELT), and build pipelines that survive reruns, retries and partial failures, using idempotent writes, bounded retries, incremental loads and reconciliation checks."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 3</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class="on"><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-03">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 3 of 15</div><h1>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</h1>
+<p class="sum">Choose between transforming data before loading (ETL) and loading first then transforming (ELT), and build pipelines that survive reruns, retries and partial failures, using idempotent writes, bounded retries, incremental loads and reconciliation checks.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_03_ETL_versus_ELT_and_Pipeline_Reliability_Idempotency_Retries_and_Increm.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-03">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain when ETL is the right choice and when ELT is</li><li>Make a load idempotent with overwrite-by-partition or merge-on-key</li><li>Apply bounded retries with backoff and know what must not be retried</li><li>Reconcile a load against its source with counts and totals</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a></div></div></div>
+<div class="content"><h2 id="etl-and-elt">ETL and ELT</h2>
+<p><strong>ETL</strong> (extract, transform, load) cleans and reshapes data in a separate processing step, then loads the result. <strong>ELT</strong> (extract, load, transform) loads the raw data first, then transforms it inside the warehouse. The difference is where the work happens and what is kept.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>Favours ETL</th>
+<th>Favours ELT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Must sensitive data be masked before it lands?</td>
+<td>Yes</td>
+<td>No, if the warehouse can restrict access</td>
+</tr>
+<tr>
+<td>Is the warehouse elastic and cheap to compute?</td>
+<td>Less relevant</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Must raw data be kept for rebuilds?</td>
+<td>Less often</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Are many teams building different views of the same raw data?</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Is the transformation complex and not SQL-friendly?</td>
+<td>Yes</td>
+<td>Harder</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Masking before the warehouse</b></div><p>A bank's card transactions include full card numbers. The warehouse is shared with many teams. The pipeline must replace the card numbers with a token before anything is written to the warehouse. That is an ETL requirement: the transformation happens before the load, so raw card numbers never land.</p></div>
+<p>Most modern cloud teams use ELT for analytics and ETL for sensitive or complex steps. Both are valid; the choice is a decision about where the risk and the cost should sit.</p>
+<h2 id="idempotency-the-property-that-makes-reruns-safe">Idempotency: the property that makes reruns safe</h2>
+<p>An operation is <strong>idempotent</strong> when running it again gives the same final result. Pipelines rerun all the time: after a failure, after a fix, or when a scheduler fires twice. A load that simply appends rows doubles the totals on every rerun. Two patterns make a load idempotent:</p>
+<ol>
+<li><strong>Overwrite by partition.</strong> Each run rewrites the partition it covers (for example, one day). Rerunning the same day replaces the same rows.</li>
+<li><strong>Merge on a key.</strong> Each row has a stable key; the load updates existing keys and inserts new ones.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> duckdb
+
+con = <span class="hl-f">duckdb.connect</span>()
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;daily_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;date&quot;</span>])
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales&quot;</span>, sales)
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;CREATE TABLE fact_daily AS SELECT * FROM sales WHERE 1 = 0&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">load_partition</span>(con, day):
+    <span class="hl-s">&quot;&quot;&quot;Overwrite exactly one day&#x27;s partition, so reruns cannot double it.&quot;&quot;&quot;</span>
+    <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;DELETE FROM fact_daily WHERE date = ?&quot;</span>, [day])
+    <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;INSERT INTO fact_daily SELECT * FROM sales WHERE date = ?&quot;</span>, [day])
+    <span class="hl-k">return</span> <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT COUNT(*) FROM fact_daily WHERE date = ?&quot;</span>, [day]).<span class="hl-f">fetchone</span>()[<span class="hl-n">0</span>]
+
+<span class="hl-f">print</span>(<span class="hl-s">&quot;first run:&quot;</span>, <span class="hl-f">load_partition</span>(con, <span class="hl-s">&quot;2025-01-06&quot;</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;rerun:    &quot;</span>, <span class="hl-f">load_partition</span>(con, <span class="hl-s">&quot;2025-01-06&quot;</span>))     <span class="hl-c"># same result, not doubled</span>
+<span class="hl-f">print</span>(<span class="hl-s">&quot;total rows:&quot;</span>, <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT COUNT(*) FROM fact_daily&quot;</span>).<span class="hl-f">fetchone</span>()[<span class="hl-n">0</span>])</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">first run: 1
+rerun:     1
+total rows: 1</pre></div>
+<p>The rerun reports the same count, and the table holds one copy of each day. Compare that with a plain <code>INSERT</code> run twice, which would double the day.</p>
+<h2 id="retries-bounded-backed-off-and-selective">Retries: bounded, backed off and selective</h2>
+<p>Some failures are temporary (a network timeout, a database that is briefly busy). Retrying them is correct. Other failures are permanent (a missing column, a bad credential) and retrying them wastes time and can hide the cause. A retry policy needs three rules:</p>
+<ul>
+<li><strong>Bounded:</strong> a fixed number of attempts, then fail loudly.</li>
+<li><strong>Backed off:</strong> wait longer between attempts (1, 2, 4 seconds), so the system can recover.</li>
+<li><strong>Selective:</strong> retry only errors that can be temporary.</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> time
+
+<span class="hl-k">def</span> <span class="hl-f">with_retries</span>(fn, attempts=<span class="hl-n">4</span>, base_delay=<span class="hl-n">0.01</span>, retryable=(TimeoutError, ConnectionError)):
+    <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(attempts):
+        <span class="hl-k">try</span>:
+            <span class="hl-k">return</span> <span class="hl-f">fn</span>()
+        <span class="hl-k">except</span> retryable:
+            <span class="hl-k">if</span> i == attempts - <span class="hl-n">1</span>:
+                <span class="hl-k">raise</span>                                   <span class="hl-c"># give up and surface the error</span>
+            <span class="hl-f">time.sleep</span>(base_delay * (<span class="hl-n">2</span> ** i))
+        <span class="hl-c"># any other exception is not retried: it is a permanent error</span>
+
+calls = {<span class="hl-s">&quot;n&quot;</span>: <span class="hl-n">0</span>}
+<span class="hl-k">def</span> <span class="hl-f">flaky_load</span>():
+    calls[<span class="hl-s">&quot;n&quot;</span>] += <span class="hl-n">1</span>
+    <span class="hl-k">if</span> calls[<span class="hl-s">&quot;n&quot;</span>] &lt; <span class="hl-n">3</span>:
+        <span class="hl-k">raise</span> <span class="hl-f">TimeoutError</span>(<span class="hl-s">&quot;warehouse busy&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-s">&quot;loaded&quot;</span>
+
+<span class="hl-f">print</span>(<span class="hl-f">with_retries</span>(flaky_load), <span class="hl-s">&quot;after&quot;</span>, calls[<span class="hl-s">&quot;n&quot;</span>], <span class="hl-s">&quot;attempts&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">loaded after 3 attempts</pre></div>
+<p>A schema error or a permission error is not in the <code>retryable</code> list, so it fails immediately with its real message. The retry is for the transient failure only.</p>
+<p>::::warn Do not retry non-idempotent writes blindly
+Retrying a write that may have partly succeeded can duplicate it. Pair retries with idempotent loads (partition overwrite or merge on key), or with a check that asks whether the write already happened.
+::::</p>
+<h2 id="incremental-loads-and-state">Incremental loads and state</h2>
+<p>An incremental pipeline keeps a small piece of state: the watermark from the ingestion lesson, and the last successful partition. Store the state only after the data is committed, so a crash between the two leaves the state behind the data, and the next run safely reprocesses rather than skipping.</p>
+<h2 id="reconciliation-prove-the-load-is-complete">Reconciliation: prove the load is complete</h2>
+<p>A load that finishes without an error is not necessarily correct. <strong>Reconciliation</strong> compares the target with the source: row counts, sums of key measures, and distinct key counts, per partition.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">src = sales[sales[<span class="hl-s">&quot;date&quot;</span>] == <span class="hl-s">&quot;2025-01-06&quot;</span>]
+tgt = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT * FROM fact_daily WHERE date = &#x27;2025-01-06&#x27;&quot;</span>).<span class="hl-f">fetchdf</span>()
+
+checks = {
+    <span class="hl-s">&quot;row count&quot;</span>: (<span class="hl-f">len</span>(src), <span class="hl-f">len</span>(tgt)),
+    <span class="hl-s">&quot;units total&quot;</span>: (<span class="hl-f">int</span>(src[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">sum</span>()), <span class="hl-f">int</span>(tgt[<span class="hl-s">&quot;units_sold&quot;</span>].<span class="hl-f">sum</span>())),
+}
+<span class="hl-k">for</span> name, (expected, actual) <span class="hl-k">in</span> <span class="hl-f">checks.items</span>():
+    status = <span class="hl-s">&quot;PASS&quot;</span> <span class="hl-k">if</span> expected == actual <span class="hl-k">else</span> <span class="hl-s">&quot;FAIL&quot;</span>
+    <span class="hl-f">print</span>(<span class="hl-s">f&quot;{status}  {name}: source={expected} target={actual}&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">PASS  row count: source=1 target=1
+PASS  units total: source=297 target=297</pre></div>
+<p>Run reconciliation after every load, store the results, and alert on any failure. A mismatch is the earliest and cheapest sign of a bad load.</p>
+<h2 id="a-reliability-checklist">A reliability checklist</h2>
+<ul>
+<li>[ ] Each load is idempotent: a rerun gives the same result.</li>
+<li>[ ] Retries are bounded, backed off and limited to transient errors.</li>
+<li>[ ] State (watermark, last partition) advances only after a commit.</li>
+<li>[ ] Reconciliation runs after every load, with stored results.</li>
+<li>[ ] Failures alert a named owner with the partition and the error.</li>
+<li>[ ] A rerun procedure is written down and has been tested.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>What makes a pipeline safe to rerun?</b></div><p>Each run writes to a deterministic target: it overwrites the partition it owns or merges on a key, so the same input always produces the same output. Retries cover only transient errors, state advances after the commit, and reconciliation proves the result. Those four together are what make rerunning a routine action rather than a risk.</p></div>
+<p>::::key What to remember
+- ETL transforms before loading; ELT loads raw data and transforms in the warehouse. Choose by risk, cost and rebuild needs.
+- Idempotency means a rerun gives the same result: overwrite partitions or merge on keys.
+- Retry only transient errors, with a limit and backoff.
+- Advance state only after commit, and reconcile every load against its source.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-03-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Why choose ETL for card numbers?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is faster</button><button type="button" class="opt" data-ok="1"><i>B</i>The sensitive data must be masked before it lands in the shared warehouse</button><button type="button" class="opt" data-ok="0"><i>C</i>ELT cannot store text</button><button type="button" class="opt" data-ok="0"><i>D</i>It needs no testing</button></div><div class="qexp"><b>Answer: B.</b> Transformation before loading protects raw sensitive data.</div></div><div class="qq"><p class="qtext"><b>2.</b> A load appends rows and is rerun after a timeout. What is the likely result?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing changes</button><button type="button" class="opt" data-ok="1"><i>B</i>Rows are duplicated and totals are overstated</button><button type="button" class="opt" data-ok="0"><i>C</i>The table is deleted</button><button type="button" class="opt" data-ok="0"><i>D</i>The load is faster</button></div><div class="qexp"><b>Answer: B.</b> Appends are not idempotent.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which error should a retry policy retry?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A missing column</button><button type="button" class="opt" data-ok="0"><i>B</i>A wrong password</button><button type="button" class="opt" data-ok="1"><i>C</i>A connection timeout</button><button type="button" class="opt" data-ok="0"><i>D</i>A syntax error in the query</button></div><div class="qexp"><b>Answer: C.</b> Only temporary failures are worth retrying.</div></div><div class="qq"><p class="qtext"><b>4.</b> What does reconciliation compare?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The colours of the dashboard</button><button type="button" class="opt" data-ok="1"><i>B</i>Counts and totals in the target against the source, per partition</button><button type="button" class="opt" data-ok="0"><i>C</i>The names of the engineers</button><button type="button" class="opt" data-ok="0"><i>D</i>The file sizes</button></div><div class="qexp"><b>Answer: B.</b> Reconciliation proves completeness and correctness.</div></div><div class="qq"><p class="qtext"><b>5.</b> When should the watermark or last-partition state be advanced?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Before the load starts</button><button type="button" class="opt" data-ok="1"><i>B</i>After the data is committed successfully</button><button type="button" class="opt" data-ok="0"><i>C</i>Every minute</button><button type="button" class="opt" data-ok="0"><i>D</i>Never</button></div><div class="qexp"><b>Answer: B.</b> State behind the data is safe; state ahead of the data loses rows.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Make a load safe to rerun</b></div><p>Write a function <code>load_day(con, day)</code> that loads one day of <code>daily_sales.csv</code> into a target table using a merge on the date (replace the day if it exists), then run it three times for two different days. Show the row count after each run and a reconciliation PASS for each day.</p><details class="sol"><summary>Show solution</summary><p>Hints: delete the day, then insert, inside one transaction (<code>BEGIN</code> and <code>COMMIT</code>). Reconcile the units total for that day against the source file. The totals should be identical after every rerun.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html"><small>← Previous</small><b>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</b></a><a class="next" href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html"><small>Next →</small><b>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#etl-and-elt">ETL and ELT</a><a href="#idempotency-the-property-that-makes-reruns-safe">Idempotency: the property that makes reruns safe</a><a href="#retries-bounded-backed-off-and-selective">Retries: bounded, backed off and selective</a><a href="#incremental-loads-and-state">Incremental loads and state</a><a href="#reconciliation-prove-the-load-is-complete">Reconciliation: prove the load is complete</a><a href="#a-reliability-checklist">A reliability checklist</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

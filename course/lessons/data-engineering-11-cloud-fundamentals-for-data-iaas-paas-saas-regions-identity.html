@@ -1,0 +1,191 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost · Data Eng Lesson 11 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn the cloud concepts a data team relies on, from service models and regions to identity and access, then map the equivalent data services across AWS, Azure and Google Cloud, and control cost with tagging, storage tiers, right-sized compute and budgets."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 11</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class="on"><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-11">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 11 of 15</div><h1>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</h1>
+<p class="sum">Learn the cloud concepts a data team relies on, from service models and regions to identity and access, then map the equivalent data services across AWS, Azure and Google Cloud, and control cost with tagging, storage tiers, right-sized compute and budgets.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_11_Cloud_Fundamentals_for_Data_IaaS_PaaS_SaaS_Regions_Identity_and_Cost.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-11">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain IaaS, PaaS and SaaS with data-platform examples</li><li>Choose regions, identities and access rules for a data platform</li><li>Map a data service to its AWS, Azure and Google Cloud equivalent</li><li>Find and reduce data platform costs with tagging, tiers and budgets</li></ul></div></div>
+<div class="content"><h2 id="the-cloud-service-models">The cloud service models</h2>
+<p>The cloud rents computing as services. The three main models differ in how much the provider manages for you.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Model</th>
+<th>You manage</th>
+<th>Provider manages</th>
+<th>Data example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IaaS (infrastructure)</td>
+<td>Operating system, runtime, data, applications</td>
+<td>Physical machines, network, storage hardware</td>
+<td>A virtual machine you install Airflow on</td>
+</tr>
+<tr>
+<td>PaaS (platform)</td>
+<td>Data, code and configuration</td>
+<td>Servers, scaling, patching, runtime</td>
+<td>A managed warehouse or a managed Spark service</td>
+</tr>
+<tr>
+<td>SaaS (software)</td>
+<td>Data and users</td>
+<td>The whole application</td>
+<td>A BI tool in the browser, a CRM</td>
+</tr>
+</tbody>
+</table></div>
+<p>The more managed the service, the less you operate and the more you pay per unit of work. A team with few engineers usually chooses managed platforms for data, and keeps custom infrastructure for the parts that are truly special.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Build or buy the warehouse</b></div><p>A five-person team considers installing a database on virtual machines. It would need patching, backups, scaling and on-call cover. A managed warehouse removes that work at a higher price per query. The decision is about where the team's time is best spent, not which option is technically superior.</p></div>
+<h2 id="regions-availability-and-residency">Regions, availability and residency</h2>
+<p>A <strong>region</strong> is a geographic location with one or more data centres. An <strong>availability zone</strong> is an isolated data centre within a region. Choose regions for three reasons: latency to users, data residency law (for personal data, some countries require storage within their borders), and the availability of the services you need, because not every service exists in every region.</p>
+<p>Keep the data platform in one region where possible, and replicate deliberately for disaster recovery. Cross-region copies cost money and add latency.</p>
+<h2 id="identity-and-access">Identity and access</h2>
+<p>Cloud accounts use <strong>identities</strong> (users, groups, service accounts) and <strong>roles or policies</strong> that grant permissions. Four principles keep a data platform safe:</p>
+<ol>
+<li><strong>Least privilege.</strong> Grant the smallest set of permissions a job needs.</li>
+<li><strong>Service accounts for pipelines.</strong> A pipeline runs under its own identity, not a person's login.</li>
+<li><strong>No long-lived keys in code.</strong> Use the platform's identity mechanism or a secrets manager.</li>
+<li><strong>Audit.</strong> Every access and change to sensitive data is logged and reviewed.</li>
+</ol>
+<h2 id="a-service-map-across-the-three-clouds">A service map across the three clouds</h2>
+<p>The names differ, but the building blocks are similar. Check each provider's current documentation before you commit to a name.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>Google Cloud</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Object storage (files, lake)</td>
+<td>Amazon S3</td>
+<td>Azure Data Lake Storage Gen2</td>
+<td>Cloud Storage</td>
+</tr>
+<tr>
+<td>Managed warehouse</td>
+<td>Amazon Redshift</td>
+<td>Azure Synapse Analytics</td>
+<td>BigQuery</td>
+</tr>
+<tr>
+<td>Managed Spark</td>
+<td>Amazon EMR, AWS Glue</td>
+<td>Azure Databricks, Synapse Spark</td>
+<td>Dataproc</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>Amazon Kinesis, MSK (Kafka)</td>
+<td>Event Hubs, Event Hubs for Kafka</td>
+<td>Pub/Sub, Managed Kafka</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td>Amazon MWAA (managed Airflow)</td>
+<td>Azure Data Factory, Managed Airflow</td>
+<td>Cloud Composer (managed Airflow)</td>
+</tr>
+<tr>
+<td>Serverless functions</td>
+<td>AWS Lambda</td>
+<td>Azure Functions</td>
+<td>Cloud Functions</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>IAM</td>
+<td>Microsoft Entra ID, RBAC</td>
+<td>Cloud IAM</td>
+</tr>
+</tbody>
+</table></div>
+<p>Many organisations also use <strong>Databricks</strong> and <strong>Snowflake</strong>, which run on all three clouds, and <strong>Microsoft Fabric</strong> in the Microsoft ecosystem (covered in the Power BI lessons).</p>
+<h2 id="cost-where-the-money-goes">Cost: where the money goes</h2>
+<p>Data platform costs usually come from four places:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Cost driver</th>
+<th>Why it grows</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compute</td>
+<td>Clusters left running; oversized machines</td>
+<td>Auto-suspend, auto-scale, right-size</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Raw copies kept forever; duplicate tables</td>
+<td>Lifecycle rules, storage tiers, delete unused copies</td>
+</tr>
+<tr>
+<td>Data transfer</td>
+<td>Moving data between regions or to the internet</td>
+<td>Keep compute near storage; avoid unnecessary copies</td>
+</tr>
+<tr>
+<td>Queries</td>
+<td>Scanning full tables; repeated identical queries</td>
+<td>Partition and cluster tables; cache results; select only needed columns</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="cost-controls-that-work">Cost controls that work</h2>
+<ol>
+<li><strong>Tag everything</strong> with team, product and environment, so that each cost can be assigned to an owner.</li>
+<li><strong>Set budgets and alerts</strong> at 50%, 80% and 100% of the monthly budget.</li>
+<li><strong>Use storage tiers.</strong> Move files that are rarely read to cheaper cold tiers, and delete temporary data on a schedule.</li>
+<li><strong>Auto-suspend compute</strong> when idle, and size clusters for the workload rather than the peak.</li>
+<li><strong>Review monthly.</strong> Find the top five costs, and ask who owns each and whether it is still needed.</li>
+</ol>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># A simple monthly cost model: compare two storage choices for the same data</span>
+data_tb = <span class="hl-n">5</span>
+hot_price_per_tb = <span class="hl-n">23.0</span>          <span class="hl-c"># illustrative monthly price per TB; check the provider&#x27;s price list</span>
+cold_price_per_tb = <span class="hl-n">4.0</span>          <span class="hl-c"># illustrative</span>
+share_read_monthly = <span class="hl-n">0.10</span>        <span class="hl-c"># 10% of the data is read each month</span>
+
+hot_all = data_tb * hot_price_per_tb
+tiered = data_tb * (share_read_monthly * hot_price_per_tb + (<span class="hl-n">1</span> - share_read_monthly) * cold_price_per_tb)
+<span class="hl-f">print</span>(<span class="hl-s">f&quot;all hot: {hot_all:.2f}   tiered: {tiered:.2f}   saving: {hot_all - tiered:.2f} per month&quot;</span>)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">all hot: 115.00   tiered: 29.50   saving: 85.50 per month</pre></div>
+<p>The prices are placeholders that show the method. Replace them with the current figures from the provider's pricing page, and note the date you checked.</p>
+<p>::::warn Free tiers and surprise bills
+Cloud free tiers are real but limited. A query that scans a large table, a cluster left running over a weekend, or a copy sent across regions can cost more in one day than a month of storage. Set budgets before you start building.
+::::</p>
+<h2 id="security-basics-for-data-in-the-cloud">Security basics for data in the cloud</h2>
+<ul>
+<li>Encrypt data at rest and in transit by default.</li>
+<li>Keep storage buckets private; never make a data bucket public for convenience.</li>
+<li>Restrict network access so that databases accept connections only from known services.</li>
+<li>Monitor for unusual access, and rotate credentials.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How would you reduce a data platform&#x27;s cloud cost by a third?</b></div><p>Start with measurement: tag costs by owner and find the largest drivers. Then right-size and auto-suspend compute, move cold data to cheaper tiers, remove unused copies, partition tables so queries scan less, and set budgets with alerts. Measure after each change, and report the saving with the date.</p></div>
+<p>::::key What to remember
+- IaaS, PaaS and SaaS differ in what you manage; managed services trade price for operational effort.
+- Choose regions for latency, residency and service availability.
+- Use service identities with least privilege and no long-lived keys in code.
+- The service names differ across AWS, Azure and Google Cloud; the building blocks are similar.
+- Control cost through tagging, budgets, tiers, auto-suspend and query design.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-11-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In PaaS, what does the provider typically manage that you do not?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Your data</button><button type="button" class="opt" data-ok="1"><i>B</i>Servers, scaling and patching of the platform</button><button type="button" class="opt" data-ok="0"><i>C</i>Your code</button><button type="button" class="opt" data-ok="0"><i>D</i>Your users</button></div><div class="qexp"><b>Answer: B.</b> PaaS removes the infrastructure work from you.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why use a service account for a pipeline?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is faster</button><button type="button" class="opt" data-ok="1"><i>B</i>It gives the pipeline its own least-privilege identity instead of a person's login</button><button type="button" class="opt" data-ok="0"><i>C</i>It avoids billing</button><button type="button" class="opt" data-ok="0"><i>D</i>It removes the need for permissions</button></div><div class="qexp"><b>Answer: B.</b> Service identities are auditable and limited.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which cost driver is most often caused by a cluster left running at the weekend?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Storage</button><button type="button" class="opt" data-ok="0"><i>B</i>Data transfer</button><button type="button" class="opt" data-ok="1"><i>C</i>Compute</button><button type="button" class="opt" data-ok="0"><i>D</i>Documentation</button></div><div class="qexp"><b>Answer: C.</b> Compute is billed while it is running.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is a sensible first step in cost reduction?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Delete all data</button><button type="button" class="opt" data-ok="1"><i>B</i>Tag costs by owner and find the largest drivers</button><button type="button" class="opt" data-ok="0"><i>C</i>Buy a bigger machine</button><button type="button" class="opt" data-ok="0"><i>D</i>Turn off monitoring</button></div><div class="qexp"><b>Answer: B.</b> Measurement shows where the money goes.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which AWS service is the managed equivalent of a data warehouse?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Amazon S3</button><button type="button" class="opt" data-ok="1"><i>B</i>Amazon Redshift</button><button type="button" class="opt" data-ok="0"><i>C</i>AWS Lambda</button><button type="button" class="opt" data-ok="0"><i>D</i>Amazon Kinesis</button></div><div class="qexp"><b>Answer: B.</b> Redshift is the managed warehouse; S3 is storage.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Map and cost one pipeline</b></div><p>Choose a simple pipeline (files land daily, a warehouse table is built, a dashboard reads it). Map each component to a service on one cloud, list the identity each needs, and estimate the monthly cost of storage and compute using the provider's current price list. State the date you checked the prices and one cost control you would apply.</p><details class="sol"><summary>Show solution</summary><p>Hints: count storage as the total size times the price per unit, and compute as the hours the cluster runs times its hourly price. Put placeholder prices in your working and replace them with the official figures before reporting.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html"><small>← Previous</small><b>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</b></a><a class="next" href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html"><small>Next →</small><b>Containers, Kubernetes and CI/CD for Data Pipelines</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#the-cloud-service-models">The cloud service models</a><a href="#regions-availability-and-residency">Regions, availability and residency</a><a href="#identity-and-access">Identity and access</a><a href="#a-service-map-across-the-three-clouds">A service map across the three clouds</a><a href="#cost-where-the-money-goes">Cost: where the money goes</a><a href="#cost-controls-that-work">Cost controls that work</a><a href="#security-basics-for-data-in-the-cloud">Security basics for data in the cloud</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

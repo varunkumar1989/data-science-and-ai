@@ -1,0 +1,217 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Production Python: Logging, Type Hints, Packaging and Code Organisation · Python Lesson 31 · Data Science &amp; AI Handbook</title><meta name="description" content="Make Python code that other people can run, read and trust. Structure a project into modules, add type hints and check them with mypy, log what a pipeline does without leaking secrets, and package the code so it installs with one command."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-python"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-python">Python for Data Science</a><span>/</span><b>Lesson 31</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#7C3AED">Python for Data Science</div>
+<ol class="side-l"><li class=""><a href="python-01-introduction-to-python-why-install-and-jupyter-notebooks.html" data-lid="python-01"><span>01</span>Introduction to Python: Why, Install &amp; Jupyter Notebooks</a></li><li class=""><a href="python-02-variables-data-types-type-conversion-print-f-strings-and-inp.html" data-lid="python-02"><span>02</span>Variables, Data Types, Type Conversion, print(), f-strings &amp; input()</a></li><li class=""><a href="python-03-operators-strings-indexing-slicing-and-string-methods.html" data-lid="python-03"><span>03</span>Operators, Strings, Indexing, Slicing &amp; String Methods</a></li><li class=""><a href="python-04-control-flow-if-elif-else-nested-conditions-and-match.html" data-lid="python-04"><span>04</span>Control Flow: if, elif, else, Nested Conditions &amp; match</a></li><li class=""><a href="python-05-loops-while-for-range-break-continue-and-patterns.html" data-lid="python-05"><span>05</span>Loops: while, for, range, break, continue &amp; Patterns</a></li><li class=""><a href="python-06-lists-creating-slicing-methods-sorting-and-comprehensions.html" data-lid="python-06"><span>06</span>Lists: Creating, Slicing, Methods, Sorting &amp; Comprehensions</a></li><li class=""><a href="python-07-tuples-and-sets-immutable-records-unpacking-and-set-algebra.html" data-lid="python-07"><span>07</span>Tuples &amp; Sets: Immutable Records, Unpacking and Set Algebra</a></li><li class=""><a href="python-08-dictionaries-key-value-data-counting-and-grouping.html" data-lid="python-08"><span>08</span>Dictionaries: Key-Value Data, Counting and Grouping</a></li><li class=""><a href="python-09-functions-reusable-code-arguments-scope-and-docstrings.html" data-lid="python-09"><span>09</span>Functions: Reusable Code, Arguments, Scope and Docstrings</a></li><li class=""><a href="python-10-comprehensions-lambda-map-filter-and-generators.html" data-lid="python-10"><span>10</span>Comprehensions, Lambda, map/filter and Generators</a></li><li class=""><a href="python-11-object-oriented-python-classes-objects-inheritance-and-datac.html" data-lid="python-11"><span>11</span>Object-Oriented Python: Classes, Objects, Inheritance and Dataclasses</a></li><li class=""><a href="python-12-files-exceptions-json-and-csv.html" data-lid="python-12"><span>12</span>Files, Exceptions, JSON and CSV</a></li><li class=""><a href="python-13-modules-packages-virtual-environments-and-git.html" data-lid="python-13"><span>13</span>Modules, Packages, Virtual Environments and Git</a></li><li class=""><a href="python-14-debugging-testing-regular-expressions-and-code-quality.html" data-lid="python-14"><span>14</span>Debugging, Testing, Regular Expressions and Code Quality</a></li><li class=""><a href="python-15-numpy-fast-arrays-vectorisation-and-broadcasting.html" data-lid="python-15"><span>15</span>NumPy: Fast Arrays, Vectorisation and Broadcasting</a></li><li class=""><a href="python-16-pandas-i-series-dataframes-reading-data-selecting-and-filter.html" data-lid="python-16"><span>16</span>pandas I: Series, DataFrames, Reading Data, Selecting and Filtering</a></li><li class=""><a href="python-17-pandas-ii-data-cleaning-missing-values-types-duplicates-text.html" data-lid="python-17"><span>17</span>pandas II: Data Cleaning: Missing Values, Types, Duplicates, Text and Outliers</a></li><li class=""><a href="python-18-pandas-iii-groupby-pivot-tables-merge-join-and-reshape-melt.html" data-lid="python-18"><span>18</span>pandas III: GroupBy, Pivot Tables, Merge/Join and Reshape (melt/unpivot)</a></li><li class=""><a href="python-19-pandas-iv-dates-time-series-resampling-and-rolling-windows.html" data-lid="python-19"><span>19</span>pandas IV: Dates, Time Series, Resampling and Rolling Windows</a></li><li class=""><a href="python-20-data-visualisation-i-matplotlib-and-choosing-the-right-chart.html" data-lid="python-20"><span>20</span>Data Visualisation I: Matplotlib and Choosing the Right Chart</a></li><li class=""><a href="python-21-data-visualisation-ii-seaborn-statistical-charts-and-interac.html" data-lid="python-21"><span>21</span>Data Visualisation II: Seaborn Statistical Charts and Interactive Plotly</a></li><li class=""><a href="python-22-exploratory-data-analysis-eda-case-study-telecom-customer-ch.html" data-lid="python-22"><span>22</span>Exploratory Data Analysis (EDA) Case Study: Telecom Customer Churn</a></li><li class=""><a href="python-23-python-and-sql-sqlite3-duckdb-sqlalchemy-and-pandas-read-sql.html" data-lid="python-23"><span>23</span>Python and SQL: sqlite3, DuckDB, SQLAlchemy and pandas.read_sql</a></li><li class=""><a href="python-24-apis-json-and-web-scraping-with-requests-and-beautifulsoup.html" data-lid="python-24"><span>24</span>APIs, JSON and Web Scraping with requests and BeautifulSoup</a></li><li class=""><a href="python-25-performance-and-bigger-data-vectorisation-memory-parquet-pol.html" data-lid="python-25"><span>25</span>Performance and Bigger Data: Vectorisation, Memory, Parquet, Polars and DuckDB</a></li><li class=""><a href="python-26-dsa-i-big-o-arrays-strings-hashing-two-pointers-and-sliding.html" data-lid="python-26"><span>26</span>DSA I: Big-O, Arrays, Strings, Hashing, Two Pointers and Sliding Window</a></li><li class=""><a href="python-27-dsa-ii-stacks-queues-linked-lists-recursion-sorting-and-bina.html" data-lid="python-27"><span>27</span>DSA II: Stacks, Queues, Linked Lists, Recursion, Sorting and Binary Search</a></li><li class=""><a href="python-28-dsa-iii-trees-heaps-graphs-bfs-dfs-and-dynamic-programming.html" data-lid="python-28"><span>28</span>DSA III: Trees, Heaps, Graphs (BFS/DFS) and Dynamic Programming</a></li><li class=""><a href="python-29-python-capstone-end-to-end-retail-sales-analytics-project.html" data-lid="python-29"><span>29</span>Python Capstone: End-to-End Retail Sales Analytics Project</a></li><li class=""><a href="python-30-automation-scheduled-scripts-reports-and-email.html" data-lid="python-30"><span>30</span>Automation: Scheduled Scripts, Reports and Email</a></li><li class="on"><a href="python-31-production-python-logging-type-hints-packaging-and-code-orga.html" data-lid="python-31"><span>31</span>Production Python: Logging, Type Hints, Packaging and Code Organisation</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="python-31">
+<div class="lhead" style="--tc:#7C3AED"><div class="kick">Python for Data Science · Lesson 31 of 31</div><h1>Production Python: Logging, Type Hints, Packaging and Code Organisation</h1>
+<p class="sum">Make Python code that other people can run, read and trust. Structure a project into modules, add type hints and check them with mypy, log what a pipeline does without leaking secrets, and package the code so it installs with one command.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/python/Python_31_Production_Python_Logging_Type_Hints_Packaging_and_Code_Organisation.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="python-31">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Organise a script into a package with modules and a single entry point</li><li>Add type hints to functions and explain what a type checker catches</li><li>Configure logging with levels, handlers and a consistent format, and avoid logging secrets</li><li>Describe a minimal pyproject.toml and build an installable package</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/telecom_churn.csv" download>telecom_churn.csv</a></div></div></div>
+<div class="content"><h2 id="why-production-code-is-different">Why production code is different</h2>
+<p>A notebook that works on your laptop is a prototype. Production code runs unattended, is read by colleagues months later, and fails in ways you did not expect. Four habits close most of that gap: a clear structure, type hints, logs that tell the story of a run, and packaging so the code installs the same way everywhere.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The churn pipeline handover</b></div><p>An analyst built a churn-scoring pipeline in one notebook. It is now needed by the retention team every week. The engineer taking over needs to understand what it does, see when it fails, install it on a server and change one part without breaking the rest. The notebook cannot do that; a package can.</p></div>
+<h2 id="step-1-organise-the-code">Step 1: organise the code</h2>
+<p>A small project has a clear layout:</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">churn_pipeline/
+├── pyproject.toml          # how to install the package
+├── src/
+│   └── churn_pipeline/
+│       ├── __init__.py
+│       ├── load.py         # reading and checking data
+│       ├── features.py     # building model inputs
+│       ├── report.py       # summary output
+│       └── cli.py          # the entry point people run
+└── tests/
+    └── test_features.py</code></pre></div>
+<p>Each module has one job. <code>cli.py</code> contains the only code that reads command-line arguments and calls the others. This is what makes the rest testable: a function in <code>features.py</code> can be called from a test with a small table, with no file and no command line.</p>
+<h2 id="step-2-type-hints">Step 2: type hints</h2>
+<p>A <strong>type hint</strong> declares the type a function expects and returns. Python ignores hints at run time, but a <strong>type checker</strong> such as <strong>mypy</strong> reads them and reports mistakes before the code runs.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> typing <span class="hl-k">import</span> Iterable
+
+<span class="hl-k">def</span> <span class="hl-f">tenure_months</span>(signup_month: int, current_month: int) -&gt; int:
+    <span class="hl-s">&quot;&quot;&quot;Months between two month numbers (1 to 12 in the same year).&quot;&quot;&quot;</span>
+    <span class="hl-k">if</span> <span class="hl-k">not</span> (<span class="hl-n">1</span> &lt;= signup_month &lt;= <span class="hl-n">12</span> <span class="hl-k">and</span> <span class="hl-n">1</span> &lt;= current_month &lt;= <span class="hl-n">12</span>):
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;months must be between 1 and 12&quot;</span>)
+    <span class="hl-k">return</span> current_month - signup_month
+
+<span class="hl-k">def</span> <span class="hl-f">average</span>(values: Iterable[float]) -&gt; float:
+    values = <span class="hl-f">list</span>(values)
+    <span class="hl-k">if</span> <span class="hl-k">not</span> values:
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;cannot average an empty sequence&quot;</span>)
+    <span class="hl-k">return</span> <span class="hl-f">sum</span>(values) / <span class="hl-f">len</span>(values)
+
+<span class="hl-f">print</span>(<span class="hl-f">tenure_months</span>(<span class="hl-n">3</span>, <span class="hl-n">11</span>), <span class="hl-f">round</span>(<span class="hl-f">average</span>([<span class="hl-n">2.0</span>, <span class="hl-n">4.0</span>, <span class="hl-n">9.0</span>]), <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">8 5.0</pre></div>
+<p>Hints make intent visible: <code>-&gt; int</code> says the function returns an integer, and <code>Iterable[float]</code> says it accepts any sequence of decimals. A checker flags a call such as <code>tenure_months("March", 11)</code> before anyone runs it.</p>
+<p>Python's standard library provides the names: <code>list[str]</code>, <code>dict[str, float]</code>, <code>int | None</code> (Python 3.10 and later) and <code>Optional</code>-style forms in older code.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Shown as code, not executed: run `mypy src/` in the project folder.</span>
+<span class="hl-k">def</span> <span class="hl-f">load_rows</span>(path: str) -&gt; list[dict[str, str]]:
+    ...
+
+<span class="hl-k">def</span> <span class="hl-f">churn_rate</span>(churned: int, total: int) -&gt; float | <span class="hl-k">None</span>:
+    <span class="hl-s">&quot;&quot;&quot;Return the rate, or None when there are no customers (avoid dividing by zero).&quot;&quot;&quot;</span>
+    <span class="hl-k">return</span> churned / total <span class="hl-k">if</span> total <span class="hl-k">else</span> <span class="hl-k">None</span></code></pre></div>
+<p>::::tip Hints document, checkers enforce
+Add hints to public functions first: the inputs and outputs of each module. Run mypy in a continuous-integration job so that a change that breaks a type fails before merging.
+::::</p>
+<h2 id="step-3-logging-that-tells-the-story">Step 3: logging that tells the story</h2>
+<p><code>print</code> shows a message once. <code>logging</code> records messages with a level, a time and the name of the module that wrote them, and sends them to files or other destinations. Configure it once, in the entry point.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> io
+<span class="hl-k">import</span> logging
+
+<span class="hl-k">def</span> <span class="hl-f">configure_logging</span>(stream) -&gt; logging.Logger:
+    <span class="hl-s">&quot;&quot;&quot;Set up the root logger once. In production, pass a file path instead of a stream.&quot;&quot;&quot;</span>
+    handler = <span class="hl-f">logging.StreamHandler</span>(stream)
+    <span class="hl-f">handler.setFormatter</span>(<span class="hl-f">logging.Formatter</span>(<span class="hl-s">&quot;%(asctime)s %(levelname)-7s %(name)s: %(message)s&quot;</span>))
+    root = <span class="hl-f">logging.getLogger</span>()
+    <span class="hl-f">root.handlers.clear</span>()
+    <span class="hl-f">root.addHandler</span>(handler)
+    <span class="hl-f">root.setLevel</span>(logging.INFO)
+    <span class="hl-k">return</span> <span class="hl-f">logging.getLogger</span>(<span class="hl-s">&quot;churn_pipeline&quot;</span>)
+
+buf = <span class="hl-f">io.StringIO</span>()
+log = <span class="hl-f">configure_logging</span>(buf)
+<span class="hl-f">log.info</span>(<span class="hl-s">&quot;run started, source=telecom_churn.csv&quot;</span>)
+<span class="hl-f">log.info</span>(<span class="hl-s">&quot;loaded %d rows, %d columns&quot;</span>, <span class="hl-n">3000</span>, <span class="hl-n">10</span>)
+<span class="hl-f">log.warning</span>(<span class="hl-s">&quot;%d rows have a missing total_charges value and were skipped&quot;</span>, <span class="hl-n">2</span>)
+<span class="hl-f">log.error</span>(<span class="hl-s">&quot;scoring failed for batch %s: %s&quot;</span>, <span class="hl-s">&quot;2025-06-01&quot;</span>, <span class="hl-s">&quot;model file not found&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">buf.getvalue</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">2026-11-11 19:10:58,450 INFO    churn_pipeline: run started, source=telecom_churn.csv
+2026-11-11 19:10:58,450 INFO    churn_pipeline: loaded 3000 rows, 10 columns
+2026-11-11 19:10:58,450 WARNING churn_pipeline: 2 rows have a missing total_charges value and were skipped
+2026-11-11 19:10:58,451 ERROR   churn_pipeline: scoring failed for batch 2025-06-01: model file not found</pre></div>
+<p>Use the logger name to show where a message came from. Use the levels consistently:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Level</th>
+<th>Use for</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEBUG</td>
+<td>Detail useful only when investigating</td>
+<td>"feature matrix shape (3000, 18)"</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>Normal progress and summaries</td>
+<td>"loaded 3000 rows"</td>
+</tr>
+<tr>
+<td>WARNING</td>
+<td>Something unexpected that did not stop the run</td>
+<td>"2 rows skipped"</td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>A failure of one step</td>
+<td>"scoring failed"</td>
+</tr>
+<tr>
+<td>CRITICAL</td>
+<td>The whole run cannot continue</td>
+<td>"database unreachable"</td>
+</tr>
+</tbody>
+</table></div>
+<p>::::warn Never log secrets or whole records
+A log line that prints an API key, a password or a customer's full record becomes a leak as soon as the log is shared. Log counts, IDs that are not sensitive, and error types. If you must log a value to debug, mask it: <code>key[:4] + "..."</code>.
+::::</p>
+<p>Use <strong>%-style arguments</strong> (<code>log.info("loaded %d rows", n)</code>) rather than f-strings in log calls. The formatting happens only if the message is actually written, which saves time when a level is turned off.</p>
+<h2 id="step-4-a-clear-error-for-bad-input">Step 4: a clear error for bad input</h2>
+<p>A pipeline should fail early with a message that tells the reader what to fix, not deep inside pandas with a confusing traceback.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+REQUIRED = [<span class="hl-s">&quot;customer_id&quot;</span>, <span class="hl-s">&quot;tenure_months&quot;</span>, <span class="hl-s">&quot;monthly_charges&quot;</span>, <span class="hl-s">&quot;churn&quot;</span>]
+
+<span class="hl-k">def</span> <span class="hl-f">check_input</span>(df: pd.DataFrame) -&gt; pd.DataFrame:
+    missing = [c <span class="hl-k">for</span> c <span class="hl-k">in</span> REQUIRED <span class="hl-k">if</span> c <span class="hl-k">not</span> <span class="hl-k">in</span> df.columns]
+    <span class="hl-k">if</span> missing:
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">f&quot;input is missing required columns: {missing}&quot;</span>)
+    <span class="hl-k">if</span> df[<span class="hl-s">&quot;customer_id&quot;</span>].<span class="hl-f">duplicated</span>().<span class="hl-f">any</span>():
+        <span class="hl-k">raise</span> <span class="hl-f">ValueError</span>(<span class="hl-s">&quot;customer_id must be unique&quot;</span>)
+    <span class="hl-k">return</span> df
+
+good = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;customer_id&quot;</span>: [<span class="hl-s">&quot;a&quot;</span>, <span class="hl-s">&quot;b&quot;</span>], <span class="hl-s">&quot;tenure_months&quot;</span>: [<span class="hl-n">3</span>, <span class="hl-n">9</span>],
+                     <span class="hl-s">&quot;monthly_charges&quot;</span>: [<span class="hl-n">29.5</span>, <span class="hl-n">80.0</span>], <span class="hl-s">&quot;churn&quot;</span>: [<span class="hl-s">&quot;No&quot;</span>, <span class="hl-s">&quot;Yes&quot;</span>]})
+<span class="hl-f">print</span>(<span class="hl-f">check_input</span>(good).shape)
+
+<span class="hl-k">try</span>:
+    <span class="hl-f">check_input</span>(<span class="hl-f">good.drop</span>(columns=[<span class="hl-s">&quot;churn&quot;</span>]))
+<span class="hl-k">except</span> ValueError <span class="hl-k">as</span> e:
+    <span class="hl-f">print</span>(<span class="hl-s">&quot;rejected:&quot;</span>, e)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">(2, 4)
+rejected: input is missing required columns: [&#x27;churn&#x27;]</pre></div>
+<h2 id="step-5-organise-the-entry-point">Step 5: organise the entry point</h2>
+<p>The command-line entry point reads its settings, configures logging, calls the pipeline functions in order and returns an exit code.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># src/churn_pipeline/cli.py  (shown as code; uses the standard library argparse)</span>
+<span class="hl-k">import</span> argparse
+<span class="hl-k">import</span> logging
+<span class="hl-k">import</span> sys
+
+log = <span class="hl-f">logging.getLogger</span>(<span class="hl-s">&quot;churn_pipeline&quot;</span>)
+
+<span class="hl-k">def</span> <span class="hl-f">main</span>(argv: list[str] | <span class="hl-k">None</span> = <span class="hl-k">None</span>) -&gt; int:
+    parser = <span class="hl-f">argparse.ArgumentParser</span>(description=<span class="hl-s">&quot;Score customers for churn risk.&quot;</span>)
+    <span class="hl-f">parser.add_argument</span>(<span class="hl-s">&quot;input_csv&quot;</span>)
+    <span class="hl-f">parser.add_argument</span>(<span class="hl-s">&quot;--output&quot;</span>, default=<span class="hl-s">&quot;scores.csv&quot;</span>)
+    args = <span class="hl-f">parser.parse_args</span>(argv)
+    <span class="hl-k">try</span>:
+        <span class="hl-c"># load, features, score and write would be called here</span>
+        <span class="hl-f">log.info</span>(<span class="hl-s">&quot;finished: %s&quot;</span>, args.output)
+        <span class="hl-k">return</span> <span class="hl-n">0</span>
+    <span class="hl-k">except</span> Exception:
+        <span class="hl-f">log.exception</span>(<span class="hl-s">&quot;pipeline failed&quot;</span>)   <span class="hl-c"># logs the full traceback at ERROR level</span>
+        <span class="hl-k">return</span> <span class="hl-n">1</span>
+
+<span class="hl-k">if</span> __name__ == <span class="hl-s">&quot;__main__&quot;</span>:
+    <span class="hl-f">logging.basicConfig</span>(level=logging.INFO)
+    <span class="hl-f">sys.exit</span>(<span class="hl-f">main</span>())</code></pre></div>
+<p><code>main</code> returns a number, and <code>sys.exit</code> passes it to the operating system. Schedulers (Automation lesson) treat 0 as success and anything else as failure.</p>
+<h2 id="step-6-packaging-with-pyprojecttoml">Step 6: packaging with pyproject.toml</h2>
+<p>Packaging makes the project installable with <code>pip install .</code>, so it can be used on any machine without copying files around. Modern projects describe the package in <code>pyproject.toml</code>.</p>
+<div class="code"><div class="code-h"><span>TOML</span><button class="copy" type="button">Copy</button></div><pre><code class="toml"><span class="hl-c"># pyproject.toml (shown as text; not executed)</span>
+[build-system]
+requires = [<span class="hl-s">&quot;setuptools&gt;=68&quot;</span>]
+build-backend = <span class="hl-s">&quot;setuptools.build_meta&quot;</span>
+
+[project]
+name = <span class="hl-s">&quot;churn-pipeline&quot;</span>
+version = <span class="hl-s">&quot;0.1.0&quot;</span>
+description = <span class="hl-s">&quot;Score customers for churn risk&quot;</span>
+requires-python = <span class="hl-s">&quot;&gt;=3.10&quot;</span>
+dependencies = [<span class="hl-s">&quot;pandas&gt;=2.0&quot;</span>]
+
+[project.scripts]
+churn-score = <span class="hl-s">&quot;churn_pipeline.cli:main&quot;</span></code></pre></div>
+<p>After <code>pip install .</code>, the command <code>churn-score data.csv</code> runs the entry point. Version numbers should change when the output changes, so that a report can say which version produced it.</p>
+<p>::::tip Test before you package
+Keep a <code>tests/</code> folder with a few tests for <code>features.py</code> and <code>check_input</code>. Run them with <code>pytest</code> before every release. A package that installs but computes wrong values is the worst outcome.
+::::</p>
+<h2 id="step-7-a-review-checklist-for-production-code">Step 7: a review checklist for production code</h2>
+<ul>
+<li>Functions have type hints; mypy passes.</li>
+<li>Each module has one job; <code>cli.py</code> is the only place that reads arguments.</li>
+<li>Logging is configured once, uses levels, and never prints secrets or whole records.</li>
+<li>Bad input fails early with a message that names the problem.</li>
+<li>Tests cover the calculations; the package installs in a clean environment.</li>
+<li>The version number and dependency versions are recorded.</li>
+</ul>
+<p>::::key What to remember
+- Structure code into modules with one entry point, so it can be tested and installed.
+- Type hints document intent; mypy catches mistakes before run time.
+- Use logging levels; configure logging once; never log secrets.
+- Validate input early and name the missing column or rule.
+- Package with <code>pyproject.toml</code> and <code>pip install .</code> so the code runs the same way everywhere.
+::::</p>
+<div class="quiz" id="quiz-python-31-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does a type checker such as mypy do with <code>def tenure(m: int) -&gt; int</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Runs the function with the right input</button><button type="button" class="opt" data-ok="1"><i>B</i>Reports calls and returns that do not match the declared types, before the code runs</button><button type="button" class="opt" data-ok="0"><i>C</i>Converts the value to an integer</button><button type="button" class="opt" data-ok="0"><i>D</i>Logs each call</button></div><div class="qexp"><b>Answer: B.</b> Hints are read by checkers; Python itself ignores them at run time.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which logging level fits "11 rows were skipped but the run continued"?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>DEBUG</button><button type="button" class="opt" data-ok="0"><i>B</i>INFO</button><button type="button" class="opt" data-ok="1"><i>C</i>WARNING</button><button type="button" class="opt" data-ok="0"><i>D</i>CRITICAL</button></div><div class="qexp"><b>Answer: C.</b> Something unexpected happened that did not stop the run.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why use <code>log.info("loaded %d rows", n)</code> rather than an f-string?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>f-strings are not allowed in logging</button><button type="button" class="opt" data-ok="1"><i>B</i>The message is formatted only when it is written, so disabled levels cost less</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the output bold</button><button type="button" class="opt" data-ok="0"><i>D</i>%-style is required by mypy</button></div><div class="qexp"><b>Answer: B.</b> Lazy formatting avoids work for messages that are never shown.</div></div><div class="qq"><p class="qtext"><b>4.</b> Which of these should never appear in a log?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The number of rows loaded</button><button type="button" class="opt" data-ok="0"><i>B</i>The run start time</button><button type="button" class="opt" data-ok="1"><i>C</i>An API key or a password</button><button type="button" class="opt" data-ok="0"><i>D</i>The name of the module that logged the message</button></div><div class="qexp"><b>Answer: C.</b> Logs are often shared and stored for long periods; secrets in them are leaks.</div></div><div class="qq"><p class="qtext"><b>5.</b> What does <code>main()</code> returning 1 achieve in a scheduled job?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It restarts the computer</button><button type="button" class="opt" data-ok="1"><i>B</i>The scheduler sees a non-zero exit code and can report the job as failed</button><button type="button" class="opt" data-ok="0"><i>C</i>It skips logging</button><button type="button" class="opt" data-ok="0"><i>D</i>It prints the number 1 to the report</button></div><div class="qexp"><b>Answer: B.</b> A non-zero exit code is how command-line programs signal failure.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Make a script production-ready</b></div><p>Take one of your own scripts (or the telecom churn example). Organise it into a <code>src/</code> package with at least two modules, add type hints to every function, configure logging with INFO and WARNING messages, write a <code>check_input</code> function for the required columns, and add a <code>pyproject.toml</code> so that <code>pip install .</code> works. Run <code>mypy</code> and report the errors it finds.</p><details class="sol"><summary>Show solution</summary><p>Hints: keep the reading code and the calculation code in separate modules. Use <code>python3 -m venv venv</code> and <code>pip install .</code> to test the install in a clean environment. Fix every mypy error, or add a precise comment explaining each one you leave.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/default.asp">W3Schools Python tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_exercises.asp">W3Schools Python exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PYTHON">W3Schools Python quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/numpy/numpy_exercises.asp">W3Schools NumPy exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/pandas/pandas_exercises.asp">W3Schools Pandas exercises ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/quiztest/quiztest.asp?qtest=PANDAS">W3Schools Pandas quiz ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/dsa/index.php">W3Schools DSA tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Python and Pandas (free) ↗</a></li><li><a target="_blank" rel="noopener" href="https://pandas.pydata.org/docs/user_guide/index.html">pandas user guide ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="python-30-automation-scheduled-scripts-reports-and-email.html"><small>← Previous</small><b>Automation: Scheduled Scripts, Reports and Email</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-production-code-is-different">Why production code is different</a><a href="#step-1-organise-the-code">Step 1: organise the code</a><a href="#step-2-type-hints">Step 2: type hints</a><a href="#step-3-logging-that-tells-the-story">Step 3: logging that tells the story</a><a href="#step-4-a-clear-error-for-bad-input">Step 4: a clear error for bad input</a><a href="#step-5-organise-the-entry-point">Step 5: organise the entry point</a><a href="#step-6-packaging-with-pyprojecttoml">Step 6: packaging with pyproject.toml</a><a href="#step-7-a-review-checklist-for-production-code">Step 7: a review checklist for production code</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

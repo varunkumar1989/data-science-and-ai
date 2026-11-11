@@ -1,0 +1,224 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps · Data Eng Lesson 15 · Data Science &amp; AI Handbook</title><meta name="description" content="Write the documentation that keeps a data platform running when its authors are away: a README, a data dictionary and runbooks for common incidents. Then troubleshoot a live problem in a fixed order, from mitigation to root cause, and finish with a short post-incident review that adds a test or alert."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 15</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class="on"><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-15">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 15 of 15</div><h1>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</h1>
+<p class="sum">Write the documentation that keeps a data platform running when its authors are away: a README, a data dictionary and runbooks for common incidents. Then troubleshoot a live problem in a fixed order, from mitigation to root cause, and finish with a short post-incident review that adds a test or alert.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_15_Technical_Documentation_Runbooks_and_Production_Troubleshooting_for_Pi.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-15">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write a README, a data dictionary entry and a runbook for a pipeline</li><li>Mitigate a live problem before diagnosing its cause</li><li>Follow a repeatable troubleshooting sequence for pipelines and AI applications</li><li>Write a post-incident review that ends in a test, an alert or a control</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a></div></div></div>
+<div class="content"><h2 id="documentation-is-part-of-the-system">Documentation is part of the system</h2>
+<p>A pipeline that only its author understands is a liability. When that person is on leave, a small failure becomes a long outage. Documentation is what lets someone else act on a problem at night, and it is cheaper to write while the system is fresh. Three documents do most of the work: a README, a data dictionary, and runbooks.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The dashboard shows yesterday&#x27;s numbers</b></div><p>At eight in the morning, a manager reports that the dashboard is a day behind. The engineer who built the pipeline is travelling. The runbook for "dashboard shows yesterday's numbers" lists four checks in order, names the owner of the source file, and says whom to call if the file is late. The problem is resolved by a colleague in twenty minutes.</p></div>
+<h2 id="the-readme">The README</h2>
+<p>The README is the first page anyone reads. It should answer five questions in under a page:</p>
+<ol>
+<li><strong>What does this do?</strong> One paragraph, with the business purpose.</li>
+<li><strong>What does it read and write?</strong> Sources, destinations and refresh times.</li>
+<li><strong>How do I run it?</strong> Setup and the exact commands.</li>
+<li><strong>Who owns it?</strong> Team, named owners and how to reach them.</li>
+<li><strong>What can go wrong?</strong> Links to the runbooks.</li>
+</ol>
+<div class="code"><div class="code-h"><span>MARKDOWN</span><button class="copy" type="button">Copy</button></div><pre><code class="markdown"><span class="hl-c"># Sales daily load</span>
+
+Loads yesterday&#x27;s point-of-sale files into the reporting warehouse and rebuilds the sales dashboard tables.
+
+- Reads: /data/landing/pos/*.csv (delivered by <span class="hl-n">05</span>:<span class="hl-n">30</span> by the store systems team)
+- Writes: warehouse schema `gold`, tables `daily_sales`, `monthly_sales`
+- Schedule: <span class="hl-n">06</span>:<span class="hl-n">00</span> daily (Airflow DAG `nightly_sales_close`)
+- Owner: data-engineering (primary: Asha; backup: Ravi)
+- Runbooks: docs/runbooks/dashboard-stale.md, docs/runbooks/load-failed.md</code></pre></div>
+<h2 id="the-data-dictionary">The data dictionary</h2>
+<p>A data dictionary describes every table and column: what it means, its type, its allowed values, its owner and its sensitivity. It is the document analysts reach for when a number looks strange.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Table</th>
+<th>Column</th>
+<th>Type</th>
+<th>Meaning</th>
+<th>Allowed values</th>
+<th>Classification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>daily_sales</td>
+<td>date</td>
+<td>date</td>
+<td>Calendar day of the sale</td>
+<td>Any day since 2022-01-01</td>
+<td>Internal</td>
+</tr>
+<tr>
+<td>daily_sales</td>
+<td>units_sold</td>
+<td>integer</td>
+<td>Units sold on that day across all stores</td>
+<td>0 or more</td>
+<td>Internal</td>
+</tr>
+<tr>
+<td>customers</td>
+<td>customer_id</td>
+<td>text</td>
+<td>Stable customer key</td>
+<td>Format C followed by four digits</td>
+<td>Personal (pseudonymised in gold)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Write the meaning from the business point of view, not from the database type. "Units sold, net of returns" is a meaning; "integer" is only a type.</p>
+<h2 id="runbooks">Runbooks</h2>
+<p>A <strong>runbook</strong> is a step-by-step guide for a known incident. Each runbook has the same structure, so that the reader can act under pressure:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Symptom</td>
+<td>What the user or the alert sees</td>
+</tr>
+<tr>
+<td>Impact</td>
+<td>Who is affected and what decisions are at risk</td>
+</tr>
+<tr>
+<td>Checks</td>
+<td>Ordered steps, each with the command or the screen and the expected result</td>
+</tr>
+<tr>
+<td>Fixes</td>
+<td>The safe actions for each finding</td>
+</tr>
+<tr>
+<td>Escalation</td>
+<td>Who to call and when</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td>How to confirm the problem is solved</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-h"><span>MARKDOWN</span><button class="copy" type="button">Copy</button></div><pre><code class="markdown"><span class="hl-c"># Runbook: dashboard shows yesterday&#x27;s numbers</span>
+
+Symptom: the sales dashboard&#x27;s <span class="hl-s">&quot;last refreshed&quot;</span> time is before <span class="hl-n">06</span>:<span class="hl-n">30</span>.
+Impact: managers see yesterday&#x27;s sales; morning decisions are delayed.
+
+Checks
+<span class="hl-n">1</span>. Open the Airflow run for today. Expected: nightly_sales_close is success or running.
+<span class="hl-n">2</span>. If failed, open the first failed task log. Note the error.
+<span class="hl-n">3</span>. Check the landing folder: ls -lh /data/landing/pos/. Expected: one file per store, today&#x27;s date.
+
+Fixes
+- Files missing: contact the store systems team (see escalation). Do not rerun until files arrive.
+- Task failed with a transient error: clear the failed task and rerun it. The load is idempotent.
+- Quality check failed: do not override. Escalate to the data owner.
+
+Escalation: data-engineering on-call at <span class="hl-n">07</span>:<span class="hl-n">00</span>; the data owner after <span class="hl-n">08</span>:<span class="hl-n">00</span> if still unresolved.
+Verification: dashboard refresh time is after <span class="hl-n">06</span>:<span class="hl-n">30</span> and the row count matches the file count.</code></pre></div>
+<p>::::tip Write the runbook from the last incident
+The best runbooks come from real incidents. After each one, add the steps that were discovered during it, and remove steps that turned out to be wrong.
+::::</p>
+<h2 id="production-troubleshooting-the-order-matters">Production troubleshooting: the order matters</h2>
+<p>When a live system fails, people often start by looking for the cause. The better order is to limit the damage first, then find the cause, then fix it properly.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Step</th>
+<th>Action</th>
+<th>Why this order</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Confirm the impact</td>
+<td>Who is affected, and since when</td>
+<td>Decides how urgent the response is</td>
+</tr>
+<tr>
+<td>2. Mitigate</td>
+<td>Rerun, roll back, switch to a safe source, or disable the feature</td>
+<td>Stops harm while the cause is unknown</td>
+</tr>
+<tr>
+<td>3. Check recent changes</td>
+<td>Deployments, schema changes, new data sources, config changes</td>
+<td>Most failures follow a change</td>
+</tr>
+<tr>
+<td>4. Check logs and freshness</td>
+<td>The first error, upstream freshness, row counts</td>
+<td>Locates the failing component</td>
+</tr>
+<tr>
+<td>5. Reproduce</td>
+<td>Run the failing step on a copy or on a small input</td>
+<td>Confirms the cause before a fix</td>
+</tr>
+<tr>
+<td>6. Fix the root cause</td>
+<td>The smallest change that removes the cause</td>
+<td>Prevents recurrence</td>
+</tr>
+<tr>
+<td>7. Verify</td>
+<td>The original symptom is gone, and the checks pass</td>
+<td>Proves the fix</td>
+</tr>
+<tr>
+<td>8. Prevent</td>
+<td>Add a test, an alert or a schema check</td>
+<td>Makes the next occurrence visible early</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A column that was renamed upstream</b></div><p>A dashboard showed blank revenue for one region. Step 1 confirmed one region; step 2 switched the dashboard to the previous day's gold table; step 3 found that the source team had renamed a column the day before; step 4 showed the load succeeded with nulls in that column; step 5 reproduced it on a sample; step 6 mapped the new name; step 7 verified the numbers against the ledger; step 8 added a schema-change alert. Each step was short, and the sequence was the reason the incident ended quickly.</p></div>
+<h2 id="troubleshooting-an-ai-application">Troubleshooting an AI application</h2>
+<p>AI applications fail in new ways, so add these checks to the sequence:</p>
+<ul>
+<li><strong>Retrieval.</strong> Was the right document retrieved? Look at the retrieved chunks for the failing question.</li>
+<li><strong>Model input.</strong> Did the prompt contain what was expected (the right context, no leaked secrets, the right version)?</li>
+<li><strong>Tools.</strong> Did each tool return a valid result? A tool error often looks like a model error.</li>
+<li><strong>Version changes.</strong> Did the prompt, the model or the index change? Compare the regression suite with the last run.</li>
+<li><strong>Cost and latency.</strong> A sudden rise often means a loop or a larger context than intended.</li>
+</ul>
+<h2 id="the-post-incident-review">The post-incident review</h2>
+<p>A post-incident review is short and blameless. It has five parts: the timeline, the impact, the root cause, what worked and what did not, and the actions. Each action has an owner and a date.</p>
+<div class="code"><div class="code-h"><span>MARKDOWN</span><button class="copy" type="button">Copy</button></div><pre><code class="markdown"><span class="hl-c"># Post-incident review: revenue blank for one region (2026-11-03)</span>
+
+Timeline: <span class="hl-n">06</span>:<span class="hl-n">40</span> alert; <span class="hl-n">07</span>:<span class="hl-n">05</span> impact confirmed; <span class="hl-n">07</span>:<span class="hl-n">20</span> dashboard switched to yesterday; <span class="hl-n">09</span>:<span class="hl-n">10</span> fix deployed.
+Impact: one region showed blank revenue for <span class="hl-n">2.5</span> hours; two managers used the previous day&#x27;s numbers.
+Root cause: upstream renamed a column without notice; the load succeeded with nulls.
+What worked: the rollback to the previous gold table; the runbook step that checked upstream row counts.
+What did not: no schema check on the source; the alert fired on the dashboard, not on the load.
+Actions:
+- Add a schema-change check to the load (owner: Ravi, due <span class="hl-n">2026</span>-<span class="hl-n">11</span>-<span class="hl-n">20</span>).
+- Require notice for source schema changes in the data contract (owner: Asha, due <span class="hl-n">2026</span>-<span class="hl-n">11</span>-<span class="hl-n">30</span>).</code></pre></div>
+<p>::::warn Blameless does not mean vague
+"Blameless" means the review looks at the system, not at a person. It must still name the specific cause and the specific control. "Communication could be better" is not an action; "the source team posts schema changes in the channel 48 hours ahead" is.
+::::</p>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>How do you troubleshoot a pipeline that is producing wrong numbers?</b></div><p>Confirm the impact and limit the damage first, by switching to the last good data if necessary. Check recent changes, the logs and the freshness of upstream data, and reproduce the problem on a small input. Fix the cause, verify against a trusted total, and add a test or alert so the same error is caught next time. Then write a short review with an owner for each action.</p></div>
+<p>::::key What to remember
+- Good documentation is a README, a data dictionary and runbooks with checks, fixes and escalation.
+- Limit the damage first, then find the cause, then fix, verify and prevent.
+- Most failures follow a change; check recent changes early.
+- For AI applications, check retrieval, model input, tools, version changes and cost.
+- A post-incident review is blameless and ends with owned, dated actions.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-15-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What is the first priority in production troubleshooting?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Find the person who made the change</button><button type="button" class="opt" data-ok="1"><i>B</i>Confirm the impact and mitigate the harm</button><button type="button" class="opt" data-ok="0"><i>C</i>Write the post-incident review</button><button type="button" class="opt" data-ok="0"><i>D</i>Rebuild the whole platform</button></div><div class="qexp"><b>Answer: B.</b> Stopping the harm comes before finding the cause.</div></div><div class="qq"><p class="qtext"><b>2.</b> What should a runbook contain?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Only the author's name</button><button type="button" class="opt" data-ok="1"><i>B</i>Symptom, impact, ordered checks, fixes, escalation and verification</button><button type="button" class="opt" data-ok="0"><i>C</i>A list of colours</button><button type="button" class="opt" data-ok="0"><i>D</i>The full source code</button></div><div class="qexp"><b>Answer: B.</b> Runbooks are used under pressure, so each section must be actionable.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why is a data dictionary useful?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It makes queries faster</button><button type="button" class="opt" data-ok="1"><i>B</i>It explains what each column means, its allowed values and its owner</button><button type="button" class="opt" data-ok="0"><i>C</i>It replaces the database</button><button type="button" class="opt" data-ok="0"><i>D</i>It stores passwords</button></div><div class="qexp"><b>Answer: B.</b> Dictionaries answer "what does this number mean?"</div></div><div class="qq"><p class="qtext"><b>4.</b> In the example, what caused the blank revenue?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A slow query</button><button type="button" class="opt" data-ok="1"><i>B</i>A column renamed upstream, so the load succeeded with nulls</button><button type="button" class="opt" data-ok="0"><i>C</i>A broken chart</button><button type="button" class="opt" data-ok="0"><i>D</i>A missing user</button></div><div class="qexp"><b>Answer: B.</b> The root cause was a silent upstream schema change.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which action best prevents a repeat of a silent schema change?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Read the logs more carefully</button><button type="button" class="opt" data-ok="1"><i>B</i>Add a schema-change check that alerts before the load publishes</button><button type="button" class="opt" data-ok="0"><i>C</i>Retrain the team</button><button type="button" class="opt" data-ok="0"><i>D</i>Remove the dashboard</button></div><div class="qexp"><b>Answer: B.</b> A preventive control makes the failure visible early.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Write a runbook and a review</b></div><p>Write a runbook for one failure in a pipeline you know, with the symptom, impact, five ordered checks, the safe fixes and the escalation path. Then write a post-incident review for an invented incident that uses the runbook, with one owned, dated action that is a test or an alert.</p><details class="sol"><summary>Show solution</summary><p>Hints: each check needs an expected result, so that the reader knows when to move on. The action must be something you can test: a schema comparison, a freshness alert, or a reconciliation.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-14-linux-and-the-command-line-for-data-work.html"><small>← Previous</small><b>Linux and the Command Line for Data Work</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#documentation-is-part-of-the-system">Documentation is part of the system</a><a href="#the-readme">The README</a><a href="#the-data-dictionary">The data dictionary</a><a href="#runbooks">Runbooks</a><a href="#production-troubleshooting-the-order-matters">Production troubleshooting: the order matters</a><a href="#troubleshooting-an-ai-application">Troubleshooting an AI application</a><a href="#the-post-incident-review">The post-incident review</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

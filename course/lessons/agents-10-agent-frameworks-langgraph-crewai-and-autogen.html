@@ -1,0 +1,127 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Frameworks: LangGraph, CrewAI and AutoGen · Agents Lesson 10 · Data Science &amp; AI Handbook</title><meta name="description" content="Compare the three agent frameworks most often named in job descriptions. Learn LangGraph&#x27;s stateful graphs with checkpoints and human approval, CrewAI&#x27;s role-based crews for quick prototypes, and AutoGen&#x27;s conversational multi-agent concept, and choose a framework by the control and reliability a task needs."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 10</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class=""><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class=""><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class=""><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class=""><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li><li class=""><a href="agents-07-openapi-and-swagger-describing-apis-so-machines-and-people-c.html" data-lid="agents-07"><span>07</span>OpenAPI and Swagger: Describing APIs So Machines and People Can Use Them</a></li><li class=""><a href="agents-08-oauth-2-0-in-depth-scopes-pkce-and-secure-tokens.html" data-lid="agents-08"><span>08</span>OAuth 2.0 in Depth: Scopes, PKCE and Secure Tokens</a></li><li class=""><a href="agents-09-mcp-security-and-business-integrations-crm-erp-jira-slack-an.html" data-lid="agents-09"><span>09</span>MCP Security and Business Integrations: CRM, ERP, Jira, Slack and Notion</a></li><li class="on"><a href="agents-10-agent-frameworks-langgraph-crewai-and-autogen.html" data-lid="agents-10"><span>10</span>Agent Frameworks: LangGraph, CrewAI and AutoGen</a></li><li class=""><a href="agents-11-agent-evaluation-and-monitoring-measuring-whether-an-agent-w.html" data-lid="agents-11"><span>11</span>Agent Evaluation and Monitoring: Measuring Whether an Agent Works</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-10">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 10 of 11</div><h1>Agent Frameworks: LangGraph, CrewAI and AutoGen</h1>
+<p class="sum">Compare the three agent frameworks most often named in job descriptions. Learn LangGraph's stateful graphs with checkpoints and human approval, CrewAI's role-based crews for quick prototypes, and AutoGen's conversational multi-agent concept, and choose a framework by the control and reliability a task needs.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Advanced</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_10_Agent_Frameworks_LangGraph_CrewAI_and_AutoGen.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-10">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain nodes, edges and state in a LangGraph workflow</li><li>Describe a CrewAI crew of role-based agents and when to use it</li><li>Explain the conversational multi-agent model used by AutoGen</li><li>Choose a framework by control, reliability and maintenance needs</li></ul></div></div>
+<div class="content"><h2 id="why-frameworks-exist">Why frameworks exist</h2>
+<p>An agent needs a loop (call the model, run a tool, check the result), memory of what has happened, a way to stop, and often retries and human approval. Writing that from scratch is possible (a small loop is shown in the Grokbot course), but production systems need the same features every time. Frameworks provide them. The three you will meet most often take different approaches.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A refund workflow that must not lose its place</b></div><p>A refund process has four steps: check the order, check the policy, ask a manager to approve, then issue the refund. If the server restarts after approval but before the refund, the process must resume exactly where it stopped, without refunding twice. That requirement decides the framework.</p></div>
+<h2 id="langgraph-stateful-agents-as-graphs">LangGraph: stateful agents as graphs</h2>
+<p><strong>LangGraph</strong> (part of the LangChain ecosystem) models an agent as a <strong>graph</strong>:</p>
+<ul>
+<li><strong>Nodes</strong> are steps, such as "check order" or "call the model".</li>
+<li><strong>Edges</strong> decide what runs next, including conditional edges ("if approved, go to refund; otherwise, end").</li>
+<li><strong>State</strong> is a shared record that every node reads and updates, and it is <strong>saved between steps</strong> (checkpoints).</li>
+</ul>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Illustrative LangGraph-style structure (not run; check the current LangGraph documentation,</span>
+<span class="hl-c"># because the API changes between versions)</span>
+<span class="hl-k">from</span> typing <span class="hl-k">import</span> TypedDict
+
+<span class="hl-k">class</span> <span class="hl-f">RefundState</span>(TypedDict):
+    order_id: str
+    eligible: bool
+    approved: bool
+    refunded: bool
+
+<span class="hl-k">def</span> <span class="hl-f">check_policy</span>(state: RefundState) -&gt; RefundState:
+    state[<span class="hl-s">&quot;eligible&quot;</span>] = state[<span class="hl-s">&quot;order_id&quot;</span>].<span class="hl-f">startswith</span>(<span class="hl-s">&quot;ORD&quot;</span>)   <span class="hl-c"># placeholder rule</span>
+    <span class="hl-k">return</span> state
+
+<span class="hl-k">def</span> <span class="hl-f">route_after_policy</span>(state: RefundState) -&gt; str:
+    <span class="hl-k">return</span> <span class="hl-s">&quot;ask_approval&quot;</span> <span class="hl-k">if</span> state[<span class="hl-s">&quot;eligible&quot;</span>] <span class="hl-k">else</span> <span class="hl-s">&quot;end&quot;</span>
+
+<span class="hl-c"># graph.add_node(&quot;check_policy&quot;, check_policy)</span>
+<span class="hl-c"># graph.add_conditional_edges(&quot;check_policy&quot;, route_after_policy, {...})</span>
+<span class="hl-c"># graph.compile(checkpointer=...)   # saved state lets the run resume after a restart</span></code></pre></div>
+<p>Use LangGraph when you need <strong>control</strong>: explicit steps, retries at each node, checkpoints so a long job resumes, and a clear place to insert human approval. The cost is more code and a steeper learning curve.</p>
+<p>::::note Interrupt for approval
+LangGraph-style workflows can pause before a sensitive node, wait for a person's decision stored in the state, then continue. This is the cleanest way to implement the approval step from the MCP lesson. Check the current documentation for the exact interrupt API.
+::::</p>
+<h2 id="crewai-role-based-agent-teams">CrewAI: role-based agent teams</h2>
+<p><strong>CrewAI</strong> describes a team of agents, each with a <strong>role</strong>, a <strong>goal</strong> and a set of <strong>tasks</strong>. A <strong>crew</strong> runs the tasks in sequence, or under a manager agent that assigns them.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Illustrative CrewAI-style definition (not run; confirm names in the current docs)</span>
+<span class="hl-c"># researcher = Agent(role=&quot;Market researcher&quot;, goal=&quot;Summarise competitor pricing&quot;, tools=[...])</span>
+<span class="hl-c"># writer     = Agent(role=&quot;Copywriter&quot;, goal=&quot;Draft a one-page brief from the research&quot;)</span>
+<span class="hl-c"># research   = Task(description=&quot;List competitor prices&quot;, agent=researcher)</span>
+<span class="hl-c"># brief      = Task(description=&quot;Write the brief&quot;, agent=writer, context=[research])</span>
+<span class="hl-c"># crew = Crew(agents=[researcher, writer], tasks=[research, brief], process=&quot;sequential&quot;)</span>
+<span class="hl-c"># crew.kickoff()</span></code></pre></div>
+<p>CrewAI is quick to prototype because the roles read like a job description. It suits content and research pipelines. It gives less control over exact state and checkpoints than LangGraph, so check how a crew behaves when a step fails before you rely on it in production.</p>
+<h2 id="autogen-conversational-multi-agent-systems">AutoGen: conversational multi-agent systems</h2>
+<p><strong>AutoGen</strong> (from Microsoft Research) models agents as participants in a <strong>conversation</strong>: they send messages to each other until the task is done, optionally with a human in the conversation. You should understand the concept even if you choose a different framework, because many multi-agent designs are variations of it: a planner messages a coder, the coder messages a tester, and the loop continues until the tests pass or a limit is reached.</p>
+<p>Check the project's official documentation for the current version and its API, which has changed as the project has developed.</p>
+<h2 id="comparing-the-three">Comparing the three</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Question</th>
+<th>LangGraph</th>
+<th>CrewAI</th>
+<th>AutoGen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core model</td>
+<td>Graph of steps with shared state</td>
+<td>Crew of role-based agents and tasks</td>
+<td>Agents exchanging messages</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Reliable, controlled, long-running workflows</td>
+<td>Quick prototypes and content pipelines</td>
+<td>Multi-agent conversations, code and tests</td>
+</tr>
+<tr>
+<td>Saved state and resume</td>
+<td>Yes, through checkpoints</td>
+<td>Limited; check the current docs</td>
+<td>Conversation history</td>
+</tr>
+<tr>
+<td>Human approval</td>
+<td>Clear interrupt points</td>
+<td>Possible through task design</td>
+<td>Possible as a participant</td>
+</tr>
+<tr>
+<td>Learning curve</td>
+<td>Higher</td>
+<td>Lower</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="how-to-choose">How to choose</h2>
+<ol>
+<li>Write the workflow as steps on paper. If the steps are fixed and need resume and approval, use a graph (LangGraph) or a plain workflow tool (n8n) instead of an agent.</li>
+<li>If you need a team of roles to draft and review content quickly, try CrewAI and measure the result.</li>
+<li>If the task is a conversation between specialists that must check each other's work, study AutoGen's pattern.</li>
+<li>Whatever you choose, add tracing, a step limit, a budget and the approval steps from the MCP and OAuth lessons. A framework does not make an agent safe.</li>
+</ol>
+<p>::::warn Frameworks change quickly
+Agent frameworks release breaking changes often. Pin versions in your project, read the release notes before upgrading, and treat any code sample older than a few months as a starting point to check, not a finished recipe.
+::::</p>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>When would you choose LangGraph over a simple loop?</b></div><p>When the process has several steps with branches, must survive restarts, needs an approval pause, or must retry individual steps without repeating the whole job. A simple loop is enough when the task is a single tool-using conversation with a step limit.</p></div>
+<p>::::key What to remember
+- LangGraph: nodes, edges and checkpointed state; best for control and reliability.
+- CrewAI: role-based crews; quick to prototype, less control over state.
+- AutoGen: agents exchanging messages; the concept matters even if you use another tool.
+- Choose by the control, resume and approval the task needs, and pin framework versions.
+::::</p>
+<div class="quiz" id="quiz-agents-10-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In LangGraph, what is saved between steps so that a run can resume?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The model weights</button><button type="button" class="opt" data-ok="1"><i>B</i>The checkpointed state</button><button type="button" class="opt" data-ok="0"><i>C</i>The user's password</button><button type="button" class="opt" data-ok="0"><i>D</i>The chart colours</button></div><div class="qexp"><b>Answer: B.</b> Checkpoints store the shared state, so a restarted run continues from the last step.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which framework is described as role-based teams with goals and tasks?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>LangGraph</button><button type="button" class="opt" data-ok="1"><i>B</i>CrewAI</button><button type="button" class="opt" data-ok="0"><i>C</i>AutoGen</button><button type="button" class="opt" data-ok="0"><i>D</i>Pandas</button></div><div class="qexp"><b>Answer: B.</b> A crew is made of agents with roles, goals and tasks.</div></div><div class="qq"><p class="qtext"><b>3.</b> A refund process must not refund twice after a restart. Which property is most important?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Speed</button><button type="button" class="opt" data-ok="1"><i>B</i>Idempotent steps with saved state</button><button type="button" class="opt" data-ok="0"><i>C</i>Colourful output</button><button type="button" class="opt" data-ok="0"><i>D</i>Many agents</button></div><div class="qexp"><b>Answer: B.</b> Resuming safely needs saved state and actions that are safe to repeat.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the key idea of AutoGen-style systems?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A single long prompt</button><button type="button" class="opt" data-ok="1"><i>B</i>Agents exchanging messages until the task is complete</button><button type="button" class="opt" data-ok="0"><i>C</i>Storing data in a graph</button><button type="button" class="opt" data-ok="0"><i>D</i>Replacing the model</button></div><div class="qexp"><b>Answer: B.</b> Conversation between specialised agents is the core pattern.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why pin framework versions?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They are free only when pinned</button><button type="button" class="opt" data-ok="1"><i>B</i>Breaking changes between releases can silently change behaviour</button><button type="button" class="opt" data-ok="0"><i>C</i>Pinning makes models smarter</button><button type="button" class="opt" data-ok="0"><i>D</i>It disables tools</button></div><div class="qexp"><b>Answer: B.</b> Versions change APIs; pinning keeps the system stable.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Pick a framework</b></div><p>For one workflow you know (for example, a weekly sales report with an approval step), write the steps, mark each one as deterministic, model-driven or needing a person, and choose LangGraph, CrewAI, AutoGen or a plain workflow tool. Justify the choice in five sentences, and list the three controls you would add whatever you chose.</p><details class="sol"><summary>Show solution</summary><p>Hints: a workflow with no model decisions does not need an agent framework at all. Where a model chooses between branches, a graph with conditional edges is usually the clearest design. Name the approval node and the state it reads.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="agents-09-mcp-security-and-business-integrations-crm-erp-jira-slack-an.html"><small>← Previous</small><b>MCP Security and Business Integrations: CRM, ERP, Jira, Slack and Notion</b></a><a class="next" href="agents-11-agent-evaluation-and-monitoring-measuring-whether-an-agent-w.html"><small>Next →</small><b>Agent Evaluation and Monitoring: Measuring Whether an Agent Works</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-frameworks-exist">Why frameworks exist</a><a href="#langgraph-stateful-agents-as-graphs">LangGraph: stateful agents as graphs</a><a href="#crewai-role-based-agent-teams">CrewAI: role-based agent teams</a><a href="#autogen-conversational-multi-agent-systems">AutoGen: conversational multi-agent systems</a><a href="#comparing-the-three">Comparing the three</a><a href="#how-to-choose">How to choose</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

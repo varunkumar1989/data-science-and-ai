@@ -1,0 +1,207 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture · Data Eng Lesson 5 · Data Science &amp; AI Handbook</title><meta name="description" content="Understand the storage choices behind a data platform: warehouse, data mart, data lake and lakehouse. Build a bronze, silver and gold (medallion) layering in code, with a quality gate between layers and a clear rule for what each layer is allowed to contain."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 5</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class="on"><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-05">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 5 of 15</div><h1>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</h1>
+<p class="sum">Understand the storage choices behind a data platform: warehouse, data mart, data lake and lakehouse. Build a bronze, silver and gold (medallion) layering in code, with a quality gate between layers and a clear rule for what each layer is allowed to contain.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_05_Data_Warehouses_Data_Marts_Data_Lakes_Lakehouses_and_the_Medallion_Arc.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-05">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Distinguish a data warehouse, data mart, data lake and lakehouse</li><li>Explain the medallion architecture and what each layer holds</li><li>Build bronze, silver and gold layers with a quality gate between them</li><li>Decide which layer a consumer should read from</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="four-storage-patterns">Four storage patterns</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>What it holds</th>
+<th>Strength</th>
+<th>Weakness</th>
+<th>Typical user</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data warehouse</td>
+<td>Structured, modelled tables for reporting</td>
+<td>Fast SQL, governance, trust</td>
+<td>Costly for raw or unstructured data</td>
+<td>Analysts and finance</td>
+</tr>
+<tr>
+<td>Data mart</td>
+<td>A subject-area slice of the warehouse (sales, HR)</td>
+<td>Focused, easy to use</td>
+<td>Can duplicate and drift if not governed</td>
+<td>One department</td>
+</tr>
+<tr>
+<td>Data lake</td>
+<td>Raw files of any type on cheap storage</td>
+<td>Cheap, flexible, keeps everything</td>
+<td>Easy to become a swamp of untrusted files</td>
+<td>Engineers and data scientists</td>
+</tr>
+<tr>
+<td>Lakehouse</td>
+<td>Open table formats on lake storage, with transactions and schemas</td>
+<td>One copy serves analytics and machine learning</td>
+<td>Requires careful table management</td>
+<td>Mixed teams</td>
+</tr>
+</tbody>
+</table></div>
+<p>A <strong>data mart</strong> is usually a set of tables taken from a warehouse for one team. A <strong>data lake</strong> is cheap storage that accepts files without a schema; without discipline it fills with duplicate and undocumented data. A <strong>lakehouse</strong> adds table features (transactions, schema enforcement, time travel) to lake storage, so one copy can serve both dashboards and model training.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A lake that nobody trusts</b></div><p>A company dumps every export into one storage bucket. Three years later, nobody knows which of the nine "sales" folders is current, and two dashboards disagree by 4%. The fix is not a bigger bucket; it is layers with rules: raw data kept as it arrived, cleaned data with checked types, and reporting tables that the business has agreed on.</p></div>
+<h2 id="the-medallion-architecture">The medallion architecture</h2>
+<p>The <strong>medallion architecture</strong> organises a lakehouse or warehouse into three layers, each with a stricter contract than the one before:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Layer</th>
+<th>Contents</th>
+<th>Rules</th>
+<th>Who reads it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bronze</td>
+<td>Raw data as it arrived, with load time and source</td>
+<td>No changes; append-only</td>
+<td>Engineers (for rebuilds)</td>
+</tr>
+<tr>
+<td>Silver</td>
+<td>Cleaned, typed, deduplicated, conformed data</td>
+<td>Types checked; keys unique; quality gate passed</td>
+<td>Engineers and analysts</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>Business tables and metrics for reporting</td>
+<td>Agreed definitions; documented; tested</td>
+<td>Business users, dashboards, AI features</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each layer can be rebuilt from the one below it. If a gold table is wrong, you fix the transformation and rebuild gold; you do not patch the table by hand.</p>
+<h2 id="building-the-layers">Building the layers</h2>
+<p>The block below builds bronze, silver and gold from the superstore file, with a quality gate between silver and gold. The bronze layer keeps the raw rows unchanged.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> duckdb
+
+con = <span class="hl-f">duckdb.connect</span>()
+raw = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>, <span class="hl-s">&quot;ship_date&quot;</span>])
+
+<span class="hl-c"># Bronze: the raw rows, unchanged, with load metadata</span>
+bronze = <span class="hl-f">raw.copy</span>()
+bronze[<span class="hl-s">&quot;_loaded_at&quot;</span>] = <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2026-01-15 06:00&quot;</span>)
+bronze[<span class="hl-s">&quot;_source&quot;</span>] = <span class="hl-s">&quot;superstore_sales.csv&quot;</span>
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;bronze_src&quot;</span>, bronze)
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;CREATE TABLE bronze_sales AS SELECT * FROM bronze_src&quot;</span>)
+
+<span class="hl-c"># Silver: typed, deduplicated on the line key, with obvious bad rows removed</span>
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;
+    CREATE TABLE silver_sales AS
+    SELECT DISTINCT ON (row_id)
+           row_id, order_id, order_date, ship_date, customer_id, product_id,
+           CAST(sales AS DOUBLE) AS sales, CAST(profit AS DOUBLE) AS profit,
+           CAST(quantity AS INTEGER) AS quantity, region, category
+    FROM bronze_sales
+    WHERE sales IS NOT NULL AND quantity &gt; 0
+    ORDER BY row_id
+&quot;&quot;&quot;</span>)
+
+<span class="hl-c"># Quality gate: the gate must pass before gold is built</span>
+gate = <span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;
+    SELECT
+      (SELECT COUNT(*) FROM bronze_sales) AS bronze_rows,
+      (SELECT COUNT(*) FROM silver_sales) AS silver_rows,
+      (SELECT COUNT(*) FROM silver_sales WHERE row_id IS NULL) AS null_keys,
+      (SELECT COUNT(*) - COUNT(DISTINCT row_id) FROM silver_sales) AS duplicate_keys
+&quot;&quot;&quot;</span>).<span class="hl-f">fetchdf</span>()
+<span class="hl-f">print</span>(gate)
+assert gate[<span class="hl-s">&quot;null_keys&quot;</span>][<span class="hl-n">0</span>] == <span class="hl-n">0</span> <span class="hl-k">and</span> gate[<span class="hl-s">&quot;duplicate_keys&quot;</span>][<span class="hl-n">0</span>] == <span class="hl-n">0</span>, <span class="hl-s">&quot;quality gate failed&quot;</span>
+
+<span class="hl-c"># Gold: one agreed reporting table, monthly by region and category</span>
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;
+    CREATE TABLE gold_monthly_sales AS
+    SELECT DATE_TRUNC(&#x27;month&#x27;, order_date) AS month, region, category,
+           ROUND(SUM(sales), 2) AS sales, ROUND(SUM(profit), 2) AS profit,
+           SUM(quantity) AS units
+    FROM silver_sales
+    GROUP BY 1, 2, 3
+&quot;&quot;&quot;</span>)
+<span class="hl-f">print</span>(<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT * FROM gold_monthly_sales ORDER BY month LIMIT 5&quot;</span>).<span class="hl-f">fetchdf</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">   bronze_rows  silver_rows  null_keys  duplicate_keys
+0         6323         6323          0               0
+       month region         category     sales    profit  units
+0 2023-01-01  South       Technology  359670.0   8761.61   16.0
+1 2023-01-01   East  Office Supplies    2265.0    424.35    9.0
+2 2023-01-01  South        Furniture  253729.0  14594.30   24.0
+3 2023-01-01   West  Office Supplies   80356.0  10945.12   39.0
+4 2023-01-01  North  Office Supplies   16114.5   4138.33   17.0</pre></div>
+<p>Read the output of the gate: the silver row count can be lower than bronze because bad rows were removed, and the key checks must be zero. A failed assertion stops the pipeline before the gold layer is refreshed, so the reporting table is never built from bad input.</p>
+<p>::::warn Do not skip the gate
+A gold table built directly from bronze is faster to write and fails silently. The gate costs one query per run and catches the errors that would otherwise appear in a board report.
+::::</p>
+<h2 id="which-layer-should-a-consumer-read">Which layer should a consumer read?</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Consumer</th>
+<th>Read from</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executive dashboard</td>
+<td>Gold</td>
+<td>Agreed definitions and tested</td>
+</tr>
+<tr>
+<td>Analyst exploring a new question</td>
+<td>Silver</td>
+<td>Clean and typed, with detail</td>
+</tr>
+<tr>
+<td>Data scientist building a model</td>
+<td>Silver (or a feature table derived from it)</td>
+<td>Needs detail and history</td>
+</tr>
+<tr>
+<td>Engineer rebuilding a table</td>
+<td>Bronze</td>
+<td>The unchanged source</td>
+</tr>
+<tr>
+<td>AI assistant answering business questions</td>
+<td>Gold for metrics, silver for detail</td>
+<td>Grounded in agreed numbers</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="layer-rules-to-write-down">Layer rules to write down</h2>
+<ol>
+<li>Bronze: append-only, never edited, with load time and source on every row.</li>
+<li>Silver: one definition of each entity, types enforced, keys unique, and a documented list of rows removed and why.</li>
+<li>Gold: each table has an owner, a description, a test on its key and a stated refresh time.</li>
+<li>A table in one layer is never read by a consumer that should use another layer, unless the exception is written down.</li>
+</ol>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>Warehouse or lakehouse: which would you choose?</b></div><p>If the data is structured, the team is SQL-focused, and reporting is the main use, a warehouse is simpler and well governed. If the company also stores files, images or logs, and data scientists and analysts both need the same data, a lakehouse keeps one copy and serves both. Many organisations run a lakehouse for raw and mixed data and a warehouse or gold layer for reporting.</p></div>
+<p>::::key What to remember
+- Warehouses hold modelled reporting data; lakes hold raw files; lakehouses add table features to lake storage.
+- Medallion layers: bronze raw and unchanged, silver cleaned and typed, gold agreed and tested.
+- Put a quality gate between silver and gold, and stop the build when it fails.
+- Each consumer reads from the layer that matches its trust and detail needs.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-05-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does the bronze layer contain?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Only dashboards</button><button type="button" class="opt" data-ok="1"><i>B</i>Raw data as it arrived, unchanged, with load metadata</button><button type="button" class="opt" data-ok="0"><i>C</i>Agreed business metrics</button><button type="button" class="opt" data-ok="0"><i>D</i>Only the most recent rows</button></div><div class="qexp"><b>Answer: B.</b> Bronze preserves the source for rebuilds.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which layer should a board dashboard read?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Bronze</button><button type="button" class="opt" data-ok="0"><i>B</i>Any raw file</button><button type="button" class="opt" data-ok="1"><i>C</i>Gold</button><button type="button" class="opt" data-ok="0"><i>D</i>A personal spreadsheet</button></div><div class="qexp"><b>Answer: C.</b> Gold holds agreed, tested definitions.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why check for duplicate keys in silver?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Duplicates make files larger</button><button type="button" class="opt" data-ok="1"><i>B</i>Duplicate keys double-count sales in every layer above</button><button type="button" class="opt" data-ok="0"><i>C</i>Duplicates are required by the medallion design</button><button type="button" class="opt" data-ok="0"><i>D</i>Duplicates are removed automatically</button></div><div class="qexp"><b>Answer: B.</b> Duplicates inflate totals in gold.</div></div><div class="qq"><p class="qtext"><b>4.</b> What distinguishes a lakehouse from a plain data lake?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It has no files</button><button type="button" class="opt" data-ok="1"><i>B</i>It adds table features such as transactions and schema enforcement to lake storage</button><button type="button" class="opt" data-ok="0"><i>C</i>It is always cheaper</button><button type="button" class="opt" data-ok="0"><i>D</i>It stores only images</button></div><div class="qexp"><b>Answer: B.</b> Table formats make lake data reliable enough for analytics.</div></div><div class="qq"><p class="qtext"><b>5.</b> A gold table has a wrong total. What is the correct fix?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Edit the gold table by hand</button><button type="button" class="opt" data-ok="1"><i>B</i>Fix the transformation and rebuild gold from silver</button><button type="button" class="opt" data-ok="0"><i>C</i>Delete bronze</button><button type="button" class="opt" data-ok="0"><i>D</i>Ignore the difference</button></div><div class="qexp"><b>Answer: B.</b> Layers rebuild from the layer below, so the fix belongs in the code.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Add a second quality check</b></div><p>Extend the silver layer's gate with a check that every silver <code>order_date</code> is between the earliest and latest bronze dates, and a check that <code>sales</code> is never negative. Make the build fail if either check fails, then deliberately insert one bad row into bronze and confirm the failure.</p><details class="sol"><summary>Show solution</summary><p>Hints: count rows that break each rule and assert the counts are zero. Insert the bad row in a copy of bronze to avoid changing the raw layer; document the test.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html"><small>← Previous</small><b>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</b></a><a class="next" href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html"><small>Next →</small><b>Apache Airflow: DAGs, Tasks, Scheduling and Retries</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#four-storage-patterns">Four storage patterns</a><a href="#the-medallion-architecture">The medallion architecture</a><a href="#building-the-layers">Building the layers</a><a href="#which-layer-should-a-consumer-read">Which layer should a consumer read?</a><a href="#layer-rules-to-write-down">Layer rules to write down</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

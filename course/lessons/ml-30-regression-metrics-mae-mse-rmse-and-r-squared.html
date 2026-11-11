@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Regression Metrics: MAE, MSE, RMSE and R-Squared · Stats &amp; ML Lesson 30 · Data Science &amp; AI Handbook</title><meta name="description" content="Measure how wrong a numeric prediction is, in the units the business uses. Compute MAE, MSE, RMSE and R-squared on a delivery-time model, learn which metric punishes big mistakes, see why R-squared alone misleads, and explain each metric to a manager."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-ml"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-ml">Statistics &amp; Machine Learning</a><span>/</span><b>Lesson 30</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0E9F8E">Statistics &amp; Machine Learning</div>
+<ol class="side-l"><li class=""><a href="ml-01-descriptive-statistics-centre-spread-shape-and-relationships.html" data-lid="ml-01"><span>01</span>Descriptive Statistics: Centre, Spread, Shape and Relationships</a></li><li class=""><a href="ml-02-probability-and-distributions-rules-bayes-binomial-poisson-a.html" data-lid="ml-02"><span>02</span>Probability and Distributions: Rules, Bayes, Binomial, Poisson and Normal</a></li><li class=""><a href="ml-03-sampling-the-central-limit-theorem-and-confidence-intervals.html" data-lid="ml-03"><span>03</span>Sampling, the Central Limit Theorem and Confidence Intervals</a></li><li class=""><a href="ml-04-hypothesis-testing-i-the-framework-p-values-z-tests-and-t-te.html" data-lid="ml-04"><span>04</span>Hypothesis Testing I: The Framework, p-values, z-tests and t-tests</a></li><li class=""><a href="ml-05-hypothesis-testing-ii-chi-square-anova-non-parametric-tests.html" data-lid="ml-05"><span>05</span>Hypothesis Testing II: Chi-Square, ANOVA, Non-Parametric Tests and Correlation Tests</a></li><li class=""><a href="ml-06-a-b-testing-and-experimentation-design-power-analysis-and-pi.html" data-lid="ml-06"><span>06</span>A/B Testing and Experimentation: Design, Power, Analysis and Pitfalls</a></li><li class=""><a href="ml-07-introduction-to-machine-learning-types-business-framing-and.html" data-lid="ml-07"><span>07</span>Introduction to Machine Learning: Types, Business Framing and the ML Lifecycle</a></li><li class=""><a href="ml-08-the-scikit-learn-workflow-train-test-split-baselines-pipelin.html" data-lid="ml-08"><span>08</span>The scikit-learn Workflow: Train/Test Split, Baselines, Pipelines and Saving Models</a></li><li class=""><a href="ml-09-data-preprocessing-and-feature-engineering-for-ml.html" data-lid="ml-09"><span>09</span>Data Preprocessing and Feature Engineering for ML</a></li><li class=""><a href="ml-10-linear-regression-fitting-interpreting-assumptions-and-diagn.html" data-lid="ml-10"><span>10</span>Linear Regression: Fitting, Interpreting, Assumptions and Diagnostics</a></li><li class=""><a href="ml-11-gradient-descent-how-models-learn-built-from-scratch-in-nump.html" data-lid="ml-11"><span>11</span>Gradient Descent: How Models Learn (Built from Scratch in NumPy)</a></li><li class=""><a href="ml-12-overfitting-polynomial-regression-and-regularisation-ridge-l.html" data-lid="ml-12"><span>12</span>Overfitting, Polynomial Regression and Regularisation (Ridge, Lasso, Elastic Net)</a></li><li class=""><a href="ml-13-logistic-regression-probabilities-odds-ratios-and-credit-ris.html" data-lid="ml-13"><span>13</span>Logistic Regression: Probabilities, Odds Ratios and Credit-Risk Scoring</a></li><li class=""><a href="ml-14-classification-metrics-confusion-matrix-precision-recall-roc.html" data-lid="ml-14"><span>14</span>Classification Metrics: Confusion Matrix, Precision, Recall, ROC, PR and Business Value</a></li><li class=""><a href="ml-15-cross-validation-and-hyperparameter-tuning-k-fold-gridsearch.html" data-lid="ml-15"><span>15</span>Cross-Validation and Hyperparameter Tuning: K-Fold, GridSearchCV, RandomizedSearchCV and Optuna</a></li><li class=""><a href="ml-16-k-nearest-neighbours-classifier-and-regressor-bank-loans-cas.html" data-lid="ml-16"><span>16</span>K-Nearest Neighbours: Classifier and Regressor (Bank Loans Case Study)</a></li><li class=""><a href="ml-17-decision-trees-splits-impurity-pruning-and-interpretable-rul.html" data-lid="ml-17"><span>17</span>Decision Trees: Splits, Impurity, Pruning and Interpretable Rules</a></li><li class=""><a href="ml-18-ensembles-i-bagging-and-random-forests.html" data-lid="ml-18"><span>18</span>Ensembles I: Bagging and Random Forests</a></li><li class=""><a href="ml-19-ensembles-ii-gradient-boosting-xgboost-lightgbm-and-catboost.html" data-lid="ml-19"><span>19</span>Ensembles II: Gradient Boosting, XGBoost, LightGBM and CatBoost</a></li><li class=""><a href="ml-20-support-vector-machines-and-naive-bayes.html" data-lid="ml-20"><span>20</span>Support Vector Machines and Naive Bayes</a></li><li class=""><a href="ml-21-imbalanced-classification-fraud-detection-with-class-weights.html" data-lid="ml-21"><span>21</span>Imbalanced Classification: Fraud Detection with Class Weights, Resampling and Thresholds</a></li><li class=""><a href="ml-22-clustering-i-k-means-and-rfm-customer-segmentation.html" data-lid="ml-22"><span>22</span>Clustering I: K-Means and RFM Customer Segmentation</a></li><li class=""><a href="ml-23-clustering-ii-and-dimensionality-reduction-hierarchical-dbsc.html" data-lid="ml-23"><span>23</span>Clustering II and Dimensionality Reduction: Hierarchical, DBSCAN, Gaussian Mixtures, PCA, t-SNE and UMAP</a></li><li class=""><a href="ml-24-time-series-forecasting-decomposition-baselines-ets-arima-an.html" data-lid="ml-24"><span>24</span>Time-Series Forecasting: Decomposition, Baselines, ETS, ARIMA and ML with Lag Features</a></li><li class=""><a href="ml-25-nlp-and-text-analytics-cleaning-tf-idf-sentiment-classificat.html" data-lid="ml-25"><span>25</span>NLP and Text Analytics: Cleaning, TF-IDF, Sentiment Classification, Topics and Embeddings</a></li><li class=""><a href="ml-26-neural-networks-and-deep-learning-from-a-neuron-to-transform.html" data-lid="ml-26"><span>26</span>Neural Networks and Deep Learning: From a Neuron to Transformers</a></li><li class=""><a href="ml-27-explainable-ai-and-mlops-shap-fairness-deployment-monitoring.html" data-lid="ml-27"><span>27</span>Explainable AI and MLOps: SHAP, Fairness, Deployment, Monitoring and Responsible ML</a></li><li class=""><a href="ml-28-ml-capstone-end-to-end-churn-prediction-and-retention-strate.html" data-lid="ml-28"><span>28</span>ML Capstone: End-to-End Churn Prediction and Retention Strategy</a></li><li class=""><a href="ml-29-recommendation-systems-collaborative-content-based-and-hybri.html" data-lid="ml-29"><span>29</span>Recommendation Systems: Collaborative, Content-Based and Hybrid</a></li><li class="on"><a href="ml-30-regression-metrics-mae-mse-rmse-and-r-squared.html" data-lid="ml-30"><span>30</span>Regression Metrics: MAE, MSE, RMSE and R-Squared</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="ml-30">
+<div class="lhead" style="--tc:#0E9F8E"><div class="kick">Statistics &amp; Machine Learning · Lesson 30 of 30</div><h1>Regression Metrics: MAE, MSE, RMSE and R-Squared</h1>
+<p class="sum">Measure how wrong a numeric prediction is, in the units the business uses. Compute MAE, MSE, RMSE and R-squared on a delivery-time model, learn which metric punishes big mistakes, see why R-squared alone misleads, and explain each metric to a manager.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 100 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/ml/Stats_ML_30_Regression_Metrics_MAE_MSE_RMSE_and_R_Squared.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="ml-30">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Compute MAE, MSE, RMSE and R-squared by hand and with scikit-learn</li><li>Explain which metric matches a business cost of errors</li><li>Compare a model with a simple baseline</li><li>Explain why R-squared can mislead with flexible models</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/delivery_times.csv" download>delivery_times.csv</a></div></div></div>
+<div class="content"><h2 id="why-the-error-metric-matters">Why the error metric matters</h2>
+<p>A forecasting or pricing model gives a number, and someone must decide whether it is good enough. The answer depends on the <strong>cost of being wrong</strong>. Being ten minutes late on one delivery may matter less than one delivery that is three hours late. Each regression metric measures error in a different way, and choosing the right one is a business decision as much as a statistical one.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>How wrong are the delivery estimates?</b></div><p>A logistics team gives customers a delivery time estimate. The model predicts minutes; the actual times are in the delivery log. The operations head asks: "On a typical delivery, how far off are we, in minutes?" and "How bad are the very late ones?" Different metrics answer each question.</p></div>
+<h2 id="step-1-the-errors">Step 1: the errors</h2>
+<p>For each delivery, the <strong>error</strong> (residual) is actual minus predicted. Positive means the delivery took longer than predicted. Every metric below summarises these errors.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> numpy <span class="hl-k">as</span> np
+<span class="hl-k">from</span> sklearn.linear_model <span class="hl-k">import</span> LinearRegression
+
+d = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;delivery_times.csv&quot;</span>)
+X = <span class="hl-f">pd.get_dummies</span>(d[[<span class="hl-s">&quot;city&quot;</span>]], drop_first=<span class="hl-k">True</span>).<span class="hl-f">astype</span>(float)   <span class="hl-c"># city as 0/1 (Pune is the baseline)</span>
+y = d[<span class="hl-s">&quot;delivery_minutes&quot;</span>].values
+
+model = <span class="hl-f">LinearRegression</span>().<span class="hl-f">fit</span>(X, y)
+pred = <span class="hl-f">model.predict</span>(X)
+err = y - pred
+<span class="hl-f">print</span>(<span class="hl-f">pd.Series</span>(err).<span class="hl-f">describe</span>().<span class="hl-f">round</span>(<span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">count    115.00
+mean      -0.00
+std        6.96
+min      -16.60
+25%       -4.91
+50%       -0.80
+75%        4.75
+max       17.09
+dtype: float64</pre></div>
+<p>The model here uses only the city, so it is a deliberately simple model. The metrics are the same for any regression, however complex.</p>
+<h2 id="step-2-mae-the-average-absolute-error">Step 2: MAE, the average absolute error</h2>
+<p><strong>Mean absolute error (MAE)</strong> is the average of the absolute errors, in minutes. It answers "on a typical delivery, how far off are we?" Every error counts in proportion to its size.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">mae = <span class="hl-f">np.mean</span>(<span class="hl-f">np.abs</span>(err))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;MAE (minutes):&quot;</span>, <span class="hl-f">round</span>(mae, <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">MAE (minutes): 5.54</pre></div>
+<p>MAE is easy to explain and is <strong>robust to outliers</strong>: one extreme delivery moves it only by its own size divided by the number of deliveries.</p>
+<h2 id="step-3-mse-and-rmse-which-punish-large-errors">Step 3: MSE and RMSE, which punish large errors</h2>
+<p><strong>Mean squared error (MSE)</strong> squares each error before averaging, so one 60-minute miss counts four times as much as a 30-minute miss in the same total. <strong>Root mean squared error (RMSE)</strong> takes the square root of MSE, which returns the result to the original units (minutes).</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">mse = <span class="hl-f">np.mean</span>(err ** <span class="hl-n">2</span>)
+rmse = <span class="hl-f">np.sqrt</span>(mse)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;MSE (minutes squared):&quot;</span>, <span class="hl-f">round</span>(mse, <span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;RMSE (minutes):&quot;</span>, <span class="hl-f">round</span>(rmse, <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">MSE (minutes squared): 48.08
+RMSE (minutes): 6.93</pre></div>
+<p>RMSE is always at least as large as MAE. The bigger the gap between them, the more the errors are dominated by a few large misses. Compare them on the same data:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAE</td>
+<td>about 5–6 minutes</td>
+<td>The typical miss</td>
+</tr>
+<tr>
+<td>RMSE</td>
+<td>larger than MAE</td>
+<td>The typical miss with large misses weighted more</td>
+</tr>
+<tr>
+<td>Gap RMSE − MAE</td>
+<td>small</td>
+<td>Errors are fairly even</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="step-4-r-squared-the-share-of-variation-explained">Step 4: R-squared, the share of variation explained</h2>
+<p><strong>R-squared</strong> compares the model's errors with the errors of a model that always predicts the average. A value of 0.6 would mean the model explains 60% of the variation in delivery times; the model in this lesson reaches only about 0.02 (see Step 5). A value of 0 means it is no better than the average; below 0, it is worse.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> r2_score
+r2 = <span class="hl-n">1</span> - <span class="hl-f">np.sum</span>(err ** <span class="hl-n">2</span>) / <span class="hl-f">np.sum</span>((y - <span class="hl-f">y.mean</span>()) ** <span class="hl-n">2</span>)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;R-squared (by hand):&quot;</span>, <span class="hl-f">round</span>(r2, <span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;R-squared (sklearn):&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">r2_score</span>(y, pred), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">R-squared (by hand): 0.023
+R-squared (sklearn): 0.023</pre></div>
+<p>Both lines agree, which is the check that the formula is correct.</p>
+<h2 id="step-5-check-against-a-baseline">Step 5: check against a baseline</h2>
+<p>A metric means little without a comparison. The simplest baseline always predicts the average delivery time. Your model must beat it.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">from</span> sklearn.metrics <span class="hl-k">import</span> mean_absolute_error, root_mean_squared_error
+
+baseline = <span class="hl-f">np.full_like</span>(y, <span class="hl-f">y.mean</span>(), dtype=float)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;baseline MAE:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">mean_absolute_error</span>(y, baseline), <span class="hl-n">2</span>),
+      <span class="hl-s">&quot; model MAE:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">mean_absolute_error</span>(y, pred), <span class="hl-n">2</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;baseline RMSE:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">root_mean_squared_error</span>(y, baseline), <span class="hl-n">2</span>),
+      <span class="hl-s">&quot; model RMSE:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">root_mean_squared_error</span>(y, pred), <span class="hl-n">2</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">baseline MAE: 5.68  model MAE: 5.54
+baseline RMSE: 7.01  model RMSE: 6.93</pre></div>
+<p>In this data the city-only model barely beats the baseline: its MAE is about 5.5 minutes against about 5.7 for the average, and its R-squared is about 0.02, so city explains almost none of the variation in delivery time. That is an honest and useful result: a more complex model is unlikely to help unless you add inputs that carry real information, such as distance, traffic or courier.</p>
+<h2 id="step-6-when-r-squared-misleads">Step 6: when R-squared misleads</h2>
+<p>R-squared never gets worse when you add more inputs to a model, even useless ones, and very flexible models can fit the training data closely while predicting new data poorly. Always check error metrics on <strong>new</strong> data, not the training data, and never judge a model by R-squared alone.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">rng = <span class="hl-f">np.random.default_rng</span>(<span class="hl-n">0</span>)
+noise = <span class="hl-f">pd.DataFrame</span>(<span class="hl-f">rng.normal</span>(size=(<span class="hl-f">len</span>(d), <span class="hl-n">40</span>)), columns=[<span class="hl-s">f&quot;noise_{i}&quot;</span> <span class="hl-k">for</span> i <span class="hl-k">in</span> <span class="hl-f">range</span>(<span class="hl-n">40</span>)])
+X_noisy = <span class="hl-f">pd.concat</span>([<span class="hl-f">X.reset_index</span>(drop=<span class="hl-k">True</span>), noise], axis=<span class="hl-n">1</span>)
+pred_noisy = <span class="hl-f">LinearRegression</span>().<span class="hl-f">fit</span>(X_noisy, y).<span class="hl-f">predict</span>(X_noisy)
+<span class="hl-f">print</span>(<span class="hl-s">&quot;R-squared with 40 random columns added:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">r2_score</span>(y, pred_noisy), <span class="hl-n">3</span>))
+<span class="hl-f">print</span>(<span class="hl-s">&quot;Original R-squared:&quot;</span>, <span class="hl-f">round</span>(<span class="hl-f">r2_score</span>(y, pred), <span class="hl-n">3</span>))</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">R-squared with 40 random columns added: 0.417
+Original R-squared: 0.023</pre></div>
+<p>Random columns carry no information, yet R-squared rises. The fix is to measure on held-out data and use adjusted R-squared or a validation score for model comparison.</p>
+<p>::::warn R-squared is not accuracy
+R-squared says how much variation is explained, not how close the predictions are. A model can have an R-squared of 0.9 and still be off by an unacceptable number of minutes. Report an error metric in business units beside it.
+::::</p>
+<h2 id="choosing-a-metric-for-the-business">Choosing a metric for the business</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Business cost</th>
+<th>Metric to lead with</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Every minute of error costs the same</td>
+<td>MAE</td>
+<td>Simple, robust, in minutes</td>
+</tr>
+<tr>
+<td>One large miss is much worse than many small ones</td>
+<td>RMSE</td>
+<td>Large errors weigh more</td>
+</tr>
+<tr>
+<td>Comparing models on one dataset</td>
+<td>RMSE or MAE, plus baseline</td>
+<td>Same units, easy to rank</td>
+</tr>
+<tr>
+<td>Explaining how much the inputs matter</td>
+<td>R-squared, on held-out data</td>
+<td>Share of variation explained</td>
+</tr>
+<tr>
+<td>Money from errors in pricing</td>
+<td>MAE or RMSE in currency</td>
+<td>Convert to rupees for the manager</td>
+</tr>
+</tbody>
+</table></div>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>When would you prefer MAE over RMSE?</b></div><p>When all errors matter in proportion, or when the data has outliers that you do not want to dominate the score. Use RMSE when large errors are disproportionately costly, such as a shipment that is hours late. Report both when it is unclear, and say which one the business decision depends on.</p></div>
+<p>::::key What to remember
+- MAE is the typical absolute error in the business's units and is robust to outliers.
+- MSE squares errors; RMSE returns to the original units and punishes large misses.
+- R-squared is the share of variation explained, and it can mislead with flexible models.
+- Always compare against a baseline (predict the average) and measure on held-out data.
+- Pick the metric from the cost of error, and explain it in the unit the business uses.
+::::</p>
+<div class="quiz" id="quiz-ml-30-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> A model's MAE is 4 minutes and its RMSE is 9 minutes. What does this suggest?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>All errors are about 9 minutes</button><button type="button" class="opt" data-ok="1"><i>B</i>A few large errors are pulling RMSE up above the typical error</button><button type="button" class="opt" data-ok="0"><i>C</i>The model is perfect</button><button type="button" class="opt" data-ok="0"><i>D</i>The units are wrong</button></div><div class="qexp"><b>Answer: B.</b> RMSE is at least MAE, and a big gap means large errors dominate.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which metric returns to the original units while still penalising large errors?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>MSE</button><button type="button" class="opt" data-ok="1"><i>B</i>RMSE</button><button type="button" class="opt" data-ok="0"><i>C</i>R-squared</button><button type="button" class="opt" data-ok="0"><i>D</i>MAE</button></div><div class="qexp"><b>Answer: B.</b> MSE is in squared units; its square root (RMSE) is in the original units.</div></div><div class="qq"><p class="qtext"><b>3.</b> Adding 40 random columns raised R-squared. What is the lesson?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>More inputs always improve a model</button><button type="button" class="opt" data-ok="1"><i>B</i>R-squared alone can rise without real improvement, so use held-out data</button><button type="button" class="opt" data-ok="0"><i>C</i>Random columns are useful</button><button type="button" class="opt" data-ok="0"><i>D</i>R-squared is always wrong</button></div><div class="qexp"><b>Answer: B.</b> The metric rewards added inputs even when they carry no information.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is the most useful first comparison for a new regression model?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Its R-squared on the training data</button><button type="button" class="opt" data-ok="1"><i>B</i>Its error against a simple baseline that predicts the average</button><button type="button" class="opt" data-ok="0"><i>C</i>Its number of parameters</button><button type="button" class="opt" data-ok="0"><i>D</i>Its training time</button></div><div class="qexp"><b>Answer: B.</b> A model must beat a simple baseline to be worth using.</div></div><div class="qq"><p class="qtext"><b>5.</b> An R-squared of 0.8 means:</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The model is 80% accurate</button><button type="button" class="opt" data-ok="1"><i>B</i>The model explains 80% of the variation in the target</button><button type="button" class="opt" data-ok="0"><i>C</i>Errors are 80% of the mean</button><button type="button" class="opt" data-ok="0"><i>D</i>80% of predictions are correct</button></div><div class="qexp"><b>Answer: B.</b> R-squared is the share of variation explained.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Explain the metrics to a manager</b></div><p>Using <code>delivery_times.csv</code>, fit a model with city and with one extra feature you invent (for example, a random "weekday" flag, or any column you can create without leaking the target). Report MAE, RMSE and R-squared for the baseline and both models in one table, and write three sentences a manager can act on.</p><details class="sol"><summary>Show solution</summary><p>Hints: create the extra feature only from information available before delivery. Use the same metric functions for all models. Report the RMSE-to-MAE gap as a sentence: "most deliveries are within X minutes; a few are much later."</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/statistics/index.php">W3Schools Statistics tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/python/python_ml_getting_started.asp">W3Schools Python ML tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.w3schools.com/datascience/default.asp">W3Schools Data Science tutorial ↗</a></li><li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/user_guide.html">scikit-learn user guide ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.kaggle.com/learn">Kaggle Learn: Intro &amp; Intermediate ML ↗</a></li><li><a target="_blank" rel="noopener" href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/@statquest">StatQuest (YouTube) ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="ml-29-recommendation-systems-collaborative-content-based-and-hybri.html"><small>← Previous</small><b>Recommendation Systems: Collaborative, Content-Based and Hybrid</b></a><span></span></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-the-error-metric-matters">Why the error metric matters</a><a href="#step-1-the-errors">Step 1: the errors</a><a href="#step-2-mae-the-average-absolute-error">Step 2: MAE, the average absolute error</a><a href="#step-3-mse-and-rmse-which-punish-large-errors">Step 3: MSE and RMSE, which punish large errors</a><a href="#step-4-r-squared-the-share-of-variation-explained">Step 4: R-squared, the share of variation explained</a><a href="#step-5-check-against-a-baseline">Step 5: check against a baseline</a><a href="#step-6-when-r-squared-misleads">Step 6: when R-squared misleads</a><a href="#choosing-a-metric-for-the-business">Choosing a metric for the business</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

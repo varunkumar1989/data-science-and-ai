@@ -1,0 +1,124 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>dbt: Models, Tests, Documentation and Lineage · Data Eng Lesson 7 · Data Science &amp; AI Handbook</title><meta name="description" content="Build transformations as tested, documented SQL models with dbt. Write models that reference each other with ref(), add schema and custom tests that run on every build, generate documentation and lineage, and organise a project so that changes are reviewed and deployed safely."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 7</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class="on"><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-07">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 7 of 15</div><h1>dbt: Models, Tests, Documentation and Lineage</h1>
+<p class="sum">Build transformations as tested, documented SQL models with dbt. Write models that reference each other with ref(), add schema and custom tests that run on every build, generate documentation and lineage, and organise a project so that changes are reviewed and deployed safely.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_07_dbt_Models_Tests_Documentation_and_Lineage.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-07">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Write a dbt model and reference other models with ref()</li><li>Add generic tests (unique, not_null, accepted_values, relationships) and a custom test</li><li>Generate documentation and read the lineage graph</li><li>Organise a dbt project into staging, intermediate and marts layers</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="what-dbt-does">What dbt does</h2>
+<p><strong>dbt</strong> (data build tool) turns SQL SELECT statements into managed tables and views, and adds the engineering practices software teams take for granted: dependencies, tests, documentation, version control and reviews. You write the transformation as SQL; dbt runs it in the right order, in your warehouse, and checks it.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A metric that changed without notice</b></div><p>An analyst changed how "active customer" is calculated inside a dashboard query. Three teams reported different numbers for a month, and nobody knew which was right. In dbt, the definition lives in one model, is tested and documented, and every downstream model references it, so a change is visible in review and in the lineage graph.</p></div>
+<h2 id="models-and-ref">Models and ref()</h2>
+<p>A <strong>model</strong> is a SQL file that defines one table or view. The <code>ref()</code> function points to another model; dbt uses these references to build the dependency graph, so you never hard-code the order.</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- models/staging/stg_sales.sql</span>
+<span class="hl-k">select</span>
+    row_id                      <span class="hl-k">as</span> sale_id,
+    order_id,
+    <span class="hl-f">cast</span>(order_date <span class="hl-k">as</span> <span class="hl-k">date</span>)    <span class="hl-k">as</span> order_date,
+    customer_id,
+    <span class="hl-f">cast</span>(sales <span class="hl-k">as</span> <span class="hl-f">numeric</span>(<span class="hl-n">12</span>, <span class="hl-n">2</span>))  <span class="hl-k">as</span> sales,
+    <span class="hl-f">cast</span>(profit <span class="hl-k">as</span> <span class="hl-f">numeric</span>(<span class="hl-n">12</span>, <span class="hl-n">2</span>)) <span class="hl-k">as</span> profit
+<span class="hl-k">from</span> {{ <span class="hl-f">source</span>(<span class="hl-s">&#x27;raw&#x27;</span>, <span class="hl-s">&#x27;superstore_sales&#x27;</span>) }}</code></pre></div>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- models/marts/fct_monthly_sales.sql</span>
+<span class="hl-k">select</span>
+    <span class="hl-f">date_trunc</span>(<span class="hl-s">&#x27;month&#x27;</span>, s.order_date) <span class="hl-k">as</span> month,
+    c.region,
+    <span class="hl-f">sum</span>(s.sales)  <span class="hl-k">as</span> sales,
+    <span class="hl-f">sum</span>(s.profit) <span class="hl-k">as</span> profit
+<span class="hl-k">from</span> {{ <span class="hl-f">ref</span>(<span class="hl-s">&#x27;stg_sales&#x27;</span>) }} <span class="hl-k">as</span> s
+<span class="hl-k">join</span> {{ <span class="hl-f">ref</span>(<span class="hl-s">&#x27;stg_customers&#x27;</span>) }} <span class="hl-k">as</span> c <span class="hl-k">using</span> (customer_id)
+<span class="hl-k">group</span> <span class="hl-k">by</span> <span class="hl-n">1</span>, <span class="hl-n">2</span></code></pre></div>
+<p><code>source()</code> names raw tables that dbt does not build. <code>ref()</code> names models that dbt builds. Both create the lineage links you will see in the documentation.</p>
+<h2 id="layers-in-a-dbt-project">Layers in a dbt project</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Layer</th>
+<th>Folder</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Staging</td>
+<td><code>models/staging</code></td>
+<td>One model per source table; renaming, typing and light cleaning only</td>
+</tr>
+<tr>
+<td>Intermediate</td>
+<td><code>models/intermediate</code></td>
+<td>Reusable joins and logic that several marts need</td>
+</tr>
+<tr>
+<td>Marts</td>
+<td><code>models/marts</code></td>
+<td>Business tables for reporting, with tests and descriptions</td>
+</tr>
+</tbody>
+</table></div>
+<p>Keep business logic in marts and intermediate models, not in staging. A staging model that contains a revenue definition gets copied into every report that uses it.</p>
+<h2 id="tests-generic-and-custom">Tests: generic and custom</h2>
+<p>Tests are queries that return the rows that break a rule. dbt runs them after each build; a failing test fails the build.</p>
+<div class="code"><div class="code-h"><span>YAML</span><button class="copy" type="button">Copy</button></div><pre><code class="yaml"># models/marts/schema.yml
+version: 2
+models:
+  - name: fct_monthly_sales
+    description: &quot;Sales and profit per month and region. One row per month and region.&quot;
+    columns:
+      - name: month
+        tests: [not_null]
+      - name: region
+        tests:
+          - not_null
+          - accepted_values:
+              values: [&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;]
+      - name: sales
+        tests: [not_null]</code></pre></div>
+<p>Generic tests include <code>unique</code>, <code>not_null</code>, <code>accepted_values</code> and <code>relationships</code> (a foreign key exists in the parent table). A <strong>custom test</strong> is a SQL query that returns the failing rows, for a business rule:</p>
+<div class="code"><div class="code-h"><span>SQL</span><button class="copy" type="button">Copy</button></div><pre><code class="sql"><span class="hl-c">-- tests/assert_sales_not_negative.sql</span>
+<span class="hl-c">-- The test passes when this query returns no rows</span>
+<span class="hl-k">select</span> sale_id, sales
+<span class="hl-k">from</span> {{ <span class="hl-f">ref</span>(<span class="hl-s">&#x27;stg_sales&#x27;</span>) }}
+<span class="hl-k">where</span> sales &lt; <span class="hl-n">0</span></code></pre></div>
+<p>::::tip Test the grain, not only the columns
+The most useful test on a fact table checks its grain: that one combination of keys appears once. Add a <code>unique</code> test on a surrogate key, or a test on the combination of key columns with <code>dbt_utils.unique_combination_of_columns</code> if you use that package.
+::::</p>
+<h2 id="documentation-and-lineage">Documentation and lineage</h2>
+<p>Descriptions in the YAML become documentation. Running <code>dbt docs generate</code> and <code>dbt docs serve</code> produces a website with every model, column description, test and the <strong>lineage graph</strong>: which sources and models feed each model, and which dashboards depend on it. Lineage answers "if I change this column, what breaks?" before the change is made.</p>
+<h2 id="running-and-reviewing-changes">Running and reviewing changes</h2>
+<div class="code"><div class="code-h"><span>Terminal</span><button class="copy" type="button">Copy</button></div><pre><code class="bash">dbt deps          <span class="hl-c"># install packages</span>
+dbt build         <span class="hl-c"># run the models and their tests in dependency order</span>
+dbt build --select fct_monthly_sales+   <span class="hl-c"># the model and everything downstream of it</span>
+dbt test          <span class="hl-c"># run tests only</span></code></pre></div>
+<p>A safe change follows the same path as software: a branch, a pull request that shows the changed SQL and the test results, a review, and a deployment that runs <code>dbt build</code> in a staging environment before production. Changes that alter a metric should include a comparison of old and new values for the last few months.</p>
+<p>::::warn Incremental models need care
+Incremental models process only new rows for speed. A change to the logic does not rewrite old rows unless you force a full refresh. After changing an incremental model's logic, run a full refresh in staging and compare the totals with the previous version.
+::::</p>
+<h2 id="documentation-habits-that-pay-off">Documentation habits that pay off</h2>
+<ul>
+<li>Write a one-sentence description for every mart and every key column.</li>
+<li>Name the grain in the description ("one row per order line").</li>
+<li>Record the owner of each model and the refresh schedule.</li>
+<li>Keep the definition of each business metric in one model, and link to it from dashboards.</li>
+</ul>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>What does dbt add to plain SQL scripts?</b></div><p>Dependencies between models through ref(), a single build command that runs them in order, tests that run on every build, generated documentation and lineage, and a project structure that works with version control and code review. The SQL is the same; the discipline around it is what makes it maintainable.</p></div>
+<p>::::key What to remember
+- A dbt model is a SELECT; ref() creates dependencies and lineage.
+- Use staging for cleaning, intermediate for reuse, and marts for business tables.
+- Tests return failing rows; a failing test fails the build.
+- Test the grain of fact tables, and write custom tests for business rules.
+- Review metric changes with before-and-after comparisons.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-07-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does <code>ref('stg_sales')</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It copies the table into the current file</button><button type="button" class="opt" data-ok="1"><i>B</i>It references another model and tells dbt to build it first</button><button type="button" class="opt" data-ok="0"><i>C</i>It deletes the staging model</button><button type="button" class="opt" data-ok="0"><i>D</i>It creates a test</button></div><div class="qexp"><b>Answer: B.</b> ref() creates the dependency graph.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does a dbt test return when it passes?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>A row count of one thousand</button><button type="button" class="opt" data-ok="1"><i>B</i>No rows, because the query finds no failing cases</button><button type="button" class="opt" data-ok="0"><i>C</i>A chart</button><button type="button" class="opt" data-ok="0"><i>D</i>An error</button></div><div class="qexp"><b>Answer: B.</b> A test is a query for violations; zero rows means pass.</div></div><div class="qq"><p class="qtext"><b>3.</b> Which layer should hold a revenue definition used by several reports?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Raw sources</button><button type="button" class="opt" data-ok="0"><i>B</i>Staging</button><button type="button" class="opt" data-ok="1"><i>C</i>Marts or intermediate models</button><button type="button" class="opt" data-ok="0"><i>D</i>Dashboards only</button></div><div class="qexp"><b>Answer: C.</b> Business logic belongs in shared models, not in copies.</div></div><div class="qq"><p class="qtext"><b>4.</b> What question does the lineage graph answer?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Who is the best analyst</button><button type="button" class="opt" data-ok="1"><i>B</i>If I change this model, which models and dashboards are affected?</button><button type="button" class="opt" data-ok="0"><i>C</i>How long the query takes</button><button type="button" class="opt" data-ok="0"><i>D</i>Which colour to use</button></div><div class="qexp"><b>Answer: B.</b> Lineage shows dependencies before a change.</div></div><div class="qq"><p class="qtext"><b>5.</b> After changing an incremental model's logic, what should you do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Nothing; old rows update automatically</button><button type="button" class="opt" data-ok="1"><i>B</i>Run a full refresh in staging and compare totals with the previous version</button><button type="button" class="opt" data-ok="0"><i>C</i>Delete the model</button><button type="button" class="opt" data-ok="0"><i>D</i>Skip testing</button></div><div class="qexp"><b>Answer: B.</b> Incremental models keep old rows unless forced to rebuild.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Add a test and a description</b></div><p>Take the <code>fct_monthly_sales</code> example and add (a) a <code>unique</code> test on the combination of month and region (or a surrogate key), (b) a custom test that fails when a month has negative total sales, and (c) a description of the grain. Explain in three sentences what a failing test would mean for the dashboard.</p><details class="sol"><summary>Show solution</summary><p>Expected: the combination test checks grain; the custom test returns rows where monthly sales are negative; a failure stops the build so the dashboard is not refreshed with the bad numbers.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html"><small>← Previous</small><b>Apache Airflow: DAGs, Tasks, Scheduling and Retries</b></a><a class="next" href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html"><small>Next →</small><b>Apache Spark and PySpark: Distributed Processing for Large Data</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#what-dbt-does">What dbt does</a><a href="#models-and-ref">Models and ref()</a><a href="#layers-in-a-dbt-project">Layers in a dbt project</a><a href="#tests-generic-and-custom">Tests: generic and custom</a><a href="#documentation-and-lineage">Documentation and lineage</a><a href="#running-and-reviewing-changes">Running and reviewing changes</a><a href="#documentation-habits-that-pay-off">Documentation habits that pay off</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

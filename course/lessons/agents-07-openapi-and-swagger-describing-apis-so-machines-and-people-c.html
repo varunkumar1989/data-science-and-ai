@@ -1,0 +1,155 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpenAPI and Swagger: Describing APIs So Machines and People Can Use Them · Agents Lesson 7 · Data Science &amp; AI Handbook</title><meta name="description" content="Read and write an OpenAPI description of a REST API, covering paths, parameters, request bodies, responses, schemas and security. See how the same file drives documentation, client code and AI tool definitions, and why it must be kept in sync with the code."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-agents"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-agents">AI Agents, MCP &amp; APIs for PMs and BAs</a><span>/</span><b>Lesson 7</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0EA5E9">AI Agents, MCP &amp; APIs for PMs and BAs</div>
+<ol class="side-l"><li class=""><a href="agents-01-apis-without-code-how-apps-talk-rest-json-authentication-web.html" data-lid="agents-01"><span>01</span>APIs Without Code: How Apps Talk, REST, JSON, Authentication, Webhooks and Postman for PMs and BAs</a></li><li class=""><a href="agents-02-mcp-model-context-protocol-without-code-connect-claude-to-yo.html" data-lid="agents-02"><span>02</span>MCP (Model Context Protocol) Without Code: Connect Claude to Your Apps and Data</a></li><li class=""><a href="agents-03-how-ai-agents-work-and-how-to-build-one-without-code.html" data-lid="agents-03"><span>03</span>How AI Agents Work and How to Build One Without Code</a></li><li class=""><a href="agents-04-connect-all-your-apps-with-claude-n8n-make-zapier-and-replit.html" data-lid="agents-04"><span>04</span>Connect All Your Apps with Claude, n8n, Make, Zapier and Replit</a></li><li class=""><a href="agents-05-claude-code-complete-tutorial-from-first-prompt-to-agents-mc.html" data-lid="agents-05"><span>05</span>Claude Code Complete Tutorial: From First Prompt to Agents, MCP, Hooks and Automation</a></li><li class=""><a href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html" data-lid="agents-06"><span>06</span>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</a></li><li class="on"><a href="agents-07-openapi-and-swagger-describing-apis-so-machines-and-people-c.html" data-lid="agents-07"><span>07</span>OpenAPI and Swagger: Describing APIs So Machines and People Can Use Them</a></li><li class=""><a href="agents-08-oauth-2-0-in-depth-scopes-pkce-and-secure-tokens.html" data-lid="agents-08"><span>08</span>OAuth 2.0 in Depth: Scopes, PKCE and Secure Tokens</a></li><li class=""><a href="agents-09-mcp-security-and-business-integrations-crm-erp-jira-slack-an.html" data-lid="agents-09"><span>09</span>MCP Security and Business Integrations: CRM, ERP, Jira, Slack and Notion</a></li><li class=""><a href="agents-10-agent-frameworks-langgraph-crewai-and-autogen.html" data-lid="agents-10"><span>10</span>Agent Frameworks: LangGraph, CrewAI and AutoGen</a></li><li class=""><a href="agents-11-agent-evaluation-and-monitoring-measuring-whether-an-agent-w.html" data-lid="agents-11"><span>11</span>Agent Evaluation and Monitoring: Measuring Whether an Agent Works</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="agents-07">
+<div class="lhead" style="--tc:#0EA5E9"><div class="kick">AI Agents, MCP &amp; APIs for PMs and BAs · Lesson 7 of 11</div><h1>OpenAPI and Swagger: Describing APIs So Machines and People Can Use Them</h1>
+<p class="sum">Read and write an OpenAPI description of a REST API, covering paths, parameters, request bodies, responses, schemas and security. See how the same file drives documentation, client code and AI tool definitions, and why it must be kept in sync with the code.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 90 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/agents/Agents_07_OpenAPI_and_Swagger_Describing_APIs_So_Machines_and_People_Can_Use_The.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="agents-07">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Explain what OpenAPI and Swagger are and who reads each file</li><li>Describe paths, methods, parameters, request bodies and responses in OpenAPI</li><li>Define a reusable schema and reference it</li><li>Keep an API description in sync with the implementation</li></ul></div></div>
+<div class="content"><h2 id="why-an-api-needs-a-written-description">Why an API needs a written description</h2>
+<p>An API is a contract: a list of addresses, the data each one accepts, and what it returns. If the contract lives only in someone's head, integrations break and AI tools guess at parameters. An <strong>OpenAPI</strong> file is that contract written in a standard format (YAML or JSON). <strong>Swagger</strong> is the set of tools that turn the file into interactive documentation (Swagger UI).</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>A new integration in one afternoon</b></div><p>A partner wants to pull order status from your system. Without a description, an engineer reads the code to find the endpoint, the parameters and the error format. With an OpenAPI file, the partner's developer opens the documentation, tries the call in the browser, and generates a client library in minutes.</p></div>
+<h2 id="the-anatomy-of-an-openapi-file">The anatomy of an OpenAPI file</h2>
+<div class="code"><div class="code-h"><span>YAML</span><button class="copy" type="button">Copy</button></div><pre><code class="yaml">openapi: 3.0.3
+info:
+  title: Orders API
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /orders:
+    get:
+      summary: List orders
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema: {type: string, enum: [open, shipped, cancelled]}
+      responses:
+        &quot;200&quot;:
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: &quot;#/components/schemas/Order&quot;}
+components:
+  schemas:
+    Order:
+      type: object
+      required: [id, status]
+      properties:
+        id: {type: string, example: &quot;ORD-1001&quot;}
+        status: {type: string, enum: [open, shipped, cancelled]}
+        total: {type: number, example: 2499.0}</code></pre></div>
+<p>Read it from the top:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Section</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>info</code></td>
+<td>Name and version of the API</td>
+</tr>
+<tr>
+<td><code>servers</code></td>
+<td>Base address</td>
+</tr>
+<tr>
+<td><code>paths</code></td>
+<td>Each address and its methods (<code>get</code>, <code>post</code>, <code>put</code>, <code>delete</code>)</td>
+</tr>
+<tr>
+<td><code>parameters</code></td>
+<td>Inputs in the URL (<code>query</code>, <code>path</code>, <code>header</code>)</td>
+</tr>
+<tr>
+<td><code>requestBody</code></td>
+<td>Data sent with <code>post</code> or <code>put</code></td>
+</tr>
+<tr>
+<td><code>responses</code></td>
+<td>Each possible status code and its body</td>
+</tr>
+<tr>
+<td><code>components/schemas</code></td>
+<td>Reusable data shapes, referenced with <code>$ref</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>The example describes <code>GET /orders?status=open</code>, which is the sample in the gap audit: an optional status filter and a list of orders as the response.</p>
+<h2 id="step-1-describe-a-write-operation">Step 1: describe a write operation</h2>
+<p>A <code>POST</code> creates something, so it has a request body and a response for success and for errors.</p>
+<div class="code"><div class="code-h"><span>YAML</span><button class="copy" type="button">Copy</button></div><pre><code class="yaml">  /orders/{id}/cancel:
+    post:
+      summary: Cancel an open order
+      parameters:
+        - {name: id, in: path, required: true, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: {type: string, maxLength: 200}
+      responses:
+        &quot;200&quot;: {description: Order cancelled}
+        &quot;404&quot;: {description: No order with that id}
+        &quot;409&quot;: {description: Order already shipped and cannot be cancelled}</code></pre></div>
+<p>The <code>409</code> response documents a business rule (you cannot cancel a shipped order). Documenting error responses is as important as the success case, because integrators write code for both.</p>
+<h2 id="step-2-validate-the-file">Step 2: validate the file</h2>
+<p>Tools check the file for mistakes before anyone relies on it. Common options include the <code>openapi-spec-validator</code> Python package and the online Swagger Editor, which shows errors as you type. Validate in your continuous-integration pipeline so that a broken description cannot be merged.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-c"># Shown as code, not executed (needs the package installed):</span>
+<span class="hl-c"># pip install openapi-spec-validator</span>
+<span class="hl-k">from</span> openapi_spec_validator <span class="hl-k">import</span> validate
+<span class="hl-k">import</span> yaml
+
+<span class="hl-k">with</span> <span class="hl-f">open</span>(<span class="hl-s">&quot;orders_api.yaml&quot;</span>) <span class="hl-k">as</span> f:
+    spec = <span class="hl-f">yaml.safe_load</span>(f)
+<span class="hl-f">validate</span>(spec)          <span class="hl-c"># raises an error if the file breaks the OpenAPI rules</span></code></pre></div>
+<h2 id="step-3-one-file-several-uses">Step 3: one file, several uses</h2>
+<p>The same file can drive:</p>
+<ul>
+<li><strong>Documentation</strong> for partners and internal developers (Swagger UI, Redoc).</li>
+<li><strong>Client code</strong> generated for several languages.</li>
+<li><strong>Mock servers</strong> so front-end teams can work before the back end exists.</li>
+<li><strong>Tool definitions for AI agents</strong>. An agent framework or a model's tool-calling feature needs a name, a purpose and typed parameters for each tool. An OpenAPI operation already contains those, so it can be converted into a tool definition.</li>
+</ul>
+<p>::::tip Describe the operations an AI tool should expose
+Not every endpoint should be an AI tool. Expose the read operations first, and describe each one with a clear <code>summary</code> and parameter descriptions, because the model reads those words to decide when to call the tool.
+::::</p>
+<h2 id="step-4-keep-the-description-in-sync">Step 4: keep the description in sync</h2>
+<p>The most common failure is a description that no longer matches the code. Three habits prevent it:</p>
+<ol>
+<li>Generate the description from the code where your framework supports it (many web frameworks produce OpenAPI automatically), then review it.</li>
+<li>Run a contract test: call each documented endpoint in a test and check the response against its schema.</li>
+<li>Version the API. A breaking change (renaming a field, removing a status) goes into a new version number, not a silent edit.</li>
+</ol>
+<p>::::warn A specification that lies is worse than none
+If the documentation says a field exists and the code does not return it, integrators build broken software and blame you. Treat the description as code: review it in pull requests and test it.
+::::</p>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>What makes an API description useful?</b></div><p>It is complete (every path, parameter and status code that can happen), precise (types, required fields and enum values), accurate (tested against the real service), and readable (clear summaries and examples). It is also versioned, so integrators know when something has changed.</p></div>
+<p>::::key What to remember
+- OpenAPI is a standard, machine-readable description of a REST API; Swagger UI shows it as documentation.
+- Describe paths, parameters, request bodies, responses (including errors) and reusable schemas.
+- The same file serves documentation, client generation, mocks and AI tool definitions.
+- Validate it and test it against the service, or it drifts out of date.
+::::</p>
+<div class="quiz" id="quiz-agents-07-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> In an OpenAPI file, where are reusable data shapes defined?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>In <code>servers</code></button><button type="button" class="opt" data-ok="0"><i>B</i>In <code>info</code></button><button type="button" class="opt" data-ok="1"><i>C</i>In <code>components/schemas</code>, referenced with <code>$ref</code></button><button type="button" class="opt" data-ok="0"><i>D</i>In each response body only</button></div><div class="qexp"><b>Answer: C.</b> Components hold shared definitions, and <code>$ref</code> points to them.</div></div><div class="qq"><p class="qtext"><b>2.</b> Which location holds the <code>status</code> value in <code>GET /orders?status=open</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>path</button><button type="button" class="opt" data-ok="0"><i>B</i>header</button><button type="button" class="opt" data-ok="1"><i>C</i>query</button><button type="button" class="opt" data-ok="0"><i>D</i>body</button></div><div class="qexp"><b>Answer: C.</b> Values after the question mark in the URL are query parameters.</div></div><div class="qq"><p class="qtext"><b>3.</b> Why document a 409 response for a cancel operation?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is required for every API</button><button type="button" class="opt" data-ok="1"><i>B</i>It tells integrators about a business rule they must handle</button><button type="button" class="opt" data-ok="0"><i>C</i>It makes the server faster</button><button type="button" class="opt" data-ok="0"><i>D</i>It replaces the 200 response</button></div><div class="qexp"><b>Answer: B.</b> Integrators write code for error cases as well as success.</div></div><div class="qq"><p class="qtext"><b>4.</b> What is a common cause of broken API documentation?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>The file is in YAML</button><button type="button" class="opt" data-ok="1"><i>B</i>The description is not kept in sync with the code</button><button type="button" class="opt" data-ok="0"><i>C</i>Swagger UI is installed</button><button type="button" class="opt" data-ok="0"><i>D</i>Using JSON instead of YAML</button></div><div class="qexp"><b>Answer: B.</b> Drift between the description and the implementation is the usual failure.</div></div><div class="qq"><p class="qtext"><b>5.</b> Why describe read operations first when exposing an API as AI tools?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>They are cheaper to write</button><button type="button" class="opt" data-ok="1"><i>B</i>They are lower risk, and the model can use their clear descriptions to decide when to call them</button><button type="button" class="opt" data-ok="0"><i>C</i>Write operations are not allowed in OpenAPI</button><button type="button" class="opt" data-ok="0"><i>D</i>Models cannot call POST</button></div><div class="qexp"><b>Answer: B.</b> Start with safe, read-only operations and add writes with approval.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Describe two endpoints</b></div><p>Write an OpenAPI 3.0 file for two endpoints of an application you know (or of the orders example): one <code>GET</code> with a query parameter and a response schema, and one <code>POST</code> with a request body and at least two error responses. Validate it with an online editor or the validator package, and list two things the code would need to return to match your description.</p><details class="sol"><summary>Show solution</summary><p>Hints: use <code>components/schemas</code> for the main object and reference it in both operations. Give each parameter a <code>description</code>, because it is the text an AI tool would read. Check that the <code>required</code> list matches the fields your code always sends.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://academy.postman.com/">Postman Academy ↗</a></li><li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/">Model Context Protocol docs ↗</a></li><li><a target="_blank" rel="noopener" href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building effective agents ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code docs ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="agents-06-voice-agents-and-voice-cloning-tools-architecture-build-step.html"><small>← Previous</small><b>Voice Agents and Voice Cloning: Tools, Architecture, Build Steps and Responsible Use</b></a><a class="next" href="agents-08-oauth-2-0-in-depth-scopes-pkce-and-secure-tokens.html"><small>Next →</small><b>OAuth 2.0 in Depth: Scopes, PKCE and Secure Tokens</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-an-api-needs-a-written-description">Why an API needs a written description</a><a href="#the-anatomy-of-an-openapi-file">The anatomy of an OpenAPI file</a><a href="#step-1-describe-a-write-operation">Step 1: describe a write operation</a><a href="#step-2-validate-the-file">Step 2: validate the file</a><a href="#step-3-one-file-several-uses">Step 3: one file, several uses</a><a href="#step-4-keep-the-description-in-sync">Step 4: keep the description in sync</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

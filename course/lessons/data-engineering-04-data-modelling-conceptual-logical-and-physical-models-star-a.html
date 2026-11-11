@@ -1,0 +1,211 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3 · Data Eng Lesson 4 · Data Science &amp; AI Handbook</title><meta name="description" content="Model data at three levels, from business concepts to physical tables. Build star and snowflake schemas, and handle changing dimension values with SCD types 1, 2 and 3, including a working SCD Type 2 load that keeps history and marks the current version."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 4</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class="on"><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class=""><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-04">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 4 of 15</div><h1>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</h1>
+<p class="sum">Model data at three levels, from business concepts to physical tables. Build star and snowflake schemas, and handle changing dimension values with SCD types 1, 2 and 3, including a working SCD Type 2 load that keeps history and marks the current version.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Intermediate</span><span class="tag">⏱ 150 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_04_Data_Modelling_Conceptual_Logical_and_Physical_Models_Star_and_Snowfla.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-04">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Describe conceptual, logical and physical data models and what each is for</li><li>Build a star schema with a fact table and dimensions with surrogate keys</li><li>Compare star and snowflake designs</li><li>Implement SCD Type 1, Type 2 and Type 3 and explain when each applies</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/customers.csv" download>customers.csv</a><a class="chip" href="../datasets/superstore_sales.csv" download>superstore_sales.csv</a></div></div></div>
+<div class="content"><h2 id="three-levels-of-model">Three levels of model</h2>
+<p>A data model describes what the data means and how it is stored. Designers work at three levels:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Level</th>
+<th>Question it answers</th>
+<th>Contents</th>
+<th>Audience</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conceptual</td>
+<td>What are the things the business cares about?</td>
+<td>Entities (customer, order, product) and relationships</td>
+<td>Business and analysts</td>
+</tr>
+<tr>
+<td>Logical</td>
+<td>What information does each entity hold?</td>
+<td>Attributes, keys, relationships, rules, no technology</td>
+<td>Analysts and engineers</td>
+</tr>
+<tr>
+<td>Physical</td>
+<td>How is it stored in this database?</td>
+<td>Tables, types, indexes, partitions</td>
+<td>Engineers</td>
+</tr>
+</tbody>
+</table></div>
+<p>Start at the conceptual level with the business, move to logical, and finish at physical. A physical model built without the business concepts stores what the source happens to contain, not what the business needs.</p>
+<h2 id="star-and-snowflake-schemas">Star and snowflake schemas</h2>
+<p>A <strong>fact table</strong> records measurable events (a sale, a shipment, a payment) with numeric measures and keys to the dimensions. A <strong>dimension table</strong> describes the context (who, what, where, when). A <strong>star schema</strong> keeps each dimension flat, with one table per dimension. A <strong>snowflake schema</strong> normalises dimensions into sub-tables.</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">Star:                                   Snowflake:
+   dim_customer ─┐                         dim_customer ─► dim_segment
+   dim_product  ─┼─► fact_sales            dim_product  ─► dim_category ─► dim_department
+   dim_date     ─┤                         dim_date     ─┘
+   dim_store    ─┘                         dim_store</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th></th>
+<th>Star</th>
+<th>Snowflake</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Query simplicity</td>
+<td>Simple, fewer joins</td>
+<td>More joins</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Some repetition in dimensions</td>
+<td>Less repetition</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Reporting and BI</td>
+<td>Very large or shared hierarchies</td>
+</tr>
+<tr>
+<td>Maintenance</td>
+<td>One table per dimension</td>
+<td>Many small tables</td>
+</tr>
+</tbody>
+</table></div>
+<p>Most reporting warehouses use stars, because the cost of repeating a few text values is small and the queries are much easier to write and understand.</p>
+<h2 id="surrogate-keys">Surrogate keys</h2>
+<p>A <strong>surrogate key</strong> is a system-generated integer with no business meaning. Facts point to surrogates, not to source keys. This keeps joins small and fast, and insulates the warehouse from source changes (a customer's email can change; the surrogate key does not).</p>
+<h2 id="building-a-star-schema">Building a star schema</h2>
+<p>The block below builds a customer dimension with a surrogate key and a fact table pointing to it, from the course's customer and sales data.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+<span class="hl-k">import</span> duckdb
+
+con = <span class="hl-f">duckdb.connect</span>()
+customers = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;customers.csv&quot;</span>)
+sales = <span class="hl-f">pd.read_csv</span>(<span class="hl-s">&quot;superstore_sales.csv&quot;</span>, parse_dates=[<span class="hl-s">&quot;order_date&quot;</span>])
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;customers_src&quot;</span>, customers)
+<span class="hl-f">con.register</span>(<span class="hl-s">&quot;sales_src&quot;</span>, sales)
+
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;
+    CREATE TABLE dim_customer AS
+    SELECT ROW_NUMBER() OVER (ORDER BY customer_id) AS customer_key,
+           customer_id, customer_name, segment, region
+    FROM customers_src
+&quot;&quot;&quot;</span>)
+<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;&quot;&quot;
+    CREATE TABLE fact_sales AS
+    SELECT s.row_id AS sale_id, d.customer_key, s.order_date, s.sales, s.profit, s.quantity
+    FROM sales_src s
+    JOIN dim_customer d ON d.customer_id = s.customer_id
+&quot;&quot;&quot;</span>)
+
+<span class="hl-f">print</span>(<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT COUNT(*) AS facts, COUNT(DISTINCT customer_key) AS customers FROM fact_sales&quot;</span>).<span class="hl-f">fetchdf</span>())
+<span class="hl-f">print</span>(<span class="hl-f">con.execute</span>(<span class="hl-s">&quot;SELECT segment, ROUND(SUM(sales)) AS sales FROM fact_sales f JOIN dim_customer d USING (customer_key) GROUP BY segment ORDER BY sales DESC&quot;</span>).<span class="hl-f">fetchdf</span>())</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">   facts  customers
+0   6323        785
+       segment       sales
+0     Consumer  98603292.0
+1    Corporate  59113619.0
+2  Home Office  43696658.0</pre></div>
+<p>The fact table holds only keys and numbers; the text lives in the dimension. A report that groups by segment joins once, on an integer.</p>
+<h2 id="slowly-changing-dimensions">Slowly changing dimensions</h2>
+<p>Dimensions change: a customer moves region, changes segment, or changes name. The question is what the reports should show. The answer is an <strong>SCD type</strong>.</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Type</th>
+<th>Behaviour</th>
+<th>History kept?</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type 1</td>
+<td>Overwrite the old value</td>
+<td>No</td>
+<td>Corrections, where the old value was wrong</td>
+</tr>
+<tr>
+<td>Type 2</td>
+<td>Add a new row with validity dates and a current flag</td>
+<td>Yes, full</td>
+<td>The business needs history as it was at the time</td>
+</tr>
+<tr>
+<td>Type 3</td>
+<td>Add a column for the previous value</td>
+<td>One previous value only</td>
+<td>Only the last change matters</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="scd-type-1-overwrite">SCD Type 1: overwrite</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">dim = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;customer_id&quot;</span>: [<span class="hl-s">&quot;C1&quot;</span>], <span class="hl-s">&quot;region&quot;</span>: [<span class="hl-s">&quot;North&quot;</span>]})
+<span class="hl-c"># The region was keyed wrongly: overwrite it in place, keeping no history</span>
+dim.loc[dim[<span class="hl-s">&quot;customer_id&quot;</span>] == <span class="hl-s">&quot;C1&quot;</span>, <span class="hl-s">&quot;region&quot;</span>] = <span class="hl-s">&quot;South&quot;</span>
+<span class="hl-f">print</span>(dim)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  customer_id region
+0          C1  South</pre></div>
+<p>Type 1 loses the old value. Use it only when the old value was an error.</p>
+<h3 id="scd-type-2-keep-history">SCD Type 2: keep history</h3>
+<p>Type 2 closes the old row and inserts a new one, so that every fact joins to the version that was current on its date.</p>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python"><span class="hl-k">import</span> pandas <span class="hl-k">as</span> pd
+
+dim = <span class="hl-f">pd.DataFrame</span>([
+    {<span class="hl-s">&quot;customer_key&quot;</span>: <span class="hl-n">1</span>, <span class="hl-s">&quot;customer_id&quot;</span>: <span class="hl-s">&quot;C1&quot;</span>, <span class="hl-s">&quot;region&quot;</span>: <span class="hl-s">&quot;North&quot;</span>,
+     <span class="hl-s">&quot;valid_from&quot;</span>: <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2024-01-01&quot;</span>), <span class="hl-s">&quot;valid_to&quot;</span>: <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;9999-12-31&quot;</span>), <span class="hl-s">&quot;is_current&quot;</span>: <span class="hl-k">True</span>},
+])
+next_key = dim[<span class="hl-s">&quot;customer_key&quot;</span>].<span class="hl-f">max</span>() + <span class="hl-n">1</span>
+
+<span class="hl-k">def</span> <span class="hl-f">apply_scd2</span>(dim, customer_id, new_region, change_date):
+    <span class="hl-k">global</span> next_key
+    current = dim[(dim[<span class="hl-s">&quot;customer_id&quot;</span>] == customer_id) &amp; dim[<span class="hl-s">&quot;is_current&quot;</span>]]
+    <span class="hl-k">if</span> current.empty <span class="hl-k">or</span> current.iloc[<span class="hl-n">0</span>][<span class="hl-s">&quot;region&quot;</span>] == new_region:
+        <span class="hl-k">return</span> dim                                      <span class="hl-c"># no change: nothing to do</span>
+    idx = current.index[<span class="hl-n">0</span>]
+    dim.loc[idx, <span class="hl-s">&quot;valid_to&quot;</span>] = change_date - <span class="hl-f">pd.Timedelta</span>(days=<span class="hl-n">1</span>)
+    dim.loc[idx, <span class="hl-s">&quot;is_current&quot;</span>] = <span class="hl-k">False</span>
+    new_row = {<span class="hl-s">&quot;customer_key&quot;</span>: next_key, <span class="hl-s">&quot;customer_id&quot;</span>: customer_id, <span class="hl-s">&quot;region&quot;</span>: new_region,
+               <span class="hl-s">&quot;valid_from&quot;</span>: change_date, <span class="hl-s">&quot;valid_to&quot;</span>: <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;9999-12-31&quot;</span>), <span class="hl-s">&quot;is_current&quot;</span>: <span class="hl-k">True</span>}
+    next_key += <span class="hl-n">1</span>
+    <span class="hl-k">return</span> <span class="hl-f">pd.concat</span>([dim, <span class="hl-f">pd.DataFrame</span>([new_row])], ignore_index=<span class="hl-k">True</span>)
+
+dim = <span class="hl-f">apply_scd2</span>(dim, <span class="hl-s">&quot;C1&quot;</span>, <span class="hl-s">&quot;South&quot;</span>, <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-06-01&quot;</span>))
+dim = <span class="hl-f">apply_scd2</span>(dim, <span class="hl-s">&quot;C1&quot;</span>, <span class="hl-s">&quot;South&quot;</span>, <span class="hl-f">pd.Timestamp</span>(<span class="hl-s">&quot;2025-06-01&quot;</span>))   <span class="hl-c"># rerun: no duplicate version</span>
+<span class="hl-f">print</span>(dim)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">   customer_key customer_id region valid_from             valid_to  is_current
+0             1          C1  North 2024-01-01  2025-05-31 00:00:00       False
+1             2          C1  South 2025-06-01  9999-12-31 00:00:00        True</pre></div>
+<p>The rerun creates no duplicate, because the current row already has the new region. A fact dated March 2025 joins to the North version (key 1); a fact dated July 2025 joins to the South version (key 2). That is what "as it was at the time" means.</p>
+<h3 id="scd-type-3-one-previous-value">SCD Type 3: one previous value</h3>
+<div class="code"><div class="code-h"><span>Python</span><button class="copy" type="button">Copy</button></div><pre><code class="python">dim = <span class="hl-f">pd.DataFrame</span>({<span class="hl-s">&quot;customer_id&quot;</span>: [<span class="hl-s">&quot;C1&quot;</span>], <span class="hl-s">&quot;region_current&quot;</span>: [<span class="hl-s">&quot;South&quot;</span>], <span class="hl-s">&quot;region_previous&quot;</span>: [<span class="hl-s">&quot;North&quot;</span>]})
+<span class="hl-f">print</span>(dim)</code></pre></div><div class="output"><div class="out-h">Output</div><pre class="stdout">  customer_id region_current region_previous
+0          C1          South           North</pre></div>
+<p>Type 3 keeps a current and a previous column. It is simple and answers "what changed last" questions, but it cannot show a third region.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>Which version of the customer?</b></div><p>A regional manager asks why last year's North sales now appear in South. The dimension was overwritten with Type 1. The fix is to use Type 2 for region, so that last year's facts keep joining to the North version, and to document the change for the team.</p></div>
+<p>::::warn Overwriting history by accident
+Many pipelines default to Type 1 because it is easiest. If the business ever asks "what did this look like then?", Type 1 has already destroyed the answer. Decide the SCD type for each attribute with the business, and write the decision down.
+::::</p>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>When would you use Type 2 rather than Type 1?</b></div><p>When the business needs reports to reflect the attribute as it was at the time of each event: a customer's region for sales, a product's price band for margin, an employee's department for headcount history. Type 1 is for corrections of errors, not for real changes.</p></div>
+<p>::::key What to remember
+- Model in three levels: conceptual, logical and physical.
+- A star schema has a fact table and flat dimensions; a snowflake normalises them.
+- Use surrogate keys so facts join to stable integers.
+- SCD Type 1 overwrites, Type 2 keeps full history with validity dates, Type 3 keeps one previous value.
+- Choose the SCD type per attribute with the business.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-04-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> What does a fact table primarily contain?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Long text descriptions</button><button type="button" class="opt" data-ok="1"><i>B</i>Measures and keys to the dimensions</button><button type="button" class="opt" data-ok="0"><i>C</i>Only dates</button><button type="button" class="opt" data-ok="0"><i>D</i>Passwords</button></div><div class="qexp"><b>Answer: B.</b> Facts hold events' numbers and the keys that describe them.</div></div><div class="qq"><p class="qtext"><b>2.</b> Why use a surrogate key rather than the source key?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Source keys are not allowed in databases</button><button type="button" class="opt" data-ok="1"><i>B</i>It keeps joins small and insulates the warehouse from source key changes</button><button type="button" class="opt" data-ok="0"><i>C</i>It removes the need for dimensions</button><button type="button" class="opt" data-ok="0"><i>D</i>It makes the data larger</button></div><div class="qexp"><b>Answer: B.</b> Surrogates are stable and integer-based.</div></div><div class="qq"><p class="qtext"><b>3.</b> A customer moves from North to South, and reports must show last year's sales in North. Which SCD type fits?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Type 1</button><button type="button" class="opt" data-ok="1"><i>B</i>Type 2</button><button type="button" class="opt" data-ok="0"><i>C</i>No SCD is needed</button><button type="button" class="opt" data-ok="0"><i>D</i>Type 0</button></div><div class="qexp"><b>Answer: B.</b> Type 2 keeps the earlier version with validity dates.</div></div><div class="qq"><p class="qtext"><b>4.</b> After an SCD Type 2 change, how many rows does the customer have?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>One</button><button type="button" class="opt" data-ok="1"><i>B</i>Two or more, one per version, with one marked current</button><button type="button" class="opt" data-ok="0"><i>C</i>Zero</button><button type="button" class="opt" data-ok="0"><i>D</i>Always one hundred</button></div><div class="qexp"><b>Answer: B.</b> Each version is a row with validity dates.</div></div><div class="qq"><p class="qtext"><b>5.</b> What is the weakness of Type 3?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>It is slow</button><button type="button" class="opt" data-ok="1"><i>B</i>It keeps only one previous value, so it cannot show a longer history</button><button type="button" class="opt" data-ok="0"><i>C</i>It needs no keys</button><button type="button" class="opt" data-ok="0"><i>D</i>It deletes data</button></div><div class="qexp"><b>Answer: B.</b> Type 3 suits "last change" questions only.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Add a Type 2 change to the customer dimension</b></div><p>Using the Type 2 function in this lesson, record three region changes for customer C1 (North to South on 1 June 2025, South to East on 1 September 2025, East back to North on 1 December 2025). Print the dimension and then write one query that returns the region a sale dated 15 October 2025 should join to.</p><details class="sol"><summary>Show solution</summary><p>Expected: three versions after the changes, each with its validity window, and the sale of 15 October 2025 joins to the South version. Use <code>valid_from &lt;= date AND date &lt;= valid_to</code> for the join.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html"><small>← Previous</small><b>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</b></a><a class="next" href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html"><small>Next →</small><b>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#three-levels-of-model">Three levels of model</a><a href="#star-and-snowflake-schemas">Star and snowflake schemas</a><a href="#surrogate-keys">Surrogate keys</a><a href="#building-a-star-schema">Building a star schema</a><a href="#slowly-changing-dimensions">Slowly changing dimensions</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>

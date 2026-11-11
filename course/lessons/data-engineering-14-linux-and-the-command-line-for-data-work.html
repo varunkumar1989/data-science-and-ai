@@ -1,0 +1,193 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Linux and the Command Line for Data Work · Data Eng Lesson 14 · Data Science &amp; AI Handbook</title><meta name="description" content="Learn the terminal skills that data platforms depend on. Navigate the file system, read and search files, watch logs live, manage processes and permissions, and combine commands with pipes and redirection to answer operational questions quickly."><link rel="icon" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css?v=v14"></head><body class="lesson tr-data-engineering"><header class="top"><a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="" width="30" height="30"><span><b>Skill<em>Navora</em></b><small>Data Science & AI Handbook</small></span></a>
+<nav class="crumbs"><a href="../index.html">Handbook</a><span>/</span><a href="../index.html#t-data-engineering">Data Engineering &amp; Cloud</a><span>/</span><b>Lesson 14</b></nav><div class="top-r"><input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons"><div id="qres" class="qres" hidden></div>
+<button id="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
+<div class="layout"><aside class="side"><div class="side-in"><div class="side-t" style="--tc:#0F766E">Data Engineering &amp; Cloud</div>
+<ol class="side-l"><li class=""><a href="data-engineering-01-what-data-engineering-is-its-roles-and-the-data-formats-it-u.html" data-lid="data-engineering-01"><span>01</span>What Data Engineering Is, Its Roles and the Data Formats It Uses</a></li><li class=""><a href="data-engineering-02-ingestion-batch-streaming-api-file-database-and-change-data.html" data-lid="data-engineering-02"><span>02</span>Ingestion: Batch, Streaming, API, File, Database and Change Data Capture</a></li><li class=""><a href="data-engineering-03-etl-versus-elt-and-pipeline-reliability-idempotency-retries.html" data-lid="data-engineering-03"><span>03</span>ETL versus ELT and Pipeline Reliability: Idempotency, Retries and Incremental Loads</a></li><li class=""><a href="data-engineering-04-data-modelling-conceptual-logical-and-physical-models-star-a.html" data-lid="data-engineering-04"><span>04</span>Data Modelling: Conceptual, Logical and Physical Models, Star and Snowflake Schemas, and SCD Types 1 to 3</a></li><li class=""><a href="data-engineering-05-data-warehouses-data-marts-data-lakes-lakehouses-and-the-med.html" data-lid="data-engineering-05"><span>05</span>Data Warehouses, Data Marts, Data Lakes, Lakehouses and the Medallion Architecture</a></li><li class=""><a href="data-engineering-06-apache-airflow-dags-tasks-scheduling-and-retries.html" data-lid="data-engineering-06"><span>06</span>Apache Airflow: DAGs, Tasks, Scheduling and Retries</a></li><li class=""><a href="data-engineering-07-dbt-models-tests-documentation-and-lineage.html" data-lid="data-engineering-07"><span>07</span>dbt: Models, Tests, Documentation and Lineage</a></li><li class=""><a href="data-engineering-08-apache-spark-and-pyspark-distributed-processing-for-large-da.html" data-lid="data-engineering-08"><span>08</span>Apache Spark and PySpark: Distributed Processing for Large Data</a></li><li class=""><a href="data-engineering-09-streaming-with-apache-kafka-topics-partitions-consumers-and.html" data-lid="data-engineering-09"><span>09</span>Streaming with Apache Kafka: Topics, Partitions, Consumers and Delivery Guarantees</a></li><li class=""><a href="data-engineering-10-data-quality-dimensions-observability-catalogues-lineage-and.html" data-lid="data-engineering-10"><span>10</span>Data Quality Dimensions, Observability, Catalogues, Lineage and Classification</a></li><li class=""><a href="data-engineering-11-cloud-fundamentals-for-data-iaas-paas-saas-regions-identity.html" data-lid="data-engineering-11"><span>11</span>Cloud Fundamentals for Data: IaaS, PaaS, SaaS, Regions, Identity and Cost</a></li><li class=""><a href="data-engineering-12-containers-kubernetes-and-ci-cd-for-data-pipelines.html" data-lid="data-engineering-12"><span>12</span>Containers, Kubernetes and CI/CD for Data Pipelines</a></li><li class=""><a href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html" data-lid="data-engineering-13"><span>13</span>Data Architecture and System Design for Data and AI Systems</a></li><li class="on"><a href="data-engineering-14-linux-and-the-command-line-for-data-work.html" data-lid="data-engineering-14"><span>14</span>Linux and the Command Line for Data Work</a></li><li class=""><a href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html" data-lid="data-engineering-15"><span>15</span>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</a></li></ol></div></aside>
+<main class="main" id="top"><article class="lesson-art" data-lid="data-engineering-14">
+<div class="lhead" style="--tc:#0F766E"><div class="kick">Data Engineering &amp; Cloud · Lesson 14 of 15</div><h1>Linux and the Command Line for Data Work</h1>
+<p class="sum">Learn the terminal skills that data platforms depend on. Navigate the file system, read and search files, watch logs live, manage processes and permissions, and combine commands with pipes and redirection to answer operational questions quickly.</p><div class="tags"><span class="tag live">● Gap-fill lesson</span><span class="tag new">✦ 2026</span><span class="tag">Beginner</span><span class="tag">⏱ 120 min</span></div>
+<div class="lacts"><a class="btn" href="../pdf/data-engineering/Data_Eng_14_Linux_and_the_Command_Line_for_Data_Work.pdf" download>⬇ Download PDF</a><button class="btn ghost done" type="button" data-lid="data-engineering-14">☐ Mark as complete</button></div></div>
+<div class="outcomes"><div><b>By the end of this lesson you can</b><ul><li>Navigate and manage files and folders from the terminal</li><li>Read, search and filter large text files and logs</li><li>Use pipes and redirection to combine commands</li><li>Check running processes and file permissions</li></ul></div><div class="dsets"><b>Datasets used</b><div><a class="chip" href="../datasets/daily_sales.csv" download>daily_sales.csv</a></div></div></div>
+<div class="content"><h2 id="why-the-terminal-matters-for-data-work">Why the terminal matters for data work</h2>
+<p>Most data platforms run on Linux servers, and the fastest way to answer "is the pipeline running?" or "what went wrong last night?" is the command line. Graphical tools are useful, but a terminal session on a server is the only interface many engineers ever get. Learning a small set of commands well saves hours during an incident.</p>
+<div class="co co-case"><div class="co-h"><span class="pill">Case study</span><b>The 2 a.m. log check</b></div><p>The nightly load has not finished. The on-call engineer connects to the server, finds the log, filters for errors since midnight and sees a permission error on a shared folder. Ten minutes at the terminal fix what would otherwise take an hour of clicking through a web console.</p></div>
+<h2 id="navigating-the-file-system">Navigating the file system</h2>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pwd</code></td>
+<td>Show the current folder</td>
+<td><code>pwd</code></td>
+</tr>
+<tr>
+<td><code>ls -lh</code></td>
+<td>List files with sizes</td>
+<td><code>ls -lh /data/landing</code></td>
+</tr>
+<tr>
+<td><code>cd</code></td>
+<td>Change folder</td>
+<td><code>cd /data/landing</code></td>
+</tr>
+<tr>
+<td><code>find</code></td>
+<td>Search for files by name, size or age</td>
+<td><code>find /data -name "*.csv" -mtime -1</code></td>
+</tr>
+<tr>
+<td><code>du -sh</code></td>
+<td>Show the size of a folder</td>
+<td><code>du -sh /data/*</code></td>
+</tr>
+<tr>
+<td><code>df -h</code></td>
+<td>Show free disk space</td>
+<td><code>df -h</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>find /data -name "*.csv" -mtime -1</code> lists CSV files changed in the last day. It is a common first step when a job says "file not found" but the file should be there.</p>
+<h2 id="reading-and-searching-files">Reading and searching files</h2>
+<div class="code"><div class="code-h"><span>Terminal</span><button class="copy" type="button">Copy</button></div><pre><code class="bash">head -n <span class="hl-n">5</span> daily_sales.csv          <span class="hl-c"># first five lines: check the header and format</span>
+tail -n <span class="hl-n">20</span> pipeline.log            <span class="hl-c"># last twenty lines: what happened most recently</span>
+tail -f pipeline.log               <span class="hl-c"># follow a log live as new lines are written</span>
+grep -n <span class="hl-s">&quot;ERROR&quot;</span> pipeline.log       <span class="hl-c"># lines containing ERROR, with line numbers</span>
+grep -c <span class="hl-s">&quot;ERROR&quot;</span> pipeline.log       <span class="hl-c"># count the matching lines</span>
+wc -l daily_sales.csv              <span class="hl-c"># number of lines</span></code></pre></div>
+<p><code>tail -f</code> is the command to keep open during a run. Press Ctrl+C to stop following. <code>grep -n</code> gives the line number, which you can then open with <code>sed -n '120,140p' file</code> to read the surrounding context.</p>
+<h2 id="pipes-and-redirection">Pipes and redirection</h2>
+<p>A <strong>pipe</strong> (<code>|</code>) sends the output of one command into another. <strong>Redirection</strong> (<code>&gt;</code> and <code>&gt;&gt;</code>) sends output to a file. Together they answer operational questions in one line.</p>
+<div class="code"><div class="code-h"><span>Terminal</span><button class="copy" type="button">Copy</button></div><pre><code class="bash"><span class="hl-c"># How many errors happened each hour in last night&#x27;s log?</span>
+grep <span class="hl-s">&quot;ERROR&quot;</span> pipeline.log | cut -c1-<span class="hl-n">13</span> | sort | uniq -c
+
+<span class="hl-c"># Save today&#x27;s summary of rows per file, overwriting the old file</span>
+wc -l /data/landing/*.csv &gt; row_counts.txt
+
+<span class="hl-c"># Append a timestamp line to a run history log</span>
+echo <span class="hl-s">&quot;$(date -Iseconds) load finished&quot;</span> &gt;&gt; run_history.log</code></pre></div>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\|</code></td>
+<td>Pass the output to the next command</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>Write the output to a file, replacing it</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>Append the output to a file</td>
+</tr>
+<tr>
+<td><code>2&gt;&amp;1</code></td>
+<td>Send error messages to the same place as normal output</td>
+</tr>
+</tbody>
+</table></div>
+<p>::::tip Use <code>&gt;&gt;</code> for logs, <code>&gt;</code> for results
+Overwriting a log with <code>&gt;</code> by mistake erases the history of every earlier run. Use <code>&gt;&gt;</code> for logs that must be kept, and <code>&gt;</code> only for output you intend to replace.
+::::</p>
+<h2 id="processes">Processes</h2>
+<p>A <strong>process</strong> is a running program. Check what is running and stop what is stuck:</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ps aux \| grep python</code></td>
+<td>Show Python processes and their owners</td>
+</tr>
+<tr>
+<td><code>top</code> or <code>htop</code></td>
+<td>Live view of processes, CPU and memory use</td>
+</tr>
+<tr>
+<td><code>kill PID</code></td>
+<td>Ask a process to stop (PID is the process number)</td>
+</tr>
+<tr>
+<td><code>kill -9 PID</code></td>
+<td>Force a process to stop; use only when <code>kill</code> fails</td>
+</tr>
+</tbody>
+</table></div>
+<p>Stop a process gently first. A forced stop can leave a file half-written, which is why an idempotent job (see the reliability lesson) is safer to restart than one that appends.</p>
+<h2 id="permissions">Permissions</h2>
+<p>Every file has an owner, a group and permissions for read (r), write (w) and execute (x). <code>ls -l</code> shows them:</p>
+<div class="code"><div class="code-h"><span></span><button class="copy" type="button">Copy</button></div><pre><code class="">-rw-r-----  1 analyst  finance  4096 Nov 11 06:00 summary.csv</code></pre></div>
+<p>This file is readable and writable by <code>analyst</code>, readable by the <code>finance</code> group, and hidden from everyone else. The commands that change permissions are <code>chmod</code> (mode), <code>chown</code> (owner) and <code>chgrp</code> (group).</p>
+<div class="tblwrap"><table class="tbl md">
+<thead>
+<tr>
+<th>Need</th>
+<th>Command</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Let the team read a report</td>
+<td><code>chmod g+r</code></td>
+<td><code>chmod g+r summary.csv</code></td>
+</tr>
+<tr>
+<td>Make a script runnable</td>
+<td><code>chmod +x</code></td>
+<td><code>chmod +x load.sh</code></td>
+</tr>
+<tr>
+<td>Give a file to another owner</td>
+<td><code>chown</code> (needs admin rights)</td>
+<td><code>sudo chown etl:etl summary.csv</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Grant the least permission that works. Do not set everything to world-readable to fix one error; find the group that needs access and add the file to it.</p>
+<p>::::warn Read before you delete
+<code>rm -rf</code> removes files without asking and without a recycle bin. Before deleting, list the matches with <code>ls</code> or <code>find ... -print</code> and check the paths. Never run a delete command with a variable that might be empty.
+::::</p>
+<h2 id="a-checklist-for-a-server-incident">A checklist for a server incident</h2>
+<ol>
+<li>Confirm the time and the job: <code>date</code>, then the job's log with <code>tail -n 100</code>.</li>
+<li>Search for the first error: <code>grep -n -m 1 "ERROR"</code>.</li>
+<li>Check resources: <code>df -h</code> (disk) and <code>top</code> (CPU and memory).</li>
+<li>Check the input: <code>ls -lh</code> and <code>head</code> on the expected file.</li>
+<li>Check the process: <code>ps aux | grep &lt;job&gt;</code>.</li>
+<li>Fix, rerun, and write a line in the run history with the cause.</li>
+</ol>
+<div class="co co-interview"><div class="co-h"><span class="pill">Interview corner</span><b>What commands would you use to diagnose a failing batch job on a Linux server?</b></div><p>Check the job's log with <code>tail</code> and <code>grep</code> for the first error, confirm the input file exists and has the expected size and header with <code>ls</code> and <code>head</code>, check disk and memory with <code>df</code> and <code>top</code>, and see whether the process is still running with <code>ps</code>. Then fix the cause and rerun, keeping a record of what happened.</p></div>
+<p>::::key What to remember
+- The terminal is the fastest way to inspect a server and its logs.
+- <code>tail -f</code>, <code>grep</code>, <code>head</code> and <code>wc</code> answer most first questions about a file.
+- Pipes combine small commands; <code>&gt;&gt;</code> keeps history, <code>&gt;</code> replaces it.
+- Stop processes gently first; prefer restartable, idempotent jobs.
+- Check permissions before changing them, and never delete without listing first.
+::::</p>
+<div class="quiz" id="quiz-data-engineering-14-0"><div class="quiz-h"><b>Quick quiz</b><span>5 questions · tap an answer to check it</span></div><div class="qq"><p class="qtext"><b>1.</b> Which command follows a log file as new lines are written?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>cat</button><button type="button" class="opt" data-ok="0"><i>B</i>head</button><button type="button" class="opt" data-ok="1"><i>C</i>tail -f</button><button type="button" class="opt" data-ok="0"><i>D</i>wc -l</button></div><div class="qexp"><b>Answer: C.</b> <code>tail -f</code> keeps the file open and shows new lines as they appear.</div></div><div class="qq"><p class="qtext"><b>2.</b> What does <code>command &gt; file.txt</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Appends to file.txt</button><button type="button" class="opt" data-ok="1"><i>B</i>Writes the output to file.txt, replacing its contents</button><button type="button" class="opt" data-ok="0"><i>C</i>Reads file.txt</button><button type="button" class="opt" data-ok="0"><i>D</i>Deletes file.txt</button></div><div class="qexp"><b>Answer: B.</b> <code>&gt;</code> replaces the file; <code>&gt;&gt;</code> appends.</div></div><div class="qq"><p class="qtext"><b>3.</b> What does the pipe in <code>grep ERROR log.txt | wc -l</code> do?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>Counts the lines in the log</button><button type="button" class="opt" data-ok="1"><i>B</i>Counts the lines containing ERROR</button><button type="button" class="opt" data-ok="0"><i>C</i>Deletes the errors</button><button type="button" class="opt" data-ok="0"><i>D</i>Prints the errors in red</button></div><div class="qexp"><b>Answer: B.</b> The pipe passes the matching lines to <code>wc -l</code>, which counts them.</div></div><div class="qq"><p class="qtext"><b>4.</b> Why prefer <code>kill PID</code> before <code>kill -9 PID</code>?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i><code>kill -9</code> is slower</button><button type="button" class="opt" data-ok="1"><i>B</i>A gentle stop lets the program finish cleanup, reducing the chance of half-written files</button><button type="button" class="opt" data-ok="0"><i>C</i><code>kill</code> deletes the process</button><button type="button" class="opt" data-ok="0"><i>D</i>They are identical</button></div><div class="qexp"><b>Answer: B.</b> Forced stops skip cleanup.</div></div><div class="qq"><p class="qtext"><b>5.</b> Which command shows free disk space?</p><div class="opts"><button type="button" class="opt" data-ok="0"><i>A</i>ls -l</button><button type="button" class="opt" data-ok="0"><i>B</i>ps aux</button><button type="button" class="opt" data-ok="1"><i>C</i>df -h</button><button type="button" class="opt" data-ok="0"><i>D</i>grep -c</button></div><div class="qexp"><b>Answer: C.</b> <code>df</code> reports disk usage by file system.</div></div></div>
+<div class="exercise"><div class="ex-h"><span class="pill">Exercise</span><b>Diagnose a sample log</b></div><p>Create a sample log with twenty lines, including three ERROR lines and two WARNING lines (you can write it with a heredoc in the terminal). Use <code>grep</code>, <code>wc</code>, <code>tail</code> and a pipe to report the number of errors, the line number of the first error, and the last line of the log. Then write one command that appends a summary line to a separate history file.</p><details class="sol"><summary>Show solution</summary><p>Hints: <code>grep -n -m 1 ERROR log.txt</code> gives the first error with its line number. <code>grep -c ERROR log.txt</code> counts the errors. <code>tail -n 1 log.txt</code> shows the last line. Use <code>&gt;&gt;</code> for the history file so earlier entries stay.</p></details></div></div>
+<section class="practice"><h2 id="practice-more">Practise more online</h2><p>Free, trusted places to test yourself on this topic. Links open the original site in a new tab.</p><ul><li><a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/">Apache Airflow documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.getdbt.com/">dbt documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/">Apache Spark documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/">Apache Kafka documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://duckdb.org/docs/">DuckDB documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://docs.docker.com/">Docker documentation ↗</a></li><li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/home/">Kubernetes documentation ↗</a></li></ul></section>
+<div class="pn"><a class="prev" href="data-engineering-13-data-architecture-and-system-design-for-data-and-ai-systems.html"><small>← Previous</small><b>Data Architecture and System Design for Data and AI Systems</b></a><a class="next" href="data-engineering-15-technical-documentation-runbooks-and-production-troubleshoot.html"><small>Next →</small><b>Technical Documentation, Runbooks and Production Troubleshooting for Pipelines and AI Apps</b></a></div></article></main><nav class="toc"><div class="toc-in"><b>On this page</b><a href="#why-the-terminal-matters-for-data-work">Why the terminal matters for data work</a><a href="#navigating-the-file-system">Navigating the file system</a><a href="#reading-and-searching-files">Reading and searching files</a><a href="#pipes-and-redirection">Pipes and redirection</a><a href="#processes">Processes</a><a href="#permissions">Permissions</a><a href="#a-checklist-for-a-server-incident">A checklist for a server incident</a><a href="#practice-more">Practise more online</a></div></nav></div>
+<footer class="foot"><div>© 2026 SkillNavora · Data Science & AI Handbook by Varun Kumar · Version 2026.10 (October 2026)</div><div>Original teaching material. Practice datasets are fictional. Product names belong to their owners.</div></footer>
+<script src="../assets/search-index.js?v=v14"></script><script src="../assets/course.js?v=v14"></script><script src="../assets/gate.js?v=v14" defer></script></body></html>
